@@ -1,0 +1,178 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [Algebra.{u, u} k A] \u2192\n          (N : Type u) \u2192\n            [inst_3 : AddCommGroup.{u} N] \u2192\n              [Module.{u, u} A N] \u2192\n                Nat \u2192\n                  CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} (MulOpposite.{u} A))\n                    (ModuleCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1483271022",
+      "temporary_id": "decl-016769"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [Algebra.{u, u} k A] \u2192\n          (N : Type u) \u2192\n            [inst_3 : AddCommGroup.{u} N] \u2192\n              [Module.{u, u} A N] \u2192 ModuleCat.{u, u} (MulOpposite.{u} A) \u2192 Nat \u2192 ModuleCat.{u, u} k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2472765370",
+      "temporary_id": "decl-016772"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : CommRing.{u} k] (A : Type u) [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] (N : Type u)\n  [inst_3 : AddCommGroup.{u} N] [inst_4 : Module.{u, u} A N],\n  CategoryTheory.Functor.Additive.{u, u + 1, u, u + 1} (decl-024064.{u} k A N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024064"
+      ],
+      "structural_type_hash": "2436117857",
+      "temporary_id": "decl-020581"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : CommRing.{u} k] (A : Type u) [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  (M : ModuleCat.{u, u} (MulOpposite.{u} A)), SMulCommClass.{u, u, u} k (MulOpposite.{u} A) (ModuleCat.carrier.{u, u} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020633"
+      ],
+      "structural_type_hash": "613295187",
+      "temporary_id": "decl-020593"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [Algebra.{u, u} k A] \u2192 (M : ModuleCat.{u, u} (MulOpposite.{u} A)) \u2192 Module.{u, u} k (ModuleCat.carrier.{u, u} M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2837514308",
+      "temporary_id": "decl-020633"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : CommRing.{u} k] (A : Type u) [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  (M : ModuleCat.{u, u} (MulOpposite.{u} A)), IsScalarTower.{u, u, u} k (MulOpposite.{u} A) (ModuleCat.carrier.{u, u} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020633"
+      ],
+      "structural_type_hash": "1063395569",
+      "temporary_id": "decl-020680"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [Algebra.{u, u} k A] \u2192\n          (N : Type u) \u2192\n            [inst_3 : AddCommGroup.{u} N] \u2192\n              [Module.{u, u} A N] \u2192\n                CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} (MulOpposite.{u} A)) (ModuleCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1526265131",
+      "temporary_id": "decl-024064"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{u, u} k A] \u2192\n          (N : Type u) \u2192\n            [inst_3 : AddCommGroup.{u} N] \u2192\n              [inst_4 : Module.{u, u} A N] \u2192\n                CategoryTheory.Iso.{u + 1, u + 1}\n                  (CategoryTheory.Functor.comp.{u, u, u, u + 1, u + 1, u + 1} (decl-024064.{u} k A N)\n                    (CategoryTheory.forget\u2082.{u, u, u + 1, u, u, u + 1, u} (ModuleCat.{u, u} k) AddCommGrpCat.{u}))\n                  (decl-024058.{u} A N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024058",
+        "decl-024064"
+      ],
+      "structural_type_hash": "462791107",
+      "temporary_id": "decl-024067"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : CommRing.{u} k] (A : Type u) [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] (N : Type u)\n  [inst_3 : AddCommGroup.{u} N] [inst_4 : Module.{u, u} A N] {M M' : ModuleCat.{u, u} (MulOpposite.{u} A)}\n  (f : Quiver.Hom.{u, u + 1} M M') (m : ModuleCat.carrier.{u, u} M) (n : N),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (CategoryTheory.ConcreteCategory.hom.{u, u, u + 1, u}\n        (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-024064.{u} k A N) f))\n      (QuotientAddGroup.mk.{u} (TensorProduct.tmul.{0, u, u} Int m n)))\n    (QuotientAddGroup.mk.{u}\n      (TensorProduct.tmul.{0, u, u} Int (DFunLike.coe.{u + 1, u + 1, u + 1} (ModuleCat.Hom.hom.{u, u} f) m) n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-024064"
+      ],
+      "structural_type_hash": "3978530500",
+      "temporary_id": "decl-024069"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (N : Type u) [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} A N]\n  {M M' : ModuleCat.{u, u} (MulOpposite.{u} A)} (f : Quiver.Hom.{u, u + 1} M M') (m : ModuleCat.carrier.{u, u} M)\n  (n : N),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024070.{u} A N f)\n      (QuotientAddGroup.mk.{u} (TensorProduct.tmul.{0, u, u} Int m n)))\n    (QuotientAddGroup.mk.{u}\n      (TensorProduct.tmul.{0, u, u} Int (DFunLike.coe.{u + 1, u + 1, u + 1} (ModuleCat.Hom.hom.{u, u} f) m) n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-023968",
+        "decl-024070"
+      ],
+      "structural_type_hash": "447244860",
+      "temporary_id": "decl-024073"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : CommRing.{u} k] (A : Type u) [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] (N : Type u)\n  [inst_3 : AddCommGroup.{u} N] [inst_4 : Module.{u, u} A N] {M M' : ModuleCat.{u, u} (MulOpposite.{u} A)}\n  (f : Quiver.Hom.{u, u + 1} M M') (c : k) (z : decl-023968.{u} A N (ModuleCat.carrier.{u, u} M)),\n  Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024070.{u} A N f) (HSMul.hSMul.{u, u, u} c z))\n    (HSMul.hSMul.{u, u, u} c (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024070.{u} A N f) z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-020593",
+        "decl-020633",
+        "decl-020665",
+        "decl-023968",
+        "decl-024070"
+      ],
+      "structural_type_hash": "706347273",
+      "temporary_id": "decl-024074"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{u, u} k A] \u2192\n          (N : Type u) \u2192\n            [inst_3 : AddCommGroup.{u} N] \u2192\n              [inst_4 : Module.{u, u} A N] \u2192\n                {M M' : ModuleCat.{u, u} (MulOpposite.{u} A)} \u2192\n                  Quiver.Hom.{u, u + 1} M M' \u2192\n                    LinearMap.{u, u, u, u} (RingHom.id.{u} k) (decl-023968.{u} A N (ModuleCat.carrier.{u, u} M))\n                      (decl-023968.{u} A N (ModuleCat.carrier.{u, u} M'))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-020593",
+        "decl-020633",
+        "decl-020644",
+        "decl-023968"
+      ],
+      "structural_type_hash": "3632841511",
+      "temporary_id": "decl-024075"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : CommRing.{u} k] (A : Type u) [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] (N : Type u)\n  [inst_3 : AddCommGroup.{u} N] [inst_4 : Module.{u, u} A N] {M M' : ModuleCat.{u, u} (MulOpposite.{u} A)}\n  (f : Quiver.Hom.{u, u + 1} M M') (m : ModuleCat.carrier.{u, u} M) (n : N),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024075.{u} k A N f)\n      (QuotientAddGroup.mk.{u} (TensorProduct.tmul.{0, u, u} Int m n)))\n    (QuotientAddGroup.mk.{u}\n      (TensorProduct.tmul.{0, u, u} Int (DFunLike.coe.{u + 1, u + 1, u + 1} (ModuleCat.Hom.hom.{u, u} f) m) n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-020593",
+        "decl-020633",
+        "decl-020644",
+        "decl-023968",
+        "decl-024075"
+      ],
+      "structural_type_hash": "647098755",
+      "temporary_id": "decl-024079"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{u, u} k A] \u2192\n          (N : Type u) \u2192\n            [inst_3 : AddCommGroup.{u} N] \u2192\n              [inst_4 : Module.{u, u} A N] \u2192\n                (M : ModuleCat.{u, u} (MulOpposite.{u} A)) \u2192\n                  (P : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n                    (n : Nat) \u2192\n                      CategoryTheory.Iso.{u, u + 1} (decl-016772.{u} k A N M n)\n                        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                          (HomologicalComplex.homologyFunctor.{u, u + 1, 0} (ModuleCat.{u, u} k)\n                            (ComplexShape.down.{0} Nat) n)\n                          (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                            (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1}\n                              (decl-024064.{u} k A N) (ComplexShape.down.{0} Nat))\n                            (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016772",
+        "decl-020581",
+        "decl-024064"
+      ],
+      "structural_type_hash": "3261188425",
+      "temporary_id": "decl-024213"
+    }
+  ],
+  "module_temporary_id": "module-0690",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

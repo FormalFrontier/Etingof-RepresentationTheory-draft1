@@ -1,0 +1,60 @@
+{
+  "module_name": "Quiver.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-013168",
+      "new_name": "auxiliaryRelation",
+      "docstring": "A binary proposition on two opaque values parameterized by a field and a quiver."
+    },
+    {
+      "temporary_id": "decl-013170",
+      "new_name": "auxiliaryVertexPropertyOne",
+      "docstring": "The first auxiliary predicate on a vertex of a quiver."
+    },
+    {
+      "temporary_id": "decl-013171",
+      "new_name": "auxiliaryVertexPropertyTwo",
+      "docstring": "The second auxiliary predicate on a vertex of a quiver."
+    },
+    {
+      "temporary_id": "decl-013172",
+      "new_name": "addCommGroupOfModule",
+      "docstring": "The additive commutative group structure induced on a module over a field."
+    },
+    {
+      "temporary_id": "decl-013173",
+      "new_name": "auxiliaryVertexValue",
+      "docstring": "A natural-number-valued function on the vertices associated with an opaque value."
+    },
+    {
+      "temporary_id": "decl-013175",
+      "new_name": "auxiliaryVertexValue_eq_of_fin_basis",
+      "docstring": "Under the displayed finite-basis hypothesis, the auxiliary value at a vertex equals the supplied natural number."
+    },
+    {
+      "temporary_id": "decl-013179",
+      "new_name": "existsAuxiliaryDataWithVertexValues",
+      "docstring": "Under the displayed ordering and finite-basis hypotheses, there is auxiliary data satisfying the two stated equalities."
+    },
+    {
+      "temporary_id": "decl-013182",
+      "new_name": "auxiliaryObjectAtVertex_relates_to_any",
+      "docstring": "At a vertex satisfying the first distinguished property, its associated auxiliary object is related to every value of the displayed quiver-indexed type."
+    },
+    {
+      "temporary_id": "decl-013183",
+      "new_name": "any_relates_to_auxiliaryObjectAtVertex",
+      "docstring": "At a vertex satisfying the second distinguished property, every value of the displayed quiver-indexed type is related to its associated auxiliary object."
+    },
+    {
+      "temporary_id": "decl-013184",
+      "new_name": "Auxiliary.statement013184",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-013187",
+      "new_name": "auxiliaryObjectAtVertex",
+      "docstring": "Maps a vertex to an opaque value parameterized by a field and a quiver."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "module_name": "SolvableGroups.Series",
+  "declarations": [
+    {
+      "temporary_id": "decl-004724",
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary property of groups."
+    },
+    {
+      "temporary_id": "decl-017123",
+      "new_name": "normal_comap_of_bracket_le",
+      "docstring": "The pullback of the next subgroup to the current subgroup is normal when the current subgroup brackets into the next one."
+    },
+    {
+      "temporary_id": "decl-017124",
+      "new_name": "quotient_isMulCommutative_iff_bracket_le",
+      "docstring": "The quotient of one subgroup by the pullback of the next is commutative exactly when the subgroup brackets into the next one."
+    },
+    {
+      "temporary_id": "decl-019896",
+      "new_name": "auxiliary_iff_isSolvable",
+      "docstring": "The auxiliary group property is equivalent to solvability."
+    }
+  ]
+}

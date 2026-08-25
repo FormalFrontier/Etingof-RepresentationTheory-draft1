@@ -1,0 +1,40 @@
+{
+  "packet_id": "align-1251",
+  "associations": [
+    {
+      "association_id": "association:389fb7467de6a2a92bb2",
+      "rationale": "The type gives the affine-group classification only for fields of cardinality greater than two; it does not itself cover the other referenced problems or state that the classification is obtained using Theorem 5.27.1.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:72a1416eefdcca31a589",
+      "rationale": "The type gives one affine classification case, but it does not itself cover the other two referenced problems or the requested use of Theorem 5.27.1.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0c5b283ae9e9a34d4f68",
+      "rationale": "The type gives only the cardinality-two affine classification case, not the full three-problem exercise or its requested method.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8a6a1596de4b7b39e2fd",
+      "rationale": "The type gives one cardinality-two affine classification, but it does not itself address the dihedral and Heisenberg problems or use Theorem 5.27.1 as requested.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4f25e1ffbe02b1655a64",
+      "rationale": "The type supplies the dihedral classification only, so it covers one referenced problem rather than the full exercise involving three problems and a specified theorem.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d90fe223622c5dd66a84",
+      "rationale": "The type gives the finite-Heisenberg classification only and does not itself cover the other referenced classifications or the requested use of Theorem 5.27.1.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:29ad80080b5f9eb6528e",
+      "rationale": "The type states one Heisenberg classification component, not the full exercise requiring all three referenced problems to be redone using Theorem 5.27.1.",
+      "role": "supporting"
+    }
+  ]
+}

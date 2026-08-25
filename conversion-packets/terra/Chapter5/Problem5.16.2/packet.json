@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Problem5.16.2",
+    "kind": "exercise",
+    "title": "Content of a Young diagram and action of sum of transpositions",
+    "node_id": "chapter-05/section-5-16",
+    "order": 341,
+    "slug": "problem5-16-2",
+    "span": {
+      "start": {
+        "page": "121",
+        "line": 1
+      },
+      "end": {
+        "page": "121",
+        "line": 2
+      }
+    },
+    "source_sha256": "e8d9fd94e1798e9de4594f63df0bbc11767d5a96a7214d7d81a6c885977f882c",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem5162",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

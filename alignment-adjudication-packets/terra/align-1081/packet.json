@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0d28442f0a2bbbe54146",
+      "declaration": "Etingof.additiveFunctor_shortExact_of_isSemisimpleCategory",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/516/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] [inst_2 : CategoryTheory.Abelian.{u_3, u_1} C]\n  [inst_3 : CategoryTheory.Abelian.{u_4, u_2} D],\n  Etingof.IsSemisimpleCategory.{u_1, u_3} C \u2192\n    \u2200 (F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D)\n      [inst_4 : CategoryTheory.Functor.Additive.{u_3, u_1, u_4, u_2} F] (S : CategoryTheory.ShortComplex.{u_3, u_1} C),\n      CategoryTheory.ShortComplex.ShortExact.{u_3, u_1} S \u2192\n        CategoryTheory.ShortComplex.ShortExact.{u_4, u_2} (CategoryTheory.ShortComplex.map.{u_3, u_1, u_4, u_2} S F)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Discussion_after_Example7_9_5"
+    }
+  ],
+  "canonical_reference": "Chapter7/Discussion_after_Example7.9.5",
+  "packet_id": "align-1081",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1081"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d5f62069d1edb5fed306",
+  "source_text": "Every additive functor out of a semisimple abelian category is exact."
+}

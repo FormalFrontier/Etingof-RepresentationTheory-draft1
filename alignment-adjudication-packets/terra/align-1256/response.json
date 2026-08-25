@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1256",
+  "associations": [
+    {
+      "association_id": "association:7abaf1030f53435575a1",
+      "rationale": "The displayed formal type only asserts existence of a witness `e` satisfying an equivariance equation; because `e`’s type is elided, the packet does not directly verify that it is an isomorphism between the two induced representations.",
+      "role": "supporting"
+    }
+  ]
+}

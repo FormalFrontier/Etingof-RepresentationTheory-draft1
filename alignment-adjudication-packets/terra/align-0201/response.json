@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0201",
+  "associations": [
+    {
+      "association_id": "association:06ec1731dd5932c07927",
+      "role": "supporting",
+      "rationale": "It only supplies the presentation type and does not state completeness of the three relations."
+    },
+    {
+      "association_id": "association:6c5545684bfa5d858fb5",
+      "role": "primary",
+      "rationale": "The algebra equivalence directly identifies the named presentation algebra with the universal enveloping algebra."
+    },
+    {
+      "association_id": "association:8f04947483730e3933ec",
+      "role": "supporting",
+      "rationale": "It verifies images of the three presentation generators under an equivalence, supporting the presentation identification."
+    }
+  ]
+}

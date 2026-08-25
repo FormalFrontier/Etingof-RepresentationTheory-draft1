@@ -1,0 +1,150 @@
+{
+  "module_name": "Quiver.Representation.Reflection",
+  "declarations": [
+    {
+      "temporary_id": "decl-000493",
+      "new_name": "ReflectionHom",
+      "docstring": "Morphisms between representations after reflection at a distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-000497",
+      "new_name": "comm",
+      "docstring": "The component maps commute with arrows away from the distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-000498",
+      "new_name": "sum_apply_eq_zero",
+      "docstring": "The sum of the reflected component contributions vanishes at the distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-000500",
+      "new_name": "ext",
+      "docstring": "Reflection morphisms are determined by their component maps away from the distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-000502",
+      "new_name": "map",
+      "docstring": "Returns the linear component of a reflection morphism at a non-distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-004091",
+      "new_name": "reflectionHomEquiv_source_target_nonempty",
+      "docstring": "The hom spaces obtained by reflecting the source and the target admit an equivalence."
+    },
+    {
+      "temporary_id": "decl-014987",
+      "new_name": "hom_heq_of_quiver_eq",
+      "docstring": "Arrow maps agree heterogeneously after transporting the quiver structure."
+    },
+    {
+      "temporary_id": "decl-014997",
+      "new_name": "reindex",
+      "docstring": "Provides a vertexwise linear equivalence after reindexing a representation along equal quivers."
+    },
+    {
+      "temporary_id": "decl-015001",
+      "new_name": "reindex_naturality",
+      "docstring": "The reindexing equivalences intertwine the transported arrow maps."
+    },
+    {
+      "temporary_id": "decl-015003",
+      "new_name": "reindex_object",
+      "docstring": "The object assigned to each vertex is unchanged by quiver reindexing."
+    },
+    {
+      "temporary_id": "decl-015019",
+      "new_name": "reflectAt_reindex",
+      "docstring": "Gives the vertexwise equivalence between a reflected representation and its original indexing."
+    },
+    {
+      "temporary_id": "decl-015020",
+      "new_name": "reflectAt_reindex_naturality",
+      "docstring": "The reflection reindexing equivalences commute with the corresponding arrow maps."
+    },
+    {
+      "temporary_id": "decl-015023",
+      "new_name": "reflectAt_reindex_hom_heq",
+      "docstring": "The reflected arrow maps coincide heterogeneously after the indexing transport."
+    },
+    {
+      "temporary_id": "decl-015024",
+      "new_name": "reflectAt_reindex_object",
+      "docstring": "The reflected and original vertex objects are equal after reindexing."
+    },
+    {
+      "temporary_id": "decl-017241",
+      "new_name": "incomingIndex_ne",
+      "docstring": "The source vertex recorded by an incoming-arrow index differs from the distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-017249",
+      "new_name": "outgoingIndex_ne",
+      "docstring": "The target vertex recorded by an outgoing-arrow index differs from the distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-020043",
+      "new_name": "reflectionHomEquiv_nonempty",
+      "docstring": "States that the displayed reflected morphism space is equivalent to the reflection-morphism type."
+    },
+    {
+      "temporary_id": "decl-020044",
+      "new_name": "reflectionHomEquiv",
+      "docstring": "Constructs the equivalence between the displayed reflected morphism space and reflection morphisms."
+    },
+    {
+      "temporary_id": "decl-020152",
+      "new_name": "reflectionHomEquiv_dual_nonempty",
+      "docstring": "States the dual orientation of the reflected morphism-space equivalence."
+    },
+    {
+      "temporary_id": "decl-020153",
+      "new_name": "reflectionHomEquiv_dual",
+      "docstring": "Constructs the dual orientation of the reflected morphism-space equivalence."
+    },
+    {
+      "temporary_id": "decl-022454",
+      "new_name": "reflectionMap_lof",
+      "docstring": "Describes the reflected arrow map on a single direct-sum summand."
+    },
+    {
+      "temporary_id": "decl-022739",
+      "new_name": "arrowTo",
+      "docstring": "Extracts the incoming arrow associated with an outgoing-arrow index."
+    },
+    {
+      "temporary_id": "decl-022742",
+      "new_name": "arrowTo_eq",
+      "docstring": "The extracted incoming arrow is the reflected reversal of the outgoing arrow stored in its index."
+    },
+    {
+      "temporary_id": "decl-022743",
+      "new_name": "arrowTo_mk",
+      "docstring": "Extracting the incoming arrow from an outgoing index constructed from an incoming arrow returns the original arrow."
+    },
+    {
+      "temporary_id": "decl-022757",
+      "new_name": "mk_arrowTo",
+      "docstring": "Converting an extracted incoming arrow back recovers the outgoing arrow stored in the index."
+    },
+    {
+      "temporary_id": "decl-022763",
+      "new_name": "reflectArrow_involutive",
+      "docstring": "Reflecting an arrow whose endpoints avoid the distinguished vertex twice recovers the original arrow."
+    },
+    {
+      "temporary_id": "decl-023223",
+      "new_name": "mapFromDirectSum_eq_sum",
+      "docstring": "Applying the map from the direct sum equals the sum of its arrow-map components."
+    },
+    {
+      "temporary_id": "decl-023224",
+      "new_name": "mapFromDirectSum_lof",
+      "docstring": "Applying the map from the direct sum to one summand is its associated arrow map."
+    },
+    {
+      "temporary_id": "decl-023261",
+      "new_name": "outgoingIncomingIndexEquiv",
+      "docstring": "An equivalence from outgoing-arrow indices to incoming-arrow indices at the distinguished vertex."
+    }
+  ]
+}

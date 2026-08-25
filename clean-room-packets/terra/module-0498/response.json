@@ -1,0 +1,10 @@
+{
+  "module_name": "AuxiliaryIntegerMatrixProperty",
+  "declarations": [
+    {
+      "temporary_id": "decl-005140",
+      "new_name": "IsAuxiliaryMatrix",
+      "docstring": "An auxiliary property of an integer matrix indexed by a finite type."
+    }
+  ]
+}

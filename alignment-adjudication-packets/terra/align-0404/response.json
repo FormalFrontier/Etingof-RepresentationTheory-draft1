@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0404",
+  "associations": [
+    {
+      "association_id": "association:0d16b9f168bccbc44aac",
+      "role": "supporting",
+      "rationale": "The displayed signature defines a generic representation type for a ring and additive group, but does not itself identify representations of a field with vector spaces."
+    }
+  ]
+}

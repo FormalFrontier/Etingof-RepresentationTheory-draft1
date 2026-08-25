@@ -1,0 +1,17 @@
+{
+  "module_name": "LieAlgebra.FiniteDimensionalModules",
+  "declarations": [
+    {"temporary_id": "decl-005200", "new_name": "AuxiliaryLieModuleCondition", "docstring": "An auxiliary proposition depending on a module over a Lie algebra."},
+    {"temporary_id": "decl-014356", "new_name": "nonempty_lieModuleEquiv_finFunction_of_irreducible", "docstring": "An irreducible module of rank one more than a natural number is nonemptily equivalent to the corresponding finite function module."},
+    {"temporary_id": "decl-016723", "new_name": "exists_unique_irreducible_of_finrank", "docstring": "For every positive rank there exists an irreducible module of that rank, unique up to Lie-module equivalence."},
+    {"temporary_id": "decl-016725", "new_name": "exists_irreducible_of_finrank", "docstring": "For every positive natural number there exists an irreducible module having that finite rank."},
+    {"temporary_id": "decl-016726", "new_name": "exists_polynomial_model", "docstring": "There is a polynomial realization in which the three specified operators act by the displayed differential expressions."},
+    {"temporary_id": "decl-016727", "new_name": "nonempty_equiv_of_irreducible_finrank_eq", "docstring": "Two irreducible modules of the same prescribed positive rank are nonemptily Lie-module equivalent."},
+    {"temporary_id": "decl-016728", "new_name": "lieSubmodule_complementedLattice", "docstring": "Lie submodules of a finite-dimensional module over the specified Lie algebra form a complemented lattice."},
+    {"temporary_id": "decl-016729", "new_name": "isIrreducible_of_auxiliaryLieModuleCondition", "docstring": "The auxiliary module condition implies irreducibility for a finite-dimensional module."},
+    {"temporary_id": "decl-023227", "new_name": "intertwines_iff_enveloping_intertwines", "docstring": "A linear map intertwines two Lie actions exactly when it intertwines their induced universal-enveloping-algebra actions."},
+    {"temporary_id": "decl-023228", "new_name": "invariant_iff_enveloping_invariant", "docstring": "A submodule is invariant under a Lie action exactly when it is invariant under the induced universal-enveloping-algebra action."},
+    {"temporary_id": "decl-023229", "new_name": "lieHomEquivEnvelopingAlgHom", "docstring": "Lie representations on a module are equivalent to algebra representations of the universal enveloping algebra."},
+    {"temporary_id": "decl-023232", "new_name": "auxiliaryModuleEndomorphism", "docstring": "An auxiliary linear endomorphism depending on the specified Lie-module structure."}
+  ]
+}

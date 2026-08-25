@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Remark6.4.8",
+    "kind": "remark",
+    "title": "Remark 6.4.8: Every root is positive or negative",
+    "node_id": "chapter-06/section-6-4",
+    "order": 430,
+    "slug": "remark6-4-8",
+    "span": {
+      "start": {
+        "page": "166",
+        "line": 17
+      },
+      "end": {
+        "page": "166",
+        "line": 18
+      }
+    },
+    "source_sha256": "ad26b90124c14a507eed3ffa185559faef787dd314e018a5306a0a9c91dee950",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Remark648",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

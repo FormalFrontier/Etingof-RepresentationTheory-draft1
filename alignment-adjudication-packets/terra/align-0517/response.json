@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0517",
+  "associations": [
+    {
+      "association_id": "association:50e275d406f5bb9611f9",
+      "rationale": "With N displayed as finrank V, the equality directly states that the induced map on the top exterior power is det(A) times the identity.",
+      "role": "primary"
+    }
+  ]
+}

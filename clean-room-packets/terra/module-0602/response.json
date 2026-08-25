@@ -1,0 +1,20 @@
+{
+  "module_name": "CategoryTheory.IsomorphismClasses",
+  "declarations": [
+    {
+      "temporary_id": "decl-019750",
+      "new_name": "auxiliaryFunctorIsomorphismClassesEquiv",
+      "docstring": "A packaged equivalence between the isomorphism-class quotients of two displayed functor categories into a common category."
+    },
+    {
+      "temporary_id": "decl-020836",
+      "new_name": "auxiliaryIsoCatIsEmpty",
+      "docstring": "The displayed category of isomorphisms between two fixed categories has no objects."
+    },
+    {
+      "temporary_id": "decl-020941",
+      "new_name": "Equivalence.isomorphismClassesEquiv",
+      "docstring": "Transports isomorphism classes of objects along a categorical equivalence."
+    }
+  ]
+}

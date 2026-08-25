@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0916",
+  "associations": [
+    {
+      "association_id": "association:2b03e098b5dc3096fb95",
+      "role": "supporting",
+      "rationale": "The equality gives only the n=3, partition-(2,1) dimension component; it does not itself state the n=4, partition-(2,2) component of the complete source claim."
+    },
+    {
+      "association_id": "association:142fdd0234d9fd9902d2",
+      "role": "supporting",
+      "rationale": "The equality gives only the n=4, partition-(2,2) dimension component; it does not itself state the n=3, partition-(2,1) component of the complete source claim."
+    }
+  ]
+}

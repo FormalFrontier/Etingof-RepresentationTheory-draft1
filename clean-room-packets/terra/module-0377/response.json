@@ -1,0 +1,95 @@
+{
+  "module_name": "Combinatorics.PermutationPowerSeries",
+  "declarations": [
+    {
+      "temporary_id": "decl-001485",
+      "new_name": "PermutationIndexedAuxiliary",
+      "docstring": "An auxiliary type indexed by a natural number, a finitely supported Nat-valued function on the corresponding finite type, and a permutation of that finite type."
+    },
+    {
+      "temporary_id": "decl-005699",
+      "new_name": "FunctionPairIndexedAuxiliary",
+      "docstring": "An auxiliary type indexed by a natural number and two Nat-valued functions on the corresponding finite type."
+    },
+    {
+      "temporary_id": "decl-017369",
+      "new_name": "auxiliaryFinsupp",
+      "docstring": "An auxiliary finitely supported Nat-valued function on the displayed index type associated to two Nat-valued functions."
+    },
+    {
+      "temporary_id": "decl-017372",
+      "new_name": "auxiliaryFinsupp_apply_inl",
+      "docstring": "The auxiliary finitely supported function evaluated at `Sum.inl i` equals the value of the first Nat-valued function at `i`."
+    },
+    {
+      "temporary_id": "decl-017373",
+      "new_name": "auxiliaryFinsupp_apply_inr",
+      "docstring": "The auxiliary finitely supported function evaluated at `Sum.inr j` equals the value of the second Nat-valued function at `j`."
+    },
+    {
+      "temporary_id": "decl-017777",
+      "new_name": "auxiliarySeries_coeff_auxiliaryFinsupp_eq_one_of_injective_eq",
+      "docstring": "For injective Nat-valued functions that are pointwise equal, the coefficient of the auxiliary series at the auxiliary finitely supported function is one."
+    },
+    {
+      "temporary_id": "decl-017780",
+      "new_name": "auxiliarySeries_coeff_auxiliaryFinsupp_eq_signed_permutation_sum",
+      "docstring": "The coefficient of the auxiliary series at the auxiliary finitely supported function equals the signed sum over permutations satisfying the displayed pointwise equality."
+    },
+    {
+      "temporary_id": "decl-018020",
+      "new_name": "auxiliaryPolynomial_coeff_eq_card_permutationIndexedAuxiliary",
+      "docstring": "The coefficient of the displayed auxiliary polynomial is the cardinality of the corresponding permutation-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-018024",
+      "new_name": "coeff_invOfUnit_one_sub_variable_product_eq_indicator",
+      "docstring": "The indicated coefficient of the inverse of one minus a product of variables is an equality indicator."
+    },
+    {
+      "temporary_id": "decl-018353",
+      "new_name": "auxiliary_eq_auxiliaryFinsupp_self",
+      "docstring": "The displayed auxiliary term equals the auxiliary finitely supported function formed from the same Nat-valued function in both arguments."
+    },
+    {
+      "temporary_id": "decl-018443",
+      "new_name": "sum_card_permutationIndexedAuxiliary_mul_eq_factorial_mul_card_functionPairIndexedAuxiliary",
+      "docstring": "If each of two finitely supported Nat-valued functions has total sum equal to `n`, the sum of products of cardinalities of their permutation-indexed auxiliary types equals `n!` times the cardinality of their function-pair-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-019719",
+      "new_name": "auxiliaryPowerSeries",
+      "docstring": "A multivariate power series over a commutative ring on the displayed index type."
+    },
+    {
+      "temporary_id": "decl-019721",
+      "new_name": "auxiliaryPowerSeries_coeff_auxiliaryFinsupp_eq_card_functionPairIndexedAuxiliary_of_le",
+      "docstring": "When every value of the first Nat-valued function is at most `n`, the coefficient indexed by the auxiliary finitely supported function in the auxiliary power series equals the cardinality of the function-pair-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-020612",
+      "new_name": "permutationIndexedAuxiliaryFintype",
+      "docstring": "Provides a `Fintype` structure on each permutation-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-020614",
+      "new_name": "functionPairIndexedAuxiliaryFintype",
+      "docstring": "Provides a `Fintype` structure on each function-pair-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-022152",
+      "new_name": "sum_auxiliaryPolynomial_coeff_mul_eq_factorial_mul_auxiliaryPowerSeries_coeff_auxiliaryFinsupp",
+      "docstring": "If each of two finitely supported Nat-valued functions has total sum equal to `n`, the sum of products of the indicated auxiliary-polynomial coefficients equals `n!` times the auxiliary-Finsupp-indexed coefficient in the auxiliary power series."
+    },
+    {
+      "temporary_id": "decl-024476",
+      "new_name": "double_signed_permutation_sum_eq_one_of_injective",
+      "docstring": "For an injective Nat-valued function, the displayed double signed permutation sum is one."
+    },
+    {
+      "temporary_id": "decl-024477",
+      "new_name": "double_signed_permutation_sum_eq_indicator_of_strictAnti",
+      "docstring": "For strictly antitone Nat-valued functions, the displayed double signed permutation sum equals their equality indicator."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "module_name": "ParameterizedAlgebra.ModelModules",
+  "declarations": [
+    { "temporary_id": "decl-009084", "new_name": "finFunctionModule_isSimple", "docstring": "The finite function-space module with the displayed action is simple." },
+    { "temporary_id": "decl-009169", "new_name": "modelParameter_injective", "docstring": "The displayed map from a model parameter is injective when the parameter order is the given natural number." }
+  ]
+}

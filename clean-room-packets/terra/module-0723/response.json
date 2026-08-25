@@ -1,0 +1,40 @@
+{
+  "module_name": "CategoryTheory.Preadditive.ProjectiveDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-005263",
+      "new_name": "ofIso",
+      "docstring": "Transfers the enclosing property across an isomorphism."
+    },
+    {
+      "temporary_id": "decl-020869",
+      "new_name": "ofPositiveMultiplicities",
+      "docstring": "Shows that the displayed property is preserved after each projective summand is assigned a positive multiplicity."
+    },
+    {
+      "temporary_id": "decl-021689",
+      "new_name": "biproductOfMultiplicities",
+      "docstring": "Forms the finite biproduct obtained by repeating each member of a family according to a natural-number multiplicity."
+    },
+    {
+      "temporary_id": "decl-021691",
+      "new_name": "Auxiliary.statement021691",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
+    },
+    {
+      "temporary_id": "decl-021692",
+      "new_name": "Auxiliary.statement021692",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
+    },
+    {
+      "temporary_id": "decl-022177",
+      "new_name": "existsPositiveMultiplicities",
+      "docstring": "Produces positive multiplicities and an isomorphism to the associated biproduct for an object with the displayed property."
+    },
+    {
+      "temporary_id": "decl-022178",
+      "new_name": "iffExistsPositiveMultiplicities",
+      "docstring": "Under the stated hypotheses, characterizes the displayed property by positive multiplicities and an isomorphism to the associated biproduct."
+    }
+  ]
+}

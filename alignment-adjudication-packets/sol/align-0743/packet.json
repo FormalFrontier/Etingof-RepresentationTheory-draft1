@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:32227b07769d57b222ab",
+      "declaration": "Etingof.Exercise5_27_2.HeisenbergGroup",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(p : Nat) \u2192 [Fact (Nat.Prime p)] \u2192 Type",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Heisenberg"
+    },
+    {
+      "association_id": "association:455e7d92a3a96a2057a1",
+      "declaration": "Etingof.Exercise5_27_2.heisenbergEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(p : Nat) \u2192\n  [inst : Fact (Nat.Prime p)] \u2192\n    MulEquiv.{0, 0} (Etingof.Problem4_12_2.Heisenberg p) (Etingof.Exercise5_27_2.HeisenbergGroup p)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Heisenberg"
+    },
+    {
+      "association_id": "association:314224e1da814dcf078a",
+      "declaration": "Etingof.Exercise5_27_2.heisenberg_classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)],\n  Exists.{1} fun n =>\n    Exists.{2} fun W =>\n      And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n        (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n          (And\n            (\u2200 (S : FDRep.{0, 0} Complex (Etingof.Exercise5_27_2.HeisenbergGroup p)),\n              CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n            (And\n              (\u2200 (i : Fin n),\n                Or (Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1)\n                  (Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) p))\n              (And (Eq.{1} n (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} p 2) (HSub.hSub.{0, 0, 0} p 1)))\n                (And\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            1)\n                        Finset.univ.{0}))\n                    (HPow.hPow.{0, 0, 0} p 2))\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            p)\n                        Finset.univ.{0}))\n                    (HSub.hSub.{0, 0, 0} p 1)))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Heisenberg"
+    },
+    {
+      "association_id": "association:cccb4d573123f4a3148b",
+      "declaration": "Etingof.Exercise5_27_2.heisenberg_classification'",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [Fact (Nat.Prime p)],\n  Exists.{1} fun n =>\n    Exists.{2} fun W =>\n      And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n        (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n          (And\n            (\u2200 (S : FDRep.{0, 0} Complex (Etingof.Problem4_12_2.Heisenberg p)),\n              CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n            (And\n              (\u2200 (i : Fin n),\n                Or (Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1)\n                  (Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) p))\n              (And (Eq.{1} n (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} p 2) (HSub.hSub.{0, 0, 0} p 1)))\n                (And\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            1)\n                        Finset.univ.{0}))\n                    (HPow.hPow.{0, 0, 0} p 2))\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            p)\n                        Finset.univ.{0}))\n                    (HSub.hSub.{0, 0, 0} p 1)))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Heisenberg"
+    },
+    {
+      "association_id": "association:6519189cd48f86c93a64",
+      "declaration": "Etingof.Exercise5_27_2.heisenberg_classification_named",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)],\n  Exists.{1} fun n =>\n    Exists.{2} fun W =>\n      And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n        (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n          (And\n            (\u2200 (S : FDRep.{0, 0} Complex (Etingof.Problem4_12_2.Heisenberg p)),\n              CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n            (And (Eq.{1} n (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} p 2) (HSub.hSub.{0, 0, 0} p 1)))\n              (And\n                (Eq.{1}\n                  (Finset.card.{0}\n                    (Finset.filter.{0}\n                      (fun i =>\n                        Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                          1)\n                      Finset.univ.{0}))\n                  (HPow.hPow.{0, 0, 0} p 2))\n                (And\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            p)\n                        Finset.univ.{0}))\n                    (HSub.hSub.{0, 0, 0} p 1))\n                  (And\n                    (\u2200 (i : Fin n),\n                      Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1 \u2192\n                        Exists.{1} fun \u03c7 =>\n                          Nonempty.{1}\n                            (CategoryTheory.Iso.{0, 1} (W i) (FDRep.of.{0, 0} (Etingof.Example4_3_S3.charRep.{0} \u03c7))))\n                    (And\n                      (\u2200 (i : Fin n),\n                        Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            p \u2192\n                          Exists.{1} fun z =>\n                            Exists.{0} fun hz =>\n                              And (Ne.{1} z 1)\n                                (Nonempty.{1}\n                                  (CategoryTheory.Iso.{0, 1} (W i)\n                                    (FDRep.of.{0, 0} (Etingof.Problem4_12_2.rhoHom z hz)))))\n                      (And\n                        (\u2200 (\u03c7 : MonoidHom.{0, 0} (Etingof.Problem4_12_2.Heisenberg p) (Units.{0} Complex)),\n                          Exists.{1} fun i =>\n                            Nonempty.{1}\n                              (CategoryTheory.Iso.{0, 1} (FDRep.of.{0, 0} (Etingof.Example4_3_S3.charRep.{0} \u03c7)) (W i)))\n                        (\u2200 (z : Complex) (hz : Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1),\n                          Ne.{1} z 1 \u2192\n                            Exists.{1} fun i =>\n                              Nonempty.{1}\n                                (CategoryTheory.Iso.{0, 1} (FDRep.of.{0, 0} (Etingof.Problem4_12_2.rhoHom z hz))\n                                  (W i)))))))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Heisenberg"
+    }
+  ],
+  "canonical_reference": "Chapter5/Exercise5.27.2",
+  "packet_id": "align-0743",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0743"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Exercise5.27.2:heisenberg_reprise",
+  "source_text": "Re-derive the Heisenberg classification using the semidirect-product theorem."
+}

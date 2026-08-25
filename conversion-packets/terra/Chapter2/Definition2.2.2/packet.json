@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.2.2",
+    "kind": "definition",
+    "title": "Unit in an associative algebra",
+    "node_id": "chapter-02/section-2-2",
+    "order": 17,
+    "slug": "definition2-2-2",
+    "span": {
+      "start": {
+        "page": "9",
+        "line": 2
+      },
+      "end": {
+        "page": "9",
+        "line": 4
+      }
+    },
+    "source_sha256": "819cbed73b2bf1bf99d057d2414c7413782614f3012f8f80ae92c3ee0a08e8ab",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition222",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

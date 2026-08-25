@@ -1,0 +1,255 @@
+{
+  "module_name": "FiniteGroupRepresentations.SubgroupInductionAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-002556",
+      "new_name": "auxiliary_subgroup",
+      "docstring": "An auxiliary subgroup of the specified group."
+    },
+    {
+      "temporary_id": "decl-002557",
+      "new_name": "card_auxiliary_subgroup",
+      "docstring": "The auxiliary subgroup has six elements."
+    },
+    {
+      "temporary_id": "decl-002559",
+      "new_name": "simple_iso_auxiliary_cases",
+      "docstring": "Every simple finite-dimensional complex representation of the specified group is isomorphic to one of the five listed auxiliary representations."
+    },
+    {
+      "temporary_id": "decl-002581",
+      "new_name": "character_comp_monoidHom",
+      "docstring": "The character of a representation precomposed with a monoid homomorphism is obtained by evaluating the original character after that homomorphism."
+    },
+    {
+      "temporary_id": "decl-002582",
+      "new_name": "coe_auxiliary_mulEquiv_eq_auxiliary_monoidHom",
+      "docstring": "The underlying group element of the auxiliary multiplicative equivalence agrees with the auxiliary monoid homomorphism."
+    },
+    {
+      "temporary_id": "decl-002585",
+      "new_name": "sum_eq_intCast_of_pointwise_eq_intCast",
+      "docstring": "A finite sum of complex values that are pointwise integer casts is the cast of the corresponding integer sum."
+    },
+    {
+      "temporary_id": "decl-002586",
+      "new_name": "finThreeEquivSubtypeNeThree",
+      "docstring": "The three-element finite type is equivalent to the subtype of elements unequal to three."
+    },
+    {
+      "temporary_id": "decl-002601",
+      "new_name": "finrank_hom_induced_eq_finrank_hom_restricted",
+      "docstring": "The dimension of morphisms from an induced representation equals the dimension of morphisms into the restriction."
+    },
+    {
+      "temporary_id": "decl-002602",
+      "new_name": "induced_auxiliary_sign_iso_biprod",
+      "docstring": "The representation induced from the auxiliary sign representation is isomorphic to the displayed biproduct."
+    },
+    {
+      "temporary_id": "decl-002603",
+      "new_name": "induced_auxiliary_trivial_iso_biprod",
+      "docstring": "The representation induced from the auxiliary trivial representation is isomorphic to the displayed biproduct."
+    },
+    {
+      "temporary_id": "decl-002604",
+      "new_name": "induced_auxiliary_subrepresentation_iso_biprod",
+      "docstring": "The representation induced from the auxiliary subrepresentation is isomorphic to the displayed iterated biproduct."
+    },
+    {
+      "temporary_id": "decl-002605",
+      "new_name": "auxiliary_sign_representation",
+      "docstring": "An auxiliary one-dimensional complex representation of the auxiliary subgroup."
+    },
+    {
+      "temporary_id": "decl-002607",
+      "new_name": "character_auxiliary_sign_representation",
+      "docstring": "The character of the auxiliary one-dimensional representation is the integer cast of the permutation sign."
+    },
+    {
+      "temporary_id": "decl-002608",
+      "new_name": "auxiliary_subrepresentation",
+      "docstring": "An auxiliary complex representation on the specified invariant subspace."
+    },
+    {
+      "temporary_id": "decl-002611",
+      "new_name": "character_auxiliary_subrepresentation",
+      "docstring": "The character of the auxiliary subrepresentation agrees with the specified character after transport along the auxiliary equivalence."
+    },
+    {
+      "temporary_id": "decl-002612",
+      "new_name": "auxiliary_trivial_representation",
+      "docstring": "An auxiliary one-dimensional complex representation of the auxiliary subgroup."
+    },
+    {
+      "temporary_id": "decl-002614",
+      "new_name": "character_auxiliary_trivial_representation",
+      "docstring": "The character of the auxiliary one-dimensional representation is constantly one."
+    },
+    {
+      "temporary_id": "decl-002615",
+      "new_name": "finrank_hom_induced_eq_character_average",
+      "docstring": "The dimension of morphisms into an induced representation is the normalized sum of the target character times the inducing character on inverses."
+    },
+    {
+      "temporary_id": "decl-002616",
+      "new_name": "finrank_hom_induced_auxiliary_sign_eq_character_sum",
+      "docstring": "The dimension of morphisms into the induced auxiliary sign representation is the normalized sign-weighted character sum over permutations of three elements."
+    },
+    {
+      "temporary_id": "decl-002617",
+      "new_name": "finrank_hom_induced_auxiliary_subrepresentation_eq_character_sum",
+      "docstring": "The dimension of morphisms into the induced auxiliary subrepresentation is the normalized character sum weighted by one less than the displayed auxiliary statistic."
+    },
+    {
+      "temporary_id": "decl-002618",
+      "new_name": "finrank_hom_induced_auxiliary_trivial_eq_character_sum",
+      "docstring": "The dimension of morphisms into the induced auxiliary trivial representation is the normalized character sum over permutations of three elements."
+    },
+    {
+      "temporary_id": "decl-002619",
+      "new_name": "auxiliary_subgroup_fintype",
+      "docstring": "The auxiliary subgroup carries a finite type structure."
+    },
+    {
+      "temporary_id": "decl-002621",
+      "new_name": "invertible_card_auxiliary_subgroup",
+      "docstring": "The scalar cast of the cardinality of the auxiliary subgroup is invertible."
+    },
+    {
+      "temporary_id": "decl-002623",
+      "new_name": "group_card_cast_neZero",
+      "docstring": "The scalar cast of the cardinality of the specified group is nonzero."
+    },
+    {
+      "temporary_id": "decl-002624",
+      "new_name": "auxiliary_signed_statistic_representation_isSimple",
+      "docstring": "The auxiliary representation with the signed-statistic character formula is simple."
+    },
+    {
+      "temporary_id": "decl-002625",
+      "new_name": "auxiliary_sign_target_representation_isSimple",
+      "docstring": "The auxiliary representation whose character restricts to permutation sign is simple."
+    },
+    {
+      "temporary_id": "decl-002626",
+      "new_name": "auxiliary_statistic_representation_isSimple",
+      "docstring": "The auxiliary representation with the first shifted-statistic character formula is simple."
+    },
+    {
+      "temporary_id": "decl-002627",
+      "new_name": "auxiliary_constant_target_representation_isSimple",
+      "docstring": "The auxiliary representation whose character is one on the auxiliary subgroup image is simple."
+    },
+    {
+      "temporary_id": "decl-002628",
+      "new_name": "auxiliary_second_statistic_representation_isSimple",
+      "docstring": "The auxiliary representation with the second shifted-statistic character formula is simple."
+    },
+    {
+      "temporary_id": "decl-002663",
+      "new_name": "character_restriction_apply",
+      "docstring": "The character of a restricted representation at a subgroup element equals the original character at its underlying group element."
+    },
+    {
+      "temporary_id": "decl-002664",
+      "new_name": "character_auxiliary_signed_statistic_representation",
+      "docstring": "The character of the auxiliary signed-statistic representation is the permutation sign multiplied by one less than the displayed auxiliary statistic."
+    },
+    {
+      "temporary_id": "decl-002676",
+      "new_name": "character_auxiliary_sign_target_representation",
+      "docstring": "The character of the auxiliary sign-target representation is the integer cast of the permutation sign."
+    },
+    {
+      "temporary_id": "decl-002683",
+      "new_name": "auxiliary_sign_target_not_iso_signed_statistic",
+      "docstring": "The auxiliary sign-target representation is not isomorphic to the signed-statistic representation."
+    },
+    {
+      "temporary_id": "decl-002684",
+      "new_name": "auxiliary_sign_target_not_iso_statistic",
+      "docstring": "The auxiliary sign-target representation is not isomorphic to the first shifted-statistic representation."
+    },
+    {
+      "temporary_id": "decl-002685",
+      "new_name": "auxiliary_sign_target_not_iso_second_statistic",
+      "docstring": "The auxiliary sign-target representation is not isomorphic to the second shifted-statistic representation."
+    },
+    {
+      "temporary_id": "decl-002687",
+      "new_name": "sign_auxiliary_monoidHom_apply",
+      "docstring": "The auxiliary monoid homomorphism preserves permutation sign."
+    },
+    {
+      "temporary_id": "decl-002688",
+      "new_name": "character_auxiliary_statistic_representation",
+      "docstring": "The character of the auxiliary statistic representation is the displayed auxiliary statistic minus one."
+    },
+    {
+      "temporary_id": "decl-002700",
+      "new_name": "auxiliary_statistic_not_iso_signed_statistic",
+      "docstring": "The auxiliary shifted-statistic representation is not isomorphic to the signed-statistic representation."
+    },
+    {
+      "temporary_id": "decl-002711",
+      "new_name": "sum_auxiliary_subgroup_eq_sum_perm_three",
+      "docstring": "A sum over the auxiliary subgroup equals the corresponding sum over permutations of three elements through the auxiliary equivalence."
+    },
+    {
+      "temporary_id": "decl-002714",
+      "new_name": "character_auxiliary_constant_target_representation",
+      "docstring": "The character of the auxiliary constant-target representation is one on the image of the auxiliary homomorphism."
+    },
+    {
+      "temporary_id": "decl-002719",
+      "new_name": "auxiliary_constant_target_not_iso_signed_statistic",
+      "docstring": "The auxiliary constant-target representation is not isomorphic to the signed-statistic representation."
+    },
+    {
+      "temporary_id": "decl-002720",
+      "new_name": "auxiliary_constant_target_not_iso_sign_target",
+      "docstring": "The auxiliary constant-target representation is not isomorphic to the sign-target representation."
+    },
+    {
+      "temporary_id": "decl-002721",
+      "new_name": "auxiliary_constant_target_not_iso_statistic",
+      "docstring": "The auxiliary constant-target representation is not isomorphic to the first shifted-statistic representation."
+    },
+    {
+      "temporary_id": "decl-002722",
+      "new_name": "auxiliary_constant_target_not_iso_second_statistic",
+      "docstring": "The auxiliary constant-target representation is not isomorphic to the second shifted-statistic representation."
+    },
+    {
+      "temporary_id": "decl-002730",
+      "new_name": "character_auxiliary_second_statistic_representation",
+      "docstring": "The character of the auxiliary second-statistic representation is the displayed auxiliary statistic minus one."
+    },
+    {
+      "temporary_id": "decl-002741",
+      "new_name": "auxiliary_second_statistic_not_iso_signed_statistic",
+      "docstring": "The auxiliary second-statistic representation is not isomorphic to the signed-statistic representation."
+    },
+    {
+      "temporary_id": "decl-002742",
+      "new_name": "auxiliary_second_statistic_not_iso_statistic",
+      "docstring": "The auxiliary second-statistic representation is not isomorphic to the first shifted-statistic representation."
+    },
+    {
+      "temporary_id": "decl-002746",
+      "new_name": "auxiliary_monoidHom",
+      "docstring": "An auxiliary monoid homomorphism from permutations of three elements to the specified group."
+    },
+    {
+      "temporary_id": "decl-002747",
+      "new_name": "auxiliary_monoidHom_injective",
+      "docstring": "The auxiliary monoid homomorphism is injective."
+    },
+    {
+      "temporary_id": "decl-002748",
+      "new_name": "auxiliary_subgroup_mulEquiv",
+      "docstring": "Permutations of three elements are multiplicatively equivalent to the auxiliary subgroup."
+    }
+  ]
+}

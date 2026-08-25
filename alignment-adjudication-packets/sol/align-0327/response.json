@@ -1,0 +1,40 @@
+{
+  "packet_id": "align-0327",
+  "associations": [
+    {
+      "association_id": "association:7b0ccf82dcae8779fbf7",
+      "rationale": "The displayed type only constructs the ambient type of the algebra and does not state its basis or bracket relations.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:57d931d8fc3352c88e17",
+      "rationale": "The formal type states only the relation [x,c] = 0, which is partial evidence for the compound basis, bracket, and centrality claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a5aab3cdc79307142ae3",
+      "rationale": "The formal type states only the relation [y,c] = 0, which is partial evidence for the compound basis, bracket, and centrality claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8d8812454fdda9b41cf6",
+      "rationale": "The formal type states [y,x] = c, but this is only one part of the source's compound basis, bracket, and centrality claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2d2db74fceb019b098f8",
+      "rationale": "The formal type supplies the distinguished element c but does not by itself state a basis or bracket relation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8088e72d08ddcbef8e47",
+      "rationale": "The formal type supplies the distinguished element x but does not by itself state a basis or bracket relation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bfc3b5d206be492cdbe2",
+      "rationale": "The formal type supplies the distinguished element y but does not by itself state a basis or bracket relation.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "declarations": [
+    {
+      "docstring": "Returns a morphism from the homology of the third object in degree i to the homology of the first object in degree j for related degrees.",
+      "new_name": "homologyHomThirdToFirstOfRel",
+      "temporary_id": "decl-018185"
+    },
+    {
+      "docstring": "The morphism δ followed by the homology map induced by f forms an exact pair.",
+      "new_name": "exact_delta_homologyMap_f",
+      "temporary_id": "decl-021524"
+    },
+    {
+      "docstring": "The homology maps induced by f and g form an exact pair in every degree.",
+      "new_name": "exact_homologyMap_f_g",
+      "temporary_id": "decl-021525"
+    },
+    {
+      "docstring": "The homology map induced by g followed by the morphism δ forms an exact pair.",
+      "new_name": "exact_homologyMap_g_delta",
+      "temporary_id": "decl-021526"
+    }
+  ],
+  "module_name": "HomologicalComplexShortExactHomology"
+}

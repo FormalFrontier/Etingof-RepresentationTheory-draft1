@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0342",
+  "associations": [
+    {
+      "association_id": "association:754ae6142a72ba9239f4",
+      "rationale": "The formal type proves simplicity of an opaque SpechtModule, but it does not identify that module with the source claim's module C[S_n]c_lambda.",
+      "role": "supporting"
+    }
+  ]
+}

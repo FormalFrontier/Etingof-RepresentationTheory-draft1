@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f73d930d42bc007ac833",
+      "declaration": "A\u2082Rep.exists_unique_iso_rep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/416/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03c1 : A\u2082Rep.{u_1, u_2, u_3} k),\n  A\u2082Rep.Indecomposable.{u_1, u_2, u_3} \u03c1 \u2192\n    ExistsUnique.{1} fun i =>\n      Nonempty.{max (max (u_1 + 1) (u_3 + 1)) (u_2 + 1)} (A\u2082Rep.Iso.{u_1, u_2, u_3, u_1, u_1} \u03c1 (A\u2082Rep.rep.{u_1} k i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_2_3"
+    },
+    {
+      "association_id": "association:60aa7c20c111c945d6d4",
+      "declaration": "A\u2082Rep.rep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/416/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 [inst : Field.{u_1} k] \u2192 Fin 3 \u2192 A\u2082Rep.{u_1, u_1, u_1} k",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_2_3"
+    },
+    {
+      "association_id": "association:16a7b75737ca953f4610",
+      "declaration": "A\u2082Rep.rep_indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/416/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (i : Fin 3), A\u2082Rep.Indecomposable.{u_1, u_1, u_1} (A\u2082Rep.rep.{u_1} k i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_2_3"
+    },
+    {
+      "association_id": "association:cd9b5d4edb5f0f716f97",
+      "declaration": "Etingof.Example_6_2_3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/416/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03c1 : A\u2082Rep.{u_1, u_2, u_3} k),\n  A\u2082Rep.Indecomposable.{u_1, u_2, u_3} \u03c1 \u2192\n    Or\n      (And (Eq.{1} (Module.finrank.{u_1, u_2} k (A\u2082Rep.V\u2081.{u_1, u_2, u_3} \u03c1)) 1)\n        (Eq.{1} (Module.finrank.{u_1, u_3} k (A\u2082Rep.V\u2082.{u_1, u_2, u_3} \u03c1)) 0))\n      (Or\n        (And (Eq.{1} (Module.finrank.{u_1, u_2} k (A\u2082Rep.V\u2081.{u_1, u_2, u_3} \u03c1)) 0)\n          (Eq.{1} (Module.finrank.{u_1, u_3} k (A\u2082Rep.V\u2082.{u_1, u_2, u_3} \u03c1)) 1))\n        (And (Eq.{1} (Module.finrank.{u_1, u_2} k (A\u2082Rep.V\u2081.{u_1, u_2, u_3} \u03c1)) 1)\n          (And (Eq.{1} (Module.finrank.{u_1, u_3} k (A\u2082Rep.V\u2082.{u_1, u_2, u_3} \u03c1)) 1)\n            (Function.Injective.{u_2 + 1, u_3 + 1}\n              (DFunLike.coe.{max (u_3 + 1) (u_2 + 1), u_2 + 1, u_3 + 1} (A\u2082Rep.f.{u_1, u_2, u_3} \u03c1))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_2_3"
+    }
+  ],
+  "canonical_reference": "Chapter6/Example6.2.3",
+  "packet_id": "align-1261",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1261"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter6/Example6.2.3",
+  "source_text": "**Example 6.2.3** ($A_2$). The quiver $A_2$ consists of two vertices connected by a single edge:\n\n$$\\bullet \\xrightarrow{} \\bullet$$\nA representation of this quiver consists of two vector spaces $V, W$ and an operator $A : V \\to W$:\n\n$$\n\\overset{V}{\\bullet} \\xrightarrow{A} \\overset{W}{\\bullet}.\n$$\n\nTo decompose this representation, we first let $V'$ be a complement to the kernel of $A$ in $V$ and let $W'$ be a complement to the image of $A$ in $W$. Then we can decompose the representation as follows:\n\n$$\n\\overset{V}{\\bullet} \\xrightarrow{A} \\overset{W}{\\bullet} = \\overset{\\ker A}{\\bullet} \\xrightarrow{0} \\overset{0}{\\bullet} \\oplus \\overset{V'}{\\bullet} \\xrightarrow[\\sim]{A} \\overset{\\operatorname{Im} A}{\\bullet} \\oplus \\overset{0}{\\bullet} \\xrightarrow{0} \\overset{W'}{\\bullet}.\n$$\n\nThe first summand is a multiple of the object $1 \\to 0$, the second a multiple of $1 \\xrightarrow{\\sim} 1$, and the third of $0 \\to 1$. We see that the quiver $A_2$ has three indecomposable representations, namely\n\n$$\n1 \\to 0, \\quad 1 \\xrightarrow{\\sim} 1, \\quad \\text{and} \\quad 0 \\to 1.\n$$\n\nNote that this statement is just the Gauss elimination theorem for matrices.\n\n"
+}

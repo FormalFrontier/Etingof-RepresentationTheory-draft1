@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0719",
+  "associations": [
+    {
+      "association_id": "association:432bcc6083896ab9a544",
+      "rationale": "The formula computes the character of the opaque subrepresentation Vsub as the number of affine fixed points minus one, but the displayed type neither identifies Vsub as an irreducible nor covers all the irreducibles.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "module_name": "Algebra.HomologicalComplex.HomologyLinearity",
+  "declarations": [
+    {
+      "temporary_id": "decl-018982",
+      "new_name": "projectiveResolutionDegreeAddEquiv",
+      "docstring": "An additive equivalence at a natural-number degree in the setting of a projective resolution over an algebra."
+    },
+    {
+      "temporary_id": "decl-018992",
+      "new_name": "projectiveResolutionDegreeLinearEquiv",
+      "docstring": "A linear equivalence over the base field at a natural-number degree in the setting of a projective resolution over an algebra."
+    },
+    {
+      "temporary_id": "decl-023256",
+      "new_name": "smul_homology_eq_homologyMap_smul_id",
+      "docstring": "Scalar multiplication on a homology class is induced by the scalar multiple of the identity map."
+    },
+    {
+      "temporary_id": "decl-025027",
+      "new_name": "homologyMap_smul",
+      "docstring": "The homology map of a scalar multiple of a morphism is the corresponding scalar multiple of its homology map."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0849",
+  "associations": [
+    {
+      "association_id": "association:236a72c76badb21f629d",
+      "role": "supporting",
+      "rationale": "The type gives only the Ext long-exact-sequence component in the first argument; it does not itself state the Tor sequence required by the complete source claim."
+    },
+    {
+      "association_id": "association:614c99d69b1023fb5197",
+      "role": "supporting",
+      "rationale": "The type gives only the Tor long-exact-sequence component in the first argument; it does not itself state the Ext sequence required by the complete source claim."
+    }
+  ]
+}

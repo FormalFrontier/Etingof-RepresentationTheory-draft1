@@ -1,0 +1,114 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Nat \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3972626760",
+      "temporary_id": "decl-005439"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (i : Nat) \u2192\n      CategoryTheory.Iso.{u + 1, u + 1} (decl-021342.{u} i)\n        (decl-021336.{u} i)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021336",
+        "decl-021342"
+      ],
+      "structural_type_hash": "1614549701",
+      "temporary_id": "decl-021331"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (i : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.Iso.app.{u, u, u + 1, u + 1} (decl-021331.{u} i)\n      (Prod.mk.{u + 1, u + 1} C D))\n    (decl-021307.{u} C D i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021307",
+        "decl-021331",
+        "decl-021336",
+        "decl-021342"
+      ],
+      "structural_type_hash": "2010679778",
+      "temporary_id": "decl-021335"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    Nat \u2192\n      CategoryTheory.Functor.{u, u, u + 1, u + 1}\n        (Prod.{u + 1, u + 1} (ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat)\n          (ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat))\n        (ModuleCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "581694404",
+      "temporary_id": "decl-021336"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    Nat \u2192\n      CategoryTheory.Functor.{u, u, u + 1, u + 1}\n        (Prod.{u + 1, u + 1} (ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat)\n          (ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat))\n        (ModuleCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "581694404",
+      "temporary_id": "decl-021342"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (i : Nat) \u2192\n      CategoryTheory.Iso.{u + 1, u + 1} (decl-021385.{u} i)\n        (decl-021379.{u} i)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021379",
+        "decl-021385"
+      ],
+      "structural_type_hash": "732618141",
+      "temporary_id": "decl-021374"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (i : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.Iso.app.{u, u, u + 1, u + 1} (decl-021374.{u} i)\n      (Prod.mk.{u + 1, u + 1} C D))\n    (decl-021354.{u} C D i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021354",
+        "decl-021374",
+        "decl-021379",
+        "decl-021385"
+      ],
+      "structural_type_hash": "1875937794",
+      "temporary_id": "decl-021378"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    Nat \u2192\n      CategoryTheory.Functor.{u, u, u + 1, u + 1}\n        (Prod.{u + 1, u + 1} (CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat)\n          (CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat))\n        (ModuleCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1722244019",
+      "temporary_id": "decl-021379"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    Nat \u2192\n      CategoryTheory.Functor.{u, u, u + 1, u + 1}\n        (Prod.{u + 1, u + 1} (CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat)\n          (CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat))\n        (ModuleCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1722244019",
+      "temporary_id": "decl-021385"
+    }
+  ],
+  "module_temporary_id": "module-0606",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

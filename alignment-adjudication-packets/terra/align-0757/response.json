@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0757",
+  "associations": [
+    {
+      "association_id": "association:e8f0e99042ba57905bae",
+      "role": "supporting",
+      "rationale": "This gives only the nontrivial one-dimensional case of induction from the order-twelve subgroup; it does not itself state the complete set of decompositions requested for all such induced representations."
+    },
+    {
+      "association_id": "association:2a1015db8f76030fbb12",
+      "role": "supporting",
+      "rationale": "This gives only the three-dimensional case of induction from the order-twelve subgroup; it does not itself state the complete set of decompositions requested for all such induced representations."
+    },
+    {
+      "association_id": "association:71bda3f413b7150d7c4a",
+      "role": "supporting",
+      "rationale": "This gives only the trivial case of induction from the order-twelve subgroup; it does not itself state the complete set of decompositions requested for all such induced representations."
+    }
+  ]
+}

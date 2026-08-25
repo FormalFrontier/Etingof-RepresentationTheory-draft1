@@ -1,0 +1,10 @@
+{
+  "module_name": "CategoryTheory.Abelian.ModuleCat.ShortExact",
+  "declarations": [
+    {
+      "temporary_id": "decl-023129",
+      "new_name": "nonempty_iso_biprod_of_shortExact_of_extOne_subsingleton",
+      "docstring": "Under the stated exactness and degree-one extension uniqueness hypotheses, the middle module object is isomorphic to the biproduct of the endpoints."
+    }
+  ]
+}

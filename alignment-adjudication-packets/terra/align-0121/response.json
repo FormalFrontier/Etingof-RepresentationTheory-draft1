@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0121",
+  "associations": [
+    {
+      "association_id": "association:9ee6dd9e03a219e6b333",
+      "role": "supporting",
+      "rationale": "The type only supplies an endofunctor under a source hypothesis; it does not expose the reflection construction or identify the reflected vertex with an outgoing-map cokernel."
+    }
+  ]
+}

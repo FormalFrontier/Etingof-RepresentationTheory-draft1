@@ -1,0 +1,20 @@
+{
+  "declarations": [
+    {
+      "docstring": "Characterizes injective modules by Baer's condition.",
+      "new_name": "Module.injective_iff_baer",
+      "temporary_id": "decl-016748"
+    },
+    {
+      "docstring": "An injective module is exactly one for which every injective linear map from it has a retraction.",
+      "new_name": "Module.injective_iff_every_injective_map_from_splits",
+      "temporary_id": "decl-016749"
+    },
+    {
+      "docstring": "Characterizes injectivity by exactness of the maps into the module associated with every short exact sequence.",
+      "new_name": "Module.injective_iff_hom_exact_on_short_exact",
+      "temporary_id": "decl-016751"
+    }
+  ],
+  "module_name": "Mathlib.LinearAlgebra.Injective"
+}

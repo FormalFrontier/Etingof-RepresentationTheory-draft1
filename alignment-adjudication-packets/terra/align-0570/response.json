@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0570",
+  "associations": [
+    {
+      "association_id": "association:33cdc80f6ffcf347a2a9",
+      "rationale": "No formal type is displayed, so the declaration cannot directly state that the center consists exactly of elements commuting with every element of A.",
+      "role": "supporting"
+    }
+  ]
+}

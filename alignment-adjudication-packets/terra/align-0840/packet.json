@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:784ac5b2778107d24eec",
+      "declaration": "Etingof.Problem_8_2_5_morphism_of_resolutions",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/539/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {M : ModuleCat.{u, u} A} (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M),\n  Exists.{u + 1} fun f =>\n    Eq.{u + 1} (CategoryTheory.CategoryStruct.comp.{u, u + 1} f (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} Q))\n      (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_5"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.5",
+  "packet_id": "align-0840",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0840"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.5:part_ii",
+  "source_text": "Part (ii): extend it inductively to a morphism of resolutions."
+}

@@ -1,0 +1,10 @@
+{
+  "declarations": [
+    {
+      "docstring": "An equivalence between module categories over Artinian rings sends the regular module to a finite module.",
+      "new_name": "ModuleCat.Equivalence.finite_image_regular",
+      "temporary_id": "decl-032935"
+    }
+  ],
+  "module_name": "ModuleCat.Equivalence.Finite"
+}

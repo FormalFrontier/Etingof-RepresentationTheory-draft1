@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Example2.3.3",
+    "kind": "example",
+    "title": "Examples of representations: zero, regular, k, free algebra",
+    "node_id": "chapter-02/section-2-3",
+    "order": 27,
+    "slug": "example2-3-3",
+    "span": {
+      "start": {
+        "page": "10",
+        "line": 12
+      },
+      "end": {
+        "page": "10",
+        "line": 20
+      }
+    },
+    "source_sha256": "c3870d4bce74159a6fb9e813dfd17cd5e23adb005028185357ef46311713b98f",
+    "features": {
+      "line_count": 9,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example233",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_2.2_intro",
+    "kind": "discussion",
+    "title": "Section 2.2 heading and introduction to systematic discussion",
+    "node_id": "chapter-02/section-2-2",
+    "order": 15,
+    "slug": "discussion-2-2-intro",
+    "span": {
+      "start": {
+        "page": "8",
+        "line": 11
+      },
+      "end": {
+        "page": "8",
+        "line": 15
+      }
+    },
+    "source_sha256": "273cb1a698643d3d24b441f38ab3c4ef1c8e230b5ca77c9b973d0ffa850a9c06",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion22Intro",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

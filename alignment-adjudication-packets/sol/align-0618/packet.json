@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6de49e0b529212990dce",
+      "declaration": "Etingof.Problem2_8_11.card_paths_length_eq_adjacencyMatrix_pow",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (Q : Type u_1) [inst : Quiver.{u_2, u_1} Q] [inst_1 : Fintype.{u_1} Q] [inst_2 : DecidableEq.{u_1 + 1} Q]\n  [inst_3 : (i j : Q) \u2192 Fintype.{u_2} (Quiver.Hom.{u_2, u_1} i j)] (i j : Q) (n : Nat),\n  Eq.{1}\n    (Nat.card.{max u_1 u_2} (Subtype.{max (u_1 + 1) (u_2 + 1)} fun p => Eq.{1} (Quiver.Path.length.{u_1, u_2} p) n))\n    (HPow.hPow.{u_1, 0, u_1} (Etingof.Problem2_8_11.adjacencyMatrix.{u_1, u_2} Q) n i j)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    },
+    {
+      "association_id": "association:55158646fed13906a57c",
+      "declaration": "Etingof.Problem2_8_11.finrank_pathAlgebra_degree",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : Fintype.{u_2} Q]\n  [inst_3 : DecidableEq.{u_2 + 1} Q] [\u2200 (i j : Q), Finite.{u_3 + 1} (Quiver.Hom.{u_3, u_2} i j)] (n : Nat),\n  Eq.{1}\n    (Module.finrank.{u_1, max (max u_1 u_2) u_3} k\n      (Subtype.{(max (max u_1 u_2) u_3) + 1} fun x =>\n        Membership.mem.{max (max u_1 u_2) u_3, max (max u_1 u_2) u_3}\n          (Etingof.Problem2_8_11.pathAlgebraDegreePiece.{u_1, u_2, u_3} k Q n) x))\n    (Finset.sum.{u_2, 0} Finset.univ.{u_2} fun i =>\n      Finset.sum.{u_2, 0} Finset.univ.{u_2} fun j =>\n        Nat.card.{max u_2 u_3} (Subtype.{max (u_2 + 1) (u_3 + 1)} fun p => Eq.{1} (Quiver.Path.length.{u_2, u_3} p) n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    },
+    {
+      "association_id": "association:e2a17d394229d21f56e2",
+      "declaration": "Etingof.Problem2_8_11.hilbertSeries_pathAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : Fintype.{u_2} Q]\n  [inst_3 : DecidableEq.{u_2 + 1} Q] [inst_4 : (i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)],\n  Eq.{u_1 + 1}\n    (PowerSeries.mk.{u_1} fun n =>\n      Nat.cast.{u_1}\n        (Finset.sum.{u_2, 0} Finset.univ.{u_2} fun i =>\n          Finset.sum.{u_2, 0} Finset.univ.{u_2} fun j =>\n            Nat.card.{max u_2 u_3}\n              (Subtype.{max (u_2 + 1) (u_3 + 1)} fun p => Eq.{1} (Quiver.Path.length.{u_2, u_3} p) n)))\n    (dotProduct.{u_1, u_2}\n      (Matrix.vecMul.{u_1, u_2, u_2} (fun x => 1)\n        (Inv.inv.{max u_2 u_1}\n          (HSub.hSub.{max u_1 u_2, max u_1 u_2, max u_2 u_1} 1\n            (HSMul.hSMul.{u_1, max u_1 u_2, max u_1 u_2} PowerSeries.X.{u_1}\n              (Etingof.Problem2_8_11.adjacencyPS.{u_1, u_2, u_3} k Q)))))\n      fun x => 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    },
+    {
+      "association_id": "association:e4482f62d861a121cdb4",
+      "declaration": "Etingof.Problem2_8_11.inv_one_sub_smul_adjacencyPS",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : Fintype.{u_2} Q]\n  [inst_3 : DecidableEq.{u_2 + 1} Q] [inst_4 : (i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)],\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (Inv.inv.{max u_1 u_2}\n      (HSub.hSub.{max u_1 u_2, max u_1 u_2, max u_1 u_2} 1\n        (HSMul.hSMul.{u_1, max u_1 u_2, max u_1 u_2} PowerSeries.X.{u_1}\n          (Etingof.Problem2_8_11.adjacencyPS.{u_1, u_2, u_3} k Q))))\n    (Etingof.Problem2_8_11.resolvent.{u_1, u_2, u_3} k Q)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    },
+    {
+      "association_id": "association:8e5930f644b18af0e72a",
+      "declaration": "Etingof.Problem2_8_11.pathAlgebraDegreePiece",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (Q : Type u_2) \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        [inst_2 : DecidableEq.{u_2 + 1} Q] \u2192\n          Nat \u2192 Submodule.{u_1, max (max u_3 u_2) u_1} k (Etingof.PathAlgebra.{u_1, u_2, u_3} k Q)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.8.11",
+  "packet_id": "align-0618",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0618"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.8.11:claim-05",
+  "source_text": "For P_Q graded by path length, degree n has the length-n paths as basis and Hilbert series 1\u1d40(I-tM_Q)\u207b\u00b91."
+}

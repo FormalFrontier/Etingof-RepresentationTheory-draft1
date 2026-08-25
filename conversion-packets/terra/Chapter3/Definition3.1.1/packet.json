@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Definition3.1.1",
+    "kind": "definition",
+    "title": "Semisimple (completely reducible) representation",
+    "node_id": "chapter-03/section-3-1",
+    "order": 126,
+    "slug": "definition3-1-1",
+    "span": {
+      "start": {
+        "page": "43",
+        "line": 9
+      },
+      "end": {
+        "page": "43",
+        "line": 10
+      }
+    },
+    "source_sha256": "c7a374d43bc3967e318199fe3e2f6f1f4c72686d9d995b433297a4d1bbc41f09",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Definition311",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

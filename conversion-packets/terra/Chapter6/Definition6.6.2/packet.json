@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Definition6.6.2",
+    "kind": "definition",
+    "title": "Definition 6.6.2: Reversed quiver at a vertex",
+    "node_id": "chapter-06/section-6-6",
+    "order": 440,
+    "slug": "definition6-6-2",
+    "span": {
+      "start": {
+        "page": "168",
+        "line": 17
+      },
+      "end": {
+        "page": "168",
+        "line": 18
+      }
+    },
+    "source_sha256": "03d6c2692164f11c5e7ae1cb8673e745c0aa169db93b839f216e7a678f52cb66",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition662",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

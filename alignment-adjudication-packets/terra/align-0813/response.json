@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0813",
+  "associations": [
+    {
+      "association_id": "association:5380b6fd4d0279d3e800",
+      "role": "supporting",
+      "rationale": "The formal type gives left exactness of G only after additionally assuming that the left adjoint F is additive; it does not directly state the displayed claim for every additive right adjoint."
+    }
+  ]
+}

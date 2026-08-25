@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0999",
+  "associations": [
+    {
+      "association_id": "association:1ef8da0dad0a8c23f9c4",
+      "role": "supporting",
+      "rationale": "It gives the character classification, one component of the combined classification and type claim."
+    },
+    {
+      "association_id": "association:12710f1a4ee2d62bd7db",
+      "role": "supporting",
+      "rationale": "It gives the complex-type classification, one component of the combined claim."
+    },
+    {
+      "association_id": "association:530764ecdbaad9d3ca07",
+      "role": "supporting",
+      "rationale": "It gives the real-type classification, one component of the combined claim."
+    }
+  ]
+}

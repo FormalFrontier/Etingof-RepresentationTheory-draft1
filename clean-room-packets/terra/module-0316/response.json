@@ -1,0 +1,10 @@
+{
+  "module_name": "OddOrderAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-018869",
+      "new_name": "oddCardinality_exists_simpleRepresentation_not_auxiliaryProperty",
+      "docstring": "A nontrivial finite group of odd cardinality has a simple complex representation with nontrivial action that does not satisfy the displayed auxiliary property."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-1266",
+  "associations": [
+    {
+      "association_id": "association:792d6add727458a01037",
+      "rationale": "The conjunction states finiteness of positive roots, that every finite free indecomposable has a positive-root dimension vector, and existence and uniqueness up to isomorphism for every positive root, directly formalizing Gabriel's classification theorem.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:d5eaac6c8afa8e3e3496",
+      "rationale": "This proves only that the set of positive roots of a Dynkin diagram is finite; it supports the theorem's finiteness conclusion once the classification is available but does not itself state finiteness of indecomposable representations.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8f4e50075f25913f97e6",
+      "rationale": "This is a root-recognition lemma for nonnegative nonzero vectors of Cartan norm two, rather than a statement about dimension vectors of indecomposable quiver representations, so it supplies supporting root-theoretic evidence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:5d5b34aa53ec2e0201cb",
+      "rationale": "For every positive root, the formal type directly gives an indecomposable representation with that dimension vector and proves uniqueness up to isomorphism, exactly the existence-and-uniqueness clause of Gabriel's theorem.",
+      "role": "supporting"
+    }
+  ]
+}

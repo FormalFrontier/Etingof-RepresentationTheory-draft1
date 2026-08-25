@@ -1,0 +1,74 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  IsOfFinOrder.{0} q \u2192\n    Exists.{2} fun V =>\n      Exists.{1} fun x =>\n        Exists.{1} fun x_1 =>\n          Exists.{1} fun x_2 =>\n            Exists.{0} fun x_3 =>\n              And (Nontrivial.{0} V)\n                (And (FiniteDimensional.{0, 0} Complex V)\n                  (And\n                    (IsSimpleModule.{0, 0}\n                      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x) V)\n                    (Eq.{1} (Module.finrank.{0, 0} Complex V) (orderOf.{0} q))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "1928262546",
+      "temporary_id": "decl-009060"
+    },
+    {
+      "formal_type": "\u2200 (q \u03b1 \u03b2 : Units.{0} Complex) [inst : NeZero.{0} (orderOf.{0} q)],\n  IsSimpleModule.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x)\n    (decl-009014 q \u03b1 \u03b2)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009014",
+        "decl-009091",
+        "decl-009105",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "3984845437",
+      "temporary_id": "decl-009096"
+    },
+    {
+      "formal_type": "\u2200 (q \u03b1 \u03b2 : Units.{0} Complex), FiniteDimensional.{0, 0} Complex (decl-009014 q \u03b1 \u03b2)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009014",
+        "decl-009105",
+        "decl-009126"
+      ],
+      "structural_type_hash": "1907635268",
+      "temporary_id": "decl-009123"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Iff (IsOfFinOrder.{0} q)\n    (Exists.{2} fun V =>\n      Exists.{1} fun x =>\n        Exists.{1} fun x_1 =>\n          Exists.{1} fun x_2 => Exists.{0} fun x_3 => And (Nontrivial.{0} V) (FiniteDimensional.{0, 0} Complex V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "2105605514",
+      "temporary_id": "decl-009136"
+    }
+  ],
+  "module_temporary_id": "module-0095",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

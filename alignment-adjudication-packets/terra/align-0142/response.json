@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0142",
+  "associations": [
+    {
+      "association_id": "association:38a574f3bb899796b37a",
+      "role": "supporting",
+      "rationale": "The type identifies induction with the opaque construction coind'; it does not display Hom_H(k[G],V)."
+    },
+    {
+      "association_id": "association:597860a0ea558ca070ee",
+      "role": "supporting",
+      "rationale": "The type gives a natural isomorphism with the opaque coindFunctor' but does not expose the claimed Hom_H(k[G],-) functor."
+    },
+    {
+      "association_id": "association:1cb12d3729aa55788107",
+      "role": "supporting",
+      "rationale": "This only identifies the component of the already-stated natural isomorphism with the objectwise construction."
+    }
+  ]
+}

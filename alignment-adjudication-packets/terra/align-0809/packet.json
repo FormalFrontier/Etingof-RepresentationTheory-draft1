@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8952512b07b5e878298c",
+      "declaration": "Etingof.Exercise7_8_4_not_abelianGroups",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/505/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Exists.{2} fun S =>\n  And (CategoryTheory.ShortComplex.ShortExact.{0, 1} S) (IsEmpty.{1} (CategoryTheory.ShortComplex.Splitting.{0, 1} S))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Exercise7_8_4"
+    }
+  ],
+  "canonical_reference": "Chapter7/Exercise7.8.4",
+  "packet_id": "align-0809",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0809"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter7/Exercise7.8.4:abelian_group_counterexample",
+  "source_text": "The analogous assertion for abelian groups is false, with a concrete counterexample."
+}

@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-1004",
+  "associations": [
+    {
+      "association_id": "association:e7cb1d802235e86c277d",
+      "rationale": "The type constructs the type of cochain complexes, but does not itself state the square-zero differential law from the source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4475ed8d74434e01a0ee",
+      "rationale": "The type introduces an exactness-at-a-degree predicate, but does not state that exactness is equivalent to vanishing cohomology.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7bf762ecd21d99566381",
+      "rationale": "The type introduces an exact-sequence predicate on a complex, but does not directly state its characterization by vanishing cohomology.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b5304fc7a0a1f6591ac1",
+      "rationale": "The type constructs a cohomology object at a degree, but does not state that this object is kernel modulo image.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e9747d6cfce2d2e80d13",
+      "rationale": "The type extracts the differential between consecutive degrees, but does not itself assert that consecutive differentials compose to zero.",
+      "role": "supporting"
+    }
+  ]
+}

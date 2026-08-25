@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d02a10716be1008d73b6",
+      "declaration": "Etingof.Example_2_3_14_continued.repEquivGL_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/42/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (G : Type u_2) [inst_1 : Group.{u_2} G] (V : Type u_3)\n  [inst_2 : AddCommGroup.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] (\u03c1 : Representation.{u_1, u_2, u_3} k G V) (g : G)\n  (v : V),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n          (Etingof.Example_2_3_14_continued.repEquivGL.{u_1, u_2, u_3} k G V) \u03c1)\n        g)\n      v)\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g) v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14_continued"
+    },
+    {
+      "association_id": "association:8edbe42b078eda842b6c",
+      "declaration": "Etingof.Example_2_3_14_continued.repEquivGL_symm_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/42/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (G : Type u_2) [inst_1 : Group.{u_2} G] (V : Type u_3)\n  [inst_2 : AddCommGroup.{u_3} V] [inst_3 : Module.{u_1, u_3} k V]\n  (f : MonoidHom.{u_2, u_3} G (LinearEquiv.{u_1, u_1, u_3, u_3} (RingHom.id.{u_1} k) V V)) (g : G) (v : V),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n          (Equiv.symm.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n            (Etingof.Example_2_3_14_continued.repEquivGL.{u_1, u_2, u_3} k G V))\n          f)\n        g)\n      v)\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} f g) v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14_continued"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.3.14_continued",
+  "packet_id": "align-0468",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0468"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:953d7d0d3e37668c7e38",
+  "source_text": "GL(V) is the group of invertible linear endomorphisms and the two encodings have the same action on vectors."
+}

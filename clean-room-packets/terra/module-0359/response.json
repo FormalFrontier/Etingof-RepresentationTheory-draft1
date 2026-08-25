@@ -1,0 +1,20 @@
+{
+  "module_name": "GeneralLinearGroup.WeightVectors",
+  "declarations": [
+    {
+      "temporary_id": "decl-020474",
+      "new_name": "supremum_indexed_family_eq_top_of_diagonal_basis",
+      "docstring": "If the displayed basis vectors scale by the prescribed coordinate exponents, the supremum of the displayed indexed family is top."
+    },
+    {
+      "temporary_id": "decl-020774",
+      "new_name": "property_preserved_by_representation_transformation",
+      "docstring": "The given representation property is preserved by the displayed representation transformation."
+    },
+    {
+      "temporary_id": "decl-021495",
+      "new_name": "nonempty_intertwining_map_from_transformed_dual",
+      "docstring": "Under the displayed componentwise bound, there exists a map from the displayed transformation of the dual satisfying the shown commuting equation for every group element and dual vector."
+    }
+  ]
+}

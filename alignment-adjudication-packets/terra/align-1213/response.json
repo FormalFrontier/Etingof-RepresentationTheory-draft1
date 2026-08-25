@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1213",
+  "associations": [
+    {
+      "association_id": "association:09c708b8e088dd25b60e",
+      "rationale": "The displayed type establishes a greatest-length result over CompositionSeries and RelSeries terms, but does not expose that the quantified objects are all filtrations with every inclusion strict.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "module_name": "Auxiliary.GeneralLinearCoordinateLocalization",
+  "declarations": [
+    {
+      "temporary_id": "decl-001514",
+      "new_name": "matrix_polynomial_algebraMap_injective",
+      "docstring": "The canonical map from the matrix-entry polynomial ring into the localization away from the auxiliary polynomial is injective."
+    },
+    {
+      "temporary_id": "decl-001515",
+      "new_name": "algebraMap_pow_mul_invSelf_pow",
+      "docstring": "The product of equal powers of the localized auxiliary polynomial and its distinguished inverse is one."
+    },
+    {
+      "temporary_id": "decl-001516",
+      "new_name": "algebraMap_eq_mul_pow_of_eq_mul_invSelf_pow",
+      "docstring": "A presentation of a localized element using a power of the distinguished inverse yields the corresponding denominator-clearing identity."
+    },
+    {
+      "temporary_id": "decl-001517",
+      "new_name": "auxiliary_localization_ringHom",
+      "docstring": "An auxiliary ring homomorphism from a multivariable polynomial ring to the localization of the matrix-entry polynomial ring."
+    },
+    {
+      "temporary_id": "decl-001519",
+      "new_name": "auxiliary_localization_ringHom_C",
+      "docstring": "The auxiliary localization homomorphism sends a constant polynomial to its canonical image in the localization."
+    },
+    {
+      "temporary_id": "decl-001520",
+      "new_name": "auxiliary_localization_ringHom_X_inl",
+      "docstring": "On a variable from the left summand, the auxiliary localization homomorphism gives the corresponding matrix-entry variable in the localization."
+    },
+    {
+      "temporary_id": "decl-001521",
+      "new_name": "auxiliary_localization_ringHom_X_inr",
+      "docstring": "On a variable from the right summand, the auxiliary localization homomorphism gives the distinguished inverse of the localized polynomial."
+    },
+    {
+      "temporary_id": "decl-001522",
+      "new_name": "localization_denominator_order",
+      "docstring": "The least exponent needed to represent an element of the localization using a power of the distinguished inverse."
+    },
+    {
+      "temporary_id": "decl-001523",
+      "new_name": "denominator_order_eq_of_reduced_presentation",
+      "docstring": "A presentation whose exponent is zero or whose numerator is not divisible by the localized polynomial realizes the denominator order."
+    },
+    {
+      "temporary_id": "decl-001525",
+      "new_name": "denominator_order_eq_zero_iff_mem_range_algebraMap",
+      "docstring": "A localized element has denominator order zero exactly when it belongs to the range of the canonical algebra map."
+    },
+    {
+      "temporary_id": "decl-001526",
+      "new_name": "denominator_order_le_of_exists_presentation",
+      "docstring": "Any presentation with inverse exponent `r` bounds the denominator order above by `r`."
+    },
+    {
+      "temporary_id": "decl-001527",
+      "new_name": "exists_numerator_at_denominator_order",
+      "docstring": "Every localized element has a numerator presentation whose inverse exponent is its denominator order."
+    },
+    {
+      "temporary_id": "decl-001528",
+      "new_name": "auxiliary_matrix_polynomial",
+      "docstring": "An auxiliary multivariable polynomial over a field with variables indexed by pairs of finite matrix indices."
+    },
+    {
+      "temporary_id": "decl-001531",
+      "new_name": "auxiliary_matrix_polynomial_ne_zero",
+      "docstring": "The auxiliary polynomial in matrix-entry variables is nonzero."
+    },
+    {
+      "temporary_id": "decl-001533",
+      "new_name": "auxiliary_polynomial_dvd_numerator_of_order_lt",
+      "docstring": "If a presentation uses an exponent larger than the denominator order, then the auxiliary polynomial divides its numerator."
+    },
+    {
+      "temporary_id": "decl-001536",
+      "new_name": "auxiliary_localization_ringHom_action_apply",
+      "docstring": "The displayed transformation of a polynomial agrees with evaluating its image under the auxiliary localization homomorphism at the given general linear matrix."
+    },
+    {
+      "temporary_id": "decl-001537",
+      "new_name": "localization_evaluation_ringHom",
+      "docstring": "The ring homomorphism that evaluates localized matrix-entry polynomials on general linear matrices."
+    },
+    {
+      "temporary_id": "decl-001539",
+      "new_name": "localization_evaluation_algebraMap",
+      "docstring": "Evaluating the canonical localized image of a matrix-entry polynomial agrees with polynomial evaluation on general linear matrices."
+    },
+    {
+      "temporary_id": "decl-001540",
+      "new_name": "localization_evaluation_comp_algebraMap",
+      "docstring": "Composing localization evaluation with the canonical algebra map gives matrix-polynomial evaluation."
+    },
+    {
+      "temporary_id": "decl-001541",
+      "new_name": "localization_evaluation_injective",
+      "docstring": "Over an infinite field, evaluation of localized matrix-entry polynomials on general linear matrices is injective."
+    },
+    {
+      "temporary_id": "decl-001542",
+      "new_name": "localization_evaluation_invSelf_apply",
+      "docstring": "The distinguished inverse in the localization evaluates at a general linear matrix to the inverse of its determinant."
+    },
+    {
+      "temporary_id": "decl-001543",
+      "new_name": "matrix_polynomial_evaluation_ringHom",
+      "docstring": "The ring homomorphism evaluating a polynomial in matrix-entry variables on general linear matrices."
+    },
+    {
+      "temporary_id": "decl-001544",
+      "new_name": "matrix_polynomial_evaluation_apply",
+      "docstring": "Applying matrix-polynomial evaluation is ordinary multivariable evaluation at the entries of the given general linear matrix."
+    },
+    {
+      "temporary_id": "decl-001545",
+      "new_name": "matrix_polynomial_evaluation_auxiliary_apply",
+      "docstring": "The auxiliary matrix polynomial evaluates on a general linear matrix to its determinant."
+    },
+    {
+      "temporary_id": "decl-001546",
+      "new_name": "matrix_polynomial_evaluation_injective",
+      "docstring": "Over an infinite field, evaluating matrix-entry polynomials on all general linear matrices is injective."
+    },
+    {
+      "temporary_id": "decl-001547",
+      "new_name": "exists_localization_presentation",
+      "docstring": "Every element localized away from the auxiliary polynomial is a polynomial numerator times a power of the distinguished inverse."
+    },
+    {
+      "temporary_id": "decl-001548",
+      "new_name": "exists_minimal_localization_presentation",
+      "docstring": "Every localized element has a presentation with minimal inverse exponent and, for positive exponent, a numerator not divisible by the auxiliary polynomial."
+    },
+    {
+      "temporary_id": "decl-001551",
+      "new_name": "matrix_polynomial_evaluation_auxiliary_isUnit",
+      "docstring": "The evaluation function of the auxiliary matrix polynomial on the general linear group is a unit."
+    },
+    {
+      "temporary_id": "decl-001552",
+      "new_name": "numerator_unique_of_fixed_denominator",
+      "docstring": "Two polynomial numerators representing the same localized element with the same inverse exponent are equal."
+    },
+    {
+      "temporary_id": "decl-001553",
+      "new_name": "auxiliary_polynomial_not_dvd_numerator_at_order",
+      "docstring": "In a presentation at positive denominator order, the auxiliary polynomial does not divide the numerator."
+    },
+    {
+      "temporary_id": "decl-001555",
+      "new_name": "powers_auxiliary_polynomial_le_nonZeroDivisors",
+      "docstring": "Every power of the auxiliary matrix polynomial is a non-zero-divisor."
+    },
+    {
+      "temporary_id": "decl-001557",
+      "new_name": "reduced_localization_presentation_unique",
+      "docstring": "Two reduced presentations of the same localized element have equal inverse exponents and equal numerators."
+    }
+  ]
+}

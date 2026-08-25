@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1083",
+  "associations": [
+    {
+      "association_id": "association:b9c849200000b4151aa2",
+      "rationale": "The formal type directly asserts that the presentation is nontrivial, exactly matching the source claim.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:d168b22132e320939e10",
+      "rationale": "The formal type asserts nontriviality of the universal enveloping algebra, not of the presentation itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:98e1f4d0d05e5450eaf3",
+      "rationale": "The nonvanishing of the image of e is evidence used to establish nontriviality, but it does not itself state that the presentation is nontrivial.",
+      "role": "supporting"
+    }
+  ]
+}

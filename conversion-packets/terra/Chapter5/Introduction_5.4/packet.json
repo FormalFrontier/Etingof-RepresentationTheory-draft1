@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.4",
+    "kind": "introduction",
+    "title": "Section 5.4: Burnside's theorem",
+    "node_id": "chapter-05/section-5-4",
+    "order": 268,
+    "slug": "introduction-5-4",
+    "span": {
+      "start": {
+        "page": "100",
+        "line": 5
+      },
+      "end": {
+        "page": "100",
+        "line": 6
+      }
+    },
+    "source_sha256": "e0e65f447ef3956147b6613e0a1e4d910a7bde3ac7f3f22d90ad78695a97c738",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction54",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

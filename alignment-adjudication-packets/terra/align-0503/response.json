@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0503",
+  "associations": [
+    {
+      "association_id": "association:db4de243f7e2cb391555",
+      "rationale": "The formal type displays the expected evaluation rule on pure tensors for an existential witness, but the witness type is elided and therefore does not directly state that it is the claimed natural equivalence.",
+      "role": "supporting"
+    }
+  ]
+}

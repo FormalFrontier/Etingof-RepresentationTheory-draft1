@@ -1,0 +1,90 @@
+{
+  "module_name": "DynkinDiagram.FiniteSimplyLaced",
+  "declarations": [
+    {
+      "temporary_id": "decl-012243",
+      "new_name": "cartanMatrix",
+      "docstring": "The integer Cartan matrix associated with a finite simply laced Dynkin type."
+    },
+    {
+      "temporary_id": "decl-012245",
+      "new_name": "cycleAdjacencyMatrix",
+      "docstring": "The integer adjacency matrix of the cycle on the given number of vertices."
+    },
+    {
+      "temporary_id": "decl-012247",
+      "new_name": "det_two_smul_one_sub_cycleAdjacencyMatrix_eq_zero",
+      "docstring": "For a cycle with at least three vertices, twice the identity minus its adjacency matrix has zero determinant."
+    },
+    {
+      "temporary_id": "decl-012249",
+      "new_name": "two_smul_one_sub_cycleAdjacencyMatrix_mulVec_one_eq_zero",
+      "docstring": "For a cycle with at least three vertices, the all-ones vector lies in the kernel of twice the identity minus the adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-012270",
+      "new_name": "det_cartanMatrix_typeA",
+      "docstring": "The Cartan determinant of type A of rank n is n + 1."
+    },
+    {
+      "temporary_id": "decl-012271",
+      "new_name": "det_cartanMatrix_typeD",
+      "docstring": "The Cartan determinant of type D is four."
+    },
+    {
+      "temporary_id": "decl-012273",
+      "new_name": "det_cartanMatrix_typeE6",
+      "docstring": "The Cartan determinant of type E6 is three."
+    },
+    {
+      "temporary_id": "decl-012275",
+      "new_name": "det_cartanMatrix_typeE7",
+      "docstring": "The Cartan determinant of type E7 is two."
+    },
+    {
+      "temporary_id": "decl-012277",
+      "new_name": "det_cartanMatrix_typeE8",
+      "docstring": "The Cartan determinant of type E8 is one."
+    },
+    {
+      "temporary_id": "decl-012279",
+      "new_name": "typeA_isFiniteSimplyLaced",
+      "docstring": "Every type A adjacency matrix satisfies the finite simply laced Dynkin condition."
+    },
+    {
+      "temporary_id": "decl-012280",
+      "new_name": "typeD_isFiniteSimplyLaced",
+      "docstring": "Every type D adjacency matrix satisfies the finite simply laced Dynkin condition."
+    },
+    {
+      "temporary_id": "decl-012281",
+      "new_name": "exceptionalTypes_areFiniteSimplyLaced",
+      "docstring": "The adjacency matrices of types E6, E7, and E8 satisfy the finite simply laced Dynkin condition."
+    },
+    {
+      "temporary_id": "decl-012282",
+      "new_name": "vertexDegree_le_three_of_isFiniteSimplyLaced",
+      "docstring": "Every vertex in a finite simply laced Dynkin diagram has degree at most three."
+    },
+    {
+      "temporary_id": "decl-012285",
+      "new_name": "sum_adjacency_entries_eq_twice_rank_sub_two_of_isFiniteSimplyLaced",
+      "docstring": "The entries of a nonempty finite simply laced Dynkin adjacency matrix sum to twice its rank minus two."
+    },
+    {
+      "temporary_id": "decl-012289",
+      "new_name": "eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced",
+      "docstring": "A finite simply laced Dynkin diagram has at most one vertex of degree three."
+    },
+    {
+      "temporary_id": "decl-012306",
+      "new_name": "vertexDegreeSyntax",
+      "docstring": "Parser description for the notation denoting the degree of a vertex in an adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-012307",
+      "new_name": "vertexDegree",
+      "docstring": "The degree of a vertex determined by an integer adjacency matrix."
+    }
+  ]
+}

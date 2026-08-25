@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0675",
+  "associations": [
+    {
+      "association_id": "association:225bd2070d416c23ac4e",
+      "rationale": "The formal type directly states that simpleRep i is irreducible for every vertex i; this establishes the source assertion (indeed without displaying the source's extra finite-acyclic restrictions).",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:56744bc7e5b65e99f7dd",
+      "declaration": "Etingof.cycleTypePsumProduct",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/326/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 Equiv.Perm.{1} (Fin n) \u2192 MvPolynomial.{0, 0} (Fin n) Complex",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_14_3"
+    },
+    {
+      "association_id": "association:5c5875949d6d1e77e492",
+      "declaration": "Etingof.permModuleCharacter",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/326/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 Equiv.Perm.{1} (Fin n) \u2192 Nat",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_14_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_character_computation_setup",
+  "packet_id": "align-0900",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0900"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a372b2381b6dd56ed2df",
+  "source_text": "The character computation is encoded using the conjugacy cycle type and the product of the corresponding power sums."
+}

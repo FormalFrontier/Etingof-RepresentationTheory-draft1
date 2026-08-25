@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-1177",
+  "associations": [
+    {
+      "association_id": "association:8a81a25363facf638794",
+      "rationale": "It supplies the YoungTableau type for a partition, one component of the broader representation-and-canonical-tableau claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c89a9063f641cadf4bb8",
+      "rationale": "It supplies a standard tableau for each partition, one component of the broader claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d78a759d97c24d5ca59a",
+      "rationale": "It supplies a YoungTableau for each partition, one component of the broader claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:69e4dc8d5b19cccb886e",
+      "rationale": "No formal type is displayed for Nat.Partition, so it cannot directly state the complete source claim and serves only as prerequisite structure.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:30720c7841d872875903",
+      "rationale": "States the dimension formula for coinduction, an adjacent construction rather than the stated induction formula.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4b41622473b0a62fefdf",
+      "rationale": "Directly states that the induced representation has dimension dim(V) times the subgroup index.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0890"
+}

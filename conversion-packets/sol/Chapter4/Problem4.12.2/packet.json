@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Problem4.12.2",
+    "kind": "exercise",
+    "title": "Representations of the Heisenberg group",
+    "node_id": "chapter-04/section-4-12",
+    "order": 232,
+    "slug": "problem4-12-2",
+    "span": {
+      "start": {
+        "page": "83",
+        "line": 15
+      },
+      "end": {
+        "page": "84",
+        "line": 12
+      }
+    },
+    "source_sha256": "531b6aff2e3ee5575e9307fa8efc54ac410f394674ce070682882e8ab4758cae",
+    "features": {
+      "line_count": 15,
+      "crosses_page": true,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Problem4122",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

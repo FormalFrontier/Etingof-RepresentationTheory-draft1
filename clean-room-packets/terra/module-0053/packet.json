@@ -1,0 +1,98 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (u v : Fin 3 \u2192 Real),\n  Eq.{1} (Bracket.bracket.{0, 0} u v) (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} crossProduct.{0} u) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "471067693",
+      "temporary_id": "decl-003783"
+    },
+    {
+      "formal_type": "LieAlgebra.{0, 0} Real (Fin 3 \u2192 Real)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "83967188",
+      "temporary_id": "decl-003784"
+    },
+    {
+      "formal_type": "LieEquiv.{0, 0, 0} Real (Fin 3 \u2192 Real)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} (LieAlgebra.Orthogonal.so.{0, 0} (Fin 3) Real) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003784"
+      ],
+      "structural_type_hash": "77362804",
+      "temporary_id": "decl-003786"
+    },
+    {
+      "formal_type": "(Fin 3 \u2192 Real) \u2192 Matrix.{0, 0, 0} (Fin 3) (Fin 3) Real",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1812062742",
+      "temporary_id": "decl-003796"
+    },
+    {
+      "formal_type": "\u2200 (u v : Fin 3 \u2192 Real),\n  Eq.{1} (decl-003796 (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} crossProduct.{0} u) v))\n    (HSub.hSub.{0, 0, 0} (HMul.hMul.{0, 0, 0} (decl-003796 u) (decl-003796 v))\n      (HMul.hMul.{0, 0, 0} (decl-003796 v) (decl-003796 u)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003796"
+      ],
+      "structural_type_hash": "2015046119",
+      "temporary_id": "decl-003798"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 3 \u2192 Real),\n  Membership.mem.{0, 0} (LieAlgebra.Orthogonal.so.{0, 0} (Fin 3) Real) (decl-003796 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003796"
+      ],
+      "structural_type_hash": "303021913",
+      "temporary_id": "decl-003799"
+    },
+    {
+      "formal_type": "\u2200 (A : Matrix.{0, 0, 0} (Fin 3) (Fin 3) Real),\n  Iff (Membership.mem.{0, 0} (LieAlgebra.Orthogonal.so.{0, 0} (Fin 3) Real) A)\n    (Eq.{1} (Matrix.transpose.{0, 0, 0} A) (Neg.neg.{0} A))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2397094784",
+      "temporary_id": "decl-003800"
+    },
+    {
+      "formal_type": "Nonempty.{1}\n  (LieEquiv.{0, 0, 0} Real (Subtype.{1} fun x => Membership.mem.{0, 0} (LieAlgebra.Orthogonal.so.{0, 0} (Fin 3) Real) x)\n    (Fin 3 \u2192 Real))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003784"
+      ],
+      "structural_type_hash": "2564652044",
+      "temporary_id": "decl-003801"
+    }
+  ],
+  "module_temporary_id": "module-0053",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

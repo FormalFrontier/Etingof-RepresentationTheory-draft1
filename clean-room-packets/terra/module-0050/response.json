@@ -1,0 +1,95 @@
+{
+  "module_name": "Algebra.TensorProduct.Quotient",
+  "declarations": [
+    {
+      "temporary_id": "decl-003740",
+      "new_name": "quotientToTensorProductAddEquiv",
+      "docstring": "Additive equivalence from the defining quotient to the tensor product."
+    },
+    {
+      "temporary_id": "decl-003742",
+      "new_name": "quotientToTensorProduct_smul",
+      "docstring": "The quotient-to-tensor-product additive equivalence commutes with scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-003743",
+      "new_name": "quotientModule",
+      "docstring": "Module structure on the quotient used to construct the tensor product."
+    },
+    {
+      "temporary_id": "decl-003745",
+      "new_name": "quotientSMul",
+      "docstring": "Scalar action on the quotient used to construct the tensor product."
+    },
+    {
+      "temporary_id": "decl-003746",
+      "new_name": "quotientToTensorProductLinearEquiv",
+      "docstring": "Linear equivalence from the defining quotient to the tensor product."
+    },
+    {
+      "temporary_id": "decl-003751",
+      "new_name": "quotientToTensorProductLinearEquiv_mk_pair",
+      "docstring": "The quotient-to-tensor-product linear equivalence sends a generating pair to its pure tensor."
+    },
+    {
+      "temporary_id": "decl-003752",
+      "new_name": "quotientToTensorProductAddEquiv_nonempty",
+      "docstring": "An additive equivalence between the defining quotient and tensor product exists."
+    },
+    {
+      "temporary_id": "decl-003753",
+      "new_name": "tensorProductToQuotient",
+      "docstring": "Additive homomorphism from the tensor product to its defining quotient."
+    },
+    {
+      "temporary_id": "decl-003756",
+      "new_name": "tensorProductToQuotient_tmul",
+      "docstring": "The tensor-product-to-quotient homomorphism sends a pure tensor to its generating class."
+    },
+    {
+      "temporary_id": "decl-003757",
+      "new_name": "tensorProductToQuotient_comp_quotientToTensorProduct",
+      "docstring": "The two quotient and tensor-product maps compose to the identity on the quotient."
+    },
+    {
+      "temporary_id": "decl-003758",
+      "new_name": "pairToQuotient",
+      "docstring": "A curried additive map sending a pair of module elements to an element of the associated type."
+    },
+    {
+      "temporary_id": "decl-003762",
+      "new_name": "pairToQuotient_apply",
+      "docstring": "The pair-to-quotient map evaluates to the class of the corresponding free generator."
+    },
+    {
+      "temporary_id": "decl-003763",
+      "new_name": "tensorProductRelations",
+      "docstring": "A set of elements of the free abelian group on pairs of module elements."
+    },
+    {
+      "temporary_id": "decl-003764",
+      "new_name": "tensorProductRelationSubgroup",
+      "docstring": "An additive subgroup of the free abelian group on pairs of module elements."
+    },
+    {
+      "temporary_id": "decl-003766",
+      "new_name": "tensorProductQuotient",
+      "docstring": "A type associated with a pair of modules."
+    },
+    {
+      "temporary_id": "decl-003767",
+      "new_name": "quotientToTensorProduct",
+      "docstring": "Additive homomorphism from the defining quotient to the tensor product."
+    },
+    {
+      "temporary_id": "decl-003775",
+      "new_name": "quotientToTensorProduct_mk",
+      "docstring": "The quotient-to-tensor-product homomorphism on a free abelian group class is the lifted pure-tensor map."
+    },
+    {
+      "temporary_id": "decl-003776",
+      "new_name": "quotientToTensorProduct_comp_tensorProductToQuotient",
+      "docstring": "The quotient and tensor-product maps compose to the identity on the tensor product."
+    }
+  ]
+}

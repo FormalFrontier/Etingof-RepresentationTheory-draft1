@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7a25d136adf7cba909c7",
+      "declaration": "Etingof.Discussion_after_Theorem4_5_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/202/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [CharZero.{u} k] [inst_3 : Group.{u} G]\n  [inst_4 : Fintype.{u} G] [inst_5 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (V : FDRep.{u, u} k G),\n  Iff (CategoryTheory.Simple.{u, u + 1} V)\n    (Eq.{u + 1}\n      (HSMul.hSMul.{u, u, u} (Invertible.invOf.{u} (Nat.cast.{u} (Fintype.card.{u} G)))\n        (Finset.sum.{u, u} Finset.univ.{u} fun g =>\n          HMul.hMul.{u, u, u} (FDRep.character.{u, u} V g) (FDRep.character.{u, u} V (Inv.inv.{u} g))))\n      1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Discussion_after_Theorem4_5_1"
+    }
+  ],
+  "canonical_reference": "Chapter4/Discussion_after_Theorem4.5.1",
+  "packet_id": "align-0093",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0093"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:1dc7f84e72e3e37632d9",
+  "source_text": "A complex finite-group representation is irreducible iff its character has norm one."
+}

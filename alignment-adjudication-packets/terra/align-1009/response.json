@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1009",
+  "associations": [
+    {
+      "association_id": "association:fb8e90e5e84414a6bfd5",
+      "rationale": "This constructs the principal-series representation from two finite-field characters, but its displayed type does not itself state induction from the Borel or the dimension formula.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:114ccdca383d57baefa0",
+      "rationale": "It gives the dimension formula, one component of the combined induction-from-Borel and dimension claim.",
+      "role": "supporting"
+    }
+  ]
+}

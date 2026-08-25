@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:07f3ed67fe0d66912dbd",
+      "declaration": "Etingof.Proposition5_21_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/361/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (N : Nat) (\u03bc : n.Partition),\n  Eq.{1} (MvPolynomial.psumPart.{0, 0} (Fin N) Rat \u03bc)\n    (Finset.sum.{0, 0} Finset.univ.{0} fun lam =>\n      HSMul.hSMul.{0, 0, 0} (Etingof.charValue N lam \u03bc) (Etingof.schurPoly N lam.parts))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_21_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Proposition5.21.1",
+  "packet_id": "align-1089",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1089"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d7bec525093a71db3431",
+  "source_text": "Every power-sum cycle-type polynomial expands over all partitions with at most N parts, with the symmetric-group character values as Schur coefficients."
+}

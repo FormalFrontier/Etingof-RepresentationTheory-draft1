@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1160",
+  "associations": [
+    {
+      "association_id": "association:1695d0c0a059faf3f367",
+      "role": "supporting",
+      "rationale": "The displayed LinearEquiv supplies the identification of symInvariants with SymmetricPower, but contains no equivariance or intertwining assertion, so it covers only the identification constituent."
+    },
+    {
+      "association_id": "association:89f72b24934e1d334aea",
+      "role": "supporting",
+      "rationale": "The displayed equality supplies equivariance of the already named symmetricEquiv, but does not itself display the linear equivalence identifying the one-row factor with SymmetricPower, so it covers only the equivariance constituent."
+    }
+  ]
+}

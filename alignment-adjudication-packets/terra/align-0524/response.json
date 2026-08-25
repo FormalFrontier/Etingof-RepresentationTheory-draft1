@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0524",
+  "associations": [
+    {
+      "association_id": "association:4746d57f3586465021eb",
+      "rationale": "The displayed equivalence concerns Lie actions on one module and universal-enveloping-algebra actions, but it does not directly state an equivalence of morphism spaces Hom_L(V, W).",
+      "role": "supporting"
+    }
+  ]
+}

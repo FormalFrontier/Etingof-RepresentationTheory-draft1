@@ -1,0 +1,80 @@
+{
+  "packet_id": "align-1238",
+  "associations": [
+    {
+      "association_id": "association:f9dcce2e5c43697151ec",
+      "rationale": "The formal type failed to pretty-print, so the packet exposes no proposition that directly states any requested classification result.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c7c2965167117326f8bc",
+      "rationale": "The type directly characterizes vanishing of Ext1 between simple vertex representations by absence of arrows from i to j.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:696d1b5ac534423ed8a7",
+      "rationale": "The type directly computes the dimension of Ext1 between simple vertex representations as the number of arrows from i to j.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:114259465e7739563b89",
+      "rationale": "Under the no-oriented-cycles hypothesis, the type directly states that every irreducible representation is isomorphic to a simple vertex representation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d76bf40ae8e1de21e7ac",
+      "rationale": "The type directly states that each simple vertex representation is irreducible, supplying the other direction of the irreducible classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7ec3f5bdfcb4ababfdca",
+      "rationale": "The formal type failed to pretty-print, so the packet does not display a direct statement of the source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1699595b271ef80b1b14",
+      "rationale": "The formal type failed to pretty-print; the declaration name alone cannot establish that this construction states the requested classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:91ad4ef96b043ca87860",
+      "rationale": "The formal type failed to pretty-print, leaving only opaque evidence rather than a displayed classification statement.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:56452866118fbeb7b740",
+      "rationale": "The type identifies the zero-parameter twoRep with a direct sum of simples, a normal-form helper rather than a classification of all two-dimensional representations.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f63d6eacca89b05ff41a",
+      "rationale": "The formal type failed to pretty-print, so no direct source-level claim can be verified from the packet.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bae0653731ea084533a9",
+      "rationale": "The type only rules out indecomposability for the zero-parameter twoRep, a special consequence used within the classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7db0a52cfdfb7789a1b9",
+      "rationale": "The type gives only the necessary alternative that the representation is decomposable or some arrow map is bijective; it does not identify an isomorphism normal form.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c5b68373e3f1c626213d",
+      "rationale": "The type gives only the necessary alternative that the representation is decomposable or some arrow map is bijective, not an isomorphism classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0e09da8d38a50709f064",
+      "rationale": "The type directly places every two-dimensional representation into a zero-parameter split normal form or a nonzero-arrow twoRep normal form.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a533983f3eacd115273d",
+      "rationale": "The formal type failed to pretty-print, so the packet supplies only opaque evidence for this named auxiliary result.",
+      "role": "supporting"
+    }
+  ]
+}

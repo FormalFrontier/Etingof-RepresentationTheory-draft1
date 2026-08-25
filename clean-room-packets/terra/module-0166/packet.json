@@ -1,0 +1,66 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {S : Type u_2} [inst_1 : AddCommGroup.{u_2} S] [inst_2 : Module.{u_1, u_2} A S]\n  [IsSimpleModule.{u_1, u_2} A S] (m : Nat), IsIsotypicOfType.{u_2, u_1, u_2} A (Fin m \u2192 S) S",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1738187516",
+      "temporary_id": "decl-020852"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {\u03b9 : Type u_2} [Fintype.{u_2} \u03b9] {V : \u03b9 \u2192 Type u_3}\n  [inst_2 : (i : \u03b9) \u2192 AddCommGroup.{u_3} (V i)] [inst_3 : (i : \u03b9) \u2192 Module.{u_1, u_3} A (V i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{u_1, u_3} A (V i)] (n : \u03b9 \u2192 Nat),\n  (\u2200 \u2983i j : \u03b9\u2984,\n      Nonempty.{u_3 + 1} (LinearEquiv.{u_1, u_1, u_3, u_3} (RingHom.id.{u_1} A) (V i) (V j)) \u2192 Eq.{u_2 + 1} i j) \u2192\n    \u2200 (W : Submodule.{u_1, max u_3 u_2} A (DirectSum.{u_2, u_3} \u03b9 fun i => Fin (n i) \u2192 V i)),\n      Exists.{u_2 + 1} fun r =>\n        And (\u2200 (i : \u03b9), LE.le.{0} (r i) (n i))\n          (Nonempty.{max ((max u_3 u_2) + 1) ((max u_2 u_3) + 1)}\n            (LinearEquiv.{u_1, u_1, max u_2 u_3, max u_3 u_2} (RingHom.id.{u_1} A)\n              (Subtype.{(max u_2 u_3) + 1} fun x => Membership.mem.{max u_2 u_3, max u_2 u_3} W x)\n              (DirectSum.{u_2, u_3} \u03b9 fun i => Fin (r i) \u2192 V i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1316888059",
+      "temporary_id": "decl-023472"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {\u03b9 : Type u_2} [Fintype.{u_2} \u03b9] {V : \u03b9 \u2192 Type u_3}\n  [inst_2 : (i : \u03b9) \u2192 AddCommGroup.{u_3} (V i)] [inst_3 : (i : \u03b9) \u2192 Module.{u_1, u_3} A (V i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{u_1, u_3} A (V i)] (n : \u03b9 \u2192 Nat),\n  (\u2200 \u2983i j : \u03b9\u2984,\n      Nonempty.{u_3 + 1} (LinearEquiv.{u_1, u_1, u_3, u_3} (RingHom.id.{u_1} A) (V i) (V j)) \u2192 Eq.{u_2 + 1} i j) \u2192\n    \u2200 (W : Submodule.{u_1, max u_3 u_2} A (DirectSum.{u_2, u_3} \u03b9 fun i => Fin (n i) \u2192 V i)),\n      Exists.{u_2 + 1} fun r =>\n        Exists.{max (u_2 + 1) (u_3 + 1)} fun X =>\n          Exists.{max (u_2 + 1) (u_3 + 1)} fun e =>\n            And (\u2200 (i : \u03b9), LE.le.{0} (r i) (n i))\n              (And\n                (\u2200 (i : \u03b9), LinearIndependent.{0, u_3, u_3} (MulOpposite.{u_3} (Module.End.{u_1, u_3} A (V i))) (X i))\n                (\u2200 (w : Subtype.{(max u_2 u_3) + 1} fun x => Membership.mem.{max u_2 u_3, max u_2 u_3} W x) (i : \u03b9)\n                  (l : Fin (n i)),\n                  Eq.{u_3 + 1}\n                    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} (Subtype.val.{max (u_2 + 1) (u_3 + 1)} w)\n                      i l)\n                    (Finset.sum.{0, u_3} Finset.univ.{0} fun a =>\n                      DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (X i a l)\n                        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n                          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)} e w)\n                          i a))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "504088090",
+      "temporary_id": "decl-023473"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {\u03b9 : Type u_2} [Fintype.{u_2} \u03b9] {V : \u03b9 \u2192 Type u_3}\n  [inst_2 : (i : \u03b9) \u2192 AddCommGroup.{u_3} (V i)] [inst_3 : (i : \u03b9) \u2192 Module.{u_1, u_3} A (V i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{u_1, u_3} A (V i)] (n : \u03b9 \u2192 Nat),\n  (\u2200 \u2983i j : \u03b9\u2984,\n      Nonempty.{u_3 + 1} (LinearEquiv.{u_1, u_1, u_3, u_3} (RingHom.id.{u_1} A) (V i) (V j)) \u2192 Eq.{u_2 + 1} i j) \u2192\n    \u2200 (W : Submodule.{u_1, max u_2 u_3} A ((i : \u03b9) \u2192 Fin (n i) \u2192 V i)),\n      Exists.{u_2 + 1} fun r =>\n        Exists.{max (u_2 + 1) (u_3 + 1)} fun X =>\n          Exists.{max (u_2 + 1) (u_3 + 1)} fun e =>\n            And (\u2200 (i : \u03b9), LE.le.{0} (r i) (n i))\n              (And\n                (\u2200 (i : \u03b9), LinearIndependent.{0, u_3, u_3} (MulOpposite.{u_3} (Module.End.{u_1, u_3} A (V i))) (X i))\n                (\u2200 (w : Subtype.{(max u_2 u_3) + 1} fun x => Membership.mem.{max u_2 u_3, max u_2 u_3} W x) (i : \u03b9)\n                  (l : Fin (n i)),\n                  Eq.{u_3 + 1} (Subtype.val.{max (u_2 + 1) (u_3 + 1)} w i l)\n                    (Finset.sum.{0, u_3} Finset.univ.{0} fun a =>\n                      DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (X i a l)\n                        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)} e w i\n                          a))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1311911753",
+      "temporary_id": "decl-023474"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {\u03b9 : Type u_2} [Fintype.{u_2} \u03b9] {V : \u03b9 \u2192 Type u_3}\n  [inst_2 : (i : \u03b9) \u2192 AddCommGroup.{u_3} (V i)] [inst_3 : (i : \u03b9) \u2192 Module.{u_1, u_3} A (V i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{u_1, u_3} A (V i)] (n : \u03b9 \u2192 Nat),\n  (\u2200 \u2983i j : \u03b9\u2984,\n      Nonempty.{u_3 + 1} (LinearEquiv.{u_1, u_1, u_3, u_3} (RingHom.id.{u_1} A) (V i) (V j)) \u2192 Eq.{u_2 + 1} i j) \u2192\n    \u2200 (W : Submodule.{u_1, max u_2 u_3} A ((i : \u03b9) \u2192 Fin (n i) \u2192 V i)),\n      Exists.{u_2 + 1} fun r =>\n        And (\u2200 (i : \u03b9), LE.le.{0} (r i) (n i))\n          (Nonempty.{(max u_2 u_3) + 1}\n            (LinearEquiv.{u_1, u_1, max u_2 u_3, max u_2 u_3} (RingHom.id.{u_1} A)\n              (Subtype.{(max u_2 u_3) + 1} fun x => Membership.mem.{max u_2 u_3, max u_2 u_3} W x)\n              ((i : \u03b9) \u2192 Fin (r i) \u2192 V i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3315753706",
+      "temporary_id": "decl-023475"
+    }
+  ],
+  "module_temporary_id": "module-0166",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

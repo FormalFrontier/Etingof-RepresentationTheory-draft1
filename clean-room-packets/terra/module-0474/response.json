@@ -1,0 +1,15 @@
+{
+  "module_name": "FiniteGroupCharacterArithmetic",
+  "declarations": [
+    {
+      "temporary_id": "decl-016611",
+      "new_name": "finrank_dvd_card_of_simple",
+      "docstring": "The complex dimension of a simple finite-group representation divides the group order."
+    },
+    {
+      "temporary_id": "decl-024813",
+      "new_name": "character_isIntegral",
+      "docstring": "Every value of a finite-group complex character is integral over the integers."
+    }
+  ]
+}

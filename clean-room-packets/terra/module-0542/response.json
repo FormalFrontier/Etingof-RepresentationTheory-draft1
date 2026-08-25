@@ -1,0 +1,20 @@
+{
+  "module_name": "GroupAction.DenseOrbit",
+  "declarations": [
+    {
+      "temporary_id": "decl-012843",
+      "new_name": "IsIrreducible.exists_mem_dense_of_finite_closure_cover",
+      "docstring": "For a finite collection of subsets covering an irreducible space after taking closures, at least one of the original subsets is dense."
+    },
+    {
+      "temporary_id": "decl-012844",
+      "new_name": "MulAction.orbitRel.Quotient.exists_dense_orbit_of_finite",
+      "docstring": "When an irreducible topological space has finitely many orbit classes under a group action, some class, viewed through the orbit-relation quotient, is dense."
+    },
+    {
+      "temporary_id": "decl-012845",
+      "new_name": "MulAction.exists_dense_orbit_of_finite_orbitRel_quotient",
+      "docstring": "A group action with finitely many orbit classes on an irreducible topological space admits a point with dense orbit."
+    }
+  ]
+}

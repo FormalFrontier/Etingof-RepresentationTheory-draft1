@@ -1,0 +1,150 @@
+{
+  "module_name": "Representation.FiniteProducts",
+  "declarations": [
+    {
+      "temporary_id": "decl-004195",
+      "new_name": "character_finiteProduct",
+      "docstring": "The character of a finite product of representations is the sum of the characters of its factors."
+    },
+    {
+      "temporary_id": "decl-004204",
+      "new_name": "hasBiproduct_of_finite",
+      "docstring": "A finite family of finite-dimensional representations admits a biproduct."
+    },
+    {
+      "temporary_id": "decl-004205",
+      "new_name": "homToLinearMap",
+      "docstring": "The additive homomorphism that sends a morphism of representations to its underlying linear map."
+    },
+    {
+      "temporary_id": "decl-004216",
+      "new_name": "hasFiniteBiproducts",
+      "docstring": "Finite-dimensional representations of a monoid have all finite biproducts."
+    },
+    {
+      "temporary_id": "decl-004220",
+      "new_name": "homOfEquivariantLinearMap",
+      "docstring": "An equivariant linear map determines a morphism of finite-dimensional representations."
+    },
+    {
+      "temporary_id": "decl-004223",
+      "new_name": "homOfEquivariantLinearMap_apply",
+      "docstring": "The representation morphism induced by an equivariant linear map agrees pointwise with that map."
+    },
+    {
+      "temporary_id": "decl-004227",
+      "new_name": "finiteProduct",
+      "docstring": "The finite-dimensional representation formed by the coordinatewise product of a finite family."
+    },
+    {
+      "temporary_id": "decl-004229",
+      "new_name": "finiteProductBicone",
+      "docstring": "The bicone whose cone point is the coordinatewise finite product representation."
+    },
+    {
+      "temporary_id": "decl-004232",
+      "new_name": "finiteProductBiconeIsBilimit",
+      "docstring": "The coordinatewise finite product bicone is a bilimit bicone."
+    },
+    {
+      "temporary_id": "decl-004233",
+      "new_name": "finiteProductIsoBiproduct",
+      "docstring": "The coordinatewise finite product representation is isomorphic to the categorical biproduct."
+    },
+    {
+      "temporary_id": "decl-004235",
+      "new_name": "sum_projection_comp_inclusion",
+      "docstring": "The sum of each coordinate projection followed by its inclusion is the identity of the finite product."
+    },
+    {
+      "temporary_id": "decl-004236",
+      "new_name": "finiteProduct_rho_apply",
+      "docstring": "The action on a finite product representation is evaluated coordinatewise."
+    },
+    {
+      "temporary_id": "decl-004237",
+      "new_name": "finiteProductInclusion",
+      "docstring": "The canonical morphism from one factor into a finite product representation."
+    },
+    {
+      "temporary_id": "decl-004239",
+      "new_name": "finiteProductInclusion_apply",
+      "docstring": "The canonical inclusion into a finite product acts as the single-coordinate function."
+    },
+    {
+      "temporary_id": "decl-004240",
+      "new_name": "finiteProductInclusion_comp_projection_of_ne",
+      "docstring": "An inclusion followed by a projection to a distinct coordinate is zero."
+    },
+    {
+      "temporary_id": "decl-004241",
+      "new_name": "finiteProductInclusion_comp_projection",
+      "docstring": "An inclusion followed by the projection to the same coordinate is the identity."
+    },
+    {
+      "temporary_id": "decl-004242",
+      "new_name": "finiteProductProjection",
+      "docstring": "The canonical morphism from a finite product representation to one of its factors."
+    },
+    {
+      "temporary_id": "decl-004244",
+      "new_name": "finiteProductProjection_apply",
+      "docstring": "The canonical projection from a finite product evaluates at the selected coordinate."
+    },
+    {
+      "temporary_id": "decl-015450",
+      "new_name": "piRepresentation",
+      "docstring": "The representation on a dependent function space obtained by acting in every coordinate."
+    },
+    {
+      "temporary_id": "decl-015453",
+      "new_name": "piRepresentation_apply",
+      "docstring": "The dependent function space representation acts pointwise in each coordinate."
+    },
+    {
+      "temporary_id": "decl-022021",
+      "new_name": "piLinearMap",
+      "docstring": "A family of endomorphisms induces an endomorphism of the dependent function space."
+    },
+    {
+      "temporary_id": "decl-022023",
+      "new_name": "piLinearMap_apply",
+      "docstring": "The endomorphism induced on a dependent function space applies the given maps coordinatewise."
+    },
+    {
+      "temporary_id": "decl-022024",
+      "new_name": "piLinearMap_comp",
+      "docstring": "The coordinatewise endomorphism associated to a family of composites is the composite of the associated endomorphisms."
+    },
+    {
+      "temporary_id": "decl-022025",
+      "new_name": "piLinearMap_eq_sum_single_comp_proj",
+      "docstring": "A coordinatewise endomorphism of a finite product is the sum of its projected single-coordinate components."
+    },
+    {
+      "temporary_id": "decl-022026",
+      "new_name": "piLinearMap_id",
+      "docstring": "The coordinatewise endomorphism induced by identity maps is the identity."
+    },
+    {
+      "temporary_id": "decl-022179",
+      "new_name": "proj_comp_single",
+      "docstring": "Projection after the single-coordinate linear map at the same index is the identity."
+    },
+    {
+      "temporary_id": "decl-023532",
+      "new_name": "sum_additiveCharacters",
+      "docstring": "The sum of all complex-valued additive characters at an element is the group cardinality at zero and vanishes otherwise."
+    },
+    {
+      "temporary_id": "decl-024300",
+      "new_name": "trace_piLinearMap",
+      "docstring": "The trace of a coordinatewise endomorphism of a finite product is the sum of the traces of its components."
+    },
+    {
+      "temporary_id": "decl-024437",
+      "new_name": "monoidHomUnitsComplexEquiv",
+      "docstring": "Monoid homomorphisms from a group to the units of the complex numbers are equivalent to monoid homomorphisms into the complex numbers."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:41f80f78259da679cc5e",
+      "declaration": "Etingof.Functor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/473/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(C : Type u_1) \u2192\n  (D : Type u_2) \u2192\n    [CategoryTheory.Category.{u_3, u_1} C] \u2192 [CategoryTheory.Category.{u_4, u_2} D] \u2192 Type (max u_3 u_4 u_1 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_2_1"
+    }
+  ],
+  "canonical_reference": "Chapter7/Introduction_7.2",
+  "packet_id": "align-1021",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1021"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c2fd878fae213a31fde9",
+  "source_text": "Functors are arrows between categories."
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0308",
+  "associations": [
+    {
+      "association_id": "association:c5dc0ee36426b9b0240d",
+      "rationale": "No formal type is provided, and the lift declaration is at most a construction used to obtain maps from a free algebra rather than a direct statement of the representation equivalence.",
+      "role": "supporting"
+    }
+  ]
+}

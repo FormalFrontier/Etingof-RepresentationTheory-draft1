@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:63c777490d20aac50f25",
+      "declaration": "Etingof.Problem2_5_1.quotient_isIndecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/51/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {n : Nat} (N : Nat) (I : Ideal.{u_1} (MvPolynomial.{0, u_1} (Fin n) k)),\n  Ne.{u_1 + 1} I Top.top.{u_1} \u2192\n    (\u2200 (d : Nat) (p : MvPolynomial.{0, u_1} (Fin n) k),\n        LE.le.{0} N d \u2192 MvPolynomial.IsHomogeneous.{0, u_1} p d \u2192 Membership.mem.{u_1, u_1} I p) \u2192\n      Etingof.IsIndecomposable.{u_1, u_1} (MvPolynomial.{0, u_1} (Fin n) k)\n        (HasQuotient.Quotient.{u_1, u_1} (MvPolynomial.{0, u_1} (Fin n) k) I)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_5_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.5.1",
+  "packet_id": "align-0589",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0589"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.5.1:claim-02",
+  "source_text": "The quotient representation A/I is indecomposable (in particular, nonzero and admitting no decomposition into two nonzero subrepresentations)."
+}

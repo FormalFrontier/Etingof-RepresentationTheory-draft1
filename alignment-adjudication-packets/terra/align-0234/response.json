@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0234",
+  "associations": [
+    {
+      "association_id": "association:23b34b819e5978e52ed3",
+      "role": "supporting",
+      "rationale": "The packet supplies no formal type for the abelian-category assertion."
+    }
+  ]
+}

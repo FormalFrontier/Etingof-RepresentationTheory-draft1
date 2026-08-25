@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:91d7a966ab56da6fbfcd",
+      "rationale": "The formal type supplies parameters and an existentially typed b with the displayed cyclic-shift and lowering equations, but the displayed type elides what b is and does not directly state the claimed orbit-basis condition.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0604"
+}

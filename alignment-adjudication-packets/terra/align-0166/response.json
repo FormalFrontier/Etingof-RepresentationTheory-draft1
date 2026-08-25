@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0166",
+  "associations": [
+      {
+        "association_id": "association:76a373b82d4cd69e3124",
+        "role": "supporting",
+        "rationale": "The displayed type constructs a module structure on M over the tensor product of the image algebras; it is infrastructure for, rather than a statement of, the no-loss/WLOG reduction."
+      },
+      {
+        "association_id": "association:9cc26758312f3dbb0431",
+        "role": "supporting",
+        "rationale": "The displayed type constructs the corresponding algebra homomorphism into End(M), but does not state that replacing A and B loses no information or yields the finite-dimensional WLOG reduction."
+      },
+    {
+      "association_id": "association:2f564526c6e2a446f89d",
+      "role": "supporting",
+      "rationale": "It verifies the pure-tensor action formula for the constructed representation, rather than stating the reduction itself."
+    }
+  ]
+}

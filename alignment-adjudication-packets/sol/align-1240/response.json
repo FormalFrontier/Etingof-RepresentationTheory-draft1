@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1240",
+  "associations": [
+    {
+      "association_id": "association:b145f59e2fb90581160a",
+      "rationale": "The type directly states surjectivity of the algebra action on the endomorphisms of a simple finite-dimensional module.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:042d13dc30829a463601",
+      "rationale": "The type directly states simultaneous surjectivity onto the endomorphism algebras of a finite pairwise nonisomorphic family of simple modules.",
+      "role": "supporting"
+    }
+  ]
+}

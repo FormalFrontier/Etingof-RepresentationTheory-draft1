@@ -1,0 +1,15 @@
+{
+  "module_name": "GroupTheory.CardinalityBounds",
+  "declarations": [
+    {
+      "temporary_id": "decl-003802",
+      "new_name": "auxiliaryCard_lt_conjClasses_of_card_cast_eq_zero",
+      "docstring": "If the finite group's order maps to zero in the field, the auxiliary type has smaller cardinality than its conjugacy-class type."
+    },
+    {
+      "temporary_id": "decl-021702",
+      "new_name": "auxiliaryCard_lt_conjClasses_of_card_cast_eq_zero_algClosed",
+      "docstring": "For an algebraically closed field in which the finite group's order maps to zero, the auxiliary type has smaller cardinality than its conjugacy-class type."
+    }
+  ]
+}

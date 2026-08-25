@@ -1,0 +1,7 @@
+{
+  "packet_id": "align-0036",
+  "associations": [
+    {"association_id": "association:4a78c163dce928c43eb8", "role": "supporting", "rationale": "This establishes abstract equivalence of the two composition series, supporting the more explicit factor correspondence."},
+    {"association_id": "association:ae0e04b7ddfa621017fc", "role": "primary", "rationale": "It directly supplies a permutation and isomorphisms between each corresponding pair of composition factors."}
+  ]
+}

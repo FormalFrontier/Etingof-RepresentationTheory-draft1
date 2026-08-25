@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0653",
+  "associations": [
+    {
+      "association_id": "association:d1d594857784afcec269",
+      "rationale": "The formal type asserts a nonempty A-linear equivalence between the product of two copies of the periodic subalgebra and the product of two copies of the antiperiodic submodule, directly matching the doubled-module isomorphism.",
+      "role": "primary"
+    }
+  ]
+}

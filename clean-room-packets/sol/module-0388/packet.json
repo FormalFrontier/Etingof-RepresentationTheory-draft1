@@ -1,0 +1,336 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{0, u_2} Complex V] \u2192\n          [inst_3 : Module.{0, u_2} Real V] \u2192\n            [inst_4 : IsScalarTower.{0, 0, u_2} Real Complex V] \u2192\n              (\u03c1 : Representation.{0, u_1, u_2} Complex G V) \u2192\n                AlgHom.{0, 0, u_2} Real Complex\n                  (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022299"
+      ],
+      "structural_type_hash": "1712789884",
+      "temporary_id": "decl-018135"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V] [inst_3 : Module.{0, u_2} Real V]\n  [inst_4 : IsScalarTower.{0, 0, u_2} Real Complex V] (\u03c1 : Representation.{0, u_1, u_2} Complex G V) (z : Complex)\n  (v : V),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n      (Subtype.val.{u_2 + 1} (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-018135.{u_1, u_2} \u03c1) z)) v)\n    (HSMul.hSMul.{0, u_2, u_2} z v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018135",
+        "decl-022299"
+      ],
+      "structural_type_hash": "1285328172",
+      "temporary_id": "decl-018139"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [inst_6 : IsScalarTower.{0, 0, u_2} Real Complex V] {\u03c1 : Representation.{0, u_1, u_2} Complex G V} (z : Complex),\n  Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-018135.{u_1, u_2} \u03c1) z)\n    (HAdd.hAdd.{u_2, u_2, u_2} (HSMul.hSMul.{0, u_2, u_2} z.re 1)\n      (HSMul.hSMul.{0, u_2, u_2} z.im (decl-022308.{u_1, u_2} \u03c1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018135",
+        "decl-022299",
+        "decl-022308"
+      ],
+      "structural_type_hash": "3271755146",
+      "temporary_id": "decl-018140"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V] [inst_3 : Module.{0, u_2} Real V]\n  [inst_4 : IsScalarTower.{0, 0, u_2} Real Complex V] (\u03c1 : Representation.{0, u_1, u_2} Complex G V)\n  [Nontrivial.{u_2} V],\n  Function.Injective.{1, u_2 + 1} (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-018135.{u_1, u_2} \u03c1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018135",
+        "decl-022299"
+      ],
+      "structural_type_hash": "861376539",
+      "temporary_id": "decl-018141"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [IsScalarTower.{0, 0, u_2} Real Complex V] {\u03c1 : Representation.{0, u_1, u_2} Complex G V},\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    \u2200\n      (B :\n        LinearMap.{0, 0, u_2, u_2} (RingHom.id.{0} Complex) V\n          (LinearMap.{0, 0, u_2, 0} (RingHom.id.{0} Complex) V Complex)),\n      (\u2200 (v : V),\n          (\u2200 (w : V), Eq.{1} (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} B v) w) 0) \u2192\n            Eq.{u_2 + 1} v 0) \u2192\n        (\u2200 (g : G) (v w : V),\n            Eq.{1}\n              (DFunLike.coe.{u_2 + 1, u_2 + 1, 1}\n                (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} B\n                  (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n                    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g) v))\n                (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g)\n                  w))\n              (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} B v) w)) \u2192\n          \u2200 (s : Real),\n            (\u2200 (v w : V),\n                Eq.{1} (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} B w) v)\n                  (HSMul.hSMul.{0, 0, 0} s\n                    (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} B v) w))) \u2192\n              Exists.{u_2 + 1} fun j =>\n                Exists.{1} fun lam =>\n                  And\n                    (\u2200 (g : G) (v : V),\n                      Eq.{u_2 + 1}\n                        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} j\n                          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n                            (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g) v))\n                        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n                          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g)\n                          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} j v)))\n                    (And\n                      (\u2200 (v : V),\n                        Eq.{u_2 + 1}\n                          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} j (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} j v))\n                          (HSMul.hSMul.{0, u_2, u_2} (Complex.ofReal lam) v))\n                      (LT.lt.{0} 0 (HMul.hMul.{0, 0, 0} s lam)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3363913317",
+      "temporary_id": "decl-018758"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [Module.Finite.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  Exists.{u_2 + 1} fun H =>\n    And\n      (\u2200 (g : G) (v w : V),\n        Eq.{1}\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, 1}\n            (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} H\n              (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g)\n                v))\n            (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g) w))\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} H v) w))\n      (And\n        (\u2200 (v : V),\n          Ne.{u_2 + 1} v 0 \u2192\n            LT.lt.{0} 0 (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} H v) v).re)\n        (\u2200 (v w : V),\n          Eq.{1}\n            (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex)\n              (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} H v) w))\n            (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} H w) v)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "712335784",
+      "temporary_id": "decl-018867"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005277",
+        "decl-022299",
+        "decl-022308"
+      ],
+      "structural_type_hash": "1566084342",
+      "temporary_id": "decl-018896"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [inst_4 : Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [inst_6 : IsScalarTower.{0, 0, u_2} Real Complex V] {\u03c1 : Representation.{0, u_1, u_2} Complex G V},\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    decl-005278.{u_1, u_2} \u03c1 \u2192\n      Exists.{u_2 + 1} fun j' =>\n        And (Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} j' j') 1)\n          (Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (decl-022308.{u_1, u_2} \u03c1) j')\n            (Neg.neg.{u_2} (HMul.hMul.{u_2, u_2, u_2} j' (decl-022308.{u_1, u_2} \u03c1))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278",
+        "decl-022299",
+        "decl-022308"
+      ],
+      "structural_type_hash": "2212734537",
+      "temporary_id": "decl-018897"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [inst_4 : Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [IsScalarTower.{0, 0, u_2} Real Complex V] (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    decl-005278.{u_1, u_2} \u03c1 \u2192\n      Exists.{u_2 + 1} fun W =>\n        And\n          (\u2200 (g : G) (v : V),\n            Membership.mem.{u_2, u_2} W v \u2192\n              Membership.mem.{u_2, u_2} W\n                (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g)\n                  v))\n          (And (Eq.{u_2 + 1} (Submodule.span.{0, u_2} Complex (SetLike.coe.{u_2, u_2} W)) Top.top.{u_2})\n            (Eq.{1} (Module.finrank.{0, u_2} Real (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} W x))\n              (Module.finrank.{0, u_2} Complex V)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "3848677520",
+      "temporary_id": "decl-018923"
+    },
+    {
+      "formal_type": "{V : Type u_2} \u2192\n  [inst : AddCommGroup.{u_2} V] \u2192\n    [inst_1 : Module.{0, u_2} Complex V] \u2192\n      LinearMap.{0, 0, u_2, u_2} (RingHom.id.{0} Complex) V\n          (LinearMap.{0, 0, u_2, 0} (starRingEnd.{0} Complex) V Complex) \u2192\n        LinearMap.{0, 0, u_2, u_2} (starRingEnd.{0} Complex) V (Module.Dual.{0, u_2} Complex V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3935055327",
+      "temporary_id": "decl-019928"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_2} [inst : AddCommGroup.{u_2} V] [inst_1 : Module.{0, u_2} Complex V] [Module.Finite.{0, u_2} Complex V]\n  [inst_3 : Module.{0, u_2} Real V] [IsScalarTower.{0, 0, u_2} Real Complex V]\n  (H :\n    LinearMap.{0, 0, u_2, u_2} (RingHom.id.{0} Complex) V\n      (LinearMap.{0, 0, u_2, 0} (starRingEnd.{0} Complex) V Complex))\n  (w v : V),\n  Eq.{1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-019928.{u_2} H) w) v)\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} H v) w)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019928"
+      ],
+      "structural_type_hash": "1780901620",
+      "temporary_id": "decl-019938"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [IsScalarTower.{0, 0, u_2} Real Complex V] {\u03c1 : Representation.{0, u_1, u_2} Complex G V}\n  (H :\n    LinearMap.{0, 0, u_2, u_2} (RingHom.id.{0} Complex) V\n      (LinearMap.{0, 0, u_2, 0} (starRingEnd.{0} Complex) V Complex)),\n  (\u2200 (g : G) (v w : V),\n      Eq.{1}\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, 1}\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} H\n            (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g) v))\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g) w))\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} H v) w)) \u2192\n    \u2200 (g : G) (w : V),\n      Eq.{u_2 + 1}\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-019928.{u_2} H)\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g) w))\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (Representation.dual.{0, u_1, u_2} \u03c1) g)\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-019928.{u_2} H) w))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019928"
+      ],
+      "structural_type_hash": "1349346106",
+      "temporary_id": "decl-019939"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_2} [inst : AddCommGroup.{u_2} V] [inst_1 : Module.{0, u_2} Complex V] [Module.Finite.{0, u_2} Complex V]\n  [inst_3 : Module.{0, u_2} Real V] [IsScalarTower.{0, 0, u_2} Real Complex V]\n  (H :\n    LinearMap.{0, 0, u_2, u_2} (RingHom.id.{0} Complex) V\n      (LinearMap.{0, 0, u_2, 0} (starRingEnd.{0} Complex) V Complex)),\n  (\u2200 (v : V),\n      Ne.{u_2 + 1} v 0 \u2192\n        LT.lt.{0} 0 (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} H v) v).re) \u2192\n    Function.Injective.{u_2 + 1, u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-019928.{u_2} H))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019928"
+      ],
+      "structural_type_hash": "2178529178",
+      "temporary_id": "decl-019940"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [inst_4 : Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [IsScalarTower.{0, 0, u_2} Real Complex V] (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    Iff (decl-005278.{u_1, u_2} \u03c1)\n      (Exists.{u_2 + 1} fun W =>\n        And\n          (\u2200 (g : G) (v : V),\n            Membership.mem.{u_2, u_2} W v \u2192\n              Membership.mem.{u_2, u_2} W\n                (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g)\n                  v))\n          (And (Eq.{u_2 + 1} (Submodule.span.{0, u_2} Complex (SetLike.coe.{u_2, u_2} W)) Top.top.{u_2})\n            (Eq.{1} (Module.finrank.{0, u_2} Real (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} W x))\n              (Module.finrank.{0, u_2} Complex V))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "3991827619",
+      "temporary_id": "decl-020873"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [inst_4 : Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [IsScalarTower.{0, 0, u_2} Real Complex V] (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    (Exists.{u_2 + 1} fun W =>\n        And\n          (\u2200 (g : G) (v : V),\n            Membership.mem.{u_2, u_2} W v \u2192\n              Membership.mem.{u_2, u_2} W\n                (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g)\n                  v))\n          (And (Eq.{u_2 + 1} (Submodule.span.{0, u_2} Complex (SetLike.coe.{u_2, u_2} W)) Top.top.{u_2})\n            (Eq.{1} (Module.finrank.{0, u_2} Real (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} W x))\n              (Module.finrank.{0, u_2} Complex V)))) \u2192\n      decl-005278.{u_1, u_2} \u03c1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "909488774",
+      "temporary_id": "decl-020876"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1683595483",
+      "temporary_id": "decl-021558"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021558"
+      ],
+      "structural_type_hash": "2224613601",
+      "temporary_id": "decl-021564"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{0, u_2} Complex V] \u2192\n          [inst_3 : Module.{0, u_2} Real V] \u2192\n            [IsScalarTower.{0, 0, u_2} Real Complex V] \u2192\n              Representation.{0, u_1, u_2} Complex G V \u2192 Subalgebra.{0, u_2} Real (Module.End.{0, u_2} Real V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1769327942",
+      "temporary_id": "decl-022299"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [inst_4 : Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [inst_6 : IsScalarTower.{0, 0, u_2} Real Complex V] (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    decl-005130.{u_1, u_2} \u03c1 \u2192\n      Nonempty.{max 1 (u_2 + 1)}\n        (AlgEquiv.{0, u_2, 0} Real\n          (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x) Complex)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005130",
+        "decl-022299"
+      ],
+      "structural_type_hash": "3382531166",
+      "temporary_id": "decl-022304"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [inst_4 : Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [inst_6 : IsScalarTower.{0, 0, u_2} Real Complex V] (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    decl-005278.{u_1, u_2} \u03c1 \u2192\n      Nonempty.{max 1 (u_2 + 1)}\n        (AlgEquiv.{0, u_2, 0} Real\n          (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x)\n          (Matrix.{0, 0, 0} (Fin 2) (Fin 2) Real))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278",
+        "decl-022299"
+      ],
+      "structural_type_hash": "220007009",
+      "temporary_id": "decl-022305"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [inst_4 : Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [inst_6 : IsScalarTower.{0, 0, u_2} Real Complex V] (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    decl-005277.{u_1, u_2} \u03c1 \u2192\n      Nonempty.{max 1 (u_2 + 1)}\n        (AlgEquiv.{0, u_2, 0} Real\n          (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x)\n          (Quaternion.{0} Real))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005277",
+        "decl-022299"
+      ],
+      "structural_type_hash": "93697914",
+      "temporary_id": "decl-022306"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [inst_6 : IsScalarTower.{0, 0, u_2} Real Complex V] {\u03c1 : Representation.{0, u_1, u_2} Complex G V}\n  (x : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x) (g : G) (v : V),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Subtype.val.{u_2 + 1} x)\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g) v))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g)\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Subtype.val.{u_2 + 1} x) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022299"
+      ],
+      "structural_type_hash": "725646232",
+      "temporary_id": "decl-022307"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{0, u_2} Complex V] \u2192\n          [inst_3 : Module.{0, u_2} Real V] \u2192\n            [inst_4 : IsScalarTower.{0, 0, u_2} Real Complex V] \u2192\n              (\u03c1 : Representation.{0, u_1, u_2} Complex G V) \u2192\n                Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022299"
+      ],
+      "structural_type_hash": "1503400344",
+      "temporary_id": "decl-022308"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [inst_6 : IsScalarTower.{0, 0, u_2} Real Complex V] {\u03c1 : Representation.{0, u_1, u_2} Complex G V}\n  (f : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x),\n  Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (decl-022308.{u_1, u_2} \u03c1) (decl-022313.{u_1, u_2} f))\n    (Neg.neg.{u_2} (HMul.hMul.{u_2, u_2, u_2} (decl-022313.{u_1, u_2} f) (decl-022308.{u_1, u_2} \u03c1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022299",
+        "decl-022308",
+        "decl-022313"
+      ],
+      "structural_type_hash": "3941452720",
+      "temporary_id": "decl-022310"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [inst_6 : IsScalarTower.{0, 0, u_2} Real Complex V] {\u03c1 : Representation.{0, u_1, u_2} Complex G V}\n  (f : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x),\n  Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (decl-022308.{u_1, u_2} \u03c1) (decl-022315.{u_1, u_2} f))\n    (HMul.hMul.{u_2, u_2, u_2} (decl-022315.{u_1, u_2} f) (decl-022308.{u_1, u_2} \u03c1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022299",
+        "decl-022308",
+        "decl-022315"
+      ],
+      "structural_type_hash": "2349161100",
+      "temporary_id": "decl-022311"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022299",
+        "decl-022308"
+      ],
+      "structural_type_hash": "3410553606",
+      "temporary_id": "decl-022312"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{0, u_2} Complex V] \u2192\n          [inst_3 : Module.{0, u_2} Real V] \u2192\n            [inst_4 : IsScalarTower.{0, 0, u_2} Real Complex V] \u2192\n              {\u03c1 : Representation.{0, u_1, u_2} Complex G V} \u2192\n                (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x) \u2192\n                  Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022299"
+      ],
+      "structural_type_hash": "1350178666",
+      "temporary_id": "decl-022313"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{0, u_2} Complex V] \u2192\n          [inst_3 : Module.{0, u_2} Real V] \u2192\n            [inst_4 : IsScalarTower.{0, 0, u_2} Real Complex V] \u2192\n              {\u03c1 : Representation.{0, u_1, u_2} Complex G V} \u2192\n                (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x) \u2192\n                  Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022299"
+      ],
+      "structural_type_hash": "1350178666",
+      "temporary_id": "decl-022315"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [inst_6 : IsScalarTower.{0, 0, u_2} Real Complex V] {\u03c1 : Representation.{0, u_1, u_2} Complex G V}\n  (f : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x),\n  Eq.{u_2 + 1} (HAdd.hAdd.{u_2, u_2, u_2} (decl-022315.{u_1, u_2} f) (decl-022313.{u_1, u_2} f)) f",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022299",
+        "decl-022313",
+        "decl-022315"
+      ],
+      "structural_type_hash": "1639932026",
+      "temporary_id": "decl-022319"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [inst_6 : IsScalarTower.{0, 0, u_2} Real Complex V] {\u03c1 : Representation.{0, u_1, u_2} Complex G V},\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    \u2200 (f : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-022299.{u_1, u_2} \u03c1) x),\n      Exists.{1} fun z =>\n        Eq.{u_2 + 1} (decl-022315.{u_1, u_2} f)\n          (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-018135.{u_1, u_2} \u03c1) z)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018135",
+        "decl-022299",
+        "decl-022315"
+      ],
+      "structural_type_hash": "1059632334",
+      "temporary_id": "decl-022321"
+    }
+  ],
+  "module_temporary_id": "module-0388",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

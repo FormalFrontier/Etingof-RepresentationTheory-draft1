@@ -1,0 +1,111 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7b0ccf82dcae8779fbf7",
+      "declaration": "Etingof.Example2_9_13.Heisenberg",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_2) \u2192 [CommRing.{u_2} k] \u2192 Type u_2",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    },
+    {
+      "association_id": "association:57d931d8fc3352c88e17",
+      "declaration": "Etingof.Example2_9_13.bracket_x_c",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} Etingof.Example2_9_13.x.{u_1} Etingof.Example2_9_13.c.{u_1}) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    },
+    {
+      "association_id": "association:a5aab3cdc79307142ae3",
+      "declaration": "Etingof.Example2_9_13.bracket_y_c",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} Etingof.Example2_9_13.y.{u_1} Etingof.Example2_9_13.c.{u_1}) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    },
+    {
+      "association_id": "association:8d8812454fdda9b41cf6",
+      "declaration": "Etingof.Example2_9_13.bracket_y_x",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} Etingof.Example2_9_13.y.{u_1} Etingof.Example2_9_13.x.{u_1})\n    Etingof.Example2_9_13.c.{u_1}",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    },
+    {
+      "association_id": "association:2d2db74fceb019b098f8",
+      "declaration": "Etingof.Example2_9_13.c",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 Etingof.Example2_9_13.Heisenberg.{u_1} k",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    },
+    {
+      "association_id": "association:8088e72d08ddcbef8e47",
+      "declaration": "Etingof.Example2_9_13.x",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 Etingof.Example2_9_13.Heisenberg.{u_1} k",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    },
+    {
+      "association_id": "association:bfc3b5d206be492cdbe2",
+      "declaration": "Etingof.Example2_9_13.y",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 Etingof.Example2_9_13.Heisenberg.{u_1} k",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.9.13",
+  "packet_id": "align-0327",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0327"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:656c41b9b3ddc2dccf39",
+  "source_text": "The Heisenberg algebra has basis x,y,c with [y,x]=c and c central."
+}

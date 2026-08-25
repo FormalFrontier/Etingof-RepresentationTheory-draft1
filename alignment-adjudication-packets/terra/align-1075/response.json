@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1075",
+  "associations": [
+    {
+      "association_id": "association:a3d806fd5f11bdb29fb9",
+      "role": "supporting",
+      "rationale": "The displayed type only presents a proposition on a complex representation; it does not expose nonisomorphism with the dual as that proposition's defining condition."
+    }
+  ]
+}

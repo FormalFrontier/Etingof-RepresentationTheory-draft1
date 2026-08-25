@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_proof_of_Theorem5.3.1",
+    "kind": "discussion",
+    "title": "Completion of proof of Theorem 5.3.1 (Frobenius divisibility)",
+    "node_id": "chapter-05/section-5-3",
+    "order": 266,
+    "slug": "discussion-proof-of-theorem5-3-1",
+    "span": {
+      "start": {
+        "page": "99",
+        "line": 9
+      },
+      "end": {
+        "page": "100",
+        "line": 2
+      }
+    },
+    "source_sha256": "fb46aa850a9d8d08136cb296ffa7f505633ccb11bc0aac979366831b47da62dd",
+    "features": {
+      "line_count": 25,
+      "crosses_page": true,
+      "display_math_delimiters": 8,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem531",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

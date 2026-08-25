@@ -1,0 +1,25 @@
+{
+  "module_name": "ConjugacyClassCardinalityBounds",
+  "declarations": [
+    {
+      "temporary_id": "decl-001220",
+      "new_name": "card_lt_card_conjClasses_of_linearIndependent_of_card_eq_zero",
+      "docstring": "A finite linearly independent displayed family has cardinality strictly below the number of conjugacy classes when the group cardinality vanishes in the field."
+    },
+    {
+      "temporary_id": "decl-001221",
+      "new_name": "card_lt_finrank_of_linearIndependent_of_common_nonzero_kernel",
+      "docstring": "A finite linearly independent family of linear functionals has cardinality below the ambient dimension if all functionals vanish on a common nonzero vector."
+    },
+    {
+      "temporary_id": "decl-001251",
+      "new_name": "mkQ_auxiliaryElement_ne_zero",
+      "docstring": "The quotient image of the referenced auxiliary monoid-algebra element is nonzero."
+    },
+    {
+      "temporary_id": "decl-001282",
+      "new_name": "auxiliaryMap_auxiliaryElement_eq_zero_of_card_eq_zero",
+      "docstring": "For a simple module, the referenced map sends the referenced auxiliary element to zero when the group cardinality is zero in the field."
+    }
+  ]
+}

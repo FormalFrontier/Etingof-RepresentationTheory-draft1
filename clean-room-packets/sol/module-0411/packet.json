@@ -1,0 +1,319 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2167015451",
+      "temporary_id": "decl-018429"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 Matrix.{0, 0, 0} n.Partition n.Partition Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1974168732",
+      "temporary_id": "decl-020755"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {mu la : n.Partition}, Not (la.RootLe mu) \u2192 Eq.{1} (decl-020755 n mu la) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020755",
+        "decl-025197"
+      ],
+      "structural_type_hash": "919031176",
+      "temporary_id": "decl-020757"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat}, Eq.{1} (HMul.hMul.{0, 0, 0} (decl-020755 n) (decl-021025 n)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020755",
+        "decl-021025"
+      ],
+      "structural_type_hash": "1948282173",
+      "temporary_id": "decl-020758"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat}, IsUnit.{0} (decl-021025 n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021025"
+      ],
+      "structural_type_hash": "2742456612",
+      "temporary_id": "decl-020927"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 Matrix.{0, 0, 0} n.Partition n.Partition Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1974168732",
+      "temporary_id": "decl-021025"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (i j : n.Partition), Eq.{1} (decl-021025 n i j) (Nat.cast.{0} (decl-023347 n j i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021025",
+        "decl-023347"
+      ],
+      "structural_type_hash": "1369661583",
+      "temporary_id": "decl-021026"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (i : n.Partition), Eq.{1} (decl-021025 n i i) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021025"
+      ],
+      "structural_type_hash": "1874130907",
+      "temporary_id": "decl-021027"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {i j : n.Partition}, Not (j.RootLe i) \u2192 Eq.{1} (decl-021025 n i j) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021025",
+        "decl-025197"
+      ],
+      "structural_type_hash": "3927725019",
+      "temporary_id": "decl-021028"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat}, Eq.{1} (HMul.hMul.{0, 0, 0} (decl-021025 n) (decl-020755 n)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020755",
+        "decl-021025"
+      ],
+      "structural_type_hash": "2590460380",
+      "temporary_id": "decl-021687"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat), IsPartialOrder.{1} n.Partition decl-025197",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025197"
+      ],
+      "structural_type_hash": "2209123985",
+      "temporary_id": "decl-022845"
+    },
+    {
+      "formal_type": "Nat \u2192 Nat \u2192 Nat \u2192 Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2735303251",
+      "temporary_id": "decl-022859"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (decl-023310 n la \u03c3)\n    (Finset.sum.{0, 0} Finset.univ.{0} fun mu =>\n      HMul.hMul.{0, 0, 0} (decl-020755 n mu la) (Nat.cast.{0} (decl-021968 n mu \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020755",
+        "decl-021968",
+        "decl-023310"
+      ],
+      "structural_type_hash": "456853223",
+      "temporary_id": "decl-023281"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (decl-023310 n la \u03c3)\n    (Finset.sum.{0, 0} (Finset.filter.{0} (fun mu => la.RootLe mu) Finset.univ.{0}) fun mu =>\n      HMul.hMul.{0, 0, 0} (decl-020755 n mu la) (Nat.cast.{0} (decl-021968 n mu \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020755",
+        "decl-021968",
+        "decl-023310",
+        "decl-025197"
+      ],
+      "structural_type_hash": "1068838043",
+      "temporary_id": "decl-023282"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la mu : n.Partition), Not (la.RootLe mu) \u2192 Eq.{1} (decl-023347 n la mu) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023347",
+        "decl-025197"
+      ],
+      "structural_type_hash": "807385496",
+      "temporary_id": "decl-023353"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition), decl-005702 la la",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025184",
+      "project_type_dependencies": [
+        "decl-005702"
+      ],
+      "structural_type_hash": "83081812",
+      "temporary_id": "decl-025188"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la mu : n.Partition}, decl-005702 mu la \u2192 la.RootLe mu",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025184",
+      "project_type_dependencies": [
+        "decl-005702",
+        "decl-025197"
+      ],
+      "structural_type_hash": "3074510437",
+      "temporary_id": "decl-025189"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la mu nu : n.Partition},\n  decl-005702 la mu \u2192 decl-005702 mu nu \u2192 decl-005702 la nu",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025184",
+      "project_type_dependencies": [
+        "decl-005702"
+      ],
+      "structural_type_hash": "502815572",
+      "temporary_id": "decl-025191"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 n.Partition \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "835458703",
+      "temporary_id": "decl-025197"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la mu : n.Partition}, la.RootLe mu \u2192 mu.RootLe la \u2192 Eq.{1} la mu",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025197",
+      "project_type_dependencies": [
+        "decl-025197"
+      ],
+      "structural_type_hash": "238326627",
+      "temporary_id": "decl-025198"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la mu : n.Partition}, la.RootLe mu \u2192 decl-005702 mu la",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025197",
+      "project_type_dependencies": [
+        "decl-005702",
+        "decl-025197"
+      ],
+      "structural_type_hash": "255939406",
+      "temporary_id": "decl-025199"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition), la.RootLe la",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025197",
+      "project_type_dependencies": [
+        "decl-025197"
+      ],
+      "structural_type_hash": "2020516726",
+      "temporary_id": "decl-025204"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la mu nu : n.Partition}, la.RootLe mu \u2192 mu.RootLe nu \u2192 la.RootLe nu",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025197",
+      "project_type_dependencies": [
+        "decl-025197"
+      ],
+      "structural_type_hash": "3477713897",
+      "temporary_id": "decl-025205"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 Nat \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1505291458",
+      "temporary_id": "decl-025210"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition) {i : Nat}, LE.le.{0} n i \u2192 Eq.{1} (la.partAt i) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025210"
+      ],
+      "structural_type_hash": "3018738973",
+      "temporary_id": "decl-025212"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la mu : n.Partition), Iff (la.RootLe mu) (decl-005702 mu la)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005702",
+        "decl-025197"
+      ],
+      "structural_type_hash": "3029882865",
+      "temporary_id": "decl-025219"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition), LE.le.{0} (List.length.{0} la.sortedParts) n",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025220"
+      ],
+      "structural_type_hash": "2107874371",
+      "temporary_id": "decl-025222"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition) (k : Nat),\n  Eq.{1} (List.sum.{0} (List.take.{0} k la.sortedParts)) (Finset.sum.{0, 0} (Finset.range k) fun i => la.partAt i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025210",
+        "decl-025220"
+      ],
+      "structural_type_hash": "2645516755",
+      "temporary_id": "decl-025223"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition) {k : Nat}, LE.le.{0} n k \u2192 Eq.{1} (List.sum.{0} (List.take.{0} k la.sortedParts)) n",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025220"
+      ],
+      "structural_type_hash": "2879682871",
+      "temporary_id": "decl-025224"
+    }
+  ],
+  "module_temporary_id": "module-0411",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

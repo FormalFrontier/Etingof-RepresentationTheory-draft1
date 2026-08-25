@@ -1,0 +1,35 @@
+{
+  "module_name": "Algebra.Homological.EquivalenceInvariance",
+  "declarations": [
+    {
+      "temporary_id": "decl-019903",
+      "new_name": "ringProperty_iff_of_ringEquiv",
+      "docstring": "A degree-indexed property of rings is invariant under ring equivalences."
+    },
+    {
+      "temporary_id": "decl-019906",
+      "new_name": "hasProjectiveDimensionLT_of_equivalence",
+      "docstring": "An equivalence sends objects of bounded projective dimension to objects with the same bound."
+    },
+    {
+      "temporary_id": "decl-019911",
+      "new_name": "hasProjectiveDimensionLT_iff_of_equivalence",
+      "docstring": "A categorical equivalence preserves and reflects bounded projective dimension."
+    },
+    {
+      "temporary_id": "decl-019921",
+      "new_name": "firstRingProperty_iff_secondRingProperty",
+      "docstring": "The two displayed degree-indexed properties agree for every commutative ring."
+    },
+    {
+      "temporary_id": "decl-020180",
+      "new_name": "ringConstruction_eq_of_ringEquiv",
+      "docstring": "Ring equivalences leave the displayed ring-indexed construction unchanged."
+    },
+    {
+      "temporary_id": "decl-022788",
+      "new_name": "firstRingConstruction_eq_secondRingConstruction",
+      "docstring": "The two displayed constructions agree for all commutative rings."
+    }
+  ]
+}

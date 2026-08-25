@@ -1,0 +1,80 @@
+{
+  "declarations": [
+    {
+      "docstring": "For a positive-degree Galois field with more than two elements, the commutator subgroup of its two-dimensional general linear group equals the range of the special linear group embedding.",
+      "new_name": "generalLinear_commutator_eq_specialLinear_range",
+      "temporary_id": "decl-014676"
+    },
+    {
+      "docstring": "Associates an element of the auxiliary group to a scalar in a field.",
+      "new_name": "auxiliaryElement",
+      "temporary_id": "decl-025242"
+    },
+    {
+      "docstring": "The scalar-indexed auxiliary element belongs to the commutator subgroup when a field element is neither zero nor one.",
+      "new_name": "auxiliaryElement_mem_commutator",
+      "temporary_id": "decl-025246"
+    },
+    {
+      "docstring": "Associates a second scalar-indexed element of the auxiliary group to a field scalar.",
+      "new_name": "auxiliaryElement'",
+      "temporary_id": "decl-025254"
+    },
+    {
+      "docstring": "The second scalar-indexed auxiliary element lies in the commutator subgroup when a field parameter is distinct from zero and one.",
+      "new_name": "auxiliaryElement'_mem_commutator",
+      "temporary_id": "decl-025258"
+    },
+    {
+      "docstring": "An auxiliary group associated with a commutative ring.",
+      "new_name": "AuxiliaryGroup",
+      "temporary_id": "decl-025266"
+    },
+    {
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term.",
+      "new_name": "Auxiliary.statement025267",
+      "temporary_id": "decl-025267"
+    },
+    {
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term.",
+      "new_name": "Auxiliary.statement025275",
+      "temporary_id": "decl-025275"
+    },
+    {
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term.",
+      "new_name": "Auxiliary.statement025283",
+      "temporary_id": "decl-025283"
+    },
+    {
+      "docstring": "Every group commutator is an element of the commutator subgroup.",
+      "new_name": "commutator_mem",
+      "temporary_id": "decl-025284"
+    },
+    {
+      "docstring": "Constructs an auxiliary group element from two nonzero field elements.",
+      "new_name": "auxiliaryElementOfNonzero",
+      "temporary_id": "decl-025285"
+    },
+    {
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term.",
+      "new_name": "Auxiliary.statement025289",
+      "temporary_id": "decl-025289"
+    },
+    {
+      "docstring": "A field with cardinality greater than two has an element distinct from both zero and one.",
+      "new_name": "exists_ne_zero_ne_one_of_two_lt_card",
+      "temporary_id": "decl-025290"
+    },
+    {
+      "docstring": "If the field has an element distinct from zero and one, every embedded two-dimensional special linear element lies in the commutator subgroup.",
+      "new_name": "specialLinear_mem_commutator",
+      "temporary_id": "decl-025293"
+    },
+    {
+      "docstring": "A fixed element of the auxiliary group over a field.",
+      "new_name": "auxiliaryConstant",
+      "temporary_id": "decl-025301"
+    }
+  ],
+  "module_name": "SpecialLinear.Commutator"
+}

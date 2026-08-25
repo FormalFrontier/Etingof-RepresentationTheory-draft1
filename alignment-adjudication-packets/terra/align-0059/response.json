@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0059",
+  "associations": [
+    {
+      "association_id": "association:7ba271130426d865d864",
+      "role": "supporting",
+      "rationale": "Its type is the semisimple-subrepresentation result applied after forming the image; it does not itself construct or identify that image."
+    },
+    {
+      "association_id": "association:47642c63466c8510b366",
+      "role": "supporting",
+      "rationale": "Its type states the resulting direct-sum classification of X, a consequence of applying the subrepresentation result rather than the image proof step itself."
+    },
+    {
+      "association_id": "association:06572d116865f2b7cb56",
+      "role": "supporting",
+      "rationale": "Its type constructs the linear map whose image is used in the proof, so it is a prerequisite construction rather than the stated image-and-application claim."
+    }
+  ]
+}

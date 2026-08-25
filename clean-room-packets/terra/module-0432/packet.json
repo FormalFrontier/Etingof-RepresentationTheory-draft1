@@ -1,0 +1,96 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {N : Nat} (g : Units.{u} (Module.End.{u, u} k (Fin N \u2192 k))),\n  Exists.{u + 1} fun h => Eq.{u + 1} (Matrix.mulVecLin.{u, 0, 0} (Units.val.{u} h)) (Units.val.{u} g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3222650372",
+      "temporary_id": "decl-018851"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {V : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          [inst_3 : Module.Finite.{u, u} k V] \u2192\n            [Infinite.{u + 1} k] \u2192\n              [CharZero.{u} k] \u2192\n                {n : Nat} \u2192\n                  {S W :\n                      Submodule.{u, u}\n                        (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x)\n                        (decl-016473.{u, u} k V n)} \u2192\n                    (\u03c8 :\n                        LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n                          (LinearMap.{u, u, u, u}\n                            (RingHom.id.{u}\n                              (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x))\n                            (Subtype.{u + 1} fun x => Membership.mem.{u, u} S x) (decl-016473.{u, u} k V n))\n                          (LinearMap.{u, u, u, u}\n                            (RingHom.id.{u}\n                              (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x))\n                            (Subtype.{u + 1} fun x => Membership.mem.{u, u} W x) (decl-016473.{u, u} k V n))) \u2192\n                      (\u2200 (g : Units.{u} (Module.End.{u, u} k V))\n                          (l :\n                            LinearMap.{u, u, u, u}\n                              (RingHom.id.{u}\n                                (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x))\n                              (Subtype.{u + 1} fun x => Membership.mem.{u, u} S x) (decl-016473.{u, u} k V n)),\n                          Eq.{u + 1}\n                            (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c8\n                              (HSMul.hSMul.{u, u, u} (decl-024389.{u} g n) l))\n                            (HSMul.hSMul.{u, u, u} (decl-024389.{u} g n)\n                              (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c8 l))) \u2192\n                        LinearEquiv.{u, u, u, u}\n                          (RingHom.id.{u}\n                            (Subtype.{u + 1} fun x =>\n                              Membership.mem.{u, u}\n                                (Subalgebra.centralizer.{u, u} k\n                                  (SetLike.coe.{u, u} (decl-023627.{u, u} k V n)))\n                                x))\n                          (LinearMap.{u, u, u, u}\n                            (RingHom.id.{u}\n                              (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x))\n                            (Subtype.{u + 1} fun x => Membership.mem.{u, u} S x) (decl-016473.{u, u} k V n))\n                          (LinearMap.{u, u, u, u}\n                            (RingHom.id.{u}\n                              (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x))\n                            (Subtype.{u + 1} fun x => Membership.mem.{u, u} W x) (decl-016473.{u, u} k V n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-017816",
+        "decl-023627",
+        "decl-024389"
+      ],
+      "structural_type_hash": "3232444082",
+      "temporary_id": "decl-019941"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {V : Type u} [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  [inst_3 : Module.Finite.{u, u} k V] [Infinite.{u + 1} k] [CharZero.{u} k] {n : Nat}\n  {S W :\n    Submodule.{u, u} (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x)\n      (decl-016473.{u, u} k V n)}\n  (\u03c8 :\n    LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n      (LinearMap.{u, u, u, u}\n        (RingHom.id.{u} (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x))\n        (Subtype.{u + 1} fun x => Membership.mem.{u, u} S x) (decl-016473.{u, u} k V n))\n      (LinearMap.{u, u, u, u}\n        (RingHom.id.{u} (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x))\n        (Subtype.{u + 1} fun x => Membership.mem.{u, u} W x) (decl-016473.{u, u} k V n))),\n  (\u2200 (g : Units.{u} (Module.End.{u, u} k V))\n      (l :\n        LinearMap.{u, u, u, u}\n          (RingHom.id.{u} (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x))\n          (Subtype.{u + 1} fun x => Membership.mem.{u, u} S x) (decl-016473.{u, u} k V n)),\n      Eq.{u + 1}\n        (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c8 (HSMul.hSMul.{u, u, u} (decl-024389.{u} g n) l))\n        (HSMul.hSMul.{u, u, u} (decl-024389.{u} g n) (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c8 l))) \u2192\n    \u2200\n      (c :\n        Subtype.{u + 1} fun x =>\n          Membership.mem.{u, u}\n            (Subalgebra.centralizer.{u, u} k (SetLike.coe.{u, u} (decl-023627.{u, u} k V n))) x)\n      (l :\n        LinearMap.{u, u, u, u}\n          (RingHom.id.{u} (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x))\n          (Subtype.{u + 1} fun x => Membership.mem.{u, u} S x) (decl-016473.{u, u} k V n)),\n      Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c8 (HSMul.hSMul.{u, u, u} c l))\n        (HSMul.hSMul.{u, u, u} c (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c8 l))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-017816",
+        "decl-023627",
+        "decl-024389"
+      ],
+      "structural_type_hash": "2723795263",
+      "temporary_id": "decl-019963"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [CharZero.{u} k] (N n : Nat) {\u03b9 : Type}\n  (S' :\n    \u03b9 \u2192\n      Submodule.{u, u} (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k (Fin N \u2192 k) n) x)\n        (decl-016473.{u, u} k (Fin N \u2192 k) n)),\n  (\u2200 (i : \u03b9),\n      IsSimpleModule.{u, u}\n        (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k (Fin N \u2192 k) n) x)\n        (Subtype.{u + 1} fun x => Membership.mem.{u, u} (S' i) x)) \u2192\n    (\u2200 (i j : \u03b9),\n        Nonempty.{u + 1}\n            (LinearEquiv.{u, u, u, u}\n              (RingHom.id.{u}\n                (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k (Fin N \u2192 k) n) x))\n              (Subtype.{u + 1} fun x => Membership.mem.{u, u} (S' i) x)\n              (Subtype.{u + 1} fun x => Membership.mem.{u, u} (S' j) x)) \u2192\n          Eq.{1} i j) \u2192\n      \u2200 (L : \u03b9 \u2192 FDRep.{u, u} k (Matrix.GeneralLinearGroup.{0, u} (Fin N) k))\n        (L_carrier :\n          (i : \u03b9) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (L i)))\n              (LinearMap.{u, u, u, u}\n                (RingHom.id.{u}\n                  (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k (Fin N \u2192 k) n) x))\n                (Subtype.{u + 1} fun x => Membership.mem.{u, u} (S' i) x)\n                (decl-016473.{u, u} k (Fin N \u2192 k) n))),\n        (\u2200 (i : \u03b9) (g : Matrix.GeneralLinearGroup.{0, u} (Fin N) k)\n            (l : FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (L i)))\n            (v : Subtype.{u + 1} fun x => Membership.mem.{u, u} (S' i) x),\n            Eq.{u + 1}\n              (DFunLike.coe.{u + 1, u + 1, u + 1}\n                (DFunLike.coe.{u + 1, u + 1, u + 1} (L_carrier i)\n                  (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (FDRep.\u03c1.{u, u} (L i)) g) l))\n                v)\n              (DFunLike.coe.{u + 1, u + 1, u + 1}\n                (PiTensorProduct.map.{0, u, u, u} fun x => Matrix.mulVecLin.{u, 0, 0} (Units.val.{u} g))\n                (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (L_carrier i) l) v))) \u2192\n          Pairwise.{0} fun i j => Not (Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (L i) (L j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627"
+      ],
+      "structural_type_hash": "3083200965",
+      "temporary_id": "decl-023056"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {V : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          [Module.Finite.{u, u} k V] \u2192\n            Units.{u} (Module.End.{u, u} k V) \u2192\n              (n : Nat) \u2192\n                Subtype.{u + 1} fun x =>\n                  Membership.mem.{u, u}\n                    (Subalgebra.centralizer.{u, u} k (SetLike.coe.{u, u} (decl-023627.{u, u} k V n))) x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627"
+      ],
+      "structural_type_hash": "4096964154",
+      "temporary_id": "decl-024389"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {V : Type u} [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  [inst_3 : Module.Finite.{u, u} k V] {n : Nat}\n  {S :\n    Submodule.{u, u} (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x)\n      (decl-016473.{u, u} k V n)}\n  (g : Units.{u} (Module.End.{u, u} k V))\n  (f :\n    LinearMap.{u, u, u, u}\n      (RingHom.id.{u} (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-023627.{u, u} k V n) x))\n      (Subtype.{u + 1} fun x => Membership.mem.{u, u} S x) (decl-016473.{u, u} k V n)),\n  Eq.{u + 1} (HSMul.hSMul.{u, u, u} (decl-024389.{u} g n) f)\n    (LinearMap.comp.{u, u, u, u, u, u}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (decl-017846.{u, u} k (decl-016473.{u, u} k V n) (decl-023627.{u, u} k V n))\n        (decl-024389.{u} g n))\n      f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-017816",
+        "decl-017846",
+        "decl-023627",
+        "decl-024389"
+      ],
+      "structural_type_hash": "336843630",
+      "temporary_id": "decl-024394"
+    }
+  ],
+  "module_temporary_id": "module-0432",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

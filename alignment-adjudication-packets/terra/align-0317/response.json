@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0317",
+  "associations": [
+    {
+      "association_id": "association:0d43685c411052411a37",
+      "role": "supporting",
+      "rationale": "This states the coefficient formula in the specialized case using the partition's ambient size, so it supports but does not express the displayed all-`N` claim."
+    },
+    {
+      "association_id": "association:672f319e101a527e8b20",
+      "role": "supporting",
+      "rationale": "The theorem covers every `N` at least the partition length, but its displayed equality identifies the coefficient with the sign of `Fin.revPerm` times the Specht character, not directly with the unsigned character asserted in the source text."
+    }
+  ]
+}

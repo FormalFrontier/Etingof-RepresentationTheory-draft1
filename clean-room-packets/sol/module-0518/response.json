@@ -1,0 +1,265 @@
+{
+  "module_name": "FiniteDimensionalLinearCospanRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-000190",
+      "new_name": "LinearCospanRepresentation",
+      "docstring": "A finite-dimensional representation consisting of left, center, and right vector spaces with linear maps from both outer spaces into the center."
+    },
+    {
+      "temporary_id": "decl-000191",
+      "new_name": "IsIndecomposable",
+      "docstring": "The predicate that a finite-dimensional linear-cospan representation is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000192",
+      "new_name": "Equiv",
+      "docstring": "An equivalence between two finite-dimensional linear-cospan representations."
+    },
+    {
+      "temporary_id": "decl-000196",
+      "new_name": "leftToCenter_comm_apply",
+      "docstring": "The left and center equivalences intertwine the left-to-center structure maps."
+    },
+    {
+      "temporary_id": "decl-000197",
+      "new_name": "rightToCenter_comm_apply",
+      "docstring": "The right and center equivalences intertwine the right-to-center structure maps."
+    },
+    {
+      "temporary_id": "decl-000199",
+      "new_name": "dimension_eq",
+      "docstring": "Equivalent linear-cospan representations have the same ordered triple of dimensions."
+    },
+    {
+      "temporary_id": "decl-000200",
+      "new_name": "leftLinearEquiv",
+      "docstring": "The linear equivalence between the left spaces of two equivalent representations."
+    },
+    {
+      "temporary_id": "decl-000201",
+      "new_name": "centerLinearEquiv",
+      "docstring": "The linear equivalence between the center spaces of two equivalent representations."
+    },
+    {
+      "temporary_id": "decl-000202",
+      "new_name": "rightLinearEquiv",
+      "docstring": "The linear equivalence between the right spaces of two equivalent representations."
+    },
+    {
+      "temporary_id": "decl-000203",
+      "new_name": "finrank_eq",
+      "docstring": "A representation equivalence preserves the finranks of the left, center, and right spaces."
+    },
+    {
+      "temporary_id": "decl-000214",
+      "new_name": "refl",
+      "docstring": "The identity equivalence of a linear-cospan representation."
+    },
+    {
+      "temporary_id": "decl-000218",
+      "new_name": "symm",
+      "docstring": "Reverses an equivalence of linear-cospan representations."
+    },
+    {
+      "temporary_id": "decl-000221",
+      "new_name": "trans",
+      "docstring": "Composes two equivalences of linear-cospan representations."
+    },
+    {
+      "temporary_id": "decl-000225",
+      "new_name": "left",
+      "docstring": "The left vector space of a linear-cospan representation."
+    },
+    {
+      "temporary_id": "decl-000226",
+      "new_name": "center",
+      "docstring": "The center vector space of a linear-cospan representation."
+    },
+    {
+      "temporary_id": "decl-000227",
+      "new_name": "right",
+      "docstring": "The right vector space of a linear-cospan representation."
+    },
+    {
+      "temporary_id": "decl-000230",
+      "new_name": "leftAddCommGroup",
+      "docstring": "The additive commutative group structure on the left space."
+    },
+    {
+      "temporary_id": "decl-000231",
+      "new_name": "centerAddCommGroup",
+      "docstring": "The additive commutative group structure on the center space."
+    },
+    {
+      "temporary_id": "decl-000232",
+      "new_name": "rightAddCommGroup",
+      "docstring": "The additive commutative group structure on the right space."
+    },
+    {
+      "temporary_id": "decl-000235",
+      "new_name": "dimension",
+      "docstring": "The ordered triple of left, center, and right dimensions of a linear-cospan representation."
+    },
+    {
+      "temporary_id": "decl-000237",
+      "new_name": "zeroZeroOneModel_dimension",
+      "docstring": "The corresponding standard model has dimension triple `(0, 0, 1)`."
+    },
+    {
+      "temporary_id": "decl-000238",
+      "new_name": "zeroOneZeroModel_dimension",
+      "docstring": "The corresponding standard model has dimension triple `(0, 1, 0)`."
+    },
+    {
+      "temporary_id": "decl-000239",
+      "new_name": "zeroOneOneModel_dimension",
+      "docstring": "The corresponding standard model has dimension triple `(0, 1, 1)`."
+    },
+    {
+      "temporary_id": "decl-000240",
+      "new_name": "oneZeroZeroModel_dimension",
+      "docstring": "The corresponding standard model has dimension triple `(1, 0, 0)`."
+    },
+    {
+      "temporary_id": "decl-000241",
+      "new_name": "oneOneZeroModel_dimension",
+      "docstring": "The corresponding standard model has dimension triple `(1, 1, 0)`."
+    },
+    {
+      "temporary_id": "decl-000242",
+      "new_name": "oneOneOneModel_dimension",
+      "docstring": "The corresponding standard model has dimension triple `(1, 1, 1)`."
+    },
+    {
+      "temporary_id": "decl-000243",
+      "new_name": "existsUnique_equiv_standardModel_of_isIndecomposable",
+      "docstring": "Every indecomposable linear-cospan representation is equivalent to a unique member of the six-element family of standard models."
+    },
+    {
+      "temporary_id": "decl-000244",
+      "new_name": "leftToCenter",
+      "docstring": "The structure map from the left space to the center space."
+    },
+    {
+      "temporary_id": "decl-000245",
+      "new_name": "finiteDimensional_left",
+      "docstring": "The left space of a linear-cospan representation is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-000246",
+      "new_name": "finiteDimensional_center",
+      "docstring": "The center space of a linear-cospan representation is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-000247",
+      "new_name": "finiteDimensional_right",
+      "docstring": "The right space of a linear-cospan representation is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-000248",
+      "new_name": "rightToCenter",
+      "docstring": "The structure map from the right space to the center space."
+    },
+    {
+      "temporary_id": "decl-000255",
+      "new_name": "leftModule",
+      "docstring": "The scalar module structure on the left space."
+    },
+    {
+      "temporary_id": "decl-000256",
+      "new_name": "centerModule",
+      "docstring": "The scalar module structure on the center space."
+    },
+    {
+      "temporary_id": "decl-000257",
+      "new_name": "rightModule",
+      "docstring": "The scalar module structure on the right space."
+    },
+    {
+      "temporary_id": "decl-000262",
+      "new_name": "standardModel",
+      "docstring": "The six-element indexed family of standard linear-cospan representations."
+    },
+    {
+      "temporary_id": "decl-000270",
+      "new_name": "zeroZeroOneModel",
+      "docstring": "A standard linear-cospan representation of dimension triple `(0, 0, 1)`."
+    },
+    {
+      "temporary_id": "decl-000271",
+      "new_name": "zeroZeroOneModel_isIndecomposable",
+      "docstring": "The standard model of dimension triple `(0, 0, 1)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000273",
+      "new_name": "zeroOneZeroModel",
+      "docstring": "A standard linear-cospan representation of dimension triple `(0, 1, 0)`."
+    },
+    {
+      "temporary_id": "decl-000274",
+      "new_name": "zeroOneZeroModel_isIndecomposable",
+      "docstring": "The standard model of dimension triple `(0, 1, 0)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000276",
+      "new_name": "zeroOneOneModel",
+      "docstring": "A standard linear-cospan representation of dimension triple `(0, 1, 1)`."
+    },
+    {
+      "temporary_id": "decl-000277",
+      "new_name": "zeroOneOneModel_isIndecomposable",
+      "docstring": "The standard model of dimension triple `(0, 1, 1)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000281",
+      "new_name": "oneZeroZeroModel",
+      "docstring": "A standard linear-cospan representation of dimension triple `(1, 0, 0)`."
+    },
+    {
+      "temporary_id": "decl-000284",
+      "new_name": "oneZeroZeroModel_isIndecomposable",
+      "docstring": "The standard model of dimension triple `(1, 0, 0)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000286",
+      "new_name": "oneOneZeroModel",
+      "docstring": "A standard linear-cospan representation of dimension triple `(1, 1, 0)`."
+    },
+    {
+      "temporary_id": "decl-000287",
+      "new_name": "oneOneZeroModel_isIndecomposable",
+      "docstring": "The standard model of dimension triple `(1, 1, 0)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000291",
+      "new_name": "oneOneOneModel",
+      "docstring": "A standard linear-cospan representation of dimension triple `(1, 1, 1)`."
+    },
+    {
+      "temporary_id": "decl-000292",
+      "new_name": "oneOneOneModel_isIndecomposable",
+      "docstring": "The standard model of dimension triple `(1, 1, 1)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000298",
+      "new_name": "standardModel_isIndecomposable",
+      "docstring": "Every member of the six-element family of standard models is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000299",
+      "new_name": "submodule_eq_bot_of_subsingleton",
+      "docstring": "Every submodule of a subsingleton module is the bottom submodule."
+    },
+    {
+      "temporary_id": "decl-003726",
+      "new_name": "isIndecomposable_dimension_cases",
+      "docstring": "An indecomposable linear-cospan representation has one of six displayed zero-one dimension triples; whenever an outer space and the center are both one-dimensional, the corresponding outer-to-center map is bijective."
+    },
+    {
+      "temporary_id": "decl-032902",
+      "new_name": "isCompl_comap_of_bijective",
+      "docstring": "The inverse images of complementary submodules under a bijective linear map are complementary."
+    }
+  ]
+}

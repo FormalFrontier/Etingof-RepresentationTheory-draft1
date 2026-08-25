@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0994",
+  "associations": [
+    {
+      "association_id": "association:a1240809ea2a102c3ff4",
+      "role": "supporting",
+      "rationale": "It places each conjugation-invariant function in the span of irreducible characters, establishing the spanning component but not the full basis claim."
+    },
+    {
+      "association_id": "association:eca3462481c2e374e33f",
+      "role": "supporting",
+      "rationale": "It states linear independence of the irreducible-character family, which is one component needed for the claimed basis but does not itself state the basis assertion."
+    },
+    {
+      "association_id": "association:0bd6702741030526f080",
+      "role": "supporting",
+      "rationale": "It identifies the span of irreducible characters with the class-function submodule, giving the spanning component without directly stating that the characters form a basis."
+    }
+  ]
+}

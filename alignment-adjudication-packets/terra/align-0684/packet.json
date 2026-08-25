@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:88de7d3e131d7ff48d1b",
+      "declaration": "Etingof.Problem3_9_4.IsIsomorphic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/174/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    Etingof.Problem3_9_4.FormalDeformation.{u_1, u_2, u_3} k A V \u2192\n                      Etingof.Problem3_9_4.FormalDeformation.{u_1, u_2, u_3} k A V \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_4"
+    },
+    {
+      "association_id": "association:eed9442a9f2b195701d5",
+      "declaration": "Etingof.Problem3_9_4.IsTrivial",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/174/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    Etingof.Problem3_9_4.FormalDeformation.{u_1, u_2, u_3} k A V \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_4"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.4",
+  "packet_id": "align-0684",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0684"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.4:claim-03",
+  "source_text": "Two deformations are isomorphic when a series b(t)=1+b\u2081t+\u22ef intertwines their coefficient series; a deformation is trivial when isomorphic to the constant one."
+}

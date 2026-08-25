@@ -1,0 +1,125 @@
+{
+  "module_name": "Combinatorics.PartitionPermutation",
+  "declarations": [
+    {
+      "temporary_id": "decl-001171",
+      "new_name": "PartitionIndex",
+      "docstring": "The type of indices associated with a partition of a natural number."
+    },
+    {
+      "temporary_id": "decl-015217",
+      "new_name": "associatedElement",
+      "docstring": "An element of a target family associated with partition-dependent input data."
+    },
+    {
+      "temporary_id": "decl-017696",
+      "new_name": "finEquivPartitionIndex",
+      "docstring": "The equivalence between finite indices and the index type of a partition."
+    },
+    {
+      "temporary_id": "decl-017699",
+      "new_name": "partitionIndexOfFin",
+      "docstring": "The partition index associated with a finite index."
+    },
+    {
+      "temporary_id": "decl-017701",
+      "new_name": "partitionIndexOfFin_injective",
+      "docstring": "The map from finite indices to partition indices is injective."
+    },
+    {
+      "temporary_id": "decl-017705",
+      "new_name": "partitionIndexOfFin_surjective",
+      "docstring": "The map from finite indices to partition indices is surjective."
+    },
+    {
+      "temporary_id": "decl-017708",
+      "new_name": "partitionCoordinates_lt",
+      "docstring": "The two list-derived coordinates of a finite partition index lie within their respective bounds."
+    },
+    {
+      "temporary_id": "decl-018073",
+      "new_name": "partitionPermutationStatistic",
+      "docstring": "A natural-number statistic of a permutation relative to a partition."
+    },
+    {
+      "temporary_id": "decl-018085",
+      "new_name": "exists_factorization_of_permutationCondition",
+      "docstring": "A permutation satisfying the auxiliary condition factors through a specified subset element and an associated permutation."
+    },
+    {
+      "temporary_id": "decl-018775",
+      "new_name": "exists_indices_of_not_permutationCondition",
+      "docstring": "Failure of the auxiliary condition yields two indices with equal first derived values, increasing second derived values, and reversed inverse images."
+    },
+    {
+      "temporary_id": "decl-020815",
+      "new_name": "PermutationCondition",
+      "docstring": "An auxiliary partition-dependent condition on a permutation."
+    },
+    {
+      "temporary_id": "decl-022081",
+      "new_name": "associatedElementAlt",
+      "docstring": "An alternative target-family element associated with partition-dependent input data."
+    },
+    {
+      "temporary_id": "decl-022083",
+      "new_name": "monoidAlgebraCoeFun",
+      "docstring": "The coefficient-function coercion for a monoid algebra."
+    },
+    {
+      "temporary_id": "decl-022084",
+      "new_name": "associatedMember",
+      "docstring": "A member of a distinguished subset associated with partition-dependent input data."
+    },
+    {
+      "temporary_id": "decl-022085",
+      "new_name": "associatedMemberAlt",
+      "docstring": "An alternative member of a distinguished subset associated with partition-dependent input data."
+    },
+    {
+      "temporary_id": "decl-022093",
+      "new_name": "associatedElementAlt_eq_mul_of_associatedPermutation_eq_one",
+      "docstring": "The alternative associated element equals the specified product when its associated permutation is the identity."
+    },
+    {
+      "temporary_id": "decl-022094",
+      "new_name": "associatedElementAlt_mem",
+      "docstring": "The alternative associated element belongs to the distinguished subset."
+    },
+    {
+      "temporary_id": "decl-022095",
+      "new_name": "exists_factorization_of_associatedElementAlt_coeff_ne_zero",
+      "docstring": "A permutation with nonzero coefficient in the alternative associated element admits the specified three-factor decomposition."
+    },
+    {
+      "temporary_id": "decl-022566",
+      "new_name": "associatedElement_eq_of_associatedPermutation_eq_one",
+      "docstring": "The associated element equals the distinguished target element when its associated permutation is the identity."
+    },
+    {
+      "temporary_id": "decl-022886",
+      "new_name": "selectedPartIndex_lt_length",
+      "docstring": "The selected part index of an entry below a list sum is less than the list length."
+    },
+    {
+      "temporary_id": "decl-023737",
+      "new_name": "associatedPermutation",
+      "docstring": "The permutation associated with partition-dependent input data."
+    },
+    {
+      "temporary_id": "decl-023742",
+      "new_name": "associatedPermutation_injective",
+      "docstring": "The map assigning an associated permutation is injective."
+    },
+    {
+      "temporary_id": "decl-024694",
+      "new_name": "coeff_mul_eq_sign_of_mem",
+      "docstring": "The coefficient at a product of elements from the specified subsets equals the sign of the first factor."
+    },
+    {
+      "temporary_id": "decl-024704",
+      "new_name": "exists_mem_mul_mem_eq_of_coeff_ne_zero",
+      "docstring": "Every permutation with nonzero coefficient factors as a product of elements from the two specified subsets."
+    }
+  ]
+}

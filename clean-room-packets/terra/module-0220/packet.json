@@ -1,0 +1,82 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (X Y : FDRep.{0, 0} Complex G),\n  Exists.{1} fun n =>\n    Exists.{2} fun V =>\n      And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (V i))\n        (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j)\n          (And\n            (\u2200 (S : FDRep.{0, 0} Complex G),\n              CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (V i)))\n            (Nonempty.{1}\n              (CategoryTheory.Iso.{0, 1} (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1} X Y)\n                (decl-023892 V X Y)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023892"
+      ],
+      "structural_type_hash": "64832132",
+      "temporary_id": "decl-018945"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] {\u03b9 : Type} [inst_2 : Fintype.{0} \u03b9] [DecidableEq.{1} \u03b9]\n  (V : \u03b9 \u2192 FDRep.{0, 0} Complex G),\n  (\u2200 (i : \u03b9), CategoryTheory.Simple.{0, 1} (V i)) \u2192\n    (\u2200 (i j : \u03b9), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (S : FDRep.{0, 0} Complex G),\n          CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (V i))) \u2192\n        \u2200 (X Y S : FDRep.{0, 0} Complex G),\n          Eq.{1}\n            (Module.finrank.{0, 0} Complex\n              (Quiver.Hom.{0, 1} S (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1} X Y)))\n            (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n              HMul.hMul.{0, 0, 0} (decl-023956 X Y (V i))\n                (Module.finrank.{0, 0} Complex (Quiver.Hom.{0, 1} S (V i))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023956"
+      ],
+      "structural_type_hash": "3163490920",
+      "temporary_id": "decl-019450"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] {\u03b9 : Type} [inst_2 : Fintype.{0} \u03b9] [DecidableEq.{1} \u03b9]\n  (V : \u03b9 \u2192 FDRep.{0, 0} Complex G),\n  (\u2200 (i : \u03b9), CategoryTheory.Simple.{0, 1} (V i)) \u2192\n    (\u2200 (i j : \u03b9), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (S : FDRep.{0, 0} Complex G),\n          CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (V i))) \u2192\n        \u2200 (X Y : FDRep.{0, 0} Complex G),\n          Nonempty.{1}\n            (CategoryTheory.Iso.{0, 1} (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1} X Y)\n              (decl-023892 V X Y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023892"
+      ],
+      "structural_type_hash": "3827288890",
+      "temporary_id": "decl-023891"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    {\u03b9 : Type} \u2192\n      [Fintype.{0} \u03b9] \u2192\n        (\u03b9 \u2192 FDRep.{0, 0} Complex G) \u2192 FDRep.{0, 0} Complex G \u2192 FDRep.{0, 0} Complex G \u2192 FDRep.{0, 0} Complex G",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "679940217",
+      "temporary_id": "decl-023892"
+    },
+    {
+      "formal_type": "{G : Type} \u2192 [inst : Group.{0} G] \u2192 FDRep.{0, 0} Complex G \u2192 FDRep.{0, 0} Complex G \u2192 FDRep.{0, 0} Complex G \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "151540564",
+      "temporary_id": "decl-023956"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (X Y S : FDRep.{0, 0} Complex G),\n  Eq.{1} (Nat.cast.{0} (decl-023956 X Y S))\n    (HSMul.hSMul.{0, 0, 0} (Invertible.invOf.{0} (Nat.cast.{0} (Fintype.card.{0} G)))\n      (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n        HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} X g) (FDRep.character.{0, 0} Y g))\n          (FDRep.character.{0, 0} S (Inv.inv.{0} g))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023956"
+      ],
+      "structural_type_hash": "633149",
+      "temporary_id": "decl-023958"
+    }
+  ],
+  "module_temporary_id": "module-0220",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

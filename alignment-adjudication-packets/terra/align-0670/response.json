@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0670",
+  "associations": [
+    {
+      "association_id": "association:dd18d8fab2111eb0c961",
+      "rationale": "The formal type directly equates an A-linear equivalence Jrep(a,c) ≃ Jrep(a',c') with a=a' and c'=λc for some nonzero scalar λ.",
+      "role": "primary"
+    }
+  ]
+}

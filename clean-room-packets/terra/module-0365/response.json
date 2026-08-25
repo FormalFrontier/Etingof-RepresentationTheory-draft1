@@ -1,0 +1,20 @@
+{
+  "module_name": "Auxiliary.PermutationPolynomials",
+  "declarations": [
+    {
+      "temporary_id": "decl-021992",
+      "new_name": "auxiliaryPermutationPolynomial",
+      "docstring": "An auxiliary rational multivariate polynomial indexed by a natural parameter and a permutation of a finite type."
+    },
+    {
+      "temporary_id": "decl-021993",
+      "new_name": "auxiliaryPermutationPolynomial_eq_auxiliaryPermutationPolynomial'",
+      "docstring": "The two auxiliary rational multivariate polynomials associated with the same parameter and permutation agree."
+    },
+    {
+      "temporary_id": "decl-022150",
+      "new_name": "auxiliaryPermutationPolynomial'",
+      "docstring": "A second auxiliary rational multivariate polynomial indexed by a natural parameter and a permutation of a finite type."
+    }
+  ]
+}

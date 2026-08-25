@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0623",
+  "associations": [
+    {
+      "association_id": "association:2418729a0b517c77b0b3",
+      "rationale": "The displayed type gives an ExistsUnique witness satisfying the generator equations, but the witness type is elided, so it does not directly expose that the unique witness is an algebra homomorphism from P_Q.",
+      "role": "supporting"
+    }
+  ]
+}

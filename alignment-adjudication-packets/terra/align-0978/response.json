@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0978",
+  "associations": [
+    {
+      "association_id": "association:07348c2c338c3dbb4a2c",
+      "role": "supporting",
+      "rationale": "Defines a tensor-power type family, but does not directly display finite indexed tensor products."
+    },
+    {
+      "association_id": "association:c76be57185ce1f000926",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the finite n-fold tensor-product definition is not directly displayed."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0216",
+  "associations": [
+    {
+      "association_id": "association:0c1b05653da1264a6efd",
+      "role": "primary",
+      "rationale": "It directly gives a Lie algebra representation on the trivial PUnit module."
+    },
+    {
+      "association_id": "association:d74c8ddb27578d73a3f9",
+      "role": "supporting",
+      "rationale": "It establishes that the displayed carrier is subsingleton, supporting its identification as the zero vector space, but does not itself state that this space is a representation."
+    }
+  ]
+}

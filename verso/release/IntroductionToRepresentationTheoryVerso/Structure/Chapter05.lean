@@ -1,0 +1,97 @@
+/-
+Copyright (c) 2026 American Mathematical Society. All rights reserved.
+-/
+
+import VersoManual
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section51
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section52
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section53
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section54
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section55
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section56
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section57
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section58
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section59
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section510
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section511
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section512
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section513
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section514
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section515
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section516
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section517
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section518
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section519
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section520
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section521
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section522
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section523
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section524
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section525
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section526
+import IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section527
+
+open Verso.Genre Manual
+
+namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter05
+
+#doc (Manual) "5. Representations of finite groups: Further results" =>
+%%%
+tag := "chapter-05"
+number := false
+%%%
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section51}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section52}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section53}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section54}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section55}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section56}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section57}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section58}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section59}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section510}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section511}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section512}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section513}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section514}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section515}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section516}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section517}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section518}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section519}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section520}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section521}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section522}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section523}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section524}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section525}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section526}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section527}
+

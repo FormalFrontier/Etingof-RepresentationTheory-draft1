@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0515",
+  "associations": [
+    {
+      "association_id": "association:18c3acf69267b3fb299a",
+      "rationale": "The trace formula is conditional on the opaque triangularization predicate, so the displayed type does not directly state the eigenvalue claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b58c8ab2b3d726b778b5",
+      "rationale": "Given the displayed characteristic-polynomial factorization, the formal equality directly expresses the trace as the sum of degree-n monomials in the listed eigenvalues.",
+      "role": "primary"
+    }
+  ]
+}

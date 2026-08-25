@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:18575ea0e54dfb868bce",
+      "declaration": "Etingof.Problem3_9_1.ExtMod",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/171/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      (W : Type u_4) \u2192\n        [inst : Field.{u_1} k] \u2192\n          [inst_1 : Ring.{u_2} A] \u2192\n            [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n              [inst_3 : AddCommGroup.{u_3} V] \u2192\n                [inst_4 : Module.{u_1, u_3} k V] \u2192\n                  [inst_5 : Module.{u_2, u_3} A V] \u2192\n                    [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                      [inst_7 : AddCommGroup.{u_4} W] \u2192\n                        [inst_8 : Module.{u_1, u_4} k W] \u2192\n                          [inst_9 : Module.{u_2, u_4} A W] \u2192\n                            [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A W] \u2192\n                              (f :\n                                  LinearMap.{u_1, u_1, u_2, max u_3 u_4} (RingHom.id.{u_1} k) A\n                                    (LinearMap.{u_1, u_1, u_4, u_3} (RingHom.id.{u_1} k) W V)) \u2192\n                                Etingof.Problem3_9_1.IsCocycle.{u_1, u_2, u_3, u_4} k A V W f \u2192 Type (max u_4 u_3)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_1"
+    },
+    {
+      "association_id": "association:ed7b7343f38bf9440096",
+      "declaration": "Etingof.Problem3_9_1.ExtMod.zeroEquivProd",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/171/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      {W : Type u_4} \u2192\n        [inst : Field.{u_1} k] \u2192\n          [inst_1 : Ring.{u_2} A] \u2192\n            [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n              [inst_3 : AddCommGroup.{u_3} V] \u2192\n                [inst_4 : Module.{u_1, u_3} k V] \u2192\n                  [inst_5 : Module.{u_2, u_3} A V] \u2192\n                    [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                      [inst_7 : AddCommGroup.{u_4} W] \u2192\n                        [inst_8 : Module.{u_1, u_4} k W] \u2192\n                          [inst_9 : Module.{u_2, u_4} A W] \u2192\n                            [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A W] \u2192\n                              LinearEquiv.{u_2, u_2, max u_4 u_3, max u_4 u_3} (RingHom.id.{u_2} A)\n                                (Etingof.Problem3_9_1.ExtMod.{u_1, u_2, u_3, u_4} k A V W 0 \u22ef) (Prod.{u_3, u_4} V W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_1"
+    },
+    {
+      "association_id": "association:c5e769852dbc3bf0d397",
+      "declaration": "Etingof.Problem3_9_1.blockOp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/171/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      (W : Type u_4) \u2192\n        [inst : Field.{u_1} k] \u2192\n          [inst_1 : Ring.{u_2} A] \u2192\n            [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n              [inst_3 : AddCommGroup.{u_3} V] \u2192\n                [inst_4 : Module.{u_1, u_3} k V] \u2192\n                  [inst_5 : Module.{u_2, u_3} A V] \u2192\n                    [IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                      [inst_7 : AddCommGroup.{u_4} W] \u2192\n                        [inst_8 : Module.{u_1, u_4} k W] \u2192\n                          [inst_9 : Module.{u_2, u_4} A W] \u2192\n                            [IsScalarTower.{u_1, u_2, u_4} k A W] \u2192\n                              LinearMap.{u_1, u_1, u_2, max u_3 u_4} (RingHom.id.{u_1} k) A\n                                  (LinearMap.{u_1, u_1, u_4, u_3} (RingHom.id.{u_1} k) W V) \u2192\n                                A \u2192\n                                  LinearMap.{u_1, u_1, max u_4 u_3, max u_4 u_3} (RingHom.id.{u_1} k)\n                                    (Prod.{u_3, u_4} V W) (Prod.{u_3, u_4} V W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.1",
+  "packet_id": "align-0654",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0654"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.1:claim-01",
+  "source_text": "An extension of W by V may be represented on V \u00d7 W by block-triangular operators with off-diagonal block f, and the zero block gives V \u2295 W."
+}

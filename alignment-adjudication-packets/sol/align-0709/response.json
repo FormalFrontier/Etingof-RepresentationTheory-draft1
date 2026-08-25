@@ -1,0 +1,45 @@
+{
+  "packet_id": "align-0709",
+  "associations": [
+    {
+      "association_id": "association:557238df86d3fbc22695",
+      "rationale": "The group-cardinality computation supplies background about the Heisenberg group but does not construct, characterize, or compute the representation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2f643c83ea9499e15829",
+      "rationale": "Generation by xGen and yGen is a prerequisite for the uniqueness argument and does not itself state the representation claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:161fe12279c9268e0860",
+      "rationale": "The normal-form expression for group elements is a helper for extending generator formulas to arbitrary elements, not the action formula itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b7ee67ba9ab84f6f5407",
+      "rationale": "The type asserts construction and uniqueness from the two generator actions, but it does not itself compute the action of every group element.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3b0194a5730c7ac06607",
+      "rationale": "This constructs rhoHom, but the displayed function type is opaque about its action and does not state uniqueness or the arbitrary-element formula.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:611bb9c4cba1af66a1d2",
+      "rationale": "This computes rhoHom on xGen only, supporting the construction and uniqueness specification rather than computing every group element's action.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1fb53ee288598b8b4368",
+      "rationale": "This computes rhoHom on yGen only, supporting the construction and uniqueness specification rather than computing every group element's action.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7b612adc61fbc501d4db",
+      "rationale": "The type gives the arbitrary-element action formula, but it does not itself assert construction and uniqueness of the representation.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0083",
+  "associations": [
+    {
+      "association_id": "association:3dcfa1a5205f0cd2f589",
+      "role": "supporting",
+      "rationale": "The type gives an equivalence from the opaque subspace symAntisymmetric to an exterior power, but does not identify that subspace as the source's one-column factor."
+    },
+    {
+      "association_id": "association:fad81b141fc26bcd5a95",
+      "role": "supporting",
+      "rationale": "The equality proves naturality of the displayed equivalence, but the type still does not identify its symAntisymmetric source as the one-column factor."
+    }
+  ]
+}

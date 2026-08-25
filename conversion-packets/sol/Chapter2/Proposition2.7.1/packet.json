@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Proposition2.7.1",
+    "kind": "proposition",
+    "title": "Basis for the Weyl algebra and q-Weyl algebra",
+    "node_id": "chapter-02/section-2-7",
+    "order": 56,
+    "slug": "proposition2-7-1",
+    "span": {
+      "start": {
+        "page": "17",
+        "line": 13
+      },
+      "end": {
+        "page": "18",
+        "line": 16
+      }
+    },
+    "source_sha256": "1529db2efbd59df46c88559636dc45f6ba8bfb467170c16ce69e15bc6b2879ef",
+    "features": {
+      "line_count": 27,
+      "crosses_page": true,
+      "display_math_delimiters": 6,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Proposition271",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,40 @@
+{
+  "packet_id": "align-1245",
+  "associations": [
+    {
+      "association_id": "association:f8c2149c3b8d794c7558",
+      "rationale": "The linear equivalence with a left ideal is a later structural consequence and does not state any of the displayed projector formulas or their nonvanishing.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:143ab419252832096682",
+      "rationale": "The named Young-projector definition directly formalizes the source's equation c_lambda = a_lambda b_lambda, so it is primary.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:56b210b22eebd35f2531",
+      "rationale": "The named youngProjectorCol declaration directly formalizes the source's column-projector construction b_lambda, so it is primary.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e63503a31c8bf04c38f9",
+      "rationale": "Idempotence of the column projector is a consequence useful for the construction, but the source passage here defines the projectors and states nonvanishing rather than this equation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0d2cea82ab644b82df7e",
+      "rationale": "The named youngProjectorRow declaration directly formalizes the source's row-projector construction a_lambda, so it is primary.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b19938ebad6d68a29f4e",
+      "rationale": "Idempotence of the row projector is supporting structural information, not one of the formulas or the nonzero conclusion displayed in the source.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f8436010d8c4bf0e3370",
+      "rationale": "The formal type directly states that the Young projector is nonzero for every partition, matching the source's final conclusion that c_lambda is nonzero.",
+      "role": "supporting"
+    }
+  ]
+}

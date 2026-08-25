@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0957",
+  "associations": [
+    {
+      "association_id": "association:a8ea35f9c15b30685297",
+      "role": "supporting",
+      "rationale": "It gives surjectivity for one algebra-module action, one component of the stated A-and-B conclusion."
+    }
+  ]
+}

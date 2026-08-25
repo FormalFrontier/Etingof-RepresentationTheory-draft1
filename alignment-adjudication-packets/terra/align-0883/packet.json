@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2b58e153748ecea932ae",
+      "declaration": "Etingof.Theorem5_12_2_classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/321/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (Etingof.SymGroupAlgebra n) M]\n  [IsSimpleModule.{0, 0} (Etingof.SymGroupAlgebra n) M],\n  Exists.{1} fun la =>\n    Nonempty.{1}\n      (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.SymGroupAlgebra n)) M\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n la) x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Classification"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_proof_of_Theorem5.12.2",
+  "packet_id": "align-0883",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0883"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a0ad5bc6afc535bbeed5",
+  "source_text": "The partition/conjugacy-class count exhausts the irreducibles."
+}

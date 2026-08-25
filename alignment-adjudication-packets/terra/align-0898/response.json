@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:e962e259224925ffb4b0",
+      "rationale": "This specializes to classification of indecomposable D4 representations and does not itself state orientation independence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:71b0b38ae531549821fb",
+      "rationale": "The type classifies indecomposables by positive roots for each chosen orientation, but it does not directly compare orientations or state that the number and dimension vectors are orientation-independent.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0898"
+}

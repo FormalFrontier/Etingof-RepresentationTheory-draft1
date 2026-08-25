@@ -1,0 +1,10 @@
+{
+  "module_name": "RegularModuleProperty",
+  "declarations": [
+    {
+      "temporary_id": "decl-021606",
+      "new_name": "regularModuleProperty",
+      "docstring": "The regular module of a ring satisfies the indicated module property."
+    }
+  ]
+}

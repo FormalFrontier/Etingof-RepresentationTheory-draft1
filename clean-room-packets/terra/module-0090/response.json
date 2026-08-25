@@ -1,0 +1,6 @@
+{
+  "module_name": "MvPolynomial.QuotientProperty",
+  "declarations": [
+    {"temporary_id":"decl-008844","new_name":"quotient_property_of_low_degree_homogeneous_mem","docstring":"The quotient by a proper ideal has the displayed property when the ideal contains all sufficiently low-degree homogeneous polynomials."}
+  ]
+}

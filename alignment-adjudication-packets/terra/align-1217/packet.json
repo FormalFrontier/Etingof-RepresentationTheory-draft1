@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:79e0829b508afd5f8607",
+      "declaration": "Etingof.AdditiveFunctor.mapBiprod",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/590/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  {D : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} C] \u2192\n      [inst_1 : CategoryTheory.Category.{u_4, u_2} D] \u2192\n        [inst_2 : CategoryTheory.Preadditive.{u_3, u_1} C] \u2192\n          [inst_3 : CategoryTheory.Preadditive.{u_4, u_2} D] \u2192\n            [inst_4 : CategoryTheory.Limits.HasBinaryBiproducts.{u_3, u_1} C] \u2192\n              (F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D) \u2192\n                [inst_5 : CategoryTheory.Functor.Additive.{u_3, u_1, u_4, u_2} F] \u2192\n                  (X Y : C) \u2192\n                    CategoryTheory.Iso.{u_4, u_2}\n                      (CategoryTheory.Functor.obj.{u_3, u_4, u_1, u_2} F (CategoryTheory.Limits.biprod.{u_3, u_1} X Y))\n                      (CategoryTheory.Limits.biprod.{u_4, u_2} (CategoryTheory.Functor.obj.{u_3, u_4, u_1, u_2} F X)\n                        (CategoryTheory.Functor.obj.{u_3, u_4, u_1, u_2} F Y))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_9_1"
+    }
+  ],
+  "canonical_reference": "Chapter7/Discussion_after_Definition7.9.1/Derived01",
+  "packet_id": "align-1217",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1217"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "derived:88366f3081484154a0ce",
+  "source_text": "An additive functor F between preadditive categories with biproducts satisfies F(X \u229e Y) \u2245 F(X) \u229e F(Y) canonically."
+}

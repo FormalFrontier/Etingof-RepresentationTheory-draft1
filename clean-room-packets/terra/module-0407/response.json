@@ -1,0 +1,30 @@
+{
+  "module_name": "LinearAlgebra.GeneralLinearGroup.PolynomialCoefficients",
+  "declarations": [
+    {
+      "temporary_id": "decl-005114",
+      "new_name": "of_surjective_intertwining",
+      "docstring": "The predicate is transferred along a surjective linear map that intertwines the two indexed families of linear maps."
+    },
+    {
+      "temporary_id": "decl-018665",
+      "new_name": "coeff_apply_monomial",
+      "docstring": "Relates an evaluation involving the polynomial indexed by two exponent families to the coefficient indexed by the second family after applying the given map to the monomial indexed by the first."
+    },
+    {
+      "temporary_id": "decl-022074",
+      "new_name": "fdRep_rho_satisfies_property",
+      "docstring": "The family of linear maps obtained from the ρ field of the finite-dimensional representation satisfies the ambient predicate."
+    },
+    {
+      "temporary_id": "decl-022262",
+      "new_name": "fdRep_rho_satisfies_property'",
+      "docstring": "The family of linear maps obtained from the ρ field of the finite-dimensional representation satisfies the ambient predicate."
+    },
+    {
+      "temporary_id": "decl-022842",
+      "new_name": "multiIndexPolynomial",
+      "docstring": "The multivariate polynomial associated to two finitely supported families of natural-number exponents."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Problem7.8.5",
+    "kind": "exercise",
+    "title": "Long exact sequence of cohomology",
+    "node_id": "chapter-07/section-7-8",
+    "order": 507,
+    "slug": "problem7-8-5",
+    "span": {
+      "start": {
+        "page": "193",
+        "line": 9
+      },
+      "end": {
+        "page": "193",
+        "line": 20
+      }
+    },
+    "source_sha256": "9e011639aa1dc80b43c18ac1a63db501bf80daaa99ff86cf1d1a227aa64aa265",
+    "features": {
+      "line_count": 12,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Problem785",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,100 @@
+{
+  "module_name": "Algebra.ExteriorSymmetricAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-003401",
+      "new_name": "auxiliarySubmoduleEquivExteriorPower_nonempty",
+      "docstring": "Shows that an auxiliary submodule is linearly equivalent to the nth exterior power."
+    },
+    {
+      "temporary_id": "decl-003402",
+      "new_name": "auxiliarySubmoduleEquivExteriorPower",
+      "docstring": "Constructs a linear equivalence from an auxiliary submodule to the nth exterior power."
+    },
+    {
+      "temporary_id": "decl-003406",
+      "new_name": "auxiliarySubmoduleEquivExteriorPower_apply",
+      "docstring": "Evaluates the exterior-power equivalence on an element of the auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-003407",
+      "new_name": "auxiliarySubmoduleEquivExteriorPower_map",
+      "docstring": "Shows that the exterior-power equivalence commutes with induced linear maps."
+    },
+    {
+      "temporary_id": "decl-003408",
+      "new_name": "exteriorPower_invariantSubmodule_eq_bot_or_top",
+      "docstring": "An invariant submodule of an exterior power is either bottom or top."
+    },
+    {
+      "temporary_id": "decl-003409",
+      "new_name": "exteriorPower_subsingleton_of_finrank_lt",
+      "docstring": "The nth exterior power is subsingleton when n exceeds the finrank."
+    },
+    {
+      "temporary_id": "decl-003410",
+      "new_name": "auxiliarySubmoduleEquivSymmetricPower_nonempty",
+      "docstring": "Shows that an auxiliary submodule is linearly equivalent to the nth symmetric power."
+    },
+    {
+      "temporary_id": "decl-003411",
+      "new_name": "auxiliarySubmoduleEquivSymmetricPower",
+      "docstring": "Constructs a linear equivalence from an auxiliary submodule to the nth symmetric power."
+    },
+    {
+      "temporary_id": "decl-003417",
+      "new_name": "auxiliarySubmoduleEquivSymmetricPower_apply",
+      "docstring": "Evaluates the symmetric-power equivalence on an element of the auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-003418",
+      "new_name": "auxiliarySubmoduleEquivSymmetricPower_map",
+      "docstring": "Shows that the symmetric-power equivalence commutes with induced linear maps."
+    },
+    {
+      "temporary_id": "decl-023606",
+      "new_name": "auxiliarySubmodule",
+      "docstring": "Defines an auxiliary submodule associated with a field, a module, and a natural-number index."
+    },
+    {
+      "temporary_id": "decl-023610",
+      "new_name": "auxiliarySubmoduleMap",
+      "docstring": "Associates a linear endomorphism with a linear endomorphism of the auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-023612",
+      "new_name": "piTensorProductMap_mem_auxiliarySubmodule",
+      "docstring": "Shows that the tensor-product map associated with a linear endomorphism preserves membership in the auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-023646",
+      "new_name": "auxiliarySubmodule'",
+      "docstring": "Defines an auxiliary submodule associated with a field, a module, and a natural-number index."
+    },
+    {
+      "temporary_id": "decl-023649",
+      "new_name": "auxiliarySubmoduleMap'",
+      "docstring": "Associates a linear endomorphism with a linear endomorphism of the auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-023651",
+      "new_name": "piTensorProductMap_mem_auxiliarySubmodule'",
+      "docstring": "Shows that the tensor-product map associated with a linear endomorphism preserves membership in the auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-023722",
+      "new_name": "symmetricPowerMap",
+      "docstring": "Defines the linear map on symmetric powers induced by an endomorphism."
+    },
+    {
+      "temporary_id": "decl-023728",
+      "new_name": "symmetricPowerMap_mk",
+      "docstring": "Evaluates the induced symmetric-power map on a tensor class."
+    },
+    {
+      "temporary_id": "decl-024750",
+      "new_name": "auxiliaryToExteriorPower_map",
+      "docstring": "Shows that an auxiliary map to an exterior power commutes with tensor-power maps."
+    }
+  ]
+}

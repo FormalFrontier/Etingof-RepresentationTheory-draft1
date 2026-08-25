@@ -1,0 +1,290 @@
+{
+  "module_name": "FiniteGroupRepresentation",
+  "declarations": [
+    {
+      "temporary_id": "decl-010983",
+      "new_name": "AuxiliaryType010983",
+      "docstring": "An auxiliary type whose internal description is not exposed by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-010984",
+      "new_name": "IsIrreducibleSubmodule",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-010985",
+      "new_name": "actionFormula_010985",
+      "docstring": "A pointwise identity for the displayed group action."
+    },
+    {
+      "temporary_id": "decl-010986",
+      "new_name": "cardinalityFormula_010986",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011000",
+      "new_name": "valueFormula_011000",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011001",
+      "new_name": "cardinalityFormula_011001",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011010",
+      "new_name": "subgroupRelation_011010",
+      "docstring": "A relation involving the displayed subgroup, quotient, or coset construction."
+    },
+    {
+      "temporary_id": "decl-011032",
+      "new_name": "cardinalityFormula_011032",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011044",
+      "new_name": "cardinalityFormula_011044",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011053",
+      "new_name": "cardinalityFormula_011053",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011055",
+      "new_name": "directSumDecomposition_011055",
+      "docstring": "Existence or properties of the displayed internal direct-sum decomposition."
+    },
+    {
+      "temporary_id": "decl-011056",
+      "new_name": "characterFormula_011056",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011060",
+      "new_name": "representationEquivalence_011060",
+      "docstring": "An equivalence statement for the displayed representations."
+    },
+    {
+      "temporary_id": "decl-011061",
+      "new_name": "characterFormula_011061",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011071",
+      "new_name": "cardinalityFormula_011071",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011083",
+      "new_name": "cardinalityFormula_011083",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011084",
+      "new_name": "cardinalityFormula_011084",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011085",
+      "new_name": "cardinalityFormula_011085",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011086",
+      "new_name": "cardinalityFormula_011086",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011087",
+      "new_name": "cardinalityFormula_011087",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011089",
+      "new_name": "cardinalityFormula_011089",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011091",
+      "new_name": "cardinalityFormula_011091",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011093",
+      "new_name": "cardinalityFormula_011093",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011095",
+      "new_name": "cardinalityFormula_011095",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011099",
+      "new_name": "cardinalityFormula_011099",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011102",
+      "new_name": "formalResult_011102",
+      "docstring": "The proposition given by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011103",
+      "new_name": "cardCastInvertible",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011105",
+      "new_name": "cardinalityFormula_011105",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011106",
+      "new_name": "representationEquivalence_011106",
+      "docstring": "An equivalence statement for the displayed representations."
+    },
+    {
+      "temporary_id": "decl-011107",
+      "new_name": "equivalence_011107",
+      "docstring": "The equivalence of the two propositions displayed in the formal type."
+    },
+    {
+      "temporary_id": "decl-011108",
+      "new_name": "simpleRepresentation_011108",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011109",
+      "new_name": "semisimpleRepresentation_011109",
+      "docstring": "Semisimplicity of the displayed representation module."
+    },
+    {
+      "temporary_id": "decl-011110",
+      "new_name": "actionFormula_011110",
+      "docstring": "A pointwise identity for the displayed group action."
+    },
+    {
+      "temporary_id": "decl-011112",
+      "new_name": "orderFormula_011112",
+      "docstring": "An order identity for the group element appearing in the statement."
+    },
+    {
+      "temporary_id": "decl-011113",
+      "new_name": "cardinalityFormula_011113",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011116",
+      "new_name": "cardinalityFormula_011116",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011118",
+      "new_name": "orderFormula_011118",
+      "docstring": "An order identity for the group element appearing in the statement."
+    },
+    {
+      "temporary_id": "decl-011119",
+      "new_name": "orderFormula_011119",
+      "docstring": "An order identity for the group element appearing in the statement."
+    },
+    {
+      "temporary_id": "decl-011120",
+      "new_name": "orderFormula_011120",
+      "docstring": "An order identity for the group element appearing in the statement."
+    },
+    {
+      "temporary_id": "decl-011124",
+      "new_name": "permutationRepresentation",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011127",
+      "new_name": "actionFormula_011127",
+      "docstring": "A pointwise identity for the displayed group action."
+    },
+    {
+      "temporary_id": "decl-011128",
+      "new_name": "characterFormula_011128",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011130",
+      "new_name": "characterFormula_011130",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011162",
+      "new_name": "pointStabilizer",
+      "docstring": "The subgroup specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011166",
+      "new_name": "cardinalityFormula_011166",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011167",
+      "new_name": "restrictedCharacter",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011169",
+      "new_name": "characterFormula_011169",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011170",
+      "new_name": "characterFormula_011170",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011171",
+      "new_name": "subrepresentationOfInvariant",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011173",
+      "new_name": "simpleRepresentation_011173",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011174",
+      "new_name": "equivalence_011174",
+      "docstring": "The equivalence of the two propositions displayed in the formal type."
+    },
+    {
+      "temporary_id": "decl-011175",
+      "new_name": "valueFormula_011175",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011176",
+      "new_name": "orderFormula_011176",
+      "docstring": "An order identity for the group element appearing in the statement."
+    },
+    {
+      "temporary_id": "decl-011179",
+      "new_name": "cardinalityFormula_011179",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011180",
+      "new_name": "cardinalityFormula_011180",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011181",
+      "new_name": "cardinalityFormula_011181",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011191",
+      "new_name": "cardinalityFormula_011191",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    }
+  ]
+}

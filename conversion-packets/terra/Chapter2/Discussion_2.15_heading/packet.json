@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_2.15_heading",
+    "kind": "discussion",
+    "title": "Section 2.15: Representations of sl(2) \u2014 heading and introduction",
+    "node_id": "chapter-02/section-2-15",
+    "order": 117,
+    "slug": "discussion-2-15-heading",
+    "span": {
+      "start": {
+        "page": "37",
+        "line": 21
+      },
+      "end": {
+        "page": "37",
+        "line": 24
+      }
+    },
+    "source_sha256": "833fdabc67947b3d440edb981c9373a6b4123f6c154d17d908634c8cf08e23f4",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion215Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

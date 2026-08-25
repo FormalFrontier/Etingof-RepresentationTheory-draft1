@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_2.11_heading",
+    "kind": "discussion",
+    "title": "Section 2.11: Tensor products \u2014 heading and introduction",
+    "node_id": "chapter-02/section-2-11",
+    "order": 98,
+    "slug": "discussion-2-11-heading",
+    "span": {
+      "start": {
+        "page": "31",
+        "line": 3
+      },
+      "end": {
+        "page": "31",
+        "line": 6
+      }
+    },
+    "source_sha256": "a1c1c01a47a07b2177de487b5bd7be76ad961ad2bedca820d9bd7174da6defd4",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion211Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

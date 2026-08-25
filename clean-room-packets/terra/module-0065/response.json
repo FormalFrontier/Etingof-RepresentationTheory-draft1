@@ -1,0 +1,50 @@
+{
+  "module_name": "LieModule.ActionAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-015631",
+      "new_name": "AuxiliaryType",
+      "docstring": "An auxiliary type-valued construction associated with a displayed complex Lie action."
+    },
+    {
+      "temporary_id": "decl-015634",
+      "new_name": "addCommGroup",
+      "docstring": "The additive commutative group structure on the auxiliary type."
+    },
+    {
+      "temporary_id": "decl-015652",
+      "new_name": "finiteDimensional",
+      "docstring": "The auxiliary type is finite-dimensional when the ambient vector space is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-015654",
+      "new_name": "lieModule",
+      "docstring": "The auxiliary type carries the indicated complex Lie module structure."
+    },
+    {
+      "temporary_id": "decl-015655",
+      "new_name": "lieRingModule",
+      "docstring": "The auxiliary type has the corresponding Lie ring module structure."
+    },
+    {
+      "temporary_id": "decl-015656",
+      "new_name": "moduleInstance",
+      "docstring": "The auxiliary type is a module over the complex numbers."
+    },
+    {
+      "temporary_id": "decl-015664",
+      "new_name": "actionAtSpecifiedElement_eq",
+      "docstring": "The displayed value associated with the auxiliary type equals the stated action value."
+    },
+    {
+      "temporary_id": "decl-015912",
+      "new_name": "exists_auxiliaryLieAction_of_isNilpotent",
+      "docstring": "A nilpotent endomorphism is the displayed action value of a Lie action, uniquely up to Lie-module equivalence of the auxiliary types."
+    },
+    {
+      "temporary_id": "decl-016089",
+      "new_name": "auxiliaryTypeEquiv_of_actionAtSpecifiedElement_eq",
+      "docstring": "Lie actions with equal displayed action values have equivalent auxiliary types."
+    }
+  ]
+}

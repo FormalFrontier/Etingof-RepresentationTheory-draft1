@@ -1,0 +1,15 @@
+{
+  "module_name": "Auxiliary.TensorDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-016577",
+      "new_name": "existsAuxiliaryDirectSumTensorProductDecomposition",
+      "docstring": "An auxiliary existence statement for an indexed direct sum of tensor products, where linearly equivalent second tensor factors have equal indices."
+    },
+    {
+      "temporary_id": "decl-023632",
+      "new_name": "auxiliarySubtypeRing",
+      "docstring": "The ring structure carried by the displayed subtype."
+    }
+  ]
+}

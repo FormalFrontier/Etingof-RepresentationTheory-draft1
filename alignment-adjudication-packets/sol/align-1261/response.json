@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-1261",
+  "associations": [
+    {
+      "association_id": "association:f73d930d42bc007ac833",
+      "rationale": "This gives every indecomposable a unique index in an opaque `Fin 3` family, but it neither displays that family as the three listed representations nor asserts here that every family member is indecomposable, so it does not alone state the exact three-class claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:60aa7c20c111c945d6d4",
+      "rationale": "This only constructs a Fin 3-indexed family of representations; its opaque type does not state that these are the three source indecomposables.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:16a7b75737ca953f4610",
+      "rationale": "This verifies indecomposability of the three constructed representatives, a necessary half of the classification but not completeness or uniqueness.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:cd9b5d4edb5f0f716f97",
+      "rationale": "The dimension-vector alternatives and injectivity condition are a necessary characterization of an indecomposable A2 representation, but they do not themselves assert the three unique isomorphism classes.",
+      "role": "supporting"
+    }
+  ]
+}

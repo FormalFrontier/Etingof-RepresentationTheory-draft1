@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0651",
+  "associations": [
+    {
+      "association_id": "association:df56ee00036924c915c5",
+      "rationale": "The formal type directly asserts IsIndecomposable for the antiperiodic submodule over the periodic subalgebra, matching the stated indecomposability of M as an A-module.",
+      "role": "primary"
+    }
+  ]
+}

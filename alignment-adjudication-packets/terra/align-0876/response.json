@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:98e35b60d8cc26fd5fc8",
+      "rationale": "This supplies existence of a block containing an indecomposable finite-length object, but does not itself state uniqueness or the direct-sum decomposition.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0876"
+}

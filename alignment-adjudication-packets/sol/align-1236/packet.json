@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:412cfac4d2aa56b4353e",
+      "declaration": "Etingof.Problem3_8_5.antiperiodic_isIndecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/168/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "Etingof.IsIndecomposable.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.antiperiodicSubmod x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_5"
+    },
+    {
+      "association_id": "association:97c82625e613202dbd1c",
+      "declaration": "Etingof.Problem3_8_5.periodic_isIndecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/168/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "Etingof.IsIndecomposable.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_5"
+    },
+    {
+      "association_id": "association:0c547cbe018c5e5a476a",
+      "declaration": "Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/168/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "IsEmpty.{1}\n  (LinearEquiv.{0, 0, 0, 0}\n    (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x))\n    (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x)\n    (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.antiperiodicSubmod x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_5"
+    },
+    {
+      "association_id": "association:0e6e89292987a4ded563",
+      "declaration": "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/168/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (LinearEquiv.{0, 0, 0, 0}\n    (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x))\n    (Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x))\n    (Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.antiperiodicSubmod x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.antiperiodicSubmod x)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_5"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.8.5",
+  "packet_id": "align-1236",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1236"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter3/Problem3.8.5",
+  "source_text": "**Problem 3.8.5.** Let $A$ be the algebra of real-valued continuous functions on $\\mathbb{R}$ which are periodic with period 1. Let $M$ be the $A$-module of continuous functions $f$ on $\\mathbb{R}$ which are antiperiodic with period 1, i.e., $f(x + 1) = -f(x)$.\n\n(i) Show that $A$ and $M$ are indecomposable $A$-modules.\n\n(ii) Show that $A$ is not isomorphic to $M$ but $A \\oplus A$ is isomorphic to $M \\oplus M$.\n\n"
+}

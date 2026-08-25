@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3d32c5e2d11992b3e54d",
+      "declaration": "Etingof.Problem3_8_3.endo_iso_or_nilpotent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/166/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (W : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W]\n  [inst_5 : Module.{u_2, u_3} A W] [IsScalarTower.{u_1, u_2, u_3} k A W] [FiniteDimensional.{u_1, u_3} k W],\n  Etingof.IsIndecomposable.{u_2, u_3} A W \u2192\n    \u2200 (\u03b8 : LinearMap.{u_2, u_2, u_3, u_3} (RingHom.id.{u_2} A) W W),\n      Or (Function.Bijective.{u_3 + 1, u_3 + 1} (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} \u03b8)) (IsNilpotent.{u_3} \u03b8)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_3"
+    },
+    {
+      "association_id": "association:b859318bc9b3f435650a",
+      "declaration": "Etingof.Problem3_8_3.krull_schmidt_existence",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/166/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V],\n  Exists.{1} fun n =>\n    Exists.{u_3 + 1} fun W =>\n      And\n        (\u2200 (i : Fin n),\n          Etingof.IsIndecomposable.{u_2, u_3} A (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (W i) x))\n        (And (Eq.{u_3 + 1} (iSup.{u_3, 1} W) Top.top.{u_3}) (iSupIndep.{1, u_3} W))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_3"
+    },
+    {
+      "association_id": "association:a02c903d4f4896f22f1a",
+      "declaration": "Etingof.Problem3_8_3.krull_schmidt_uniqueness",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/166/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V] {n m : Nat}\n  (W : Fin n \u2192 Submodule.{u_2, u_3} A V) (W' : Fin m \u2192 Submodule.{u_2, u_3} A V),\n  (\u2200 (i : Fin n),\n      Etingof.IsIndecomposable.{u_2, u_3} A (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (W i) x)) \u2192\n    (\u2200 (i : Fin m),\n        Etingof.IsIndecomposable.{u_2, u_3} A (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (W' i) x)) \u2192\n      (\u2200 (i : Fin n), Ne.{u_3 + 1} (W i) Bot.bot.{u_3}) \u2192\n        (\u2200 (i : Fin m), Ne.{u_3 + 1} (W' i) Bot.bot.{u_3}) \u2192\n          Eq.{u_3 + 1} (iSup.{u_3, 1} W) Top.top.{u_3} \u2192\n            iSupIndep.{1, u_3} W \u2192\n              Eq.{u_3 + 1} (iSup.{u_3, 1} W') Top.top.{u_3} \u2192\n                iSupIndep.{1, u_3} W' \u2192\n                  And (Eq.{1} n m)\n                    (Exists.{1} fun \u03c3 =>\n                      \u2200 (i : Fin n),\n                        Nonempty.{u_3 + 1}\n                          (LinearEquiv.{u_2, u_2, u_3, u_3} (RingHom.id.{u_2} A)\n                            (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (W i) x)\n                            (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (W' (DFunLike.coe.{1, 1, 1} \u03c3 i)) x)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_3"
+    },
+    {
+      "association_id": "association:bab41bdfff6bdfc358c7",
+      "declaration": "Etingof.Problem3_8_3.sum_nilpotent_endo",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/166/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (W : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W]\n  [inst_5 : Module.{u_2, u_3} A W] [IsScalarTower.{u_1, u_2, u_3} k A W] [FiniteDimensional.{u_1, u_3} k W],\n  Etingof.IsIndecomposable.{u_2, u_3} A W \u2192\n    \u2200 {n : Nat} (\u03b8 : Fin n \u2192 LinearMap.{u_2, u_2, u_3, u_3} (RingHom.id.{u_2} A) W W),\n      (\u2200 (i : Fin n), IsNilpotent.{u_3} (\u03b8 i)) \u2192 IsNilpotent.{u_3} (Finset.sum.{0, u_3} Finset.univ.{0} fun i => \u03b8 i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_3"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.8.3",
+  "packet_id": "align-1234",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1234"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter3/Problem3.8.3",
+  "source_text": "**Problem 3.8.3.** The above proof of Lemma 3.8.2 uses the condition that $k$ is an algebraically closed field. Prove Lemma 3.8.2 (and hence the Krull-Schmidt theorem) without this condition.\n\n"
+}

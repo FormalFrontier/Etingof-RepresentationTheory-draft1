@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Introduction_to_3.4",
+    "kind": "introduction",
+    "title": "Section 3.4: Filtrations \u2014 heading and setup",
+    "node_id": "chapter-03/section-3-4",
+    "order": 145,
+    "slug": "introduction-to-3-4",
+    "span": {
+      "start": {
+        "page": "49",
+        "line": 3
+      },
+      "end": {
+        "page": "49",
+        "line": 6
+      }
+    },
+    "source_sha256": "b495a30726bdad31a35034e800d02c44f3b071cc81c9e97bba1541e5e7a28ca2",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.IntroductionTo34",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

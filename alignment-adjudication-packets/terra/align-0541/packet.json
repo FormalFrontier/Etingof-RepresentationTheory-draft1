@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7dbf7ef90c9f504671be",
+      "declaration": "LieAlgebra.coe_derivedSeries_one_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/119/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Lie.Solvable"
+    },
+    {
+      "association_id": "association:88303664acfd5f957897",
+      "declaration": "LieAlgebra.derivedSeries",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/119/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Lie.Solvable"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.1",
+  "packet_id": "align-0541",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0541"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.1:claim-01",
+  "source_text": "The commutant K(g) is the linear span of brackets [x,y] and is an ideal."
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1166",
+  "associations": [
+    {
+      "association_id": "association:43dce2749d1e947c60b8",
+      "role": "supporting",
+      "rationale": "The equality relates tensor-algebra multiplication to opaque graded multiplication, but does not itself expose tensor concatenation or the resulting degree n+m."
+    }
+  ]
+}

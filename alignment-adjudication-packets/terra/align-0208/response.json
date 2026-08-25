@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0208",
+  "associations": [
+    {
+      "association_id": "association:edf67b052e4f197da7ae",
+      "role": "primary",
+      "rationale": "It directly provides a simple submodule of every nontrivial finite module."
+    }
+  ]
+}

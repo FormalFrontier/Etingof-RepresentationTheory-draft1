@@ -1,0 +1,12 @@
+{
+  "module_name": "Auxiliary.SimpleModuleRelations",
+  "declarations": [
+    {"temporary_id": "decl-021523", "new_name": "auxiliary_relation_of_simpleModules_of_localArtinian", "docstring": "Provides the displayed auxiliary relation between two simple module-category objects over a local Artinian commutative ring."},
+    {"temporary_id": "decl-022164", "new_name": "auxiliary_relation_of_simpleModule_to_fixed", "docstring": "Establishes the displayed auxiliary relation from a simple module-category object to the specified fixed object."},
+    {"temporary_id": "decl-022168", "new_name": "auxiliary_relation_between_fixed", "docstring": "Establishes the displayed auxiliary relation between the two specified module-category objects."},
+    {"temporary_id": "decl-022169", "new_name": "auxiliary_relation_of_simpleModules", "docstring": "Establishes the displayed auxiliary relation between module-category objects induced by two simple modules."},
+    {"temporary_id": "decl-023077", "new_name": "auxiliary_relation_iff_nonemptyIso_of_simpleModules", "docstring": "Characterizes the displayed auxiliary relation between simple module-category objects over a semisimple ring by the existence of an isomorphism."},
+    {"temporary_id": "decl-023078", "new_name": "nonemptyIso_of_auxiliary_relation_of_simpleModules", "docstring": "Produces an isomorphism between simple module-category objects over a semisimple ring from the displayed auxiliary relation."},
+    {"temporary_id": "decl-023079", "new_name": "auxiliary_not_relation_of_semisimpleRing", "docstring": "Shows that the displayed auxiliary relation does not hold between two module-category objects over a semisimple ring."}
+  ]
+}

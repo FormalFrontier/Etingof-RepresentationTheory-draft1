@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-1143",
+  "associations": [
+    {
+      "association_id": "association:b0f66c0bfd518d4cc4d5",
+      "role": "supporting",
+      "rationale": "The formal type provides an unspecified Fin 2-indexed basis of the indicated subspace, but does not identify its basis vectors with X and Y."
+    },
+    {
+      "association_id": "association:690bb88090766a18f497",
+      "role": "supporting",
+      "rationale": "The type states only that the indicated space has finrank 2; this is a consequence useful for a basis argument, not the basis assertion itself."
+    },
+    {
+      "association_id": "association:7391a0113e7bbef5fdf5",
+      "role": "supporting",
+      "rationale": "The type states linear independence of the displayed X,Y family, a component of establishing a basis rather than the full basis claim."
+    },
+    {
+      "association_id": "association:8f0f356500a356eb6076",
+      "role": "supporting",
+      "rationale": "The type states that the span of the displayed X,Y family is top, another component of a basis proof rather than the basis declaration itself."
+    }
+  ]
+}

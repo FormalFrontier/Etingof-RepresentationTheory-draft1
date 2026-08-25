@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1043",
+  "associations": [
+    {
+      "association_id": "association:019e3a6da348bb782707",
+      "role": "primary",
+      "rationale": "For simple V and W, the formal equality gives the character pairing as 1 exactly for an isomorphism and 0 otherwise."
+    }
+  ]
+}

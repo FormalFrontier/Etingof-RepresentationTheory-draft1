@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0111",
+  "associations": [
+    {
+      "association_id": "association:de5e34bf8db2a0411b57",
+      "role": "supporting",
+      "rationale": "The displayed type is only an opaque Type-valued declaration and does not expose the unital algebra structure or the equation ab = ba."
+    }
+  ]
+}

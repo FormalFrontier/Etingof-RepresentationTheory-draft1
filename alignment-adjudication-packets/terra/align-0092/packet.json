@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3d772bcce2a7b129dcf3",
+      "declaration": "Etingof.morita_equivalent_not_ringEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/498/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And\n  (Nonempty.{2}\n    (CategoryTheory.Equivalence.{0, 0, 1, 1} (ModuleCat.{0, 0} Rat)\n      (ModuleCat.{0, 0} (Matrix.{0, 0, 0} (Fin 2) (Fin 2) Rat))))\n  (IsEmpty.{1} (RingEquiv.{0, 0} Rat (Matrix.{0, 0, 0} (Fin 2) (Fin 2) Rat)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Remark7_7_4"
+    }
+  ],
+  "canonical_reference": "Chapter7/Remark7.7.4",
+  "packet_id": "align-0092",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0092"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:1dc501c8b6a24d9f7a72",
+  "source_text": "Different rings can have equivalent module categories without being isomorphic."
+}

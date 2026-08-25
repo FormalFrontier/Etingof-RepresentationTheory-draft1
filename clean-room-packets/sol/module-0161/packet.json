@@ -1,0 +1,683 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    decl-010068.{u_1, u_2, u_3} k A V \u2192 Nat \u2192 A \u2192 Module.End.{u_1, u_3} k V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068"
+      ],
+      "structural_type_hash": "2069167492",
+      "temporary_id": "decl-010062"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V) (n : Nat) (a : A),\n  Eq.{u_3 + 1} (decl-010062.{u_1, u_2, u_3} D n a)\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (PowerSeries.coeff.{u_3} n)\n      (HMul.hMul.{u_3, u_3, u_3} (PowerSeries.mk.{u_3} (decl-010094.{u_1, u_2, u_3} D))\n        (decl-010129.{u_1, u_2, u_3} D a)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010062",
+        "decl-010068",
+        "decl-010094",
+        "decl-010129"
+      ],
+      "structural_type_hash": "2222288413",
+      "temporary_id": "decl-010064"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V) (n : Nat) (a : A),\n  Eq.{u_3 + 1} (decl-010062.{u_1, u_2, u_3} D n a)\n    (HAdd.hAdd.{u_3, u_3, u_3} (decl-010158.{u_1, u_2, u_3} D n a)\n      (HMul.hMul.{u_3, u_3, u_3} (decl-010094.{u_1, u_2, u_3} D n)\n        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} (decl-010106.{u_1, u_2, u_3} k A V)\n          a)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010062",
+        "decl-010068",
+        "decl-010094",
+        "decl-010106",
+        "decl-010158"
+      ],
+      "structural_type_hash": "333655148",
+      "temporary_id": "decl-010065"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V) (n : Nat) (a c : A),\n  Eq.{u_3 + 1} (decl-010062.{u_1, u_2, u_3} D n (HMul.hMul.{u_2, u_2, u_2} a c))\n    (Finset.sum.{0, u_3} (Finset.HasAntidiagonal.antidiagonal.{0} n) fun p =>\n      HMul.hMul.{u_3, u_3, u_3} (decl-010062.{u_1, u_2, u_3} D (Prod.fst.{0, 0} p) a)\n        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n          (decl-010073.{u_1, u_2, u_3} D (Prod.snd.{0, 0} p)) c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010062",
+        "decl-010068",
+        "decl-010073"
+      ],
+      "structural_type_hash": "462867924",
+      "temporary_id": "decl-010066"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192 [IsScalarTower.{u_1, u_2, u_3} k A V] \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "408492342",
+      "temporary_id": "decl-010067"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192 [IsScalarTower.{u_1, u_2, u_3} k A V] \u2192 Type (max u_2 u_3)",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3008606303",
+      "temporary_id": "decl-010068"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (self : decl-010068.{u_1, u_2, u_3} k A V),\n  Eq.{max (u_2 + 1) (u_3 + 1)} (decl-010073.{u_1, u_2, u_3} self 0)\n    (decl-010106.{u_1, u_2, u_3} k A V)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-010068",
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010073",
+        "decl-010106"
+      ],
+      "structural_type_hash": "2084604414",
+      "temporary_id": "decl-010071"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    decl-010068.{u_1, u_2, u_3} k A V \u2192\n                      Nat \u2192\n                        LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) A\n                          (LinearMap.{u_1, u_1, u_3, u_3} (RingHom.id.{u_1} k) V V)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-010068",
+      "project_type_dependencies": [
+        "decl-010068"
+      ],
+      "structural_type_hash": "106233265",
+      "temporary_id": "decl-010073"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (self : decl-010068.{u_1, u_2, u_3} k A V) (a b : A) (n : Nat),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n      (decl-010073.{u_1, u_2, u_3} self n) (HMul.hMul.{u_2, u_2, u_2} a b))\n    (Finset.sum.{0, u_3} (Finset.HasAntidiagonal.antidiagonal.{0} n) fun p =>\n      LinearMap.comp.{u_1, u_1, u_1, u_3, u_3, u_3}\n        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n          (decl-010073.{u_1, u_2, u_3} self (Prod.fst.{0, 0} p)) a)\n        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n          (decl-010073.{u_1, u_2, u_3} self (Prod.snd.{0, 0} p)) b))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-010068",
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010073"
+      ],
+      "structural_type_hash": "3113650127",
+      "temporary_id": "decl-010075"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    decl-010068.{u_1, u_2, u_3} k A V \u2192\n                      decl-010068.{u_1, u_2, u_3} k A V \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068"
+      ],
+      "structural_type_hash": "2515200520",
+      "temporary_id": "decl-010087"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    decl-010068.{u_1, u_2, u_3} k A V \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068"
+      ],
+      "structural_type_hash": "1488522065",
+      "temporary_id": "decl-010088"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (V : Type u_4) \u2192\n      [inst_1 : AddCommGroup.{u_4} V] \u2192\n        [inst_2 : Module.{u_1, u_4} k V] \u2192\n          [inst_3 : Module.{u_1, u_4} (DualNumber.{u_1} k) V] \u2192\n            [IsScalarTower.{u_1, u_1, u_4} k (DualNumber.{u_1} k) V] \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1437578182",
+      "temporary_id": "decl-010089"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    decl-010068.{u_1, u_2, u_3} k A V \u2192 Nat \u2192 Module.End.{u_1, u_3} k V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068"
+      ],
+      "structural_type_hash": "1997313646",
+      "temporary_id": "decl-010094"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V) (n : Nat),\n  Eq.{u_3 + 1} (decl-010094.{u_1, u_2, u_3} D (HAdd.hAdd.{0, 0, 0} n 1))\n    (decl-010168.{u_1, u_2, u_3} D (decl-010098.{u_1, u_2, u_3} D n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010094",
+        "decl-010098",
+        "decl-010168"
+      ],
+      "structural_type_hash": "1683487939",
+      "temporary_id": "decl-010096"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V),\n  Eq.{u_3 + 1} (decl-010094.{u_1, u_2, u_3} D 0) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010094"
+      ],
+      "structural_type_hash": "77648961",
+      "temporary_id": "decl-010097"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    decl-010068.{u_1, u_2, u_3} k A V \u2192\n                      (n : Nat) \u2192 Fin (HAdd.hAdd.{0, 0, 0} n 1) \u2192 Module.End.{u_1, u_3} k V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068"
+      ],
+      "structural_type_hash": "3678336760",
+      "temporary_id": "decl-010098"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V) (n : Nat) (i : Fin (HAdd.hAdd.{0, 0, 0} n 1)),\n  Eq.{u_3 + 1} (decl-010098.{u_1, u_2, u_3} D n i) (decl-010094.{u_1, u_2, u_3} D i.val)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010094",
+        "decl-010098"
+      ],
+      "structural_type_hash": "4006872057",
+      "temporary_id": "decl-010105"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) A\n                      (LinearMap.{u_1, u_1, u_3, u_3} (RingHom.id.{u_1} k) V V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2591538217",
+      "temporary_id": "decl-010106"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] (a c : A),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} (decl-010106.{u_1, u_2, u_3} k A V)\n      (HMul.hMul.{u_2, u_2, u_2} a c))\n    (HMul.hMul.{u_3, u_3, u_3}\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} (decl-010106.{u_1, u_2, u_3} k A V) a)\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} (decl-010106.{u_1, u_2, u_3} k A V) c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010106"
+      ],
+      "structural_type_hash": "1774129822",
+      "temporary_id": "decl-010112"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] (X Y : Module.End.{u_1, u_3} k V),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (decl-009675.{u_1, u_2, u_3, u_3} k A V V (HAdd.hAdd.{u_3, u_3, u_3} X Y))\n    (HAdd.hAdd.{max u_2 u_3, max u_2 u_3, max u_2 u_3}\n      (decl-009675.{u_1, u_2, u_3, u_3} k A V V X)\n      (decl-009675.{u_1, u_2, u_3, u_3} k A V V Y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009675"
+      ],
+      "structural_type_hash": "2332507264",
+      "temporary_id": "decl-010113"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] (X : Module.End.{u_1, u_3} k V)\n  (a : A),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n      (decl-009675.{u_1, u_2, u_3, u_3} k A V V X) a)\n    (HSub.hSub.{u_3, u_3, u_3}\n      (HMul.hMul.{u_3, u_3, u_3}\n        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} (decl-010106.{u_1, u_2, u_3} k A V)\n          a)\n        X)\n      (HMul.hMul.{u_3, u_3, u_3} X\n        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} (decl-010106.{u_1, u_2, u_3} k A V)\n          a)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009675",
+        "decl-010106"
+      ],
+      "structural_type_hash": "1123283562",
+      "temporary_id": "decl-010115"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V) (n : Nat),\n  (Exists.{u_3 + 1} fun X =>\n      Eq.{max (u_2 + 1) (u_3 + 1)} (decl-009675.{u_1, u_2, u_3, u_3} k A V V X)\n        (decl-010171.{u_1, u_2, u_3} D (decl-010098.{u_1, u_2, u_3} D n))) \u2192\n    Eq.{max (u_2 + 1) (u_3 + 1)}\n      (decl-009675.{u_1, u_2, u_3, u_3} k A V V\n        (decl-010094.{u_1, u_2, u_3} D (HAdd.hAdd.{0, 0, 0} n 1)))\n      (decl-010171.{u_1, u_2, u_3} D (decl-010098.{u_1, u_2, u_3} D n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009675",
+        "decl-010068",
+        "decl-010094",
+        "decl-010098",
+        "decl-010171"
+      ],
+      "structural_type_hash": "3702385550",
+      "temporary_id": "decl-010116"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] (c : k)\n  (X : Module.End.{u_1, u_3} k V),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (decl-009675.{u_1, u_2, u_3, u_3} k A V V (HSMul.hSMul.{u_1, u_3, u_3} c X))\n    (HSMul.hSMul.{u_1, max u_2 u_3, max u_2 u_3} c (decl-009675.{u_1, u_2, u_3, u_3} k A V V X))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009675"
+      ],
+      "structural_type_hash": "4081628043",
+      "temporary_id": "decl-010117"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V],\n  Eq.{max (u_2 + 1) (u_3 + 1)} (decl-009675.{u_1, u_2, u_3, u_3} k A V V 0) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009675"
+      ],
+      "structural_type_hash": "1967735056",
+      "temporary_id": "decl-010118"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K] (X : Module.End.{u_4, u_4} K K),\n  Eq.{u_4 + 1} (decl-009675.{u_4, u_4, u_4, u_4} K (DualNumber.{u_4} K) K K X) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009675",
+        "decl-010163"
+      ],
+      "structural_type_hash": "1606110762",
+      "temporary_id": "decl-010119"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K]\n  (D : decl-010068.{u_4, u_4, u_4} K (DualNumber.{u_4} K) K) (n : Nat),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1} (decl-010073.{u_4, u_4, u_4} D n)\n      DualNumber.eps.{u_4})\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010073",
+        "decl-010163"
+      ],
+      "structural_type_hash": "169408377",
+      "temporary_id": "decl-010120"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K]\n  (D : decl-010068.{u_4, u_4, u_4} K (DualNumber.{u_4} K) K) (n : Nat),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1}\n      (decl-010073.{u_4, u_4, u_4} D (HAdd.hAdd.{0, 0, 0} n 1)) 1)\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010073",
+        "decl-010163"
+      ],
+      "structural_type_hash": "2149997396",
+      "temporary_id": "decl-010121"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    decl-010068.{u_1, u_2, u_3} k A V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068"
+      ],
+      "structural_type_hash": "1772964380",
+      "temporary_id": "decl-010122"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    decl-010068.{u_1, u_2, u_3} k A V \u2192\n                      A \u2192 PowerSeries.{u_3} (Module.End.{u_1, u_3} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068"
+      ],
+      "structural_type_hash": "2649780569",
+      "temporary_id": "decl-010129"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V) (a : A) (n : Nat),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (PowerSeries.coeff.{u_3} n)\n      (decl-010129.{u_1, u_2, u_3} D a))\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n      (decl-010073.{u_1, u_2, u_3} D n) a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010073",
+        "decl-010129"
+      ],
+      "structural_type_hash": "129531920",
+      "temporary_id": "decl-010131"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V) (a c : A),\n  Eq.{u_3 + 1} (decl-010129.{u_1, u_2, u_3} D (HMul.hMul.{u_2, u_2, u_2} a c))\n    (HMul.hMul.{u_3, u_3, u_3} (decl-010129.{u_1, u_2, u_3} D a)\n      (decl-010129.{u_1, u_2, u_3} D c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010129"
+      ],
+      "structural_type_hash": "3170036434",
+      "temporary_id": "decl-010132"
+    },
+    {
+      "formal_type": "(K : Type u_4) \u2192 [inst : Field.{u_4} K] \u2192 Algebra.{u_4, u_4} (DualNumber.{u_4} K) K",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2862825261",
+      "temporary_id": "decl-010134"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K]\n  (D : decl-010068.{u_4, u_4, u_4} K (DualNumber.{u_4} K) K),\n  decl-010088.{u_4, u_4, u_4} K (DualNumber.{u_4} K) K D",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010088",
+        "decl-010163"
+      ],
+      "structural_type_hash": "1028959097",
+      "temporary_id": "decl-010135"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K]\n  (D : decl-010068.{u_4, u_4, u_4} K (DualNumber.{u_4} K) K) (n : Nat),\n  Eq.{u_4 + 1} (decl-010073.{u_4, u_4, u_4} D (HAdd.hAdd.{0, 0, 0} n 1)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010073",
+        "decl-010163"
+      ],
+      "structural_type_hash": "922779719",
+      "temporary_id": "decl-010136"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K]\n  (D : decl-010068.{u_4, u_4, u_4} K (DualNumber.{u_4} K) K),\n  Eq.{u_4 + 1} D (decl-010122.{u_4, u_4, u_4} K (DualNumber.{u_4} K) K)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010122",
+        "decl-010163"
+      ],
+      "structural_type_hash": "2603331415",
+      "temporary_id": "decl-010137"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K],\n  Not (Subsingleton.{u_4 + 1} (decl-009545.{u_4, u_4, u_4, u_4} K (DualNumber.{u_4} K) K K))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009545",
+        "decl-010163"
+      ],
+      "structural_type_hash": "1838911361",
+      "temporary_id": "decl-010138"
+    },
+    {
+      "formal_type": "(K : Type u_4) \u2192 [inst : Field.{u_4} K] \u2192 AlgHom.{u_4, u_4, u_4} K (Module.End.{u_4, u_4} K K) K",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4033855431",
+      "temporary_id": "decl-010139"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K],\n  Function.Injective.{u_4 + 1, u_4 + 1}\n    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1} (decl-010139.{u_4} K))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010139"
+      ],
+      "structural_type_hash": "2153412109",
+      "temporary_id": "decl-010148"
+    },
+    {
+      "formal_type": "(K : Type u_4) \u2192\n  [inst : Field.{u_4} K] \u2192\n    LinearMap.{u_4, u_4, u_4, u_4} (RingHom.id.{u_4} K) (DualNumber.{u_4} K) (Module.End.{u_4, u_4} K K)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "621651501",
+      "temporary_id": "decl-010149"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K],\n  decl-009653.{u_4, u_4, u_4, u_4} K (DualNumber.{u_4} K) K K\n    (decl-010149.{u_4} K)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009653",
+        "decl-010149",
+        "decl-010163"
+      ],
+      "structural_type_hash": "3636668252",
+      "temporary_id": "decl-010153"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K], Ne.{u_4 + 1} (decl-010149.{u_4} K) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010149"
+      ],
+      "structural_type_hash": "1124923812",
+      "temporary_id": "decl-010154"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K],\n  Not\n    (Membership.mem.{u_4, u_4} (decl-009664.{u_4, u_4, u_4, u_4} K (DualNumber.{u_4} K) K K)\n      (decl-010149.{u_4} K))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009664",
+        "decl-010149",
+        "decl-010163"
+      ],
+      "structural_type_hash": "1415588240",
+      "temporary_id": "decl-010155"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V],\n  Subsingleton.{max (u_3 + 1) (u_2 + 1)} (decl-009545.{u_1, u_2, u_3, u_3} k A V V) \u2192\n    \u2200 (g : LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) A (Module.End.{u_1, u_3} k V)),\n      decl-009653.{u_1, u_2, u_3, u_3} k A V V g \u2192\n        Exists.{u_3 + 1} fun X =>\n          Eq.{max (u_2 + 1) (u_3 + 1)} (decl-009675.{u_1, u_2, u_3, u_3} k A V V X) g",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009545",
+        "decl-009653",
+        "decl-009675"
+      ],
+      "structural_type_hash": "2307289223",
+      "temporary_id": "decl-010156"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  {g : LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) A (Module.End.{u_1, u_3} k V)},\n  Membership.mem.{max u_2 u_3, max u_2 u_3} (decl-009664.{u_1, u_2, u_3, u_3} k A V V) g \u2192\n    Exists.{u_3 + 1} fun X =>\n      Eq.{max (u_2 + 1) (u_3 + 1)} (decl-009675.{u_1, u_2, u_3, u_3} k A V V X) g",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009664",
+        "decl-009675"
+      ],
+      "structural_type_hash": "636184185",
+      "temporary_id": "decl-010157"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    decl-010068.{u_1, u_2, u_3} k A V \u2192 Nat \u2192 A \u2192 Module.End.{u_1, u_3} k V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068"
+      ],
+      "structural_type_hash": "2069167492",
+      "temporary_id": "decl-010158"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V) (n : Nat),\n  (\u2200 (r : Nat),\n      LT.lt.{0} r n \u2192\n        \u2200 (a : A),\n          Eq.{u_3 + 1} (decl-010062.{u_1, u_2, u_3} D r a)\n            (HMul.hMul.{u_3, u_3, u_3}\n              (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n                (decl-010106.{u_1, u_2, u_3} k A V) a)\n              (decl-010094.{u_1, u_2, u_3} D r))) \u2192\n    \u2200 (a c : A),\n      Eq.{u_3 + 1} (decl-010158.{u_1, u_2, u_3} D n (HMul.hMul.{u_2, u_2, u_2} a c))\n        (HAdd.hAdd.{u_3, u_3, u_3}\n          (HMul.hMul.{u_3, u_3, u_3}\n            (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n              (decl-010106.{u_1, u_2, u_3} k A V) a)\n            (decl-010158.{u_1, u_2, u_3} D n c))\n          (HMul.hMul.{u_3, u_3, u_3} (decl-010158.{u_1, u_2, u_3} D n a)\n            (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n              (decl-010106.{u_1, u_2, u_3} k A V) c)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010062",
+        "decl-010068",
+        "decl-010094",
+        "decl-010106",
+        "decl-010158"
+      ],
+      "structural_type_hash": "3314554507",
+      "temporary_id": "decl-010160"
+    },
+    {
+      "formal_type": "(K : Type u_4) \u2192 [inst : Field.{u_4} K] \u2192 Algebra.{u_4, u_4} (DualNumber.{u_4} K) K",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2862825261",
+      "temporary_id": "decl-010163"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V),\n  decl-010087.{u_1, u_2, u_3} k A V D D",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010087"
+      ],
+      "structural_type_hash": "250427077",
+      "temporary_id": "decl-010164"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V],\n  Subsingleton.{max (u_3 + 1) (u_2 + 1)} (decl-009545.{u_1, u_2, u_3, u_3} k A V V) \u2192\n    \u2200 (D : decl-010068.{u_1, u_2, u_3} k A V),\n      decl-010088.{u_1, u_2, u_3} k A V D",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009545",
+        "decl-010068",
+        "decl-010088"
+      ],
+      "structural_type_hash": "3702005009",
+      "temporary_id": "decl-010166"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    decl-010068.{u_1, u_2, u_3} k A V \u2192\n                      {m : Nat} \u2192 (Fin m \u2192 Module.End.{u_1, u_3} k V) \u2192 Module.End.{u_1, u_3} k V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068"
+      ],
+      "structural_type_hash": "4286692202",
+      "temporary_id": "decl-010168"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K], Not (decl-010089.{u_4, u_4} K K)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010089",
+        "decl-010163"
+      ],
+      "structural_type_hash": "2669159662",
+      "temporary_id": "decl-010170"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    decl-010068.{u_1, u_2, u_3} k A V \u2192\n                      {m : Nat} \u2192\n                        (Fin m \u2192 Module.End.{u_1, u_3} k V) \u2192\n                          LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) A (Module.End.{u_1, u_3} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068"
+      ],
+      "structural_type_hash": "2363555356",
+      "temporary_id": "decl-010171"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V) {m : Nat}\n  (prev : Fin m \u2192 Module.End.{u_1, u_3} k V) (a : A),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} (decl-010171.{u_1, u_2, u_3} D prev) a)\n    (Finset.sum.{0, u_3} Finset.univ.{0} fun i =>\n      HMul.hMul.{u_3, u_3, u_3} (prev i)\n        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n          (decl-010073.{u_1, u_2, u_3} D (HSub.hSub.{0, 0, 0} m i.val)) a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010073",
+        "decl-010171"
+      ],
+      "structural_type_hash": "3158418950",
+      "temporary_id": "decl-010177"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V) (n : Nat) (a : A),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n      (decl-010171.{u_1, u_2, u_3} D (decl-010098.{u_1, u_2, u_3} D n)) a)\n    (decl-010158.{u_1, u_2, u_3} D (HAdd.hAdd.{0, 0, 0} n 1) a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010098",
+        "decl-010158",
+        "decl-010171"
+      ],
+      "structural_type_hash": "2824805271",
+      "temporary_id": "decl-010179"
+    },
+    {
+      "formal_type": "(K : Type u_4) \u2192\n  [inst : Field.{u_4} K] \u2192\n    decl-010068.{u_4, u_4, u_4} K (DualNumber.{u_4} K) K \u2192\n      DualNumber.{u_4} K \u2192 PowerSeries.{u_4} K",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010163"
+      ],
+      "structural_type_hash": "1406893855",
+      "temporary_id": "decl-010180"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K]\n  (D : decl-010068.{u_4, u_4, u_4} K (DualNumber.{u_4} K) K) (a : DualNumber.{u_4} K)\n  (n : Nat),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1} (PowerSeries.coeff.{u_4} n)\n      (decl-010180.{u_4} K D a))\n    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1} (decl-010139.{u_4} K)\n      (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1} (decl-010073.{u_4, u_4, u_4} D n) a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010073",
+        "decl-010139",
+        "decl-010163",
+        "decl-010180"
+      ],
+      "structural_type_hash": "1404707352",
+      "temporary_id": "decl-010183"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K]\n  (D : decl-010068.{u_4, u_4, u_4} K (DualNumber.{u_4} K) K),\n  Eq.{u_4 + 1} (decl-010180.{u_4} K D DualNumber.eps.{u_4}) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010163",
+        "decl-010180"
+      ],
+      "structural_type_hash": "2482957293",
+      "temporary_id": "decl-010184"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K]\n  (D : decl-010068.{u_4, u_4, u_4} K (DualNumber.{u_4} K) K),\n  Eq.{u_4 + 1} (decl-010180.{u_4} K D 1) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010163",
+        "decl-010180"
+      ],
+      "structural_type_hash": "492250875",
+      "temporary_id": "decl-010185"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_4) [inst : Field.{u_4} K]\n  (D : decl-010068.{u_4, u_4, u_4} K (DualNumber.{u_4} K) K),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1} (PowerSeries.coeff.{u_4} 0)\n      (decl-010180.{u_4} K D 1))\n    1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010068",
+        "decl-010163",
+        "decl-010180"
+      ],
+      "structural_type_hash": "620747895",
+      "temporary_id": "decl-010188"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  (D : decl-010068.{u_1, u_2, u_3} k A V),\n  Subsingleton.{max (u_3 + 1) (u_2 + 1)} (decl-009545.{u_1, u_2, u_3, u_3} k A V V) \u2192\n    \u2200 (n : Nat) (a : A),\n      Eq.{u_3 + 1} (decl-010062.{u_1, u_2, u_3} D n a)\n        (HMul.hMul.{u_3, u_3, u_3}\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} (decl-010106.{u_1, u_2, u_3} k A V)\n            a)\n          (decl-010094.{u_1, u_2, u_3} D n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009545",
+        "decl-010062",
+        "decl-010068",
+        "decl-010094",
+        "decl-010106"
+      ],
+      "structural_type_hash": "3042763355",
+      "temporary_id": "decl-010189"
+    }
+  ],
+  "module_temporary_id": "module-0161",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

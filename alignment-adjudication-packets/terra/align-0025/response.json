@@ -1,0 +1,7 @@
+{
+  "packet_id": "align-0025",
+  "associations": [
+    {"association_id": "association:8208af222f7d33239a77", "role": "supporting", "rationale": "The formal type is null, so the packet does not display a declaration type directly stating functor composition."},
+    {"association_id": "association:ced9ee448cccf51a74b6", "role": "supporting", "rationale": "The formal type is null, so the packet does not display a declaration type directly stating existence of an identity functor."}
+  ]
+}

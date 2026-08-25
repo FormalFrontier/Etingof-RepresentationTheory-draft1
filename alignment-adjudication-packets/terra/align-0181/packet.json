@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b7e24c06ae65ba136b47",
+      "declaration": "Etingof.Subrepresentation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/8/claim_coverage/claims/5/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192\n  (V : Type u_2) \u2192 [inst : Ring.{u_1} A] \u2192 [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} A V] \u2192 Type u_2",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.1_overview",
+  "packet_id": "align-0181",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0181"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:371a134d7677c3dfc40e",
+  "source_text": "A subrepresentation is a linear subspace invariant under every operator in the representation."
+}

@@ -1,0 +1,176 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:67e0cc17aabf40699b25",
+      "declaration": "Etingof.GL2.card_complementaryIndex",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/386/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : NeZero.{0} n],\n  Eq.{1} (Nat.card.{0} (Etingof.GL2.ComplementaryIndex p n))\n    (HDiv.hDiv.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n        (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n      2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    },
+    {
+      "association_id": "association:dddd0c0fa8b9b6a96f4a",
+      "declaration": "Etingof.GL2.complementaryCharParamEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/386/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(p : Nat) \u2192\n  [hp : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      [inst : Fintype.{0} (GaloisField p n)] \u2192\n        Ne.{1} n 0 \u2192\n          MulEquiv.{0, 0} (MonoidHom.{0, 0} (K\u271d p n) (Units.{0} Complex))\n            (Multiplicative.{0}\n              (ZMod (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    },
+    {
+      "association_id": "association:e905b9f8c7466ca44a3f",
+      "declaration": "Etingof.GL2.complementaryFamily",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/386/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(p : Nat) \u2192\n  [hp : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      [inst : Fintype.{0} (GaloisField p n)] \u2192\n        [Fintype.{0} (GL2\u271d p n)] \u2192\n          [inst_2 : NeZero.{0} n] \u2192 Ne.{1} p 2 \u2192 Etingof.GL2.ComplementaryIndex p n \u2192 FDRep.{0, 0} Complex (GL2\u271d p n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    },
+    {
+      "association_id": "association:b2193553f5a2d94ab81a",
+      "declaration": "Etingof.GL2.complementaryFamily_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/386/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : Fintype.{0} (GL2\u271d p n)]\n  [inst_2 : NeZero.{0} n] (hp2 : Ne.{1} p 2) (i j : Etingof.GL2.ComplementaryIndex p n),\n  Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (Etingof.GL2.complementaryFamily p n hp2 i)\n        (Etingof.GL2.complementaryFamily p n hp2 j)) \u2192\n    Eq.{1} i j",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    },
+    {
+      "association_id": "association:93e92c6633aa2f500dcc",
+      "declaration": "Etingof.GL2.complementaryFamily_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/386/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : Fintype.{0} (GL2\u271d p n)]\n  [inst_2 : NeZero.{0} n] (hp2 : Ne.{1} p 2) (i : Etingof.GL2.ComplementaryIndex p n),\n  CategoryTheory.Simple.{0, 1} (Etingof.GL2.complementaryFamily p n hp2 i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    },
+    {
+      "association_id": "association:0d98dd08148231ce3742",
+      "declaration": "Etingof.GL2.complementarySeriesRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/386/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(p : Nat) \u2192\n  [hp : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      [inst : Fintype.{0} (GaloisField p n)] \u2192\n        [Fintype.{0} (GL2\u271d p n)] \u2192\n          (nu :\n              MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.GL2.ellipticSubgroup p n) x)\n                (Units.{0} Complex)) \u2192\n            Ne.{1} p 2 \u2192\n              LT.lt.{0} 0 n \u2192\n                (Exists.{1} fun k =>\n                    Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n                      (DFunLike.coe.{1, 1, 1} nu k)) \u2192\n                  FDRep.{0, 0} Complex (GL2\u271d p n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeries"
+    },
+    {
+      "association_id": "association:db1fafbcc094b36bf052",
+      "declaration": "Etingof.GL2.complementarySeriesRepFrobeniusIso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/386/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(p : Nat) \u2192\n  [hp : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      [inst : Fintype.{0} (GaloisField p n)] \u2192\n        [DecidableEq.{1} (GaloisField p n)] \u2192\n          [inst_2 : Fintype.{0} (GL2\u271d p n)] \u2192\n            (hp2 : Ne.{1} p 2) \u2192\n              (hn : LT.lt.{0} 0 n) \u2192\n                (nu : MonoidHom.{0, 0} (K\u271d p n) (Units.{0} Complex)) \u2192\n                  (hnu :\n                      Exists.{1} fun k =>\n                        Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n                          (DFunLike.coe.{1, 1, 1} nu k)) \u2192\n                    (hnuF :\n                        Exists.{1} fun k =>\n                          Ne.{1}\n                            (HPow.hPow.{0, 0, 0}\n                              (DFunLike.coe.{1, 1, 1} (Etingof.GL2.complementaryCharFrobenius p n nu) k)\n                              (Fintype.card.{0} (GaloisField p n)))\n                            (DFunLike.coe.{1, 1, 1} (Etingof.GL2.complementaryCharFrobenius p n nu) k)) \u2192\n                      CategoryTheory.Iso.{0, 1} (Etingof.GL2.complementarySeriesRep p n nu hp2 hn hnu)\n                        (Etingof.GL2.complementarySeriesRep p n (Etingof.GL2.complementaryCharFrobenius p n nu) hp2 hn\n                          hnuF)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    },
+    {
+      "association_id": "association:47e627aa54404422b8cc",
+      "declaration": "Etingof.GL2.complementarySeriesRep_character",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/386/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (GL2\u271d p n)]\n  (nu :\n    MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.GL2.ellipticSubgroup p n) x)\n      (Units.{0} Complex))\n  (hp2 : Ne.{1} p 2) (hn : LT.lt.{0} 0 n)\n  (hnu_ne :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} nu k))\n  (g : GL2\u271d p n),\n  Eq.{1} (FDRep.character.{0, 0} (Etingof.GL2.complementarySeriesRep p n nu hp2 hn hnu_ne) g)\n    (Etingof.GL2.complementarySeriesChar p n nu g)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeries"
+    },
+    {
+      "association_id": "association:88b5f85bdcd0527064ad",
+      "declaration": "Etingof.GL2.complementarySeriesRep_iso_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/386/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : Fintype.{0} (GL2\u271d p n)]\n  (hp2 : Ne.{1} p 2) (hn : LT.lt.{0} 0 n) (nu mu : MonoidHom.{0, 0} (K\u271d p n) (Units.{0} Complex))\n  (hnu :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} nu k))\n  (hmu :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} mu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} mu k)),\n  Iff\n    (Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (Etingof.GL2.complementarySeriesRep p n nu hp2 hn hnu)\n        (Etingof.GL2.complementarySeriesRep p n mu hp2 hn hmu)))\n    (Or (Eq.{1} mu nu) (Eq.{1} mu (Etingof.GL2.complementaryCharFrobenius p n nu)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    },
+    {
+      "association_id": "association:8558bb3f41e46bf30cec",
+      "declaration": "Etingof.GL2.complementarySeriesRep_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/386/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : Fintype.{0} (GL2\u271d p n)]\n  (nu :\n    MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.GL2.ellipticSubgroup p n) x)\n      (Units.{0} Complex))\n  (hp2 : Ne.{1} p 2) (hn : LT.lt.{0} 0 n)\n  (hnu_ne :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} nu k)),\n  CategoryTheory.Simple.{0, 1} (Etingof.GL2.complementarySeriesRep p n nu hp2 hn hnu_ne)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeries"
+    },
+    {
+      "association_id": "association:c87a3e02cc69d2ce1d5d",
+      "declaration": "Etingof.GL2.exists_complementary_family",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/386/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [NeZero.{0} n],\n  Ne.{1} p 2 \u2192\n    Exists.{2} fun \u03b9 =>\n      Exists.{2} fun F =>\n        And (\u2200 (i : \u03b9), CategoryTheory.Simple.{0, 1} (F i))\n          (And (\u2200 (i j : \u03b9), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (F i) (F j)) \u2192 Eq.{1} i j)\n            (Eq.{1} (Nat.card.{0} \u03b9)\n              (HDiv.hDiv.{0, 0, 0}\n                (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                  (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n                2)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    },
+    {
+      "association_id": "association:c77746e91422d9219559",
+      "declaration": "Etingof.GL2.finrank_complementarySeriesRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/386/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : Fintype.{0} (GL2\u271d p n)]\n  (nu :\n    MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.GL2.ellipticSubgroup p n) x)\n      (Units.{0} Complex))\n  (hp2 : Ne.{1} p 2) (hn : LT.lt.{0} 0 n)\n  (hnu_ne :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} nu k)),\n  Eq.{1}\n    (Module.finrank.{0, 0} Complex\n      (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (Etingof.GL2.complementarySeriesRep p n nu hp2 hn hnu_ne))))\n    (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeries"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_5.25.4",
+  "packet_id": "align-1244",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1244"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Discussion_5.25.4",
+  "source_text": "**5.25.4. Complementary series representations.** Let $\\mathbb{F}_{q^2} \\supset \\mathbb{F}_q$ be a quadratic extension $\\mathbb{F}_q(\\sqrt{\\varepsilon})$, $\\varepsilon \\in \\mathbb{F}_q \\setminus \\mathbb{F}_q^2$. We regard this as a 2-dimensional vector space over $\\mathbb{F}_q$; then $G$ is the group of linear transformations of $\\mathbb{F}_{q^2}$ over $\\mathbb{F}_q$. Let $K \\subset G$ be the cyclic group of multiplications by elements of $\\mathbb{F}_{q^2}^\\times$,\n\n$$\nK = \\left\\{ \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix} \\right\\}, \\qquad |K| = q^2 - 1.\n$$\n\nFor $\\nu : K \\to \\mathbb{C}^\\times$ a homomorphism, let\n\n$$\nY_\\nu = \\operatorname{Ind}_K^G \\mathbb{C}_\\nu.\n$$\nThis representation, of course, is reducible. Let us compute its character, using the Frobenius formula. We get\n\n$$\n\\chi \\begin{pmatrix} x & 0 \\\\ 0 & x \\end{pmatrix} = q(q - 1)\\nu(x),\n$$\n\n$$\n\\chi(A) = 0 \\quad \\text{for } A \\text{ parabolic or hyperbolic},\n$$\n\n$$\n\\chi \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix} = \\nu \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix} + \\nu \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix}^q.\n$$\n\nThe last assertion holds because if we regard the matrix as an element of $\\mathbb{F}_{q^2}$, conjugation is an automorphism of $\\mathbb{F}_{q^2}$ over $\\mathbb{F}_q$, but the only nontrivial automorphism of $\\mathbb{F}_{q^2}$ over $\\mathbb{F}_q$ is the $q$th power map.\n\nWe thus have\n\n$$\n\\operatorname{Ind}_K^G \\mathbb{C}_{\\nu^q} \\cong \\operatorname{Ind}_K^G \\mathbb{C}_\\nu\n$$\n\nbecause they have the same character. Therefore, for $\\nu^q \\neq \\nu$ we get $\\frac{1}{2}q(q - 1)$ representations.\n\nNext, we look at the tensor product\n\n$$\nW_1 \\otimes V_{\\alpha, 1},\n$$\n\nwhere $1$ is the trivial character and $W_1$ is defined as in the previous section. The character of this representation is\n\n$$\n\\chi \\begin{pmatrix} x & 0 \\\\ 0 & x \\end{pmatrix} = q(q + 1)\\alpha(x),\n$$\n\n$$\n\\chi(A) = 0 \\quad \\text{for } A \\text{ parabolic or elliptic},\n$$\n\n$$\n\\chi \\begin{pmatrix} x & 0 \\\\ 0 & y \\end{pmatrix} = \\alpha(x) + \\alpha(y).\n$$\n\nThus the \"virtual representation\"\n\n$$\nW_1 \\otimes V_{\\alpha, 1} - V_{\\alpha, 1} - \\operatorname{Ind}_K^G \\mathbb{C}_\\nu,\n$$\nwhere $\\alpha$ is the restriction of $\\nu$ to scalars, has the character\n\n$$\n\\chi \\begin{pmatrix} x & 0 \\\\ 0 & x \\end{pmatrix} = (q - 1)\\alpha(x),\n$$\n\n$$\n\\chi \\begin{pmatrix} x & 1 \\\\ 0 & x \\end{pmatrix} = -\\alpha(x),\n$$\n\n$$\n\\chi \\begin{pmatrix} x & 0 \\\\ 0 & y \\end{pmatrix} = 0,\n$$\n\n$$\n\\chi \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix} = -\\nu \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix} - \\nu^q \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix}.\n$$\n\nIn all that follows, we will have $\\nu^q \\neq \\nu$.\n\nThe following two lemmas will establish that the inner product of this character with itself is equal to 1 and that its value at 1 is positive. As we know from Lemma 5.7.2, these two properties imply that it is the character of an irreducible representation of $G$.\n"
+}

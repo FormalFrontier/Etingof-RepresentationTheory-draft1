@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:783ce59b1c487fdfd10a",
+      "declaration": "Etingof.AlgIrrepGLRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/371/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192\n  Etingof.DominantWeight n \u2192\n    (k : Type u_2) \u2192\n      [inst : Field.{u_2} k] \u2192 [IsAlgClosed.{u_2} k] \u2192 FDRep.{u_2, u_2} k (Matrix.GeneralLinearGroup.{0, u_2} (Fin n) k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep"
+    },
+    {
+      "association_id": "association:d46b65947c3574702dbd",
+      "declaration": "Etingof.DominantWeight",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/371/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nat \u2192 Type",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_23_2Core"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_after_Definition5.23.1",
+  "packet_id": "align-0085",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0085"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:1b0f9be3de782a9da1d1",
+  "source_text": "Every dominant integer weight defines an algebraic irreducible by shifting to a natural Schur weight and twisting by a determinant power."
+}

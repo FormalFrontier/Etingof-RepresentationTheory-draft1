@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0d2cffee5807a2a3615b",
+      "declaration": "Etingof.Exercise2_11_5.exists_module_baseChange",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/105/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (K : Type u_1) (L : Type u_2) (A : Type u_3) (V : Type u_4) [inst : CommRing.{u_1} K] [inst_1 : CommRing.{u_2} L]\n  [inst_2 : Algebra.{u_1, u_2} K L] [inst_3 : Ring.{u_3} A] [inst_4 : Algebra.{u_1, u_3} K A]\n  [inst_5 : AddCommGroup.{u_4} V] [inst_6 : Module.{u_1, u_4} K V] [inst_7 : Module.{u_3, u_4} A V]\n  [IsScalarTower.{u_1, u_3, u_4} K A V],\n  Exists.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)} fun inst_9 =>\n    \u2200 (a : A) (l l' : L) (v : V),\n      Eq.{max (u_2 + 1) (u_4 + 1)}\n        (HSMul.hSMul.{max u_2 u_3, max u_2 u_4, max u_2 u_4} (TensorProduct.tmul.{u_1, u_3, u_2} K a l)\n          (TensorProduct.tmul.{u_1, u_4, u_2} K v l'))\n        (TensorProduct.tmul.{u_1, u_4, u_2} K (HSMul.hSMul.{u_3, u_4, u_4} a v) (HMul.hMul.{u_2, u_2, u_2} l l'))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_11_5"
+    }
+  ],
+  "canonical_reference": "Chapter2/Exercise2.11.5",
+  "packet_id": "align-0499",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0499"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Exercise2.11.5:claim-02",
+  "source_text": "If V is an A-module, then V \u2297_K L is naturally an (A \u2297_K L)-module with the displayed pure-tensor action."
+}

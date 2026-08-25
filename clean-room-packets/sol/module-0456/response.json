@@ -1,0 +1,170 @@
+{
+  "declarations": [
+    {
+      "docstring": "An auxiliary type associated with a permutation.",
+      "new_name": "Equiv.Perm.AuxiliaryIndex",
+      "temporary_id": "decl-001491"
+    },
+    {
+      "docstring": "An auxiliary natural-number-indexed type family associated with a permutation.",
+      "new_name": "Equiv.Perm.AuxiliaryIndexedType",
+      "temporary_id": "decl-001492"
+    },
+    {
+      "docstring": "The quotient output at an auxiliary index is moved when its auxiliary value is not one.",
+      "new_name": "Equiv.Perm.auxiliaryOut_ne_of_auxiliaryIndexValue_ne_one",
+      "temporary_id": "decl-017218"
+    },
+    {
+      "docstring": "The singleton centralizer of a finite permutation is multiplicatively equivalent to an indexed family of auxiliary groups.",
+      "new_name": "Equiv.Perm.centralizerMulEquivAuxiliaryProduct",
+      "temporary_id": "decl-017840"
+    },
+    {
+      "docstring": "The singleton centralizer of a finite permutation is multiplicatively equivalent to a product of auxiliary groups on finite types.",
+      "new_name": "Equiv.Perm.centralizerMulEquivFinAuxiliaryProduct",
+      "temporary_id": "decl-017841"
+    },
+    {
+      "docstring": "The singleton centralizer of a permutation is multiplicatively equivalent to the singleton centralizer of the displayed auxiliary permutation.",
+      "new_name": "Equiv.Perm.centralizerMulEquivAuxiliaryPermutation",
+      "temporary_id": "decl-017843"
+    },
+    {
+      "docstring": "An auxiliary natural-number-valued function of a permutation and an index.",
+      "new_name": "Equiv.Perm.auxiliaryNatValue",
+      "temporary_id": "decl-018253"
+    },
+    {
+      "docstring": "For an index at least two, the auxiliary value is the multiplicity of that index in the permutation's cycle type.",
+      "new_name": "Equiv.Perm.auxiliaryNatValue_eq_cycleType_count_of_two_le",
+      "temporary_id": "decl-018255"
+    },
+    {
+      "docstring": "At index one, the auxiliary value is the cardinality of the fixed-point type.",
+      "new_name": "Equiv.Perm.auxiliaryNatValue_one_eq_card_fixedPoints",
+      "temporary_id": "decl-018257"
+    },
+    {
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable.",
+      "new_name": "Auxiliary.statement018258",
+      "temporary_id": "decl-018258"
+    },
+    {
+      "docstring": "The inverse auxiliary map on the displayed sigma input agrees with the indicated permutation-power action.",
+      "new_name": "Equiv.Perm.auxiliaryDefinition_symm_apply",
+      "temporary_id": "decl-018259"
+    },
+    {
+      "docstring": "An auxiliary natural number attached to a permutation and an auxiliary index.",
+      "new_name": "Equiv.Perm.auxiliaryIndexValue",
+      "temporary_id": "decl-018260"
+    },
+    {
+      "docstring": "A non-one auxiliary index value equals the support cardinality of the cycle through the corresponding quotient output.",
+      "new_name": "Equiv.Perm.auxiliaryIndexValue_eq_card_support_cycleOf_of_ne_one",
+      "temporary_id": "decl-018261"
+    },
+    {
+      "docstring": "An auxiliary index has value one exactly when the permutation fixes its quotient output.",
+      "new_name": "Equiv.Perm.auxiliaryIndexValue_eq_one_iff_fixed",
+      "temporary_id": "decl-018262"
+    },
+    {
+      "docstring": "Every auxiliary index value of a permutation of a finite type is at most the type's cardinality.",
+      "new_name": "Equiv.Perm.auxiliaryIndexValue_le_card",
+      "temporary_id": "decl-018263"
+    },
+    {
+      "docstring": "Every auxiliary index value of a permutation of a finite type is nonzero.",
+      "new_name": "Equiv.Perm.auxiliaryIndexValue_ne_zero",
+      "temporary_id": "decl-018264"
+    },
+    {
+      "docstring": "For an index at least two, the auxiliary indexed type is equivalent to the cycle factors whose supports have that cardinality.",
+      "new_name": "Equiv.Perm.auxiliaryIndexedTypeEquivCycleFactorsOfSupportCard",
+      "temporary_id": "decl-018276"
+    },
+    {
+      "docstring": "The auxiliary indexed type at one is equivalent to the fixed-point type of the permutation.",
+      "new_name": "Equiv.Perm.auxiliaryIndexedTypeOneEquivFixedPoints",
+      "temporary_id": "decl-018281"
+    },
+    {
+      "docstring": "For a permutation of a finite type, the auxiliary indexed type at zero is empty.",
+      "new_name": "Equiv.Perm.isEmpty_auxiliaryIndexedType_zero",
+      "temporary_id": "decl-020620"
+    },
+    {
+      "docstring": "An auxiliary indexed type is empty when its index exceeds the cardinality of the underlying finite type.",
+      "new_name": "Equiv.Perm.isEmpty_auxiliaryIndexedType_of_card_lt",
+      "temporary_id": "decl-020834"
+    },
+    {
+      "docstring": "A multiplicative equivalence maps the centralizer of a singleton onto the centralizer of the image singleton.",
+      "new_name": "Subgroup.map_centralizer_singleton_mulEquiv",
+      "temporary_id": "decl-021539"
+    },
+    {
+      "docstring": "At a moved point, the minimal period of a permutation action is the support cardinality of the cycle through that point.",
+      "new_name": "Equiv.Perm.minimalPeriod_eq_card_support_cycleOf",
+      "temporary_id": "decl-021597"
+    },
+    {
+      "docstring": "The cardinality of a finite permutation's singleton centralizer is a product determined by its auxiliary natural values.",
+      "new_name": "Equiv.Perm.card_centralizer_eq_prod_auxiliaryNatValue",
+      "temporary_id": "decl-021708"
+    },
+    {
+      "docstring": "For a moved point, its orbit under the powers subgroup is the support of the cycle through that point.",
+      "new_name": "Equiv.Perm.orbit_zpowers_eq_support_cycleOf",
+      "temporary_id": "decl-021833"
+    },
+    {
+      "docstring": "At a fixed point, taking a quotient output after the canonical quotient insertion returns that point.",
+      "new_name": "Equiv.Perm.quotientOut_mk_eq_of_fixed",
+      "temporary_id": "decl-021842"
+    },
+    {
+      "docstring": "Transporting a permutation through the auxiliary equivalence yields the displayed auxiliary permutation.",
+      "new_name": "Equiv.Perm.permCongrHom_auxiliaryEquiv_apply",
+      "temporary_id": "decl-021948"
+    },
+    {
+      "docstring": "The product formed from the auxiliary natural values agrees with the displayed expression in the cycle type.",
+      "new_name": "Equiv.Perm.prod_auxiliaryNatValue_eq_cycleType_expression",
+      "temporary_id": "decl-022176"
+    },
+    {
+      "docstring": "An auxiliary equivalence from the underlying type of a permutation.",
+      "new_name": "Equiv.Perm.auxiliaryEquiv",
+      "temporary_id": "decl-023417"
+    },
+    {
+      "docstring": "The auxiliary equivalence intertwines the original permutation action with the displayed auxiliary permutation.",
+      "new_name": "Equiv.Perm.auxiliaryEquiv_apply_perm",
+      "temporary_id": "decl-023424"
+    },
+    {
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term.",
+      "new_name": "Auxiliary.statement023425",
+      "temporary_id": "decl-023425"
+    },
+    {
+      "docstring": "Applying the inverse auxiliary equivalence after the auxiliary permutation agrees with applying the original permutation afterward.",
+      "new_name": "Equiv.Perm.auxiliaryEquiv_symm_apply_auxiliaryPermutation",
+      "temporary_id": "decl-023426"
+    },
+    {
+      "docstring": "The weighted sum of the auxiliary natural values is the cardinality of the finite underlying type.",
+      "new_name": "Equiv.Perm.sum_mul_auxiliaryNatValue_eq_card",
+      "temporary_id": "decl-023536"
+    },
+    {
+      "docstring": "Integer powers with equal casts act identically on the quotient output at an auxiliary index.",
+      "new_name": "Equiv.Perm.zpow_smul_auxiliaryOut_eq_of_cast_eq",
+      "temporary_id": "decl-024715"
+    }
+  ],
+  "module_name": "Permutation.CentralizerCycleFacts"
+}

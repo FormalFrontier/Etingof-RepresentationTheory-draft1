@@ -1,0 +1,280 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2c39b0c21232a988ba6c",
+      "declaration": "Etingof.Problem3_9_5.contraction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192\n  LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex) (Module.Dual.{0, 0} Complex (Fin n \u2192 Complex))\n    (Module.End.{0, 0} Complex (Etingof.Problem3_9_5.Spinor n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor"
+    },
+    {
+      "association_id": "association:a9fd8aac4182fc9b232b",
+      "declaration": "Etingof.Problem3_9_5.creation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192\n  LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex) (Fin n \u2192 Complex)\n    (Module.End.{0, 0} Complex (Etingof.Problem3_9_5.Spinor n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor"
+    },
+    {
+      "association_id": "association:fd140fbcfca41304a4ae",
+      "declaration": "Etingof.Problem3_9_5.evenSpinRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192\n      [FiniteDimensional.{0, u_1} Complex V] \u2192\n        (B : LinearMap.BilinForm.{0, u_1} Complex V) \u2192\n          (\u2200 (x y : V),\n              Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n                (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n            LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n              (n : Nat) \u2192\n                Eq.{1} (Module.finrank.{0, u_1} Complex V) (HMul.hMul.{0, 0, 0} 2 n) \u2192\n                  AlgHom.{0, u_1, 0} Complex (Etingof.Problem3_9_5.CliffAlg.{u_1} B)\n                    (Module.End.{0, 0} Complex (Etingof.Problem3_9_5.Spinor n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport"
+    },
+    {
+      "association_id": "association:4f9bae05af36517d0da9",
+      "declaration": "Etingof.Problem3_9_5.evenSpinRep_bijective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V)\n  (hsymm :\n    \u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x))\n  (hnd : LinearMap.BilinForm.Nondegenerate.{0, u_1} B) (n : Nat)\n  (hdim : Eq.{1} (Module.finrank.{0, u_1} Complex V) (HMul.hMul.{0, 0, 0} 2 n)),\n  Function.Bijective.{u_1 + 1, 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Etingof.Problem3_9_5.evenSpinRep.{u_1} B hsymm hnd n hdim))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport"
+    },
+    {
+      "association_id": "association:7f3f7cf51492fc498ee3",
+      "declaration": "Etingof.Problem3_9_5.evenSpinor_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V)\n  (hsymm :\n    \u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x))\n  (hnd : LinearMap.BilinForm.Nondegenerate.{0, u_1} B) (n : Nat)\n  (hdim : Eq.{1} (Module.finrank.{0, u_1} Complex V) (HMul.hMul.{0, 0, 0} 2 n)),\n  IsSimpleModule.{u_1, 0} (Etingof.Problem3_9_5.CliffAlg.{u_1} B) (Etingof.Problem3_9_5.Spinor n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport"
+    },
+    {
+      "association_id": "association:eb265b2dfa246c1e06ac",
+      "declaration": "Etingof.Problem3_9_5.even_every_irreducible_iso_spinor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V)\n  (hsymm :\n    \u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x))\n  (hnd : LinearMap.BilinForm.Nondegenerate.{0, u_1} B) (n : Nat)\n  (hdim : Eq.{1} (Module.finrank.{0, u_1} Complex V) (HMul.hMul.{0, 0, 0} 2 n)) (W : Type u_2)\n  [inst_3 : AddCommGroup.{u_2} W] [inst_4 : Module.{u_1, u_2} (Etingof.Problem3_9_5.CliffAlg.{u_1} B) W]\n  [IsSimpleModule.{u_1, u_2} (Etingof.Problem3_9_5.CliffAlg.{u_1} B) W],\n  Nonempty.{max (u_3 + 1) (u_2 + 1)}\n    (LinearEquiv.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} (Etingof.Problem3_9_5.CliffAlg.{u_1} B)) W\n      (Etingof.Problem3_9_5.EvenSpinor.{u_1, u_3} B hsymm hnd n hdim))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport"
+    },
+    {
+      "association_id": "association:4a9671c012c72f332fd8",
+      "declaration": "Etingof.Problem3_9_5.even_isMatrixAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      \u2200 (n : Nat),\n        Eq.{1} (Module.finrank.{0, u_1} Complex V) (HMul.hMul.{0, 0, 0} 2 n) \u2192\n          Exists.{2} fun S =>\n            Exists.{1} fun x =>\n              Exists.{1} fun x_1 =>\n                And (Eq.{1} (Module.finrank.{0, 0} Complex S) (HPow.hPow.{0, 0, 0} 2 n))\n                  (Nonempty.{max 1 (u_1 + 1)}\n                    (AlgEquiv.{0, u_1, 0} Complex (Etingof.Problem3_9_5.CliffAlg.{u_1} B)\n                      (Module.End.{0, 0} Complex S)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5"
+    },
+    {
+      "association_id": "association:b6ef8b89fb8e371dfc4b",
+      "declaration": "Etingof.Problem3_9_5.hyperbolicSpinRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192\n  AlgHom.{0, 0, 0} Complex (CliffordAlgebra.{0, 0} (Etingof.Problem3_9_5.hyperbolicQ n))\n    (Module.End.{0, 0} Complex (Etingof.Problem3_9_5.Spinor n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor"
+    },
+    {
+      "association_id": "association:56742d0eb184056d20c4",
+      "declaration": "Etingof.Problem3_9_5.hyperbolicSpinRep_bijective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat), Function.Bijective.{1, 1} (DFunLike.coe.{1, 1, 1} (Etingof.Problem3_9_5.hyperbolicSpinRep n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor"
+    },
+    {
+      "association_id": "association:bad6f9404dd30ba1ba9c",
+      "declaration": "Etingof.Problem3_9_5.hyperbolicSpinor_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat),\n  IsSimpleModule.{0, 0} (CliffordAlgebra.{0, 0} (Etingof.Problem3_9_5.hyperbolicQ n)) (Etingof.Problem3_9_5.Spinor n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor"
+    },
+    {
+      "association_id": "association:d0bfefdcdbc55f38c4fc",
+      "declaration": "Etingof.Problem3_9_5.isSemisimpleRing_iff_nondegenerate",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    Iff (IsSemisimpleRing.{u_1} (Etingof.Problem3_9_5.CliffAlg.{u_1} B)) (LinearMap.BilinForm.Nondegenerate.{0, u_1} B)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5"
+    },
+    {
+      "association_id": "association:732474361c56db5fbaa3",
+      "declaration": "Etingof.Problem3_9_5.isSemisimpleRing_of_nondegenerate",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192 IsSemisimpleRing.{u_1} (Etingof.Problem3_9_5.CliffAlg.{u_1} B)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5"
+    },
+    {
+      "association_id": "association:825462b0205bb3c4a906",
+      "declaration": "Etingof.Problem3_9_5.oddSpinRepMinus",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192\n      [FiniteDimensional.{0, u_1} Complex V] \u2192\n        (B : LinearMap.BilinForm.{0, u_1} Complex V) \u2192\n          (\u2200 (x y : V),\n              Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n                (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n            LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n              (n : Nat) \u2192\n                Eq.{1} (Module.finrank.{0, u_1} Complex V) (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 n) 1) \u2192\n                  AlgHom.{0, u_1, 0} Complex (Etingof.Problem3_9_5.CliffAlg.{u_1} B)\n                    (Module.End.{0, 0} Complex (Etingof.Problem3_9_5.Spinor n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Odd"
+    },
+    {
+      "association_id": "association:626a26645dfbcd3e768d",
+      "declaration": "Etingof.Problem3_9_5.oddSpinRepPlus",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192\n      [FiniteDimensional.{0, u_1} Complex V] \u2192\n        (B : LinearMap.BilinForm.{0, u_1} Complex V) \u2192\n          (\u2200 (x y : V),\n              Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n                (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n            LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n              (n : Nat) \u2192\n                Eq.{1} (Module.finrank.{0, u_1} Complex V) (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 n) 1) \u2192\n                  AlgHom.{0, u_1, 0} Complex (Etingof.Problem3_9_5.CliffAlg.{u_1} B)\n                    (Module.End.{0, 0} Complex (Etingof.Problem3_9_5.Spinor n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Odd"
+    },
+    {
+      "association_id": "association:5b8e7cf9a09a9fc93510",
+      "declaration": "Etingof.Problem3_9_5.oddSpinorMinus_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V)\n  (hsymm :\n    \u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x))\n  (hnd : LinearMap.BilinForm.Nondegenerate.{0, u_1} B) (n : Nat)\n  (hdim : Eq.{1} (Module.finrank.{0, u_1} Complex V) (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 n) 1)),\n  IsSimpleModule.{u_1, 0} (Etingof.Problem3_9_5.CliffAlg.{u_1} B) (Etingof.Problem3_9_5.Spinor n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Odd"
+    },
+    {
+      "association_id": "association:ed0f28eea9890e2af7c0",
+      "declaration": "Etingof.Problem3_9_5.oddSpinorPlus_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V)\n  (hsymm :\n    \u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x))\n  (hnd : LinearMap.BilinForm.Nondegenerate.{0, u_1} B) (n : Nat)\n  (hdim : Eq.{1} (Module.finrank.{0, u_1} Complex V) (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 n) 1)),\n  IsSimpleModule.{u_1, 0} (Etingof.Problem3_9_5.CliffAlg.{u_1} B) (Etingof.Problem3_9_5.Spinor n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Odd"
+    },
+    {
+      "association_id": "association:c94d5ff73de6da38823f",
+      "declaration": "Etingof.Problem3_9_5.oddSpinors_nonisomorphic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V)\n  (hsymm :\n    \u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x))\n  (hnd : LinearMap.BilinForm.Nondegenerate.{0, u_1} B) (n : Nat)\n  (hdim : Eq.{1} (Module.finrank.{0, u_1} Complex V) (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 n) 1)),\n  IsEmpty.{1}\n    (LinearEquiv.{u_1, u_1, 0, 0} (RingHom.id.{u_1} (Etingof.Problem3_9_5.CliffAlg.{u_1} B))\n      (Etingof.Problem3_9_5.SpinorPlus.{u_1} B hsymm hnd n hdim)\n      (Etingof.Problem3_9_5.SpinorMinus.{u_1} B hsymm hnd n hdim))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Odd"
+    },
+    {
+      "association_id": "association:27e12e099860b54f1047",
+      "declaration": "Etingof.Problem3_9_5.odd_every_irreducible_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V)\n  (hsymm :\n    \u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x))\n  (hnd : LinearMap.BilinForm.Nondegenerate.{0, u_1} B) (n : Nat)\n  (hdim : Eq.{1} (Module.finrank.{0, u_1} Complex V) (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 n) 1)) (W : Type u_2)\n  [inst_3 : AddCommGroup.{u_2} W] [inst_4 : Module.{u_1, u_2} (Etingof.Problem3_9_5.CliffAlg.{u_1} B) W]\n  [IsSimpleModule.{u_1, u_2} (Etingof.Problem3_9_5.CliffAlg.{u_1} B) W],\n  Or\n    (Nonempty.{max 1 (u_2 + 1)}\n      (LinearEquiv.{u_1, u_1, u_2, 0} (RingHom.id.{u_1} (Etingof.Problem3_9_5.CliffAlg.{u_1} B)) W\n        (Etingof.Problem3_9_5.SpinorPlus.{u_1} B hsymm hnd n hdim)))\n    (Nonempty.{max 1 (u_2 + 1)}\n      (LinearEquiv.{u_1, u_1, u_2, 0} (RingHom.id.{u_1} (Etingof.Problem3_9_5.CliffAlg.{u_1} B)) W\n        (Etingof.Problem3_9_5.SpinorMinus.{u_1} B hsymm hnd n hdim)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Odd"
+    },
+    {
+      "association_id": "association:8c4377e03a310209fd2e",
+      "declaration": "Etingof.Problem3_9_5.odd_isSumMatrixAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      \u2200 (n : Nat),\n        Eq.{1} (Module.finrank.{0, u_1} Complex V) (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 n) 1) \u2192\n          Exists.{2} fun S =>\n            Exists.{1} fun x =>\n              Exists.{1} fun x_1 =>\n                And (Eq.{1} (Module.finrank.{0, 0} Complex S) (HPow.hPow.{0, 0, 0} 2 n))\n                  (Nonempty.{max 1 (u_1 + 1)}\n                    (AlgEquiv.{0, u_1, 0} Complex (Etingof.Problem3_9_5.CliffAlg.{u_1} B)\n                      (Prod.{0, 0} (Module.End.{0, 0} Complex S) (Module.End.{0, 0} Complex S))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5"
+    },
+    {
+      "association_id": "association:003c6eba7450ea9796c5",
+      "declaration": "Etingof.Problem3_9_5.radicalQuotient_isClifford_of_degenerate",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    Not (LinearMap.BilinForm.Nondegenerate.{0, u_1} B) \u2192\n      Exists.{2} fun W =>\n        Exists.{1} fun x =>\n          Exists.{1} fun x_1 =>\n            Exists.{1} fun B' =>\n              And\n                (\u2200 (x_2 y : W),\n                  Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} B' x_2) y)\n                    (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} B' y) x_2))\n                (And (LinearMap.BilinForm.Nondegenerate.{0, 0} B')\n                  (Exists.{u_1 + 1} fun \u03c6 =>\n                    And (Function.Surjective.{u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c6))\n                      (Eq.{u_1 + 1} (RingHom.ker.{u_1, 0, u_1} (AlgHom.toRingHom.{0, u_1, 0} \u03c6))\n                        (Ring.jacobson.{u_1} (Etingof.Problem3_9_5.CliffAlg.{u_1} B)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.5",
+  "packet_id": "align-1239",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1239"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter3/Problem3.9.5",
+  "source_text": "**Problem 3.9.5. The Clifford algebra.** Let $V$ be a finite dimensional complex vector space equipped with a symmetric bilinear form $( \\ , \\ )$. The **Clifford algebra** $\\operatorname{Cl}(V)$ is the quotient of the tensor algebra $TV$ by the ideal generated by the elements $v \\otimes v - (v, v)1$, $v \\in V$. More explicitly, if $x_i$, $1 \\leq i \\leq N$, is a basis of $V$ and $(x_i, x_j) = a_{ij}$ then $\\operatorname{Cl}(V)$ is generated by $x_i$ with defining relations\n\n$$x_i x_j + x_j x_i = 2a_{ij}, \\quad x_i^2 = a_{ii}.$$\n\nThus, if $( \\ , \\ ) = 0$, $\\operatorname{Cl}(V) = \\wedge V$.\n\n(i) Show that if $( \\ , \\ )$ is nondegenerate, then $\\operatorname{Cl}(V)$ is semisimple and has one irreducible representation of dimension $2^n$ if $\\dim V = 2n$ (so in this case $\\operatorname{Cl}(V)$ is a matrix algebra) and two such representations if $\\dim(V) = 2n + 1$ (i.e., in this case $\\operatorname{Cl}(V)$ is a direct sum of two matrix algebras).\n\nHint: In the even case, pick a basis $a_1, \\ldots, a_n, b_1, \\ldots, b_n$ of $V$ in which $(a_i, a_j) = (b_i, b_j) = 0$, $(a_i, b_j) = \\delta_{ij}/2$, and construct a representation of $\\operatorname{Cl}(V)$ on $S := \\wedge(a_1, \\ldots, a_n)$ in which $b_i$ acts as \"differentiation\" with respect to $a_i$. Show that $S$ is irreducible. In the odd case the situation is similar, except there should be an additional basis vector $c$ such that $(c, a_i) = (c, b_i) = 0$, $(c, c) = 1$ and the action of $c$ on $S$ may be defined either by $(-1)^{\\text{degree}}$ or by $(-1)^{\\text{degree}+1}$, giving two representations $S_+, S_-$ (why are they nonisomorphic?).\nShow that there is no other irreducible representations by finding a spanning set of $\\operatorname{Cl}(V)$ with $2^{\\dim V}$ elements.\n\n(ii) Show that $\\operatorname{Cl}(V)$ is semisimple if and only if $( \\ , \\ )$ is nondegenerate. If $( \\ , \\ )$ is degenerate, what is $\\operatorname{Cl}(V)/\\operatorname{Rad}(\\operatorname{Cl}(V))$?\n\n"
+}

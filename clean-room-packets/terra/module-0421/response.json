@@ -1,0 +1,60 @@
+{
+  "module_name": "Auxiliary.SpecialLinearRepresentation",
+  "declarations": [
+    {
+      "temporary_id": "decl-004725",
+      "new_name": "SpecialLinearRepresentation.finiteProperty",
+      "docstring": "A property of finite modules carrying a representation of the special linear group."
+    },
+    {
+      "temporary_id": "decl-004726",
+      "new_name": "toFiniteProperty'",
+      "docstring": "Transforms this predicate into the second predicate on the same finite special-linear representation."
+    },
+    {
+      "temporary_id": "decl-004745",
+      "new_name": "SpecialLinearRepresentation.property",
+      "docstring": "A property of modules carrying a representation of the special linear group."
+    },
+    {
+      "temporary_id": "decl-005117",
+      "new_name": "toFiniteLinearMapProperty",
+      "docstring": "Turns the assumed predicate on a general-linear representation into the target predicate on the derived special-linear representation."
+    },
+    {
+      "temporary_id": "decl-005120",
+      "new_name": "SpecialLinearRepresentation.finiteLinearMapProperty",
+      "docstring": "A property of functions from a special linear group to linear endomorphisms of a finite module."
+    },
+    {
+      "temporary_id": "decl-005122",
+      "new_name": "SpecialLinearRepresentation.finiteProperty'",
+      "docstring": "A primed property of finite modules carrying a representation of the special linear group."
+    },
+    {
+      "temporary_id": "decl-018823",
+      "new_name": "SpecialLinearRepresentation.finiteProperty_exists_equiv",
+      "docstring": "Under module simplicity, gives an equivalent representation from the displayed family."
+    },
+    {
+      "temporary_id": "decl-018824",
+      "new_name": "SpecialLinearRepresentation.finiteProperty'_exists_equiv",
+      "docstring": "Under module simplicity, gives an equivalent representation from the displayed family."
+    },
+    {
+      "temporary_id": "decl-019897",
+      "new_name": "SpecialLinearRepresentation.finiteProperty_of_finiteProperty'",
+      "docstring": "Under module simplicity, derives the unprimed finite property from its primed counterpart."
+    },
+    {
+      "temporary_id": "decl-019902",
+      "new_name": "SpecialLinearRepresentation.property_of_isSimpleModule",
+      "docstring": "Establishes the property for a simple module with a special-linear-group representation."
+    },
+    {
+      "temporary_id": "decl-020911",
+      "new_name": "SpecialLinearRepresentation.isSimpleModule_of_specialLinear",
+      "docstring": "Transfers module simplicity from the derived special-linear representation to the general-linear representation."
+    }
+  ]
+}

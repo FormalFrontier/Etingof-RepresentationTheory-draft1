@@ -1,0 +1,20 @@
+{
+  "module_name": "FGModuleCat.SubobjectOrder",
+  "declarations": [
+    {
+      "temporary_id": "decl-019392",
+      "new_name": "finiteDimensionalOrder_subobject",
+      "docstring": "The subobjects of a finitely generated module over a Noetherian Artinian ring form a finite-dimensional order."
+    },
+    {
+      "temporary_id": "decl-019510",
+      "new_name": "preservesMonomorphisms_forgetToModuleCat",
+      "docstring": "The forgetful functor from finitely generated modules to modules preserves monomorphisms over a Noetherian ring."
+    },
+    {
+      "temporary_id": "decl-023469",
+      "new_name": "subobjectOrderEmbeddingToModuleCat",
+      "docstring": "An order embedding from subobjects of a finitely generated module to subobjects of its underlying module."
+    }
+  ]
+}

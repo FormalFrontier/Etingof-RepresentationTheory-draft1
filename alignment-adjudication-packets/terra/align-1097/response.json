@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1097",
+  "associations": [
+    {
+      "association_id": "association:8585236b529865e99190",
+      "rationale": "The declaration supports the induced Lie-algebra conclusion only after identifying LieSubalgebra with the source's commutator-closed subspace condition.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8865cdc8815cfc7b05cc",
+      "rationale": "No formal type is displayed, so this candidate does not visibly state the induced Lie-algebra conclusion.",
+      "role": "supporting"
+    }
+  ]
+}

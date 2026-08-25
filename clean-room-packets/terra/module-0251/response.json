@@ -1,0 +1,50 @@
+{
+  "module_name": "AuxiliaryInvariantBilinearPairings",
+  "declarations": [
+    {
+      "temporary_id": "decl-017155",
+      "new_name": "auxiliaryTensorPairing",
+      "docstring": "Defines an auxiliary linear functional from the tensor product of the two displayed modules to the base field."
+    },
+    {
+      "temporary_id": "decl-017159",
+      "new_name": "auxiliaryTensorPairing_apply_groupMaps",
+      "docstring": "The auxiliary tensor pairing is unchanged after applying the two displayed maps associated with a general linear group element."
+    },
+    {
+      "temporary_id": "decl-017160",
+      "new_name": "auxiliaryTensorPairing_ne_zero",
+      "docstring": "The auxiliary tensor pairing is nonzero when the displayed second module is nontrivial."
+    },
+    {
+      "temporary_id": "decl-017161",
+      "new_name": "auxiliaryTensorPairing_nondegenerate",
+      "docstring": "Under the two displayed weight-sum bounds, the auxiliary tensor pairing has trivial left and right kernels over the complex numbers."
+    },
+    {
+      "temporary_id": "decl-017162",
+      "new_name": "auxiliaryTensorPairing_eq_contractLeft",
+      "docstring": "Evaluating the auxiliary tensor pairing on a pure tensor agrees with left contraction after applying the auxiliary equivalence to the dual."
+    },
+    {
+      "temporary_id": "decl-017163",
+      "new_name": "auxiliaryLinearEquivToDual",
+      "docstring": "Defines an auxiliary linear equivalence from the first displayed module to the dual of the second."
+    },
+    {
+      "temporary_id": "decl-017167",
+      "new_name": "auxiliaryLinearEquivToDual_apply_groupMap",
+      "docstring": "The auxiliary equivalence sends the result of the first displayed group map to the result of the corresponding dual representation map."
+    },
+    {
+      "temporary_id": "decl-021020",
+      "new_name": "left_nondegenerate_of_simple_of_invariant",
+      "docstring": "A nonzero invariant bilinear pairing has trivial left kernel when its left representation is simple."
+    },
+    {
+      "temporary_id": "decl-021723",
+      "new_name": "nondegenerate_of_simple_of_invariant",
+      "docstring": "A nonzero invariant bilinear pairing has trivial left and right kernels when both representations are simple."
+    }
+  ]
+}

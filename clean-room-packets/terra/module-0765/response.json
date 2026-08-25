@@ -1,0 +1,70 @@
+{
+  "module_name": "CategoryTheory.Preadditive.FGModuleEquivalence",
+  "declarations": [
+    {
+      "temporary_id": "decl-005153",
+      "new_name": "hasFiniteBiproducts",
+      "docstring": "The displayed categorical assumption entails finite biproducts."
+    },
+    {
+      "temporary_id": "decl-005216",
+      "new_name": "fgModuleFunctor_essentiallySurjective",
+      "docstring": "With a noetherian opposite endomorphism ring, the associated module functor is essentially surjective."
+    },
+    {
+      "temporary_id": "decl-005218",
+      "new_name": "preadditiveCoyonedaObj_faithful",
+      "docstring": "The preadditive coyoneda functor at the given object is faithful."
+    },
+    {
+      "temporary_id": "decl-005219",
+      "new_name": "hom_finite",
+      "docstring": "Morphisms out of the given object form a finite module over its opposite endomorphism ring."
+    },
+    {
+      "temporary_id": "decl-005253",
+      "new_name": "preadditiveCoyonedaObj_full",
+      "docstring": "The preadditive coyoneda functor at the given object is full."
+    },
+    {
+      "temporary_id": "decl-005256",
+      "new_name": "hasAssociatedProperty",
+      "docstring": "The given object satisfies the additional displayed property."
+    },
+    {
+      "temporary_id": "decl-005257",
+      "new_name": "isSeparator",
+      "docstring": "The given object is a separator."
+    },
+      {
+        "temporary_id": "decl-005264",
+        "new_name": "fgModuleFunctor",
+        "docstring": "A functor from the given category to finitely generated modules over the opposite endomorphism ring of the given object."
+      },
+    {
+      "temporary_id": "decl-016759",
+      "new_name": "fgModuleFunctor_isEquivalence",
+      "docstring": "Under the displayed field-linear hypotheses, the module functor is an equivalence."
+    },
+    {
+      "temporary_id": "decl-016760",
+      "new_name": "nonempty_fgModuleEquivalence",
+      "docstring": "Under the displayed field-linear hypotheses, an equivalence with finitely generated modules over the opposite endomorphism ring exists."
+    },
+    {
+      "temporary_id": "decl-016761",
+      "new_name": "nonempty_fgModuleEquivalence_of_noetherian",
+      "docstring": "A noetherian opposite endomorphism ring gives an equivalence with its finitely generated modules."
+    },
+    {
+      "temporary_id": "decl-016762",
+      "new_name": "fgModuleFunctor_isEquivalence_of_noetherian",
+      "docstring": "The module functor is an equivalence when the opposite endomorphism ring is noetherian."
+    },
+      {
+        "temporary_id": "decl-020865",
+        "new_name": "opEnd_isNoetherian",
+        "docstring": "Under the displayed field-linear hypotheses, the opposite endomorphism ring is noetherian."
+      }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "module_name": "AsModuleEquivalences",
+  "declarations": [
+    {
+      "temporary_id": "decl-025525",
+      "new_name": "linearEquivAsModule",
+      "docstring": "Turns an equivariant linear equivalence into an equivalence of the associated monoid-algebra modules."
+    },
+    {
+      "temporary_id": "decl-025531",
+      "new_name": "linearEquivAsModule_apply",
+      "docstring": "The module equivalence induced by an equivariant linear equivalence acts as the original map."
+    },
+    {
+      "temporary_id": "decl-025532",
+      "new_name": "linearMapAsModule",
+      "docstring": "Turns an equivariant linear map into a map of the associated monoid-algebra modules."
+    },
+    {
+      "temporary_id": "decl-025536",
+      "new_name": "linearMapAsModule_apply",
+      "docstring": "The induced module map evaluates as the given equivariant linear map."
+    },
+    {
+      "temporary_id": "decl-025537",
+      "new_name": "directSumAsModuleEquiv",
+      "docstring": "Identifies the module underlying a direct-sum representation with the direct sum of the underlying modules."
+    },
+    {
+      "temporary_id": "decl-025543",
+      "new_name": "trivialTensorAsModuleEquiv",
+      "docstring": "Identifies a tensor product with a trivial factor and a representation with a direct sum indexed by a basis."
+    },
+    {
+      "temporary_id": "decl-025546",
+      "new_name": "trivialTensorAsModuleDirectSumEquiv",
+      "docstring": "Identifies the represented tensor product with the direct-sum representation formed from a constant family."
+    },
+    {
+      "temporary_id": "decl-025563",
+      "new_name": "tensorProductToDirectSum_tmul",
+      "docstring": "Describes the direct-sum coordinates of a pure tensor using the chosen basis coefficients."
+    },
+    {
+      "temporary_id": "decl-025569",
+      "new_name": "single_smul_directSumAsModule",
+      "docstring": "Computes the action of a monoid-algebra singleton on a direct sum of associated modules."
+    },
+    {
+      "temporary_id": "decl-025571",
+      "new_name": "tensorProductToDirectSum",
+      "docstring": "Provides the basis-indexed linear equivalence from a tensor product to a direct sum."
+    },
+    {
+      "temporary_id": "decl-025575",
+      "new_name": "tensorProductToDirectSum_equivariant",
+      "docstring": "The basis-indexed tensor-product equivalence intertwines the tensor-product and direct-sum representation actions."
+    },
+    {
+      "temporary_id": "decl-025576",
+      "new_name": "tensorProductToDirectSum_tmul_apply",
+      "docstring": "Evaluating the image of a pure tensor at an index gives the corresponding basis coefficient times its second factor."
+    }
+  ]
+}

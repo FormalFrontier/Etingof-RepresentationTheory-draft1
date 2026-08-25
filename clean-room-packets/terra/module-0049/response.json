@@ -1,0 +1,13 @@
+{
+  "module_name": "Algebra.Lie.Module.Examples",
+  "declarations": [
+    {"temporary_id":"decl-002365","new_name":"adjointRepresentation","docstring":"The Lie homomorphism from a Lie algebra to its linear endomorphisms induced by the bracket."},
+    {"temporary_id":"decl-002366","new_name":"selfProperty","docstring":"A property associated with a Lie algebra used as both displayed type parameters."},
+    {"temporary_id":"decl-002367","new_name":"adjointRepresentation_apply","docstring":"The adjoint representation evaluated on two elements is their bracket."},
+    {"temporary_id":"decl-002368","new_name":"adjointRepresentation_bracket","docstring":"The adjoint map preserves brackets."},
+    {"temporary_id":"decl-002369","new_name":"trivialModuleProperty","docstring":"A property of the trivial Lie module."},
+    {"temporary_id":"decl-002370","new_name":"trivialModule_bracket_eq_zero","docstring":"The action bracket on a trivial Lie module is zero."},
+    {"temporary_id":"decl-002371","new_name":"punitTrivialModuleProperty","docstring":"A property of the singleton trivial Lie module."},
+    {"temporary_id":"decl-002372","new_name":"punitTrivialModule_subsingleton","docstring":"The singleton trivial Lie module is a subsingleton."}
+  ]
+}

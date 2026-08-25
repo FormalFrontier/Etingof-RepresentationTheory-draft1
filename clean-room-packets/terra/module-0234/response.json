@@ -1,0 +1,115 @@
+{
+  "module_name": "ComplexCharacterIdentities",
+  "declarations": [
+    {
+      "temporary_id": "decl-011839",
+      "new_name": "AuxiliaryProperty",
+      "docstring": "An auxiliary predicate on a complex parameter and a complex representation on functions from `ZMod p`."
+    },
+    {
+      "temporary_id": "decl-011840",
+      "new_name": "trace_eq_ite_of_auxiliaryProperty",
+      "docstring": "The trace of a representation satisfying the auxiliary property is `p * z⁻¹ ^ c.val` when the first two coordinates vanish, and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-011841",
+      "new_name": "trace_oneDimensionalRepresentation_eq",
+      "docstring": "The trace of the one-dimensional representation associated to a multiplicative character equals the value of that character."
+    },
+    {
+      "temporary_id": "decl-011842",
+      "new_name": "character_eq_trace",
+      "docstring": "The character of a finite-dimensional representation is its pointwise linear trace."
+    },
+    {
+      "temporary_id": "decl-011843",
+      "new_name": "finite_multiplicativeCharacter",
+      "docstring": "The multiplicative characters from the finite group under consideration to the units of the complex numbers form a finite type."
+    },
+    {
+      "temporary_id": "decl-011844",
+      "new_name": "multiplicativeCharacterFintype",
+      "docstring": "A fintype structure on the multiplicative characters to the units of the complex numbers."
+    },
+    {
+      "temporary_id": "decl-011845",
+      "new_name": "eq_canonicalRepresentation_of_auxiliaryProperty",
+      "docstring": "A representation satisfying the auxiliary property is equal to the specified canonical representation associated to the given root of unity."
+    },
+    {
+      "temporary_id": "decl-011846",
+      "new_name": "sum_multiplicativeCharacters_eq_ite",
+      "docstring": "The sum of all multiplicative-character values is `p ^ 2` when the first two coordinates vanish, and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-011848",
+      "new_name": "sum_powers_eq_zero",
+      "docstring": "The sum of the powers indexed by `ZMod p` of a nontrivial complex `p`-th root of unity is zero."
+    },
+    {
+      "temporary_id": "decl-011849",
+      "new_name": "tensorMultiplicativeCharacterIso",
+      "docstring": "The tensor product of the one-dimensional representations attached to two multiplicative characters is isomorphic to the representation attached to their product."
+    },
+    {
+      "temporary_id": "decl-011854",
+      "new_name": "mul_trace_eq_trace_of_auxiliaryProperty",
+      "docstring": "Multiplying the trace of a representation satisfying the auxiliary property by the trace of a one-dimensional character representation leaves it unchanged."
+    },
+    {
+      "temporary_id": "decl-011855",
+      "new_name": "trace_oneDimensional_mul_eq",
+      "docstring": "The product of the traces of two one-dimensional character representations equals the trace of the representation attached to the product character."
+    },
+    {
+      "temporary_id": "decl-011856",
+      "new_name": "trace_mul_trace_eq_ite_of_inverseRoots",
+      "docstring": "For representations attached by the auxiliary property to inverse roots, the product of their traces is `p ^ 2` when the first two coordinates vanish, and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-011857",
+      "new_name": "trace_mul_trace_eq_card_mul_trace_product",
+      "docstring": "The product of the traces associated to two nontrivial roots is `p` times the trace associated to their product."
+    },
+    {
+      "temporary_id": "decl-011858",
+      "new_name": "tensor_iso_auxiliaryObject",
+      "docstring": "The tensor product of representations satisfying the auxiliary property for two roots is nonemptily isomorphic to the specified auxiliary object for the product root."
+    },
+    {
+      "temporary_id": "decl-011859",
+      "new_name": "tensor_iso_biproduct",
+      "docstring": "The tensor product of representations satisfying the auxiliary property for two roots is nonemptily isomorphic to the displayed biproduct of the product-root representation."
+    },
+    {
+      "temporary_id": "decl-011860",
+      "new_name": "tensor_multiplicativeCharacter_iso_self",
+      "docstring": "Tensoring a representation satisfying the auxiliary property with a one-dimensional multiplicative-character representation yields an isomorphic representation."
+    },
+    {
+      "temporary_id": "decl-011861",
+      "new_name": "tensor_multiplicativeCharacter_iso_mul",
+      "docstring": "The tensor product of two one-dimensional multiplicative-character representations is nonemptily isomorphic to the representation of the product character."
+    },
+    {
+      "temporary_id": "decl-011862",
+      "new_name": "tensor_iso_multiplicativeCharacterAuxiliaryObject",
+      "docstring": "The tensor product of representations associated to inverse nontrivial roots is nonemptily isomorphic to the specified auxiliary object formed from all multiplicative-character representations."
+    },
+    {
+      "temporary_id": "decl-011863",
+      "new_name": "tensor_iso_multiplicativeCharacterBiproduct",
+      "docstring": "The tensor product of representations associated to inverse nontrivial roots is nonemptily isomorphic to the biproduct of all one-dimensional multiplicative-character representations."
+    },
+    {
+      "temporary_id": "decl-011864",
+      "new_name": "trace_auxiliaryMap_eq_ite",
+      "docstring": "The trace of the specified auxiliary endomorphism is `p * z⁻¹ ^ g.c.val` when the first two coordinates of `g` vanish, and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-011866",
+      "new_name": "pow_neg_val_eq_inv_pow_val",
+      "docstring": "For a complex `p`-th root of unity, raising it to the natural representative of `-c` equals raising its inverse to the representative of `c`."
+    }
+  ]
+}

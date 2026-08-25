@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6131202a4fa8887728c2",
+      "declaration": "Etingof.sum_finrank_irreducible_eq_card_sq_eq_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/312/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (\u03b9 : Type) [inst : Fintype.{0} \u03b9] (V : \u03b9 \u2192 FDRep.{0, 0} Complex (Equiv.Perm.{1} (Fin n))),\n  (\u2200 (i : \u03b9), CategoryTheory.Simple.{0, 1} (V i)) \u2192\n    (\u2200 (i j : \u03b9), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (W : FDRep.{0, 0} Complex (Equiv.Perm.{1} (Fin n))),\n          CategoryTheory.Simple.{0, 1} W \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} W (V i))) \u2192\n        Eq.{1}\n          (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n            Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (V i))))\n          (Fintype.card.{0} (Subtype.{1} fun g => Eq.{1} (HMul.hMul.{0, 0, 0} g g) 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_12_5"
+    }
+  ],
+  "canonical_reference": "Chapter5/Problem5.12.5",
+  "packet_id": "align-1254",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1254"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Problem5.12.5",
+  "source_text": "**Problem 5.12.5.** Find the sum of dimensions of all irreducible representations of the symmetric group $S_n$.\n\nHint: Show that all irreducible representations of $S_n$ are real, i.e., admit a nondegenerate invariant symmetric form. Then use the Frobenius-Schur theorem.\n\n"
+}

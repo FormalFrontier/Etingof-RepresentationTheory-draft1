@@ -1,0 +1,25 @@
+{
+  "module_name": "AuxiliaryQuotientSummation",
+  "declarations": [
+    {
+      "temporary_id": "decl-016655",
+      "new_name": "auxiliary_theorem",
+      "docstring": "An auxiliary result whose formal statement is unavailable."
+    },
+    {
+      "temporary_id": "decl-019692",
+      "new_name": "auxiliary_other_result",
+      "docstring": "A further auxiliary result whose formal statement is unavailable."
+    },
+    {
+      "temporary_id": "decl-019700",
+      "new_name": "auxiliary_additional_result",
+      "docstring": "An additional auxiliary result whose formal statement is unavailable."
+    },
+    {
+      "temporary_id": "decl-019708",
+      "new_name": "inv_card_mul_sum_eq_sum_quotient",
+      "docstring": "For a subgroup-invariant complex-valued function, the normalized sum over the group equals the sum over chosen quotient representatives."
+    }
+  ]
+}

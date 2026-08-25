@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0578",
+  "associations": [
+    {
+      "association_id": "association:17581ba042771138ca1b",
+      "role": "primary",
+      "rationale": "EndSelfEquivOp directly gives a ring equivalence End_A(A) ≃ Aᵐᵒᵖ for the regular representation."
+    }
+  ]
+}

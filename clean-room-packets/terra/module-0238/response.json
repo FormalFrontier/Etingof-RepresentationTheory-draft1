@@ -1,0 +1,110 @@
+{
+  "module_name": "MatrixCoefficientOrthogonality",
+  "declarations": [
+    {
+      "temporary_id": "decl-005637",
+      "new_name": "AuxiliaryIndex",
+      "docstring": "An auxiliary index type determined by a finite family of natural numbers."
+    },
+    {
+      "temporary_id": "decl-005638",
+      "new_name": "functionSpaceBasis",
+      "docstring": "A basis of the function space on a finite group indexed by the auxiliary index type, constructed from a complete pairwise nonisomorphic family of simple representations with chosen bases."
+    },
+    {
+      "temporary_id": "decl-005640",
+      "new_name": "card_auxiliaryIndex_eq_finrank",
+      "docstring": "The cardinality of the auxiliary index type equals the dimension of the function space on the finite group."
+    },
+    {
+      "temporary_id": "decl-005641",
+      "new_name": "functionSpaceBasis_apply_eq_auxiliaryFunction",
+      "docstring": "The function-space basis evaluated at an auxiliary index equals the corresponding auxiliary function."
+    },
+    {
+      "temporary_id": "decl-005642",
+      "new_name": "auxiliaryFunction",
+      "docstring": "An auxiliary family of field-valued functions on a group, indexed by the associated auxiliary type."
+    },
+    {
+      "temporary_id": "decl-005646",
+      "new_name": "finrank_eq_dimension",
+      "docstring": "The dimension of each representation space equals the cardinality of the finite type indexing a chosen basis."
+    },
+    {
+      "temporary_id": "decl-005647",
+      "new_name": "linearIndependent_auxiliaryFunction",
+      "docstring": "The auxiliary function family associated to pairwise nonisomorphic simple representations is linearly independent when the specified dimensions are nonzero."
+    },
+    {
+      "temporary_id": "decl-005648",
+      "new_name": "auxiliaryPairing",
+      "docstring": "An auxiliary scalar-valued pairing on two functions from a finite group to a field when the group cardinality is invertible."
+    },
+    {
+      "temporary_id": "decl-005650",
+      "new_name": "auxiliaryPairingLinearMap",
+      "docstring": "The linear functional obtained by fixing the second argument of the auxiliary pairing on group-valued functions."
+    },
+    {
+      "temporary_id": "decl-005654",
+      "new_name": "auxiliaryPairingLinearMap_apply",
+      "docstring": "Applying the auxiliary pairing linear map to a function agrees with the auxiliary pairing of the two functions."
+    },
+    {
+      "temporary_id": "decl-005655",
+      "new_name": "auxiliaryPairing_auxiliaryFunction_eq_zero_of_ne",
+      "docstring": "The auxiliary pairing of auxiliary functions associated to distinct members of a pairwise nonisomorphic family of simple representations is zero."
+    },
+    {
+      "temporary_id": "decl-005656",
+      "new_name": "auxiliaryPairing_auxiliaryFunction_eq_ite",
+      "docstring": "Within one simple representation, the auxiliary pairing of two auxiliary functions is the inverse dimension when their displayed index pairs match, and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-005657",
+      "new_name": "auxiliaryPairing_comm",
+      "docstring": "The auxiliary pairing on functions from a finite group is symmetric."
+    },
+    {
+      "temporary_id": "decl-014630",
+      "new_name": "auxiliaryUnavailableStatementOne",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
+    },
+    {
+      "temporary_id": "decl-014631",
+      "new_name": "orthogonalitySum_eq_zero_of_not_iso",
+      "docstring": "For nonisomorphic simple representations, the normalized sum of a matrix coefficient of one representation times an inverse-argument matrix coefficient of the other is zero."
+    },
+    {
+      "temporary_id": "decl-014632",
+      "new_name": "orthogonalitySum_eq_ite",
+      "docstring": "For a simple representation, the normalized sum of two matrix coefficients at inverse arguments is the inverse dimension when the indicated indices match, and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-014635",
+      "new_name": "auxiliaryUnavailableStatementTwo",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
+    },
+    {
+      "temporary_id": "decl-032680",
+      "new_name": "auxiliaryLinearMap",
+      "docstring": "An auxiliary endomorphism of the space of linear maps between the underlying spaces of two finite-dimensional representations."
+    },
+    {
+      "temporary_id": "decl-032685",
+      "new_name": "auxiliaryLinearMap_eq_averageMap",
+      "docstring": "The auxiliary linear-map construction equals the representation-theoretic averaging map on the corresponding linear-hom representation."
+    },
+    {
+      "temporary_id": "decl-032686",
+      "new_name": "auxiliaryLinearMap_eq_zero_of_not_iso",
+      "docstring": "The auxiliary linear-map construction sends every map between two nonisomorphic simple representations to zero."
+    },
+    {
+      "temporary_id": "decl-032687",
+      "new_name": "auxiliaryLinearMap_mem_invariants",
+      "docstring": "The result of the auxiliary linear-map construction belongs to the invariant subspace of the corresponding linear-hom representation."
+    }
+  ]
+}

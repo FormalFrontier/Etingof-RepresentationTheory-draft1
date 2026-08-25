@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0394",
+  "associations": [
+    {
+      "association_id": "association:4833cad15248608d4e6f",
+      "role": "supporting",
+      "rationale": "The candidate's formal type failed to print, so the fixed-coset character formula cannot be verified directly from the displayed packet evidence."
+    }
+  ]
+}

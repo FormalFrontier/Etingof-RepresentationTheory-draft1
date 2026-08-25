@@ -1,0 +1,15 @@
+{
+  "module_name": "LinearAlgebra.InvariantSubmodule.Eigenbasis",
+  "declarations": [
+    {
+      "temporary_id": "decl-001622",
+      "new_name": "eq_bot_or_top_of_invariant_of_eigenbasis_connected",
+      "docstring": "An invariant submodule is either bottom or top when a basis has distinct eigenvalues and basis membership propagates along a connected relation."
+    },
+    {
+      "temporary_id": "decl-001623",
+      "new_name": "basis_mem_of_mem_invariant_and_repr_ne_zero",
+      "docstring": "A basis vector belongs to an invariant submodule whenever it has a nonzero coefficient in a member of that submodule and the basis has distinct eigenvalues."
+    }
+  ]
+}

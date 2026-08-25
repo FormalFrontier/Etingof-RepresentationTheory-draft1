@@ -1,0 +1,205 @@
+{
+  "module_name": "LinearAlgebra.IntegralRootSystem.WeylGroup",
+  "declarations": [
+    {
+      "temporary_id": "decl-005283",
+      "new_name": "weylGroup_apply",
+      "docstring": "An element of the associated reflection subgroup sends a root to a root."
+    },
+    {
+      "temporary_id": "decl-005284",
+      "new_name": "weylGroup_symm_apply",
+      "docstring": "The inverse of an element of the associated reflection subgroup sends a root to a root."
+    },
+    {
+      "temporary_id": "decl-015438",
+      "new_name": "IntegralRootSystem.finite_weylGroup",
+      "docstring": "The reflection subgroup associated with a finite integral root system is finite."
+    },
+    {
+      "temporary_id": "decl-017749",
+      "new_name": "IntegralRootSystem.pairing",
+      "docstring": "The integer-valued pairing associated with an adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-017750",
+      "new_name": "IntegralRootSystem.pairing_eq_dotProduct_mulVec",
+      "docstring": "The associated pairing is the dot product with the corresponding matrix-vector product."
+    },
+    {
+      "temporary_id": "decl-017754",
+      "new_name": "IntegralRootSystem.isometrySubgroup",
+      "docstring": "The subgroup of integer linear equivalences preserving the pairing associated with a matrix."
+    },
+    {
+      "temporary_id": "decl-018430",
+      "new_name": "Matrix.dotProduct_mulVec_comm_of_isSymm",
+      "docstring": "A symmetric integer matrix gives the same paired dot product after exchanging its two vectors."
+    },
+    {
+      "temporary_id": "decl-018888",
+      "new_name": "IntegralRootSystem.exists_mem_weylGroup_apply_eq",
+      "docstring": "There is an element of the reflection subgroup whose action agrees pointwise with the specified map."
+    },
+    {
+      "temporary_id": "decl-018889",
+      "new_name": "IntegralRootSystem.exists_mem_weylGroup_eq_foldr_simpleReflection",
+      "docstring": "A right-folded composition of simple reflections is induced by an element of the reflection subgroup."
+    },
+    {
+      "temporary_id": "decl-018890",
+      "new_name": "IntegralRootSystem.exists_mem_weylGroup_eq_iteratedSimpleReflection",
+      "docstring": "An iterated simple-reflection map is induced by an element of the reflection subgroup."
+    },
+    {
+      "temporary_id": "decl-019486",
+      "new_name": "IntegralRootSystem.instFintypeWeylGroup",
+      "docstring": "The reflection subgroup associated with a finite integral root system has a fintype structure."
+    },
+    {
+      "temporary_id": "decl-020885",
+      "new_name": "IntegralRootSystem.isRoot_iff_ne_zero_and_pairing_self_eq_two",
+      "docstring": "A vector is a root exactly when it is nonzero and has self-pairing two."
+    },
+    {
+      "temporary_id": "decl-020886",
+      "new_name": "IntegralRootSystem.isRoot_simpleRoot",
+      "docstring": "Each distinguished coordinate root is a root for the specified adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-021505",
+      "new_name": "IntegralRootSystem.linearEquiv_ext_on_simpleRoots",
+      "docstring": "Two integer linear equivalences are equal if they agree on every distinguished coordinate root."
+    },
+    {
+      "temporary_id": "decl-021578",
+      "new_name": "IntegralRootSystem.mem_isometrySubgroup_iff",
+      "docstring": "An integer linear equivalence belongs to the isometry subgroup exactly when it preserves the associated pairing."
+    },
+    {
+      "temporary_id": "decl-022848",
+      "new_name": "IntegralRootSystem.reflectionEquiv",
+      "docstring": "The integer linear equivalence defined by reflection in a vector of self-pairing two."
+    },
+    {
+      "temporary_id": "decl-022849",
+      "new_name": "IntegralRootSystem.reflectionEquiv_apply",
+      "docstring": "The reflection equivalence acts by the corresponding reflection map."
+    },
+    {
+      "temporary_id": "decl-022850",
+      "new_name": "IntegralRootSystem.reflectionEquiv_symm",
+      "docstring": "The inverse of a reflection equivalence is the reflection equivalence itself."
+    },
+    {
+      "temporary_id": "decl-022851",
+      "new_name": "IntegralRootSystem.reflection_add",
+      "docstring": "Reflection in a vector preserves addition."
+    },
+    {
+      "temporary_id": "decl-022853",
+      "new_name": "IntegralRootSystem.reflection_eq_self_of_dotProduct_eq_zero",
+      "docstring": "Reflection fixes a vector whose dot product with the matrix image of the reflecting vector is zero."
+    },
+    {
+      "temporary_id": "decl-022854",
+      "new_name": "IntegralRootSystem.reflection_self",
+      "docstring": "Reflection in a vector of self-pairing two sends that vector to its negation."
+    },
+    {
+      "temporary_id": "decl-022855",
+      "new_name": "IntegralRootSystem.reflection_preserves_dotProduct_mulVec",
+      "docstring": "For a symmetric matrix, reflection in a vector of self-pairing two preserves the induced pairing."
+    },
+    {
+      "temporary_id": "decl-022856",
+      "new_name": "IntegralRootSystem.reflection_involutive",
+      "docstring": "Reflection in a vector of self-pairing two is an involution."
+    },
+    {
+      "temporary_id": "decl-022858",
+      "new_name": "IntegralRootSystem.reflection_zsmul",
+      "docstring": "Reflection in a vector commutes with integer scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-023176",
+      "new_name": "IntegralRootSystem.simpleReflectionEquiv",
+      "docstring": "The integer linear equivalence given by reflection in a distinguished coordinate root."
+    },
+    {
+      "temporary_id": "decl-023177",
+      "new_name": "IntegralRootSystem.simpleReflectionEquiv_apply",
+      "docstring": "A simple reflection equivalence acts by the corresponding coordinate reflection map."
+    },
+    {
+      "temporary_id": "decl-023178",
+      "new_name": "IntegralRootSystem.simpleReflectionEquiv_apply_eq_self_of_pairing_eq_zero",
+      "docstring": "A simple reflection fixes a vector paired to zero with its distinguished coordinate root."
+    },
+    {
+      "temporary_id": "decl-023179",
+      "new_name": "IntegralRootSystem.simpleReflectionEquiv_simpleRoot",
+      "docstring": "A simple reflection sends its distinguished coordinate root to its negation."
+    },
+    {
+      "temporary_id": "decl-023180",
+      "new_name": "IntegralRootSystem.simpleReflectionEquiv_mem_isometrySubgroup",
+      "docstring": "Each simple reflection belongs to the subgroup preserving the associated pairing."
+    },
+    {
+      "temporary_id": "decl-023181",
+      "new_name": "IntegralRootSystem.simpleReflectionEquiv_mem_weylGroup",
+      "docstring": "Each simple reflection belongs to the associated reflection subgroup."
+    },
+    {
+      "temporary_id": "decl-023182",
+      "new_name": "IntegralRootSystem.simpleReflectionEquiv_sq",
+      "docstring": "The square of a simple reflection equivalence is the identity."
+    },
+    {
+      "temporary_id": "decl-024526",
+      "new_name": "IntegralRootSystem.weylGroup",
+      "docstring": "The subgroup of integer linear equivalences associated with the simple reflections of a finite integral root system."
+    },
+    {
+      "temporary_id": "decl-024528",
+      "new_name": "IntegralRootSystem.weylGroup_preserves_pairing",
+      "docstring": "Every element of the reflection subgroup preserves the associated pairing."
+    },
+    {
+      "temporary_id": "decl-024529",
+      "new_name": "IntegralRootSystem.weylGroup_le_isometrySubgroup",
+      "docstring": "The reflection subgroup is contained in the subgroup preserving the associated pairing."
+    },
+    {
+      "temporary_id": "decl-024530",
+      "new_name": "IntegralRootSystem.weylGroup_mapsTo_roots",
+      "docstring": "Every element of the reflection subgroup maps roots to roots."
+    },
+    {
+      "temporary_id": "decl-024533",
+      "new_name": "IntegralRootSystem.weylGroupRootPerm",
+      "docstring": "The permutation of roots induced by an element of the reflection subgroup."
+    },
+    {
+      "temporary_id": "decl-024540",
+      "new_name": "IntegralRootSystem.weylGroupRootPerm_apply",
+      "docstring": "The root permutation induced by a reflection-subgroup element has the same underlying value as its linear action."
+    },
+    {
+      "temporary_id": "decl-024541",
+      "new_name": "IntegralRootSystem.weylGroupRootAction",
+      "docstring": "The monoid homomorphism from the reflection subgroup to permutations of the roots."
+    },
+    {
+      "temporary_id": "decl-024544",
+      "new_name": "IntegralRootSystem.weylGroupRootAction_injective",
+      "docstring": "The action of the reflection subgroup on the roots is faithful."
+    },
+    {
+      "temporary_id": "decl-024550",
+      "new_name": "IntegralRootSystem.isRoot_weylGroup_apply_simpleRoot",
+      "docstring": "The image of a distinguished coordinate root under an element of the reflection subgroup is a root."
+    }
+  ]
+}

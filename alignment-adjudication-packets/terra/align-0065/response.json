@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0065",
+  "associations": [
+    {
+      "association_id": "association:60c2aece0335949ace99",
+      "role": "primary",
+      "rationale": "Its type directly supplies a complete pairwise nonisomorphic family of simple representations and an algebra equivalence to their endomorphism blocks."
+    }
+  ]
+}

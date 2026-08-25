@@ -1,0 +1,10 @@
+{
+  "module_name": "representation_theory.finite_group.simple_exhaustion",
+  "declarations": [
+    {
+      "temporary_id": "decl-024814",
+      "new_name": "exists_iso_of_sum_finrank_sq_eq_card",
+      "docstring": "A finite pairwise nonisomorphic family of simple representations contains an isomorphic copy of every simple representation if the sum of its squared dimensions equals the group cardinality."
+    }
+  ]
+}

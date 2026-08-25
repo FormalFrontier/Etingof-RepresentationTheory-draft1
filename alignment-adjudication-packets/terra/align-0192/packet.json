@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d407c4eb36fc3d82a61f",
+      "declaration": "Etingof.cycleCount_eq_cycleType_count",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/327/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {\u03b1 : Type u_2} [inst : Fintype.{u_2} \u03b1] [inst_1 : DecidableEq.{u_2 + 1} \u03b1] (g : Equiv.Perm.{u_2 + 1} \u03b1) {m : Nat},\n  LE.le.{0} 2 m \u2192 Eq.{1} (Etingof.cycleCount.{u_2} g m) (Multiset.count.{0} m (Equiv.Perm.cycleType.{u_2} g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_14_3_Centralizer"
+    },
+    {
+      "association_id": "association:f4652e335d0249306127",
+      "declaration": "Etingof.cycleCount_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/327/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {\u03b1 : Type u_1} (g : Equiv.Perm.{u_1 + 1} \u03b1),\n  Eq.{1} (Etingof.cycleCount.{u_1} g 1)\n    (Nat.card.{u_1} (Set.Elem.{u_1} (Function.fixedPoints.{u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} g))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_14_3_Centralizer"
+    },
+    {
+      "association_id": "association:08ed88b1f041b4381a2c",
+      "declaration": "Etingof.minimalPeriod_eq_card_support_cycleOf",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/327/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {\u03b1 : Type u_2} [inst : Fintype.{u_2} \u03b1] [inst_1 : DecidableEq.{u_2 + 1} \u03b1] (g : Equiv.Perm.{u_2 + 1} \u03b1) {x : \u03b1},\n  Ne.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} g x) x \u2192\n    Eq.{1} (Function.minimalPeriod.{u_2} (fun x => HSMul.hSMul.{u_2, u_2, u_2} g x) x)\n      (Finset.card.{u_2} (Equiv.Perm.support.{u_2} (Equiv.Perm.cycleOf.{u_2} g x)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_14_3_Centralizer"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.14.3",
+  "packet_id": "align-0192",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0192"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3abbafcf54498c43741a",
+  "source_text": "The cycle counts used by the source agree with permutation cycle type, including the separate fixed-point case m=1."
+}

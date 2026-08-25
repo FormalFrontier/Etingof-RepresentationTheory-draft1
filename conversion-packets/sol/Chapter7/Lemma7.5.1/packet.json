@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Lemma7.5.1",
+    "kind": "lemma",
+    "title": "Yoneda Lemma",
+    "node_id": "chapter-07/section-7-5",
+    "order": 485,
+    "slug": "lemma7-5-1",
+    "span": {
+      "start": {
+        "page": "187",
+        "line": 23
+      },
+      "end": {
+        "page": "188",
+        "line": 4
+      }
+    },
+    "source_sha256": "022885f80330e36eb85dcffe41d5664a105f1261257b17be228b9f327317ca8b",
+    "features": {
+      "line_count": 5,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Lemma751",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

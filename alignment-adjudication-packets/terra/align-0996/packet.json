@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:15f68e1bf9d1c8788905",
+      "declaration": "Etingof.AdditiveFunctor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/510/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  {D : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} C] \u2192\n      [inst_1 : CategoryTheory.Category.{u_4, u_2} D] \u2192\n        [CategoryTheory.Preadditive.{u_3, u_1} C] \u2192\n          [CategoryTheory.Preadditive.{u_4, u_2} D] \u2192 CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_9_1"
+    },
+    {
+      "association_id": "association:ba8c01f39edd4b085282",
+      "declaration": "Etingof.LinearFunctor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/510/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Semiring.{u_1} k] \u2192\n    {C : Type u_2} \u2192\n      {D : Type u_3} \u2192\n        [inst_1 : CategoryTheory.Category.{u_4, u_2} C] \u2192\n          [inst_2 : CategoryTheory.Category.{u_5, u_3} D] \u2192\n            [inst_3 : CategoryTheory.Preadditive.{u_4, u_2} C] \u2192\n              [inst_4 : CategoryTheory.Preadditive.{u_5, u_3} D] \u2192\n                [CategoryTheory.Linear.{u_1, u_4, u_2} k C] \u2192\n                  [CategoryTheory.Linear.{u_1, u_5, u_3} k D] \u2192 CategoryTheory.Functor.{u_4, u_5, u_2, u_3} C D \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_9_1"
+    }
+  ],
+  "canonical_reference": "Chapter7/Definition7.9.1",
+  "packet_id": "align-0996",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0996"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:be748be8c1a253392078",
+  "source_text": "An additive functor is additive on Hom groups, and a k-linear functor is linear on Hom spaces."
+}

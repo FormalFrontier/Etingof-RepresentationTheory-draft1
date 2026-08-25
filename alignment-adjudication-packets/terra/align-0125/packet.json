@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:57b894f292f81360f1bc",
+      "declaration": "Etingof.Proposition5_21_2_dimension",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/363/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} (MvPolynomial.eval.{0, 0} fun x => 1) (Etingof.schurPoly N lam))\n      (HDiv.hDiv.{0, 0, 0}\n        (Finset.prod.{0, 0}\n          (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n          HSub.hSub.{0, 0, 0}\n            (HAdd.hAdd.{0, 0, 0}\n              (HSub.hSub.{0, 0, 0} (Nat.cast.{0} (lam (Prod.fst.{0, 0} p))) (Nat.cast.{0} (lam (Prod.snd.{0, 0} p))))\n              (Nat.cast.{0} (Prod.snd.{0, 0} p).val))\n            (Nat.cast.{0} (Prod.fst.{0, 0} p).val))\n        (Finset.prod.{0, 0}\n          (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n          HSub.hSub.{0, 0, 0} (Nat.cast.{0} (Prod.snd.{0, 0} p).val) (Nat.cast.{0} (Prod.fst.{0, 0} p).val)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_21_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Proposition5.21.2",
+  "packet_id": "align-0125",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0125"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:26b030fb9e39469da915",
+  "source_text": "At the all-ones point the Schur polynomial equals the Weyl dimension product."
+}

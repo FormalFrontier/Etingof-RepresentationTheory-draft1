@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Lemma5.25.3",
+    "kind": "lemma",
+    "title": "Inner product of complementary series character is 1 and chi(1) > 0",
+    "node_id": "chapter-05/section-5-25/subsection-5-25-4",
+    "order": 388,
+    "slug": "lemma5-25-3",
+    "span": {
+      "start": {
+        "page": "143",
+        "line": 22
+      },
+      "end": {
+        "page": "144",
+        "line": 14
+      }
+    },
+    "source_sha256": "3ef0f283612699f67ec111adef1d78e8e92a96b6327201602da40536d9eae359",
+    "features": {
+      "line_count": 46,
+      "crosses_page": true,
+      "display_math_delimiters": 16,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma5253",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

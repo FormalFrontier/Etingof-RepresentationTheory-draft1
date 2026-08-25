@@ -1,0 +1,75 @@
+{
+  "module_name": "PermutationPolynomialAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-005659",
+      "new_name": "partitionPermutationAuxiliary",
+      "docstring": "An auxiliary family indexed by a partition and a permutation."
+    },
+    {
+      "temporary_id": "decl-005704",
+      "new_name": "partitionNatFinsupp",
+      "docstring": "A finitely supported natural-number function associated with a partition."
+    },
+    {
+      "temporary_id": "decl-016527",
+      "new_name": "partitionPermutationValue_eq_coefficient",
+      "docstring": "Connects the auxiliary numerical value with the indicated polynomial coefficient."
+    },
+    {
+      "temporary_id": "decl-018028",
+      "new_name": "partitionPolynomialCoeff_eq_card_auxiliary",
+      "docstring": "Expresses the indicated coefficient as the cardinality of the auxiliary family."
+    },
+    {
+      "temporary_id": "decl-018269",
+      "new_name": "permutationPolynomialAuxiliary",
+      "docstring": "A multivariate polynomial associated with a permutation."
+    },
+    {
+      "temporary_id": "decl-018273",
+      "new_name": "permutationPolynomialAuxiliary_eq_prod_psum",
+      "docstring": "Rewrites the permutation polynomial as a product of indexed power sums."
+    },
+    {
+      "temporary_id": "decl-018274",
+      "new_name": "permutationPolynomialAuxiliary_inv",
+      "docstring": "The permutation polynomial is unchanged on taking the inverse permutation."
+    },
+    {
+      "temporary_id": "decl-018898",
+      "new_name": "Auxiliary.statement018898",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-019488",
+      "new_name": "partitionPermutationValue_eq_card_auxiliary",
+      "docstring": "Identifies the auxiliary numerical value with the size of its associated family."
+    },
+    {
+      "temporary_id": "decl-019728",
+      "new_name": "permutationNatMultiset",
+      "docstring": "A multiset of natural numbers associated with a permutation."
+    },
+    {
+      "temporary_id": "decl-019735",
+      "new_name": "permutationNatMultiset_pos",
+      "docstring": "Every member of the natural-number multiset associated with a permutation is positive."
+    },
+    {
+      "temporary_id": "decl-019738",
+      "new_name": "permutationNatMultiset_sum",
+      "docstring": "The sum of the natural-number multiset associated with a permutation is the ambient size."
+    },
+    {
+      "temporary_id": "decl-021968",
+      "new_name": "partitionPermutationValue",
+      "docstring": "An auxiliary natural-number value for a partition and a permutation."
+    },
+    {
+      "temporary_id": "decl-022216",
+      "new_name": "psum_eq_sum_monomial_single",
+      "docstring": "Expands a power sum as the sum of its single-variable monomials."
+    }
+  ]
+}

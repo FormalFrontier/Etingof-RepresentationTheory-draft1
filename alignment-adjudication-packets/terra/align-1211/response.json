@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1211",
+  "associations": [
+    {
+      "association_id": "association:bbe55cfd85c997304c7f",
+      "rationale": "The type gives existence and uniqueness of a representative for each indecomposable A3Rep, covering only one of the two orientations named in the claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:408f4e114a312e9f25c2",
+      "rationale": "The type gives existence and uniqueness of a representative for each indecomposable A3SinkRep, covering only the other orientation named in the claim.",
+      "role": "supporting"
+    }
+  ]
+}

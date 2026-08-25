@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0155",
+  "associations": [
+    {
+      "association_id": "association:f87afce4fb199dc7b295",
+      "role": "supporting",
+      "rationale": "The formal type is null, so the displayed evidence does not directly state the natural tensor-product associativity claim."
+    }
+  ]
+}

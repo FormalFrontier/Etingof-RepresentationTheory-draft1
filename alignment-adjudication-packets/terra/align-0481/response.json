@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0481",
+  "associations": [
+    {
+      "association_id": "association:dc8013c76ac62dcfdec6",
+      "role": "primary",
+      "rationale": "The module-linear equivalence directly decomposes the regular module of a product of matrix algebras into the direct sum of d_i copies of its standard d_i-dimensional column modules."
+    }
+  ]
+}

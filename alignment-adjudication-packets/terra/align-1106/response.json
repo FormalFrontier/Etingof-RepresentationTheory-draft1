@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1106",
+  "associations": [
+    {
+      "association_id": "association:52d38d01d84e117259b2",
+      "role": "supporting",
+      "rationale": "The packet gives no formal type, and the generic eq_bot_or_eq_top declaration does not itself display the asserted zero intersection of two distinct irreducible submodules."
+    }
+  ]
+}

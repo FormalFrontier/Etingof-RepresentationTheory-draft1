@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0526",
+  "associations": [
+    {
+      "association_id": "association:7f57a83406620600527b",
+      "rationale": "Under the no-higher-weight hypothesis encoding the selected maximal weight, the theorem directly says that E vanishes on every vector in the corresponding generalized H-eigenspace.",
+      "role": "primary"
+    }
+  ]
+}

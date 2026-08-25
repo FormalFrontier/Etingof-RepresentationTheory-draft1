@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Definition5.7.1",
+    "kind": "definition",
+    "title": "Virtual representation and its character",
+    "node_id": "chapter-05/section-5-7",
+    "order": 286,
+    "slug": "definition5-7-1",
+    "span": {
+      "start": {
+        "page": "107",
+        "line": 9
+      },
+      "end": {
+        "page": "107",
+        "line": 10
+      }
+    },
+    "source_sha256": "ad34e52bdd5c4cfb4ec229df4e979cb7a8489a3a1680a7d957a085c8e6187183",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Definition571",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

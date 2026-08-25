@@ -1,0 +1,45 @@
+{
+  "module_name": "RepresentationAveragingTrace",
+  "declarations": [
+    {
+      "temporary_id": "decl-017259",
+      "new_name": "averageMap_apply_eq_inv_card_smul_sum",
+      "docstring": "The averaging map sends a vector to the inverse group order times the sum of all its translates."
+    },
+    {
+      "temporary_id": "decl-017260",
+      "new_name": "averageMap_eq_inv_card_smul_sum",
+      "docstring": "The averaging map is the inverse group order times the sum of the representation operators."
+    },
+    {
+      "temporary_id": "decl-020699",
+      "new_name": "intertwiningMap_mem_invariants",
+      "docstring": "An endomorphism intertwining a representation preserves its invariant vectors."
+    },
+    {
+      "temporary_id": "decl-021017",
+      "new_name": "averageMap_ker_eq_coinvariants_ker",
+      "docstring": "The kernel of the averaging map equals the kernel defining the coinvariants."
+    },
+    {
+      "temporary_id": "decl-023570",
+      "new_name": "auxiliary_theorem",
+      "docstring": "An auxiliary result whose formal statement is unavailable."
+    },
+    {
+      "temporary_id": "decl-024287",
+      "new_name": "trace_coinvariantsMap_eq_average_trace",
+      "docstring": "The trace induced on coinvariants is the average of the traces obtained by composing with the group action."
+    },
+    {
+      "temporary_id": "decl-024297",
+      "new_name": "trace_finsupp_lmapDomain_eq_sum_fixedPoints",
+      "docstring": "The trace of a domain reindexing map on finitely supported functions is the sum of one over its fixed points."
+    },
+    {
+      "temporary_id": "decl-024299",
+      "new_name": "trace_monoidAlgebra_mapDomain_eq_sum_fixedPoints",
+      "docstring": "The trace of a domain map on a monoid algebra is the sum of one over its fixed points."
+    }
+  ]
+}

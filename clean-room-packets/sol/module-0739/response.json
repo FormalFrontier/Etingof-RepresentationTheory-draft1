@@ -1,0 +1,160 @@
+{
+  "module_name": "Quiver.PathAlgebra.VertexComponents",
+  "declarations": [
+    {
+      "temporary_id": "decl-005900",
+      "new_name": "coeff",
+      "docstring": "Returns the coefficient of a quiver path index in an element of the ambient algebra."
+    },
+    {
+      "temporary_id": "decl-005905",
+      "new_name": "coeff_add",
+      "docstring": "The coefficient of a sum is the sum of the corresponding coefficients."
+    },
+    {
+      "temporary_id": "decl-005906",
+      "new_name": "coeff_vertexIdempotent_mul",
+      "docstring": "Left multiplication by a vertex idempotent retains exactly the coefficients whose source is that vertex."
+    },
+    {
+      "temporary_id": "decl-005907",
+      "new_name": "coeff_vertexIdempotent_mul_vertexIdempotent",
+      "docstring": "Multiplication by vertex idempotents on both sides retains coefficients with the prescribed source and target."
+    },
+    {
+      "temporary_id": "decl-005908",
+      "new_name": "coeff_eq_zero_of_mem_pathComponent",
+      "docstring": "An element of a fixed source-target component has zero coefficient outside that component."
+    },
+    {
+      "temporary_id": "decl-005909",
+      "new_name": "ext",
+      "docstring": "Two algebra elements are equal when all of their path coefficients agree."
+    },
+    {
+      "temporary_id": "decl-005910",
+      "new_name": "coeff_mul_vertexIdempotent",
+      "docstring": "Right multiplication by a vertex idempotent retains exactly the coefficients whose target is that vertex."
+    },
+    {
+      "temporary_id": "decl-005911",
+      "new_name": "coeff_single",
+      "docstring": "The coefficient of a singleton-supported element is its value at the selected index and zero elsewhere."
+    },
+    {
+      "temporary_id": "decl-005912",
+      "new_name": "coeff_smul",
+      "docstring": "Taking a path coefficient commutes with scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-005913",
+      "new_name": "coeff_zero",
+      "docstring": "Every path coefficient of the zero element is zero."
+    },
+    {
+      "temporary_id": "decl-005950",
+      "new_name": "pathComponentEquivFinsupp",
+      "docstring": "Identifies a fixed source-target component linearly with finitely supported functions on paths between the vertices."
+    },
+    {
+      "temporary_id": "decl-005960",
+      "new_name": "pathComponentToLinearMap",
+      "docstring": "Maps a fixed source-target component linearly to linear maps between the associated vertex spaces."
+    },
+    {
+      "temporary_id": "decl-005968",
+      "new_name": "pathComponent",
+      "docstring": "The submodule of algebra elements belonging to a prescribed pair of vertices."
+    },
+    {
+      "temporary_id": "decl-005973",
+      "new_name": "vertexIdempotent_mul_eq_of_mem_pathComponent",
+      "docstring": "The source vertex idempotent acts as a left identity on its source-target component."
+    },
+    {
+      "temporary_id": "decl-005974",
+      "new_name": "mul_vertexIdempotent_eq_of_mem_pathComponent",
+      "docstring": "The target vertex idempotent acts as a right identity on its source-target component."
+    },
+    {
+      "temporary_id": "decl-005975",
+      "new_name": "auxiliaryVertexIdempotent",
+      "docstring": "Associates an element of the ambient quiver algebra to each vertex."
+    },
+    {
+      "temporary_id": "decl-005977",
+      "new_name": "auxiliaryVertexElement",
+      "docstring": "Provides an auxiliary element of the opaque vertex-indexed type."
+    },
+    {
+      "temporary_id": "decl-005980",
+      "new_name": "coe_auxiliaryVertexElement",
+      "docstring": "The underlying algebra element of the auxiliary vertex element is the corresponding vertex idempotent."
+    },
+    {
+      "temporary_id": "decl-005982",
+      "new_name": "vertexIdempotent_mul_apply_auxiliaryVertexElement",
+      "docstring": "The source vertex idempotent fixes the underlying value obtained by applying a linear map to the auxiliary vertex element."
+    },
+    {
+      "temporary_id": "decl-005983",
+      "new_name": "auxiliaryVertexIdempotent_mul_self",
+      "docstring": "The algebra element associated to a vertex is idempotent."
+    },
+    {
+      "temporary_id": "decl-005985",
+      "new_name": "embDomain_mem_pathComponent",
+      "docstring": "Embedding a finitely supported function on paths into the global index type produces an element of the matching source-target component."
+    },
+    {
+      "temporary_id": "decl-006010",
+      "new_name": "linearMapEquivPathComponent",
+      "docstring": "Identifies linear maps between two vertex spaces with the corresponding source-target component."
+    },
+    {
+      "temporary_id": "decl-006023",
+      "new_name": "linearMapToPathComponent",
+      "docstring": "Maps linear maps between two vertex spaces linearly into the corresponding source-target component."
+    },
+    {
+      "temporary_id": "decl-006029",
+      "new_name": "apply_auxiliaryVertexElement_mem_pathComponent",
+      "docstring": "Applying a linear map to the auxiliary source element yields an algebra element in the matching source-target component."
+    },
+    {
+      "temporary_id": "decl-006257",
+      "new_name": "mem_pathComponent_iff",
+      "docstring": "An algebra element lies in a source-target component exactly when it is obtained by multiplying some element by the corresponding vertex idempotents."
+    },
+    {
+      "temporary_id": "decl-006259",
+      "new_name": "mem_range_pathEmbedding_iff",
+      "docstring": "A global path index belongs to the path embedding's range exactly when it has the specified source and target."
+    },
+    {
+      "temporary_id": "decl-006279",
+      "new_name": "mul_vertexIdempotent_eq_of_mem_span",
+      "docstring": "Right multiplication by a vertex idempotent fixes every element in its singleton span."
+    },
+    {
+      "temporary_id": "decl-006304",
+      "new_name": "linearMapEquivPathFinsupp",
+      "docstring": "Identifies linear maps between vertex spaces with finitely supported functions on paths between the vertices."
+    },
+    {
+      "temporary_id": "decl-006305",
+      "new_name": "AuxiliaryVertexSpace",
+      "docstring": "An auxiliary vertex-indexed type whose internal structure is not exposed by the displayed signature."
+    },
+    {
+      "temporary_id": "decl-006309",
+      "new_name": "pathEmbedding",
+      "docstring": "Embeds paths with fixed endpoints into the global quiver path index type."
+    },
+    {
+      "temporary_id": "decl-006311",
+      "new_name": "pathEmbedding_apply",
+      "docstring": "The path embedding records a path together with its source and target vertices."
+    }
+  ]
+}

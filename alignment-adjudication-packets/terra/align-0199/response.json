@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0199",
+  "associations": [
+    {
+      "association_id": "association:0e2ee1f1ccc079b5ee30",
+      "role": "primary",
+      "rationale": "It directly states finiteness of the Weyl group for the Dynkin diagram."
+    },
+    {
+      "association_id": "association:6ee43dfe5d91007cb2a2",
+      "role": "primary",
+      "rationale": "Injectivity of the Weyl-root permutation map directly expresses faithfulness of that action."
+    }
+  ]
+}

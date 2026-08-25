@@ -1,0 +1,55 @@
+{
+  "module_name": "GeneralLinearGroup.TensorLocalization",
+  "declarations": [
+    {
+      "temporary_id": "decl-005109",
+      "new_name": "detInvPow_smul",
+      "docstring": "If a family of linear endomorphisms indexed by the general linear group satisfies the auxiliary property, then pointwise scaling it by any natural power of the inverse determinant preserves that property."
+    },
+    {
+      "temporary_id": "decl-017173",
+      "new_name": "auxiliaryLinearEndomorphismFamily_condition",
+      "docstring": "The displayed family of linear endomorphisms indexed by the general linear group satisfies the auxiliary property over an algebraically closed field of characteristic zero."
+    },
+    {
+      "temporary_id": "decl-018333",
+      "new_name": "auxiliaryUnitMap_zpow_neg_nat_apply",
+      "docstring": "Evaluating a negative natural integer power of the auxiliary unit-valued map gives the corresponding natural power of the inverse determinant."
+    },
+    {
+      "temporary_id": "decl-018632",
+      "new_name": "exists_tensorToLocalization_tmul_eq_of_equivariant",
+      "docstring": "For an equivariant linear map into the indicated localization, each value is obtained by applying the tensor-to-localization map to a pure tensor with the same second factor."
+    },
+    {
+      "temporary_id": "decl-018633",
+      "new_name": "range_le_tensorToLocalization_range_of_equivariant",
+      "docstring": "The range of an equivariant linear map into the indicated localization is contained in the range of the tensor-to-localization map."
+    },
+    {
+      "temporary_id": "decl-018663",
+      "new_name": "auxiliaryPolynomialMap_pow",
+      "docstring": "The auxiliary map on multivariate polynomials commutes with natural powers."
+    },
+    {
+      "temporary_id": "decl-018691",
+      "new_name": "tensorToLocalization_tmul_apply",
+      "docstring": "After applying the displayed auxiliary evaluator to the tensor-to-localization image of a pure tensor, its value at a group element equals the displayed auxiliary tensor map with the indexed linear endomorphism applied to the second factor."
+    },
+    {
+      "temporary_id": "decl-018907",
+      "new_name": "exists_tensorMap_tmul_apply",
+      "docstring": "There exists a map on the tensor product such that, after applying the displayed auxiliary evaluator to its value on a pure tensor, evaluation at a group element equals the displayed auxiliary tensor map with the indexed linear endomorphism applied to the second factor."
+    },
+    {
+      "temporary_id": "decl-022012",
+      "new_name": "tensorToLocalization",
+      "docstring": "A linear map from the tensor product of two auxiliary modules to the localization away from the distinguished element."
+    },
+    {
+      "temporary_id": "decl-022015",
+      "new_name": "tensorToLocalization_tmul_transform",
+      "docstring": "Applying the tensor-to-localization map to a pure tensor after the displayed group-indexed endomorphisms are applied to its factors equals applying the displayed product-indexed map to the tensor-to-localization image of the original pure tensor."
+    }
+  ]
+}

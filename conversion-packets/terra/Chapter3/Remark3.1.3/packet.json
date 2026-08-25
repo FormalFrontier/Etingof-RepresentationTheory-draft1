@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Remark3.1.3",
+    "kind": "remark",
+    "title": "Canonical decomposition of semisimple representations via Schur's lemma",
+    "node_id": "chapter-03/section-3-1",
+    "order": 128,
+    "slug": "remark3-1-3",
+    "span": {
+      "start": {
+        "page": "43",
+        "line": 13
+      },
+      "end": {
+        "page": "43",
+        "line": 13
+      }
+    },
+    "source_sha256": "0d3274164344fb3b7eecf19d5ac5739384816141cba45398b1f3b9007febb9d6",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Remark313",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

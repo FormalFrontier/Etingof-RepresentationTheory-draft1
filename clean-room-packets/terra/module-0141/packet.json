@@ -1,0 +1,77 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    [Module.Free.{u_1, u_3} k V] \u2192\n                      [Module.Finite.{u_1, u_3} k V] \u2192\n                        LinearMap.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} k)\n                          (HasQuotient.Quotient.{u_2, u_2} A (decl-018113.{u_1, u_2} k A)) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018113"
+      ],
+      "structural_type_hash": "1809885990",
+      "temporary_id": "decl-017942"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : Module.Free.{u_1, u_3} k V]\n  [inst_8 : Module.Finite.{u_1, u_3} k V] (a : A),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} (decl-017942.{u_1, u_2, u_3} k A V)\n      (Submodule.Quotient.mk.{u_1, u_2} a))\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} (decl-017926.{u_1, u_2, u_3} k A V) a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017926",
+        "decl-017942",
+        "decl-018113"
+      ],
+      "structural_type_hash": "3879175893",
+      "temporary_id": "decl-017943"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : Module.Free.{u_1, u_3} k V]\n  [inst_8 : Module.Finite.{u_1, u_3} k V] (x y : A),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} (decl-017926.{u_1, u_2, u_3} k A V)\n      (HMul.hMul.{u_2, u_2, u_2} x y))\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} (decl-017926.{u_1, u_2, u_3} k A V)\n      (HMul.hMul.{u_2, u_2, u_2} y x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017926"
+      ],
+      "structural_type_hash": "191116384",
+      "temporary_id": "decl-017950"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192 [inst_1 : Ring.{u_2} A] \u2192 [inst_2 : Algebra.{u_1, u_2} k A] \u2192 Submodule.{u_1, u_2} k A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3047774343",
+      "temporary_id": "decl-018113"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : Module.Free.{u_1, u_3} k V]\n  [inst_8 : Module.Finite.{u_1, u_3} k V],\n  LE.le.{u_2} (decl-018113.{u_1, u_2} k A)\n    (LinearMap.ker.{u_1, u_1, u_2, u_1} (decl-017926.{u_1, u_2, u_3} k A V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017926",
+        "decl-018113"
+      ],
+      "structural_type_hash": "3098399243",
+      "temporary_id": "decl-018115"
+    }
+  ],
+  "module_temporary_id": "module-0141",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

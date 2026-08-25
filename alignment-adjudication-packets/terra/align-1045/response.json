@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1045",
+  "associations": [
+    {
+      "association_id": "association:fa51f6d92fb77b9c2d6d",
+      "role": "supporting",
+      "rationale": "A complement existence result is a prerequisite for the claimed complement-and-projection construction; no formal type is displayed."
+    },
+    {
+      "association_id": "association:eacbfb70d873f3390ba3",
+      "role": "supporting",
+      "rationale": "Projection is the construction used after choosing a complement; no formal type directly states the full claim."
+    }
+  ]
+}

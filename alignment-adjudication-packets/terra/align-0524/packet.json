@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4746d57f3586465021eb",
+      "declaration": "Etingof.Exercise2_9_11.repEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/115/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (L : Type u_2) \u2192\n      [inst_1 : LieRing.{u_2} L] \u2192\n        [inst_2 : LieAlgebra.{u_1, u_2} k L] \u2192\n          (V : Type u_3) \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                Equiv.{max (u_3 + 1) (u_2 + 1), max (u_3 + 1) ((max u_2 u_1) + 1)}\n                  (LieHom.{u_1, u_2, u_3} k L (Module.End.{u_1, u_3} k V))\n                  (AlgHom.{u_1, max u_2 u_1, u_3} k (UniversalEnvelopingAlgebra.{u_1, u_2} k L)\n                    (Module.End.{u_1, u_3} k V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_9_11"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.14.3",
+  "packet_id": "align-0524",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0524"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.14.3:claim-02",
+  "source_text": "Hom_\ud835\udd24 denotes the morphisms of representations, equivalently the homomorphisms of modules over the universal enveloping algebra U(\ud835\udd24)."
+}

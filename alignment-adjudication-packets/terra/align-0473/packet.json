@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:96c2d84f9c7f6d11d831",
+      "declaration": "Etingof.exists_indecomposable_decomposition",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/169/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  [IsArtinian.{u_1, u_2} A V] [IsNoetherian.{u_1, u_2} A V],\n  Exists.{1} fun n =>\n    Exists.{u_2 + 1} fun W =>\n      And\n        (\u2200 (i : Fin n),\n          Etingof.IsIndecomposable.{u_1, u_2} A (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (W i) x))\n        (And (Eq.{u_2 + 1} (iSup.{u_2, 1} W) Top.top.{u_2}) (iSupIndep.{1, u_2} W))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_8_6"
+    }
+  ],
+  "canonical_reference": "Chapter3/Remark3.8.6",
+  "packet_id": "align-0473",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0473"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:967720219c56bde8ea21",
+  "source_text": "Every finite-length module is a direct sum of indecomposable submodules."
+}

@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.SimpleModule.Dimension",
+  "declarations": [
+    {
+      "temporary_id": "decl-001470",
+      "new_name": "finrank_eq_one",
+      "docstring": "A finite-dimensional simple module over a commutative algebra over an algebraically closed field has dimension one."
+    }
+  ]
+}

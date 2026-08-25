@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a3d806fd5f11bdb29fb9",
+      "declaration": "Etingof.IsComplexType",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/243/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    [Fintype.{u_1} G] \u2192\n      {V : Type u_2} \u2192\n        [inst_2 : AddCommGroup.{u_2} V] \u2192\n          [inst_3 : Module.{0, u_2} Complex V] \u2192\n            [Module.Finite.{0, u_2} Complex V] \u2192 Representation.{0, u_1, u_2} Complex G V \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_1_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Definition5.1.1",
+  "packet_id": "align-1075",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1075"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d3a6390f72493ed02f50",
+  "source_text": "Complex type means nonisomorphism with the dual representation."
+}

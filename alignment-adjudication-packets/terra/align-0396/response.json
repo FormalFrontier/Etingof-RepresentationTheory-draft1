@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0396",
+  "associations": [
+    {
+      "association_id": "association:5f476fe44626570f3d27",
+      "role": "supporting",
+      "rationale": "The formal type asserts that the canonical biproduct short complex is short exact, but it does not itself assert that the sequence is split, so it states only one part of the source claim."
+    },
+    {
+      "association_id": "association:e04d7ebc545f7c4b53c7",
+      "role": "supporting",
+      "rationale": "The formal type supplies a splitting of the canonical biproduct short complex, but it does not itself assert short exactness, so it states only the other part of the source claim."
+    }
+  ]
+}

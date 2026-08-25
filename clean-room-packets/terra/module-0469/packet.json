@@ -1,0 +1,164 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(n : Nat) \u2192 decl-001833 n \u2192 (k : Type u_2) \u2192 [inst : Field.{u_2} k] \u2192 [IsAlgClosed.{u_2} k] \u2192 Type u_2",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001833"
+      ],
+      "structural_type_hash": "497302061",
+      "temporary_id": "decl-000516"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (lam : decl-001833 n) \u2192\n    (k : Type u_2) \u2192\n      [inst : Field.{u_2} k] \u2192 [inst_1 : IsAlgClosed.{u_2} k] \u2192 AddCommGroup.{u_2} (decl-000516.{u_2} n lam k)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000516",
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-001833"
+      ],
+      "structural_type_hash": "1127420519",
+      "temporary_id": "decl-000517"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (lam : decl-001833 n) (k : Type u_2) [inst : Field.{u_2} k] [inst_1 : IsAlgClosed.{u_2} k],\n  Module.Finite.{u_2, u_2} k (decl-000516.{u_2} n lam k)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-000516",
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-001833"
+      ],
+      "structural_type_hash": "3026299696",
+      "temporary_id": "decl-000519"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (lam : decl-001833 n) \u2192\n    (k : Type u_2) \u2192\n      [inst : Field.{u_2} k] \u2192 [inst_1 : IsAlgClosed.{u_2} k] \u2192 Module.{u_2, u_2} k (decl-000516.{u_2} n lam k)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000516",
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-001833"
+      ],
+      "structural_type_hash": "2925357841",
+      "temporary_id": "decl-000520"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 decl-001833 n \u2192 (k : Type u_2) \u2192 [inst : Field.{u_2} k] \u2192 [IsAlgClosed.{u_2} k] \u2192 Type u_2",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001833"
+      ],
+      "structural_type_hash": "497302061",
+      "temporary_id": "decl-000521"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (lam : decl-001833 n) \u2192\n    (k : Type u_2) \u2192\n      [inst : Field.{u_2} k] \u2192\n        [inst_1 : IsAlgClosed.{u_2} k] \u2192 AddCommGroup.{u_2} (decl-000521.{u_2} n lam k)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000521",
+      "project_type_dependencies": [
+        "decl-000521",
+        "decl-001833"
+      ],
+      "structural_type_hash": "2341445890",
+      "temporary_id": "decl-000522"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (lam : decl-001833 n) \u2192\n    (k : Type u_2) \u2192\n      [inst : Field.{u_2} k] \u2192\n        [inst_1 : IsAlgClosed.{u_2} k] \u2192 Module.{u_2, u_2} k (decl-000521.{u_2} n lam k)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000521",
+      "project_type_dependencies": [
+        "decl-000521",
+        "decl-000522",
+        "decl-001833"
+      ],
+      "structural_type_hash": "2512892157",
+      "temporary_id": "decl-000524"
+    },
+    {
+      "formal_type": "Nat \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3972626760",
+      "temporary_id": "decl-001833"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat), Countable.{1} (decl-001833 n)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-001833",
+      "project_type_dependencies": [
+        "decl-001833"
+      ],
+      "structural_type_hash": "2017923265",
+      "temporary_id": "decl-001841"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 decl-001833 n \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": "decl-001833",
+      "project_type_dependencies": [
+        "decl-001833"
+      ],
+      "structural_type_hash": "4243909428",
+      "temporary_id": "decl-001842"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 decl-001833 n \u2192 Fin n \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": "decl-001833",
+      "project_type_dependencies": [
+        "decl-001833"
+      ],
+      "structural_type_hash": "1895131424",
+      "temporary_id": "decl-001851"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 decl-001833 n \u2192 decl-001833 n",
+      "kind": "definition",
+      "owner_temporary_id": "decl-001833",
+      "project_type_dependencies": [
+        "decl-001833"
+      ],
+      "structural_type_hash": "4128827381",
+      "temporary_id": "decl-001857"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192 Ne.{u_1 + 1} (decl-015576.{u_1} k N lam) Bot.bot.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015576",
+        "decl-016473"
+      ],
+      "structural_type_hash": "2577657479",
+      "temporary_id": "decl-022996"
+    }
+  ],
+  "module_temporary_id": "module-0469",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

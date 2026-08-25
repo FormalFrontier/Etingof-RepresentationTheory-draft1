@@ -1,0 +1,20 @@
+{
+  "module_name": "Algebra.MonoidAlgebra.Center",
+  "declarations": [
+    {
+      "temporary_id": "decl-004710",
+      "new_name": "centerLinearEquivFunctionsOnConjClasses",
+      "docstring": "The center of a finite group monoid algebra is linearly equivalent to functions on conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-004722",
+      "new_name": "finrank_center_eq_card_conjClasses",
+      "docstring": "The dimension of the center of a finite group monoid algebra equals the number of conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-004723",
+      "new_name": "mem_center_iff_coeff_conj_invariant",
+      "docstring": "An element of a group monoid algebra is central exactly when its coefficients are invariant under conjugation."
+    }
+  ]
+}

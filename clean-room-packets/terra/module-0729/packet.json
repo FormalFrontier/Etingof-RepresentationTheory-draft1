@@ -1,0 +1,264 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{C : Type u} \u2192 [CategoryTheory.Category.{v, u} C] \u2192 C \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2150760575",
+      "temporary_id": "decl-017970"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C]\n  {S : CategoryTheory.ShortComplex.{v, u} C},\n  CategoryTheory.ShortComplex.ShortExact.{v, u} S \u2192\n    Eq.{1} (decl-017970.{v, u} (CategoryTheory.ShortComplex.X\u2082.{v, u} S))\n      (HAdd.hAdd.{0, 0, 0} (decl-017970.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n        (decl-017970.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-017970"
+      ],
+      "structural_type_hash": "1051912055",
+      "temporary_id": "decl-017972"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] (Y Z : C),\n  Eq.{1} (decl-017970.{v, u} (CategoryTheory.Limits.biprod.{v, u} Y Z))\n    (HAdd.hAdd.{0, 0, 0} (decl-017970.{v, u} Y) (decl-017970.{v, u} Z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-017970"
+      ],
+      "structural_type_hash": "3321716238",
+      "temporary_id": "decl-017973"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [decl-005147.{u, v} C] {X : C},\n  Iff (Eq.{1} (decl-017970.{v, u} X) 0) (CategoryTheory.Limits.IsZero.{v, u} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-017970"
+      ],
+      "structural_type_hash": "2599336979",
+      "temporary_id": "decl-017975"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [decl-005147.{u, v} C] {X : C}\n  [FiniteDimensionalOrder.{max u v} (CategoryTheory.Subobject.{v, u} X)],\n  Iff (Eq.{1} (decl-017970.{v, u} X) 0) (CategoryTheory.Limits.IsZero.{v, u} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-017970"
+      ],
+      "structural_type_hash": "789356755",
+      "temporary_id": "decl-017976"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [decl-005147.{u, v} C] {X : C},\n  CategoryTheory.Limits.IsZero.{v, u} X \u2192 Eq.{1} (decl-017970.{v, u} X) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-017970"
+      ],
+      "structural_type_hash": "2080671805",
+      "temporary_id": "decl-017977"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [decl-005147.{u, v} C] {X : C}\n  {A B : CategoryTheory.Subobject.{v, u} X},\n  LE.le.{max u v} A B \u2192\n    LE.le.{0}\n      (decl-017970.{v, u}\n        (CategoryTheory.Functor.obj.{max u v, v, max u v, u} CategoryTheory.Subobject.underlying.{v, u} A))\n      (decl-017970.{v, u}\n        (CategoryTheory.Functor.obj.{max u v, v, max u v, u} CategoryTheory.Subobject.underlying.{v, u} B))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-017970"
+      ],
+      "structural_type_hash": "4120141769",
+      "temporary_id": "decl-017978"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {X : C}\n  {A B : CategoryTheory.Subobject.{v, u} X} (h : LE.le.{max u v} A B),\n  Eq.{1}\n    (decl-017970.{v, u}\n      (CategoryTheory.Functor.obj.{max u v, v, max u v, u} CategoryTheory.Subobject.underlying.{v, u} B))\n    (HAdd.hAdd.{0, 0, 0}\n      (decl-017970.{v, u}\n        (CategoryTheory.Functor.obj.{max u v, v, max u v, u} CategoryTheory.Subobject.underlying.{v, u} A))\n      (decl-017970.{v, u} (CategoryTheory.Limits.cokernel.{v, u} (CategoryTheory.Subobject.ofLE.{v, u} A B h))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-017970"
+      ],
+      "structural_type_hash": "3538571101",
+      "temporary_id": "decl-017979"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [decl-005147.{u, v} C] {X : C},\n  Not (CategoryTheory.Limits.IsZero.{v, u} X) \u2192 LT.lt.{0} 0 (decl-017970.{v, u} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-017970"
+      ],
+      "structural_type_hash": "3309148418",
+      "temporary_id": "decl-017981"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {X : C},\n  CategoryTheory.Simple.{v, u} X \u2192 Eq.{1} (decl-017970.{v, u} X) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-017970"
+      ],
+      "structural_type_hash": "3920170571",
+      "temporary_id": "decl-017982"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [decl-005147.{u, v} C] {X : C}\n  {A B : CategoryTheory.Subobject.{v, u} X},\n  LT.lt.{max u v} A B \u2192\n    LT.lt.{0}\n      (decl-017970.{v, u}\n        (CategoryTheory.Functor.obj.{max u v, v, max u v, u} CategoryTheory.Subobject.underlying.{v, u} A))\n      (decl-017970.{v, u}\n        (CategoryTheory.Functor.obj.{max u v, v, max u v, u} CategoryTheory.Subobject.underlying.{v, u} B))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-017970"
+      ],
+      "structural_type_hash": "940553089",
+      "temporary_id": "decl-017983"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [decl-005147.{u, v} C] {X : C}\n  {a : Nat \u2192 CategoryTheory.Subobject.{v, u} X},\n  Antitone.{0, max u v} a \u2192 Exists.{1} fun N => \u2200 (m : Nat), GE.ge.{0} m N \u2192 Eq.{max (u + 1) (v + 1)} (a m) (a N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147"
+      ],
+      "structural_type_hash": "3179013664",
+      "temporary_id": "decl-018831"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [decl-005147.{u, v} C] {X : C}\n  {a : Nat \u2192 CategoryTheory.Subobject.{v, u} X},\n  Monotone.{0, max u v} a \u2192 Exists.{1} fun N => \u2200 (m : Nat), GE.ge.{0} m N \u2192 Eq.{max (u + 1) (v + 1)} (a m) (a N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147"
+      ],
+      "structural_type_hash": "1417145141",
+      "temporary_id": "decl-018832"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {X : C}\n  (f : CategoryTheory.End.{v, u} X),\n  Exists.{1} fun N =>\n    \u2200 (m : Nat),\n      GE.ge.{0} m N \u2192\n        Eq.{max (u + 1) (v + 1)} (CategoryTheory.Limits.imageSubobject.{v, u} (HPow.hPow.{v, 0, v} f m))\n          (CategoryTheory.Limits.imageSubobject.{v, u} (HPow.hPow.{v, 0, v} f N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "252387986",
+      "temporary_id": "decl-018856"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {X : C}\n  (f : CategoryTheory.End.{v, u} X),\n  Exists.{1} fun n =>\n    And (LT.lt.{0} 0 n)\n      (And\n        (Eq.{max (u + 1) (v + 1)} (CategoryTheory.Limits.imageSubobject.{v, u} (HPow.hPow.{v, 0, v} f n))\n          (CategoryTheory.Limits.imageSubobject.{v, u} (HPow.hPow.{v, 0, v} f (HMul.hMul.{0, 0, 0} 2 n))))\n        (Eq.{max (u + 1) (v + 1)} (CategoryTheory.Limits.kernelSubobject.{v, u} (HPow.hPow.{v, 0, v} f n))\n          (CategoryTheory.Limits.kernelSubobject.{v, u} (HPow.hPow.{v, 0, v} f (HMul.hMul.{0, 0, 0} 2 n)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "474440638",
+      "temporary_id": "decl-018857"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {X : C}\n  (f : CategoryTheory.End.{v, u} X),\n  Exists.{1} fun N =>\n    \u2200 (m : Nat),\n      GE.ge.{0} m N \u2192\n        Eq.{max (u + 1) (v + 1)} (CategoryTheory.Limits.kernelSubobject.{v, u} (HPow.hPow.{v, 0, v} f m))\n          (CategoryTheory.Limits.kernelSubobject.{v, u} (HPow.hPow.{v, 0, v} f N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "1160339962",
+      "temporary_id": "decl-018882"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {X : C}\n  (f : CategoryTheory.End.{v, u} X),\n  Exists.{1} fun n =>\n    And (LT.lt.{0} 0 n)\n      (CategoryTheory.IsIso.{v, u}\n        (CategoryTheory.CategoryStruct.comp.{v, u} (CategoryTheory.Abelian.image.\u03b9.{v, u} (HPow.hPow.{v, 0, v} f n))\n          (CategoryTheory.Abelian.factorThruImage.{v, u} (HPow.hPow.{v, 0, v} f n))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "3987555771",
+      "temporary_id": "decl-018918"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [decl-005147.{u, v} C] {X : C},\n  CategoryTheory.Limits.IsZero.{v, u} X \u2192 FiniteDimensionalOrder.{max u v} (CategoryTheory.Subobject.{v, u} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147"
+      ],
+      "structural_type_hash": "192406032",
+      "temporary_id": "decl-019394"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [decl-005147.{u, v} C] {X : C}\n  [FiniteDimensionalOrder.{max u v} (CategoryTheory.Subobject.{v, u} X)],\n  LT.lt.{0} (Order.height.{max u v} Top.top.{max u v}) Top.top.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147"
+      ],
+      "structural_type_hash": "4282775806",
+      "temporary_id": "decl-019925"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {X : C}\n  (f : CategoryTheory.End.{v, u} X),\n  Antitone.{0, max u v} fun n => CategoryTheory.Limits.imageSubobject.{v, u} (HPow.hPow.{v, 0, v} f n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "3196900495",
+      "temporary_id": "decl-020508"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {X : C}\n  (f : CategoryTheory.End.{v, u} X),\n  Monotone.{0, max u v} fun n => CategoryTheory.Limits.kernelSubobject.{v, u} (HPow.hPow.{v, 0, v} f n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "3072528916",
+      "temporary_id": "decl-021023"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [decl-005147.{u, v} C] {X : C},\n  WellFoundedLT.{max u v} (CategoryTheory.Subobject.{v, u} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147"
+      ],
+      "structural_type_hash": "1535758873",
+      "temporary_id": "decl-024515"
+    }
+  ],
+  "module_temporary_id": "module-0729",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

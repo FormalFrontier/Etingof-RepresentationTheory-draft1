@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:23b34b819e5978e52ed3",
+      "declaration": "ModuleCat.abelian",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/495/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Category.ModuleCat.Abelian"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.7.2",
+  "packet_id": "align-0234",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0234"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:467b54487f0b8a7611a8",
+  "source_text": "All modules over a ring form an abelian category."
+}

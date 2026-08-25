@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Exercise7.8.4",
+    "kind": "exercise",
+    "title": "Exact sequences of vector spaces split",
+    "node_id": "chapter-07/section-7-8",
+    "order": 506,
+    "slug": "exercise7-8-4",
+    "span": {
+      "start": {
+        "page": "193",
+        "line": 1
+      },
+      "end": {
+        "page": "193",
+        "line": 8
+      }
+    },
+    "source_sha256": "9be9556f3044abca14bba493587fa06cdb17bfc3794c6ae493dd16f90590c8b0",
+    "features": {
+      "line_count": 8,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Exercise784",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

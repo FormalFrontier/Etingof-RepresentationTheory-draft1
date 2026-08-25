@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f7dc42adc979156947dc",
+      "declaration": "Etingof.MatrixCoefficients.basis",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/216/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k G : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [IsAlgClosed.{u} k] \u2192\n      [inst_2 : Group.{u} G] \u2192\n        [inst_3 : Fintype.{u} G] \u2192\n          {n : Nat} \u2192\n            {d : Fin n \u2192 Nat} \u2192\n              {V : Fin n \u2192 FDRep.{u, u} k G} \u2192\n                {b :\n                    (i : Fin n) \u2192\n                      Module.Basis.{0, u, u} (Fin (d i)) k\n                        (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))} \u2192\n                  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] \u2192\n                    (\u2200 (i : Fin n), CategoryTheory.Simple.{u, u + 1} (V i)) \u2192\n                      (\u2200 (i j : Fin n), Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n                        (\u2200 (W : FDRep.{u, u} k G),\n                            CategoryTheory.Simple.{u, u + 1} W \u2192\n                              Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} W (V i))) \u2192\n                          (\u2200 (i : Fin n), Ne.{u + 1} (Nat.cast.{u} (d i)) 0) \u2192\n                            Module.Basis.{0, u, u} (Etingof.MatrixCoefficients.Index n d) k (G \u2192 k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Proposition4_7_1"
+    },
+    {
+      "association_id": "association:48e5aa8ec960d0f74196",
+      "declaration": "Etingof.Proposition4_7_1_exists_orthogonal_basis",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/216/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Proposition4_7_1"
+    },
+    {
+      "association_id": "association:bc8d041d2e05967ab39b",
+      "declaration": "Etingof.Proposition4_7_1_orthogonal_basis",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/216/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Proposition4_7_1"
+    }
+  ],
+  "canonical_reference": "Chapter4/Proposition4.7.1",
+  "packet_id": "align-0256",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0256"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4c1e12cd0d63091b4262",
+  "source_text": "All irreducible matrix coefficients form an orthogonal basis of the full function space."
+}

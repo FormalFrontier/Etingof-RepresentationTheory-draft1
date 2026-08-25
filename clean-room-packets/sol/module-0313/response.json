@@ -1,0 +1,260 @@
+{
+  "module_name": "SymmetricGroup.PartitionSubspaceAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-003316",
+      "new_name": "finrank_partitionThreeAuxiliary_eq_two",
+      "docstring": "The complex subspace associated with the auxiliary partition of three has dimension two."
+    },
+    {
+      "temporary_id": "decl-003317",
+      "new_name": "finrank_partitionFourAuxiliaryOne_eq_three",
+      "docstring": "The complex subspace associated with the first auxiliary partition of four has dimension three."
+    },
+    {
+      "temporary_id": "decl-003318",
+      "new_name": "finrank_partitionFourAuxiliaryTwo_eq_two",
+      "docstring": "The complex subspace associated with the second auxiliary partition of four has dimension two."
+    },
+    {
+      "temporary_id": "decl-003319",
+      "new_name": "finrank_partitionFourAuxiliaryThree_eq_three",
+      "docstring": "The complex subspace associated with the third auxiliary partition of four has dimension three."
+    },
+    {
+      "temporary_id": "decl-003320",
+      "new_name": "finrank_positivePartitionAuxiliary_eq_one",
+      "docstring": "For positive size, the complex subspace attached to the auxiliary partition has dimension one."
+    },
+    {
+      "temporary_id": "decl-003321",
+      "new_name": "perm_smul_positivePartitionAuxiliary_eq_sign_smul",
+      "docstring": "A permutation acts on the auxiliary subtype by multiplication by its sign."
+    },
+    {
+      "temporary_id": "decl-003322",
+      "new_name": "exists_auxiliaryMap_signTwist",
+      "docstring": "There exists an auxiliary map satisfying the displayed sign-twisted action equation."
+    },
+    {
+      "temporary_id": "decl-003323",
+      "new_name": "nonempty_auxiliaryIso_partitionFourAuxiliaryOne",
+      "docstring": "The displayed isomorphism type involving the first auxiliary partition of four is nonempty."
+    },
+    {
+      "temporary_id": "decl-003324",
+      "new_name": "isEmpty_linearEquiv_partitionFourAuxiliaryThree_one",
+      "docstring": "There is no linear equivalence between the subspaces attached to the third and first auxiliary partitions of four."
+    },
+    {
+      "temporary_id": "decl-003325",
+      "new_name": "nonempty_auxiliaryIso_partitionFourAuxiliaryThree",
+      "docstring": "The displayed isomorphism type involving the third auxiliary partition of four is nonempty."
+    },
+    {
+      "temporary_id": "decl-003326",
+      "new_name": "finrank_positivePartitionAuxiliaryAlt_eq_one",
+      "docstring": "For positive size, the complex subspace attached to the alternate auxiliary partition has dimension one."
+    },
+    {
+      "temporary_id": "decl-003327",
+      "new_name": "perm_smul_positivePartitionAuxiliaryAlt_eq_self",
+      "docstring": "Every permutation fixes each vector in the subspace associated with the alternate auxiliary partition."
+    },
+    {
+      "temporary_id": "decl-003328",
+      "new_name": "replicate_one_auxiliary_eq_zero",
+      "docstring": "The indicated auxiliary quantity applied to a list of repeated ones equals zero."
+    },
+    {
+      "temporary_id": "decl-003330",
+      "new_name": "positivePartitionAuxiliaryAlt_auxiliary_eq_one",
+      "docstring": "The indicated auxiliary quantity of the alternate positive-size partition equals one."
+    },
+    {
+      "temporary_id": "decl-003331",
+      "new_name": "positivePartitionAuxiliary",
+      "docstring": "An auxiliary partition associated with a positive natural number."
+    },
+    {
+      "temporary_id": "decl-003336",
+      "new_name": "mem_positivePartitionAuxiliaryAlt_imp_eq_one",
+      "docstring": "A permutation satisfying the displayed membership condition for the alternate auxiliary partition is the identity."
+    },
+    {
+      "temporary_id": "decl-003337",
+      "new_name": "partitionFourAuxiliaryThree_auxiliaryMap_eq_partitionFourAuxiliaryOne",
+      "docstring": "The displayed auxiliary map sends the third auxiliary partition of four to the first one."
+    },
+    {
+      "temporary_id": "decl-003338",
+      "new_name": "finrank_auxiliaryObject_partitionFourAuxiliaryOne_eq_three",
+      "docstring": "The displayed complex module built from the first auxiliary partition of four has dimension three."
+    },
+    {
+      "temporary_id": "decl-003339",
+      "new_name": "finrank_auxiliaryObject_partitionFourAuxiliaryThree_eq_three",
+      "docstring": "The displayed complex module built from the third auxiliary partition of four has dimension three."
+    },
+    {
+      "temporary_id": "decl-003340",
+      "new_name": "isoToLinearEquiv_map_eq_self_of_eq_self",
+      "docstring": "A representation isomorphism sends a vector fixed by an element to a vector fixed by that element."
+    },
+    {
+      "temporary_id": "decl-003341",
+      "new_name": "positivePartitionAuxiliary_hookLengthProduct_eq_factorial",
+      "docstring": "The hook-length product of the auxiliary positive-size partition equals the factorial of its size."
+    },
+    {
+      "temporary_id": "decl-003350",
+      "new_name": "hookLengthProduct_eq_prod_sortedParts",
+      "docstring": "The hook-length product is the product over cells of the expression computed from sorted row lengths and taller rows."
+    },
+    {
+      "temporary_id": "decl-003351",
+      "new_name": "hookLengthProduct_eq_of_sortedParts_prod_eq",
+      "docstring": "A product formula computed from a partition's sorted row lengths determines its hook-length product."
+    },
+    {
+      "temporary_id": "decl-003352",
+      "new_name": "positivePartitionAuxiliaryAlt_hookLengthProduct_eq_factorial",
+      "docstring": "The hook-length product of the alternate auxiliary positive-size partition equals the factorial of its size."
+    },
+    {
+      "temporary_id": "decl-003354",
+      "new_name": "perm_mem_positivePartitionAuxiliary",
+      "docstring": "Every permutation satisfies the displayed membership condition for the auxiliary positive-size partition."
+    },
+    {
+      "temporary_id": "decl-003355",
+      "new_name": "perm_mem_positivePartitionAuxiliaryAlt",
+      "docstring": "Every permutation satisfies the displayed membership condition for the alternate auxiliary partition."
+    },
+    {
+      "temporary_id": "decl-003356",
+      "new_name": "perm_mul_positivePartitionAuxiliary_element_eq_sign_smul",
+      "docstring": "Left multiplication by a permutation scales the indicated auxiliary element by the permutation's sign."
+    },
+    {
+      "temporary_id": "decl-003357",
+      "new_name": "perm_mul_positivePartitionAuxiliaryAlt_element_eq_self",
+      "docstring": "Left multiplication by any permutation fixes the indicated element for the alternate auxiliary partition."
+    },
+    {
+      "temporary_id": "decl-003358",
+      "new_name": "partitionThreeAuxiliary",
+      "docstring": "An auxiliary partition of three."
+    },
+    {
+      "temporary_id": "decl-003361",
+      "new_name": "partitionFourAuxiliaryOne",
+      "docstring": "A first auxiliary partition of four."
+    },
+    {
+      "temporary_id": "decl-003364",
+      "new_name": "partitionFourAuxiliaryTwo",
+      "docstring": "A second auxiliary partition of four."
+    },
+    {
+      "temporary_id": "decl-003367",
+      "new_name": "partitionFourAuxiliaryThree",
+      "docstring": "A third auxiliary partition of four."
+    },
+    {
+      "temporary_id": "decl-003370",
+      "new_name": "prod_range_sub_eq_factorial",
+      "docstring": "The product of the differences `n - k` for `k` in `range n` equals `n!`."
+    },
+    {
+      "temporary_id": "decl-003372",
+      "new_name": "eq_zero_of_swap_zero_one_fixed_of_swap_one_two_fixed",
+      "docstring": "A vector in the indicated subrepresentation fixed by the swaps of zero with one and one with two is zero."
+    },
+    {
+      "temporary_id": "decl-003373",
+      "new_name": "swap_action_apply_eq_neg_apply_swap",
+      "docstring": "For distinct indices, acting by their swap evaluates as the negative of the original vector at the swapped coordinate."
+    },
+    {
+      "temporary_id": "decl-003374",
+      "new_name": "replicate_one_auxiliary_eq_index",
+      "docstring": "Below the list length, the indicated auxiliary quantity of a repeated-one list equals its index."
+    },
+    {
+      "temporary_id": "decl-003379",
+      "new_name": "positivePartitionAuxiliaryAlt",
+      "docstring": "An alternate auxiliary partition associated with a positive natural number."
+    },
+    {
+      "temporary_id": "decl-003384",
+      "new_name": "mem_positivePartitionAuxiliary_imp_eq_one",
+      "docstring": "A permutation satisfying the displayed membership condition for the auxiliary positive-size partition is the identity."
+    },
+    {
+      "temporary_id": "decl-003385",
+      "new_name": "positivePartitionAuxiliary_auxiliary_eq_one",
+      "docstring": "The indicated auxiliary quantity of the positive-size partition equals one."
+    },
+    {
+      "temporary_id": "decl-003386",
+      "new_name": "partition_auxiliaryProduct_ne_zero",
+      "docstring": "For every partition, the indicated auxiliary product is nonzero."
+    },
+    {
+      "temporary_id": "decl-003387",
+      "new_name": "positivePartitionAuxiliary_sortedParts_eq_replicate_one",
+      "docstring": "The sorted parts of the auxiliary partition of positive size are a list of that many ones."
+    },
+    {
+      "temporary_id": "decl-003388",
+      "new_name": "sortedParts_eq_of_parts_eq_of_pairwise_ge",
+      "docstring": "A weakly decreasing list representing the parts of a partition is its sorted-parts list."
+    },
+    {
+      "temporary_id": "decl-003389",
+      "new_name": "partitionFourAuxiliaryThree_sortedParts",
+      "docstring": "The sorted parts of the third auxiliary partition of four are three and one."
+    },
+    {
+      "temporary_id": "decl-003390",
+      "new_name": "positivePartitionAuxiliaryAlt_sortedParts",
+      "docstring": "The sorted-parts list of the alternate positive-size partition is the singleton containing its size."
+    },
+    {
+      "temporary_id": "decl-003391",
+      "new_name": "partitionFourAuxiliaryThree_auxiliaryElement_fixed_of_mem",
+      "docstring": "A permutation satisfying the displayed membership condition fixes the auxiliary element of the third auxiliary partition."
+    },
+    {
+      "temporary_id": "decl-003392",
+      "new_name": "smul_eq_scalar_smul_of_finrank_one_of_auxiliary_eq",
+      "docstring": "If the displayed subtype has complex dimension one and a permutation acts on the indicated auxiliary element by a scalar, then it acts on every element by that scalar."
+    },
+    {
+      "temporary_id": "decl-003393",
+      "new_name": "swap_zero_one_mem_partitionFourAuxiliaryThree",
+      "docstring": "The transposition swapping zero and one satisfies the displayed membership condition for the third auxiliary partition of four."
+    },
+    {
+      "temporary_id": "decl-003394",
+      "new_name": "swap_one_two_mem_partitionFourAuxiliaryThree",
+      "docstring": "The transposition swapping one and two satisfies the displayed membership condition for the third auxiliary partition of four."
+    },
+    {
+      "temporary_id": "decl-003395",
+      "new_name": "YoungDiagram.colLen_eq_card_filter_sortedParts",
+      "docstring": "A column length equals the number of sorted row lengths strictly exceeding the column index."
+    },
+    {
+      "temporary_id": "decl-003398",
+      "new_name": "partitionFourAuxiliaryThree_auxiliaryElement",
+      "docstring": "An auxiliary element of the displayed subtype associated with the third auxiliary partition of four."
+    },
+    {
+      "temporary_id": "decl-003400",
+      "new_name": "partitionFourAuxiliaryThree_auxiliaryElement_ne_zero",
+      "docstring": "The auxiliary element of the displayed subtype for the third auxiliary partition of four is nonzero."
+    }
+  ]
+}

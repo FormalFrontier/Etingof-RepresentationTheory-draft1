@@ -1,0 +1,30 @@
+{
+  "module_name": "Algebra.Polynomial.EndomorphismAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-016894",
+      "new_name": "auxiliary_adjoin_pair_eq_top",
+      "docstring": "Adjoining the two displayed elements gives the top subalgebra."
+    },
+    {
+      "temporary_id": "decl-016895",
+      "new_name": "auxiliaryAlgEquiv",
+      "docstring": "An auxiliary algebra equivalence to the subtype of the displayed subalgebra."
+    },
+    {
+      "temporary_id": "decl-016896",
+      "new_name": "auxiliaryAlgEquiv_apply",
+      "docstring": "The value underlying the auxiliary algebra equivalence agrees with the displayed map."
+    },
+    {
+      "temporary_id": "decl-016925",
+      "new_name": "auxiliaryMap_range",
+      "docstring": "The range of the displayed algebra homomorphism equals the displayed subalgebra."
+    },
+    {
+      "temporary_id": "decl-022062",
+      "new_name": "auxiliaryEndomorphismSubalgebra",
+      "docstring": "An auxiliary subalgebra of endomorphisms of the polynomial module over a commutative ring."
+    }
+  ]
+}

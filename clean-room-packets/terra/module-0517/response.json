@@ -1,0 +1,100 @@
+{
+  "module_name": "FiniteDimensionalLinearChainRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-000081",
+      "new_name": "LinearChainRepresentation",
+      "docstring": "A finite-dimensional representation consisting of three vector spaces over a field and two successive linear maps."
+    },
+    {
+      "temporary_id": "decl-000082",
+      "new_name": "IsIndecomposable",
+      "docstring": "The predicate that a finite-dimensional linear-chain representation is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000116",
+      "new_name": "left",
+      "docstring": "The left vector space of a linear-chain representation."
+    },
+    {
+      "temporary_id": "decl-000117",
+      "new_name": "middle",
+      "docstring": "The middle vector space of a linear-chain representation."
+    },
+    {
+      "temporary_id": "decl-000118",
+      "new_name": "right",
+      "docstring": "The right vector space of a linear-chain representation."
+    },
+    {
+      "temporary_id": "decl-000121",
+      "new_name": "leftAddCommGroup",
+      "docstring": "The additive commutative group structure on the left space."
+    },
+    {
+      "temporary_id": "decl-000122",
+      "new_name": "middleAddCommGroup",
+      "docstring": "The additive commutative group structure on the middle space."
+    },
+    {
+      "temporary_id": "decl-000123",
+      "new_name": "rightAddCommGroup",
+      "docstring": "The additive commutative group structure on the right space."
+    },
+    {
+      "temporary_id": "decl-000135",
+      "new_name": "leftToMiddle",
+      "docstring": "The linear map from the left space to the middle space."
+    },
+    {
+      "temporary_id": "decl-000136",
+      "new_name": "finiteDimensional_left",
+      "docstring": "The left space of a linear-chain representation is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-000137",
+      "new_name": "finiteDimensional_middle",
+      "docstring": "The middle space of a linear-chain representation is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-000138",
+      "new_name": "finiteDimensional_right",
+      "docstring": "The right space of a linear-chain representation is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-000139",
+      "new_name": "middleToRight",
+      "docstring": "The linear map from the middle space to the right space."
+    },
+    {
+      "temporary_id": "decl-000146",
+      "new_name": "leftModule",
+      "docstring": "The scalar module structure on the left space."
+    },
+    {
+      "temporary_id": "decl-000147",
+      "new_name": "middleModule",
+      "docstring": "The scalar module structure on the middle space."
+    },
+    {
+      "temporary_id": "decl-000148",
+      "new_name": "rightModule",
+      "docstring": "The scalar module structure on the right space."
+    },
+    {
+      "temporary_id": "decl-003720",
+      "new_name": "isIndecomposable_dimension_cases",
+      "docstring": "An indecomposable linear-chain representation has one of the six displayed dimension triples; the left-to-middle map is injective in the `(1, 1, 0)` case, the middle-to-right map is injective in the `(0, 1, 1)` case, and both are injective in the `(1, 1, 1)` case."
+    },
+    {
+      "temporary_id": "decl-032677",
+      "new_name": "eq_zero_of_finrank_eq_zero",
+      "docstring": "Every element of a finite-dimensional vector space of dimension zero is zero."
+    },
+    {
+      "temporary_id": "decl-032905",
+      "new_name": "isCompl_map_of_bijective",
+      "docstring": "A bijective linear map sends complementary submodules to complementary submodules."
+    }
+  ]
+}

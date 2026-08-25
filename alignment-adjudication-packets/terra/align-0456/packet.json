@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f0d48b01141f4f01b961",
+      "declaration": "Etingof.not_natIso_id_contragredientFunctor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/479/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k],\n  IsEmpty.{u + 2}\n    (CategoryTheory.Iso.{u + 1, u + 1}\n      (CategoryTheory.Functor.id.{u, u + 1} (CategoryTheory.Core.{u + 1} (FGModuleCat.{u, u} k)))\n      (Etingof.contragredientFunctor.{u} k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_3_2"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.3.2",
+  "packet_id": "align-0456",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0456"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:92617737953d78f1b33b",
+  "source_text": "The contragredient functor on the isomorphism-only category is objectwise isomorphic but not naturally isomorphic to the identity."
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0509",
+  "associations": [
+    {
+      "association_id": "association:0c005a7fb445e1bc0a65",
+      "rationale": "The formal equality directly gives finrank(SymPow k V n) as choose(finrank V + n - 1, n).",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:b1b598374cccbf96e0da",
+      "rationale": "The equality uses the opaque multichoose operation rather than directly displaying the source's binomial expression.",
+      "role": "supporting"
+    }
+  ]
+}

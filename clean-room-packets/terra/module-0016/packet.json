@@ -1,0 +1,175 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(A : Type u_1) \u2192\n  (V : Type u_2) \u2192 [inst : Ring.{u_1} A] \u2192 [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} A V] \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3555477866",
+      "temporary_id": "decl-005194"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} {V : Type u_2} [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V],\n  decl-005194.{u_1, u_2} A V \u2192\n    Not\n      (Exists.{u_2 + 1} fun M =>\n        Exists.{u_2 + 1} fun N =>\n          And (Ne.{u_2 + 1} M Bot.bot.{u_2})\n            (And (Ne.{u_2 + 1} N Bot.bot.{u_2})\n              (And (Eq.{u_2 + 1} (Max.max.{u_2} M N) Top.top.{u_2}) (Eq.{u_2 + 1} (Min.min.{u_2} M N) Bot.bot.{u_2}))))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005194",
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "241527371",
+      "temporary_id": "decl-005196"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192 (V : Type v) \u2192 [inst : Ring.{u} A] \u2192 [inst_1 : AddCommGroup.{v} V] \u2192 [Module.{u, v} A V] \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4251372468",
+      "temporary_id": "decl-005199"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192\n  (V : Type v) \u2192 [inst : Ring.{u} A] \u2192 [inst_1 : AddCommGroup.{v} V] \u2192 [Module.{u, v} A V] \u2192 Type (max u (v + 1))",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2129527031",
+      "temporary_id": "decl-005725"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  {V : Type v} \u2192\n    [inst : Ring.{u} A] \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} A V] \u2192 decl-005725.{u, v} A V \u2192 Type v",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005725",
+      "project_type_dependencies": [
+        "decl-005725"
+      ],
+      "structural_type_hash": "2332670948",
+      "temporary_id": "decl-005726"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  {V : Type v} \u2192\n    [inst : Ring.{u} A] \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} A V] \u2192 decl-005725.{u, v} A V \u2192 Type v",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005725",
+      "project_type_dependencies": [
+        "decl-005725"
+      ],
+      "structural_type_hash": "2332670948",
+      "temporary_id": "decl-005727"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  {V : Type v} \u2192\n    [inst : Ring.{u} A] \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} A V] \u2192\n          (self : decl-005725.{u, v} A V) \u2192\n            AddCommGroup.{v} (decl-005726.{u, v} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005725",
+      "project_type_dependencies": [
+        "decl-005725",
+        "decl-005726"
+      ],
+      "structural_type_hash": "2361598602",
+      "temporary_id": "decl-005730"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  {V : Type v} \u2192\n    [inst : Ring.{u} A] \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} A V] \u2192\n          (self : decl-005725.{u, v} A V) \u2192\n            AddCommGroup.{v} (decl-005727.{u, v} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005725",
+      "project_type_dependencies": [
+        "decl-005725",
+        "decl-005727"
+      ],
+      "structural_type_hash": "2685532611",
+      "temporary_id": "decl-005731"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  {V : Type v} \u2192\n    [inst : Ring.{u} A] \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} A V] \u2192\n          (self : decl-005725.{u, v} A V) \u2192\n            LinearEquiv.{u, u, v, v} (RingHom.id.{u} A) V\n              (Prod.{v, v} (decl-005726.{u, v} self)\n                (decl-005727.{u, v} self))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005725",
+      "project_type_dependencies": [
+        "decl-005725",
+        "decl-005726",
+        "decl-005727",
+        "decl-005730",
+        "decl-005731",
+        "decl-005741",
+        "decl-005742"
+      ],
+      "structural_type_hash": "3702641821",
+      "temporary_id": "decl-005734"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  {V : Type v} \u2192\n    [inst : Ring.{u} A] \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} A V] \u2192\n          (self : decl-005725.{u, v} A V) \u2192\n            Module.{u, v} A (decl-005726.{u, v} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005725",
+      "project_type_dependencies": [
+        "decl-005725",
+        "decl-005726",
+        "decl-005730"
+      ],
+      "structural_type_hash": "1643580262",
+      "temporary_id": "decl-005741"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  {V : Type v} \u2192\n    [inst : Ring.{u} A] \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} A V] \u2192\n          (self : decl-005725.{u, v} A V) \u2192\n            Module.{u, v} A (decl-005727.{u, v} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005725",
+      "project_type_dependencies": [
+        "decl-005725",
+        "decl-005727",
+        "decl-005731"
+      ],
+      "structural_type_hash": "821132970",
+      "temporary_id": "decl-005742"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} {V : Type v} [inst : Ring.{u} A] [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} A V]\n  (self : decl-005725.{u, v} A V),\n  Nontrivial.{v} (decl-005726.{u, v} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005725",
+      "project_type_dependencies": [
+        "decl-005725",
+        "decl-005726"
+      ],
+      "structural_type_hash": "1198676510",
+      "temporary_id": "decl-005745"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} {V : Type v} [inst : Ring.{u} A] [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} A V]\n  (self : decl-005725.{u, v} A V),\n  Nontrivial.{v} (decl-005727.{u, v} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005725",
+      "project_type_dependencies": [
+        "decl-005725",
+        "decl-005727"
+      ],
+      "structural_type_hash": "1202572536",
+      "temporary_id": "decl-005746"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) (V : Type v) [inst : Ring.{u} A] [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} A V],\n  Iff (decl-005194.{u, v} A V) (decl-005199.{u, v} A V)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194",
+        "decl-005199"
+      ],
+      "structural_type_hash": "3480723349",
+      "temporary_id": "decl-020843"
+    }
+  ],
+  "module_temporary_id": "module-0016",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

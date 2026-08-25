@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0937",
+  "associations": [
+    {
+      "association_id": "association:5c844a55892dc3be6d27",
+      "role": "supporting",
+      "rationale": "It proves indecomposability, one component of the combined representative-and-nonisomorphism claim."
+    },
+    {
+      "association_id": "association:0f091fdf2322535ecd63",
+      "role": "supporting",
+      "rationale": "It proves nonisomorphism of distinct representatives, one component of the combined claim."
+    }
+  ]
+}

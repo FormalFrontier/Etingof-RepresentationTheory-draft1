@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1130",
+  "associations": [
+    {
+      "association_id": "association:0ec8f14a649890a843fe",
+      "role": "primary",
+      "rationale": "For a subsingleton algebra A, the formal type directly asserts an algebra equivalence with Fin 0 → Matrix (Fin 0) (Fin 0) k, displaying the empty-family n = 0 matrix-algebra case."
+    }
+  ]
+}

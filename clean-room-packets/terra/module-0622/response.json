@@ -1,0 +1,45 @@
+{
+  "module_name": "Algebra.Homology.TensorProductConstruction",
+  "declarations": [
+    {
+      "temporary_id": "decl-016764",
+      "new_name": "degreewiseModuleGroup",
+      "docstring": "A degree-indexed additive commutative group attached to a right module and a fixed left module."
+    },
+    {
+      "temporary_id": "decl-016765",
+      "new_name": "degreewiseModuleGroupFunctor",
+      "docstring": "For a fixed degree, a functor from right modules to additive commutative groups."
+    },
+    {
+      "temporary_id": "decl-017273",
+      "new_name": "integerTensorSubgroup",
+      "docstring": "An additive subgroup of the integer tensor product of a right module with a fixed left module."
+    },
+    {
+      "temporary_id": "decl-020577",
+      "new_name": "moduleConstructionFunctor_additive",
+      "docstring": "The module construction functor is additive."
+    },
+    {
+      "temporary_id": "decl-023968",
+      "new_name": "ModuleConstruction",
+      "docstring": "A type associated with a right module and a fixed left module over a ring."
+    },
+    {
+      "temporary_id": "decl-024058",
+      "new_name": "moduleConstructionFunctor",
+      "docstring": "A functor from right modules to additive commutative groups for a fixed left module."
+    },
+    {
+      "temporary_id": "decl-024070",
+      "new_name": "moduleConstructionMap",
+      "docstring": "The additive homomorphism between the associated types induced by a morphism of right modules."
+    },
+    {
+      "temporary_id": "decl-024212",
+      "new_name": "degreewiseModuleGroupIsoResolutionHomology",
+      "docstring": "An isomorphism from the degree-indexed group to the homology of the fixed functor applied to a projective resolution."
+    }
+  ]
+}

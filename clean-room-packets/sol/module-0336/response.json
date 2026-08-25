@@ -1,0 +1,240 @@
+{
+  "module_name": "FiniteGroups.GL2Conjugacy",
+  "declarations": [
+    {
+      "temporary_id": "decl-024852",
+      "new_name": "card_conjClasses_eq_fieldCard_sq_sub_one",
+      "docstring": "The number of conjugacy classes is one less than the square of the finite-field cardinality when the characteristic is not two and the extension degree is nonzero."
+    },
+    {
+      "temporary_id": "decl-024862",
+      "new_name": "card_conjClasses_eq_sum_auxiliaryCounts",
+      "docstring": "The number of conjugacy classes is the sum of the four associated auxiliary counts."
+    },
+    {
+      "temporary_id": "decl-024865",
+      "new_name": "card_generalLinearGroup_fin_two",
+      "docstring": "The cardinality of the general linear group in dimension two over a finite field is `(q ^ 2 - 1) * (q ^ 2 - q)`."
+    },
+    {
+      "temporary_id": "decl-024866",
+      "new_name": "card_generalLinearGroup_fin_two_factored",
+      "docstring": "The cardinality of the general linear group in dimension two over a finite field is `q * (q + 1) * (q - 1) ^ 2`."
+    },
+    {
+      "temporary_id": "decl-024896",
+      "new_name": "card_centralizer_eq_fieldCard_sq_sub_one_of_auxiliaryOne",
+      "docstring": "Under the first auxiliary predicate, the centralizer has cardinality `q ^ 2 - 1`."
+    },
+    {
+      "temporary_id": "decl-024897",
+      "new_name": "card_centralizer_eq_fieldCard_mul_pred_of_auxiliaryTwo",
+      "docstring": "Under the second auxiliary predicate, the centralizer has cardinality `q * (q - 1)`."
+    },
+    {
+      "temporary_id": "decl-024898",
+      "new_name": "card_centralizer_eq_generalLinearFactors_of_auxiliaryThree",
+      "docstring": "Under the third auxiliary predicate, the centralizer has cardinality `(q ^ 2 - 1) * (q ^ 2 - q)`."
+    },
+    {
+      "temporary_id": "decl-024899",
+      "new_name": "card_centralizer_eq_fieldCard_pred_sq_of_auxiliaryFour",
+      "docstring": "Under the fourth auxiliary predicate, the centralizer has cardinality `(q - 1) ^ 2` when the characteristic is not two."
+    },
+    {
+      "temporary_id": "decl-024900",
+      "new_name": "card_conjOrbit_eq_fieldCard_sq_sub_self_of_auxiliaryOne",
+      "docstring": "Under the first auxiliary predicate, the conjugation orbit has cardinality `q ^ 2 - q` for nonzero extension degree."
+    },
+    {
+      "temporary_id": "decl-024902",
+      "new_name": "card_conjOrbit_eq_fieldCard_sq_sub_one_of_auxiliaryTwo",
+      "docstring": "Under the second auxiliary predicate, the conjugation orbit has cardinality `q ^ 2 - 1` for nonzero extension degree."
+    },
+    {
+      "temporary_id": "decl-024905",
+      "new_name": "card_conjOrbit_eq_one_of_auxiliaryThree",
+      "docstring": "Under the third auxiliary predicate, the conjugation orbit is a singleton."
+    },
+    {
+      "temporary_id": "decl-024906",
+      "new_name": "card_conjOrbit_eq_fieldCard_sq_add_self_of_auxiliaryFour",
+      "docstring": "Under the fourth auxiliary predicate, the conjugation orbit has cardinality `q ^ 2 + q` when the characteristic is not two and the extension degree is nonzero."
+    },
+    {
+      "temporary_id": "decl-024914",
+      "new_name": "diagonalUnit",
+      "docstring": "An invertible two-by-two matrix constructed from two nonzero finite-field elements."
+    },
+    {
+      "temporary_id": "decl-024917",
+      "new_name": "val_diagonalUnit",
+      "docstring": "The underlying matrix of `diagonalUnit x y` has diagonal entries `x` and `y` and zero off-diagonal entries."
+    },
+    {
+      "temporary_id": "decl-024921",
+      "new_name": "auxiliaryInvariant_conjugate",
+      "docstring": "The auxiliary value is unchanged by conjugation."
+    },
+    {
+      "temporary_id": "decl-024924",
+      "new_name": "disjoint_conjClasses_image_of_cross_disjoint",
+      "docstring": "Two predicates whose elements are never mutually conjugate have disjoint images in the set of conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-024925",
+      "new_name": "nonsquareExtensionUnit",
+      "docstring": "An invertible two-by-two matrix constructed from a nonsquare parameter and a nonzero coefficient."
+    },
+    {
+      "temporary_id": "decl-024928",
+      "new_name": "val_nonsquareExtensionUnit",
+      "docstring": "The underlying matrix of `nonsquareExtensionUnit ε x y` has rows `(x, ε * y)` and `(y, x)`."
+    },
+    {
+      "temporary_id": "decl-024929",
+      "new_name": "eq_of_auxiliaryThree_of_isConj",
+      "docstring": "Conjugate elements satisfying the third auxiliary predicate are equal."
+    },
+    {
+      "temporary_id": "decl-024930",
+      "new_name": "exists_isConj_nonsquareExtensionUnit_of_auxiliaryOne",
+      "docstring": "An element satisfying the first auxiliary predicate is conjugate to a `nonsquareExtensionUnit` for every nonsquare parameter, provided the characteristic is not two and the extension degree is nonzero."
+    },
+    {
+      "temporary_id": "decl-024938",
+      "new_name": "exists_isConj_upperTriangularUnit_of_auxiliaryTwo",
+      "docstring": "In characteristic other than two, an element satisfying the second auxiliary predicate is conjugate to an upper-triangular unit of the specified form."
+    },
+    {
+      "temporary_id": "decl-024946",
+      "new_name": "exists_isConj_scalarUnit_of_auxiliaryThree",
+      "docstring": "An element satisfying the third auxiliary predicate is conjugate to a scalar unit."
+    },
+    {
+      "temporary_id": "decl-024947",
+      "new_name": "exists_isConj_diagonalUnit_of_auxiliaryFour",
+      "docstring": "In characteristic other than two, an element satisfying the fourth auxiliary predicate is conjugate to a diagonal unit with distinct nonzero diagonal entries."
+    },
+    {
+      "temporary_id": "decl-024955",
+      "new_name": "isConj_of_val_mul_eq_mul_val",
+      "docstring": "An invertible matrix intertwining the underlying matrices of two units exhibits them as conjugate."
+    },
+    {
+      "temporary_id": "decl-024956",
+      "new_name": "auxiliaryOne_conjugate_iff",
+      "docstring": "The first auxiliary predicate is invariant under conjugation."
+    },
+    {
+      "temporary_id": "decl-024957",
+      "new_name": "auxiliaryTwo_conjugate_iff",
+      "docstring": "The second auxiliary predicate is invariant under conjugation."
+    },
+    {
+      "temporary_id": "decl-024960",
+      "new_name": "auxiliaryTwo_of_isConj",
+      "docstring": "The second auxiliary predicate transfers between conjugate elements."
+    },
+    {
+      "temporary_id": "decl-024961",
+      "new_name": "auxiliaryThree_conjugate_iff",
+      "docstring": "The third auxiliary predicate is invariant under conjugation."
+    },
+    {
+      "temporary_id": "decl-024974",
+      "new_name": "auxiliaryThree_of_isConj",
+      "docstring": "The third auxiliary predicate transfers between conjugate elements."
+    },
+    {
+      "temporary_id": "decl-024975",
+      "new_name": "auxiliaryFour_conjugate_iff",
+      "docstring": "The fourth auxiliary predicate is invariant under conjugation."
+    },
+    {
+      "temporary_id": "decl-024977",
+      "new_name": "auxiliaryFour_of_isConj",
+      "docstring": "The fourth auxiliary predicate transfers between conjugate elements."
+    },
+    {
+      "temporary_id": "decl-024978",
+      "new_name": "upperTriangularUnit",
+      "docstring": "An invertible two-by-two matrix constructed from a nonzero finite-field element."
+    },
+    {
+      "temporary_id": "decl-024981",
+      "new_name": "val_upperTriangularUnit",
+      "docstring": "The underlying matrix of `upperTriangularUnit x` has rows `(x, 1)` and `(0, x)`."
+    },
+    {
+      "temporary_id": "decl-024985",
+      "new_name": "auxiliaryCountOne",
+      "docstring": "A first auxiliary natural number associated with a finite-field parameter pair."
+    },
+    {
+      "temporary_id": "decl-024987",
+      "new_name": "auxiliaryCountOne_eq",
+      "docstring": "The first auxiliary count is `q * (q - 1) / 2` when the characteristic is not two and the extension degree is nonzero."
+    },
+    {
+      "temporary_id": "decl-024994",
+      "new_name": "auxiliaryCountTwo",
+      "docstring": "A second auxiliary natural number associated with a finite-field parameter pair."
+    },
+    {
+      "temporary_id": "decl-024996",
+      "new_name": "auxiliaryCountTwo_eq",
+      "docstring": "The second auxiliary count is `q - 1` when the characteristic is not two and the extension degree is nonzero."
+    },
+    {
+      "temporary_id": "decl-025002",
+      "new_name": "auxiliaryCountThree",
+      "docstring": "A third auxiliary natural number associated with a finite-field parameter pair."
+    },
+    {
+      "temporary_id": "decl-025004",
+      "new_name": "auxiliaryCountThree_eq",
+      "docstring": "The third auxiliary count is `q - 1` for nonzero extension degree."
+    },
+    {
+      "temporary_id": "decl-025005",
+      "new_name": "auxiliaryCountFour",
+      "docstring": "A fourth auxiliary natural number associated with a finite-field parameter pair."
+    },
+    {
+      "temporary_id": "decl-025007",
+      "new_name": "auxiliaryCountFour_eq",
+      "docstring": "The fourth auxiliary count is `(q - 1) * (q - 2) / 2` when the characteristic is not two and the extension degree is nonzero."
+    },
+    {
+      "temporary_id": "decl-025015",
+      "new_name": "card_conjOrbit_mul_card_centralizer",
+      "docstring": "The product of the cardinalities of the conjugation orbit and centralizer of an element equals the cardinality of the ambient finite group."
+    },
+    {
+      "temporary_id": "decl-025016",
+      "new_name": "scalarUnit",
+      "docstring": "A scalar invertible two-by-two matrix constructed from a nonzero finite-field element."
+    },
+    {
+      "temporary_id": "decl-025019",
+      "new_name": "val_scalarUnit",
+      "docstring": "The underlying matrix of `scalarUnit x` is `x` times the identity matrix."
+    },
+    {
+      "temporary_id": "decl-025024",
+      "new_name": "val_conjugate_eq_self_of_auxiliaryThree",
+      "docstring": "Conjugating an element satisfying the third auxiliary predicate does not change its underlying matrix."
+    },
+    {
+      "temporary_id": "decl-025025",
+      "new_name": "val_mul_comm_of_auxiliaryThree",
+      "docstring": "The underlying matrix of an element satisfying the third auxiliary predicate commutes with that of every unit."
+    },
+    {
+      "temporary_id": "decl-032944",
+      "new_name": "ncard_conjClasses_image_mul_classSize_eq",
+      "docstring": "For a conjugation-stable subset whose elements have a common centralizer cardinality, the number of represented conjugacy classes times their common class size equals the subset cardinality."
+    }
+  ]
+}

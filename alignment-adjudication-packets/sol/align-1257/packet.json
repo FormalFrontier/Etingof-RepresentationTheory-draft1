@@ -1,0 +1,124 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9c2fe87dc8ab74f8f2b5",
+      "declaration": "Etingof.SchurModuleP_eq_bot_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/366/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k] [IsAlgClosed.{u_1} k] (N : Nat) {n : Nat} (la : n.Partition),\n  Iff (Eq.{u_1 + 1} (Etingof.SchurModulePSubmodule.{u_1} k N la) Bot.bot.{u_1})\n    (LT.lt.{0} N (Multiset.card.{0} la.parts))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SchurModuleVanishing"
+    },
+    {
+      "association_id": "association:9a90d8c388bf4aeaf837",
+      "declaration": "Etingof.SchurModuleP_ne_bot_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/366/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k] [IsAlgClosed.{u_1} k] (N : Nat) {n : Nat} (la : n.Partition),\n  Iff (Ne.{u_1 + 1} (Etingof.SchurModulePSubmodule.{u_1} k N la) Bot.bot.{u_1})\n    (LE.le.{0} (Multiset.card.{0} la.parts) N)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SchurModuleVanishing"
+    },
+    {
+      "association_id": "association:f25249493b49ccb0aaa6",
+      "declaration": "Etingof.Theorem5_22_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/366/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    Eq.{1} (Etingof.formalCharacter.{u_1} k N (Etingof.SchurModule.{u_1} k N lam)) (Etingof.schurPoly N lam)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    },
+    {
+      "association_id": "association:2be7b51aba0252f3cf58",
+      "declaration": "Etingof.Theorem5_22_1_dim",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/366/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    Eq.{1}\n      (Nat.cast.{0}\n        (Module.finrank.{u_1, u_1} k\n          (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} (Etingof.SchurModule.{u_1} k N lam)))))\n      (Etingof.weylDimension N lam)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    },
+    {
+      "association_id": "association:bf59f9d1968df9db6615",
+      "declaration": "Etingof.Theorem5_22_1_full",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/366/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k] [inst_2 : IsAlgClosed.{u_1} k] (N : Nat) {n : Nat}\n  (la : n.Partition),\n  And\n    (Iff (Eq.{u_1 + 1} (Etingof.SchurModulePSubmodule.{u_1} k N la) Bot.bot.{u_1})\n      (LT.lt.{0} N (Multiset.card.{0} la.parts)))\n    (LE.le.{0} (Multiset.card.{0} la.parts) N \u2192\n      And\n        (Eq.{1} (Etingof.formalCharacter.{u_1} k N (Etingof.SchurModuleP.{u_1} k N la))\n          (Etingof.schurPoly N (Etingof.partWeight N la)))\n        (Eq.{1}\n          (Nat.cast.{0}\n            (Module.finrank.{u_1, u_1} k\n              (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} (Etingof.SchurModuleP.{u_1} k N la)))))\n          (Etingof.weylDimension N (Etingof.partWeight N la))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SchurModuleVanishing"
+    },
+    {
+      "association_id": "association:d65b5bebaeaa2238e322",
+      "declaration": "Etingof.finrank_SchurModuleP",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/366/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k] [inst_2 : IsAlgClosed.{u_1} k] (N : Nat) {n : Nat}\n  (la : n.Partition),\n  LE.le.{0} (Multiset.card.{0} la.parts) N \u2192\n    Eq.{1}\n      (Nat.cast.{0}\n        (Module.finrank.{u_1, u_1} k\n          (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} (Etingof.SchurModuleP.{u_1} k N la)))))\n      (Etingof.weylDimension N (Etingof.partWeight N la))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SchurModuleVanishing"
+    },
+    {
+      "association_id": "association:2281b9d5608e8fda2659",
+      "declaration": "Etingof.finrank_SchurModuleP_eq_zero_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/366/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k] [inst_2 : IsAlgClosed.{u_1} k] (N : Nat) {n : Nat}\n  (la : n.Partition),\n  Iff\n    (Eq.{1}\n      (Module.finrank.{u_1, u_1} k\n        (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} (Etingof.SchurModuleP.{u_1} k N la))))\n      0)\n    (LT.lt.{0} N (Multiset.card.{0} la.parts))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SchurModuleVanishing"
+    },
+    {
+      "association_id": "association:bbd28a30a70be7aa1a4b",
+      "declaration": "Etingof.formalCharacter_SchurModuleP",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/366/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k] [inst_2 : IsAlgClosed.{u_1} k] (N : Nat) {n : Nat}\n  (la : n.Partition),\n  LE.le.{0} (Multiset.card.{0} la.parts) N \u2192\n    Eq.{1} (Etingof.formalCharacter.{u_1} k N (Etingof.SchurModuleP.{u_1} k N la))\n      (Etingof.schurPoly N (Etingof.partWeight N la))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SchurModuleVanishing"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.22.1",
+  "packet_id": "align-1257",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1257"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Theorem5.22.1",
+  "source_text": "**Theorem 5.22.1** (Weyl character formula). *The representation $L_\\lambda$ is zero if and only if $N < p$, where $p$ is the number of parts of $\\lambda$. If $N \\geq p$, the character of $L_\\lambda$ is the Schur polynomial $S_\\lambda(x)$. Therefore, the dimension of $L_\\lambda$ is given by the formula*\n\n$$\n\\dim L_\\lambda = \\prod_{1 \\leq i < j \\leq N} \\frac{\\lambda_i - \\lambda_j + j - i}{j - i}.\n$$\n"
+}

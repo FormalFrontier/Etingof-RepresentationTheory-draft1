@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0505",
+  "associations": [
+    {
+      "association_id": "association:9767bc455cd28efaac1e",
+      "rationale": "The formal type displays the expected evaluation formula for an existential witness from a dual tensor, but the witness type is elided and therefore does not directly certify the claimed isomorphism with Hom(V,W).",
+      "role": "supporting"
+    }
+  ]
+}

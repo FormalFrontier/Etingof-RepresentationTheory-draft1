@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:630f4df8f495c0e1e552",
+      "declaration": "Etingof.Problem2_16_2.bracket_X_Y",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/120/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k],\n  Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} (Etingof.Problem2_16_2.X.{u_1} k) (Etingof.Problem2_16_2.Y.{u_1} k))\n    (Etingof.Problem2_16_2.Y.{u_1} k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2"
+    },
+    {
+      "association_id": "association:6f7a980f95feac0f7581",
+      "declaration": "Etingof.Problem2_16_2.g",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/120/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 [inst : Field.{u_1} k] \u2192 LieSubalgebra.{u_1, u_1} k (Matrix.{0, 0, u_1} (Fin 2) (Fin 2) k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2"
+    },
+    {
+      "association_id": "association:51373e0a40ed7fba64ea",
+      "declaration": "Etingof.Problem2_16_2.instIsSolvable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/120/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k],\n  LieAlgebra.IsSolvable.{u_1} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Etingof.Problem2_16_2.g.{u_1} k) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.2",
+  "packet_id": "align-0544",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0544"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.2:claim-01",
+  "source_text": "The two-dimensional Lie algebra has a basis X,Y satisfying [X,Y] = Y and is solvable."
+}

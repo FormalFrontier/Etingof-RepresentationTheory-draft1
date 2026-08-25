@@ -1,0 +1,105 @@
+{
+  "module_name": "ThreeArrowQuiver.LinearRangeConfiguration",
+  "declarations": [
+    {
+      "temporary_id": "decl-003443",
+      "new_name": "hom_eq_zeroToSink_or_oneToSink_or_twoToSink",
+      "docstring": "Every morphism in the four-vertex quiver is one of the three distinguished morphisms into the sink."
+    },
+    {
+      "temporary_id": "decl-003452",
+      "new_name": "AuxiliaryRangeEquivData",
+      "docstring": "Auxiliary data packaging the compatible linear equivalences used for the incoming maps."
+    },
+    {
+      "temporary_id": "decl-003455",
+      "new_name": "zeroEquivRange",
+      "docstring": "Identifies the space at vertex zero with the image of its map into the sink."
+    },
+    {
+      "temporary_id": "decl-003456",
+      "new_name": "oneEquivRange",
+      "docstring": "Identifies the space at vertex one with the image of its map into the sink."
+    },
+    {
+      "temporary_id": "decl-003457",
+      "new_name": "twoEquivRange",
+      "docstring": "Identifies the space at vertex two with the image of its map into the sink."
+    },
+    {
+      "temporary_id": "decl-003459",
+      "new_name": "sinkEquiv",
+      "docstring": "The chosen linear automorphism of the vector space assigned to the sink."
+    },
+    {
+      "temporary_id": "decl-003460",
+      "new_name": "zero_compatibility",
+      "docstring": "The sink equivalence and the range equivalence agree along the map from vertex zero."
+    },
+    {
+      "temporary_id": "decl-003461",
+      "new_name": "one_compatibility",
+      "docstring": "The sink equivalence and the range equivalence agree along the map from vertex one."
+    },
+    {
+      "temporary_id": "decl-003462",
+      "new_name": "two_compatibility",
+      "docstring": "The sink equivalence and the range equivalence agree along the map from vertex two."
+    },
+    {
+      "temporary_id": "decl-003508",
+      "new_name": "zeroToSink",
+      "docstring": "The distinguished quiver morphism from vertex zero to the sink."
+    },
+    {
+      "temporary_id": "decl-003510",
+      "new_name": "oneToSink",
+      "docstring": "The distinguished quiver morphism from vertex one to the sink."
+    },
+    {
+      "temporary_id": "decl-003512",
+      "new_name": "twoToSink",
+      "docstring": "The distinguished quiver morphism from vertex two to the sink."
+    },
+    {
+      "temporary_id": "decl-003514",
+      "new_name": "zeroToSinkLinearMap",
+      "docstring": "The complex-linear map carried by the arrow from vertex zero to the sink."
+    },
+    {
+      "temporary_id": "decl-003515",
+      "new_name": "oneToSinkLinearMap",
+      "docstring": "The complex-linear map carried by the arrow from vertex one to the sink."
+    },
+    {
+      "temporary_id": "decl-003516",
+      "new_name": "twoToSinkLinearMap",
+      "docstring": "The complex-linear map carried by the arrow from vertex two to the sink."
+    },
+    {
+      "temporary_id": "decl-003522",
+      "new_name": "vertexAddCommGroup",
+      "docstring": "Supplies an additive commutative group structure on every vertex space."
+    },
+    {
+      "temporary_id": "decl-003523",
+      "new_name": "sup_range_eq_top",
+      "docstring": "The images of the three incoming linear maps jointly generate the sink space."
+    },
+    {
+      "temporary_id": "decl-003524",
+      "new_name": "incomingLinearMaps_injective",
+      "docstring": "Each of the three linear maps entering the sink is injective."
+    },
+    {
+      "temporary_id": "decl-003525",
+      "new_name": "nonempty_auxiliaryRangeEquivData",
+      "docstring": "Compatible auxiliary range-equivalence data can be chosen."
+    },
+    {
+      "temporary_id": "decl-003526",
+      "new_name": "finrank_ranges_and_sup_eq_top",
+      "docstring": "The sink has dimension two, every incoming image has dimension one, and the three images span the sink."
+    }
+  ]
+}

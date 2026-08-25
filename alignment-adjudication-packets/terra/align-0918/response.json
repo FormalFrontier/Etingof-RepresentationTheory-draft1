@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0918",
+  "associations": [
+    {
+      "association_id": "association:73e66503c7e9e6f9680f",
+      "role": "supporting",
+      "rationale": "The displayed type only exposes IsSemisimpleRepresentation as an opaque predicate; it does not directly state the equivalence with a direct sum of irreducibles."
+    },
+    {
+      "association_id": "association:139d3089b6087ea0e28e",
+      "role": "supporting",
+      "rationale": "This Mathlib existence result supplies a direct-sum-style linear equivalence characterization, supporting rather than defining the source-specific representation predicate."
+    },
+    {
+      "association_id": "association:2581c08451b77418333f",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the packet provides no displayed evidence that this theorem states the complete semisimplicity/direct-sum equivalence."
+    }
+  ]
+}

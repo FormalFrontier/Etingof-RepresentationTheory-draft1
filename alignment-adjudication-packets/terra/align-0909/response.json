@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0909",
+  "associations": [
+    {
+      "association_id": "association:b634661af775d810e169",
+      "rationale": "The Jordan--Hölder result concerns composition-series factors generally, but does not directly state this quotient's induced filtration.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b191de7721cc36aba3ba",
+      "rationale": "Submodule comap is an operation useful for transporting filtration data, not the asserted induced-filtration statement itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f5354de76076ec4ef966",
+      "rationale": "Submodule map is an operation useful for quotient or filtration constructions, not the asserted induced-filtration statement itself.",
+      "role": "supporting"
+    }
+  ]
+}

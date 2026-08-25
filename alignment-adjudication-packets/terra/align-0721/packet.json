@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1850e3e706c28cbfc024",
+      "declaration": "Etingof.Problem4_12_6.Vrep_tprod_Vrep_equiv_rhsRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/235/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {K : Type} [inst : Field.{0} K] [inst_1 : Fintype.{0} K] [DecidableEq.{1} K]\n  [inst_3 : Fintype.{0} (MonoidHom.{0, 0} (Etingof.Problem4_12_6.Affine.{0} K) (Units.{0} Complex))],\n  LE.le.{0} 3 (Fintype.card.{0} K) \u2192\n    Nonempty.{1}\n      (Representation.Equiv.{0, 0, 0, 0}\n        (Representation.tprod.{0, 0, 0, 0} (Subrepresentation.toRepresentation.{0, 0, 0} Etingof.Problem4_12_6.Vsub.{0})\n          (Subrepresentation.toRepresentation.{0, 0, 0} Etingof.Problem4_12_6.Vsub.{0}))\n        Etingof.Problem4_12_6.rhsRep.{0})",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6"
+    },
+    {
+      "association_id": "association:000bb88933b5a130c63b",
+      "declaration": "Etingof.Problem4_12_6.charRep_tprod_Vrep_equiv_Vrep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/235/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {K : Type u_1} [inst : Field.{u_1} K] [inst_1 : Fintype.{u_1} K] [DecidableEq.{u_1 + 1} K],\n  LE.le.{0} 3 (Fintype.card.{u_1} K) \u2192\n    \u2200 (\u03c7 : MonoidHom.{u_1, 0} (Etingof.Problem4_12_6.Affine.{u_1} K) (Units.{0} Complex)),\n      Nonempty.{u_1 + 1}\n        (Representation.Equiv.{0, u_1, u_1, u_1}\n          (Representation.tprod.{0, u_1, 0, u_1} (Etingof.Problem4_12_6.charRep.{u_1} \u03c7)\n            (Subrepresentation.toRepresentation.{0, u_1, u_1} Etingof.Problem4_12_6.Vsub.{u_1}))\n          (Subrepresentation.toRepresentation.{0, u_1, u_1} Etingof.Problem4_12_6.Vsub.{u_1}))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.6",
+  "packet_id": "align-0721",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0721"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.6:tensor_products",
+  "source_text": "Compute all tensor products as representation-level decompositions."
+}

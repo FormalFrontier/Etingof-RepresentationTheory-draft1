@@ -1,0 +1,195 @@
+{
+  "module_name": "RationalVectorRootSystems",
+  "declarations": [
+    {
+      "temporary_id": "decl-013017",
+      "new_name": "sixRationalVectors",
+      "docstring": "A family of six vectors with eight rational coordinates."
+    },
+    {
+      "temporary_id": "decl-013025",
+      "new_name": "sixRationalVectors_integerPairingMatrix_eq_adjacency",
+      "docstring": "The integer pairing matrix of the six-vector family agrees entrywise with the given adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-013026",
+      "new_name": "sixRationalVectors_mem_auxiliarySet",
+      "docstring": "Every member of the six-vector family lies in the indicated auxiliary set."
+    },
+    {
+      "temporary_id": "decl-013035",
+      "new_name": "sevenRationalVectors",
+      "docstring": "A family of seven vectors with eight rational coordinates."
+    },
+    {
+      "temporary_id": "decl-013044",
+      "new_name": "sevenRationalVectors_integerPairingMatrix_eq_adjacency",
+      "docstring": "The integer pairing matrix of the seven-vector family agrees entrywise with the given adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-013045",
+      "new_name": "sevenRationalVectors_mem_auxiliarySet",
+      "docstring": "Every member of the seven-vector family lies in the indicated auxiliary set."
+    },
+    {
+      "temporary_id": "decl-013062",
+      "new_name": "IsCrystallographicRootSet",
+      "docstring": "A predicate on sets of eight-dimensional rational vectors encoding crystallographic root-set conditions."
+    },
+    {
+      "temporary_id": "decl-013064",
+      "new_name": "finite",
+      "docstring": "A crystallographic root set contains only finitely many vectors."
+    },
+    {
+      "temporary_id": "decl-013065",
+      "new_name": "pairing_integral",
+      "docstring": "The pairing of any two vectors in a crystallographic root set is an integer."
+    },
+    {
+      "temporary_id": "decl-013068",
+      "new_name": "neg_mem",
+      "docstring": "The negative of a vector in a crystallographic root set also belongs to the set."
+    },
+    {
+      "temporary_id": "decl-013069",
+      "new_name": "pairing_self_eq_two",
+      "docstring": "Every vector in a crystallographic root set has self-pairing equal to two."
+    },
+    {
+      "temporary_id": "decl-013072",
+      "new_name": "Auxiliary.statement013072",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-013073",
+      "new_name": "reflection_mem",
+      "docstring": "Reflecting one member of a crystallographic root set through another yields a member of the set."
+    },
+    {
+      "temporary_id": "decl-013086",
+      "new_name": "baseVectorSet_neg_mem",
+      "docstring": "The distinguished set of rational vectors is closed under negation."
+    },
+    {
+      "temporary_id": "decl-013087",
+      "new_name": "baseVectorSet_sub_int_smul_mem",
+      "docstring": "Subtracting an integer multiple of one vector in the distinguished set from another stays in the set."
+    },
+    {
+      "temporary_id": "decl-013103",
+      "new_name": "rationalPairing_comm",
+      "docstring": "The rational-valued pairing is symmetric."
+    },
+    {
+      "temporary_id": "decl-013104",
+      "new_name": "rationalPairing_integral_of_mem_baseVectorSet",
+      "docstring": "Two vectors in the distinguished set have an integer-valued rational pairing."
+    },
+    {
+      "temporary_id": "decl-013107",
+      "new_name": "reflection_preserves_selfPairing",
+      "docstring": "Reflection through a vector of self-pairing two preserves the self-pairing of every vector."
+    },
+    {
+      "temporary_id": "decl-013108",
+      "new_name": "rationalPairing_smul_left",
+      "docstring": "Scaling the left argument of the rational pairing scales its value by the same rational number."
+    },
+    {
+      "temporary_id": "decl-013109",
+      "new_name": "rationalPairing_smul_right",
+      "docstring": "Scaling the right argument of the rational pairing scales its value by the same rational number."
+    },
+    {
+      "temporary_id": "decl-013110",
+      "new_name": "rationalPairing_sub_left",
+      "docstring": "The rational pairing sends subtraction in its left argument to subtraction of values."
+    },
+    {
+      "temporary_id": "decl-013111",
+      "new_name": "rationalPairing_sub_right",
+      "docstring": "The rational pairing sends subtraction in its right argument to subtraction of values."
+    },
+    {
+      "temporary_id": "decl-013128",
+      "new_name": "reflectVector",
+      "docstring": "Reflects an eight-dimensional rational vector through another such vector."
+    },
+    {
+      "temporary_id": "decl-013130",
+      "new_name": "reflectVector_mem_baseVectorSet_of_mem_auxiliarySet",
+      "docstring": "A vector in the distinguished set remains there after reflection through a vector in the associated auxiliary set."
+    },
+    {
+      "temporary_id": "decl-013131",
+      "new_name": "reflectVector_mem_sixVectorAuxiliarySet",
+      "docstring": "The auxiliary set associated with the six-vector data is closed under vector reflection."
+    },
+    {
+      "temporary_id": "decl-013132",
+      "new_name": "reflectVector_mem_sevenVectorAuxiliarySet",
+      "docstring": "The auxiliary set associated with the seven-vector data is closed under vector reflection."
+    },
+    {
+      "temporary_id": "decl-013133",
+      "new_name": "reflectVector_mem_eightVectorAuxiliarySet",
+      "docstring": "The auxiliary set associated with the eight-vector data is closed under vector reflection."
+    },
+    {
+      "temporary_id": "decl-013136",
+      "new_name": "sixVectorAuxiliarySet_isCrystallographicRootSet",
+      "docstring": "The auxiliary set associated with the six-vector data satisfies the crystallographic root-set predicate."
+    },
+    {
+      "temporary_id": "decl-013137",
+      "new_name": "sixRationalVectors_configuration",
+      "docstring": "The six-vector construction simultaneously has the root-set, membership, adjacency, and auxiliary matrix properties displayed in the type."
+    },
+    {
+      "temporary_id": "decl-013138",
+      "new_name": "sevenVectorAuxiliarySet_isCrystallographicRootSet",
+      "docstring": "The auxiliary set associated with the seven-vector data satisfies the crystallographic root-set predicate."
+    },
+    {
+      "temporary_id": "decl-013139",
+      "new_name": "sevenRationalVectors_configuration",
+      "docstring": "The seven-vector construction simultaneously has the root-set, membership, adjacency, and auxiliary matrix properties displayed in the type."
+    },
+    {
+      "temporary_id": "decl-013140",
+      "new_name": "eightVectorAuxiliarySet_isCrystallographicRootSet",
+      "docstring": "The auxiliary set associated with the eight-vector data satisfies the crystallographic root-set predicate."
+    },
+    {
+      "temporary_id": "decl-013141",
+      "new_name": "eightRationalVectors_configuration",
+      "docstring": "The eight-vector construction has the stated root-set, membership, matrix, and permuted adjacency properties."
+    },
+    {
+      "temporary_id": "decl-013142",
+      "new_name": "Auxiliary.statement013142",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-013144",
+      "new_name": "integerPairingMatrix",
+      "docstring": "Forms an integer-valued square matrix from a finite family of eight-dimensional rational vectors."
+    },
+    {
+      "temporary_id": "decl-013158",
+      "new_name": "eightVectorIntegerPairingMatrix",
+      "docstring": "An integer-valued matrix indexed by eight row and column indices."
+    },
+    {
+      "temporary_id": "decl-013160",
+      "new_name": "eightVectorIntegerPairingMatrix_cast",
+      "docstring": "Each entry of the eight-indexed integer matrix casts to the pairing of the corresponding rational vectors."
+    },
+    {
+      "temporary_id": "decl-013165",
+      "new_name": "eightRationalVectors_mem_auxiliarySet",
+      "docstring": "Every member of the eight-vector family lies in the indicated auxiliary set."
+    }
+  ]
+}

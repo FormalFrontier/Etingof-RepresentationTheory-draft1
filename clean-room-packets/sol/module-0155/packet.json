@@ -1,0 +1,354 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x) \u2192\n  (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x) \u2192\n    Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510"
+      ],
+      "structural_type_hash": "3580237638",
+      "temporary_id": "decl-009489"
+    },
+    {
+      "formal_type": "(Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x) \u2192\n  LinearMap.{0, 0, 0, 0}\n    (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x))\n    (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x)\n    (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510"
+      ],
+      "structural_type_hash": "1615663778",
+      "temporary_id": "decl-009492"
+    },
+    {
+      "formal_type": "\u2200 (f g : Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x) (x : Real),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (Subtype.val.{1} (decl-009489 f g)) x)\n    (HMul.hMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (Subtype.val.{1} f) x) (DFunLike.coe.{1, 1, 1} (Subtype.val.{1} g) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009489",
+        "decl-009496",
+        "decl-009510"
+      ],
+      "structural_type_hash": "765978780",
+      "temporary_id": "decl-009495"
+    },
+    {
+      "formal_type": "Submodule.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)\n  (ContinuousMap.{0, 0} Real Real)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009510"
+      ],
+      "structural_type_hash": "2180494139",
+      "temporary_id": "decl-009496"
+    },
+    {
+      "formal_type": "\u2200 (f : Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x),\n  Eq.{1} f\n    (HAdd.hAdd.{0, 0, 0}\n      (HSMul.hSMul.{0, 0, 0} (decl-009489 decl-009503 f) decl-009503)\n      (HSMul.hSMul.{0, 0, 0} (decl-009489 decl-009538 f) decl-009538))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009489",
+        "decl-009496",
+        "decl-009503",
+        "decl-009510",
+        "decl-009538"
+      ],
+      "structural_type_hash": "2800809418",
+      "temporary_id": "decl-009501"
+    },
+    {
+      "formal_type": "decl-005194.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194",
+        "decl-009496",
+        "decl-009510"
+      ],
+      "structural_type_hash": "1975959063",
+      "temporary_id": "decl-009502"
+    },
+    {
+      "formal_type": "Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510"
+      ],
+      "structural_type_hash": "1254168948",
+      "temporary_id": "decl-009503"
+    },
+    {
+      "formal_type": "Eq.{1} (Subtype.val.{1} decl-009503) decl-009505",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009503",
+        "decl-009505",
+        "decl-009510"
+      ],
+      "structural_type_hash": "62077772",
+      "temporary_id": "decl-009504"
+    },
+    {
+      "formal_type": "ContinuousMap.{0, 0} Real Real",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "978386543",
+      "temporary_id": "decl-009505"
+    },
+    {
+      "formal_type": "\u2200 (x : Real), Eq.{1} (DFunLike.coe.{1, 1, 1} decl-009505 x) (Real.cos (HMul.hMul.{0, 0, 0} Real.pi x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009505"
+      ],
+      "structural_type_hash": "4219760477",
+      "temporary_id": "decl-009507"
+    },
+    {
+      "formal_type": "Membership.mem.{0, 0} decl-009496 decl-009505",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009505",
+        "decl-009510"
+      ],
+      "structural_type_hash": "1218971331",
+      "temporary_id": "decl-009508"
+    },
+    {
+      "formal_type": "\u2200 (x : Real),\n  Eq.{1}\n    (HAdd.hAdd.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} decl-009505 x)\n        (DFunLike.coe.{1, 1, 1} decl-009505 x))\n      (HMul.hMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} decl-009540 x)\n        (DFunLike.coe.{1, 1, 1} decl-009540 x)))\n    1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009505",
+        "decl-009540"
+      ],
+      "structural_type_hash": "1291022538",
+      "temporary_id": "decl-009509"
+    },
+    {
+      "formal_type": "Subalgebra.{0, 0} Real (ContinuousMap.{0, 0} Real Real)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "919950919",
+      "temporary_id": "decl-009510"
+    },
+    {
+      "formal_type": "\u2200 (e : Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x),\n  Eq.{1} (HMul.hMul.{0, 0, 0} e e) e \u2192 Or (Eq.{1} e 0) (Eq.{1} e 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009510"
+      ],
+      "structural_type_hash": "2282595783",
+      "temporary_id": "decl-009517"
+    },
+    {
+      "formal_type": "decl-005194.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194",
+        "decl-009510"
+      ],
+      "structural_type_hash": "3082466199",
+      "temporary_id": "decl-009521"
+    },
+    {
+      "formal_type": "IsEmpty.{1}\n  (LinearEquiv.{0, 0, 0, 0}\n    (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x))\n    (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)\n    (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510"
+      ],
+      "structural_type_hash": "367056302",
+      "temporary_id": "decl-009522"
+    },
+    {
+      "formal_type": "Nonempty.{1}\n  (LinearEquiv.{0, 0, 0, 0}\n    (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x))\n    (Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x))\n    (Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510"
+      ],
+      "structural_type_hash": "3020319169",
+      "temporary_id": "decl-009523"
+    },
+    {
+      "formal_type": "LinearMap.{0, 0, 0, 0}\n  (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x))\n  (Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)\n    (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x))\n  (Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x)\n    (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510"
+      ],
+      "structural_type_hash": "1651392740",
+      "temporary_id": "decl-009524"
+    },
+    {
+      "formal_type": "\u2200\n  (pq :\n    Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-009524 pq)\n    (Prod.mk.{0, 0}\n      (HAdd.hAdd.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} (Prod.fst.{0, 0} pq) decl-009503)\n        (HSMul.hSMul.{0, 0, 0} (Prod.snd.{0, 0} pq) decl-009538))\n      (HAdd.hAdd.{0, 0, 0} (Neg.neg.{0} (HSMul.hSMul.{0, 0, 0} (Prod.fst.{0, 0} pq) decl-009538))\n        (HSMul.hSMul.{0, 0, 0} (Prod.snd.{0, 0} pq) decl-009503)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009503",
+        "decl-009510",
+        "decl-009524",
+        "decl-009538"
+      ],
+      "structural_type_hash": "577839461",
+      "temporary_id": "decl-009530"
+    },
+    {
+      "formal_type": "\u2200\n  (fg :\n    Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-009524 (DFunLike.coe.{1, 1, 1} decl-009532 fg)) fg",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510",
+        "decl-009524",
+        "decl-009532"
+      ],
+      "structural_type_hash": "2069017560",
+      "temporary_id": "decl-009531"
+    },
+    {
+      "formal_type": "LinearMap.{0, 0, 0, 0}\n  (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x))\n  (Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x)\n    (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x))\n  (Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)\n    (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510"
+      ],
+      "structural_type_hash": "3328901048",
+      "temporary_id": "decl-009532"
+    },
+    {
+      "formal_type": "\u2200\n  (fg :\n    Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-009532 fg)\n    (Prod.mk.{0, 0}\n      (HSub.hSub.{0, 0, 0} (decl-009489 decl-009503 (Prod.fst.{0, 0} fg))\n        (decl-009489 decl-009538 (Prod.snd.{0, 0} fg)))\n      (HAdd.hAdd.{0, 0, 0} (decl-009489 decl-009538 (Prod.fst.{0, 0} fg))\n        (decl-009489 decl-009503 (Prod.snd.{0, 0} fg))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009489",
+        "decl-009496",
+        "decl-009503",
+        "decl-009510",
+        "decl-009532",
+        "decl-009538"
+      ],
+      "structural_type_hash": "1976638445",
+      "temporary_id": "decl-009536"
+    },
+    {
+      "formal_type": "\u2200\n  (pq :\n    Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-009532 (DFunLike.coe.{1, 1, 1} decl-009524 pq)) pq",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510",
+        "decl-009524",
+        "decl-009532"
+      ],
+      "structural_type_hash": "2219556462",
+      "temporary_id": "decl-009537"
+    },
+    {
+      "formal_type": "Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510"
+      ],
+      "structural_type_hash": "1254168948",
+      "temporary_id": "decl-009538"
+    },
+    {
+      "formal_type": "Eq.{1} (Subtype.val.{1} decl-009538) decl-009540",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510",
+        "decl-009538",
+        "decl-009540"
+      ],
+      "structural_type_hash": "2781008923",
+      "temporary_id": "decl-009539"
+    },
+    {
+      "formal_type": "ContinuousMap.{0, 0} Real Real",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "978386543",
+      "temporary_id": "decl-009540"
+    },
+    {
+      "formal_type": "\u2200 (x : Real), Eq.{1} (DFunLike.coe.{1, 1, 1} decl-009540 x) (Real.sin (HMul.hMul.{0, 0, 0} Real.pi x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009540"
+      ],
+      "structural_type_hash": "4168033056",
+      "temporary_id": "decl-009542"
+    },
+    {
+      "formal_type": "Membership.mem.{0, 0} decl-009496 decl-009540",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510",
+        "decl-009540"
+      ],
+      "structural_type_hash": "2454940636",
+      "temporary_id": "decl-009543"
+    },
+    {
+      "formal_type": "\u2200 (a : Subtype.{1} fun x => Membership.mem.{0, 0} decl-009510 x)\n  (m : Subtype.{1} fun x => Membership.mem.{0, 0} decl-009496 x) (x : Real),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (Subtype.val.{1} (HSMul.hSMul.{0, 0, 0} a m)) x)\n    (HMul.hMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (Subtype.val.{1} a) x) (DFunLike.coe.{1, 1, 1} (Subtype.val.{1} m) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009496",
+        "decl-009510"
+      ],
+      "structural_type_hash": "1383972974",
+      "temporary_id": "decl-009544"
+    }
+  ],
+  "module_temporary_id": "module-0155",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

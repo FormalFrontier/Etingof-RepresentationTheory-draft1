@@ -1,0 +1,25 @@
+{
+  "module_name": "FGModuleCat.SimpleModules",
+  "declarations": [
+    {
+      "temporary_id": "decl-018837",
+      "new_name": "exists_completeSimpleObjectFamily",
+      "docstring": "For a finite algebra over a field, there is an indexed family of simple finitely generated modules containing every simple object up to isomorphism."
+    },
+    {
+      "temporary_id": "decl-018924",
+      "new_name": "exists_completeSimpleSubmoduleFamily",
+      "docstring": "For a finite algebra over a field, there is a finite family of finite simple submodules such that every simple module is equivalent to a member."
+    },
+    {
+      "temporary_id": "decl-020910",
+      "new_name": "isSimpleModule_carrier_of_simple",
+      "docstring": "The carrier of a simple finitely generated module over a Noetherian ring is a simple module."
+    },
+    {
+      "temporary_id": "decl-023211",
+      "new_name": "simple_of_isSimpleModule",
+      "docstring": "A finite simple module over a Noetherian ring defines a simple object in the category of finitely generated modules."
+    }
+  ]
+}

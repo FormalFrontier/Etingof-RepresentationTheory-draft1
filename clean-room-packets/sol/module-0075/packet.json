@@ -1,0 +1,347 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k]\n  {c :\n    (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192 k},\n  decl-007330.{u_1} c \u2192\n    \u2200 {I J : decl-007366},\n      Not (decl-007344 I J) \u2192\n        Eq.{u_1 + 1} (c (decl-008012.{u_1} k I) (decl-008012.{u_1} k J)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-007330",
+      "project_type_dependencies": [
+        "decl-007330",
+        "decl-007344",
+        "decl-007366",
+        "decl-008012",
+        "decl-008023"
+      ],
+      "structural_type_hash": "3098599984",
+      "temporary_id": "decl-007331"
+    },
+    {
+      "formal_type": "decl-007366 \u2192 decl-007366 \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007366"
+      ],
+      "structural_type_hash": "103793398",
+      "temporary_id": "decl-007344"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [Ring.{u_1} k] \u2192 Fin 3 \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2977604040",
+      "temporary_id": "decl-007597"
+    },
+    {
+      "formal_type": "\u2200 {i j : Fin 3}, Eq.{1} (HAdd.hAdd.{0, 0, 0} i.val j.val) 2 \u2192 Eq.{1} j i.rev",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "182538016",
+      "temporary_id": "decl-007619"
+    },
+    {
+      "formal_type": "\u2200 {i j : Fin 5}, Eq.{1} (HAdd.hAdd.{0, 0, 0} i.val j.val) 4 \u2192 Eq.{1} j i.rev",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4085263220",
+      "temporary_id": "decl-007620"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [Zero.{u_1} k] \u2192 (Nat \u2192 k) \u2192 decl-007366 \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007366"
+      ],
+      "structural_type_hash": "527861666",
+      "temporary_id": "decl-007735"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    Ne.{u_1 + 1} 2 0 \u2192\n      (Nat \u2192 k) \u2192\n        (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192\n          (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008023"
+      ],
+      "structural_type_hash": "1684012886",
+      "temporary_id": "decl-007741"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (h2 : Ne.{u_1 + 1} 2 0) (s : Nat \u2192 k) (m : Nat),\n  Eq.{u_1 + 1}\n    (decl-007741.{u_1} h2 s\n      (decl-008012.{u_1} k decl-007369)\n      (decl-008012.{u_1} k (decl-007394 m 2)))\n    (s m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007369",
+        "decl-007394",
+        "decl-007741",
+        "decl-008012"
+      ],
+      "structural_type_hash": "4099480003",
+      "temporary_id": "decl-007744"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (h2 : Ne.{u_1 + 1} 2 0) (s : Nat \u2192 k) (a b : Nat) (i j : Fin 3),\n  Eq.{1} (HAdd.hAdd.{0, 0, 0} i.val j.val) 2 \u2192\n    Eq.{u_1 + 1}\n      (decl-007741.{u_1} h2 s\n        (decl-008012.{u_1} k (decl-007394 a i))\n        (decl-008012.{u_1} k (decl-007394 b j)))\n      (HMul.hMul.{u_1, u_1, u_1} (decl-007597.{u_1} k i)\n        (s (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} a b) 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007394",
+        "decl-007597",
+        "decl-007741",
+        "decl-008012"
+      ],
+      "structural_type_hash": "2608988153",
+      "temporary_id": "decl-007745"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (h2 : Ne.{u_1 + 1} 2 0) (s : Nat \u2192 k) (a b : Nat) (i j : Fin 5),\n  Eq.{1} (HAdd.hAdd.{0, 0, 0} i.val j.val) 4 \u2192\n    Eq.{u_1 + 1}\n      (decl-007741.{u_1} h2 s\n        (decl-008012.{u_1} k (decl-007408 a i))\n        (decl-008012.{u_1} k (decl-007408 b j)))\n      (HMul.hMul.{u_1, u_1, u_1} (decl-008103.{u_1} k i) (s (HAdd.hAdd.{0, 0, 0} a b)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007408",
+        "decl-007741",
+        "decl-008012",
+        "decl-008103"
+      ],
+      "structural_type_hash": "2097105906",
+      "temporary_id": "decl-007746"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    Ne.{u_1 + 1} 2 0 \u2192\n      (Nat \u2192 k) \u2192\n        LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k)\n          (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008023"
+      ],
+      "structural_type_hash": "653429525",
+      "temporary_id": "decl-007747"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (h2 : Ne.{u_1 + 1} 2 0) (s : Nat \u2192 k) (I : decl-007366),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007747.{u_1} h2 s)\n      (decl-008012.{u_1} k I))\n    (decl-007735.{u_1} s I)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007366",
+        "decl-007735",
+        "decl-007747",
+        "decl-008012",
+        "decl-008023"
+      ],
+      "structural_type_hash": "1148928608",
+      "temporary_id": "decl-007753"
+    },
+    {
+      "formal_type": "\u2200 (I J : decl-007366),\n  Iff (decl-007344 I J)\n    (Or\n      (Exists.{1} fun m =>\n        And (Eq.{1} I decl-007369) (Eq.{1} J (decl-007394 m 2)))\n      (Or\n        (Exists.{1} fun m =>\n          And (Eq.{1} I (decl-007394 m 2)) (Eq.{1} J decl-007369))\n        (Or\n          (Exists.{1} fun a =>\n            Exists.{1} fun b =>\n              Exists.{1} fun i =>\n                Exists.{1} fun j =>\n                  And (Eq.{1} I (decl-007408 a i))\n                    (And (Eq.{1} J (decl-007408 b j))\n                      (Eq.{1} (HAdd.hAdd.{0, 0, 0} i.val j.val) 4)))\n          (Exists.{1} fun a =>\n            Exists.{1} fun b =>\n              Exists.{1} fun i =>\n                Exists.{1} fun j =>\n                  And (Eq.{1} I (decl-007394 a i))\n                    (And (Eq.{1} J (decl-007394 b j))\n                      (Eq.{1} (HAdd.hAdd.{0, 0, 0} i.val j.val) 2))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007344",
+        "decl-007366",
+        "decl-007369",
+        "decl-007394",
+        "decl-007408"
+      ],
+      "structural_type_hash": "712335752",
+      "temporary_id": "decl-007805"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (h2 : Ne.{u_1 + 1} 2 0) (s : Nat \u2192 k),\n  decl-007346.{u_1, u_1, u_1} k (decl-007741.{u_1} h2 s)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007346",
+        "decl-007741",
+        "decl-008023"
+      ],
+      "structural_type_hash": "3891535192",
+      "temporary_id": "decl-007847"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (m : Nat),\n  Eq.{u_1 + 1}\n    (decl-007854.{u_1} k\n      (Prod.mk.{0, 0} (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 m) 2)\n        (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 4 m) 4)))\n    (Submodule.span.{u_1, u_1} k\n      (Singleton.singleton.{u_1, u_1} (decl-008012.{u_1} k (decl-007394 m 1))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007394",
+        "decl-007854",
+        "decl-008012",
+        "decl-008023"
+      ],
+      "structural_type_hash": "1129157389",
+      "temporary_id": "decl-007856"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (I : decl-007366),\n  Eq.{u_1 + 1} (decl-007854.{u_1} k I.lbideg)\n    (Submodule.span.{u_1, u_1} k (Singleton.singleton.{u_1, u_1} (decl-008012.{u_1} k I)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007366",
+        "decl-007400",
+        "decl-007854",
+        "decl-008012",
+        "decl-008023"
+      ],
+      "structural_type_hash": "4019967919",
+      "temporary_id": "decl-007857"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (i : Fin 5),\n  Eq.{u_1 + 1}\n    (Bracket.bracket.{u_1, u_1} (decl-007712.{u_1} k i) (decl-007712.{u_1} k i.rev))\n    (HSMul.hSMul.{u_1, u_1, u_1} (decl-008103.{u_1} k i)\n      (decl-007715.{u_1} k 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007712",
+        "decl-007715",
+        "decl-008103"
+      ],
+      "structural_type_hash": "4072482734",
+      "temporary_id": "decl-007915"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (i : Fin 3),\n  Eq.{u_1 + 1}\n    (Bracket.bracket.{u_1, u_1} (decl-007715.{u_1} k i) (decl-007715.{u_1} k i.rev))\n    (HSMul.hSMul.{u_1, u_1, u_1} (decl-007597.{u_1} k i)\n      (decl-007715.{u_1} k 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007597",
+        "decl-007715"
+      ],
+      "structural_type_hash": "4148662868",
+      "temporary_id": "decl-007929"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (m : Nat),\n  Eq.{u_1 + 1}\n    (Bracket.bracket.{u_1, u_1} (decl-008012.{u_1} k decl-007369)\n      (decl-008012.{u_1} k (decl-007394 m 2)))\n    (decl-008012.{u_1} k (decl-007394 m 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007369",
+        "decl-007394",
+        "decl-008012",
+        "decl-008023"
+      ],
+      "structural_type_hash": "4265379881",
+      "temporary_id": "decl-007930"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (m : Nat),\n  Eq.{u_1 + 1}\n    (Bracket.bracket.{u_1, u_1} (decl-008012.{u_1} k (decl-007394 m 2))\n      (decl-008012.{u_1} k decl-007369))\n    (Neg.neg.{u_1} (decl-008012.{u_1} k (decl-007394 m 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007369",
+        "decl-007394",
+        "decl-008012",
+        "decl-008023"
+      ],
+      "structural_type_hash": "1166331061",
+      "temporary_id": "decl-007932"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (a b : Nat) (i j : Fin 3),\n  Eq.{1} (HAdd.hAdd.{0, 0, 0} i.val j.val) 2 \u2192\n    Eq.{u_1 + 1}\n      (Bracket.bracket.{u_1, u_1} (decl-008012.{u_1} k (decl-007394 a i))\n        (decl-008012.{u_1} k (decl-007394 b j)))\n      (HSMul.hSMul.{u_1, u_1, u_1} (decl-007597.{u_1} k i)\n        (decl-008012.{u_1} k\n          (decl-007394 (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} a b) 1) 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007394",
+        "decl-007597",
+        "decl-008012",
+        "decl-008023"
+      ],
+      "structural_type_hash": "49171761",
+      "temporary_id": "decl-007933"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (a b : Nat) (i : Fin 3),\n  Eq.{u_1 + 1}\n    (Bracket.bracket.{u_1, u_1} (decl-008012.{u_1} k (decl-007394 a i))\n      (decl-008012.{u_1} k (decl-007394 b i.rev)))\n    (HSMul.hSMul.{u_1, u_1, u_1} (decl-007597.{u_1} k i)\n      (decl-008012.{u_1} k\n        (decl-007394 (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} a b) 1) 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007394",
+        "decl-007597",
+        "decl-008012",
+        "decl-008023"
+      ],
+      "structural_type_hash": "3420316096",
+      "temporary_id": "decl-007934"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k],\n  Ne.{u_1 + 1} 2 0 \u2192\n    Ne.{u_1 + 1} 3 0 \u2192\n      Ne.{u_1 + 1} 5 0 \u2192\n        \u2200 (I J : decl-007366) (m : Nat),\n          Eq.{1} (HAdd.hAdd.{0, 0, 0} I.lbideg J.lbideg)\n              (Prod.mk.{0, 0} (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 m) 2)\n                (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 4 m) 4)) \u2192\n            Membership.mem.{u_1, u_1}\n              (Submodule.span.{u_1, u_1} k\n                (Singleton.singleton.{u_1, u_1}\n                  (decl-008012.{u_1} k (decl-007394 m 1))))\n              (Bracket.bracket.{u_1, u_1} (decl-008012.{u_1} k I)\n                (decl-008012.{u_1} k J))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007366",
+        "decl-007394",
+        "decl-007400",
+        "decl-008012",
+        "decl-008023"
+      ],
+      "structural_type_hash": "1015027275",
+      "temporary_id": "decl-007936"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (a b : Nat) (i j : Fin 5),\n  Eq.{1} (HAdd.hAdd.{0, 0, 0} i.val j.val) 4 \u2192\n    Eq.{u_1 + 1}\n      (Bracket.bracket.{u_1, u_1} (decl-008012.{u_1} k (decl-007408 a i))\n        (decl-008012.{u_1} k (decl-007408 b j)))\n      (HSMul.hSMul.{u_1, u_1, u_1} (decl-008103.{u_1} k i)\n        (decl-008012.{u_1} k (decl-007394 (HAdd.hAdd.{0, 0, 0} a b) 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007394",
+        "decl-007408",
+        "decl-008012",
+        "decl-008023",
+        "decl-008103"
+      ],
+      "structural_type_hash": "218098782",
+      "temporary_id": "decl-007938"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (a b : Nat) (i : Fin 5),\n  Eq.{u_1 + 1}\n    (Bracket.bracket.{u_1, u_1} (decl-008012.{u_1} k (decl-007408 a i))\n      (decl-008012.{u_1} k (decl-007408 b i.rev)))\n    (HSMul.hSMul.{u_1, u_1, u_1} (decl-008103.{u_1} k i)\n      (decl-008012.{u_1} k (decl-007394 (HAdd.hAdd.{0, 0, 0} a b) 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007394",
+        "decl-007408",
+        "decl-008012",
+        "decl-008023",
+        "decl-008103"
+      ],
+      "structural_type_hash": "2514467796",
+      "temporary_id": "decl-007939"
+    },
+    {
+      "formal_type": "\u2200 (I J : decl-007366),\n  Iff\n    (\u2200 (m : Nat),\n      Ne.{1} (HAdd.hAdd.{0, 0, 0} I.lbideg J.lbideg)\n        (Prod.mk.{0, 0} (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 m) 2)\n          (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 4 m) 4)))\n    (Not (decl-007344 I J))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007344",
+        "decl-007366",
+        "decl-007400"
+      ],
+      "structural_type_hash": "1842787569",
+      "temporary_id": "decl-008102"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [Ring.{u_1} k] \u2192 Fin 5 \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2596861783",
+      "temporary_id": "decl-008103"
+    }
+  ],
+  "module_temporary_id": "module-0075",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

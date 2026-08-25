@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0451",
+  "associations": [
+    {
+      "association_id": "association:3ab1ffb371e512e9d4d1",
+      "role": "primary",
+      "rationale": "The theorem directly states that any two composition series from bottom to top have equal lengths."
+    },
+    {
+      "association_id": "association:4bc15501e5a0bd5817d1",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the packet does not show that this module-length declaration itself states filtration independence."
+    }
+  ]
+}

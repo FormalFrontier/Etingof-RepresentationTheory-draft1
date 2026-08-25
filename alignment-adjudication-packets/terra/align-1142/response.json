@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1142",
+  "associations": [
+    {
+      "association_id": "association:84cff35677d5cb95a264",
+      "role": "supporting",
+      "rationale": "The formal type states only the irreducibility consequence that every submodule stable under the tensor-product action is bottom or top; it does not state that the action reaches enough endomorphisms."
+    }
+  ]
+}

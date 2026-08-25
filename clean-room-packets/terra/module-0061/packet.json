@@ -1,0 +1,58 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {L : Type u_2} \u2192\n      [inst_1 : LieRing.{u_2} L] \u2192\n        [inst_2 : LieAlgebra.{u_1, u_2} k L] \u2192\n          {V : Type u_3} \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : LieRingModule.{u_2, u_3} L V] \u2192\n                  {B : Type u_6} \u2192\n                    {C : Type u_7} \u2192\n                      [inst_6 : AddCommGroup.{u_6} B] \u2192\n                        [inst_7 : Module.{u_1, u_6} k B] \u2192\n                          [inst_8 : LieRingModule.{u_2, u_6} L B] \u2192\n                            [inst_9 : LieModule.{u_1, u_2, u_6} k L B] \u2192\n                              [inst_10 : AddCommGroup.{u_7} C] \u2192\n                                [inst_11 : Module.{u_1, u_7} k C] \u2192\n                                  [inst_12 : LieRingModule.{u_2, u_7} L C] \u2192\n                                    [inst_13 : LieModule.{u_1, u_2, u_7} k L C] \u2192\n                                      LieModuleEquiv.{u_1, u_2, u_6, u_7} k L B C \u2192\n                                        LinearEquiv.{u_1, u_1, max u_6 u_3, max u_7 u_3} (RingHom.id.{u_1} k)\n                                          (LieModuleHom.{u_1, u_2, u_3, u_6} k L V B)\n                                          (LieModuleHom.{u_1, u_2, u_3, u_7} k L V C)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "295563840",
+      "temporary_id": "decl-007046"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {L : Type u_2} \u2192\n      [inst_1 : LieRing.{u_2} L] \u2192\n        [inst_2 : LieAlgebra.{u_1, u_2} k L] \u2192\n          {W : Type u_4} \u2192\n            {U : Type u_5} \u2192\n              [inst_3 : AddCommGroup.{u_4} W] \u2192\n                [inst_4 : Module.{u_1, u_4} k W] \u2192\n                  [inst_5 : LieRingModule.{u_2, u_4} L W] \u2192\n                    [inst_6 : LieModule.{u_1, u_2, u_4} k L W] \u2192\n                      [inst_7 : AddCommGroup.{u_5} U] \u2192\n                        [inst_8 : Module.{u_1, u_5} k U] \u2192\n                          [inst_9 : LieRingModule.{u_2, u_5} L U] \u2192\n                            [inst_10 : LieModule.{u_1, u_2, u_5} k L U] \u2192\n                              [FiniteDimensional.{u_1, u_4} k W] \u2192\n                                LieModuleEquiv.{u_1, u_2, max u_5 u_4, max (max u_4 u_1) u_5} k L\n                                  (LinearMap.{u_1, u_1, u_4, u_5} (RingHom.id.{u_1} k) W U)\n                                  (TensorProduct.{u_1, u_5, max u_4 u_1} k U (Module.Dual.{u_1, u_4} k W))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "324634861",
+      "temporary_id": "decl-007053"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {L : Type u_2} [inst_1 : LieRing.{u_2} L] [inst_2 : LieAlgebra.{u_1, u_2} k L]\n  {V : Type u_3} {W : Type u_4} {U : Type u_5} [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : LieRingModule.{u_2, u_3} L V] [inst_6 : LieModule.{u_1, u_2, u_3} k L V] [inst_7 : AddCommGroup.{u_4} W]\n  [inst_8 : Module.{u_1, u_4} k W] [inst_9 : LieRingModule.{u_2, u_4} L W] [inst_10 : LieModule.{u_1, u_2, u_4} k L W]\n  [inst_11 : AddCommGroup.{u_5} U] [inst_12 : Module.{u_1, u_5} k U] [inst_13 : LieRingModule.{u_2, u_5} L U]\n  [inst_14 : LieModule.{u_1, u_2, u_5} k L U] [FiniteDimensional.{u_1, u_4} k W],\n  Nonempty.{max ((max (max (max u_4 u_1) u_5) u_3) + 1) ((max u_5 u_4 u_3) + 1)}\n    (LinearEquiv.{u_1, u_1, max u_5 u_4 u_3, max (max (max u_4 u_1) u_5) u_3} (RingHom.id.{u_1} k)\n      (LieModuleHom.{u_1, u_2, max u_4 u_3, u_5} k L (TensorProduct.{u_1, u_3, u_4} k V W) U)\n      (LieModuleHom.{u_1, u_2, u_3, max (max u_4 u_1) u_5} k L V\n        (TensorProduct.{u_1, u_5, max u_4 u_1} k U (Module.Dual.{u_1, u_4} k W))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3079277752",
+      "temporary_id": "decl-007067"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {L : Type u_2} \u2192\n      [inst_1 : LieRing.{u_2} L] \u2192\n        [inst_2 : LieAlgebra.{u_1, u_2} k L] \u2192\n          {V : Type u_3} \u2192\n            {W : Type u_4} \u2192\n              {U : Type u_5} \u2192\n                [inst_3 : AddCommGroup.{u_3} V] \u2192\n                  [inst_4 : Module.{u_1, u_3} k V] \u2192\n                    [inst_5 : LieRingModule.{u_2, u_3} L V] \u2192\n                      [inst_6 : LieModule.{u_1, u_2, u_3} k L V] \u2192\n                        [inst_7 : AddCommGroup.{u_4} W] \u2192\n                          [inst_8 : Module.{u_1, u_4} k W] \u2192\n                            [inst_9 : LieRingModule.{u_2, u_4} L W] \u2192\n                              [inst_10 : LieModule.{u_1, u_2, u_4} k L W] \u2192\n                                [inst_11 : AddCommGroup.{u_5} U] \u2192\n                                  [inst_12 : Module.{u_1, u_5} k U] \u2192\n                                    [inst_13 : LieRingModule.{u_2, u_5} L U] \u2192\n                                      [inst_14 : LieModule.{u_1, u_2, u_5} k L U] \u2192\n                                        [FiniteDimensional.{u_1, u_4} k W] \u2192\n                                          LinearEquiv.{u_1, u_1, max u_5 u_4 u_3, max (max (max u_4 u_1) u_5) u_3}\n                                            (RingHom.id.{u_1} k)\n                                            (LieModuleHom.{u_1, u_2, max u_4 u_3, u_5} k L\n                                              (TensorProduct.{u_1, u_3, u_4} k V W) U)\n                                            (LieModuleHom.{u_1, u_2, u_3, max (max u_4 u_1) u_5} k L V\n                                              (TensorProduct.{u_1, u_5, max u_4 u_1} k U (Module.Dual.{u_1, u_4} k W)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "313634246",
+      "temporary_id": "decl-007068"
+    }
+  ],
+  "module_temporary_id": "module-0061",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

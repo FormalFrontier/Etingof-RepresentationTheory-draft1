@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0506",
+  "associations": [
+    {
+      "association_id": "association:230ae16255b4ef452f3e",
+      "rationale": "The displayed type only introduces SymPow as an opaque type and does not state its quotient presentation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:80e62b4c8742b740a0c1",
+      "rationale": "The displayed type supplies a submodule of the tensor power, but it does not identify permutation relations or state the quotient by it.",
+      "role": "supporting"
+    }
+  ]
+}

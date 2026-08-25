@@ -1,0 +1,15 @@
+{
+  "module_name": "PartitionTensor.Complexification",
+  "declarations": [
+    {
+      "temporary_id": "decl-023283",
+      "new_name": "partitionSubtypeComplexificationLinearEquiv",
+      "docstring": "A complex-linear equivalence from the rational partition-indexed subtype tensored with the complex numbers to the corresponding complex partition-indexed subtype."
+    },
+    {
+      "temporary_id": "decl-023288",
+      "new_name": "partitionSubtypeComplexificationLinearEquiv_comp_baseChange_eq_comp",
+      "docstring": "Composing the displayed equivalence with the complex base change of the map over the rationals equals composing the map over the complex numbers with the equivalence."
+    }
+  ]
+}

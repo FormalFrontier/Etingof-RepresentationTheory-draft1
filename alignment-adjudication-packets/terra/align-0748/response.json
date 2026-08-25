@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0748",
+  "associations": [
+    {
+      "association_id": "association:80c9ad0b648f019e0864",
+      "role": "supporting",
+      "rationale": "This constructs the character-associated left ideal that appears as the target, but it does not assert the natural isomorphism."
+    },
+    {
+      "association_id": "association:9f2e5dc36f490596c268",
+      "role": "supporting",
+      "rationale": "The displayed type gives an existential map satisfying an equivariance equation, but the existential binder's type is elided, so it does not directly expose an isomorphism or naturality claim."
+    }
+  ]
+}

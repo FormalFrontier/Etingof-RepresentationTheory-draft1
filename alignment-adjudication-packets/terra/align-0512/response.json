@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0512",
+  "associations": [
+    {
+      "association_id": "association:fb19f457b5a014bbc89a",
+      "rationale": "Under the displayed nonzero factorial hypothesis, the type directly gives a linear equivalence from SymPow to the symmetric-tensor submodule.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:40f9ab6d53baa4b4ebf8",
+      "rationale": "This gives the equivalence only through the stronger CharZero specialization, rather than directly under the displayed factorial condition.",
+      "role": "supporting"
+    }
+  ]
+}

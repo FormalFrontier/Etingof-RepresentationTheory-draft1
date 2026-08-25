@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1125",
+  "associations": [
+    {
+      "association_id": "association:34c14a71c739966d80a2",
+      "role": "supporting",
+      "rationale": "The formal type only exposes a type constructor from two Lie algebras; it does not display linearity or bracket preservation."
+    },
+    {
+      "association_id": "association:622287169d2186d2f869",
+      "role": "supporting",
+      "rationale": "No formal type is displayed, so the defining conditions of a linear bracket-preserving map cannot be verified from the packet."
+    }
+  ]
+}

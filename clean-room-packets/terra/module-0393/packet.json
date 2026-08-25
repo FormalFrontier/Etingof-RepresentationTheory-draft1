@@ -1,0 +1,142 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Nat \u2192 Nat \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2179427294",
+      "temporary_id": "decl-005658"
+    },
+    {
+      "formal_type": "(k N : Nat) \u2192\n  Units.{0} (Matrix.{0, 0, 0} (Fin N) (Fin N) Complex) \u2192\n    AlgHom.{0, 0, 0} Complex (decl-005658 k N) (decl-005658 k N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658"
+      ],
+      "structural_type_hash": "3621030228",
+      "temporary_id": "decl-018148"
+    },
+    {
+      "formal_type": "\u2200 (k N : Nat) (g : Units.{0} (Matrix.{0, 0, 0} (Fin N) (Fin N) Complex))\n  (v : Prod.{0, 0} (Fin k) (Prod.{0, 0} (Fin N) (Fin N))),\n  MvPolynomial.IsWeightedHomogeneous.{0, 0, 0} (decl-021565 k N)\n    (DFunLike.coe.{1, 1, 1} (decl-018148 k N g) (MvPolynomial.X.{0, 0} v)) (decl-021565 k N v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658",
+        "decl-018148",
+        "decl-021565"
+      ],
+      "structural_type_hash": "3874984879",
+      "temporary_id": "decl-018150"
+    },
+    {
+      "formal_type": "\u2200 (k N : Nat) (g : Units.{0} (Matrix.{0, 0, 0} (Fin N) (Fin N) Complex))\n  (u : Finsupp.{0, 0} (Prod.{0, 0} (Fin k) (Prod.{0, 0} (Fin N) (Fin N))) Nat) (a : Complex),\n  MvPolynomial.IsWeightedHomogeneous.{0, 0, 0} (decl-021565 k N)\n    (DFunLike.coe.{1, 1, 1} (decl-018148 k N g) (DFunLike.coe.{1, 1, 1} (MvPolynomial.monomial.{0, 0} u) a))\n    (DFunLike.coe.{1, 1, 1} (Finsupp.weight.{0, 0, 0} (decl-021565 k N)) u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658",
+        "decl-018148",
+        "decl-021565"
+      ],
+      "structural_type_hash": "885749386",
+      "temporary_id": "decl-018153"
+    },
+    {
+      "formal_type": "\u2200 (k N : Nat) (g : Units.{0} (Matrix.{0, 0, 0} (Fin N) (Fin N) Complex)) (d : Finsupp.{0, 0} (Fin k) Nat)\n  (p : decl-005658 k N),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (MvPolynomial.weightedHomogeneousComponent.{0, 0, 0} (decl-021565 k N) d)\n      (DFunLike.coe.{1, 1, 1} (decl-018148 k N g) p))\n    (DFunLike.coe.{1, 1, 1} (decl-018148 k N g)\n      (DFunLike.coe.{1, 1, 1} (MvPolynomial.weightedHomogeneousComponent.{0, 0, 0} (decl-021565 k N) d) p))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658",
+        "decl-018148",
+        "decl-021565"
+      ],
+      "structural_type_hash": "4055880904",
+      "temporary_id": "decl-018154"
+    },
+    {
+      "formal_type": "(k N : Nat) \u2192 Fin k \u2192 Matrix.{0, 0, 0} (Fin N) (Fin N) (decl-005658 k N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658"
+      ],
+      "structural_type_hash": "3395373424",
+      "temporary_id": "decl-019798"
+    },
+    {
+      "formal_type": "(k N : Nat) \u2192 Subalgebra.{0, 0} Complex (decl-005658 k N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658"
+      ],
+      "structural_type_hash": "88611280",
+      "temporary_id": "decl-020749"
+    },
+    {
+      "formal_type": "(k N : Nat) \u2192 Prod.{0, 0} (Fin k) (Prod.{0, 0} (Fin N) (Fin N)) \u2192 Finsupp.{0, 0} (Fin k) Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "159774085",
+      "temporary_id": "decl-021565"
+    },
+    {
+      "formal_type": "(k N : Nat) \u2192 List.{0} (Fin k) \u2192 decl-005658 k N",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658"
+      ],
+      "structural_type_hash": "1375041925",
+      "temporary_id": "decl-024280"
+    },
+    {
+      "formal_type": "\u2200 (k N : Nat) (w : List.{0} (Fin k)), Membership.mem.{0, 0} (decl-020749 k N) (decl-024280 k N w)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658",
+        "decl-020749",
+        "decl-024280"
+      ],
+      "structural_type_hash": "1285623797",
+      "temporary_id": "decl-024282"
+    },
+    {
+      "formal_type": "\u2200 (k N : Nat) (d : Finsupp.{0, 0} (Fin k) Nat) {f : decl-005658 k N},\n  Membership.mem.{0, 0} (decl-020749 k N) f \u2192\n    Membership.mem.{0, 0} (decl-020749 k N)\n      (DFunLike.coe.{1, 1, 1} (MvPolynomial.weightedHomogeneousComponent.{0, 0, 0} (decl-021565 k N) d) f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658",
+        "decl-020749",
+        "decl-021565"
+      ],
+      "structural_type_hash": "2726751973",
+      "temporary_id": "decl-024511"
+    }
+  ],
+  "module_temporary_id": "module-0393",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

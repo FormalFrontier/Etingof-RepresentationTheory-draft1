@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0154",
+  "associations": [
+    {
+      "association_id": "association:a5a32df8e9f6ec4543a6",
+      "role": "supporting",
+      "rationale": "The displayed type is an opaque type-valued declaration and does not expose either hom-objects or composition morphisms."
+    },
+    {
+      "association_id": "association:e9861db6e548676e4ba1",
+      "role": "primary",
+      "rationale": "Its morphism is exactly enriched composition from the tensor of two hom-objects."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0165",
+  "associations": [
+    {
+      "association_id": "association:a89507836e0b5143b845",
+      "role": "primary",
+      "rationale": "The conclusion is exactly an iff between bijectivity of the A-linear map and all displayed component maps."
+    }
+  ]
+}

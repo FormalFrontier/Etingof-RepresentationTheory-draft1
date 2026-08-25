@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0220",
+  "associations": [
+    {
+      "association_id": "association:3277db8144ef7d756150",
+      "role": "primary",
+      "rationale": "It directly provides multiplicities and a linear equivalence from X to the displayed direct sum."
+    }
+  ]
+}

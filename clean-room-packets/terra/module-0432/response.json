@@ -1,0 +1,35 @@
+{
+  "module_name": "LinearAlgebra.EndomorphismCentralizer",
+  "declarations": [
+    {
+      "temporary_id": "decl-018851",
+      "new_name": "exists_matrixUnit_mulVecLin_eq",
+      "docstring": "Every invertible endomorphism of a finite coordinate space is induced by multiplication by an invertible matrix."
+    },
+    {
+      "temporary_id": "decl-019941",
+      "new_name": "LinearEquiv.restrictScalarsToCentralizer",
+      "docstring": "Reinterprets an equivalence of linear-map spaces that commutes with invertible endomorphisms as an equivalence linear over the centralizer."
+    },
+    {
+      "temporary_id": "decl-019963",
+      "new_name": "LinearEquiv.map_smul_of_unit_equivariant",
+      "docstring": "An equivalence of linear-map spaces that is equivariant for invertible endomorphisms preserves scalar multiplication by centralizer elements."
+    },
+    {
+      "temporary_id": "decl-023056",
+      "new_name": "pairwise_not_iso_of_submodule_equiv",
+      "docstring": "Representations identified equivariantly with pairwise inequivalent indexed simple submodules are pairwise nonisomorphic."
+    },
+    {
+      "temporary_id": "decl-024389",
+      "new_name": "unitEndomorphismCentralizerElement",
+      "docstring": "Associates an invertible module endomorphism and a natural number with an element of the relevant centralizer."
+    },
+    {
+      "temporary_id": "decl-024394",
+      "new_name": "unitEndomorphismCentralizerElement_smul_eq_comp",
+      "docstring": "The action of the centralizer element supplied for an invertible endomorphism equals composition with the linear map obtained from that element."
+    }
+  ]
+}

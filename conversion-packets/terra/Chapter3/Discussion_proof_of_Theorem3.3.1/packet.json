@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Discussion_proof_of_Theorem3.3.1",
+    "kind": "discussion",
+    "title": "Proof of Theorem 3.3.1 using dual representations",
+    "node_id": "chapter-03/section-3-3",
+    "order": 142,
+    "slug": "discussion-proof-of-theorem3-3-1",
+    "span": {
+      "start": {
+        "page": "47",
+        "line": 13
+      },
+      "end": {
+        "page": "47",
+        "line": 21
+      }
+    },
+    "source_sha256": "08ec038d025e19b26f8c471a020c72d0723a25ad359c3f938645abb05945db03",
+    "features": {
+      "line_count": 9,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.DiscussionProofOfTheorem331",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

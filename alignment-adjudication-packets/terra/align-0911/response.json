@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0911",
+  "associations": [
+    {
+      "association_id": "association:92cdb1f532ce6aa3add2",
+      "rationale": "The multiplication formula directly says that the product of composable path elements is the element for their concatenated path.",
+      "role": "primary"
+    }
+  ]
+}

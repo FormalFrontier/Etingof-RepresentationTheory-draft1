@@ -1,0 +1,232 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} decl-003810 x) (Fin 2 \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003810"
+      ],
+      "structural_type_hash": "3101322968",
+      "temporary_id": "decl-003803"
+    },
+    {
+      "formal_type": "Submodule.{0, 0} Complex (QuaternionGroup 2 \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1756067233",
+      "temporary_id": "decl-003810"
+    },
+    {
+      "formal_type": "\u2200 {f : QuaternionGroup 2 \u2192 Complex},\n  Membership.mem.{0, 0} decl-003810 f \u2192\n    Eq.{1} f (decl-003820 (f (QuaternionGroup.a 0)) (f (QuaternionGroup.xa 0)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003810",
+        "decl-003820"
+      ],
+      "structural_type_hash": "1857956585",
+      "temporary_id": "decl-003814"
+    },
+    {
+      "formal_type": "Eq.{1}\n  (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-003810 x))\n  2",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003810"
+      ],
+      "structural_type_hash": "3444492936",
+      "temporary_id": "decl-003815"
+    },
+    {
+      "formal_type": "\u2200 (g : QuaternionGroup 2) (f : QuaternionGroup 2 \u2192 Complex),\n  Membership.mem.{0, 0} decl-003810 f \u2192\n    Membership.mem.{0, 0} decl-003810\n      (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} decl-003835 g) f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003810",
+        "decl-003835"
+      ],
+      "structural_type_hash": "97108862",
+      "temporary_id": "decl-003816"
+    },
+    {
+      "formal_type": "\u2200 (U : Submodule.{0, 0} Complex (QuaternionGroup 2 \u2192 Complex)),\n  LE.le.{0} U decl-003810 \u2192\n    (\u2200 (g : QuaternionGroup 2) (f : QuaternionGroup 2 \u2192 Complex),\n        Membership.mem.{0, 0} U f \u2192\n          Membership.mem.{0, 0} U\n            (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} decl-003835 g) f)) \u2192\n      Or (Eq.{1} U Bot.bot.{0}) (Eq.{1} U decl-003810)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003810",
+        "decl-003835"
+      ],
+      "structural_type_hash": "3130668040",
+      "temporary_id": "decl-003817"
+    },
+    {
+      "formal_type": "\u2200 {f : QuaternionGroup 2 \u2192 Complex},\n  Membership.mem.{0, 0} decl-003810 f \u2192\n    And (Eq.{1} (f (QuaternionGroup.a 1)) (HMul.hMul.{0, 0, 0} Complex.I (f (QuaternionGroup.a 0))))\n      (And (Eq.{1} (f (QuaternionGroup.a 2)) (Neg.neg.{0} (f (QuaternionGroup.a 0))))\n        (And (Eq.{1} (f (QuaternionGroup.a 3)) (HMul.hMul.{0, 0, 0} (Neg.neg.{0} Complex.I) (f (QuaternionGroup.a 0))))\n          (And (Eq.{1} (f (QuaternionGroup.xa 3)) (HMul.hMul.{0, 0, 0} Complex.I (f (QuaternionGroup.xa 0))))\n            (And (Eq.{1} (f (QuaternionGroup.xa 2)) (Neg.neg.{0} (f (QuaternionGroup.xa 0))))\n              (Eq.{1} (f (QuaternionGroup.xa 1))\n                (HMul.hMul.{0, 0, 0} (Neg.neg.{0} Complex.I) (f (QuaternionGroup.xa 0))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003810"
+      ],
+      "structural_type_hash": "2247419303",
+      "temporary_id": "decl-003819"
+    },
+    {
+      "formal_type": "Complex \u2192 Complex \u2192 QuaternionGroup 2 \u2192 Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2561558231",
+      "temporary_id": "decl-003820"
+    },
+    {
+      "formal_type": "\u2200 (s t : Complex), Eq.{1} (decl-003820 s t (QuaternionGroup.a 0)) s",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003820"
+      ],
+      "structural_type_hash": "3767511978",
+      "temporary_id": "decl-003823"
+    },
+    {
+      "formal_type": "\u2200 (s t : Complex), Eq.{1} (decl-003820 s t (QuaternionGroup.a 1)) (HMul.hMul.{0, 0, 0} Complex.I s)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003820"
+      ],
+      "structural_type_hash": "1367996857",
+      "temporary_id": "decl-003824"
+    },
+    {
+      "formal_type": "\u2200 (s t : Complex), Eq.{1} (decl-003820 s t (QuaternionGroup.a 2)) (Neg.neg.{0} s)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003820"
+      ],
+      "structural_type_hash": "515627609",
+      "temporary_id": "decl-003825"
+    },
+    {
+      "formal_type": "\u2200 (s t : Complex),\n  Eq.{1} (decl-003820 s t (QuaternionGroup.a 3)) (HMul.hMul.{0, 0, 0} (Neg.neg.{0} Complex.I) s)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003820"
+      ],
+      "structural_type_hash": "1755320232",
+      "temporary_id": "decl-003826"
+    },
+    {
+      "formal_type": "\u2200 (s t : Complex), Membership.mem.{0, 0} decl-003810 (decl-003820 s t)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003810",
+        "decl-003820"
+      ],
+      "structural_type_hash": "537179440",
+      "temporary_id": "decl-003827"
+    },
+    {
+      "formal_type": "\u2200 (s t : Complex), Eq.{1} (decl-003820 s t (QuaternionGroup.xa 0)) t",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003820"
+      ],
+      "structural_type_hash": "626722347",
+      "temporary_id": "decl-003829"
+    },
+    {
+      "formal_type": "\u2200 (s t : Complex),\n  Eq.{1} (decl-003820 s t (QuaternionGroup.xa 1)) (HMul.hMul.{0, 0, 0} (Neg.neg.{0} Complex.I) t)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003820"
+      ],
+      "structural_type_hash": "1325399517",
+      "temporary_id": "decl-003830"
+    },
+    {
+      "formal_type": "\u2200 (s t : Complex), Eq.{1} (decl-003820 s t (QuaternionGroup.xa 2)) (Neg.neg.{0} t)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003820"
+      ],
+      "structural_type_hash": "321526202",
+      "temporary_id": "decl-003831"
+    },
+    {
+      "formal_type": "\u2200 (s t : Complex), Eq.{1} (decl-003820 s t (QuaternionGroup.xa 3)) (HMul.hMul.{0, 0, 0} Complex.I t)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003820"
+      ],
+      "structural_type_hash": "396701896",
+      "temporary_id": "decl-003832"
+    },
+    {
+      "formal_type": "\u2200 {f : QuaternionGroup 2 \u2192 Complex},\n  Iff (Membership.mem.{0, 0} decl-003810 f)\n    (\u2200 (g : QuaternionGroup 2),\n      Eq.{1} (f (HMul.hMul.{0, 0, 0} (QuaternionGroup.a 1) g)) (HMul.hMul.{0, 0, 0} Complex.I (f g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003810"
+      ],
+      "structural_type_hash": "966068412",
+      "temporary_id": "decl-003833"
+    },
+    {
+      "formal_type": "Representation.{0, 0, 0} Complex (QuaternionGroup 2) (QuaternionGroup 2 \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4135519418",
+      "temporary_id": "decl-003835"
+    },
+    {
+      "formal_type": "\u2200 (g : QuaternionGroup 2) (f : QuaternionGroup 2 \u2192 Complex) (x : QuaternionGroup 2),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} decl-003835 g) f x)\n    (f (HMul.hMul.{0, 0, 0} x g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003835"
+      ],
+      "structural_type_hash": "2851220399",
+      "temporary_id": "decl-003838"
+    },
+    {
+      "formal_type": "\u2200 (i : ZMod 4), Or (Eq.{1} i 0) (Or (Eq.{1} i 1) (Or (Eq.{1} i 2) (Eq.{1} i 3)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2792771743",
+      "temporary_id": "decl-003839"
+    }
+  ],
+  "module_temporary_id": "module-0217",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

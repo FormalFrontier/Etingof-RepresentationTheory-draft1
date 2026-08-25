@@ -1,0 +1,250 @@
+{
+  "module_name": "DynkinDiagram.AffineClassification",
+  "declarations": [
+    {
+      "temporary_id": "decl-012309",
+      "new_name": "AffineDynkinDiagram",
+      "docstring": "An index type for connected simply laced affine Dynkin diagrams with their canonical adjacency data."
+    },
+    {
+      "temporary_id": "decl-012335",
+      "new_name": "adjacency",
+      "docstring": "The integer adjacency matrix of an affine Dynkin diagram."
+    },
+    {
+      "temporary_id": "decl-012341",
+      "new_name": "exists_adjacency_path",
+      "docstring": "Any two vertices can be joined by a list whose consecutive vertices have adjacency entry one."
+    },
+    {
+      "temporary_id": "decl-012377",
+      "new_name": "adjacency_self",
+      "docstring": "Every diagonal entry of the adjacency matrix is zero."
+    },
+    {
+      "temporary_id": "decl-012382",
+      "new_name": "adjacency_isSymm",
+      "docstring": "The adjacency matrix of an affine Dynkin diagram is symmetric."
+    },
+    {
+      "temporary_id": "decl-012383",
+      "new_name": "adjacency_eq_zero_or_one",
+      "docstring": "Every adjacency entry is either zero or one."
+    },
+    {
+      "temporary_id": "decl-012388",
+      "new_name": "marks",
+      "docstring": "The integral mark assigned to each vertex of an affine Dynkin diagram."
+    },
+    {
+      "temporary_id": "decl-012396",
+      "new_name": "rank",
+      "docstring": "The number of vertices of an affine Dynkin diagram."
+    },
+    {
+      "temporary_id": "decl-012405",
+      "new_name": "IsAffineDynkinMatrix",
+      "docstring": "The predicate that an integer matrix is the adjacency matrix of a connected simply laced affine Dynkin diagram."
+    },
+    {
+      "temporary_id": "decl-012408",
+      "new_name": "IsAffineDynkinMatrix.exists_pos_kernelVector",
+      "docstring": "A nonempty affine Dynkin matrix admits a strictly positive integral vector annihilated by two times the identity minus the adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-012413",
+      "new_name": "ordered_triples_of_pairwise_succ_products_eq_product",
+      "docstring": "Classifies ordered positive natural triples whose sum of pairwise products of successors equals the product of all three successors."
+    },
+    {
+      "temporary_id": "decl-012427",
+      "new_name": "IsAffineDynkinMatrix.exists_pathEnumeration_of_degree_le_three_of_degree_eq_three_imp_eq",
+      "docstring": "If all degrees are at most three, every degree-three vertex equals a chosen vertex, and a nonempty connected vertex set has a unique attachment to it, then the set has a simple linear enumeration starting at the attachment."
+    },
+    {
+      "temporary_id": "decl-012428",
+      "new_name": "IsAffineDynkinMatrix.exists_pathEnumeration_of_degree_le_two",
+      "docstring": "A nonempty connected set of degree-at-most-two vertices, disjoint from and uniquely attached to another vertex, has a simple linear enumeration starting at its attachment."
+    },
+    {
+      "temporary_id": "decl-012445",
+      "new_name": "IsAffineDynkinMatrix.mulVec_eq_zero_of_quadraticForm_eq_zero",
+      "docstring": "A vector with zero quadratic value for two times the identity minus an affine adjacency matrix lies in its kernel."
+    },
+    {
+      "temporary_id": "decl-012447",
+      "new_name": "IsAffineDynkinMatrix.exists_equiv_cycle_of_two_mul_card_le_entrySum",
+      "docstring": "An affine Dynkin matrix whose entry sum is at least twice its size is equivalent to the cycle-family affine diagram on the same vertices."
+    },
+    {
+      "temporary_id": "decl-012451",
+      "new_name": "IsAffineDynkinMatrix.exists_pos_weighted_degreeBalance",
+      "docstring": "A nonempty affine Dynkin matrix has positive integral vertex weights for which the weighted sum of degree minus two vanishes."
+    },
+    {
+      "temporary_id": "decl-012452",
+      "new_name": "IsAffineDynkinMatrix.exists_equiv_fourArmStar_or_degree_le_three",
+      "docstring": "Every nonempty affine Dynkin matrix is equivalent to the four-arm affine star or has all vertex degrees at most three."
+    },
+    {
+      "temporary_id": "decl-012462",
+      "new_name": "IsAffineDynkinMatrix.principalSubmatrix_isFiniteDynkin_of_degree_eq_one",
+      "docstring": "Deleting a degree-one vertex from an affine Dynkin matrix produces an adjacency matrix of finite Dynkin type."
+    },
+    {
+      "temporary_id": "decl-012474",
+      "new_name": "isAffineDynkinMatrix_iff_exists_equiv",
+      "docstring": "A nonempty integer matrix is affine Dynkin exactly when it is equivalent to the adjacency matrix of an indexed affine Dynkin diagram."
+    },
+    {
+      "temporary_id": "decl-012475",
+      "new_name": "IsAffineDynkinMatrix.eq_zero_of_quadraticForm_eq_zero_of_apply_eq_zero",
+      "docstring": "A vector of zero affine quadratic value is zero if any one of its coordinates is zero."
+    },
+    {
+      "temporary_id": "decl-012478",
+      "new_name": "IsAffineDynkinMatrix.exists_threeArmParameters_of_unique_degree_three",
+      "docstring": "Under the sparse-entry and degree bounds, an affine diagram with a unique degree-three vertex admits ordered three-arm lengths and a vertex equivalence realizing the corresponding adjacency relation."
+    },
+    {
+      "temporary_id": "decl-012541",
+      "new_name": "IsAffineDynkinMatrix.exists_threeArmEnumeration_of_unique_degree_three",
+      "docstring": "Under the sparse-entry and degree bounds, the vertices away from a unique degree-three vertex can be enumerated as three disjoint nonempty linear arms."
+    },
+    {
+      "temporary_id": "decl-012554",
+      "new_name": "IsAffineDynkinMatrix.exists_equiv_finiteDynkin_submatrix_of_connected",
+      "docstring": "A nonempty connected induced submatrix on injectively indexed vertices that omit a vertex is equivalent to the adjacency matrix of a finite Dynkin diagram."
+    },
+    {
+      "temporary_id": "decl-012555",
+      "new_name": "IsAffineDynkinMatrix.principalSubmatrix_isFiniteDynkin_of_connected",
+      "docstring": "A connected injectively indexed induced submatrix that omits a vertex has finite Dynkin type."
+    },
+    {
+      "temporary_id": "decl-012557",
+      "new_name": "IsAffineDynkinMatrix.submatrix_quadraticForm_pos",
+      "docstring": "The quadratic form of two times the identity minus a proper injectively indexed induced submatrix is positive on every nonzero integral vector."
+    },
+    {
+      "temporary_id": "decl-012559",
+      "new_name": "IsAffineDynkinMatrix.exists_unique_or_pair_degree_three",
+      "docstring": "With entry sum below twice the size and all degrees at most three, the degree-three vertices consist of either one vertex or exactly two distinct vertices."
+    },
+    {
+      "temporary_id": "decl-012575",
+      "new_name": "IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card",
+      "docstring": "A nonempty affine Dynkin matrix whose entry sum is below twice its size is equivalent to an indexed affine Dynkin diagram."
+    },
+    {
+      "temporary_id": "decl-012576",
+      "new_name": "IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card_of_degree_le_three",
+      "docstring": "An affine Dynkin matrix with sparse entry sum and degrees at most three is equivalent to an indexed affine Dynkin diagram."
+    },
+    {
+      "temporary_id": "decl-012577",
+      "new_name": "IsAffineDynkinMatrix.exists_degree_eq_three_of_entrySum_lt_two_mul_card",
+      "docstring": "If an affine Dynkin matrix has entry sum below twice its size and all degrees at most three, then some vertex has degree three."
+    },
+    {
+      "temporary_id": "decl-012579",
+      "new_name": "IsAffineDynkinMatrix.exists_threeArmParameters_with_balance_of_unique_degree_three",
+      "docstring": "A sparse affine diagram with a unique degree-three vertex has ordered three-arm lengths satisfying the pairwise-product balance identity and realizing its adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-012642",
+      "new_name": "IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_unique_degree_three",
+      "docstring": "A sparse affine Dynkin matrix with degrees at most three and a unique degree-three vertex is equivalent to an indexed affine Dynkin diagram."
+    },
+    {
+      "temporary_id": "decl-012643",
+      "new_name": "IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_exactly_two_degree_three",
+      "docstring": "A sparse affine Dynkin matrix whose degree-three vertices are exactly two distinct vertices is equivalent to an indexed affine Dynkin diagram."
+    },
+    {
+      "temporary_id": "decl-012645",
+      "new_name": "IsAffineDynkinMatrix.exists_typeD_equiv_submatrix_erase_leaf",
+      "docstring": "Deleting a leaf adjacent to one of exactly two degree-three vertices yields a finite type-D diagram with that branch vertex in the distinguished position."
+    },
+    {
+      "temporary_id": "decl-012670",
+      "new_name": "IsAffineDynkinMatrix.exists_two_distinct_leaf_neighbors_of_exactly_two_degree_three",
+      "docstring": "When the degree-three vertices are exactly two distinct vertices, the second has two distinct degree-one neighbors."
+    },
+    {
+      "temporary_id": "decl-012708",
+      "new_name": "IsAffineDynkinMatrix.exists_leaf_adjacent_of_two_degree_three",
+      "docstring": "Two distinct degree-three vertices in a sparse affine diagram have a degree-one vertex adjacent to at least one of them."
+    },
+    {
+      "temporary_id": "decl-012718",
+      "new_name": "exists_affineTypeD_equiv_of_erase_leaf_equiv_typeD",
+      "docstring": "A symmetric zero-diagonal binary adjacency matrix obtained by adjoining a leaf at the distinguished vertex of a finite type-D diagram is equivalent to the corresponding affine type-D diagram."
+    },
+    {
+      "temporary_id": "decl-012736",
+      "new_name": "IsAffineDynkinMatrix.degree_le_four",
+      "docstring": "Every vertex of an affine Dynkin matrix has degree at most four."
+    },
+    {
+      "temporary_id": "decl-012742",
+      "new_name": "threeArmAdjacent",
+      "docstring": "The adjacency relation on numbered vertices of a three-arm tree with the specified arm lengths."
+    },
+    {
+      "temporary_id": "decl-012744",
+      "new_name": "AffineDynkinDiagram.det_two_smul_one_sub_adjacency_eq_zero",
+      "docstring": "The determinant of two times the identity minus an affine Dynkin adjacency matrix is zero."
+    },
+    {
+      "temporary_id": "decl-012750",
+      "new_name": "AffineDynkinDiagram.two_smul_one_sub_adjacency_mulVec_marks_eq_zero",
+      "docstring": "The mark vector is annihilated by two times the identity minus the adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-012752",
+      "new_name": "exists_eq_typeD_of_degree_three_with_two_leaf_neighbors",
+      "docstring": "A finite Dynkin diagram containing a degree-three vertex adjacent to two distinct leaves belongs to the type-D family."
+    },
+    {
+      "temporary_id": "decl-012760",
+      "new_name": "isFiniteDynkinMatrix_iff_exists_equiv",
+      "docstring": "A nonempty integer matrix has finite Dynkin type exactly when it is equivalent to the adjacency matrix of an indexed finite Dynkin diagram."
+    },
+    {
+      "temporary_id": "decl-012761",
+      "new_name": "instDecidableThreeArmAdjacent",
+      "docstring": "The three-arm adjacency relation is decidable."
+    },
+    {
+      "temporary_id": "decl-012762",
+      "new_name": "IsAffineDynkinMatrix.map_equiv",
+      "docstring": "The affine Dynkin matrix property is preserved by relabeling vertices through an equivalence that preserves all matrix entries."
+    },
+    {
+      "temporary_id": "decl-012764",
+      "new_name": "AffineDynkinDiagram.adjacency_isAffineDynkinMatrix",
+      "docstring": "The adjacency matrix attached to an indexed affine Dynkin diagram satisfies the affine Dynkin matrix predicate."
+    },
+    {
+      "temporary_id": "decl-012772",
+      "new_name": "AffineDynkinDiagram.marks_pos",
+      "docstring": "Every mark of an affine Dynkin diagram is strictly positive."
+    },
+    {
+      "temporary_id": "decl-012773",
+      "new_name": "matrixDependentVertex",
+      "docstring": "A vertex determined by an integer matrix and an ordered pair of its vertices."
+    },
+    {
+      "temporary_id": "decl-012776",
+      "new_name": "quadraticForm_nonneg_of_symmetric_nonpos_offDiagonal_pos_kernel",
+      "docstring": "A symmetric integer matrix with nonpositive off-diagonal entries and a strictly positive kernel vector has nonnegative quadratic form."
+    },
+    {
+      "temporary_id": "decl-012784",
+      "new_name": "exists_equiv_cycle_of_connected_of_degree_eq_two",
+      "docstring": "A connected symmetric zero-diagonal binary adjacency matrix on at least three vertices, with every degree equal to two, is equivalent to the cycle-family affine diagram."
+    }
+  ]
+}

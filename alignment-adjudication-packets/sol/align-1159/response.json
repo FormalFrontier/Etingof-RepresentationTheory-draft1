@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-1159",
+  "associations": [
+    {
+      "association_id": "association:dd08024f5b78802a64a4",
+      "role": "supporting",
+      "rationale": "This only declares a complex-type predicate on representations; it does not state the introductory setup or introduce the Frobenius–Schur indicator."
+    },
+    {
+      "association_id": "association:300c96fe10f797b758e1",
+      "role": "supporting",
+      "rationale": "This only declares a quaternionic-type predicate on representations, which is contextual to rather than a direct statement of the source introduction."
+    },
+    {
+      "association_id": "association:2b13b60a3c8faa566c9a",
+      "role": "supporting",
+      "rationale": "This only declares a real-type predicate on representations, not the source's introductory setup and indicator introduction."
+    },
+    {
+      "association_id": "association:8e58409b12d583779fb2",
+      "role": "supporting",
+      "rationale": "It introduces the indicator on representations, but does not state the full finite-group and irreducible-representation setup in the source claim."
+    }
+  ]
+}

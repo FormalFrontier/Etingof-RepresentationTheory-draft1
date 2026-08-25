@@ -1,0 +1,18 @@
+{"module_name":"Group.CharacterAuxiliary","declarations":[
+{"temporary_id":"decl-001448","new_name":"iso_of_character_eq","docstring":"Finite-dimensional representations with equal characters are isomorphic under the displayed hypotheses."},
+{"temporary_id":"decl-001449","new_name":"complex_iso_of_character_eq","docstring":"Complex finite-dimensional representations with equal characters are isomorphic."},
+{"temporary_id":"decl-015579","new_name":"exists_iso_biprod_of_ne_zero_from_simple","docstring":"A nonzero morphism from a simple representation exhibits its target as a biproduct of that representation and another representation."},
+{"temporary_id":"decl-015580","new_name":"iso_biprod_cokernel_of_splitMono","docstring":"The target of a split monomorphism is isomorphic to the biproduct of its source and cokernel."},
+{"temporary_id":"decl-015581","new_name":"exists_simple_biprod","docstring":"A nonzero representation is isomorphic to a biproduct of a simple representation and another representation."},
+{"temporary_id":"decl-015583","new_name":"finrank_biproduct","docstring":"The dimension of the displayed biproduct is the stated sum of dimensions."},
+{"temporary_id":"decl-015584","new_name":"finrank_eq_of_character_eq","docstring":"Representations with equal characters have equal dimensions."},
+{"temporary_id":"decl-015585","new_name":"finrank_hom_biproduct","docstring":"The dimension of morphisms into the displayed biproduct is the stated sum."},
+{"temporary_id":"decl-015586","new_name":"finrank_hom_eq_of_iso","docstring":"An isomorphism preserves the displayed morphism-space dimension."},
+{"temporary_id":"decl-015587","new_name":"finrank_eq_of_iso","docstring":"An isomorphism preserves representation dimension."},
+{"temporary_id":"decl-015588","new_name":"finrank_pos_of_simple","docstring":"A simple representation has positive dimension."},
+{"temporary_id":"decl-015590","new_name":"homBiproductLinearEquiv","docstring":"A linear equivalence for morphisms to the displayed biproduct."},
+{"temporary_id":"decl-015596","new_name":"finrank_hom_eq_of_character_eq","docstring":"Equal characters imply equality of the displayed morphism-space dimensions."},
+{"temporary_id":"decl-015597","new_name":"isZero_of_finrank_eq_zero","docstring":"A representation of zero dimension is zero."},
+{"temporary_id":"decl-015598","new_name":"iso_of_hom_finrank_eq","docstring":"The displayed equality of morphism-space dimensions yields an isomorphism."},
+{"temporary_id":"decl-015604","new_name":"iso_of_isZero_of_hom_finrank_eq","docstring":"If one representation is zero and all incoming morphism spaces have the same dimension for two representations, then the representations are isomorphic."}
+]}

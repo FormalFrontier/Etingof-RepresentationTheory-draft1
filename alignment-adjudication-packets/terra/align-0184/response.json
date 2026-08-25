@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0184",
+  "associations": [
+    {
+      "association_id": "association:6799a73cf87087d71f65",
+      "role": "supporting",
+      "rationale": "It proves a positive-root criterion from Dynkin, positivity, and quadratic-form hypotheses, but does not itself mention indecomposables or their dimension vectors."
+    }
+  ]
+}

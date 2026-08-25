@@ -1,0 +1,35 @@
+{
+  "module_name": "IsotypicComponents",
+  "declarations": [
+    {
+      "temporary_id": "decl-016531",
+      "new_name": "exists_isotypicComponent_representatives",
+      "docstring": "Constructs one submodule from each isomorphism class of simple constituents in the isotypic decomposition."
+    },
+    {
+      "temporary_id": "decl-016532",
+      "new_name": "exists_simpleSubmodule_equiv",
+      "docstring": "A simple module is linearly equivalent to a simple submodule of the ambient module."
+    },
+    {
+      "temporary_id": "decl-016533",
+      "new_name": "exists_centralizer_isotypicComponent_representatives",
+      "docstring": "Constructs representatives for the centralizer's isotypic components, one for every simple module class."
+    },
+    {
+      "temporary_id": "decl-016534",
+      "new_name": "exists_centralizer_simpleSubmodule_equiv",
+      "docstring": "A simple module for the centralizer is linearly equivalent to one of its simple submodules."
+    },
+    {
+      "temporary_id": "decl-018925",
+      "new_name": "exists_simpleSubmodule_equiv_of_isSemisimple",
+      "docstring": "In a semisimple algebra action, every simple module occurs as a simple submodule."
+    },
+    {
+      "temporary_id": "decl-023161",
+      "new_name": "exists_isotypicComponent_representatives_of_isSemisimple",
+      "docstring": "For a semisimple algebra action, selects a submodule inside each isotypic component so that distinct selections are nonisomorphic and every simple module is represented."
+    }
+  ]
+}

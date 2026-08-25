@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0435",
+  "associations": [
+    {
+      "association_id": "association:3846fdb214c65724fbaf",
+      "role": "primary",
+      "rationale": "The equivalence directly identifies group representations with algebra homomorphisms from the group algebra to module endomorphisms, which are representations of the group algebra."
+    }
+  ]
+}

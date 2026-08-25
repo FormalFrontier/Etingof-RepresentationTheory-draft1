@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0677",
+  "associations": [
+    {
+      "association_id": "association:9cc6cb6c4896e5e70510",
+      "rationale": "The formal type states the vanishing criterion, but it does not itself state the Ext¹ dimension formula, so it covers only one component of the complete claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:fabdf01a1c40503b5030",
+      "rationale": "The formal type states the Ext¹ dimension formula, but it does not itself state the iff vanishing criterion, so it covers only one component of the complete claim.",
+      "role": "supporting"
+    }
+  ]
+}

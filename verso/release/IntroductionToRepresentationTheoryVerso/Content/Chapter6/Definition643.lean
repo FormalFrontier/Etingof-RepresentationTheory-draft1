@@ -1,0 +1,34 @@
+/-
+Copyright (c) 2026 American Mathematical Society. All rights reserved.
+-/
+
+import VersoManual
+import RepresentationTheory
+
+open Verso.Genre Manual
+
+namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition643
+
+#doc (Manual) "Definition 6.4.3: Root" =>
+
+# Definition 6.4.3: Root
+%%%
+tag := "Chapter6/Definition6.4.3"
+number := false
+%%%
+
+*Definition 6.4.3.* A *root* with respect to a certain positive inner product is a shortest (with respect to this inner product) nonzero vector in $`\mathbb{Z}^n`.
+
+So for the inner product $`B`, a root is a nonzero vector $`x \in \mathbb{Z}^n` such that
+
+$$`B(x, x) = 2.`
+
+## Formalization
+%%%
+tag := "Chapter6/Definition6.4.3/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryIntegerMatrixVectorProperty.IsAuxiliaryForMatrix}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f31cd36282678feb91b8",
+      "declaration": "Etingof.Problem3_9_3.irreducible_isSimpleRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  [Finite.{u_2 + 1} Q],\n  Etingof.Problem3_9_3.NoOrientedCycles.{u_2, u_3} Q \u2192\n    \u2200 (\u03c1 : Etingof.QuiverRepresentation.{u_1, u_2, u_4, u_3} k Q),\n      Etingof.Problem3_9_3.IsIrreducible.{u_1, u_2, u_3, u_4} \u03c1 \u2192\n        Exists.{u_2 + 1} fun i =>\n          Nonempty.{max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1)}\n            (Etingof.QuiverRepresentationEquiv.{u_1, u_2, u_3, u_4, u_1} k Q \u03c1\n              (Etingof.Problem6_9_3.simpleRep.{u_1, u_2, u_3} i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.3",
+  "packet_id": "align-0676",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0676"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.3:claim-02",
+  "source_text": "Every finite-dimensional irreducible representation of the path algebra is isomorphic to S\u1d62 for some vertex i."
+}

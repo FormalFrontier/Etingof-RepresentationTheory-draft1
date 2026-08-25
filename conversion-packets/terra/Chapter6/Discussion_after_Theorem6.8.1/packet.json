@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Discussion_after_Theorem6.8.1",
+    "kind": "discussion",
+    "title": "We can now prove Gabriel's theorem",
+    "node_id": "chapter-06/section-6-8",
+    "order": 454,
+    "slug": "discussion-after-theorem6-8-1",
+    "span": {
+      "start": {
+        "page": "175",
+        "line": 29
+      },
+      "end": {
+        "page": "175",
+        "line": 30
+      }
+    },
+    "source_sha256": "927332cb58733088fd26096703068ca746885d7857998fb7e0de722076d4412e",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.DiscussionAfterTheorem681",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Exercise5.8.5",
+    "kind": "exercise",
+    "title": "Induced representation via idempotent e_chi",
+    "node_id": "chapter-05/section-5-8",
+    "order": 295,
+    "slug": "exercise5-8-5",
+    "span": {
+      "start": {
+        "page": "108",
+        "line": 29
+      },
+      "end": {
+        "page": "108",
+        "line": 33
+      }
+    },
+    "source_sha256": "ba6523386e033292571018e15607367c99626ad60365c0dcf8b2671c27e0faf7",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Exercise585",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

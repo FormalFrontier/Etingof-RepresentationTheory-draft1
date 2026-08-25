@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0956",
+  "associations": [
+    {
+      "association_id": "association:9995586b45160c9cecdb",
+      "role": "supporting",
+      "rationale": "The displayed type only shows an opaque type family, not the quasi-inverse and two natural isomorphisms."
+    }
+  ]
+}

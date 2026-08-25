@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1135",
+  "associations": [
+    {
+      "association_id": "association:f9ce82f8641bec60a267",
+      "role": "supporting",
+      "rationale": "The formal type states the p^a q^b solvability theorem named as the section's subject, but the packet labels this declaration context_only; it therefore supports the source's section-level description rather than directly stating that description."
+    }
+  ]
+}

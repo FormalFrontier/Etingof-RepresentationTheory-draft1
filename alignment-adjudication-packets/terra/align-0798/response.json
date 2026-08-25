@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0798",
+  "associations": [
+    {
+      "association_id": "association:d04e4034fc4f2dee850b",
+      "role": "supporting",
+      "rationale": "The formal type gives only the parameter-uniqueness component; it does not itself state construction of the four families, their indecomposability, and their pairwise nonisomorphism required by the complete source claim."
+    },
+    {
+      "association_id": "association:3aa7106a5d03f27d0383",
+      "role": "supporting",
+      "rationale": "The formal type gives only the pairwise-nonisomorphism component; it does not itself state construction of the four families, their indecomposability, and parameter uniqueness required by the complete source claim."
+    },
+    {
+      "association_id": "association:5a99be3ba1ad6350046d",
+      "role": "supporting",
+      "rationale": "The formal type gives only the indecomposability component; it does not itself state construction of the four families, pairwise nonisomorphism, and parameter uniqueness required by the complete source claim."
+    }
+  ]
+}

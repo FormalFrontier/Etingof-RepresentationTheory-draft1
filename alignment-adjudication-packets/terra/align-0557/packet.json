@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8b707a9f1cf4f2852b71",
+      "declaration": "Etingof.Problem2_16_4.irrep_finrank",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/122/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (d : Nat) [NeZero.{0} d], Eq.{1} (Module.finrank.{u, u} k (Fin d \u2192 k)) d",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_4"
+    },
+    {
+      "association_id": "association:d4b3a4e6a8ef5ea1f48f",
+      "declaration": "Etingof.Problem2_16_4.irrep_isIrreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/122/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (p : Nat) [CharP.{u} k p],\n  LT.lt.{0} 2 p \u2192\n    \u2200 (d : Nat) [NeZero.{0} d],\n      LE.le.{0} d p \u2192\n        LieModule.IsIrreducible.{u, u, u} k\n          (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Etingof.Problem2_16_4.sl2.{u} k) x) (Fin d \u2192 k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.4",
+  "packet_id": "align-0557",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0557"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.4:claim-01",
+  "source_text": "Over an algebraically closed field of characteristic p > 2, the standard modules L(d-1), 1 \u2264 d \u2264 p, have dimension d and are irreducible."
+}

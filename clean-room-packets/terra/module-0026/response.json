@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.Lie.Module.Predicates",
+  "declarations": [
+    {
+      "temporary_id": "decl-005577",
+      "new_name": "LieModule.AuxiliaryPredicate",
+      "docstring": "An auxiliary predicate for an additive group equipped with scalar and Lie-ring module structures."
+    }
+  ]
+}

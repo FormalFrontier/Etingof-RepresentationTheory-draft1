@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a68c2483f60e085fc3a9",
+      "declaration": "Etingof.Example_2_8_2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/62/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Quiver.{0, 0} (Fin 4)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_8_2"
+    },
+    {
+      "association_id": "association:45fc15204a36ff51d3c1",
+      "declaration": "Etingof.Example_2_8_2.edge01",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/62/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Quiver.Hom.{0, 0} 0 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_8_2"
+    },
+    {
+      "association_id": "association:11afe1732ebf3638831a",
+      "declaration": "Etingof.Example_2_8_2.edge21",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/62/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Quiver.Hom.{0, 0} 2 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_8_2"
+    },
+    {
+      "association_id": "association:d6b10f4107f7596bafd9",
+      "declaration": "Etingof.Example_2_8_2.edge30",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/62/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Quiver.Hom.{0, 0} 3 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_8_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.8.2",
+  "packet_id": "align-0954",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0954"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b0951d5d87e110ea1d5b",
+  "source_text": "The displayed quiver has four vertices and exactly the three displayed arrows 0\u21921, 2\u21921, and 3\u21920."
+}

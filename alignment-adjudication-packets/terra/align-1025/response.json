@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1025",
+  "associations": [
+    {
+      "association_id": "association:f3d34db7f00ddc9e7b80",
+      "role": "primary",
+      "rationale": "The displayed type assumes pairwise inequivalent simple modules and states surjectivity of the combined action map."
+    }
+  ]
+}

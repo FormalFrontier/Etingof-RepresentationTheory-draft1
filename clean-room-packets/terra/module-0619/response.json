@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.Module.Properties",
+  "declarations": [
+    {
+      "temporary_id": "decl-004915",
+      "new_name": "RingModuleProperty",
+      "docstring": "A proposition concerning a ring and an additive commutative group carrying a module structure over it."
+    }
+  ]
+}

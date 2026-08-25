@@ -1,0 +1,245 @@
+{
+  "module_name": "GeneralLinearGroup.SpecialLinearRestriction",
+  "declarations": [
+    {
+      "temporary_id": "decl-001834",
+      "new_name": "ShiftEquiv",
+      "docstring": "The relation between two elements that differ by a constant shift."
+    },
+    {
+      "temporary_id": "decl-001835",
+      "new_name": "constShift",
+      "docstring": "Shift every component by the given integer constant."
+    },
+    {
+      "temporary_id": "decl-001838",
+      "new_name": "constShift_add",
+      "docstring": "Successive constant shifts combine by addition."
+    },
+    {
+      "temporary_id": "decl-001839",
+      "new_name": "constShift_apply",
+      "docstring": "A constant shift adds the constant to each component."
+    },
+    {
+      "temporary_id": "decl-001840",
+      "new_name": "constShift_zero",
+      "docstring": "Shifting by zero leaves an element unchanged."
+    },
+    {
+      "temporary_id": "decl-001846",
+      "new_name": "shiftSetoid",
+      "docstring": "The setoid whose equivalence classes identify constant shifts."
+    },
+    {
+      "temporary_id": "decl-001849",
+      "new_name": "shiftSetoid_rel",
+      "docstring": "Two elements are related exactly when one is a constant shift of the other."
+    },
+    {
+      "temporary_id": "decl-001854",
+      "new_name": "total",
+      "docstring": "The integer total associated to an element."
+    },
+    {
+      "temporary_id": "decl-001856",
+      "new_name": "total_constShift",
+      "docstring": "A constant shift changes the total by the rank times the shift."
+    },
+    {
+      "temporary_id": "decl-015558",
+      "new_name": "AuxiliaryType",
+      "docstring": "An auxiliary type family indexed by a natural number."
+    },
+    {
+      "temporary_id": "decl-017181",
+      "new_name": "scalarMatrix_action",
+      "docstring": "A scalar matrix acts by its scalar raised to the total."
+    },
+    {
+      "temporary_id": "decl-017182",
+      "new_name": "finrank_constShift",
+      "docstring": "Constant shifts preserve the finrank of the associated space."
+    },
+    {
+      "temporary_id": "decl-017185",
+      "new_name": "restrictToSpecialLinear_constShift_equiv",
+      "docstring": "Constant shifts yield equivalent restricted representations."
+    },
+    {
+      "temporary_id": "decl-018330",
+      "new_name": "detCharacter_scalarMatrix",
+      "docstring": "The determinant character of a scalar matrix is the scalar raised to the rank."
+    },
+    {
+      "temporary_id": "decl-018331",
+      "new_name": "detCharacter_specialLinear",
+      "docstring": "The determinant character is one on a special linear matrix."
+    },
+    {
+      "temporary_id": "decl-018347",
+      "new_name": "auxiliaryRepresentation_eq",
+      "docstring": "Identifies an auxiliary representation with an associated determinant-character construction."
+    },
+    {
+      "temporary_id": "decl-018349",
+      "new_name": "det_scalarMatrix",
+      "docstring": "The determinant of a scalar matrix is the scalar raised to the rank."
+    },
+    {
+      "temporary_id": "decl-019324",
+      "new_name": "FDRep.isoToRepresentationEquiv",
+      "docstring": "Convert an isomorphism of finite-dimensional representations into an equivalence of representations."
+    },
+    {
+      "temporary_id": "decl-019841",
+      "new_name": "scalarMatrix_action_homogeneous",
+      "docstring": "A scalar matrix acts on a homogeneous element by the corresponding power of the scalar."
+    },
+    {
+      "temporary_id": "decl-020669",
+      "new_name": "rankZero_subsingleton",
+      "docstring": "The family at rank zero is a subsingleton."
+    },
+    {
+      "temporary_id": "decl-020845",
+      "new_name": "generalLinear_equivariant_of_specialLinear_equivariant",
+      "docstring": "A linear equivalence preserving equal totals and intertwining the special linear actions also intertwines the general linear actions."
+    },
+    {
+      "temporary_id": "decl-021707",
+      "new_name": "rank_dvd_total_sub_of_related",
+      "docstring": "Related elements have totals whose difference is divisible by the rank."
+    },
+    {
+      "temporary_id": "decl-022915",
+      "new_name": "scalarMatrix",
+      "docstring": "The invertible scalar matrix of a given rank."
+    },
+    {
+      "temporary_id": "decl-022919",
+      "new_name": "coe_scalarMatrix",
+      "docstring": "The underlying matrix of a scalar matrix is the scalar multiple of the identity."
+    },
+    {
+      "temporary_id": "decl-022920",
+      "new_name": "scalarSpecialLinear",
+      "docstring": "A scalar matrix whose rank-th power is one, regarded as a special linear matrix."
+    },
+    {
+      "temporary_id": "decl-022972",
+      "new_name": "scalarMatrix_action_auxiliarySubtype",
+      "docstring": "A scalar matrix acts on the auxiliary subtype by the scalar raised to the sum of the indexed weights."
+    },
+    {
+      "temporary_id": "decl-023008",
+      "new_name": "restrictToSpecialLinear_natShift_equiv",
+      "docstring": "Adding a natural constant to an antitone weight yields an equivalent restricted representation."
+    },
+    {
+      "temporary_id": "decl-023011",
+      "new_name": "restrictToSpecialLinear_equiv_of_eq",
+      "docstring": "Equal weights yield equivalent restricted representations."
+    },
+    {
+      "temporary_id": "decl-023012",
+      "new_name": "restrictToSpecialLinear_succShift_equiv",
+      "docstring": "Adding one to an antitone weight yields an equivalent restricted representation."
+    },
+    {
+      "temporary_id": "decl-023112",
+      "new_name": "representationRelated_of_shiftEquiv",
+      "docstring": "Constant-shift equivalence implies equivalence in the representation setoid."
+    },
+    {
+      "temporary_id": "decl-023235",
+      "new_name": "auxiliaryQuotientMap",
+      "docstring": "The auxiliary map into the quotient by representation equivalence."
+    },
+    {
+      "temporary_id": "decl-023237",
+      "new_name": "auxiliaryQuotientMap_bijective",
+      "docstring": "The auxiliary quotient map is bijective."
+    },
+    {
+      "temporary_id": "decl-023238",
+      "new_name": "auxiliaryQuotientMap_injective",
+      "docstring": "The auxiliary quotient map is injective."
+    },
+    {
+      "temporary_id": "decl-023239",
+      "new_name": "auxiliaryQuotientMap_mk",
+      "docstring": "The auxiliary quotient map sends a shift class to its representation-equivalence class."
+    },
+    {
+      "temporary_id": "decl-023240",
+      "new_name": "auxiliaryQuotientMap_surjective",
+      "docstring": "The auxiliary quotient map is surjective."
+    },
+    {
+      "temporary_id": "decl-023241",
+      "new_name": "auxiliaryQuotientEquiv",
+      "docstring": "An auxiliary equivalence with the quotient by representation equivalence."
+    },
+    {
+      "temporary_id": "decl-023242",
+      "new_name": "auxiliaryQuotientEquiv_mk",
+      "docstring": "The auxiliary quotient equivalence sends a shift class to its representation-equivalence class."
+    },
+    {
+      "temporary_id": "decl-023243",
+      "new_name": "representationSetoid",
+      "docstring": "The setoid on indexed elements induced by the associated representations."
+    },
+    {
+      "temporary_id": "decl-023246",
+      "new_name": "shiftEquiv_of_representationRelated",
+      "docstring": "Equivalence in the representation setoid implies constant-shift equivalence."
+    },
+    {
+      "temporary_id": "decl-023248",
+      "new_name": "Representation.restrictToSpecialLinear",
+      "docstring": "Restrict a general linear group representation to the special linear group."
+    },
+    {
+      "temporary_id": "decl-023249",
+      "new_name": "Representation.Equiv.restrictToSpecialLinear",
+      "docstring": "Restrict an equivalence of general linear representations to the special linear group."
+    },
+    {
+      "temporary_id": "decl-023252",
+      "new_name": "restrictToSpecialLinear_eq_natWeight",
+      "docstring": "The restricted representation agrees with that associated to the natural weight."
+    },
+    {
+      "temporary_id": "decl-023253",
+      "new_name": "Representation.restrictToSpecialLinear_apply",
+      "docstring": "Restriction acts through the inclusion of the special linear group into the general linear group."
+    },
+    {
+      "temporary_id": "decl-023254",
+      "new_name": "restrictToSpecialLinear_detCharacter_zpow",
+      "docstring": "Twisting by an integer power of the determinant character does not change the restricted representation."
+    },
+    {
+      "temporary_id": "decl-023255",
+      "new_name": "restrictToSpecialLinear_auxiliary_eq",
+      "docstring": "The restrictions of the two auxiliary associated representations are equal."
+    },
+    {
+      "temporary_id": "decl-023365",
+      "new_name": "exists_scalarMatrix_mul_specialLinear",
+      "docstring": "Every nonzero-rank general linear matrix over an algebraically closed field is a scalar matrix times a special linear matrix."
+    },
+    {
+      "temporary_id": "decl-023366",
+      "new_name": "SpecialLinearGroup.det_coe",
+      "docstring": "The determinant of the underlying matrix of a special linear matrix is one."
+    },
+    {
+      "temporary_id": "decl-024142",
+      "new_name": "scalarSpecialLinear_toGL",
+      "docstring": "The general linear matrix underlying a scalar special linear matrix is the corresponding scalar matrix."
+    }
+  ]
+}

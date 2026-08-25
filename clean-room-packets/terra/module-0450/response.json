@@ -1,0 +1,20 @@
+{
+  "module_name": "SimpleModulesAndPartitionBounds",
+  "declarations": [
+    {
+      "temporary_id": "decl-016523",
+      "new_name": "exists_linear_equiv_membership_subtype_over_auxiliary_scalars",
+      "docstring": "Every simple module over the auxiliary scalar type is linearly equivalent to one of the specified membership subtypes."
+    },
+    {
+      "temporary_id": "decl-017966",
+      "new_name": "exists_linear_equiv_membership_subtype_over_permutation_monoid_algebra",
+      "docstring": "Every simple module over the monoid algebra of permutations of `Fin n` is linearly equivalent to one of the specified membership subtypes."
+    },
+    {
+      "temporary_id": "decl-020770",
+      "new_name": "auxiliary_value_le_partition_card",
+      "docstring": "For each specified input, its associated natural-number value is at most the cardinality of `n.Partition`."
+    }
+  ]
+}

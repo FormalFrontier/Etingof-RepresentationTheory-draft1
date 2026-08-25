@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c7c8e439029ddd550db7",
+      "declaration": "Etingof.semisimple_algebra_equiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/155/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u} A]\n  [inst_3 : Algebra.{u_1, u} k A] [inst_4 : FiniteDimensional.{u_1, u} k A] (\u03b9 : Type u_2) [inst_5 : Fintype.{u_2} \u03b9]\n  (V : \u03b9 \u2192 Type u) [inst_6 : (i : \u03b9) \u2192 AddCommGroup.{u} (V i)] [inst_7 : (i : \u03b9) \u2192 Module.{u_1, u} k (V i)]\n  [inst_8 : (i : \u03b9) \u2192 Module.{u, u} A (V i)] [\u2200 (i : \u03b9), IsScalarTower.{u_1, u, u} k A (V i)]\n  [\u2200 (i : \u03b9), FiniteDimensional.{u_1, u} k (V i)] [\u2200 (i : \u03b9), IsSimpleModule.{u, u} A (V i)],\n  (\u2200 (i j : \u03b9), Ne.{u_2 + 1} i j \u2192 IsEmpty.{u + 1} (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) (V i) (V j))) \u2192\n    (\u2200 (W : Type u) [inst_12 : AddCommGroup.{u} W] [inst_13 : Module.{u_1, u} k W] [inst_14 : Module.{u, u} A W]\n        [IsScalarTower.{u_1, u, u} k A W] [FiniteDimensional.{u_1, u} k W] [IsSimpleModule.{u, u} A W],\n        Exists.{u_2 + 1} fun i => Nonempty.{u + 1} (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) W (V i))) \u2192\n      (List.cons.{0} (Etingof.IsSemisimpleAlgebra.{u_1, u} k A)\n          (List.cons.{0}\n            (Eq.{1}\n              (Finset.sum.{u_2, 0} Finset.univ.{u_2} fun i => HPow.hPow.{0, 0, 0} (Module.finrank.{u_1, u} k (V i)) 2)\n              (Module.finrank.{u_1, u} k A))\n            (List.cons.{0}\n              (Exists.{1} fun n =>\n                Exists.{1} fun d =>\n                  And (\u2200 (j : Fin n), NeZero.{0} (d j))\n                    (Nonempty.{max (u_1 + 1) (u + 1)}\n                      (AlgEquiv.{u_1, u, u_1} k A ((j : Fin n) \u2192 Matrix.{0, 0, u_1} (Fin (d j)) (Fin (d j)) k))))\n              (List.cons.{0}\n                (\u2200 (M : Type u) [inst_12 : AddCommGroup.{u} M] [inst_13 : Module.{u, u} A M]\n                  [inst_14 : Module.{u_1, u} k M] [IsScalarTower.{u_1, u, u} k A M] [FiniteDimensional.{u_1, u} k M],\n                  IsSemisimpleModule.{u, u} A M)\n                (List.cons.{0} (IsSemisimpleModule.{u, u} A A) List.nil.{0}))))).TFAE",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Proposition3_5_8"
+    }
+  ],
+  "canonical_reference": "Chapter3/Proposition3.5.8",
+  "packet_id": "align-0110",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0110"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:225c6366269dd99ec643",
+  "source_text": "For a finite-dimensional algebra over an algebraically closed field, semisimplicity, the dimension equality, a finite product of matrix algebras, complete reducibility of every finite-dimensional representation, and complete reducibility of the regular representation are equivalent."
+}

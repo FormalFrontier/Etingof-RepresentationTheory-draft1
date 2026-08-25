@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1136",
+  "associations": [
+    {
+      "association_id": "association:0bae14e6d65a80bfff19",
+      "role": "supporting",
+      "rationale": "No formal type is displayed, so the packet does not show that this declaration itself states the identity-on-W and image-in-W projection claim."
+    },
+    {
+      "association_id": "association:23f356d8309040979bbf",
+      "role": "supporting",
+      "rationale": "No formal type is displayed, so the packet does not establish that this declaration directly states the averaged operator's projection properties."
+    }
+  ]
+}

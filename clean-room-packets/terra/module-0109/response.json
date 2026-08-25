@@ -1,0 +1,7 @@
+{
+  "module_name": "RealAlgebra.EndomorphismCounterexample",
+  "declarations": [
+    { "temporary_id": "decl-015434", "new_name": "not_real_scalar_endomorphism_principle", "docstring": "The proposed assertion that every such endomorphism is scalar multiplication is false." },
+    { "temporary_id": "decl-015435", "new_name": "complexImaginaryLinearMap_not_real_scalar", "docstring": "Multiplication by the imaginary unit on the complex numbers is not multiplication by a real scalar." }
+  ]
+}

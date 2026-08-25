@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:38af20bcc4c585f63fa6",
+      "declaration": "Etingof.Sl2Irrep.complete_reducibility",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/10/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [FiniteDimensional.{0, u_1} Complex M]\n  [inst_3 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) M]\n  [LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) M]\n  (N : LieSubmodule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) M),\n  Exists.{u_1 + 1} fun N' => IsCompl.{u_1} N N'",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_complete_reducibility"
+    },
+    {
+      "association_id": "association:c9782ea557ba329cb2cc",
+      "declaration": "Etingof.Sl2Irrep.sl2Module_decomposition",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/10/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (V : Type u) [inst : AddCommGroup.{u} V] [inst_1 : Module.{0, u} Complex V] [FiniteDimensional.{0, u} Complex V]\n  [inst_3 : LieRingModule.{0, u} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V]\n  [LieModule.{0, 0, u} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V],\n  Exists.{1} fun m =>\n    Exists.{1} fun n =>\n      Nonempty.{max 1 (u + 1)}\n        (LieModuleEquiv.{0, 0, u, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V\n          ((i : Fin m) \u2192 Fin (HAdd.hAdd.{0, 0, 0} (n i) 1) \u2192 Complex))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2SemisimpleDecomposition"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.15.1",
+  "packet_id": "align-0535",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0535"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.15.1:claim-11",
+  "source_text": "Part (j): the lambda eigenspace has dimension n+1 and the indicated F-ladders form a basis, using the lowest-weight Casimir calculation."
+}

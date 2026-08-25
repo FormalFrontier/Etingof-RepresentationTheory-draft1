@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1033",
+  "associations": [
+    {
+      "association_id": "association:96a6a6d6aac694c6cbf8",
+      "rationale": "This defines the proposition FaithfulRepresentation, but it does not state the source's claim that a proof motivates that notion.",
+      "role": "supporting"
+    }
+  ]
+}

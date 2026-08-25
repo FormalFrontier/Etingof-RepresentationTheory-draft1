@@ -1,0 +1,50 @@
+{
+  "module_name": "Algebra.QuotientMatrixDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-018885",
+      "new_name": "exists_matrix_decomposition_of_op_end_quotient_iff",
+      "docstring": "Constructs positive matrix block sizes and an algebra equivalence for the displayed quotient of an opposite endomorphism algebra, with the stated criterion for all blocks to have size one."
+    },
+    {
+      "temporary_id": "decl-018886",
+      "new_name": "exists_coatom_submodules_matrix_decomposition_iff",
+      "docstring": "Chooses coatom submodules representing simple modules and gives the displayed matrix decomposition and one-dimensional block criterion."
+    },
+    {
+      "temporary_id": "decl-018887",
+      "new_name": "exists_coatom_submodules_matrix_decomposition",
+      "docstring": "Chooses coatom submodules representing simple modules and decomposes the specified quotient as a family of matrix algebras."
+    },
+    {
+      "temporary_id": "decl-019395",
+      "new_name": "finiteDimensional_op_end",
+      "docstring": "The opposite endomorphism algebra of any displayed object is finite-dimensional over the field."
+    },
+    {
+      "temporary_id": "decl-020779",
+      "new_name": "property_iff_quotient_mul_comm",
+      "docstring": "Characterizes the displayed property of an algebra by commutativity of its specified quotient."
+    },
+    {
+      "temporary_id": "decl-020781",
+      "new_name": "property_iff_matrix_block_sizes_eq_one",
+      "docstring": "For a given decomposition into nonempty square matrix blocks, characterizes the displayed property by every block having size one."
+    },
+    {
+      "temporary_id": "decl-021685",
+      "new_name": "ringEquiv_forall_mul_comm_iff",
+      "docstring": "A ring equivalence preserves and reflects pairwise commutativity of multiplication."
+    },
+    {
+      "temporary_id": "decl-021686",
+      "new_name": "ringEquiv_forall_mul_comm",
+      "docstring": "Transfers pairwise commutativity of multiplication backward along a ring equivalence."
+    },
+    {
+      "temporary_id": "decl-021813",
+      "new_name": "one_le_finrank_quotient_of_isCoatom",
+      "docstring": "The quotient by a coatom submodule has vector-space dimension at least one."
+    }
+  ]
+}

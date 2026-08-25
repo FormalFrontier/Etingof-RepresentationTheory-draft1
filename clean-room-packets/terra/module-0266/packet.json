@@ -1,0 +1,272 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M]\n  [inst_2 : Module.{0, 0} Complex M] [inst_3 : IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M]\n  [inst_4 : Module.Finite.{0, 0} Complex M] (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (decl-021607 n M \u03c3)\n    (Finset.sum.{0, 0} Finset.univ.{0} fun \u03bd =>\n      HMul.hMul.{0, 0, 0} (Nat.cast.{0} (decl-020985 n M \u03bd)) (decl-023310 n \u03bd \u03c3))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224",
+        "decl-020985",
+        "decl-021607",
+        "decl-023310"
+      ],
+      "structural_type_hash": "2261598116",
+      "temporary_id": "decl-017946"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M]\n  [inst_2 : Module.{0, 0} Complex M] [inst_3 : IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M]\n  [inst_4 : Module.Finite.{0, 0} Complex M] (\u03bc : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Nat.cast.{0} n.factorial) (Nat.cast.{0} (decl-020985 n M \u03bc)))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun \u03c3 =>\n      HMul.hMul.{0, 0, 0} (decl-021607 n M \u03c3) (decl-023310 n \u03bc (Inv.inv.{0} \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224",
+        "decl-020985",
+        "decl-021607",
+        "decl-023310"
+      ],
+      "structural_type_hash": "3289347530",
+      "temporary_id": "decl-019322"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M]\n  [inst_2 : Module.{0, 0} Complex M] [Module.Finite.{0, 0} Complex M],\n  iSupIndep.{1, 0} fun \u03bd =>\n    isotypicComponent.{0, 0, 0} (decl-016224 n) M\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n \u03bd) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016224"
+      ],
+      "structural_type_hash": "4181887149",
+      "temporary_id": "decl-019785"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M],\n  Eq.{1}\n    (iSup.{0, 1} fun \u03bd =>\n      isotypicComponent.{0, 0, 0} (decl-016224 n) M\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n \u03bd) x))\n    Top.top.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016224"
+      ],
+      "structural_type_hash": "626871147",
+      "temporary_id": "decl-019786"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M]\n  (S : Submodule.{0, 0} (decl-016224 n) M)\n  [IsSimpleModule.{0, 0} (decl-016224 n) (Subtype.{1} fun x => Membership.mem.{0, 0} S x)],\n  Exists.{1} fun \u03bd =>\n    Nonempty.{1}\n      (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (decl-016224 n))\n        (Subtype.{1} fun x => Membership.mem.{0, 0} S x)\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n \u03bd) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016224"
+      ],
+      "structural_type_hash": "2572233392",
+      "temporary_id": "decl-019787"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (M : Type) \u2192\n    [inst : AddCommGroup.{0} M] \u2192\n      [inst_1 : Module.{0, 0} (decl-016224 n) M] \u2192\n        [inst_2 : Module.{0, 0} Complex M] \u2192\n          [IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M] \u2192 n.Partition \u2192 Submodule.{0, 0} Complex M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224"
+      ],
+      "structural_type_hash": "492955170",
+      "temporary_id": "decl-020974"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M]\n  [inst_2 : Module.{0, 0} Complex M] [inst_3 : IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M]\n  [Module.Finite.{0, 0} Complex M] (\u03bd : n.Partition),\n  Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-020974 n M \u03bd) x))\n    (HMul.hMul.{0, 0, 0} (decl-020985 n M \u03bd)\n      (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n \u03bd) x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016224",
+        "decl-020974",
+        "decl-020985"
+      ],
+      "structural_type_hash": "2828332398",
+      "temporary_id": "decl-020976"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M]\n  [inst_2 : Module.{0, 0} Complex M] [inst_3 : IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M]\n  [Module.Finite.{0, 0} Complex M], DirectSum.IsInternal.{0, 0, 0} (decl-020974 n M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224",
+        "decl-020974"
+      ],
+      "structural_type_hash": "2027433268",
+      "temporary_id": "decl-020977"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (M : Type) \u2192\n    [inst : AddCommGroup.{0} M] \u2192\n      [inst_1 : Module.{0, 0} (decl-016224 n) M] \u2192\n        [inst_2 : Module.{0, 0} Complex M] \u2192\n          [IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M] \u2192 n.Partition \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224"
+      ],
+      "structural_type_hash": "4045753155",
+      "temporary_id": "decl-020985"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M]\n  [inst_2 : Module.{0, 0} Complex M] [inst_3 : IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M]\n  {M' : Type} [inst_4 : AddCommGroup.{0} M'] [inst_5 : Module.{0, 0} (decl-016224 n) M']\n  [inst_6 : Module.{0, 0} Complex M'] [inst_7 : IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M']\n  [inst_8 : Module.Finite.{0, 0} Complex M] [inst_9 : Module.Finite.{0, 0} Complex M'],\n  (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin n)), Eq.{1} (decl-021607 n M \u03c3) (decl-021607 n M' \u03c3)) \u2192\n    \u2200 (\u03bd : n.Partition), Eq.{1} (decl-020985 n M \u03bd) (decl-020985 n M' \u03bd)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224",
+        "decl-020985",
+        "decl-021607"
+      ],
+      "structural_type_hash": "4017239796",
+      "temporary_id": "decl-020989"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (M : Type) \u2192\n    [inst : AddCommGroup.{0} M] \u2192\n      [inst_1 : Module.{0, 0} (decl-016224 n) M] \u2192\n        [inst_2 : Module.{0, 0} Complex M] \u2192\n          [IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M] \u2192\n            [Module.Finite.{0, 0} Complex M] \u2192 Equiv.Perm.{1} (Fin n) \u2192 Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224"
+      ],
+      "structural_type_hash": "4253672653",
+      "temporary_id": "decl-021607"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (M : Type) \u2192\n    [inst : AddCommGroup.{0} M] \u2192\n      [inst_1 : Module.{0, 0} (decl-016224 n) M] \u2192\n        [inst_2 : Module.{0, 0} Complex M] \u2192\n          [IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M] \u2192\n            Equiv.Perm.{1} (Fin n) \u2192 LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex) M M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224"
+      ],
+      "structural_type_hash": "1403900504",
+      "temporary_id": "decl-021613"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M]\n  [inst_2 : Module.{0, 0} Complex M] [inst_3 : IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M]\n  (\u03c3 : Equiv.Perm.{1} (Fin n)) (v : M),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-021613 n M \u03c3) v)\n    (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) \u03c3) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224",
+        "decl-021613"
+      ],
+      "structural_type_hash": "1942996550",
+      "temporary_id": "decl-021617"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) {V : Type} [inst : AddCommGroup.{0} V] [inst_1 : Module.{0, 0} Complex V]\n  (\u03c1 : Representation.{0, 0, 0} Complex (Equiv.Perm.{1} (Fin n)) V) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (decl-021613 n (Representation.asModule.{0, 0, 0} \u03c1) \u03c3) (DFunLike.coe.{1, 1, 1} \u03c1 \u03c3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021613"
+      ],
+      "structural_type_hash": "2053544422",
+      "temporary_id": "decl-021618"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M]\n  [inst_2 : Module.{0, 0} Complex M] [inst_3 : IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M]\n  (\u03c3 : Equiv.Perm.{1} (Fin n)) (\u03bd : n.Partition),\n  Set.MapsTo.{0, 0} (DFunLike.coe.{1, 1, 1} (decl-021613 n M \u03c3)) (SetLike.coe.{0, 0} (decl-020974 n M \u03bd))\n    (SetLike.coe.{0, 0} (decl-020974 n M \u03bd))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224",
+        "decl-020974",
+        "decl-021613"
+      ],
+      "structural_type_hash": "842118197",
+      "temporary_id": "decl-021619"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) {V : Type} [inst : AddCommGroup.{0} V] [inst_1 : Module.{0, 0} Complex V]\n  (\u03c1 : Representation.{0, 0, 0} Complex (Equiv.Perm.{1} (Fin n)) V) [inst_2 : Module.Finite.{0, 0} Complex V]\n  (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex V) (DFunLike.coe.{1, 1, 1} \u03c1 \u03c3))\n    (decl-021607 n (Representation.asModule.{0, 0, 0} \u03c1) \u03c3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021607"
+      ],
+      "structural_type_hash": "2427298938",
+      "temporary_id": "decl-022573"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) {V : Type} [inst : AddCommGroup.{0} V] [inst_1 : Module.{0, 0} Complex V]\n  (\u03c1 : Representation.{0, 0, 0} Complex (Equiv.Perm.{1} (Fin n)) V) [Module.Finite.{0, 0} Complex V]\n  (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex V) (DFunLike.coe.{1, 1, 1} \u03c1 \u03c3))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun \u03bd =>\n      HMul.hMul.{0, 0, 0} (Nat.cast.{0} (decl-022589 n \u03c1 \u03bd)) (decl-023310 n \u03bd \u03c3))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022589",
+        "decl-023310"
+      ],
+      "structural_type_hash": "643580398",
+      "temporary_id": "decl-022574"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  {V : Type} \u2192\n    [inst : AddCommGroup.{0} V] \u2192\n      [inst_1 : Module.{0, 0} Complex V] \u2192\n        Representation.{0, 0, 0} Complex (Equiv.Perm.{1} (Fin n)) V \u2192 n.Partition \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2176324670",
+      "temporary_id": "decl-022589"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) {V : Type} [inst : AddCommGroup.{0} V] [inst_1 : Module.{0, 0} Complex V]\n  (\u03c1 : Representation.{0, 0, 0} Complex (Equiv.Perm.{1} (Fin n)) V) {W : Type} [inst_2 : AddCommGroup.{0} W]\n  [inst_3 : Module.{0, 0} Complex W] (\u03c1' : Representation.{0, 0, 0} Complex (Equiv.Perm.{1} (Fin n)) W)\n  [Module.Finite.{0, 0} Complex V] [Module.Finite.{0, 0} Complex W],\n  (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin n)),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex V) (DFunLike.coe.{1, 1, 1} \u03c1 \u03c3))\n        (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex W) (DFunLike.coe.{1, 1, 1} \u03c1' \u03c3))) \u2192\n    \u2200 (\u03bd : n.Partition), Eq.{1} (decl-022589 n \u03c1 \u03bd) (decl-022589 n \u03c1' \u03bd)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022589"
+      ],
+      "structural_type_hash": "4261783413",
+      "temporary_id": "decl-022591"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) {V : Type} [inst : AddCommGroup.{0} V] [inst_1 : Module.{0, 0} Complex V]\n  (\u03c1 : Representation.{0, 0, 0} Complex (Equiv.Perm.{1} (Fin n)) V) [Module.Finite.{0, 0} Complex V] (\u03bd : n.Partition),\n  Ne.{1} (decl-022589 n \u03c1 \u03bd) 0 \u2192 Exists.{1} fun f => Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016224",
+        "decl-022589"
+      ],
+      "structural_type_hash": "1013203333",
+      "temporary_id": "decl-022631"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M]\n  [inst_2 : Module.{0, 0} Complex M] [inst_3 : IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M]\n  [Module.Finite.{0, 0} Complex M] (\u03bd : n.Partition),\n  Ne.{1} (decl-020985 n M \u03bd) 0 \u2192 Exists.{1} fun f => Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016224",
+        "decl-020985"
+      ],
+      "structural_type_hash": "3824325050",
+      "temporary_id": "decl-023364"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M]\n  [inst_2 : Module.{0, 0} Complex M] [inst_3 : IsScalarTower.{0, 0, 0} Complex (decl-016224 n) M]\n  [Module.Finite.{0, 0} Complex M] (\u03c3 : Equiv.Perm.{1} (Fin n)) (\u03bd : n.Partition),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1}\n      (LinearMap.trace.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-020974 n M \u03bd) x))\n      (LinearMap.restrict.{0, 0, 0, 0} (decl-021613 n M \u03c3) \u22ef))\n    (HMul.hMul.{0, 0, 0} (Nat.cast.{0} (decl-020985 n M \u03bd)) (decl-023310 n \u03bd \u03c3))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224",
+        "decl-020974",
+        "decl-020985",
+        "decl-021613",
+        "decl-021619",
+        "decl-023310"
+      ],
+      "structural_type_hash": "1898131646",
+      "temporary_id": "decl-024293"
+    }
+  ],
+  "module_temporary_id": "module-0266",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

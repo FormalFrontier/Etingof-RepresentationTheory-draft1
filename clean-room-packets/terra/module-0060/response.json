@@ -1,0 +1,10 @@
+{
+  "module_name": "Auxiliary.UnavailableFormalExpression",
+  "declarations": [
+    {
+      "temporary_id": "decl-007037",
+      "new_name": "auxiliaryFact",
+      "docstring": "An auxiliary theorem whose formal expression is unavailable in displayed form."
+    }
+  ]
+}

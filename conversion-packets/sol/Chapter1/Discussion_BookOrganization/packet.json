@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter1/Discussion_BookOrganization",
+    "kind": "discussion",
+    "title": "Organization of the book by chapter",
+    "node_id": "chapter-01",
+    "order": 6,
+    "slug": "discussion-bookorganization",
+    "span": {
+      "start": {
+        "page": "2",
+        "line": 5
+      },
+      "end": {
+        "page": "3",
+        "line": 12
+      }
+    },
+    "source_sha256": "8e22aa1e1f4e378211934930a632113975ad3b17beedc63b191dc40b9a46fe5d",
+    "features": {
+      "line_count": 21,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter1.DiscussionBookOrganization",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

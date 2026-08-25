@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:16ad6a4195514c23afe0",
+      "declaration": "Etingof.quotientMk_smul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/50/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) (V : Type u_2) [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  (W : Submodule.{u_1, u_2} A V) (a : A) (v : V),\n  Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} a (Submodule.Quotient.mk.{u_1, u_2} v))\n    (Submodule.Quotient.mk.{u_1, u_2} (HSMul.hSMul.{u_1, u_2, u_2} a v))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_5_well_defined"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.5_well_defined",
+  "packet_id": "align-1000",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1000"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c01fbc0203b04e12c00e",
+  "source_text": "The quotient action is rho_(V/W)(a)(pi(x)) = pi(rho_V(a)(x))."
+}

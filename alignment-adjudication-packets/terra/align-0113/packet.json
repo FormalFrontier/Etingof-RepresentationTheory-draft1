@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a9763dd8e118391039be",
+      "declaration": "Etingof.tensor_product_irreducible_classification_unique",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/181/claim_coverage/claims/11/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {B : Type u_3} {V : Type u_4} {W : Type u_5} {V' : Type u_6} {W' : Type u_7}\n  [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : Ring.{u_3} B]\n  [inst_4 : Algebra.{u_1, u_3} k B] [inst_5 : AddCommGroup.{u_4} V] [inst_6 : Module.{u_1, u_4} k V]\n  [inst_7 : Module.{u_2, u_4} A V] [inst_8 : IsScalarTower.{u_1, u_2, u_4} k A V] [FiniteDimensional.{u_1, u_4} k V]\n  [inst_10 : AddCommGroup.{u_5} W] [inst_11 : Module.{u_1, u_5} k W] [inst_12 : Module.{u_3, u_5} B W]\n  [inst_13 : IsScalarTower.{u_1, u_3, u_5} k B W] [FiniteDimensional.{u_1, u_5} k W] [inst_15 : AddCommGroup.{u_6} V']\n  [inst_16 : Module.{u_1, u_6} k V'] [inst_17 : Module.{u_2, u_6} A V'] [inst_18 : IsScalarTower.{u_1, u_2, u_6} k A V']\n  [FiniteDimensional.{u_1, u_6} k V'] [inst_20 : AddCommGroup.{u_7} W'] [inst_21 : Module.{u_1, u_7} k W']\n  [inst_22 : Module.{u_3, u_7} B W'] [inst_23 : IsScalarTower.{u_1, u_3, u_7} k B W']\n  [FiniteDimensional.{u_1, u_7} k W'] [IsSimpleModule.{u_2, u_4} A V] [IsSimpleModule.{u_2, u_6} A V']\n  [IsSimpleModule.{u_3, u_5} B W] [IsSimpleModule.{u_3, u_7} B W']\n  (e :\n    LinearEquiv.{u_1, u_1, max u_5 u_4, max u_7 u_6} (RingHom.id.{u_1} k) (TensorProduct.{u_1, u_4, u_5} k V W)\n      (TensorProduct.{u_1, u_6, u_7} k V' W')),\n  (\u2200 (a : A) (x : TensorProduct.{u_1, u_4, u_5} k V W),\n      Eq.{max (u_6 + 1) (u_7 + 1)}\n        (DFunLike.coe.{max (max (max (u_4 + 1) (u_5 + 1)) (u_6 + 1)) (u_7 + 1), max (u_4 + 1) (u_5 + 1),\n            max (u_6 + 1) (u_7 + 1)}\n          e\n          (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), max (u_4 + 1) (u_5 + 1), max (u_4 + 1) (u_5 + 1)}\n            (TensorProduct.map.{u_1, u_1, u_4, u_5, u_4, u_5}\n              (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} (Algebra.lsmul.{u_1, u_2, u_1, u_4} k k V) a)\n              LinearMap.id.{u_1, u_5})\n            x))\n        (DFunLike.coe.{max (u_6 + 1) (u_7 + 1), max (u_6 + 1) (u_7 + 1), max (u_6 + 1) (u_7 + 1)}\n          (TensorProduct.map.{u_1, u_1, u_6, u_7, u_6, u_7}\n            (DFunLike.coe.{max (u_2 + 1) (u_6 + 1), u_2 + 1, u_6 + 1} (Algebra.lsmul.{u_1, u_2, u_1, u_6} k k V') a)\n            LinearMap.id.{u_1, u_7})\n          (DFunLike.coe.{max (max (max (u_4 + 1) (u_5 + 1)) (u_6 + 1)) (u_7 + 1), max (u_4 + 1) (u_5 + 1),\n              max (u_6 + 1) (u_7 + 1)}\n            e x))) \u2192\n    (\u2200 (b : B) (x : TensorProduct.{u_1, u_4, u_5} k V W),\n        Eq.{max (u_6 + 1) (u_7 + 1)}\n          (DFunLike.coe.{max (max (max (u_4 + 1) (u_5 + 1)) (u_6 + 1)) (u_7 + 1), max (u_4 + 1) (u_5 + 1),\n              max (u_6 + 1) (u_7 + 1)}\n            e\n            (DFunLike.coe.{max (u_5 + 1) (u_4 + 1), max (u_5 + 1) (u_4 + 1), max (u_5 + 1) (u_4 + 1)}\n              (TensorProduct.map.{u_1, u_1, u_4, u_5, u_4, u_5} LinearMap.id.{u_1, u_4}\n                (DFunLike.coe.{max (u_3 + 1) (u_5 + 1), u_3 + 1, u_5 + 1} (Algebra.lsmul.{u_1, u_3, u_1, u_5} k k W) b))\n              x))\n          (DFunLike.coe.{max (u_7 + 1) (u_6 + 1), max (u_7 + 1) (u_6 + 1), max (u_7 + 1) (u_6 + 1)}\n            (TensorProduct.map.{u_1, u_1, u_6, u_7, u_6, u_7} LinearMap.id.{u_1, u_6}\n              (DFunLike.coe.{max (u_3 + 1) (u_7 + 1), u_3 + 1, u_7 + 1} (Algebra.lsmul.{u_1, u_3, u_1, u_7} k k W') b))\n            (DFunLike.coe.{max (max (max (u_4 + 1) (u_5 + 1)) (u_6 + 1)) (u_7 + 1), max (u_4 + 1) (u_5 + 1),\n                max (u_6 + 1) (u_7 + 1)}\n              e x))) \u2192\n      And (Nonempty.{max (u_6 + 1) (u_4 + 1)} (LinearEquiv.{u_2, u_2, u_4, u_6} (RingHom.id.{u_2} A) V V'))\n        (Nonempty.{max (u_7 + 1) (u_5 + 1)} (LinearEquiv.{u_3, u_3, u_5, u_7} (RingHom.id.{u_3} B) W W'))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_10_2"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.10.2",
+  "packet_id": "align-0113",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0113"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:22b0085c54cba81d7c62",
+  "source_text": "The factors V and W are uniquely determined by M."
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c42501b64e8b1a173f03",
+      "declaration": "Etingof.Example4_3_S4.S4_simple_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/198/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (S : FDRep.{0, 0} Complex Etingof.Example4_3_S4.S4) [CategoryTheory.Simple.{0, 1} S],\n  Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_S4.trivRep))\n    (Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_S4.signRep))\n      (Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_S4.twoDimRep))\n        (Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_S4.stdRep))\n          (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_S4.rotRep)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion5_11_S4S3"
+    }
+  ],
+  "canonical_reference": "Chapter4/Example4.3_S4",
+  "packet_id": "align-0040",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0040"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0abef92fa7ee76fc5a34",
+  "source_text": "The trivial, sign, two-dimensional quotient, standard three-dimensional, and sign-twisted three-dimensional representations are genuine, simple, distinct, and exhaustive."
+}

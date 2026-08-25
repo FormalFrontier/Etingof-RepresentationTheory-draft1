@@ -1,0 +1,1 @@
+{"module_name":"Group.IndexedPolynomial","declarations":[{"temporary_id":"decl-004338","new_name":"groupIndexedPolynomial","docstring":"A multivariate polynomial whose variables are indexed by the elements of a finite group."}]}

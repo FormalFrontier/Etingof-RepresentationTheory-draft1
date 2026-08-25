@@ -1,0 +1,35 @@
+{
+  "module_name": "ModuleObjectProperties",
+  "declarations": [
+    {
+      "temporary_id": "decl-013188",
+      "new_name": "ModuleCat.moduleObjectPropertyFullSubcategoryHasAbelianStructure",
+      "docstring": "For a commutative algebra of finite type over the integers, the full subcategory defined by this module object property has an abelian category structure."
+    },
+    {
+      "temporary_id": "decl-013189",
+      "new_name": "containsZero",
+      "docstring": "This object property of modules over a commutative ring contains the zero object."
+    },
+    {
+      "temporary_id": "decl-013190",
+      "new_name": "isClosedUnderFiniteProducts",
+      "docstring": "This object property of modules over a commutative ring is closed under finite products."
+    },
+    {
+      "temporary_id": "decl-013191",
+      "new_name": "isClosedUnderQuotients",
+      "docstring": "This object property of modules over a commutative ring is closed under quotients."
+    },
+    {
+      "temporary_id": "decl-013192",
+      "new_name": "isClosedUnderSubobjects",
+      "docstring": "Over a Noetherian commutative ring, this object property of modules is closed under subobjects."
+    },
+    {
+      "temporary_id": "decl-020842",
+      "new_name": "ModuleCat.moduleObjectProperty",
+      "docstring": "An object property of the category of modules over a commutative ring."
+    }
+  ]
+}

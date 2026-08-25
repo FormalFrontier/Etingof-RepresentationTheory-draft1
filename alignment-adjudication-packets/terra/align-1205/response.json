@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1205",
+  "associations": [
+    {
+      "association_id": "association:dfbad4617b1992f1abb4",
+      "rationale": "The displayed type only defines a Type-valued compositionFactor from a series and index; it does not expose an equality or quotient description as V_i/V_(i-1), nor address the primed series.",
+      "role": "supporting"
+    }
+  ]
+}

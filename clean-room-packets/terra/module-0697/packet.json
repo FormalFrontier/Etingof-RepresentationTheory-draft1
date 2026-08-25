@@ -1,0 +1,145 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A],\n  Exists.{u + 2} fun B =>\n    Exists.{u + 1} fun x =>\n      Exists.{u + 1} fun x_1 =>\n        Exists.{0} fun x_2 =>\n          And (decl-005126.{u, u, u} k B)\n            (And (decl-005123.{u, u} k B)\n              (And (decl-005305.{u, u} k A B)\n                (And (LE.le.{0} (Module.finrank.{u, u} k B) (Module.finrank.{u, u} k A))\n                  (\u2200 (B' : Type u) (x_3 : Ring.{u} B') (x_4 : Algebra.{u, u} k B'),\n                    Module.Finite.{u, u} k B' \u2192\n                      decl-005123.{u, u} k B' \u2192\n                        decl-005305.{u, u} k A B' \u2192 Nonempty.{u + 1} (AlgEquiv.{u, u, u} k B' B)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005126",
+        "decl-005305"
+      ],
+      "structural_type_hash": "3792257050",
+      "temporary_id": "decl-001471"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (A : Type u) [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A] [IsAlgClosed.{u} k],\n  Exists.{u + 2} fun B =>\n    Exists.{u + 1} fun x =>\n      Exists.{u + 1} fun x_1 =>\n        Exists.{0} fun x_2 => And (decl-005123.{u, u} k B) (decl-005663.{u, u} A B)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005663"
+      ],
+      "structural_type_hash": "2486670746",
+      "temporary_id": "decl-001472"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A],\n  Exists.{u + 2} fun B =>\n    Exists.{u + 1} fun x =>\n      Exists.{u + 1} fun x_1 =>\n        Exists.{0} fun x_2 =>\n          And (decl-005126.{u, u, u} k B)\n            (And (decl-005123.{u, u} k B) (decl-005305.{u, u} k A B))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005126",
+        "decl-005305"
+      ],
+      "structural_type_hash": "3443510442",
+      "temporary_id": "decl-001480"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A] (B\u2081 : Type u) [inst_5 : Ring.{u} B\u2081] [inst_6 : Algebra.{u, u} k B\u2081]\n  [Module.Finite.{u, u} k B\u2081] (B\u2082 : Type u) [inst_8 : Ring.{u} B\u2082] [inst_9 : Algebra.{u, u} k B\u2082]\n  [Module.Finite.{u, u} k B\u2082],\n  decl-005126.{u, u, u} k B\u2081 \u2192\n    decl-005126.{u, u, u} k B\u2082 \u2192\n      decl-005305.{u, u} k A B\u2081 \u2192\n        decl-005305.{u, u} k A B\u2082 \u2192 Nonempty.{u + 1} (AlgEquiv.{u, u, u} k B\u2081 B\u2082)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005126",
+        "decl-005305"
+      ],
+      "structural_type_hash": "223380482",
+      "temporary_id": "decl-001481"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A] (B\u2081 : Type u) [inst_5 : Ring.{u} B\u2081] [inst_6 : Algebra.{u, u} k B\u2081]\n  [Module.Finite.{u, u} k B\u2081] (B\u2082 : Type u) [inst_8 : Ring.{u} B\u2082] [inst_9 : Algebra.{u, u} k B\u2082]\n  [Module.Finite.{u, u} k B\u2082],\n  decl-005123.{u, u} k B\u2081 \u2192\n    decl-005123.{u, u} k B\u2082 \u2192\n      decl-005305.{u, u} k A B\u2081 \u2192\n        decl-005305.{u, u} k A B\u2082 \u2192 Nonempty.{u + 1} (AlgEquiv.{u, u, u} k B\u2081 B\u2082)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005305"
+      ],
+      "structural_type_hash": "2818692095",
+      "temporary_id": "decl-001482"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A] (B : Type u) [inst_5 : Ring.{u} B] [inst_6 : Algebra.{u, u} k B]\n  [Module.Finite.{u, u} k B],\n  decl-005126.{u, u, u} k B \u2192\n    decl-005305.{u, u} k A B \u2192 LE.le.{0} (Module.finrank.{u, u} k B) (Module.finrank.{u, u} k A)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005126",
+        "decl-005305"
+      ],
+      "structural_type_hash": "2539103578",
+      "temporary_id": "decl-001483"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A] (B : Type u) [inst_5 : Ring.{u} B] [inst_6 : Algebra.{u, u} k B]\n  [Module.Finite.{u, u} k B],\n  decl-005123.{u, u} k B \u2192\n    decl-005305.{u, u} k A B \u2192 LE.le.{0} (Module.finrank.{u, u} k B) (Module.finrank.{u, u} k A)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005305"
+      ],
+      "structural_type_hash": "3129415069",
+      "temporary_id": "decl-001484"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A], decl-005663.{u, u} A A",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005663",
+      "project_type_dependencies": [
+        "decl-005663"
+      ],
+      "structural_type_hash": "1494322084",
+      "temporary_id": "decl-005666"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {B : Type u} [inst_1 : Ring.{u} B],\n  decl-005663.{u, u} A B \u2192 decl-005663.{u, u} B A",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005663",
+      "project_type_dependencies": [
+        "decl-005663"
+      ],
+      "structural_type_hash": "2409946151",
+      "temporary_id": "decl-005667"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {B : Type u} [inst_1 : Ring.{u} B] {C : Type u} [inst_2 : Ring.{u} C],\n  decl-005663.{u, u} A B \u2192 decl-005663.{u, u} B C \u2192 decl-005663.{u, u} A C",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005663",
+      "project_type_dependencies": [
+        "decl-005663"
+      ],
+      "structural_type_hash": "251328147",
+      "temporary_id": "decl-005670"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k], decl-005126.{u, u, u_1} k k",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005126"
+      ],
+      "structural_type_hash": "4167800352",
+      "temporary_id": "decl-020778"
+    }
+  ],
+  "module_temporary_id": "module-0697",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

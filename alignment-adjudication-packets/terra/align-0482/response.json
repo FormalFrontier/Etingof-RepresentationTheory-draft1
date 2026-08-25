@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0482",
+  "associations": [
+    {
+      "association_id": "association:6612ac72d942001d6f74",
+      "role": "primary",
+      "rationale": "Given that the second character is obtained from the first by the group action, the theorem directly gives an isomorphism between the induced representation from the transported representation and the original induced representation."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:83d9fb22a3aba66850c3",
+      "declaration": "Etingof.Example2_9_2.Der",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/78/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192 LieSubalgebra.{u_1, u_2} k (Module.End.{u_1, u_2} k A)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2"
+    },
+    {
+      "association_id": "association:f357a23b0c846023a78e",
+      "declaration": "Etingof.Example2_9_2.Der.leibniz",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/78/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (D : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Example2_9_2.Der.{u_1, u_2} k A) x) (a b : A),\n  Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Subtype.val.{u_2 + 1} D) (HMul.hMul.{u_2, u_2, u_2} a b))\n    (HAdd.hAdd.{u_2, u_2, u_2}\n      (HMul.hMul.{u_2, u_2, u_2} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Subtype.val.{u_2 + 1} D) a) b)\n      (HMul.hMul.{u_2, u_2, u_2} a (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Subtype.val.{u_2 + 1} D) b)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2"
+    },
+    {
+      "association_id": "association:34f2cc19718596fe97cd",
+      "declaration": "Etingof.Example2_9_2.IsLeibniz",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/78/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : Ring.{u_2} A] \u2192 [inst_2 : Algebra.{u_1, u_2} k A] \u2192 Module.End.{u_1, u_2} k A \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2"
+    },
+    {
+      "association_id": "association:6b05e6e435c0ab3de7cc",
+      "declaration": "Etingof.Example2_9_2.mem_Der",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/78/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  {D : Module.End.{u_1, u_2} k A},\n  Iff (Membership.mem.{u_2, u_2} (Etingof.Example2_9_2.Der.{u_1, u_2} k A) D)\n    (\u2200 (a b : A),\n      Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} D (HMul.hMul.{u_2, u_2, u_2} a b))\n        (HAdd.hAdd.{u_2, u_2, u_2} (HMul.hMul.{u_2, u_2, u_2} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} D a) b)\n          (HMul.hMul.{u_2, u_2, u_2} a (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} D b))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.9.2",
+  "packet_id": "align-0101",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0101"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:203725735595212a4c1f",
+  "source_text": "Der(A) consists of linear endomorphisms satisfying D(ab)=D(a)b+aD(b), for arbitrary associative A."
+}

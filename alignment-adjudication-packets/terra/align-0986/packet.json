@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:462c08c7bd2d3fa38683",
+      "declaration": "Etingof.Discussion5_11.indZ3_epsSq_decomp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/304/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (CategoryTheory.Iso.{0, 1}\n    (FDRep.of.{0, 0}\n      (Etingof.Definition5_8_1.{0, 0} Etingof.Discussion5_11.Z3\n        (Etingof.Discussion5_11.charRep.{0} Etingof.Discussion5_11.epsSqHom)))\n    Etingof.Discussion5_11.stdRep)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion5_11_examples"
+    },
+    {
+      "association_id": "association:046dae88edf3aadfca4e",
+      "declaration": "Etingof.Discussion5_11.indZ3_eps_decomp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/304/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (CategoryTheory.Iso.{0, 1}\n    (FDRep.of.{0, 0}\n      (Etingof.Definition5_8_1.{0, 0} Etingof.Discussion5_11.Z3\n        (Etingof.Discussion5_11.charRep.{0} Etingof.Discussion5_11.epsHom)))\n    Etingof.Discussion5_11.stdRep)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion5_11_examples"
+    },
+    {
+      "association_id": "association:8e5cd87b84afae7d6ead",
+      "declaration": "Etingof.Discussion5_11.indZ3_trivPlus_decomp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/304/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (CategoryTheory.Iso.{0, 1}\n    (FDRep.of.{0, 0} (Etingof.Definition5_8_1.{0, 0} Etingof.Discussion5_11.Z3 (Etingof.Discussion5_11.charRep.{0} 1)))\n    (CategoryTheory.Limits.biprod.{0, 1} Etingof.Discussion5_11.trivRep Etingof.Discussion5_11.signRep))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion5_11_examples"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_5.11_examples",
+  "packet_id": "align-0986",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0986"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:bb55843bc73f7d0754ea",
+  "source_text": "For Z3\u2264S3, inducing the trivial character gives triv\u2295sign and either primitive character gives the standard representation."
+}

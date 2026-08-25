@@ -1,0 +1,215 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f9dcce2e5c43697151ec",
+      "declaration": "Etingof.Problem3_9_3.exists_smul_of_equiv_twoRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:c7c2965167117326f8bc",
+      "declaration": "Etingof.Problem3_9_3.ext1_simpleRep_vanishes_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  (i j : Q),\n  Iff\n    (Etingof.Problem6_9_3.Ext1Vanishes.{u_1, u_2, u_3, u_1, u_1} (Etingof.Problem6_9_3.simpleRep.{u_1, u_2, u_3} i)\n      (Etingof.Problem6_9_3.simpleRep.{u_1, u_2, u_3} j))\n    (IsEmpty.{u_3 + 1} (Quiver.Hom.{u_3, u_2} i j))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3"
+    },
+    {
+      "association_id": "association:696d1b5ac534423ed8a7",
+      "declaration": "Etingof.Problem3_9_3.finrank_ext1_simpleRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  [Fintype.{u_2} Q] [inst_4 : (a b : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} a b)] (i j : Q),\n  Eq.{1} (Module.finrank.{u_1, max (max u_3 u_2) u_1} k (Etingof.Problem3_9_3.Ext1Simple.{u_1, u_2, u_3} i j))\n    (Fintype.card.{u_3} (Quiver.Hom.{u_3, u_2} i j))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3"
+    },
+    {
+      "association_id": "association:114259465e7739563b89",
+      "declaration": "Etingof.Problem3_9_3.irreducible_isSimpleRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  [Finite.{u_2 + 1} Q],\n  Etingof.Problem3_9_3.NoOrientedCycles.{u_2, u_3} Q \u2192\n    \u2200 (\u03c1 : Etingof.QuiverRepresentation.{u_1, u_2, u_4, u_3} k Q),\n      Etingof.Problem3_9_3.IsIrreducible.{u_1, u_2, u_3, u_4} \u03c1 \u2192\n        Exists.{u_2 + 1} fun i =>\n          Nonempty.{max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1)}\n            (Etingof.QuiverRepresentationEquiv.{u_1, u_2, u_3, u_4, u_1} k Q \u03c1\n              (Etingof.Problem6_9_3.simpleRep.{u_1, u_2, u_3} i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3"
+    },
+    {
+      "association_id": "association:d76bf40ae8e1de21e7ac",
+      "declaration": "Etingof.Problem3_9_3.simpleRep_isIrreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  (i : Q), Etingof.Problem3_9_3.IsIrreducible.{u_1, u_2, u_3, u_1} (Etingof.Problem6_9_3.simpleRep.{u_1, u_2, u_3} i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3"
+    },
+    {
+      "association_id": "association:7ec3f5bdfcb4ababfdca",
+      "declaration": "Etingof.Problem3_9_3.sum_dimVec_twoRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:1699595b271ef80b1b14",
+      "declaration": "Etingof.Problem3_9_3.twoRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:91ad4ef96b043ca87860",
+      "declaration": "Etingof.Problem3_9_3.twoRepEquivSmul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:56452866118fbeb7b740",
+      "declaration": "Etingof.Problem3_9_3.twoRepZeroEquivDirectSum",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{k : Type u_3} \u2192\n  {Q : Type u_4} \u2192\n    [inst : Field.{u_3} k] \u2192\n      [inst_1 : Quiver.{u_5, u_4} Q] \u2192\n        [inst_2 : DecidableEq.{u_4 + 1} Q] \u2192\n          (i j : Q) \u2192\n            Etingof.QuiverRepresentationEquiv.{u_3, u_4, u_5, u_3, u_3} k Q\n              (Etingof.Problem3_9_3.twoRep.{u_3, u_4, u_5} i j 0)\n              (Etingof.QuiverRepresentation.directSum.{u_3, u_4, u_5, u_3, u_3} k Q\n                (Etingof.Problem6_9_3.simpleRep.{u_3, u_4, u_5} i) (Etingof.Problem6_9_3.simpleRep.{u_3, u_4, u_5} j))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:f63d6eacca89b05ff41a",
+      "declaration": "Etingof.Problem3_9_3.twoRep_isIndecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:bae0653731ea084533a9",
+      "declaration": "Etingof.Problem3_9_3.twoRep_zero_not_isIndecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_3} {Q : Type u_4} [inst : Field.{u_3} k] [inst_1 : Quiver.{u_5, u_4} Q] [inst_2 : DecidableEq.{u_4 + 1} Q]\n  (i j : Q),\n  Not\n    (Etingof.QuiverRepresentation.IsIndecomposable.{u_3, u_4, u_5, u_3}\n      (Etingof.Problem3_9_3.twoRep.{u_3, u_4, u_5} i j 0))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:7db0a52cfdfb7789a1b9",
+      "declaration": "Etingof.Problem3_9_3.two_dim_classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [DecidableEq.{u_2 + 1} Q]\n  [inst_3 : Fintype.{u_2} Q],\n  Etingof.Problem3_9_3.NoOrientedCycles.{u_2, u_3} Q \u2192\n    \u2200 (\u03c1 : Etingof.QuiverRepresentation.{u_1, u_2, u_4, u_3} k Q)\n      [\u2200 (v : Q), Module.Free.{u_1, u_4} k (Etingof.QuiverRepresentation.obj.{u_1, u_2, u_4, u_3} \u03c1 v)]\n      [\u2200 (v : Q), Module.Finite.{u_1, u_4} k (Etingof.QuiverRepresentation.obj.{u_1, u_2, u_4, u_3} \u03c1 v)],\n      Eq.{1} (Finset.sum.{u_2, 0} Finset.univ.{u_2} fun v => Etingof.Problem6_9_3.dimVec.{u_1, u_2, u_3, u_4} \u03c1 v) 2 \u2192\n        Or (Not (Etingof.QuiverRepresentation.IsIndecomposable.{u_1, u_2, u_3, u_4} \u03c1))\n          (Exists.{u_2 + 1} fun i =>\n            Exists.{u_2 + 1} fun j =>\n              Exists.{u_3 + 1} fun a =>\n                And (Ne.{u_2 + 1} i j)\n                  (Function.Bijective.{u_4 + 1, u_4 + 1}\n                    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1}\n                      (Etingof.QuiverRepresentation.mapLinear.{u_1, u_2, u_4, u_3} \u03c1 a))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3"
+    },
+    {
+      "association_id": "association:c5b68373e3f1c626213d",
+      "declaration": "Etingof.Problem3_9_3.two_dim_classification_of_normalForm",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_3} {Q : Type u_4} [inst : Field.{u_3} k] [inst_1 : Quiver.{u_5, u_4} Q] [inst_2 : Fintype.{u_4} Q],\n  Etingof.Problem3_9_3.NoOrientedCycles.{u_4, u_5} Q \u2192\n    \u2200 (\u03c1 : Etingof.QuiverRepresentation.{u_3, u_4, u_6, u_5} k Q)\n      [\u2200 (v : Q), Module.Free.{u_3, u_6} k (Etingof.QuiverRepresentation.obj.{u_3, u_4, u_6, u_5} \u03c1 v)]\n      [\u2200 (v : Q), Module.Finite.{u_3, u_6} k (Etingof.QuiverRepresentation.obj.{u_3, u_4, u_6, u_5} \u03c1 v)],\n      Eq.{1} (Finset.sum.{u_4, 0} Finset.univ.{u_4} fun v => Etingof.Problem6_9_3.dimVec.{u_3, u_4, u_5, u_6} \u03c1 v) 2 \u2192\n        Or (Not (Etingof.QuiverRepresentation.IsIndecomposable.{u_3, u_4, u_5, u_6} \u03c1))\n          (Exists.{u_4 + 1} fun i =>\n            Exists.{u_4 + 1} fun j =>\n              Exists.{u_5 + 1} fun a =>\n                And (Ne.{u_4 + 1} i j)\n                  (Function.Bijective.{u_6 + 1, u_6 + 1}\n                    (DFunLike.coe.{u_6 + 1, u_6 + 1, u_6 + 1}\n                      (Etingof.QuiverRepresentation.mapLinear.{u_3, u_4, u_6, u_5} \u03c1 a))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:0e09da8d38a50709f064",
+      "declaration": "Etingof.Problem3_9_3.two_dim_normalForm",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_3} {Q : Type u_4} [inst : Field.{u_3} k] [inst_1 : Quiver.{u_5, u_4} Q] [inst_2 : DecidableEq.{u_4 + 1} Q]\n  [inst_3 : Fintype.{u_4} Q],\n  Etingof.Problem3_9_3.NoOrientedCycles.{u_4, u_5} Q \u2192\n    \u2200 (\u03c1 : Etingof.QuiverRepresentation.{u_3, u_4, u_6, u_5} k Q)\n      [\u2200 (v : Q), Module.Free.{u_3, u_6} k (Etingof.QuiverRepresentation.obj.{u_3, u_4, u_6, u_5} \u03c1 v)]\n      [\u2200 (v : Q), Module.Finite.{u_3, u_6} k (Etingof.QuiverRepresentation.obj.{u_3, u_4, u_6, u_5} \u03c1 v)],\n      Eq.{1} (Finset.sum.{u_4, 0} Finset.univ.{u_4} fun v => Etingof.Problem6_9_3.dimVec.{u_3, u_4, u_5, u_6} \u03c1 v) 2 \u2192\n        Or\n          (Exists.{u_4 + 1} fun i =>\n            Exists.{u_4 + 1} fun j =>\n              Nonempty.{max (max (u_3 + 1) (u_6 + 1)) (u_4 + 1)}\n                (Etingof.QuiverRepresentationEquiv.{u_3, u_4, u_5, u_6, u_3} k Q \u03c1\n                  (Etingof.Problem3_9_3.twoRep.{u_3, u_4, u_5} i j 0)))\n          (Exists.{u_4 + 1} fun i =>\n            Exists.{u_4 + 1} fun j =>\n              Exists.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)} fun c =>\n                Exists.{u_5 + 1} fun e\u2080 =>\n                  And (Ne.{u_4 + 1} i j)\n                    (And (Ne.{u_3 + 1} (c (Sigma.mk.{u_4, max u_4 u_5} i (Sigma.mk.{u_4, u_5} j e\u2080))) 0)\n                      (Nonempty.{max (max (u_3 + 1) (u_6 + 1)) (u_4 + 1)}\n                        (Etingof.QuiverRepresentationEquiv.{u_3, u_4, u_5, u_6, u_3} k Q \u03c1\n                          (Etingof.Problem3_9_3.twoRep.{u_3, u_4, u_5} i j c)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:a533983f3eacd115273d",
+      "declaration": "Etingof.Problem3_9_3.vertices_eq_of_equiv_twoRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.3",
+  "packet_id": "align-1238",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1238"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter3/Problem3.9.3",
+  "source_text": "**Problem 3.9.3.** Let $Q$ be a quiver without oriented cycles, and let $P_Q$ be the path algebra of $Q$. Find irreducible representations of $P_Q$ and compute $\\operatorname{Ext}^1$ between them. Classify 2-dimensional representations of $P_Q$.\n"
+}

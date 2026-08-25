@@ -1,0 +1,95 @@
+{
+  "module_name": "Algebra.Lie.AuxiliaryEndomorphismKernelProfiles",
+  "declarations": [
+    {
+      "temporary_id": "decl-015675",
+      "new_name": "finSuccFunctionLieModuleEquivOfEq",
+      "docstring": "Equality of two natural-number parameters induces a Lie-module equivalence between the corresponding finite complex function spaces."
+    },
+    {
+      "temporary_id": "decl-015683",
+      "new_name": "auxiliaryNatMultiset",
+      "docstring": "An auxiliary multiset of natural numbers associated with a natural-number-valued function on a finite type."
+    },
+    {
+      "temporary_id": "decl-015830",
+      "new_name": "exists_equiv_matching_values_of_valueMultiset_eq",
+      "docstring": "Equal value multisets for functions on finite types yield an equivalence of the index types that matches the function values."
+    },
+    {
+      "temporary_id": "decl-015891",
+      "new_name": "finrank_ker_eq_of_intertwining_equiv",
+      "docstring": "Endomorphisms intertwined by a linear equivalence have kernels of equal dimension."
+    },
+    {
+      "temporary_id": "decl-015894",
+      "new_name": "pow_intertwines_of_intertwines",
+      "docstring": "A linear equivalence that intertwines two endomorphisms also intertwines every natural power of them."
+    },
+    {
+      "temporary_id": "decl-016004",
+      "new_name": "finrank_ker_auxiliaryEndomorphism_finFunction_pow",
+      "docstring": "The kernel of the displayed endomorphism power on complex-valued functions on `Fin d` has dimension `min k d`."
+    },
+    {
+      "temporary_id": "decl-016005",
+      "new_name": "finrank_ker_auxiliaryEndomorphism_pow_eq_of_equiv",
+      "docstring": "Equivalent Lie modules have equal dimensions of the kernels of every power of their auxiliary endomorphisms."
+    },
+    {
+      "temporary_id": "decl-016006",
+      "new_name": "finrank_ker_auxiliaryEndomorphism_pi_pow",
+      "docstring": "For a finite dependent product, the kernel dimension of a power of the auxiliary endomorphism is the sum of the component kernel dimensions."
+    },
+    {
+      "temporary_id": "decl-016007",
+      "new_name": "finrank_ker_auxiliaryEndomorphism_finSuccPi_pow",
+      "docstring": "For the displayed dependent complex function space, the kernel dimension is the sum of `min k (n i + 1)` over the index type."
+    },
+    {
+      "temporary_id": "decl-016010",
+      "new_name": "auxiliaryNatMultiset_function_eq_sum_min",
+      "docstring": "The displayed function of the auxiliary multiset equals the sum of `min k (n i + 1)` over the finite index type."
+    },
+    {
+      "temporary_id": "decl-016011",
+      "new_name": "piLieModuleEquiv",
+      "docstring": "A pointwise family of Lie-module equivalences induces an equivalence between the corresponding dependent function modules."
+    },
+    {
+      "temporary_id": "decl-016031",
+      "new_name": "auxiliaryEndomorphism",
+      "docstring": "An auxiliary complex-linear endomorphism of the displayed Lie module."
+    },
+    {
+      "temporary_id": "decl-016035",
+      "new_name": "auxiliaryEndomorphism_intertwines",
+      "docstring": "A Lie-module equivalence intertwines the auxiliary endomorphisms of its source and target."
+    },
+    {
+      "temporary_id": "decl-016036",
+      "new_name": "auxiliaryEndomorphism_finFunction",
+      "docstring": "On the finite complex function space, the auxiliary endomorphism is evaluation of the displayed representation at the displayed element."
+    },
+    {
+      "temporary_id": "decl-016037",
+      "new_name": "auxiliaryEndomorphism_pi",
+      "docstring": "The auxiliary endomorphism on a dependent function module is the pointwise family of component endomorphisms."
+    },
+    {
+      "temporary_id": "decl-016038",
+      "new_name": "reindexPiLieModuleEquiv",
+      "docstring": "An equivalence of index types induces a Lie-module equivalence that reindexes a dependent function module."
+    },
+    {
+      "temporary_id": "decl-016087",
+      "new_name": "nonempty_equiv_of_auxiliaryEndomorphism_kernelProfile_eq",
+      "docstring": "Two finite-dimensional modules for the displayed Lie algebra are equivalent when all powers of their auxiliary endomorphisms have kernels of equal dimension."
+    },
+    {
+      "temporary_id": "decl-016113",
+      "new_name": "zero_not_mem_auxiliaryNatMultiset",
+      "docstring": "Zero does not belong to the auxiliary multiset associated with the displayed natural-number-valued function."
+    }
+  ]
+}

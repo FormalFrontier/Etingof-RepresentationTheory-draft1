@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1079",
+  "associations": [
+    {
+      "association_id": "association:9d5d26bbfe6fe8b52703",
+      "role": "supporting",
+      "rationale": "No formal type is displayed, so the packet does not itself show that this declaration states or defines the self-algebra claim."
+    }
+  ]
+}

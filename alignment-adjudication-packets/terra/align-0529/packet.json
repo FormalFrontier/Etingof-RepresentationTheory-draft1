@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0b8dc234e0ce16ef4e5d",
+      "declaration": "Etingof.Sl2Irrep.highestWeightPolynomial_squarefree",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Nat), Squarefree.{0} (Etingof.Sl2Irrep.highestWeightPolynomial k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_a_e"
+    },
+    {
+      "association_id": "association:b16b0e5afe540b21765d",
+      "declaration": "Etingof.Sl2Irrep.maxGenEigenspace_eq_eigenspace_of_no_higher_weight",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) M]\n  [FiniteDimensional.{0, u_1} Complex M] (lambda : Complex),\n  Not\n      (Module.End.HasEigenvalue.{0, u_1}\n        (DFunLike.coe.{u_1 + 1, 1, u_1 + 1}\n          (LieModule.toEnd.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) M)\n          Etingof.Sl2Irrep.sl2_h)\n        (HAdd.hAdd.{0, 0, 0} lambda 2)) \u2192\n    Eq.{u_1 + 1}\n      (Module.End.maxGenEigenspace.{0, u_1}\n        (DFunLike.coe.{u_1 + 1, 1, u_1 + 1}\n          (LieModule.toEnd.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) M)\n          Etingof.Sl2Irrep.sl2_h)\n        lambda)\n      (Module.End.eigenspace.{0, u_1}\n        (DFunLike.coe.{u_1 + 1, 1, u_1 + 1}\n          (LieModule.toEnd.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) M)\n          Etingof.Sl2Irrep.sl2_h)\n        lambda)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_a_e"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.15.1",
+  "packet_id": "align-0529",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0529"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.15.1:claim-05",
+  "source_text": "Part (d): H is diagonalizable on the selected generalized eigenspace."
+}

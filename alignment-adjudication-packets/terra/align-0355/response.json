@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0355",
+  "associations": [
+    {
+      "association_id": "association:6dcc1a20129c2c2085c9",
+      "role": "supporting",
+      "rationale": "The theorem gives the general selected-subfamily equivalence for a surjection from an internal direct sum of simple modules; applying it to the quotient map is an additional step not present in its formal type."
+    }
+  ]
+}

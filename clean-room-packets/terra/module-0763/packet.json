@@ -1,0 +1,66 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : CommRing.{u} R] [inst_1 : CommRing.{u} S] (f : RingHom.{u, u} R S) [inst_2 : Small.{u, u} R]\n  [inst_3 : Small.{u, u} S]\n  [CategoryTheory.Functor.PreservesHomology.{u, u + 1, u, u + 1} (ModuleCat.extendScalars.{u, u, u} f)]\n  (M : ModuleCat.{u, u} R) (N : ModuleCat.{u, u} S) (i : Nat),\n  Subsingleton.{u + 1}\n      (CategoryTheory.Abelian.Ext.{u, u, u + 1}\n        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (ModuleCat.extendScalars.{u, u, u} f) M) N i) \u2192\n    Subsingleton.{u + 1}\n      (CategoryTheory.Abelian.Ext.{u, u, u + 1} M\n        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (ModuleCat.restrictScalars.{u, u, u} f) N) i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2155248887",
+      "temporary_id": "decl-025155"
+    },
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : CommRing.{u} R] [inst_1 : CommRing.{u} S] (f : RingHom.{u, u} R S),\n  CategoryTheory.Functor.PreservesProjectiveObjects.{u, u, u + 1, u + 1} (ModuleCat.extendScalars.{u, u, u} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1357744451",
+      "temporary_id": "decl-025158"
+    },
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : CommRing.{u} R] [inst_1 : CommRing.{u} S] (f : RingHom.{u, u} R S) [Small.{u, u} R]\n  [Small.{u, u} S]\n  [CategoryTheory.Functor.PreservesProjectiveObjects.{u, u, u + 1, u + 1} (ModuleCat.restrictScalars.{u, u, u} f)]\n  [CategoryTheory.Functor.PreservesHomology.{u, u + 1, u, u + 1} (ModuleCat.restrictScalars.{u, u, u} f)]\n  (M : ModuleCat.{u, u} R) (n : Nat)\n  (retraction :\n    CategoryTheory.Retract.{u, u + 1} M\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (ModuleCat.restrictScalars.{u, u, u} f)\n        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (ModuleCat.extendScalars.{u, u, u} f) M))),\n  CategoryTheory.HasProjectiveDimensionLT.{u, u + 1}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (ModuleCat.extendScalars.{u, u, u} f) M) n \u2192\n    CategoryTheory.HasProjectiveDimensionLT.{u, u + 1} M n",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1922957278",
+      "temporary_id": "decl-025159"
+    },
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : CommRing.{u} R] [inst_1 : CommRing.{u} S] (f : RingHom.{u, u} R S),\n  CategoryTheory.Functor.PreservesEpimorphisms.{u_1, u_1, max u (u_1 + 1), max u (u_1 + 1)}\n    (ModuleCat.restrictScalars.{u_1, u, u} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3015701914",
+      "temporary_id": "decl-025161"
+    },
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : CommRing.{u} R] [inst_1 : CommRing.{u} S] (f : RingHom.{u, u} R S)\n  [CategoryTheory.Functor.PreservesProjectiveObjects.{u, u, u + 1, u + 1} (ModuleCat.restrictScalars.{u, u, u} f)]\n  [CategoryTheory.Functor.PreservesHomology.{u, u + 1, u, u + 1} (ModuleCat.restrictScalars.{u, u, u} f)]\n  (X : ModuleCat.{u, u} S) (n : Nat),\n  CategoryTheory.HasProjectiveDimensionLT.{u, u + 1} X n \u2192\n    CategoryTheory.HasProjectiveDimensionLT.{u, u + 1}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (ModuleCat.restrictScalars.{u, u, u} f) X) n",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "831483405",
+      "temporary_id": "decl-025162"
+    }
+  ],
+  "module_temporary_id": "module-0763",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

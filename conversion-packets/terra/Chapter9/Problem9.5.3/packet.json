@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Problem9.5.3",
+    "kind": "exercise",
+    "title": "Blocks and indecomposable central idempotents",
+    "node_id": "chapter-09/section-9-5",
+    "order": 569,
+    "slug": "problem9-5-3",
+    "span": {
+      "start": {
+        "page": "218",
+        "line": 7
+      },
+      "end": {
+        "page": "218",
+        "line": 12
+      }
+    },
+    "source_sha256": "1d96e54c605e685e25c9b407a10a57659167d7798b5c633f06a92c7066127675",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Problem953",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

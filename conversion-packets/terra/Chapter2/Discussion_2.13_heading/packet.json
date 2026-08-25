@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_2.13_heading",
+    "kind": "discussion",
+    "title": "Section 2.13: Hilbert's third problem \u2014 heading",
+    "node_id": "chapter-02/section-2-13",
+    "order": 111,
+    "slug": "discussion-2-13-heading",
+    "span": {
+      "start": {
+        "page": "36",
+        "line": 17
+      },
+      "end": {
+        "page": "36",
+        "line": 17
+      }
+    },
+    "source_sha256": "39cef5d3427a948f57480c6645ee8428448b4af4688a34c146f55370435569b2",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion213Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,50 @@
+{
+  "module_name": "LinearAlgebra.SymmetricPower.BasisPairMaps",
+  "declarations": [
+    {
+      "temporary_id": "decl-005662",
+      "new_name": "objectRelation",
+      "docstring": "A binary relation on two elements of the same indexed type."
+    },
+    {
+      "temporary_id": "decl-021633",
+      "new_name": "objectRelation_reflTransGen",
+      "docstring": "Every pair of elements of the indexed type lies in the reflexive-transitive closure of the binary relation."
+    },
+    {
+      "temporary_id": "decl-021635",
+      "new_name": "Submodule.mem_of_objectRelation",
+      "docstring": "Under the scaling and invariance hypotheses, membership of the displayed vector indexed by M passes to the displayed vector indexed by any related N."
+    },
+    {
+      "temporary_id": "decl-023730",
+      "new_name": "basisPairLinearMap_apply_eq_sum",
+      "docstring": "The displayed transformation of the element indexed by p is the sum over subsets of positions where p equals j, replacing p by i on each selected subset."
+    },
+    {
+      "temporary_id": "decl-024319",
+      "new_name": "basisPairLinearEquiv",
+      "docstring": "A linear equivalence associated with a basis and a pair of distinct finite indices."
+    },
+    {
+      "temporary_id": "decl-024326",
+      "new_name": "basisPairLinearMap",
+      "docstring": "A linear map associated with a basis and an ordered pair of finite indices."
+    },
+    {
+      "temporary_id": "decl-024329",
+      "new_name": "basisPairLinearMap_apply_basis",
+      "docstring": "On the l-th basis vector, the basis-pair linear map adds the i-th basis vector exactly when l equals j."
+    },
+    {
+      "temporary_id": "decl-024330",
+      "new_name": "basisPairLinearEquiv_toLinearMap",
+      "docstring": "For distinct indices, the linear map underlying the basis-pair equivalence is the associated basis-pair linear map."
+    },
+    {
+      "temporary_id": "decl-024331",
+      "new_name": "basisPairLinearMap_update_coeff_ne_zero",
+      "docstring": "If p maps m₀ to j, the coefficient at the index obtained by updating p at m₀ to i is nonzero after the displayed transformation."
+    }
+  ]
+}

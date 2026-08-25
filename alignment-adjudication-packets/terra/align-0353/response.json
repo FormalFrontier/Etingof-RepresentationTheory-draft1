@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0353",
+  "associations": [
+    {
+      "association_id": "association:027aa6fa9526fb3fd9af",
+      "role": "supporting",
+      "rationale": "The type constructor supplies the carrier for conjugation, but the displayed formal type does not itself expose the conjugated scalar action."
+    },
+    {
+      "association_id": "association:d8d41f252fda7777d6b2",
+      "role": "supporting",
+      "rationale": "The formal type constructs a representation on the conjugate carrier, but it does not display that the scalar action is conjugated or that the group action is unchanged."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "module_name": "TensorCoefficientIndependence",
+  "declarations": [
+    {
+      "temporary_id": "decl-018250",
+      "new_name": "tensor_eq_zero_of_sum_contractions_eq_zero",
+      "docstring": "For a finite pairwise nonisomorphic family of simple representations, if the sum of the contracted tensor coefficients vanishes at every monoid element, then every tensor is zero."
+    },
+    {
+      "temporary_id": "decl-018251",
+      "new_name": "tensor_eq_zero_on_finset_of_sum_contractions_eq_zero",
+      "docstring": "For simple representations that are pairwise nonisomorphic on a finite set, vanishing of the summed contracted tensor coefficients forces every tensor indexed by that set to vanish."
+    }
+  ]
+}

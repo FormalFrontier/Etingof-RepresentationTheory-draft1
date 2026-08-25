@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0129",
+  "associations": [
+    {
+      "association_id": "association:b674d6829194b08c8f4b",
+      "role": "primary",
+      "rationale": "This directly states the asserted endomorphism dichotomy: bijective or nilpotent."
+    },
+    {
+      "association_id": "association:bb3c9fe9089c23dcef34",
+      "role": "supporting",
+      "rationale": "This kernel-range complement decomposition is the structural ingredient used to derive the dichotomy."
+    }
+  ]
+}

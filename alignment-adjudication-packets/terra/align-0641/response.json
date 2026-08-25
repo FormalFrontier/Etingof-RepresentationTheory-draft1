@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0641",
+  "associations": [
+    {
+      "association_id": "association:d2653f8267153a9974bb",
+      "rationale": "The formal type states the conclusions of Theorem 3.3.1 for matrix-product algebras, but it does not state that parts (a) and (b) imply that theorem.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:5bb4d26b7d7137e824bd",
+      "rationale": "The formal type gives a direct-sum decomposition of a finite-dimensional module over a matrix-product algebra, a result used toward the theorem rather than the claimed implication between parts and the theorem.",
+      "role": "supporting"
+    }
+  ]
+}

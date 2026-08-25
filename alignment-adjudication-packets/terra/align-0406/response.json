@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:5d41050c2879ab1f27cc",
+      "rationale": "The candidate has no displayed formal type, so the packet does not show that it states the characterization of the orthogonal Lie algebra as skew-symmetric matrices. It can only be treated as related support.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:995787f4f28d45224358",
+      "rationale": "The candidate name suggests the relevant orthogonal Lie algebra construction, but its formal type is absent and therefore does not directly expose the skew-symmetry and commutator claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0406"
+}

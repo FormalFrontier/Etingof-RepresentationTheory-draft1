@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0080",
+  "associations": [
+    {
+      "association_id": "association:9a1b98b54b87dd04d881",
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so the kernel identification is not directly evidenced."
+    },
+    {
+      "association_id": "association:8bbe0ca6f20a556e6cbd",
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so identity behavior on the selected submodule is not directly evidenced."
+    },
+    {
+      "association_id": "association:5aa0015dc33a66831692",
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so vanishing on the selected complement is not directly evidenced."
+    }
+  ]
+}

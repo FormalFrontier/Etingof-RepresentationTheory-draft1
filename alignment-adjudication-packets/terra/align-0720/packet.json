@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4005d0d067c79cb78130",
+      "declaration": "Etingof.Problem4_12_6.irreducible_dim",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/235/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {K : Type u_1} [inst : Field.{u_1} K] [inst_1 : Fintype.{u_1} K] {W : Type u_2} [inst_2 : AddCommGroup.{u_2} W]\n  [inst_3 : Module.{0, u_2} Complex W] [FiniteDimensional.{0, u_2} Complex W]\n  (\u03c3 : Representation.{0, u_1, u_2} Complex (Etingof.Problem4_12_6.Affine.{u_1} K) W),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex (Etingof.Problem4_12_6.Affine.{u_1} K))\n      (Representation.asModule.{0, u_1, u_2} \u03c3) \u2192\n    Or (Eq.{1} (Module.finrank.{0, u_2} Complex W) 1)\n      (Eq.{1} (Module.finrank.{0, u_2} Complex W) (HSub.hSub.{0, 0, 0} (Fintype.card.{u_1} K) 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6"
+    },
+    {
+      "association_id": "association:08ce90c4fe2c3ab93809",
+      "declaration": "Etingof.Problem4_12_6.one_dim_reps_card",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/235/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {K : Type u_1} [inst : Field.{u_1} K] [inst_1 : Fintype.{u_1} K],\n  LE.le.{0} 3 (Fintype.card.{u_1} K) \u2192\n    Eq.{1} (Nat.card.{u_1} (MonoidHom.{u_1, 0} (Etingof.Problem4_12_6.Affine.{u_1} K) (Units.{0} Complex)))\n      (HSub.hSub.{0, 0, 0} (Fintype.card.{u_1} K) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6"
+    },
+    {
+      "association_id": "association:6222ef5cb605b13f69f9",
+      "declaration": "Etingof.Problem4_12_6.zeroSum_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/235/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {K : Type u_1} [inst : Field.{u_1} K] [inst_1 : Fintype.{u_1} K]\n  (\u03c1 : Representation.{0, u_1, u_1} Complex (Etingof.Problem4_12_6.Affine.{u_1} K) (K \u2192 Complex)),\n  (\u2200 (g : Etingof.Problem4_12_6.Affine.{u_1} K) (f : K \u2192 Complex) (x : K),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03c1 g) f x)\n        (f (Etingof.Problem4_12_6.Affine.act.{u_1} (Inv.inv.{u_1} g) x))) \u2192\n    \u2200 (U : Submodule.{0, u_1} Complex (K \u2192 Complex)),\n      LE.le.{u_1} U (Etingof.Problem4_12_6.zeroSum.{u_1} K) \u2192\n        (\u2200 (g : Etingof.Problem4_12_6.Affine.{u_1} K) (f : K \u2192 Complex),\n            Membership.mem.{u_1, u_1} U f \u2192\n              Membership.mem.{u_1, u_1} U\n                (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03c1 g) f)) \u2192\n          Or (Eq.{u_1 + 1} U Bot.bot.{u_1}) (Eq.{u_1 + 1} U (Etingof.Problem4_12_6.zeroSum.{u_1} K))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.6",
+  "packet_id": "align-0720",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0720"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.6:classification",
+  "source_text": "Classify all irreducible complex representations of the affine group of every finite field, including q=2."
+}

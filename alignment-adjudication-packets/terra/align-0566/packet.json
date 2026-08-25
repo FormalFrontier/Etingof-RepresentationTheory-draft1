@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a84705a4fd02315713ac",
+      "declaration": "Etingof.Problem2_16_5.Kop_isSemisimple_and_eigenvalues",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  IsOfFinOrder.{0} q \u2192\n    \u2200 (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n      [inst_2 : Module.{0, u_1} (Etingof.Problem2_16_5.Uqsl2 q) V]\n      [inst_3 : IsScalarTower.{0, 0, u_1} Complex (Etingof.Problem2_16_5.Uqsl2 q) V]\n      [FiniteDimensional.{0, u_1} Complex V] [IsSimpleModule.{0, u_1} (Etingof.Problem2_16_5.Uqsl2 q) V],\n      And (Module.End.IsSemisimple.{0, u_1} (Etingof.Problem2_16_5.Kop.{u_1} q V))\n        (And\n          (Eq.{u_1 + 1} (iSup.{u_1, 1} fun \u03bc => Module.End.eigenspace.{0, u_1} (Etingof.Problem2_16_5.Kop.{u_1} q V) \u03bc)\n            Top.top.{u_1})\n          (Exists.{1} fun \u03b1 =>\n            And (Ne.{1} \u03b1 0)\n              (\u2200 (\u03bc : Complex),\n                Module.End.HasEigenvalue.{0, u_1} (Etingof.Problem2_16_5.Kop.{u_1} q V) \u03bc \u2192\n                  Eq.{1} (HPow.hPow.{0, 0, 0} \u03bc (orderOf.{0} q)) \u03b1)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    },
+    {
+      "association_id": "association:3fb87cfd854bf8dfb101",
+      "declaration": "Etingof.Problem2_16_5.Kpow_orderOf_isScalar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  IsOfFinOrder.{0} q \u2192\n    \u2200 (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n      [inst_2 : Module.{0, u_1} (Etingof.Problem2_16_5.Uqsl2 q) V]\n      [IsScalarTower.{0, 0, u_1} Complex (Etingof.Problem2_16_5.Uqsl2 q) V] [FiniteDimensional.{0, u_1} Complex V]\n      [IsSimpleModule.{0, u_1} (Etingof.Problem2_16_5.Uqsl2 q) V],\n      Exists.{1} fun \u03b1 =>\n        And (Ne.{1} \u03b1 0)\n          (\u2200 (v : V),\n            Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (HPow.hPow.{0, 0, 0} (Etingof.Problem2_16_5.K q) (orderOf.{0} q)) v)\n              (HSMul.hSMul.{0, u_1, u_1} \u03b1 v))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.5",
+  "packet_id": "align-0566",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0566"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.5:claim-07",
+  "source_text": "At a root of unity, K^ord(q) acts as a nonzero scalar and K is semisimple with eigenvalues in one finite root set."
+}

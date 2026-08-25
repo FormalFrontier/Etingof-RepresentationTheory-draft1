@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c3155739fb367e08b682",
+      "declaration": "Etingof.Problem3_9_2.two_dim_normal_form",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (U : Type) [inst : AddCommGroup.{0} U] [inst_1 : Module.{0, 0} Complex U]\n  [inst_2 : Module.{0, 0} (Etingof.Problem3_9_2.polyAlg n) U]\n  [IsScalarTower.{0, 0, 0} Complex (Etingof.Problem3_9_2.polyAlg n) U] [FiniteDimensional.{0, 0} Complex U],\n  Eq.{1} (Module.finrank.{0, 0} Complex U) 2 \u2192\n    Or\n      (Exists.{1} fun b =>\n        Exists.{1} fun a =>\n          And (Ne.{1} b a)\n            (Nonempty.{1}\n              (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.polyAlg n)) U\n                (Prod.{0, 0} (Etingof.Problem3_9_2.Vrep b) (Etingof.Problem3_9_2.Vrep a)))))\n      (Exists.{1} fun a =>\n        Exists.{1} fun c =>\n          Nonempty.{1}\n            (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.polyAlg n)) U\n              (Etingof.Problem3_9_2.Jrep a c)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2_Classification"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.2",
+  "packet_id": "align-0669",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0669"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.2:claim-04",
+  "source_text": "Every two-dimensional A-representation is either a split sum of two distinct weights or a dual-number normal form Jrep(a,c)."
+}

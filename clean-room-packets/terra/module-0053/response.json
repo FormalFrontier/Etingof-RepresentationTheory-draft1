@@ -1,0 +1,13 @@
+{
+  "module_name": "Algebra.Lie.ThreeDimensional",
+  "declarations": [
+    {"temporary_id":"decl-003783","new_name":"bracket_eq_crossProduct","docstring":"The bracket on three-dimensional real vectors is their cross product."},
+    {"temporary_id":"decl-003784","new_name":"crossProductLieAlgebra","docstring":"Lie algebra structure on three-dimensional real vectors associated with the cross product."},
+    {"temporary_id":"decl-003786","new_name":"crossProductLieEquivOrthogonal","docstring":"Lie equivalence between three-dimensional real vectors and the orthogonal Lie subalgebra."},
+    {"temporary_id":"decl-003796","new_name":"crossProductMatrix","docstring":"A matrix-valued map on three-dimensional real vectors."},
+    {"temporary_id":"decl-003798","new_name":"crossProductMatrix_bracket","docstring":"The matrix associated with a cross product is the commutator of the associated matrices."},
+    {"temporary_id":"decl-003799","new_name":"crossProductMatrix_mem_orthogonal","docstring":"The matrix associated with a vector belongs to the orthogonal Lie subalgebra."},
+    {"temporary_id":"decl-003800","new_name":"mem_orthogonal_iff_transpose_eq_neg","docstring":"A three-by-three real matrix belongs to the orthogonal Lie subalgebra exactly when its transpose is its negative."},
+    {"temporary_id":"decl-003801","new_name":"orthogonalLieEquiv_nonempty","docstring":"There exists a Lie equivalence from the orthogonal Lie subalgebra to three-dimensional real vectors."}
+  ]
+}

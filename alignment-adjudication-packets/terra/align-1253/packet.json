@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:49811de1de786ea02536",
+      "declaration": "Etingof.ind_chiRep_iso_charLeftIdeal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/294/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (K : Subgroup.{u_1} G)\n  (\u03c7 : MonoidHom.{u_1, 0} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} K x) (Units.{0} Complex)),\n  Exists.{u_1 + 1} fun e =>\n    \u2200 (g : G) (x : Representation.IndV.{0, u_1, u_1, 0} (Subgroup.subtype.{u_1} K) (Etingof.chiRep.{u_1} K \u03c7)),\n      Eq.{u_1 + 1}\n        (Subtype.val.{u_1 + 1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} e\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n              (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Etingof.Definition5_8_1.{u_1, 0} K (Etingof.chiRep.{u_1} K \u03c7))\n                g)\n              x)))\n        (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (MonoidAlgebra.of.{0, u_1} Complex G) g)\n          (Subtype.val.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} e x)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_8_5"
+    }
+  ],
+  "canonical_reference": "Chapter5/Exercise5.8.5",
+  "packet_id": "align-1253",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1253"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Exercise5.8.5",
+  "source_text": "**Exercise 5.8.5.** Let $K \\subset G$ be finite groups, and let $\\chi : K \\to \\mathbb{C}^*$ be a homomorphism. Let $\\mathbb{C}_\\chi$ be the corresponding 1-dimensional representation of $K$. Let\n\n$$e_\\chi = \\frac{1}{|K|} \\sum_{g \\in K} \\chi(g)^{-1} g \\in \\mathbb{C}[K]$$\n\nbe the idempotent corresponding to $\\chi$. Show that the $G$-representation $\\operatorname{Ind}_K^G \\mathbb{C}_\\chi$ is naturally isomorphic to $\\mathbb{C}[G] e_\\chi$ (with $G$ acting by left multiplication).\n"
+}

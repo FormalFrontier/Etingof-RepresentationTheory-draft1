@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0307",
+  "associations": [
+    {
+      "association_id": "association:a9c73703eefcdf7b1959",
+      "rationale": "The formal type is unavailable because pretty printing failed, so packet-only evidence cannot verify that the declaration directly states the character and dimension formulas.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "module_name": "Algebra.CliffordAlgebra.OddDimensionalModules",
+  "declarations": [
+    {
+      "temporary_id": "decl-010195",
+      "new_name": "AuxiliarySpace",
+      "docstring": "A family of auxiliary types indexed by natural numbers."
+    },
+    {
+      "temporary_id": "decl-010197",
+      "new_name": "FirstOddCliffordModule",
+      "docstring": "The first module carrier associated with a nondegenerate symmetric complex bilinear form of odd dimension."
+    },
+    {
+      "temporary_id": "decl-010198",
+      "new_name": "SecondOddCliffordModule",
+      "docstring": "The second module carrier associated with a nondegenerate symmetric complex bilinear form of odd dimension."
+    },
+    {
+      "temporary_id": "decl-010309",
+      "new_name": "cliffordAlgHomToOddForm",
+      "docstring": "The algebra homomorphism between the Clifford algebras induced by adjoining a zero second coordinate."
+    },
+    {
+      "temporary_id": "decl-010311",
+      "new_name": "cliffordAlgHomToOddForm_iota",
+      "docstring": "The Clifford algebra homomorphism sends a generator to the generator with zero second coordinate."
+    },
+    {
+      "temporary_id": "decl-010368",
+      "new_name": "negativeSpinRepresentation",
+      "docstring": "The Clifford algebra representation whose distinguished extra generator acts by the negative auxiliary endomorphism."
+    },
+    {
+      "temporary_id": "decl-010371",
+      "new_name": "negativeSpinRepresentation_comp_cliffordAlgHomToOddForm",
+      "docstring": "Composing the negative representation with the auxiliary Clifford algebra homomorphism gives the prescribed representation."
+    },
+    {
+      "temporary_id": "decl-010372",
+      "new_name": "negativeSpinRepresentation_surjective",
+      "docstring": "The negative Clifford algebra representation is surjective."
+    },
+    {
+      "temporary_id": "decl-010373",
+      "new_name": "negativeSpinRepresentation_extraGenerator",
+      "docstring": "The negative representation sends the generator in the second coordinate to the negative auxiliary endomorphism."
+    },
+    {
+      "temporary_id": "decl-010374",
+      "new_name": "negativeSpinRepresentation_firstGenerator",
+      "docstring": "The negative representation agrees with the prescribed action on generators in the first coordinate."
+    },
+    {
+      "temporary_id": "decl-010375",
+      "new_name": "positiveSpinRepresentation",
+      "docstring": "The Clifford algebra representation whose distinguished extra generator acts by the positive auxiliary endomorphism."
+    },
+    {
+      "temporary_id": "decl-010379",
+      "new_name": "positiveSpinRepresentation_comp_cliffordAlgHomToOddForm",
+      "docstring": "Composing the positive representation with the auxiliary Clifford algebra homomorphism gives the prescribed representation."
+    },
+    {
+      "temporary_id": "decl-010380",
+      "new_name": "positiveSpinRepresentation_surjective",
+      "docstring": "The positive Clifford algebra representation is surjective."
+    },
+    {
+      "temporary_id": "decl-010381",
+      "new_name": "positiveSpinRepresentation_extraGenerator",
+      "docstring": "The positive representation sends the generator in the second coordinate to the auxiliary endomorphism."
+    },
+    {
+      "temporary_id": "decl-010382",
+      "new_name": "positiveSpinRepresentation_firstGenerator",
+      "docstring": "The positive representation agrees with the prescribed action on generators in the first coordinate."
+    },
+    {
+      "temporary_id": "decl-010383",
+      "new_name": "cliffordMapFromAuxiliaryForm",
+      "docstring": "A map from the auxiliary Clifford algebra to that of a nondegenerate symmetric form of odd dimension."
+    },
+    {
+      "temporary_id": "decl-010384",
+      "new_name": "distinguishedVector",
+      "docstring": "A distinguished vector for a nondegenerate symmetric complex bilinear form of odd dimension."
+    },
+    {
+      "temporary_id": "decl-010386",
+      "new_name": "oddQuadraticFormIsometryEquiv",
+      "docstring": "An isometric equivalence from the quadratic form associated to the given bilinear form to the auxiliary odd-dimensional quadratic form."
+    },
+    {
+      "temporary_id": "decl-010402",
+      "new_name": "negativeSpinRepresentationOfBilin",
+      "docstring": "The negative spin representation of the Clifford algebra of a nondegenerate symmetric bilinear form of odd dimension."
+    },
+    {
+      "temporary_id": "decl-010404",
+      "new_name": "negativeSpinRepresentationOfBilin_cliffordMap",
+      "docstring": "The negative representation agrees with the prescribed representation on the image of the auxiliary Clifford algebra."
+    },
+    {
+      "temporary_id": "decl-010405",
+      "new_name": "negativeSpinRepresentationOfBilin_surjective",
+      "docstring": "The negative spin representation of the Clifford algebra of the bilinear form is surjective."
+    },
+    {
+      "temporary_id": "decl-010406",
+      "new_name": "auxiliary_fact1",
+      "docstring": "An auxiliary fact about the negative representation and the odd-dimensional quadratic-form equivalence."
+    },
+    {
+      "temporary_id": "decl-010407",
+      "new_name": "negativeSpinRepresentationOfBilin_distinguishedVector",
+      "docstring": "The negative representation sends the Clifford generator of the distinguished vector to the negative auxiliary endomorphism."
+    },
+    {
+      "temporary_id": "decl-010408",
+      "new_name": "positiveSpinRepresentationOfBilin",
+      "docstring": "The positive spin representation of the Clifford algebra of a nondegenerate symmetric bilinear form of odd dimension."
+    },
+    {
+      "temporary_id": "decl-010410",
+      "new_name": "positiveSpinRepresentationOfBilin_cliffordMap",
+      "docstring": "The positive representation agrees with the prescribed representation on the image of the auxiliary Clifford algebra."
+    },
+    {
+      "temporary_id": "decl-010411",
+      "new_name": "positiveSpinRepresentationOfBilin_surjective",
+      "docstring": "The positive spin representation of the Clifford algebra of the bilinear form is surjective."
+    },
+    {
+      "temporary_id": "decl-010412",
+      "new_name": "positiveSpinRepresentationOfBilin_iota",
+      "docstring": "The positive representation of a Clifford generator is the signed generator action after the quadratic-form isometry."
+    },
+    {
+      "temporary_id": "decl-010413",
+      "new_name": "positiveSpinRepresentationOfBilin_distinguishedVector",
+      "docstring": "The positive representation sends the Clifford generator of the distinguished vector to the auxiliary endomorphism."
+    },
+    {
+      "temporary_id": "decl-010414",
+      "new_name": "isSimpleModule_negativeSpinRepresentationOfBilin",
+      "docstring": "The standard carrier is a simple module for the Clifford algebra through the negative representation."
+    },
+    {
+      "temporary_id": "decl-010415",
+      "new_name": "isSimpleModule_positiveSpinRepresentationOfBilin",
+      "docstring": "The standard carrier is a simple module for the Clifford algebra through the positive representation."
+    },
+    {
+      "temporary_id": "decl-010416",
+      "new_name": "firstOddCliffordModuleAction",
+      "docstring": "The Clifford algebra action on the first odd-dimensional module carrier."
+    },
+    {
+      "temporary_id": "decl-010419",
+      "new_name": "secondOddCliffordModuleAction",
+      "docstring": "The Clifford algebra action on the second odd-dimensional module carrier."
+    },
+    {
+      "temporary_id": "decl-010422",
+      "new_name": "isEmpty_linearEquiv_secondOddCliffordModule_firstOddCliffordModule",
+      "docstring": "There is no Clifford-module linear equivalence from the second odd-dimensional carrier to the first."
+    },
+    {
+      "temporary_id": "decl-010423",
+      "new_name": "signedGeneratorAction",
+      "docstring": "A scalar-parameterized linear action of the auxiliary space by endomorphisms."
+    },
+    {
+      "temporary_id": "decl-010426",
+      "new_name": "signedGeneratorAction_sq",
+      "docstring": "When the scalar parameter squares to one, each signed generator action squares to the quadratic value times the identity."
+    },
+    {
+      "temporary_id": "decl-010427",
+      "new_name": "oddQuadraticForm",
+      "docstring": "The complex quadratic form on the auxiliary space."
+    },
+    {
+      "temporary_id": "decl-010431",
+      "new_name": "oddQuadraticForm_associated_separatingLeft",
+      "docstring": "The bilinear form associated to the auxiliary quadratic form separates points in its left argument."
+    },
+    {
+      "temporary_id": "decl-010432",
+      "new_name": "finiteDimensional_simpleModule_equiv_first_or_second",
+      "docstring": "Every finite-dimensional simple module for the odd-dimensional Clifford algebra is linearly equivalent to the first or second distinguished module."
+    },
+    {
+      "temporary_id": "decl-010433",
+      "new_name": "simpleModule_equiv_first_or_second",
+      "docstring": "Every simple module for the odd-dimensional Clifford algebra is linearly equivalent to the first or second distinguished module."
+    },
+    {
+      "temporary_id": "decl-010440",
+      "new_name": "scalarEndomorphismMap",
+      "docstring": "The complex-linear map sending a scalar to an endomorphism of the standard carrier."
+    },
+    {
+      "temporary_id": "decl-010466",
+      "new_name": "firstOddCliffordModuleLinearEquiv",
+      "docstring": "A complex-linear equivalence from the standard carrier to the first odd-dimensional module carrier."
+    },
+    {
+      "temporary_id": "decl-010467",
+      "new_name": "secondOddCliffordModuleLinearEquiv",
+      "docstring": "A complex-linear equivalence from the standard carrier to the second odd-dimensional module carrier."
+    },
+    {
+      "temporary_id": "decl-010468",
+      "new_name": "firstOddCliffordModuleAddCommGroup",
+      "docstring": "The additive commutative group structure on the first odd-dimensional module carrier."
+    },
+    {
+      "temporary_id": "decl-010486",
+      "new_name": "firstOddCliffordModuleModule",
+      "docstring": "The module structure over the Clifford algebra on the first odd-dimensional carrier."
+    },
+    {
+      "temporary_id": "decl-010487",
+      "new_name": "firstOddCliffordModuleComplexModule",
+      "docstring": "The complex module structure on the first odd-dimensional module carrier."
+    },
+    {
+      "temporary_id": "decl-010494",
+      "new_name": "firstOddCliffordModuleIsSimpleModule",
+      "docstring": "The first odd-dimensional Clifford module is simple."
+    },
+    {
+      "temporary_id": "decl-010500",
+      "new_name": "secondOddCliffordModuleAddCommGroup",
+      "docstring": "The additive commutative group structure on the second odd-dimensional module carrier."
+    },
+    {
+      "temporary_id": "decl-010518",
+      "new_name": "secondOddCliffordModuleModule",
+      "docstring": "The module structure over the Clifford algebra on the second odd-dimensional carrier."
+    },
+    {
+      "temporary_id": "decl-010519",
+      "new_name": "secondOddCliffordModuleComplexModule",
+      "docstring": "The complex module structure on the second odd-dimensional module carrier."
+    },
+    {
+      "temporary_id": "decl-010527",
+      "new_name": "secondOddCliffordModuleIsSimpleModule",
+      "docstring": "The second odd-dimensional Clifford module is simple."
+    }
+  ]
+}

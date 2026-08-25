@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0300",
+  "associations": [
+    {
+      "association_id": "association:37e22b3e9cae1e0b64d2",
+      "role": "supporting",
+      "rationale": "The construction produces a character from two complex parameters whose squares are one, but its type neither counts the resulting characters nor identifies a quotient by the center."
+    },
+    {
+      "association_id": "association:6e307e51b05a364021c2",
+      "role": "supporting",
+      "rationale": "This construction turns a monoid homomorphism into a one-dimensional representation, supporting the claimed family without stating that there are four or that they arise from the central quotient."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:89d6c01107f84349fa62",
+      "declaration": "Etingof.frobenius_reciprocity",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/491/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  {G H : Type u} \u2192\n    [inst : CommRing.{u} k] \u2192\n      [inst_1 : Group.{u} G] \u2192\n        [inst_2 : Group.{u} H] \u2192\n          (\u03c6 : MonoidHom.{u, u} G H) \u2192\n            CategoryTheory.Adjunction.{max u_1 u, max u_1 u, max u ((max u_1 u) + 1), max (u + 1) ((max u_1 u) + 1)}\n              (Rep.indFunctor.{max u_1 u, u, u, u} k \u03c6) (Rep.resFunctor.{max u_1 u, u, u, u} \u03c6)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_6_3"
+    },
+    {
+      "association_id": "association:c4127c9fd1ffed45a8a7",
+      "declaration": "Etingof.frobenius_reciprocity_res_ind",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/491/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  {G : Type v} \u2192\n    [inst : CommRing.{u} k] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (S : Subgroup.{v} G) \u2192\n          [DecidableRel.{v + 1, v + 1} Setoid.r.{v + 1}] \u2192\n            [Subgroup.FiniteIndex.{v} S] \u2192\n              CategoryTheory.Adjunction.{max (max u_1 u) v, max (max u_1 u) v, max (max v u) ((max (max u_1 u) v) + 1),\n                  max (max v u) ((max (max u_1 u) v) + 1)}\n                (Rep.resFunctor.{max (max u_1 u) v, u, v, v} (Subgroup.subtype.{v} S))\n                (Rep.indFunctor.{max (max u_1 u) v, u, v, v} k (Subgroup.subtype.{v} S))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_6_3"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.6.3",
+  "packet_id": "align-0097",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0097"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:1e7577608d521045d5a5",
+  "source_text": "Restriction and induction satisfy Frobenius reciprocity."
+}

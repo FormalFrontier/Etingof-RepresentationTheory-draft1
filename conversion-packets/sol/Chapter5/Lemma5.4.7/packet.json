@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Lemma5.4.7",
+    "kind": "lemma",
+    "title": "Existence of V in N with nonzero character value",
+    "node_id": "chapter-05/section-5-4",
+    "order": 278,
+    "slug": "lemma5-4-7",
+    "span": {
+      "start": {
+        "page": "101",
+        "line": 23
+      },
+      "end": {
+        "page": "102",
+        "line": 14
+      }
+    },
+    "source_sha256": "bf04c97a34c384e8bd6c293595175bd15c2db75f30b9385f208cd2892ddd59b8",
+    "features": {
+      "line_count": 15,
+      "crosses_page": true,
+      "display_math_delimiters": 6,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma547",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

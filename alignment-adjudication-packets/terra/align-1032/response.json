@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1032",
+  "associations": [
+    {
+      "association_id": "association:3a2b28a6b4acf0093ac6",
+      "rationale": "The type only constructs the Schur polynomial and does not state divisibility or the product identity.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3afdd27d9d2dc98a75f1",
+      "rationale": "The equality directly identifies the Schur polynomial times the Vandermonde alternant with the shifted alternant, i.e. S_lambda D_0 = D_lambda.",
+      "role": "primary"
+    }
+  ]
+}

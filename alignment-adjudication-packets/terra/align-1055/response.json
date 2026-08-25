@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1055",
+  "associations": [
+    {
+      "association_id": "association:69f15d5a7528f04f05d1",
+      "rationale": "The type directly produces finitely many indecomposable subrepresentations whose supremum is the whole representation and which are independent, i.e. a direct-sum decomposition.",
+      "role": "primary"
+    }
+  ]
+}

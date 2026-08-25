@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d64843351db2fd6f1537",
+      "declaration": "Etingof.WeylAlgebra.equivPolyDiffOp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/56/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    [CharZero.{u_1} k] \u2192\n      [NoZeroDivisors.{u_1} k] \u2192\n        AlgEquiv.{u_1, u_1, u_1} k (Etingof.WeylAlgebra.{u_1} k)\n          (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Etingof.polyDiffOp.{u_1} k) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_7_2"
+    },
+    {
+      "association_id": "association:cd97236d3cc57d86ac4a",
+      "declaration": "Etingof.WeylAlgebra.polyRep_range_eq_polyDiffOp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/56/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (AlgHom.range.{u_1, u_1, u_1} (Etingof.polyRep.{u_1} k)) (Etingof.polyDiffOp.{u_1} k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_7_2"
+    },
+    {
+      "association_id": "association:330f845ed77d0158666a",
+      "declaration": "Etingof.polyDiffOp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/56/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 Subalgebra.{u_1, u_1} k (Module.End.{u_1, u_1} k (Polynomial.{u_1} k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_7_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Remark2.7.2",
+  "packet_id": "align-1092",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1092"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d7fe9efaff5d49733a87",
+  "source_text": "The Weyl algebra can be viewed as the algebra of polynomial differential operators in one variable."
+}

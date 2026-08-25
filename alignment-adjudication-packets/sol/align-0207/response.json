@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0207",
+  "associations": [
+    {"association_id": "association:41baad5e08afe40ae010", "role": "supporting", "rationale": "This constructs an honest finite-dimensional representation but does not state its character, simplicity, or dimension."},
+    {"association_id": "association:433f214c524974c94ff6", "role": "primary", "rationale": "It directly identifies the representation's character with the complementary character."},
+    {"association_id": "association:4fb7ff6203e56f52869c", "role": "primary", "rationale": "It directly states that the complementary-series representation is simple."},
+    {"association_id": "association:aff5507840210e4ee4da", "role": "primary", "rationale": "It directly states that its dimension is p^n minus one, i.e. q minus one."}
+  ]
+}

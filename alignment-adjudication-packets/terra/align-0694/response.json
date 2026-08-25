@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0694",
+  "associations": [
+    {
+      "association_id": "association:6cdd8db3645982ee2004",
+      "rationale": "The type directly states IsSemisimpleRing(Cl(V)) if and only if B is nondegenerate, under the displayed symmetry and finite-dimensional hypotheses.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] {G : Type v} [inst_2 : Group.{v} G] [inst_3 : Fintype.{v} G]\n  [inst_4 : DecidableEq.{v + 1} G] [Invertible.{u} (Nat.cast.{u} (Fintype.card.{v} G))] {\u03b9 : Type w}\n  [inst_6 : Fintype.{w} \u03b9] (M : \u03b9 \u2192 Type u) [inst_7 : (i : \u03b9) \u2192 AddCommGroup.{u} (M i)]\n  [inst_8 : (i : \u03b9) \u2192 Module.{u, u} k (M i)] [\u2200 (i : \u03b9), Module.Finite.{u, u} k (M i)]\n  [inst_10 : (i : \u03b9) \u2192 Module.{max v u, u} (MonoidAlgebra.{u, v} k G) (M i)]\n  [\u2200 (i : \u03b9), IsScalarTower.{u, max v u, u} k (MonoidAlgebra.{u, v} k G) (M i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{max v u, u} (MonoidAlgebra.{u, v} k G) (M i)],\n  (\u2200 (i j : \u03b9),\n      Nonempty.{u + 1}\n          (LinearEquiv.{max u v, max u v, u, u} (RingHom.id.{max v u} (MonoidAlgebra.{u, v} k G)) (M i) (M j)) \u2192\n        Eq.{w + 1} i j) \u2192\n    LE.le.{0} (Fintype.card.{w} \u03b9) (Fintype.card.{v} (ConjClasses.{v} G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "14770875",
+      "temporary_id": "decl-017729"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] {G : Type v} [inst_2 : Group.{v} G] [inst_3 : Fintype.{v} G]\n  [inst_4 : DecidableEq.{v + 1} G] [Invertible.{u} (Nat.cast.{u} (Fintype.card.{v} G))] {\u03b9 : Type w}\n  [inst_6 : Fintype.{w} \u03b9] (M : \u03b9 \u2192 Type w') [inst_7 : (i : \u03b9) \u2192 AddCommGroup.{w'} (M i)]\n  [inst_8 : (i : \u03b9) \u2192 Module.{u, w'} k (M i)] [\u2200 (i : \u03b9), Module.Finite.{u, w'} k (M i)]\n  [inst_10 : (i : \u03b9) \u2192 Module.{max v u, w'} (MonoidAlgebra.{u, v} k G) (M i)]\n  [\u2200 (i : \u03b9), IsScalarTower.{u, max v u, w'} k (MonoidAlgebra.{u, v} k G) (M i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{max v u, w'} (MonoidAlgebra.{u, v} k G) (M i)],\n  (\u2200 (i j : \u03b9),\n      Nonempty.{w' + 1}\n          (LinearEquiv.{max u v, max u v, w', w'} (RingHom.id.{max v u} (MonoidAlgebra.{u, v} k G)) (M i) (M j)) \u2192\n        Eq.{w + 1} i j) \u2192\n    LE.le.{0} (Fintype.card.{w} \u03b9) (Fintype.card.{v} (ConjClasses.{v} G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "156052430",
+      "temporary_id": "decl-017730"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {G : Type v} \u2192\n      [inst_1 : Group.{v} G] \u2192\n        {V : Type w} \u2192\n          [inst_2 : AddCommGroup.{w} V] \u2192\n            [inst_3 : Module.{u, w} k V] \u2192\n              {W : Type w'} \u2192\n                [inst_4 : AddCommGroup.{w'} W] \u2192\n                  [inst_5 : Module.{u, w'} k W] \u2192\n                    (\u03c1 : Representation.{u, v, w} k G V) \u2192\n                      (\u03c3 : Representation.{u, v, w'} k G W) \u2192\n                        LinearEquiv.{max u v, max u v, w, w'} (RingHom.id.{max v u} (MonoidAlgebra.{u, v} k G))\n                            (Representation.asModule.{u, v, w} \u03c1) (Representation.asModule.{u, v, w'} \u03c3) \u2192\n                          Representation.Equiv.{u, v, w, w'} \u03c1 \u03c3",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4146250202",
+      "temporary_id": "decl-018617"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {G : Type v} \u2192\n      [inst_1 : Group.{v} G] \u2192\n        {M N : Type u} \u2192\n          [inst_2 : AddCommGroup.{u} M] \u2192\n            [inst_3 : Module.{u, u} k M] \u2192\n              [inst_4 : Module.Finite.{u, u} k M] \u2192\n                [inst_5 : Module.{max v u, u} (MonoidAlgebra.{u, v} k G) M] \u2192\n                  [inst_6 : IsScalarTower.{u, max v u, u} k (MonoidAlgebra.{u, v} k G) M] \u2192\n                    [inst_7 : AddCommGroup.{u} N] \u2192\n                      [inst_8 : Module.{u, u} k N] \u2192\n                        [inst_9 : Module.Finite.{u, u} k N] \u2192\n                          [inst_10 : Module.{max v u, u} (MonoidAlgebra.{u, v} k G) N] \u2192\n                            [inst_11 : IsScalarTower.{u, max v u, u} k (MonoidAlgebra.{u, v} k G) N] \u2192\n                              CategoryTheory.Iso.{u, max v (u + 1)} (FDRep.of.{u, v} (decl-022595.{u, v, u} M))\n                                  (FDRep.of.{u, v} (decl-022595.{u, v, u} N)) \u2192\n                                LinearEquiv.{max u v, max u v, u, u} (RingHom.id.{max v u} (MonoidAlgebra.{u, v} k G)) M\n                                  N",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022595"
+      ],
+      "structural_type_hash": "3874364945",
+      "temporary_id": "decl-021500"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {G : Type v} \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (M : Type w) \u2192\n          [inst_2 : AddCommGroup.{w} M] \u2192\n            [inst_3 : Module.{u, w} k M] \u2192\n              [inst_4 : Module.{max v u, w} (MonoidAlgebra.{u, v} k G) M] \u2192\n                [IsScalarTower.{u, max v u, w} k (MonoidAlgebra.{u, v} k G) M] \u2192 Representation.{u, v, w} k G M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3066042546",
+      "temporary_id": "decl-022595"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {G : Type v} \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (M : Type w) \u2192\n          [inst_2 : AddCommGroup.{w} M] \u2192\n            [inst_3 : Module.{u, w} k M] \u2192\n              [inst_4 : Module.{max v u, w} (MonoidAlgebra.{u, v} k G) M] \u2192\n                [inst_5 : IsScalarTower.{u, max v u, w} k (MonoidAlgebra.{u, v} k G) M] \u2192\n                  LinearEquiv.{max u v, max u v, w, w} (RingHom.id.{max v u} (MonoidAlgebra.{u, v} k G))\n                    (Representation.asModule.{u, v, w} (decl-022595.{u, v, w} M)) M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022595"
+      ],
+      "structural_type_hash": "1734307741",
+      "temporary_id": "decl-022599"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {G : Type v} [inst_1 : Group.{v} G] (M : Type w) [inst_2 : AddCommGroup.{w} M]\n  [inst_3 : Module.{u, w} k M] [inst_4 : Module.{max v u, w} (MonoidAlgebra.{u, v} k G) M]\n  [inst_5 : IsScalarTower.{u, max v u, w} k (MonoidAlgebra.{u, v} k G) M] (g : G) (x : M),\n  Eq.{w + 1}\n    (DFunLike.coe.{w + 1, w + 1, w + 1}\n      (DFunLike.coe.{max (v + 1) (w + 1), v + 1, w + 1} (decl-022595.{u, v, w} M) g) x)\n    (HSMul.hSMul.{max u v, w, w} (MonoidAlgebra.single.{u, v} g 1) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022595"
+      ],
+      "structural_type_hash": "146714905",
+      "temporary_id": "decl-022606"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {G : Type v} [inst_1 : Group.{v} G] (M : Type w) [inst_2 : AddCommGroup.{w} M]\n  [inst_3 : Module.{u, w} k M] [inst_4 : Module.{max v u, w} (MonoidAlgebra.{u, v} k G) M]\n  [inst_5 : IsScalarTower.{u, max v u, w} k (MonoidAlgebra.{u, v} k G) M],\n  Eq.{max (max (u + 1) (v + 1)) (w + 1)} (Representation.asAlgebraHom.{u, v, w} (decl-022595.{u, v, w} M))\n    (Algebra.lsmul.{u, max u v, u, w} k k M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022595"
+      ],
+      "structural_type_hash": "3831084017",
+      "temporary_id": "decl-022607"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {R : Type u_1} \u2192\n      [inst_1 : Ring.{u_1} R] \u2192\n        {M : Type w} \u2192\n          [inst_2 : AddCommGroup.{w} M] \u2192\n            [inst_3 : Module.{u, w} k M] \u2192\n              [inst_4 : Module.{u_1, w} R M] \u2192\n                {N : Type w'} \u2192\n                  [inst_5 : AddCommGroup.{w'} N] \u2192\n                    [inst_6 : Module.{u, w'} k N] \u2192\n                      (e : LinearEquiv.{u, u, w, w'} (RingHom.id.{u} k) M N) \u2192\n                        LinearEquiv.{u_1, u_1, w, w'} (RingHom.id.{u_1} R) M N",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024310"
+      ],
+      "structural_type_hash": "344220566",
+      "temporary_id": "decl-024304"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {R : Type u_1} \u2192\n      [inst_1 : Ring.{u_1} R] \u2192\n        {M : Type w} \u2192\n          [inst_2 : AddCommGroup.{w} M] \u2192\n            [inst_3 : Module.{u, w} k M] \u2192\n              [Module.{u_1, w} R M] \u2192\n                {N : Type w'} \u2192\n                  [inst_5 : AddCommGroup.{w'} N] \u2192\n                    [inst_6 : Module.{u, w'} k N] \u2192\n                      LinearEquiv.{u, u, w, w'} (RingHom.id.{u} k) M N \u2192 Module.{u_1, w'} R N",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2880465676",
+      "temporary_id": "decl-024310"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {R : Type u_1} [inst_1 : Ring.{u_1} R] [inst_2 : Algebra.{u, u_1} k R]\n  {M : Type w} [inst_3 : AddCommGroup.{w} M] [inst_4 : Module.{u, w} k M] [inst_5 : Module.{u_1, w} R M]\n  [IsScalarTower.{u, u_1, w} k R M] {N : Type w'} [inst_7 : AddCommGroup.{w'} N] [inst_8 : Module.{u, w'} k N]\n  (e : LinearEquiv.{u, u, w, w'} (RingHom.id.{u} k) M N), IsScalarTower.{u, u_1, w'} k R N",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024310"
+      ],
+      "structural_type_hash": "2435797116",
+      "temporary_id": "decl-024318"
+    }
+  ],
+  "module_temporary_id": "module-0789",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

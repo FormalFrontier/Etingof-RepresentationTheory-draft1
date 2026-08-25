@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0126",
+  "associations": [
+    {
+      "association_id": "association:e2336891d4328cd6020d",
+      "role": "primary",
+      "rationale": "This iff gives the first stated characterization of injectivity by splitting every injection out of I."
+    },
+    {
+      "association_id": "association:da1cf97873a053fabecf",
+      "role": "primary",
+      "rationale": "This iff gives the third stated exact-sequence characterization of injectivity."
+    }
+  ]
+}

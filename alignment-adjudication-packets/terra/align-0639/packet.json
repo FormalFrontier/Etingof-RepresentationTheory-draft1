@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3fb0b8a81433ac6d4c50",
+      "declaration": "Etingof.Problem3_3_3.finite_iso_std_pow",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/142/claim_coverage/claims/14/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (d : Nat) [NeZero.{0} d] (V : Type u_2) [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{u_1, u_2} k V] [inst_4 : Module.{u_1, u_2} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) V]\n  [IsScalarTower.{u_1, u_1, u_2} k (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) V] [FiniteDimensional.{u_1, u_2} k V],\n  Exists.{1} fun n =>\n    Nonempty.{max (u_1 + 1) (u_2 + 1)}\n      (LinearEquiv.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k)) V (Fin n \u2192 Fin d \u2192 k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_3_3"
+    },
+    {
+      "association_id": "association:ea2a17b905f1adb9737f",
+      "declaration": "Etingof.Problem3_3_3.simpleModule_iso_std",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/142/claim_coverage/claims/14/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (d : Nat) [NeZero.{0} d] (V : Type u_2) [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{u_1, u_2} k V] [inst_4 : Module.{u_1, u_2} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) V]\n  [IsScalarTower.{u_1, u_1, u_2} k (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) V] [FiniteDimensional.{u_1, u_2} k V]\n  [IsSimpleModule.{u_1, u_2} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) V],\n  Nonempty.{max (u_1 + 1) (u_2 + 1)}\n    (LinearEquiv.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k)) V (Fin d \u2192 k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_3_3"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.3.3",
+  "packet_id": "align-0639",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0639"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.3.3:claim-15",
+  "source_text": "For v in E_11 V, the span S(v) is a subrepresentation isomorphic to k^d and contains v."
+}

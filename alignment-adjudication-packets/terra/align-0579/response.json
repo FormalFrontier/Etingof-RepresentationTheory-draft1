@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0579",
+  "associations": [
+    {
+      "association_id": "association:2ff49912f8e325dab8ab",
+      "role": "supporting",
+      "rationale": "The type states that the isomorphism maps f to op(f(1)), but it does not itself state the inverse formula, so it covers only the forward component of the complete claim."
+    },
+    {
+      "association_id": "association:bf52af939568de8e907b",
+      "role": "supporting",
+      "rationale": "The type states that the inverse sends op(a) to right multiplication by a, but it does not itself state the forward formula, so it covers only the inverse component of the complete claim."
+    }
+  ]
+}

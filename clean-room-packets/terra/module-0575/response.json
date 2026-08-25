@@ -1,0 +1,10 @@
+{
+  "module_name": "Categories",
+  "declarations": [
+    {
+      "temporary_id": "decl-001922",
+      "new_name": "ParameterizedType",
+      "docstring": "A type parameterized by two categories."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "module_name": "IndexedTarget.Operations",
+  "declarations": [
+    {"temporary_id":"decl-005683","new_name":"Target","docstring":"A family of types indexed by a natural number."},
+    {"temporary_id":"decl-005684","new_name":"indexedElement","docstring":"An element of the indexed target associated with a finite index."},
+    {"temporary_id":"decl-005686","new_name":"indexedElement_mul_companion_eq_one","docstring":"The product of the indexed element and its displayed companion is one."},
+    {"temporary_id":"decl-005687","new_name":"companionElement","docstring":"A second indexed element of the target type."},
+    {"temporary_id":"decl-005689","new_name":"complexValue","docstring":"Assigns a complex number to an integral exponent and a target element."},
+    {"temporary_id":"decl-005691","new_name":"complexValue_add_apply_mul","docstring":"Evaluating the displayed product at a summed exponent equals a complex scalar times another evaluation."},
+    {"temporary_id":"decl-005692","new_name":"integralExponentElement","docstring":"Produces a target element from an integral exponent and a complex number."},
+    {"temporary_id":"decl-005694","new_name":"integralExponentElement_mul","docstring":"The product of two displayed exponent elements combines their exponents by addition and their complex inputs by multiplication."},
+    {"temporary_id":"decl-005695","new_name":"integralExponentElement_one_pow","docstring":"Raising the exponent element with complex input one to a natural power scales its exponent."},
+    {"temporary_id":"decl-005696","new_name":"prod_integralExponentElement_one","docstring":"A finite product of displayed exponent elements with complex input one equals the element at the summed exponent."},
+    {"temporary_id":"decl-005697","new_name":"integralExponentElement_zero_one","docstring":"The exponent element at zero with complex input one is one."},
+    {"temporary_id":"decl-015406","new_name":"partitionPermutation_eq_complexValue","docstring":"Equates the displayed partition-and-permutation expression with an application of the complex-valued function."},
+    {"temporary_id":"decl-015407","new_name":"complexValue_eq_signed_coeff","docstring":"Equates a displayed complex-valued function application with a signed multivariate-polynomial coefficient."},
+    {"temporary_id":"decl-017499","new_name":"indexedPolynomial","docstring":"A complex multivariate polynomial for each natural-number index."},
+    {"temporary_id":"decl-017501","new_name":"indexedPolynomial_eq_sign_smul","docstring":"The indexed polynomial is a scalar multiple, by the displayed permutation sign, of another polynomial."},
+    {"temporary_id":"decl-017758","new_name":"Auxiliary.statement017758","docstring":"An auxiliary statement whose displayed formal type is unavailable."},
+    {"temporary_id":"decl-018033","new_name":"complexValue_polynomialMap_eq_coeff","docstring":"Applying the complex-valued function after the displayed polynomial map equals the corresponding polynomial coefficient."},
+    {"temporary_id":"decl-018972","new_name":"natExponentToInt","docstring":"An additive monoid homomorphism from natural-valued to integer-valued finitely supported functions."},
+    {"temporary_id":"decl-018974","new_name":"natExponentToInt_apply","docstring":"The exponent homomorphism acts pointwise by casting each natural value to an integer."},
+    {"temporary_id":"decl-018975","new_name":"natExponentToInt_injective","docstring":"The displayed exponent homomorphism is injective."},
+    {"temporary_id":"decl-019668","new_name":"indexedTargetElement","docstring":"A target element for each natural-number index."},
+    {"temporary_id":"decl-021637","new_name":"integralExponentElement_eq_prod_indexedElement","docstring":"The displayed exponent element equals an iterated finite product of indexed elements."},
+    {"temporary_id":"decl-022783","new_name":"mappedExponent_eq_sum","docstring":"The displayed mapped exponent equals a finite sum of singleton finitely supported functions weighted by upper-index cardinalities."},
+    {"temporary_id":"decl-022786","new_name":"integralExponentElement_mul_indexedTargetElement","docstring":"Multiplying the displayed exponent element by the indexed target element equals the image of the indexed polynomial under the displayed map."},
+    {"temporary_id":"decl-023150","new_name":"Auxiliary.statement023150","docstring":"An auxiliary statement whose displayed formal type is unavailable."},
+    {"temporary_id":"decl-024143","new_name":"polynomialToTarget","docstring":"A ring homomorphism from complex multivariate polynomials to the indexed target."},
+    {"temporary_id":"decl-024144","new_name":"polynomialToTarget_X","docstring":"The ring homomorphism sends a polynomial variable to the corresponding indexed element."},
+    {"temporary_id":"decl-024145","new_name":"polynomialToTarget_injective","docstring":"The displayed ring homomorphism is injective."}
+  ]
+}

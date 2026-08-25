@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0795",
+  "associations": [
+    {
+      "association_id": "association:87b6defc1136ea851f33",
+      "rationale": "The formal type establishes connectivity for a general McKay graph, but it does not identify finite SU(2) group families with particular affine ADE diagrams.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ba0860c5d6399b925182",
+      "rationale": "The formal type supplies the dimension-vector Cartan equation, a classification input, but contains no family-by-family group-to-diagram identification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:98d4c30a53089cc5a0e5",
+      "rationale": "The formal type says the McKay adjacency is some affine Dynkin diagram under size and nontriviality hypotheses, but does not match every finite SU(2) group family to its ADE type.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:719f33b4981e249e5e98",
+      "rationale": "The formal type proves symmetry of multiplicities, which supports an undirected diagram interpretation but not the requested family classification.",
+      "role": "supporting"
+    }
+  ]
+}

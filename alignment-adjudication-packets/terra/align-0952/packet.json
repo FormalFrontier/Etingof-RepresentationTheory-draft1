@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:817353af068a32537752",
+      "declaration": "LieAlgebra.SpecialLinear.sl",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/82/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Lie.Classical"
+    },
+    {
+      "association_id": "association:abfff579bb90b1f8e2c5",
+      "declaration": "LieAlgebra.SpecialLinear.sl_bracket",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/82/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Lie.Classical"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_concrete_Lie_examples",
+  "packet_id": "align-0952",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0952"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:af24ca548b8ec41bd072",
+  "source_text": "sl(n) is the Lie algebra of trace-zero n by n matrices."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Example5.1.3",
+    "kind": "example",
+    "title": "Types of irreducible representations of Z/nZ, S_3, S_4, A_5, Q_8",
+    "node_id": "chapter-05/section-5-1",
+    "order": 247,
+    "slug": "example5-1-3",
+    "span": {
+      "start": {
+        "page": "94",
+        "line": 5
+      },
+      "end": {
+        "page": "94",
+        "line": 6
+      }
+    },
+    "source_sha256": "d9b5e496950d57ade8149add6eacac23b6278247bcd0acedb8df018bdcfff95f",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Example513",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0357",
+  "associations": [
+    {
+      "association_id": "association:8b4255b92bd51eb6ba78",
+      "role": "supporting",
+      "rationale": "The formal type exposes only a proposition on a module; its body does not display nonzeroness or the classification of subrepresentations as zero or top."
+    }
+  ]
+}

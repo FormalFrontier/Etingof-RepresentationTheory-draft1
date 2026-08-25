@@ -1,0 +1,155 @@
+{
+  "module_name": "FiniteFieldMatrixCharacterFormulas",
+  "declarations": [
+    {
+      "temporary_id": "decl-004377",
+      "new_name": "auxCharacterExtension",
+      "docstring": "The complex-valued auxiliary function on the finite-field matrix group associated with two unit characters."
+    },
+    {
+      "temporary_id": "decl-004379",
+      "new_name": "auxCharacterExtension_conj_mem",
+      "docstring": "The auxiliary character extension is invariant under conjugation by an element of the distinguished subtype."
+    },
+    {
+      "temporary_id": "decl-004387",
+      "new_name": "auxCharacterExtension_conj_parameterElement",
+      "docstring": "Evaluates the auxiliary character extension after conjugation by the group element associated with an optional field parameter."
+    },
+    {
+      "temporary_id": "decl-004390",
+      "new_name": "auxCharacter_conj",
+      "docstring": "The auxiliary character on the distinguished subtype is invariant under internal conjugation."
+    },
+    {
+      "temporary_id": "decl-004393",
+      "new_name": "auxCharacter_one_one",
+      "docstring": "The auxiliary character attached to two trivial unit characters has constant value one."
+    },
+    {
+      "temporary_id": "decl-004394",
+      "new_name": "matrixGroupEquivSubtypeProd",
+      "docstring": "An equivalence between the finite-field matrix group and the product of the distinguished subtype with an optional field parameter."
+    },
+    {
+      "temporary_id": "decl-004397",
+      "new_name": "subtypeEquivUnitsProd",
+      "docstring": "An equivalence from the distinguished subtype to two unit parameters and one field parameter."
+    },
+    {
+      "temporary_id": "decl-004408",
+      "new_name": "card_distinguishedSubtype",
+      "docstring": "The distinguished subtype has cardinality equal to the field cardinality times the square of one less than it."
+    },
+    {
+      "temporary_id": "decl-004423",
+      "new_name": "character_auxFamily_one",
+      "docstring": "Identifies the character of the auxiliary representation at the trivial unit character with a specified complex-valued function."
+    },
+    {
+      "temporary_id": "decl-004424",
+      "new_name": "character_auxFamily_eq_sub",
+      "docstring": "Expresses the character of the one-parameter auxiliary representation as a difference of two representation characters."
+    },
+    {
+      "temporary_id": "decl-004425",
+      "new_name": "character_auxDeterminantFamily",
+      "docstring": "Evaluates an auxiliary representation character by applying the unit character to the matrix determinant."
+    },
+    {
+      "temporary_id": "decl-004429",
+      "new_name": "character_auxTwoParameter_rightOne",
+      "docstring": "Identifies the character of the two-parameter auxiliary representation with trivial second parameter."
+    },
+    {
+      "temporary_id": "decl-004520",
+      "new_name": "fixedParameter_none_iff",
+      "docstring": "The `none` optional parameter is fixed exactly when the entry at indices (1, 0) vanishes."
+    },
+    {
+      "temporary_id": "decl-004521",
+      "new_name": "fixedParameter_some_iff",
+      "docstring": "A field-valued optional parameter is fixed exactly when the displayed quadratic expression in the matrix entries vanishes."
+    },
+    {
+      "temporary_id": "decl-004527",
+      "new_name": "parameterElement_mul_entries",
+      "docstring": "Computes the entries at indices (1, 0) and (1, 1) after left multiplication by the element associated with a field parameter."
+    },
+    {
+      "temporary_id": "decl-004563",
+      "new_name": "finrank_auxFamily_one",
+      "docstring": "The complex dimension of the auxiliary representation at the trivial unit character equals the field cardinality."
+    },
+    {
+      "temporary_id": "decl-004673",
+      "new_name": "character_auxTwoParameter_eq_sum",
+      "docstring": "Writes the two-parameter auxiliary representation character as a sum over optional field parameters."
+    },
+    {
+      "temporary_id": "decl-004677",
+      "new_name": "parameterInvolution",
+      "docstring": "The auxiliary self-map of the optional finite-field parameter space."
+    },
+    {
+      "temporary_id": "decl-004681",
+      "new_name": "optionFieldEquiv",
+      "docstring": "An equivalence of the type of optional field parameters."
+    },
+    {
+      "temporary_id": "decl-004682",
+      "new_name": "parameterInvolution_involutive",
+      "docstring": "The auxiliary self-map on optional field parameters is involutive."
+    },
+    {
+      "temporary_id": "decl-004683",
+      "new_name": "functionModelLinearEquiv",
+      "docstring": "A complex-linear equivalence from the auxiliary subtype to functions on optional field parameters."
+    },
+    {
+      "temporary_id": "decl-004684",
+      "new_name": "functionModelLinearEquiv_symm_apply",
+      "docstring": "The value underlying the inverse function-model equivalence equals the specified function."
+    },
+    {
+      "temporary_id": "decl-004685",
+      "new_name": "functionModelLinearMap",
+      "docstring": "The complex-linear map from the auxiliary subtype to functions on optional field parameters."
+    },
+    {
+      "temporary_id": "decl-004689",
+      "new_name": "functionModelLinearMap_bijective",
+      "docstring": "The function-model linear map is bijective."
+    },
+    {
+      "temporary_id": "decl-004690",
+      "new_name": "parameterFunction",
+      "docstring": "A complex-valued function of three field arguments and one optional field argument."
+    },
+    {
+      "temporary_id": "decl-004694",
+      "new_name": "parameterFunction_involution",
+      "docstring": "Applying the parameter involution while exchanging the first and third field arguments preserves the parameter function."
+    },
+    {
+      "temporary_id": "decl-004699",
+      "new_name": "sum_conjugates_auxCharacterExtension",
+      "docstring": "The sum of all conjugates of the auxiliary character extension equals the subtype cardinality times the associated representation character."
+    },
+    {
+      "temporary_id": "decl-004707",
+      "new_name": "sum_parameterFunction_swap",
+      "docstring": "The sum of the parameter function is unchanged when the first and third field arguments are exchanged."
+    },
+    {
+      "temporary_id": "decl-032888",
+      "new_name": "galoisFieldDecidableEq",
+      "docstring": "A decidable equality instance for the finite Galois field."
+    },
+    {
+      "temporary_id": "decl-032893",
+      "new_name": "propDecidable",
+      "docstring": "A decidability choice for arbitrary propositions."
+    }
+  ]
+}

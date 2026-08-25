@@ -1,0 +1,35 @@
+{
+  "packet_id": "align-1059",
+  "associations": [
+    {
+      "association_id": "association:44024744f82a7b1523f1",
+      "rationale": "It gives the character-table entries, one component of the combined classes, rows, quotient, and deleted-representation claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:277bc7d1b33285469481",
+      "rationale": "It gives the class-size data, one component of the combined claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:53ef2439c459b9b8e132",
+      "rationale": "It establishes completeness of the indexed irreducibles, one component of the combined claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:972d94fb23d54a103459",
+      "rationale": "The type proves the four indexed representations are pairwise nonisomorphic; this supports the four-row classification but does not itself state the displayed classes, characters, quotient, or deleted representation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7c00149a75dec913dc11",
+      "rationale": "The type states that an opaque map qHom is surjective with kernel V4, but its displayed type does not identify the codomain as Z/3 or state the quotient isomorphism.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4a4b7b22c1226f09bdfe",
+      "rationale": "It establishes irreducibility of the indexed rows, one component of the combined claim.",
+      "role": "supporting"
+    }
+  ]
+}

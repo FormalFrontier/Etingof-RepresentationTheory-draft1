@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9343187829dc0195e484",
+      "declaration": "Etingof.Problem2_13_1.irrational_arccos_third_div_pi",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/111/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_13_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.13.1",
+  "packet_id": "align-1223",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1223"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter2/Problem2.13.1",
+  "source_text": "\n**Problem 2.13.1.** It is known that if $A$ and $B$ are two polygons of the same area, then $A$ can be cut by finitely many straight cuts into pieces from which one can make $B$ (check it \u2014 it is fun!). David Hilbert asked in 1900 whether it is true for polyhedra in three dimensions. In particular, is it true for a cube and a regular tetrahedron of the same volume?\n\nThe answer is \"no\", as was found by Dehn in 1901. The proof is very beautiful. Namely, to any polyhedron $A$, let us attach its \"Dehn invariant\" $D(A)$ in $V = \\mathbb{R} \\otimes (\\mathbb{R}/\\mathbb{Q})$ (the tensor product of $\\mathbb{Q}$-vector spaces). Namely,\n\n$$D(A) = \\sum_a l(a) \\otimes \\frac{\\beta(a)}{\\pi},$$\n\nwhere $a$ runs over edges of $A$ and $l(a), \\beta(a)$ are the length of $a$ and the dihedral angle at $a$.\n(a) Show that if you cut $A$ into $B$ and $C$ by a straight cut, then $D(A) = D(B) + D(C)$.\n\n(b) Show that $\\alpha = \\arccos(1/3)/\\pi$ is not a rational number.\n\nHint: Assume that $\\alpha = 2m/n$, for integers $m, n$. Deduce that roots of the equation $x + x^{-1} = 2/3$ are roots of unity of degree $n$. Then show that $x^k + x^{-k}$ has denominator $3^k$ and get a contradiction.\n\n(c) Using (a) and (b), show that the answer to Hilbert's question is negative. (Compute the Dehn invariant of the regular tetrahedron and the cube.)\n\n"
+}

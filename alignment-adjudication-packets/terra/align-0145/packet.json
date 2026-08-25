@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:60e477d3a2d48685ac24",
+      "declaration": "Etingof.peterWeylMap_bijective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/373/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [inst_2 : CharZero.{0} k],\n  Function.Bijective.{1, 1} (DFunLike.coe.{1, 1, 1} (Etingof.peterWeylMap n k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_23_2_PeterWeyl"
+    },
+    {
+      "association_id": "association:facb55f8600ad4a84f8e",
+      "declaration": "Etingof.peterWeylMap_equivariant",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/373/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [inst_2 : CharZero.{0} k]\n  (g h : Matrix.GeneralLinearGroup.{0, 0} (Fin n) k)\n  (x :\n    DirectSum.{0, 0} (Etingof.DominantWeight n) fun lam =>\n      TensorProduct.{0, 0, 0} k (Etingof.AlgIrrepGLDual.{0} n lam k) (Etingof.AlgIrrepGL.{0} n lam k)),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (Etingof.peterWeylMap n k)\n      (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (Etingof.peterWeylRHS.{0} n k) (Prod.mk.{0, 0} g h)) x))\n    (DFunLike.coe.{1, 1, 1}\n      (DFunLike.coe.{1, 1, 1} (Etingof.LocalizationGLAction.localBiRep.{0} k n) (Prod.mk.{0, 0} g h))\n      (DFunLike.coe.{1, 1, 1} (Etingof.peterWeylMap n k) x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_23_2_PeterWeyl"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_proof_of_Theorem5.23.2",
+  "packet_id": "align-0145",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0145"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2d53d4225730c492c1d3",
+  "source_text": "The Peter-Weyl matrix-coefficient map is injective, surjective, and equivariant."
+}

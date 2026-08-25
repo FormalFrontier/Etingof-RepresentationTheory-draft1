@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1158",
+  "associations": [
+    {
+      "association_id": "association:8ca88d53a1583833919e",
+      "role": "supporting",
+      "rationale": "The type gives an isomorphism from the (2,1,1) Specht module to an opaque rotRep name, without directly stating the book's C³₊ orientation."
+    },
+    {
+      "association_id": "association:0c5b7cf270bf01d87a03",
+      "role": "supporting",
+      "rationale": "The type gives an isomorphism from the (3,1) Specht module to an opaque stdRep name, without directly stating the book's C³₋ orientation."
+    }
+  ]
+}

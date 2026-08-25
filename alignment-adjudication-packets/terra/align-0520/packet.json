@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:13686b2499c7327f0352",
+      "declaration": "Etingof.TensorProductOverRing",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/106/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192\n  [inst : Ring.{u_1} A] \u2192\n    (V : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [Module.{u_1, u_2} (MulOpposite.{u_1} A) V] \u2192\n          (W : Type u_3) \u2192 [inst_3 : AddCommGroup.{u_3} W] \u2192 [Module.{u_1, u_3} A W] \u2192 Type (max (max u_2 u_3) u_3 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_11_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.11.6",
+  "packet_id": "align-0520",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0520"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.11.6:claim-02",
+  "source_text": "For a right B-module V and left B-module W, V \u2297_B W is the balanced tensor product from Remark 2.11.4."
+}

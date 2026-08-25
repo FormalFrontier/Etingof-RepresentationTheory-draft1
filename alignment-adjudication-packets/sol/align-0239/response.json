@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0239",
+  "associations": [
+    {
+      "association_id": "association:4ebe553956903e94647b",
+      "role": "supporting",
+      "rationale": "forwardRep constructs a quiver representation from a path-algebra module, but does not state the claimed equivalence."
+    },
+    {
+      "association_id": "association:7cdc7bb859704ac5b219",
+      "role": "primary",
+      "rationale": "isoClassEquiv directly gives an equivalence between path-algebra module isomorphism classes and opposite-quiver representation isomorphism classes."
+    },
+    {
+      "association_id": "association:8781edc551c6b6b503d6",
+      "role": "supporting",
+      "rationale": "moduleRoundTrip is a round-trip linear equivalence used to support the module-to-representation correspondence."
+    },
+    {
+      "association_id": "association:d273f5fe714e3caac473",
+      "role": "supporting",
+      "rationale": "repRoundTrip is a round-trip equivalence for a constructed representation rather than the correspondence statement itself."
+    },
+    {
+      "association_id": "association:d2a07369987a1a532fbb",
+      "role": "supporting",
+      "rationale": "reverseModule constructs the module associated with a representation, serving as a component of the equivalence."
+    }
+  ]
+}

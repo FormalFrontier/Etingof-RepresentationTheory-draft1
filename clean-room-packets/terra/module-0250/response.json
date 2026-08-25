@@ -1,0 +1,55 @@
+{
+  "module_name": "ComplexUnitCharacters",
+  "declarations": [
+    {
+      "temporary_id": "decl-000474",
+      "new_name": "natCard_complexUnitCharacters_eq",
+      "docstring": "For a finite commutative group, the number of homomorphisms into the units of the complex numbers equals the number of group elements."
+    },
+    {
+      "temporary_id": "decl-000475",
+      "new_name": "fdRepOfComplexUnitCharacter",
+      "docstring": "Constructs a finite-dimensional complex representation from a homomorphism into the units of the complex numbers."
+    },
+    {
+      "temporary_id": "decl-000477",
+      "new_name": "character_fdRepOfComplexUnitCharacter",
+      "docstring": "The character of the finite-dimensional representation associated to a complex unit character is the value of that character."
+    },
+    {
+      "temporary_id": "decl-000478",
+      "new_name": "finrank_fdRepOfComplexUnitCharacter",
+      "docstring": "The finite-dimensional representation associated to a complex unit character has rank one."
+    },
+    {
+      "temporary_id": "decl-000479",
+      "new_name": "fdRepOfComplexUnitCharacter_iso_iff",
+      "docstring": "Two finite-dimensional representations associated to complex unit characters are isomorphic exactly when the characters are equal."
+    },
+    {
+      "temporary_id": "decl-000480",
+      "new_name": "simple_fdRepOfComplexUnitCharacter",
+      "docstring": "The finite-dimensional representation associated to a complex unit character is simple."
+    },
+    {
+      "temporary_id": "decl-000481",
+      "new_name": "representationOfComplexUnitCharacter",
+      "docstring": "Constructs a representation on the complex numbers from a homomorphism into the complex units."
+    },
+    {
+      "temporary_id": "decl-000485",
+      "new_name": "representationOfComplexUnitCharacter_apply",
+      "docstring": "The representation associated to a complex unit character acts by multiplication by the character value."
+    },
+    {
+      "temporary_id": "decl-000486",
+      "new_name": "isSimpleModule_representationOfComplexUnitCharacter",
+      "docstring": "The module underlying the representation associated to a complex unit character is simple."
+    },
+    {
+      "temporary_id": "decl-000487",
+      "new_name": "simple_fdRep_iso_fdRepOfComplexUnitCharacter",
+      "docstring": "Every simple finite-dimensional complex representation of a finite commutative group is isomorphic to one associated to a complex unit character."
+    }
+  ]
+}

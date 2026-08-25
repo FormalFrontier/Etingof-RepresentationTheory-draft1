@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0760",
+  "associations": [
+    {
+      "association_id": "association:37bce11acff5b693e2e8",
+      "role": "primary",
+      "rationale": "This directly states an actual representation isomorphism between the restricted Specht module and the direct-sum representation indexed by removing a square."
+    }
+  ]
+}

@@ -1,0 +1,340 @@
+{
+  "module_name": "GeneralLinearGroup.WeightCharacter",
+  "declarations": [
+    {
+      "temporary_id": "decl-015559",
+      "new_name": "schurRepresentation",
+      "docstring": "The finite-dimensional general linear group representation associated with a tuple of nonnegative weights."
+    },
+    {
+      "temporary_id": "decl-015576",
+      "new_name": "schurSubmodule",
+      "docstring": "The distinguished subspace of the relevant tensor power determined by a weight tuple."
+    },
+    {
+      "temporary_id": "decl-016591",
+      "new_name": "weightCharacter_schurRepresentation_eq",
+      "docstring": "The weight character of the representation attached to a weakly decreasing tuple is its corresponding symmetric polynomial."
+    },
+    {
+      "temporary_id": "decl-016592",
+      "new_name": "finrank_schurRepresentation_eq",
+      "docstring": "The dimension of the representation indexed by a weakly decreasing tuple is given by its rational dimension expression."
+    },
+    {
+      "temporary_id": "decl-017050",
+      "new_name": "partitionSymmetrizer",
+      "docstring": "The group-algebra symmetrizer associated with a partition."
+    },
+    {
+      "temporary_id": "decl-017052",
+      "new_name": "partitionSymmetrizer_eq_map_int",
+      "docstring": "A partition symmetrizer over a commutative ring is obtained from its integral form by scalar extension."
+    },
+    {
+      "temporary_id": "decl-017055",
+      "new_name": "partitionSymmetrizer_sq_smul",
+      "docstring": "The square of a partition symmetrizer is a scalar multiple of that symmetrizer."
+    },
+    {
+      "temporary_id": "decl-017056",
+      "new_name": "ne_zero_of_partitionSymmetrizer_sq_eq_smul",
+      "docstring": "A rational scalar expressing the square of a partition symmetrizer as a multiple of itself is nonzero."
+    },
+    {
+      "temporary_id": "decl-017060",
+      "new_name": "integralPartitionSymmetrizer",
+      "docstring": "The integral group-algebra symmetrizer determined by a partition."
+    },
+    {
+      "temporary_id": "decl-017062",
+      "new_name": "integralPartitionSymmetrizer_coeff_one",
+      "docstring": "The identity permutation has coefficient one in the integral partition symmetrizer."
+    },
+    {
+      "temporary_id": "decl-017066",
+      "new_name": "complexPartitionSymmetrizer_eq_map_int",
+      "docstring": "The complex symmetrizer is the scalar extension of the integral partition symmetrizer."
+    },
+    {
+      "temporary_id": "decl-017208",
+      "new_name": "Auxiliary.det_ne_zero",
+      "docstring": "The determinant of the specified auxiliary matrix is nonzero."
+    },
+    {
+      "temporary_id": "decl-017875",
+      "new_name": "Auxiliary.statement017875",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-018377",
+      "new_name": "diagonalUnit",
+      "docstring": "The invertible diagonal matrix whose selected coordinate is a prescribed unit and whose other coordinates are one."
+    },
+    {
+      "temporary_id": "decl-018381",
+      "new_name": "diagonalUnit_comm",
+      "docstring": "Diagonal units supported at arbitrary coordinates commute."
+    },
+    {
+      "temporary_id": "decl-018734",
+      "new_name": "Auxiliary.statement018734",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-018966",
+      "new_name": "exists_unit_pow_ne_pow",
+      "docstring": "Distinct natural exponents can be separated by evaluating powers of a unit in an algebraically closed field."
+    },
+    {
+      "temporary_id": "decl-018968",
+      "new_name": "exists_unit_pow_ne_one",
+      "docstring": "For every positive exponent, an algebraically closed field has a unit whose indicated power is not one."
+    },
+    {
+      "temporary_id": "decl-019454",
+      "new_name": "finrank_schurRepresentation_eq_eval_one_weightCharacter",
+      "docstring": "The dimension of a representation associated with a weakly decreasing tuple equals its weight character evaluated at one."
+    },
+    {
+      "temporary_id": "decl-019511",
+      "new_name": "weightCharacter",
+      "docstring": "The multivariable polynomial recording weight-space dimensions of a finite-dimensional general linear group representation."
+    },
+    {
+      "temporary_id": "decl-019521",
+      "new_name": "coeff_weightCharacter",
+      "docstring": "Each coefficient of the weight character is the dimension of the corresponding weight space."
+    },
+    {
+      "temporary_id": "decl-019536",
+      "new_name": "schurRepresentation_weightCharacter",
+      "docstring": "A weakly decreasing weight tuple gives a representation whose weight character is the associated symmetric polynomial."
+    },
+    {
+      "temporary_id": "decl-019537",
+      "new_name": "weightCharacter_schurRepresentation_eq_symmetrizerSum",
+      "docstring": "The character of the representation attached to a decreasing tuple has a power-sum expansion obtained from its partition symmetrizer."
+    },
+    {
+      "temporary_id": "decl-019538",
+      "new_name": "weightCharacter_mul_det_eq_alternantDet",
+      "docstring": "Multiplying the relevant weight character by the base alternant determinant yields the shifted alternant determinant."
+    },
+    {
+      "temporary_id": "decl-019730",
+      "new_name": "cycleType",
+      "docstring": "The partition of a finite cardinality given by the cycle lengths of a permutation."
+    },
+    {
+      "temporary_id": "decl-019829",
+      "new_name": "tensorPowerRepresentation",
+      "docstring": "The natural general linear group action on a tensor power of its defining module."
+    },
+    {
+      "temporary_id": "decl-019832",
+      "new_name": "tensorPowerRepresentation_apply_basis",
+      "docstring": "A coordinate diagonal unit acts on a pure-tensor basis vector by the corresponding coordinate-count power."
+    },
+    {
+      "temporary_id": "decl-019833",
+      "new_name": "isSemisimple_tensorPowerRepresentation_diagonalUnit",
+      "docstring": "The endomorphism induced on a tensor power by a coordinate diagonal unit is semisimple."
+    },
+    {
+      "temporary_id": "decl-019839",
+      "new_name": "schurSubmodule_invariant",
+      "docstring": "The distinguished tensor-power subspace is stable under the natural general linear group action."
+    },
+    {
+      "temporary_id": "decl-019843",
+      "new_name": "tensorPowerRepresentation_comp_symmetrizerEndomorphism",
+      "docstring": "The tensor-power action commutes with the endomorphism defining the distinguished subspace."
+    },
+    {
+      "temporary_id": "decl-019844",
+      "new_name": "weightSpace",
+      "docstring": "The simultaneous weight space of a finite-dimensional general linear group representation at a tuple of exponents."
+    },
+    {
+      "temporary_id": "decl-019861",
+      "new_name": "finite_support_weightSpace",
+      "docstring": "Only finitely many exponent tuples have a nonzero weight space in a finite-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-019870",
+      "new_name": "weightSpace_le_maxGenEigenspace",
+      "docstring": "A weight space lies in the maximal generalized eigenspace for every coordinate diagonal action."
+    },
+    {
+      "temporary_id": "decl-022151",
+      "new_name": "permutationPowerSum_eq_cycleType",
+      "docstring": "The polynomial associated with a permutation is the power-sum polynomial indexed by its cycle type."
+    },
+    {
+      "temporary_id": "decl-022174",
+      "new_name": "prod_X_eq_monomial_count",
+      "docstring": "A product of variables indexed by a finite map is the monomial whose exponents count the fibers of that map."
+    },
+    {
+      "temporary_id": "decl-022632",
+      "new_name": "commute_rep_diagonalUnit",
+      "docstring": "The representation endomorphisms arising from any two coordinate diagonal units commute."
+    },
+    {
+      "temporary_id": "decl-022633",
+      "new_name": "repr_tensorPowerRepresentation_diagonalUnit",
+      "docstring": "In the pure-tensor basis, a coordinate diagonal action scales each coordinate by the size of the corresponding fiber."
+    },
+    {
+      "temporary_id": "decl-022893",
+      "new_name": "Auxiliary.eq_one_of_mem_both",
+      "docstring": "A permutation belonging to both specified auxiliary subsets must be the identity."
+    },
+    {
+      "temporary_id": "decl-022967",
+      "new_name": "schurSubmoduleRepresentation",
+      "docstring": "The general linear group representation obtained by restricting the tensor-power action to the distinguished subspace."
+    },
+    {
+      "temporary_id": "decl-022973",
+      "new_name": "schurSubmoduleAddCommGroup",
+      "docstring": "The additive commutative group structure inherited by the distinguished tensor-power subspace."
+    },
+    {
+      "temporary_id": "decl-022993",
+      "new_name": "finite_schurSubmodule",
+      "docstring": "The distinguished tensor-power subspace is finite-dimensional over the base field."
+    },
+    {
+      "temporary_id": "decl-023006",
+      "new_name": "isSemisimple_schurRepresentation_diagonalUnit",
+      "docstring": "Every coordinate diagonal unit induces a semisimple endomorphism on the representation associated with a weight tuple."
+    },
+    {
+      "temporary_id": "decl-023014",
+      "new_name": "finrank_weightSpace_schurRepresentation",
+      "docstring": "A weight-space dimension in the representation indexed by a decreasing tuple equals the matching coefficient of its symmetric polynomial."
+    },
+    {
+      "temporary_id": "decl-023040",
+      "new_name": "eval_one_schurPolynomial",
+      "docstring": "Evaluating the symmetric polynomial of a decreasing tuple at one gives its rational dimension expression."
+    },
+    {
+      "temporary_id": "decl-023204",
+      "new_name": "Auxiliary.statement023204",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-023572",
+      "new_name": "symmetrizer_powerSum_sum_eq_smul_schurPolynomial",
+      "docstring": "The symmetrizer-weighted sum of permutation power sums is a nonzero scalar multiple of the associated symmetric polynomial."
+    },
+    {
+      "temporary_id": "decl-023616",
+      "new_name": "permutationAction_mem_of_mem",
+      "docstring": "A submodule over the permutation-action algebra is closed under the action of each permutation."
+    },
+    {
+      "temporary_id": "decl-024090",
+      "new_name": "piTensorProductBasis",
+      "docstring": "The pure-tensor basis of a tensor power, indexed by functions between finite types."
+    },
+    {
+      "temporary_id": "decl-024092",
+      "new_name": "fiberCount",
+      "docstring": "The finitely supported multiplicity function counting how often each value occurs in a finite map."
+    },
+    {
+      "temporary_id": "decl-024123",
+      "new_name": "monoidAlgebraCoeFun",
+      "docstring": "A monoid-algebra element regarded as its coefficient function."
+    },
+    {
+      "temporary_id": "decl-024124",
+      "new_name": "permutationActionAlgebraRingOfFinite",
+      "docstring": "The permutation-action algebra of a finite module carries its induced ring structure."
+    },
+    {
+      "temporary_id": "decl-024301",
+      "new_name": "Auxiliary.statement024301",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024303",
+      "new_name": "Auxiliary.statement024303",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024490",
+      "new_name": "Auxiliary.partitionDataOfAntitone",
+      "docstring": "Auxiliary combinatorial data associated with a decreasing tuple and having the tuple's total size."
+    },
+    {
+      "temporary_id": "decl-024494",
+      "new_name": "partitionOfTuple",
+      "docstring": "The partition of the total sum canonically associated with a finite tuple of natural numbers."
+    },
+    {
+      "temporary_id": "decl-024523",
+      "new_name": "schurDimension",
+      "docstring": "The rational dimension expression attached to a tuple of nonnegative weights."
+    },
+    {
+      "temporary_id": "decl-024667",
+      "new_name": "symmetrizerEndomorphismMem",
+      "docstring": "The symmetrizer endomorphism bundled as an element of the permutation-action algebra."
+    },
+    {
+      "temporary_id": "decl-024669",
+      "new_name": "symmetrizerEndomorphismMem_val",
+      "docstring": "The underlying map of the bundled symmetrizer endomorphism is the original endomorphism."
+    },
+    {
+      "temporary_id": "decl-024670",
+      "new_name": "symmetrizerEndomorphism",
+      "docstring": "The tensor-power endomorphism induced by the partition symmetrizer of a weight tuple."
+    },
+    {
+      "temporary_id": "decl-024673",
+      "new_name": "symmetrizerEndomorphism_apply_of_mem",
+      "docstring": "When the symmetrizer squares to a scalar multiple of itself, its endomorphism acts by that scalar on the distinguished subspace."
+    },
+    {
+      "temporary_id": "decl-024676",
+      "new_name": "schurSubmodule_eq_range_symmetrizerEndomorphism_sq",
+      "docstring": "For a nonzero quasi-idempotence scalar, the distinguished subspace is the range of the squared symmetrizer endomorphism."
+    },
+    {
+      "temporary_id": "decl-024678",
+      "new_name": "Auxiliary.statement024678",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024679",
+      "new_name": "symmetrizerEndomorphism_sq",
+      "docstring": "The endomorphism induced by a quasi-idempotent partition symmetrizer satisfies the same quadratic relation."
+    },
+    {
+      "temporary_id": "decl-024681",
+      "new_name": "Auxiliary.statement024681",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024683",
+      "new_name": "Auxiliary.statement024683",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024685",
+      "new_name": "map_symmetrizerEndomorphism_tmul",
+      "docstring": "Under the given direct-sum tensor-product equivalence, the symmetrizer endomorphism acts on a pure tensor through its first factor."
+    },
+    {
+      "temporary_id": "decl-024686",
+      "new_name": "symmetrizer_character_sum",
+      "docstring": "The symmetrizer-weighted character sum is its quasi-idempotence scalar on the matching partition data and zero otherwise."
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "module_name": "GeneralLinear.AuxiliaryDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-019528",
+      "new_name": "auxiliaryValue_eq_of_linearEquiv",
+      "docstring": "The displayed auxiliary values agree when the associated representation modules are linearly equivalent."
+    },
+    {
+      "temporary_id": "decl-019865",
+      "new_name": "auxiliarySup_eq_top_of_surjective_equivariant",
+      "docstring": "A surjective equivariant linear map transfers the displayed auxiliary supremum-equals-top property to its target."
+    },
+    {
+      "temporary_id": "decl-019871",
+      "new_name": "auxiliarySup_eq_top_for_auxiliaryRepresentation",
+      "docstring": "The displayed auxiliary supremum for the auxiliary representation indexed by a natural-valued tuple is top."
+    },
+    {
+      "temporary_id": "decl-020963",
+      "new_name": "iso_of_auxiliaryConditions_and_finrank_eq",
+      "docstring": "Under the stated hypotheses, a representation is isomorphic to the displayed auxiliary representation when their auxiliary values and dimensions agree."
+    },
+    {
+      "temporary_id": "decl-023057",
+      "new_name": "Auxiliary.statement023057",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-023063",
+      "new_name": "Auxiliary.statement023063",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-023064",
+      "new_name": "summand_auxiliarySup_eq_top",
+      "docstring": "Every positive-multiplicity summand in the equivariant direct-sum decomposition has the displayed auxiliary supremum equal to top."
+    },
+    {
+      "temporary_id": "decl-023065",
+      "new_name": "summand_auxiliaryProperty",
+      "docstring": "Every positive-multiplicity summand in the equivariant direct-sum decomposition satisfies the specified auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-023066",
+      "new_name": "exists_injective_auxiliaryLabeling",
+      "docstring": "Pairwise nonisomorphic simple summands of the decomposition admit an injective labeling whose labels give their displayed auxiliary values."
+    },
+    {
+      "temporary_id": "decl-023067",
+      "new_name": "linearIndependent_auxiliaryValues_of_pairwise_nonisomorphic",
+      "docstring": "The displayed auxiliary values of pairwise nonisomorphic simple summands are linearly independent under the stated hypotheses."
+    },
+    {
+      "temporary_id": "decl-023068",
+      "new_name": "exists_injective_auxiliarySummandIndexing",
+      "docstring": "An equivariant decomposition into simple summands admits an injective assignment from the displayed index type to summands with the displayed auxiliary values."
+    },
+    {
+      "temporary_id": "decl-023162",
+      "new_name": "simpleModule_linearEquiv_directSummand",
+      "docstring": "A simple module embedded in a finite direct sum of simple modules is linearly equivalent to one of the summands."
+    },
+    {
+      "temporary_id": "decl-023194",
+      "new_name": "iso_auxiliaryRepresentation_of_auxiliaryValue_eq",
+      "docstring": "Under the stated hypotheses, a simple representation is isomorphic to the displayed auxiliary representation when their auxiliary values agree."
+    }
+  ]
+}

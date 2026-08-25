@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-1153",
+  "associations": [
+    {
+      "association_id": "association:95e4c4f85ad9a6e67ed4",
+      "role": "supporting",
+      "rationale": "The type gives only the cardinality of the opaque ComplementaryIndex type, not a family of representatives or the Frobenius-orbit isomorphism classification."
+    },
+    {
+      "association_id": "association:7de5de8371a9be9052d5",
+      "role": "supporting",
+      "rationale": "This is the pairwise-nonisomorphism condition for an already defined complementary family, so it supplies one component rather than the full stated classification."
+    },
+    {
+      "association_id": "association:f15250c11e9f1be430e8",
+      "role": "supporting",
+      "rationale": "The formal type establishes simplicity of each member of a predefined family, a constituent property rather than the source's orbit-and-representative assertion."
+    },
+    {
+      "association_id": "association:388b235f3f7e92d4b17c",
+      "role": "supporting",
+      "rationale": "The displayed iff gives the Frobenius-orbit criterion for isomorphism of two complementary-series representations, but not the source's canonical exhaustive representative family or its cardinality, so it supplies only constituent classification evidence."
+    },
+    {
+      "association_id": "association:04994ad5fde03c4b97e4",
+      "role": "supporting",
+      "rationale": "The displayed type gives an existing simple, pairwise-nonisomorphic family with the stated cardinality, but does not state representative-set exhaustiveness or canonicality for all complementary-series classes."
+    }
+  ]
+}

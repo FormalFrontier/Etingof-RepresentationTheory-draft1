@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.TensorProduct.MatrixProductEquivalence",
+  "declarations": [
+    {
+      "temporary_id": "decl-021724",
+      "new_name": "nonempty_tensorProduct_algEquiv_pi_matrix",
+      "docstring": "An algebra equivalence with a finite product of matrix algebras induces a nonempty scalar-extended algebra equivalence with the corresponding product."
+    }
+  ]
+}

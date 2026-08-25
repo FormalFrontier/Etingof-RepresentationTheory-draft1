@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0461",
+  "associations": [
+    {
+      "association_id": "association:721a38c104834249911d",
+      "role": "supporting",
+      "rationale": "The basis conclusion records spanning and linear independence of the matrix coefficients, but it does not state the averaging-projector or sum-of-squares proof asserted by the source."
+    },
+    {
+      "association_id": "association:5df002aaef8589721399",
+      "role": "supporting",
+      "rationale": "This declaration constructs the averaged linear map used in the proof, but its type alone states neither that it is a projector nor the orthogonality-and-spanning conclusion."
+    },
+    {
+      "association_id": "association:a8525ae24622a565e921",
+      "role": "supporting",
+      "rationale": "The theorem shows that an averaged linear map is invariant, a proof ingredient rather than the source claim about the projector, sum-of-squares formula, orthogonality, and spanning."
+    }
+  ]
+}

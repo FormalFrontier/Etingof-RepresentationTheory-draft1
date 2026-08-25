@@ -1,0 +1,15 @@
+{
+  "module_name": "QuiverVertexPredicates",
+  "declarations": [
+    {
+      "temporary_id": "decl-005302",
+      "new_name": "vertexProperty",
+      "docstring": "A property of a vertex in a quiver."
+    },
+    {
+      "temporary_id": "decl-005303",
+      "new_name": "vertexCondition",
+      "docstring": "A condition on a vertex of a quiver."
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1}\n    (Algebra.adjoin.{u_1, u_1} k\n      (Insert.insert.{u_1, u_1} (decl-016933.{u_1} k)\n        (Singleton.singleton.{u_1, u_1} (decl-016935.{u_1} k))))\n    Top.top.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016933",
+        "decl-016935",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "295300519",
+      "temporary_id": "decl-016894"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    [CharZero.{u_1} k] \u2192\n      [NoZeroDivisors.{u_1} k] \u2192\n        AlgEquiv.{u_1, u_1, u_1} k (decl-016893.{u_1} k)\n          (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-022062.{u_1} k) x)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-022062"
+      ],
+      "structural_type_hash": "3132936873",
+      "temporary_id": "decl-016895"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] [inst_1 : CharZero.{u_1} k] [inst_2 : NoZeroDivisors.{u_1} k]\n  (w : decl-016893.{u_1} k),\n  Eq.{u_1 + 1}\n    (Subtype.val.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-016895.{u_1} k) w))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-022070.{u_1} k) w)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016895",
+        "decl-016938",
+        "decl-016940",
+        "decl-022062",
+        "decl-022070"
+      ],
+      "structural_type_hash": "852249872",
+      "temporary_id": "decl-016896"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (AlgHom.range.{u_1, u_1, u_1} (decl-022070.{u_1} k)) (decl-022062.{u_1} k)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-022062",
+        "decl-022070"
+      ],
+      "structural_type_hash": "3780024653",
+      "temporary_id": "decl-016925"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 Subalgebra.{u_1, u_1} k (Module.End.{u_1, u_1} k (Polynomial.{u_1} k))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "706241538",
+      "temporary_id": "decl-022062"
+    }
+  ],
+  "module_temporary_id": "module-0112",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

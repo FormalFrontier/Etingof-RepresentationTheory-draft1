@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0745",
+  "associations": [
+    {
+      "association_id": "association:a250a50b95d9984712cd",
+      "role": "supporting",
+      "rationale": "The displayed formal type is an opaque pretty-print failure, so it does not directly expose the pairwise-nonisomorphism claim."
+    }
+  ]
+}

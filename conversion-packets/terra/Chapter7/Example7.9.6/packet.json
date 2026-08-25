@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Example7.9.6",
+    "kind": "example",
+    "title": "Exactness properties of Ind, Res, Hom, tensor product",
+    "node_id": "chapter-07/section-7-9",
+    "order": 518,
+    "slug": "example7-9-6",
+    "span": {
+      "start": {
+        "page": "195",
+        "line": 13
+      },
+      "end": {
+        "page": "195",
+        "line": 24
+      }
+    },
+    "source_sha256": "6a5c5ea09099259aac4cb3e247b05c8d4dc4032d96edced685b4d25a5afae41a",
+    "features": {
+      "line_count": 12,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example796",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

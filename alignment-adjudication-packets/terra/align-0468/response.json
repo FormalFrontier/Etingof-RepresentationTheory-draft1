@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0468",
+  "associations": [
+    {
+      "association_id": "association:d02a10716be1008d73b6",
+      "role": "supporting",
+      "rationale": "The equality states that converting a representation to a homomorphism into linear equivalences preserves its action on vectors, but it does not state the inverse conversion or define GL(V) as all invertible linear endomorphisms."
+    },
+    {
+      "association_id": "association:8edbe42b078eda842b6c",
+      "role": "supporting",
+      "rationale": "The equality states that the inverse conversion from a homomorphism into linear equivalences preserves its action on vectors, but it does not state the forward conversion or define GL(V) as all invertible linear endomorphisms."
+    }
+  ]
+}

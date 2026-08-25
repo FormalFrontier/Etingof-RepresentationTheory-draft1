@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0722",
+  "associations": [
+    {
+      "association_id": "association:a41da4fafd53911564a3",
+      "role": "primary",
+      "rationale": "The type directly says every real SU(2)-invariant submodule of the standard module is either bottom or top, which is irreducibility."
+    }
+  ]
+}

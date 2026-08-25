@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0380",
+  "associations": [
+    {
+      "association_id": "association:55a416faa878d17c0a5f",
+      "role": "supporting",
+      "rationale": "The formal type exposes a tensor-product type for a right and a left module, but not its construction as a free abelian group modulo the displayed relations."
+    },
+    {
+      "association_id": "association:4de6159b56e669637bbe",
+      "role": "supporting",
+      "rationale": "The equality states additivity in the first argument, but it does not itself state the free-abelian-group quotient construction, second-argument additivity, or balancing relation, so it is partial evidence."
+    },
+    {
+      "association_id": "association:b7a8f37b1cff5e572ec1",
+      "role": "supporting",
+      "rationale": "The equality states the balancing relation, but it does not itself state the free-abelian-group quotient construction or both additivity relations, so it is partial evidence."
+    },
+    {
+      "association_id": "association:17b7b5f64903e8cc4ab1",
+      "role": "supporting",
+      "rationale": "This declaration constructs pure tensors in the tensor-product type but does not itself state additivity or the balancing quotient relation."
+    },
+    {
+      "association_id": "association:d85b6b1b09595638f6cf",
+      "role": "supporting",
+      "rationale": "The equality states additivity in the second argument, but it does not itself state the free-abelian-group quotient construction, first-argument additivity, or balancing relation, so it is partial evidence."
+    }
+  ]
+}

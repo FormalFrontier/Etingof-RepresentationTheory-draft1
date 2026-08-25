@@ -1,0 +1,17 @@
+{
+  "module_name": "LexicographicPermutations",
+  "declarations": [
+    {"temporary_id": "decl-000313", "new_name": "partitionAuxiliaryValue", "docstring": "An integer-valued function attached to a partition."},
+    {"temporary_id": "decl-000314", "new_name": "partitionAuxiliaryValue_eq_adjusted_perm_iff", "docstring": "The partition-associated function equals the displayed permutation adjustment in lexicographic order exactly when the permutation is the identity."},
+    {"temporary_id": "decl-000315", "new_name": "partitionAuxiliaryValue_le_adjusted_perm", "docstring": "The partition-associated function is lexicographically bounded by the displayed permutation adjustment."},
+    {"temporary_id": "decl-000316", "new_name": "auxiliaryIndexValue", "docstring": "An auxiliary integer-valued function on a finite index type."},
+    {"temporary_id": "decl-000318", "new_name": "auxiliaryIndexValue_comp_perm_eq_iff", "docstring": "A permutation preserves the auxiliary index function in lexicographic order exactly when it is the identity."},
+    {"temporary_id": "decl-000319", "new_name": "auxiliaryIndexValue_comp_perm_le", "docstring": "Composing the auxiliary index function with a permutation is lexicographically bounded by the original."},
+    {"temporary_id": "decl-000320", "new_name": "strictAnti_auxiliaryIndexValue", "docstring": "The auxiliary index function is strictly antitone."},
+    {"temporary_id": "decl-000322", "new_name": "StrictAnti.comp_perm_eq_iff", "docstring": "A permutation preserves a strictly antitone function exactly when it is the identity."},
+    {"temporary_id": "decl-000323", "new_name": "StrictAnti.comp_perm_le", "docstring": "Permuting a strictly antitone function is lexicographically bounded by that function."},
+    {"temporary_id": "decl-000324", "new_name": "StrictAnti.comp_perm_lt_of_ne", "docstring": "A nonidentity permutation makes a strictly antitone function lexicographically smaller."},
+    {"temporary_id": "decl-000325", "new_name": "toLex_sub_le_sub", "docstring": "Lexicographic order reverses under subtraction from a common function."},
+    {"temporary_id": "decl-000326", "new_name": "toLex_sub_lt_sub", "docstring": "Strict lexicographic order reverses under subtraction from a common function."}
+  ]
+}

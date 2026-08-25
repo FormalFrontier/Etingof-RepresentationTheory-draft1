@@ -1,0 +1,30 @@
+{
+  "module_name": "Submodules",
+  "declarations": [
+    {
+      "temporary_id": "decl-005338",
+      "new_name": "exists_isSimpleModule_embedding_of_nonzero_submodule",
+      "docstring": "A nonzero submodule satisfying the displayed closure condition contains the image of an injective map from a simple module that intertwines the indicated group-indexed maps."
+    },
+    {
+      "temporary_id": "decl-005348",
+      "new_name": "generalLinearGroupIndexedMap_preserves_restrictTotalDegree",
+      "docstring": "For every general-linear-group index, the displayed map carries each polynomial in the total-degree-restricted collection to another member of that collection."
+    },
+    {
+      "temporary_id": "decl-018880",
+      "new_name": "exists_isSimpleModule_submodule_le_of_finite",
+      "docstring": "A nonzero submodule that is finite-dimensional over the field contains a simple submodule."
+    },
+    {
+      "temporary_id": "decl-020913",
+      "new_name": "isSimpleModule_toRepresentation_of_asSubmodule",
+      "docstring": "Simplicity of a subrepresentation as a submodule implies simplicity of its associated representation module."
+    },
+    {
+      "temporary_id": "decl-024149",
+      "new_name": "Subrepresentation.toRepresentationLinearEquivAsSubmodule",
+      "docstring": "The module of a subrepresentation's associated representation is linearly equivalent to its underlying submodule."
+    }
+  ]
+}

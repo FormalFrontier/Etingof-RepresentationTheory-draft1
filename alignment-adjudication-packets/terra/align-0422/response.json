@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0422",
+  "associations": [
+    {
+      "association_id": "association:06636812df7b0251da25",
+      "role": "supporting",
+      "rationale": "The theorem states that a Dynkin diagram has finitely many positive roots; it supports one direction but does not state the iff about indecomposable quiver representations."
+    }
+  ]
+}

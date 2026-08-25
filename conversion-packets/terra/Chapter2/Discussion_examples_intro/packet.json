@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_examples_intro",
+    "kind": "discussion",
+    "title": "Transition to examples of representations",
+    "node_id": "chapter-02/section-2-3",
+    "order": 26,
+    "slug": "discussion-examples-intro",
+    "span": {
+      "start": {
+        "page": "10",
+        "line": 11
+      },
+      "end": {
+        "page": "10",
+        "line": 11
+      }
+    },
+    "source_sha256": "52a5384db84c2433b36808c72c9cb3d09ba90fd324b4bc9ac41a12b9adc7e6c8",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionExamplesIntro",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

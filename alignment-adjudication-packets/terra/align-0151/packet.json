@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:304e2bf4a890ad95d02c",
+      "declaration": "Etingof.BookPathAlgebra.arrowMap",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/69/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u} \u2192\n  {Q : Type v} \u2192\n    [inst : Field.{u} k] \u2192\n      [inst_1 : Quiver.{u_1, v} Q] \u2192\n        [inst_2 : DecidableEq.{v + 1} Q] \u2192\n          [inst_3 : Fintype.{v} Q] \u2192\n            {V : Type w} \u2192\n              [inst_4 : AddCommGroup.{w} V] \u2192\n                [inst_5 : Module.{u, w} k V] \u2192\n                  [inst_6 : Module.{max (max u_1 v) u, w} (Etingof.BookPathAlgebra.{u, v, u_1} k Q) V] \u2192\n                    [inst_7 : IsScalarTower.{u, max (max u_1 v) u, w} k (Etingof.BookPathAlgebra.{u, v, u_1} k Q) V] \u2192\n                      {i j : Q} \u2192\n                        Quiver.Hom.{u_1, v} i j \u2192\n                          LinearMap.{u, u, w, w} (RingHom.id.{u} k)\n                            (Subtype.{w + 1} fun x =>\n                              Membership.mem.{w, w} (Etingof.BookPathAlgebra.vertexSpace.{u, v, w, u_1} i) x)\n                            (Subtype.{w + 1} fun x =>\n                              Membership.mem.{w, w} (Etingof.BookPathAlgebra.vertexSpace.{u, v, w, u_1} j) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection"
+    },
+    {
+      "association_id": "association:5187d514c4bc447e7047",
+      "declaration": "Etingof.BookPathAlgebra.forwardRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/69/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u} \u2192\n  {Q : Type v} \u2192\n    [inst : Field.{u} k] \u2192\n      [inst_1 : Quiver.{u_1, v} Q] \u2192\n        [inst_2 : DecidableEq.{v + 1} Q] \u2192\n          [inst_3 : Fintype.{v} Q] \u2192\n            {V : Type w} \u2192\n              [inst_4 : AddCommGroup.{w} V] \u2192\n                [inst_5 : Module.{u, w} k V] \u2192\n                  [inst_6 : Module.{max (max u_1 v) u, w} (Etingof.BookPathAlgebra.{u, v, u_1} k Q) V] \u2192\n                    [IsScalarTower.{u, max (max u_1 v) u, w} k (Etingof.BookPathAlgebra.{u, v, u_1} k Q) V] \u2192\n                      Etingof.QuiverRepresentation.{u, v, w, u_1} k Q",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection"
+    },
+    {
+      "association_id": "association:69d6d085d7cd59ef2a18",
+      "declaration": "Etingof.BookPathAlgebra.vertexSpace",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/69/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u} \u2192\n  {Q : Type v} \u2192\n    [inst : Field.{u} k] \u2192\n      [inst_1 : Quiver.{u_1, v} Q] \u2192\n        [inst_2 : DecidableEq.{v + 1} Q] \u2192\n          [inst_3 : Fintype.{v} Q] \u2192\n            {V : Type w} \u2192\n              [inst_4 : AddCommGroup.{w} V] \u2192\n                [inst_5 : Module.{u, w} k V] \u2192\n                  [inst_6 : Module.{max (max u_1 v) u, w} (Etingof.BookPathAlgebra.{u, v, u_1} k Q) V] \u2192\n                    [IsScalarTower.{u, max (max u_1 v) u, w} k (Etingof.BookPathAlgebra.{u, v, u_1} k Q) V] \u2192\n                      Q \u2192 Submodule.{u, w} k V",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_quiver_rep_bijection",
+  "packet_id": "align-0151",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0151"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2f221f41b17cbd6c45d7",
+  "source_text": "A P_Q-module V determines the Q-representation with vertex spaces p_iV and arrows given by the restricted one-edge operators."
+}

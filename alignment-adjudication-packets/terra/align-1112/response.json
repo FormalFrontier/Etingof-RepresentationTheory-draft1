@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1112",
+  "associations": [
+    {
+      "association_id": "association:238f7c99923758d2c754",
+      "role": "primary",
+      "rationale": "The formal type identifies the Jacobson radical of the quotient presented by adjoining a root of X^n with the ideal spanned by that root, directly matching radical (x)."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:bb83e8c066a37e30b859",
+      "declaration": "Module.Dual.instLieModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/114/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Lie.Basic"
+    },
+    {
+      "association_id": "association:50aceee45de42718c11b",
+      "declaration": "Module.Dual.instLieRingModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/114/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Lie.Basic"
+    },
+    {
+      "association_id": "association:89575e3e838c380316fd",
+      "declaration": "TensorProduct.LieModule.lieModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/114/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Lie.TensorProduct"
+    },
+    {
+      "association_id": "association:31236bb0b905f306269a",
+      "declaration": "TensorProduct.LieModule.lieRingModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/114/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Lie.TensorProduct"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.14.2",
+  "packet_id": "align-0972",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0972"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b62893243175ef7351d1",
+  "source_text": "The tensor-product and dual constructions are genuine Lie algebra representations."
+}

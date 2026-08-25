@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0951",
+  "associations": [
+    {
+      "association_id": "association:0f9285945789f1a25042",
+      "role": "supporting",
+      "rationale": "Its formal type is unavailable, so the displayed evidence cannot directly establish the filtration claim."
+    }
+  ]
+}

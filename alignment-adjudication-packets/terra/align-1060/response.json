@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1060",
+  "associations": [
+    {
+      "association_id": "association:e3881278d016ae697ea6",
+      "rationale": "It gives a bound for an already finite pairwise-nonisomorphic family, one component of the full finiteness-and-exhaustiveness claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8b97b4407d00baab5e8b",
+      "rationale": "The type directly produces a finite bounded pairwise-nonisomorphic family of simple quotient modules and states that every simple A-module is equivalent to a member, exactly giving an exhaustive family.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:c5f1721ee554c2a4c131",
+      "rationale": "The type constructs representatives for coatom quotient modules and exhausts other coatom quotients, but does not directly quantify over every simple representation as the displayed claim does.",
+      "role": "supporting"
+    }
+  ]
+}

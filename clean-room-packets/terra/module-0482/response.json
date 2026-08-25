@@ -1,0 +1,15 @@
+{
+  "module_name": "AuxiliaryGeneralLinearTrace",
+  "declarations": [
+    {
+      "temporary_id": "decl-024289",
+      "new_name": "auxiliary_trace_sum_eq_zero_of_unit_tuple",
+      "docstring": "Under the auxiliary representation hypotheses, a linear combination of traces that vanishes on the displayed elements indexed by tuples of units vanishes on every group element."
+    },
+    {
+      "temporary_id": "decl-024292",
+      "new_name": "auxiliary_exists_trace_formula",
+      "docstring": "An auxiliary representation admits a parameter expressing each of its trace values by the displayed function."
+    }
+  ]
+}

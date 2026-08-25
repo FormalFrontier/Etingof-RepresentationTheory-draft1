@@ -1,0 +1,50 @@
+{
+  "module_name": "AuxiliaryPartitionOrder",
+  "declarations": [
+    {
+      "temporary_id": "decl-005364",
+      "new_name": "AuxiliaryRelation",
+      "docstring": "An auxiliary relation on objects indexed by two partitions."
+    },
+    {
+      "temporary_id": "decl-005391",
+      "new_name": "auxiliaryRelation_antisymm",
+      "docstring": "Two auxiliary objects related in both directions are equal."
+    },
+    {
+      "temporary_id": "decl-005392",
+      "new_name": "auxiliaryRelation_of_permutation",
+      "docstring": "The displayed subgroup membership and permutation relation imply the auxiliary relation between the two objects."
+    },
+    {
+      "temporary_id": "decl-005393",
+      "new_name": "auxiliaryRelation_refl",
+      "docstring": "Every auxiliary object is related to itself."
+    },
+    {
+      "temporary_id": "decl-005394",
+      "new_name": "auxiliaryRelation_trans",
+      "docstring": "The auxiliary relation is transitive."
+    },
+    {
+      "temporary_id": "decl-005395",
+      "new_name": "instPartialOrder",
+      "docstring": "An auxiliary partial-order structure on the partition-indexed objects."
+    },
+    {
+      "temporary_id": "decl-024596",
+      "new_name": "auxiliary_nat_function_le_of_relation",
+      "docstring": "The displayed relation between permutations yields pointwise inequalities between the associated natural-number values."
+    },
+    {
+      "temporary_id": "decl-024662",
+      "new_name": "auxiliary_linearIndependent_of_diagonal_evaluation_ne_zero",
+      "docstring": "Nonvanishing of every diagonal auxiliary evaluation implies linear independence of the displayed family."
+    },
+    {
+      "temporary_id": "decl-024664",
+      "new_name": "auxiliary_le_of_evaluation_ne_zero",
+      "docstring": "A nonzero auxiliary evaluation implies the corresponding order relation."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1202",
+  "associations": [
+    {
+      "association_id": "association:ddac9f03855e61ad20c5",
+      "rationale": "The displayed algebra equivalence identifies A modulo its radical with a product of endomorphism algebras, a structural prerequisite from which the source dimension formula may follow, but it does not state that formula.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9db3a976609bb06b0ef9",
+      "rationale": "No formal type is displayed, so this declaration cannot directly state the source dimension identity from the packet evidence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:790e05cefcb3a45d2936",
+      "rationale": "No formal type is displayed, so this declaration can only be treated as supporting evidence for the quotient-dimension calculation.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7be6a884260716901653",
+      "declaration": "Etingof.commutatorSubmodule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/156/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192 [inst_1 : Ring.{u_2} A] \u2192 [inst_2 : Algebra.{u_1, u_2} k A] \u2192 Submodule.{u_1, u_2} k A",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Introduction3_6"
+    }
+  ],
+  "canonical_reference": "Chapter3/Introduction_to_3.6",
+  "packet_id": "align-1065",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1065"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d07323e5c288e026c654",
+  "source_text": "The commutator space [A,A] is the k-span of all elements xy - yx."
+}

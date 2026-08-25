@@ -1,0 +1,123 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(q : Nat) \u2192\n  ZMod (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1) \u2192 ZMod (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4193677932",
+      "temporary_id": "decl-001316"
+    },
+    {
+      "formal_type": "\u2200 (q : Nat),\n  LE.le.{0} 2 q \u2192\n    \u2200 (x : ZMod (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)),\n      Eq.{1} (decl-001316 q (decl-001316 q x)) x",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001316"
+      ],
+      "structural_type_hash": "967045949",
+      "temporary_id": "decl-001318"
+    },
+    {
+      "formal_type": "(q : Nat) \u2192\n  [NeZero.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)] \u2192\n    Finset.{0} (ZMod (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "433037559",
+      "temporary_id": "decl-001321"
+    },
+    {
+      "formal_type": "\u2200 (q : Nat) [inst : NeZero.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)],\n  LE.le.{0} 2 q \u2192\n    Eq.{1} (Finset.card.{0} (decl-001321 q)) (HMul.hMul.{0, 0, 0} q (HSub.hSub.{0, 0, 0} q 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001321"
+      ],
+      "structural_type_hash": "1763411601",
+      "temporary_id": "decl-001324"
+    },
+    {
+      "formal_type": "(q : Nat) \u2192\n  [NeZero.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)] \u2192\n    Finset.{0} (ZMod (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "433037559",
+      "temporary_id": "decl-001328"
+    },
+    {
+      "formal_type": "\u2200 (q : Nat) [inst : NeZero.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)],\n  LE.le.{0} 2 q \u2192\n    Eq.{1} (Finset.card.{0} (decl-001328 q))\n      (HDiv.hDiv.{0, 0, 0} (HMul.hMul.{0, 0, 0} q (HSub.hSub.{0, 0, 0} q 1)) 2)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001328"
+      ],
+      "structural_type_hash": "1794174526",
+      "temporary_id": "decl-001330"
+    },
+    {
+      "formal_type": "\u2200 (q : Nat) [inst : NeZero.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)],\n  LE.le.{0} 2 q \u2192\n    And\n      (Disjoint.{0} (decl-001328 q)\n        (Finset.image.{0, 0} (decl-001316 q) (decl-001328 q)))\n      (And\n        (Eq.{1}\n          (Union.union.{0} (decl-001328 q)\n            (Finset.image.{0, 0} (decl-001316 q) (decl-001328 q)))\n          (decl-001321 q))\n        (Eq.{1}\n          (Finset.card.{0}\n            (Finset.image.{0, 0} (decl-001316 q) (decl-001328 q)))\n          (Finset.card.{0} (decl-001328 q))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001316",
+        "decl-001321",
+        "decl-001328"
+      ],
+      "structural_type_hash": "1442336343",
+      "temporary_id": "decl-001332"
+    },
+    {
+      "formal_type": "\u2200 (q : Nat) [inst : NeZero.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)],\n  LE.le.{0} 2 q \u2192\n    Eq.{1}\n      (Finset.card.{0} (Finset.filter.{0} (fun x => Eq.{1} (decl-001316 q x) x) Finset.univ.{0}))\n      (HSub.hSub.{0, 0, 0} q 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001316"
+      ],
+      "structural_type_hash": "2164473659",
+      "temporary_id": "decl-001336"
+    },
+    {
+      "formal_type": "\u2200 (q : Nat),\n  LE.le.{0} 2 q \u2192\n    \u2200 (x : ZMod (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)),\n      Iff (Eq.{1} (decl-001316 q x) x) (Dvd.dvd.{0} (HAdd.hAdd.{0, 0, 0} q 1) x.val)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001316"
+      ],
+      "structural_type_hash": "1999387149",
+      "temporary_id": "decl-001339"
+    },
+    {
+      "formal_type": "\u2200 (q : Nat) [inst : NeZero.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)]\n  (x : ZMod (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)),\n  Iff (Membership.mem.{0, 0} (decl-001321 q) x)\n    (Ne.{1} (decl-001316 q x) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001316",
+        "decl-001321"
+      ],
+      "structural_type_hash": "737010158",
+      "temporary_id": "decl-001344"
+    }
+  ],
+  "module_temporary_id": "module-0305",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

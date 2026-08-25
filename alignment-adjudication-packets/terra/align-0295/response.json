@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0295",
+  "associations": [
+    {
+      "association_id": "association:016aca882104bf9df6fb",
+      "role": "supporting",
+      "rationale": "The proposition states algebraic integrality of the class-sum scalar, but it does not also state integrality of character values or the finite-sum conclusion, so it covers only part of the displayed claim."
+    },
+    {
+      "association_id": "association:817fce9b378834d4d628",
+      "role": "supporting",
+      "rationale": "The divisibility theorem is a consequence of the integrality argument, not a statement that the character values and class-sum scalars are algebraic integers."
+    },
+    {
+      "association_id": "association:bf6671157b283374f5e9",
+      "role": "supporting",
+      "rationale": "The theorem states algebraic integrality of character values, but it does not also state integrality of the class-sum scalars or the finite-sum conclusion, so it covers only part of the displayed claim."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "associations": [
+    {
+      "association_id": "association:bb83e8c066a37e30b859",
+      "rationale": "The displayed formal type is unavailable, so it does not directly state that duals are Lie representations.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:50aceee45de42718c11b",
+      "rationale": "The displayed formal type is unavailable, so it cannot directly establish the dual representation claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:89575e3e838c380316fd",
+      "rationale": "The displayed formal type is unavailable, so it does not directly state that tensor products are Lie representations.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:31236bb0b905f306269a",
+      "rationale": "The displayed formal type is unavailable, so it cannot directly establish the tensor-product representation claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0972"
+}

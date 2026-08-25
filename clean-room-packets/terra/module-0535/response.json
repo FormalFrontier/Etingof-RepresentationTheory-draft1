@@ -1,0 +1,30 @@
+{
+  "module_name": "IntegerMatrix.ReflectionDynamics",
+  "declarations": [
+    {
+      "temporary_id": "decl-005518",
+      "new_name": "exists_iterate_apply_lt_zero",
+      "docstring": "A nonzero coordinatewise nonnegative integer vector eventually has a negative coordinate under the adjacency-dependent iteration."
+    },
+    {
+      "temporary_id": "decl-018245",
+      "new_name": "vectorStep",
+      "docstring": "The adjacency-dependent update of an integer vector indexed by a finite coordinate set."
+    },
+    {
+      "temporary_id": "decl-018246",
+      "new_name": "vectorIterate",
+      "docstring": "The integer vector at a specified stage of an adjacency-dependent update process."
+    },
+    {
+      "temporary_id": "decl-023186",
+      "new_name": "coordinateReflection_involutive",
+      "docstring": "For a symmetric integer matrix with diagonal self-pairings equal to two, reflection at any coordinate is an involution."
+    },
+    {
+      "temporary_id": "decl-023201",
+      "new_name": "standardBasis_selfPairing_eq_two",
+      "docstring": "The matrix associated to an adjacency matrix satisfying the structural hypothesis gives every standard basis vector self-pairing two."
+    }
+  ]
+}

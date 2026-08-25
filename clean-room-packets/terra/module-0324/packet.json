@@ -1,0 +1,34 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  [CharZero.{u_1} k] [Module.Finite.{u_1, u_2} k V] {n : Nat}\n  (W :\n    Submodule.{u_1, max u_1 u_2} k\n      (Subtype.{(max u_1 u_2) + 1} fun x =>\n        Membership.mem.{max u_1 u_2, max u_1 u_2} (ExteriorAlgebra.exteriorPower.{u_1, u_2} k n V) x)),\n  (\u2200 (g : LinearEquiv.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} k) V V)\n      (w :\n        Subtype.{(max u_1 u_2) + 1} fun x =>\n          Membership.mem.{max u_1 u_2, max u_1 u_2} (ExteriorAlgebra.exteriorPower.{u_1, u_2} k n V) x),\n      Membership.mem.{max u_1 u_2, max u_1 u_2} W w \u2192\n        Membership.mem.{max u_1 u_2, max u_1 u_2} W\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n            (exteriorPower.map.{u_1, u_2, u_2} n (LinearEquiv.toLinearMap.{u_1, u_1, u_2, u_2} g)) w)) \u2192\n    Or (Eq.{max (u_1 + 1) (u_2 + 1)} W Bot.bot.{max u_1 u_2}) (Eq.{max (u_1 + 1) (u_2 + 1)} W Top.top.{max u_1 u_2})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2386674162",
+      "temporary_id": "decl-019274"
+    }
+  ],
+  "module_temporary_id": "module-0324",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

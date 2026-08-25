@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0750",
+  "associations": [
+    {
+      "association_id": "association:d52770b0f276cc37abc4",
+      "role": "supporting",
+      "rationale": "This defines the real equivariant endomorphism subalgebra whose value is to be computed, but it does not identify that algebra with the complex numbers."
+    },
+    {
+      "association_id": "association:6814f8b5cf2840c33c74",
+      "role": "primary",
+      "rationale": "The type directly gives a real-algebra equivalence between the equivariant endomorphism algebra and the complex numbers under the complex-type hypothesis."
+    }
+  ]
+}

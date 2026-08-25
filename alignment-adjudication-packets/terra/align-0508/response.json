@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0508",
+  "associations": [
+    {
+      "association_id": "association:1ae4d333de5efee2d817",
+      "rationale": "The type returns a basis of SymPow indexed by Sym I n, but it does not expose the basis vectors as the claimed ordered symmetric monomials.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1092",
+  "associations": [
+    {
+      "association_id": "association:d64843351db2fd6f1537",
+      "rationale": "The algebra equivalence supports the claim, but the displayed type alone does not expose the polynomial-differential-operator interpretation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:cd97236d3cc57d86ac4a",
+      "rationale": "The displayed type identifies the range of polyRep with polyDiffOp, but does not itself state an equivalence with WeylAlgebra.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:330f845ed77d0158666a",
+      "rationale": "The displayed type only constructs polyDiffOp as a subalgebra of polynomial endomorphisms and states no Weyl-algebra identification.",
+      "role": "supporting"
+    }
+  ]
+}

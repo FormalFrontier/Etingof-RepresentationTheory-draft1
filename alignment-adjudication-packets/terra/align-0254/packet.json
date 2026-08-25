@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2a67b726bde658c82014",
+      "declaration": "Etingof.FDRep.character_eq_algebraCharacter",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/188/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) (G : Type v) [inst : Group.{v} G] [inst_1 : Field.{u} k] (V : FDRep.{u, v} k G) (g : G),\n  Eq.{u + 1} (FDRep.character.{u, v} V g)\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1}\n      (Etingof.character.{u, max v u, u} k (MonoidAlgebra.{u, v} k G)\n        (Representation.asModule.{u, v, u} (FDRep.\u03c1.{u, v} V)))\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (MonoidAlgebra.of.{u, v} k G) g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Introduction_4_2"
+    }
+  ],
+  "canonical_reference": "Chapter4/Introduction_4.2",
+  "packet_id": "align-0254",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0254"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4be93925b87fa979365a",
+  "source_text": "The group character is the restriction of the associated k[G]-module character."
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0339",
+  "associations": [
+    {
+      "association_id": "association:3e1038a9730d5dc4aeae",
+      "rationale": "The formal type directly states that a simple module is indecomposable.",
+      "role": "primary"
+    }
+  ]
+}

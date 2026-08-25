@@ -1,0 +1,350 @@
+{
+  "module_name": "Auxiliary.TensorResolution",
+  "declarations": [
+    {
+      "temporary_id": "decl-014382",
+      "new_name": "Auxiliary.projectiveResolution",
+      "docstring": "Constructs an auxiliary projective resolution for the displayed module."
+    },
+    {
+      "temporary_id": "decl-014385",
+      "new_name": "Auxiliary.projectiveResolution_isZeroAbove",
+      "docstring": "Shows that the displayed resolution has zero components above the finite rank."
+    },
+    {
+      "temporary_id": "decl-017408",
+      "new_name": "Auxiliary.gradedModule",
+      "docstring": "Defines an auxiliary family of modules indexed by natural numbers."
+    },
+    {
+      "temporary_id": "decl-017410",
+      "new_name": "Auxiliary.gradedModuleAction",
+      "docstring": "Defines the displayed action on the auxiliary graded module."
+    },
+    {
+      "temporary_id": "decl-017411",
+      "new_name": "Auxiliary.gradedModuleAction_add",
+      "docstring": "The auxiliary graded-module action preserves addition."
+    },
+    {
+      "temporary_id": "decl-017412",
+      "new_name": "Auxiliary.gradedModuleAction_tensor",
+      "docstring": "Describes the auxiliary graded-module action on the displayed pure tensor."
+    },
+    {
+      "temporary_id": "decl-017413",
+      "new_name": "Auxiliary.gradedModuleAction_zero",
+      "docstring": "The auxiliary graded-module action sends zero to zero."
+    },
+    {
+      "temporary_id": "decl-017414",
+      "new_name": "Auxiliary.gradedModuleLinearEquiv",
+      "docstring": "Gives a linear equivalence from the displayed graded module to a tensor product."
+    },
+    {
+      "temporary_id": "decl-017422",
+      "new_name": "Auxiliary.gradedTensorLinearEquiv",
+      "docstring": "Gives a linear equivalence between the displayed tensor modules."
+    },
+    {
+      "temporary_id": "decl-017427",
+      "new_name": "Auxiliary.gradedTensorMap",
+      "docstring": "Defines the displayed map from a graded component and a module element to a tensor product."
+    },
+    {
+      "temporary_id": "decl-017428",
+      "new_name": "Auxiliary.gradedTensorMap_add",
+      "docstring": "The displayed graded tensor map is additive in its graded-component argument."
+    },
+    {
+      "temporary_id": "decl-017429",
+      "new_name": "Auxiliary.gradedTensorMap_zero",
+      "docstring": "The displayed graded tensor map vanishes at zero in its graded-component argument."
+    },
+    {
+      "temporary_id": "decl-017431",
+      "new_name": "Auxiliary.distinguishedObject",
+      "docstring": "Defines an auxiliary distinguished object in the displayed module category."
+    },
+    {
+      "temporary_id": "decl-017432",
+      "new_name": "Auxiliary.distinguishedTensorMap",
+      "docstring": "Defines the displayed tensor-valued map from the distinguished object."
+    },
+    {
+      "temporary_id": "decl-017433",
+      "new_name": "Auxiliary.tensorAction",
+      "docstring": "Defines the displayed action on the auxiliary tensor product."
+    },
+    {
+      "temporary_id": "decl-017434",
+      "new_name": "Auxiliary.tensorAction_add",
+      "docstring": "The auxiliary tensor action preserves addition."
+    },
+    {
+      "temporary_id": "decl-017435",
+      "new_name": "Auxiliary.tensorAction_gradedTensorMap",
+      "docstring": "Relates the tensor action to the displayed graded tensor map."
+    },
+    {
+      "temporary_id": "decl-017436",
+      "new_name": "Auxiliary.tensorAction_distinguishedTensorMap",
+      "docstring": "Relates the tensor action to the distinguished tensor map."
+    },
+    {
+      "temporary_id": "decl-017437",
+      "new_name": "Auxiliary.tensorAction_tmul",
+      "docstring": "Evaluates the auxiliary tensor action on a pure tensor."
+    },
+    {
+      "temporary_id": "decl-017438",
+      "new_name": "Auxiliary.tensorAction_zero",
+      "docstring": "The auxiliary tensor action sends zero to zero."
+    },
+    {
+      "temporary_id": "decl-017439",
+      "new_name": "Auxiliary.forgetFunctorIso",
+      "docstring": "Provides an isomorphism between the displayed functors after forgetting structure."
+    },
+    {
+      "temporary_id": "decl-017441",
+      "new_name": "Auxiliary.tensorFunctor",
+      "docstring": "Defines an auxiliary functor parameterized by a module object."
+    },
+    {
+      "temporary_id": "decl-017444",
+      "new_name": "Auxiliary.tensorFunctorMapLinear",
+      "docstring": "Defines the linear map induced by a morphism under the auxiliary construction."
+    },
+    {
+      "temporary_id": "decl-017447",
+      "new_name": "Auxiliary.tensorFunctorMap",
+      "docstring": "Defines the module morphism induced by a morphism under the auxiliary construction."
+    },
+    {
+      "temporary_id": "decl-017449",
+      "new_name": "Auxiliary.tensorFunctorTensorMap",
+      "docstring": "Defines the displayed tensor-product map induced by a morphism."
+    },
+    {
+      "temporary_id": "decl-017450",
+      "new_name": "Auxiliary.tensorFunctorTensorMap_add",
+      "docstring": "The displayed tensor-product map preserves addition."
+    },
+    {
+      "temporary_id": "decl-017451",
+      "new_name": "Auxiliary.tensorFunctorTensorMap_tmul",
+      "docstring": "Evaluates the displayed tensor-product map on a pure tensor."
+    },
+    {
+      "temporary_id": "decl-017452",
+      "new_name": "Auxiliary.tensorFunctorTensorMap_zero",
+      "docstring": "The displayed tensor-product map sends zero to zero."
+    },
+    {
+      "temporary_id": "decl-017453",
+      "new_name": "Auxiliary.tensorFunctorMap_hom",
+      "docstring": "Identifies the underlying linear map of the induced module morphism."
+    },
+    {
+      "temporary_id": "decl-017454",
+      "new_name": "Auxiliary.tensorFunctorMap_tmul",
+      "docstring": "Evaluates the induced module morphism on a pure tensor."
+    },
+    {
+      "temporary_id": "decl-017455",
+      "new_name": "Auxiliary.tensorModule",
+      "docstring": "Provides the displayed module structure on the auxiliary tensor product."
+    },
+    {
+      "temporary_id": "decl-017457",
+      "new_name": "Auxiliary.tensorFunctorObj",
+      "docstring": "Defines the object part of an auxiliary tensor construction."
+    },
+    {
+      "temporary_id": "decl-017458",
+      "new_name": "Auxiliary.tensorFunctorObj_distinguishedIso",
+      "docstring": "Provides an isomorphism from the distinguished object under the auxiliary functor."
+    },
+    {
+      "temporary_id": "decl-017463",
+      "new_name": "Auxiliary.tensorFunctor_mapQuasiIso",
+      "docstring": "Shows that the displayed functor sends the indicated resolution morphism to a quasi-isomorphism."
+    },
+    {
+      "temporary_id": "decl-017693",
+      "new_name": "Auxiliary.distinguishedTensorAddEquiv",
+      "docstring": "Defines an additive equivalence from the distinguished tensor product to the module."
+    },
+    {
+      "temporary_id": "decl-017695",
+      "new_name": "Auxiliary.distinguishedTensorAddEquiv_tmul",
+      "docstring": "Evaluates the distinguished tensor additive equivalence on a pure tensor."
+    },
+    {
+      "temporary_id": "decl-017710",
+      "new_name": "Auxiliary.gradedTensorAddEquiv",
+      "docstring": "Defines an additive equivalence between the displayed graded tensor products."
+    },
+    {
+      "temporary_id": "decl-017712",
+      "new_name": "Auxiliary.gradedTensorAddEquiv_tmul",
+      "docstring": "Evaluates the graded tensor additive equivalence on a pure tensor."
+    },
+    {
+      "temporary_id": "decl-017713",
+      "new_name": "Auxiliary.componentTensorAddEquiv",
+      "docstring": "Defines an additive equivalence from an auxiliary component tensor product."
+    },
+    {
+      "temporary_id": "decl-017720",
+      "new_name": "Auxiliary.componentTensorAddEquiv_tmul",
+      "docstring": "Evaluates the component tensor additive equivalence on a displayed pure tensor."
+    },
+    {
+      "temporary_id": "decl-020575",
+      "new_name": "Auxiliary.tensorFunctor_additive",
+      "docstring": "The auxiliary tensor functor is additive."
+    },
+    {
+      "temporary_id": "decl-021444",
+      "new_name": "Auxiliary.algebraToRingHom",
+      "docstring": "Defines the displayed homomorphism between the auxiliary algebraic structures."
+    },
+    {
+      "temporary_id": "decl-021622",
+      "new_name": "Auxiliary.moduleOverField",
+      "docstring": "Provides the displayed module structure over the base field."
+    },
+    {
+      "temporary_id": "decl-021839",
+      "new_name": "Auxiliary.tensorFunctorAux",
+      "docstring": "Defines a second displayed auxiliary functor parameterized by a module object."
+    },
+    {
+      "temporary_id": "decl-021840",
+      "new_name": "Auxiliary.tensorFunctorAux_mapQuasiIso",
+      "docstring": "Shows that the second auxiliary functor sends the indicated resolution morphism to a quasi-isomorphism."
+    },
+    {
+      "temporary_id": "decl-022791",
+      "new_name": "Auxiliary.algebraToRingHomAux",
+      "docstring": "Defines a second displayed homomorphism between the auxiliary algebraic structures."
+    },
+    {
+      "temporary_id": "decl-022804",
+      "new_name": "Auxiliary.basisProjectiveResolution",
+      "docstring": "Constructs an auxiliary projective resolution from a displayed basis."
+    },
+    {
+      "temporary_id": "decl-022812",
+      "new_name": "Auxiliary.mappedResolutionComponentIso",
+      "docstring": "Provides an isomorphism from a mapped resolution component to an auxiliary component."
+    },
+    {
+      "temporary_id": "decl-022815",
+      "new_name": "Auxiliary.mappedResolutionComponent_free",
+      "docstring": "The displayed mapped resolution component is free."
+    },
+    {
+      "temporary_id": "decl-022816",
+      "new_name": "Auxiliary.distinguishedModule",
+      "docstring": "Defines an auxiliary distinguished module object."
+    },
+    {
+      "temporary_id": "decl-022817",
+      "new_name": "Auxiliary.distinguishedModuleIso",
+      "docstring": "Provides an isomorphism from the auxiliary distinguished module."
+    },
+    {
+      "temporary_id": "decl-022822",
+      "new_name": "Auxiliary.distinguishedModuleIso_hom",
+      "docstring": "The forward map of the distinguished-module isomorphism acts as the identity."
+    },
+    {
+      "temporary_id": "decl-022823",
+      "new_name": "Auxiliary.componentModule",
+      "docstring": "Defines an auxiliary family of module objects indexed by natural numbers."
+    },
+    {
+      "temporary_id": "decl-022825",
+      "new_name": "Auxiliary.componentModuleAction",
+      "docstring": "Defines the displayed action on the auxiliary component module."
+    },
+    {
+      "temporary_id": "decl-022826",
+      "new_name": "Auxiliary.componentModuleAction_add",
+      "docstring": "The auxiliary component-module action preserves addition."
+    },
+    {
+      "temporary_id": "decl-022827",
+      "new_name": "Auxiliary.componentModuleAction_apply",
+      "docstring": "Describes the auxiliary component-module action on the displayed product."
+    },
+    {
+      "temporary_id": "decl-022828",
+      "new_name": "Auxiliary.componentModuleAction_zero",
+      "docstring": "The auxiliary component-module action sends zero to zero."
+    },
+    {
+      "temporary_id": "decl-022829",
+      "new_name": "Auxiliary.componentModuleLinearEquiv",
+      "docstring": "Gives a linear equivalence from an auxiliary component module to a tensor product."
+    },
+    {
+      "temporary_id": "decl-022838",
+      "new_name": "Auxiliary.componentModuleLinearEquiv_apply",
+      "docstring": "Evaluates the auxiliary component linear equivalence on the displayed element."
+    },
+    {
+      "temporary_id": "decl-022839",
+      "new_name": "Auxiliary.componentModule_free",
+      "docstring": "Each displayed auxiliary component module is free."
+    },
+    {
+      "temporary_id": "decl-022840",
+      "new_name": "Auxiliary.componentModule_smul",
+      "docstring": "Relates scalar multiplication on the displayed auxiliary component module to multiplication in its argument."
+    },
+    {
+      "temporary_id": "decl-022841",
+      "new_name": "Auxiliary.baseChangeFunctor",
+      "docstring": "Defines an auxiliary functor between the displayed module categories."
+    },
+    {
+      "temporary_id": "decl-023859",
+      "new_name": "Auxiliary.basisTensorProjectiveResolution",
+      "docstring": "Constructs an auxiliary projective resolution from a basis and a module object."
+    },
+    {
+      "temporary_id": "decl-023863",
+      "new_name": "Auxiliary.basisTensorResolutionComponentIso",
+      "docstring": "Provides an isomorphism from a mapped resolution component to a displayed tensor product."
+    },
+    {
+      "temporary_id": "decl-023865",
+      "new_name": "Auxiliary.basisTensorResolutionComponent_free",
+      "docstring": "The displayed tensor resolution component is free."
+    },
+    {
+      "temporary_id": "decl-023866",
+      "new_name": "Auxiliary.basisTensorResolutionComponent_isZeroAbove",
+      "docstring": "The displayed tensor resolution component is zero above the finite rank."
+    },
+    {
+      "temporary_id": "decl-023867",
+      "new_name": "Auxiliary.basisTensorResolutionComponent_projective",
+      "docstring": "The displayed tensor resolution component is projective."
+    },
+    {
+      "temporary_id": "decl-023868",
+      "new_name": "Auxiliary.basisTensorProjectiveResolution_isZeroAbove",
+      "docstring": "The auxiliary basis-dependent projective resolution is zero above the finite rank."
+    },
+    {
+      "temporary_id": "decl-024265",
+      "new_name": "Auxiliary.scalarTower",
+      "docstring": "The displayed module structure forms a scalar tower over the base field."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0194",
+  "associations": [
+    {
+      "association_id": "association:dfd4cca505a833127592",
+      "role": "supporting",
+      "rationale": "It forms the displayed Lie-algebra definition type, while the bracket axioms are carried by the required structures rather than stated in this type."
+    },
+    {
+      "association_id": "association:a8adbfbf796d35e2abf7",
+      "role": "primary",
+      "rationale": "It directly states the cyclic Jacobi identity for the bracket."
+    }
+  ]
+}

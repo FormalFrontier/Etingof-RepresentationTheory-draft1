@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0973",
+  "associations": [
+    {
+      "association_id": "association:ab8107ec17efe8b49e2a",
+      "role": "supporting",
+      "rationale": "States the quotient equivalence S₄/V₄ ≃ S₃, providing context for the pullback row."
+    },
+    {
+      "association_id": "association:5e6730086d529aae35bc",
+      "role": "supporting",
+      "rationale": "States an isomorphism to the S₃ standard pullback, but not the full two-row claim."
+    },
+    {
+      "association_id": "association:60d5b48c0c5c41974d8f",
+      "role": "supporting",
+      "rationale": "Only gives the type of a representation; it states neither pullback nor sign twist."
+    }
+  ]
+}

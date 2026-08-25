@@ -1,0 +1,10 @@
+{
+  "module_name": "LieAlgebra.SolvableSimpleModules",
+  "declarations": [
+    {
+      "temporary_id": "decl-007075",
+      "new_name": "finrank_eq_one_of_isSimpleOrder",
+      "docstring": "A nontrivial finite-dimensional module over a solvable complex Lie algebra has dimension one when its Lie submodules form a simple order."
+    }
+  ]
+}

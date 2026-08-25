@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0547",
+  "associations": [
+    {
+      "association_id": "association:20e668f2a96c8b11ce97",
+      "rationale": "Although the type gives an isomorphism criterion, its parameter condition is expressed through the opaque map lam rather than directly stating that a' - a lies in the prime field.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:858b2d283d005a19753e",
+      "rationale": "The type states that no Lie-module equivalence exists between any oneDimModule and any Fam member, but it gives only the disjointness component and does not itself state the family isomorphism criterion required by the full claim.",
+      "role": "supporting"
+    }
+  ]
+}

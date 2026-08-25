@@ -1,0 +1,35 @@
+{
+  "declarations": [
+    {
+      "docstring": "The functor associated with a right module preserves addition of morphisms.",
+      "new_name": "ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor_additive",
+      "temporary_id": "decl-020574"
+    },
+    {
+      "docstring": "Associates to a right module a functor from left modules to additive commutative groups.",
+      "new_name": "ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor",
+      "temporary_id": "decl-023916"
+    },
+    {
+      "docstring": "Associates a morphism between the displayed auxiliary objects to a linear map.",
+      "new_name": "ModuleCategoryAuxiliary.linearMapToAuxiliaryHom",
+      "temporary_id": "decl-024080"
+    },
+    {
+      "docstring": "Builds an additive homomorphism between displayed auxiliary constructions from a linear map and a right module.",
+      "new_name": "ModuleCategoryAuxiliary.linearMapToAuxiliaryAddMonoidHom",
+      "temporary_id": "decl-024086"
+    },
+    {
+      "docstring": "The displayed homomorphism maps each pure tensor by applying the linear map to its second entry.",
+      "new_name": "ModuleCategoryAuxiliary.linearMapToAuxiliaryAddMonoidHom_tmul",
+      "temporary_id": "decl-024089"
+    },
+    {
+      "docstring": "Associates a morphism between auxiliary objects at a natural-number index to a linear map.",
+      "new_name": "ModuleCategoryAuxiliary.linearMapToAuxiliaryIndexedHom",
+      "temporary_id": "decl-024231"
+    }
+  ],
+  "module_name": "Algebra.ModuleCategory.Auxiliary"
+}

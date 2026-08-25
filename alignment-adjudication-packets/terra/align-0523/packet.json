@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1b2fe0e7ff932ca4b885",
+      "declaration": "Etingof.Problem2_14_3.tensorHomAdjunction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/115/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {L : Type u_2} \u2192\n      [inst_1 : LieRing.{u_2} L] \u2192\n        [inst_2 : LieAlgebra.{u_1, u_2} k L] \u2192\n          {V : Type u_3} \u2192\n            {W : Type u_4} \u2192\n              {U : Type u_5} \u2192\n                [inst_3 : AddCommGroup.{u_3} V] \u2192\n                  [inst_4 : Module.{u_1, u_3} k V] \u2192\n                    [inst_5 : LieRingModule.{u_2, u_3} L V] \u2192\n                      [inst_6 : LieModule.{u_1, u_2, u_3} k L V] \u2192\n                        [inst_7 : AddCommGroup.{u_4} W] \u2192\n                          [inst_8 : Module.{u_1, u_4} k W] \u2192\n                            [inst_9 : LieRingModule.{u_2, u_4} L W] \u2192\n                              [inst_10 : LieModule.{u_1, u_2, u_4} k L W] \u2192\n                                [inst_11 : AddCommGroup.{u_5} U] \u2192\n                                  [inst_12 : Module.{u_1, u_5} k U] \u2192\n                                    [inst_13 : LieRingModule.{u_2, u_5} L U] \u2192\n                                      [inst_14 : LieModule.{u_1, u_2, u_5} k L U] \u2192\n                                        [FiniteDimensional.{u_1, u_4} k W] \u2192\n                                          LinearEquiv.{u_1, u_1, max u_5 u_4 u_3, max (max (max u_4 u_1) u_5) u_3}\n                                            (RingHom.id.{u_1} k)\n                                            (LieModuleHom.{u_1, u_2, max u_4 u_3, u_5} k L\n                                              (TensorProduct.{u_1, u_3, u_4} k V W) U)\n                                            (LieModuleHom.{u_1, u_2, u_3, max (max u_4 u_1) u_5} k L V\n                                              (TensorProduct.{u_1, u_5, max u_4 u_1} k U (Module.Dual.{u_1, u_4} k W)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_14_3"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.14.3",
+  "packet_id": "align-0523",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0523"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.14.3:claim-01",
+  "source_text": "For finite-dimensional Lie algebra representations V, W, and U, Hom_\ud835\udd24(V \u2297 W, U) is isomorphic to Hom_\ud835\udd24(V, U \u2297 W*)."
+}

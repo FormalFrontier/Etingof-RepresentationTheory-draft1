@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0313",
+  "associations": [
+    {
+      "association_id": "association:17169d16a633683fd0bc",
+      "rationale": "The formal type directly constructs an A-module structure on the quotient of V by the A-submodule W, which is precisely the asserted quotient representation.",
+      "role": "primary"
+    }
+  ]
+}

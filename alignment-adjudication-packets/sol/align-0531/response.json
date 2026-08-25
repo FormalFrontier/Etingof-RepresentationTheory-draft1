@@ -1,0 +1,40 @@
+{
+  "packet_id": "align-0531",
+  "associations": [
+    {
+      "association_id": "association:cebb79fa4f2d76b70d33",
+      "rationale": "For an irreducible module of dimension lam + 1, the type gives an sl(2)-module equivalence with the standard model, but it does not itself assert existence of that irreducible model or display the E, F, and H matrices required by the complete claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a478de6f68de83364dcb",
+      "rationale": "This is the dimension computation for the standard model, supporting the classification theorem.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f54038899594abe037bb",
+      "rationale": "This establishes irreducibility of the standard model, a supporting property of the classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:692e417f6585b31bed17",
+      "rationale": "This is one basis-action formula for E, supporting the stated explicit standard matrices.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8b9cc520976b7f832e53",
+      "rationale": "This is an interior basis-action formula for F, supporting the stated explicit standard matrices.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6dbb25c446e5fad72b85",
+      "rationale": "This is the top-basis-vector formula for F, supporting the stated explicit standard matrices.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b7c71b1475a1c59233f9",
+      "rationale": "This is one basis-action formula for H, supporting the stated explicit standard matrices.",
+      "role": "supporting"
+    }
+  ]
+}

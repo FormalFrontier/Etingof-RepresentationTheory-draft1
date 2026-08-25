@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1697c521bd44a0e17844",
+      "declaration": "Etingof.eps_smul_not_scalar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/44/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_4} [inst : Field.{u_4} k],\n  Not\n    (Exists.{u_4 + 1} fun c =>\n      \u2200 (v : DualNumber.{u_4} k),\n        Eq.{u_4 + 1} (HMul.hMul.{u_4, u_4, u_4} DualNumber.eps.{u_4} v) (HSMul.hSMul.{u_4, u_4, u_4} c v))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_16"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.3.16",
+  "packet_id": "align-0576",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0576"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.3.16:claim-07",
+  "source_text": "In the indecomposable case the central action need not be a scalar operator."
+}

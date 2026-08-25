@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0581",
+  "associations": [
+    {
+      "association_id": "association:5bb8332593d9094729cd",
+      "rationale": "The theorem concludes that every A-linear endomorphism is scalar; it does not itself state that End_A(V) is a division algebra of countable complex dimension.",
+      "role": "supporting"
+    }
+  ]
+}

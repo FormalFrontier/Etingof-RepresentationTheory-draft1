@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2a801ac68914a6206de4",
+      "declaration": "Etingof.Problem3_9_3.twoRepZeroEquivDirectSum",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_3} \u2192\n  {Q : Type u_4} \u2192\n    [inst : Field.{u_3} k] \u2192\n      [inst_1 : Quiver.{u_5, u_4} Q] \u2192\n        [inst_2 : DecidableEq.{u_4 + 1} Q] \u2192\n          (i j : Q) \u2192\n            Etingof.QuiverRepresentationEquiv.{u_3, u_4, u_5, u_3, u_3} k Q\n              (Etingof.Problem3_9_3.twoRep.{u_3, u_4, u_5} i j 0)\n              (Etingof.QuiverRepresentation.directSum.{u_3, u_4, u_5, u_3, u_3} k Q\n                (Etingof.Problem6_9_3.simpleRep.{u_3, u_4, u_5} i) (Etingof.Problem6_9_3.simpleRep.{u_3, u_4, u_5} j))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:f191bae81e3f8e83242f",
+      "declaration": "Etingof.Problem3_9_3.twoRep_isIndecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:109577f308c7ab7e4ea1",
+      "declaration": "Etingof.Problem3_9_3.twoRep_zero_not_isIndecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_3} {Q : Type u_4} [inst : Field.{u_3} k] [inst_1 : Quiver.{u_5, u_4} Q] [inst_2 : DecidableEq.{u_4 + 1} Q]\n  (i j : Q),\n  Not\n    (Etingof.QuiverRepresentation.IsIndecomposable.{u_3, u_4, u_5, u_3}\n      (Etingof.Problem3_9_3.twoRep.{u_3, u_4, u_5} i j 0))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.3",
+  "packet_id": "align-0679",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0679"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.3:claim-05",
+  "source_text": "The zero-coefficient normal form splits as S\u1d62\u2295S\u2c7c, while a nonzero arrow coefficient between distinct vertices makes the normal form indecomposable."
+}

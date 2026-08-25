@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0465",
+  "associations": [
+    {
+      "association_id": "association:26f5b97fdf754d64630c",
+      "role": "supporting",
+      "rationale": "The displayed type only presents an opaque type of structures on a k-module; it does not expose associativity, bilinearity, or the absence of a unit field, so it cannot directly verify the full source definition."
+    }
+  ]
+}

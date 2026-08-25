@@ -1,0 +1,109 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192 [inst : Field.{u_1} k] \u2192 [inst_1 : AddCommGroup.{u_2} A] \u2192 [Module.{u_1, u_2} k A] \u2192 Type u_2",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3107316575",
+      "temporary_id": "decl-000624"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {inst : Field.{u_1} k} {inst_1 : AddCommGroup.{u_2} A} {inst_2 : Module.{u_1, u_2} k A}\n  [self : decl-000624.{u_1, u_2} k A] (a b c : A),\n  Eq.{u_2 + 1} (decl-000639.{u_1, u_2} k (HAdd.hAdd.{u_2, u_2, u_2} a b) c)\n    (HAdd.hAdd.{u_2, u_2, u_2} (decl-000639.{u_1, u_2} k a c)\n      (decl-000639.{u_1, u_2} k b c))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-000624",
+      "project_type_dependencies": [
+        "decl-000624",
+        "decl-000639"
+      ],
+      "structural_type_hash": "3378378796",
+      "temporary_id": "decl-000626"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Ring.{u_2} A] \u2192 [inst_2 : Algebra.{u_1, u_2} k A] \u2192 decl-000624.{u_1, u_2} k A",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000624",
+      "project_type_dependencies": [
+        "decl-000624"
+      ],
+      "structural_type_hash": "157766697",
+      "temporary_id": "decl-000629"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  {A : Type u_2} \u2192\n    {inst : Field.{u_1} k} \u2192\n      {inst_1 : AddCommGroup.{u_2} A} \u2192\n        {inst_2 : Module.{u_1, u_2} k A} \u2192 [self : decl-000624.{u_1, u_2} k A] \u2192 A \u2192 A \u2192 A",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000624",
+      "project_type_dependencies": [
+        "decl-000624"
+      ],
+      "structural_type_hash": "3925079931",
+      "temporary_id": "decl-000639"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {inst : Field.{u_1} k} {inst_1 : AddCommGroup.{u_2} A} {inst_2 : Module.{u_1, u_2} k A}\n  [self : decl-000624.{u_1, u_2} k A] (a b c : A),\n  Eq.{u_2 + 1} (decl-000639.{u_1, u_2} k a (HAdd.hAdd.{u_2, u_2, u_2} b c))\n    (HAdd.hAdd.{u_2, u_2, u_2} (decl-000639.{u_1, u_2} k a b)\n      (decl-000639.{u_1, u_2} k a c))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-000624",
+      "project_type_dependencies": [
+        "decl-000624",
+        "decl-000639"
+      ],
+      "structural_type_hash": "2334523266",
+      "temporary_id": "decl-000640"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {inst : Field.{u_1} k} {inst_1 : AddCommGroup.{u_2} A} {inst_2 : Module.{u_1, u_2} k A}\n  [self : decl-000624.{u_1, u_2} k A] (a b c : A),\n  Eq.{u_2 + 1} (decl-000639.{u_1, u_2} k (decl-000639.{u_1, u_2} k a b) c)\n    (decl-000639.{u_1, u_2} k a (decl-000639.{u_1, u_2} k b c))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-000624",
+      "project_type_dependencies": [
+        "decl-000624",
+        "decl-000639"
+      ],
+      "structural_type_hash": "1055323925",
+      "temporary_id": "decl-000641"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {inst : Field.{u_1} k} {inst_1 : AddCommGroup.{u_2} A} {inst_2 : Module.{u_1, u_2} k A}\n  [self : decl-000624.{u_1, u_2} k A] (r : k) (a b : A),\n  Eq.{u_2 + 1} (decl-000639.{u_1, u_2} k a (HSMul.hSMul.{u_1, u_2, u_2} r b))\n    (HSMul.hSMul.{u_1, u_2, u_2} r (decl-000639.{u_1, u_2} k a b))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-000624",
+      "project_type_dependencies": [
+        "decl-000624",
+        "decl-000639"
+      ],
+      "structural_type_hash": "1183696611",
+      "temporary_id": "decl-000642"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {inst : Field.{u_1} k} {inst_1 : AddCommGroup.{u_2} A} {inst_2 : Module.{u_1, u_2} k A}\n  [self : decl-000624.{u_1, u_2} k A] (r : k) (a b : A),\n  Eq.{u_2 + 1} (decl-000639.{u_1, u_2} k (HSMul.hSMul.{u_1, u_2, u_2} r a) b)\n    (HSMul.hSMul.{u_1, u_2, u_2} r (decl-000639.{u_1, u_2} k a b))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-000624",
+      "project_type_dependencies": [
+        "decl-000624",
+        "decl-000639"
+      ],
+      "structural_type_hash": "1291359366",
+      "temporary_id": "decl-000647"
+    }
+  ],
+  "module_temporary_id": "module-0007",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

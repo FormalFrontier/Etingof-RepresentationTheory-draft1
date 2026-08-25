@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Example4.3_S4",
+    "kind": "example",
+    "title": "Irreducible representations of S_4",
+    "node_id": "chapter-04/section-4-3",
+    "order": 199,
+    "slug": "example4-3-s4",
+    "span": {
+      "start": {
+        "page": "66",
+        "line": 11
+      },
+      "end": {
+        "page": "67",
+        "line": 2
+      }
+    },
+    "source_sha256": "07a06dea3f4ea8e51872a224423a16a7c613a835294b465b49d82adbf48def61",
+    "features": {
+      "line_count": 7,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Example43S4",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

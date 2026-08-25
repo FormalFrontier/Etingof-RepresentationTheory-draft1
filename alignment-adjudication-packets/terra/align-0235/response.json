@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0235",
+  "associations": [
+    {
+      "association_id": "association:7cbfdde6f75e224a8f99",
+      "role": "supporting",
+      "rationale": "The named nonunital direct-sum instance supplies relevant structure, but no formal type is available and it does not itself state that an infinite direct sum is not generally unital."
+    },
+    {
+      "association_id": "association:d2fe0f9a2797dd4d02bf",
+      "role": "supporting",
+      "rationale": "The named product-ring instance is relevant to unital products, but its formal type is unavailable, so the packet does not establish that it directly defines the stated product construction."
+    }
+  ]
+}

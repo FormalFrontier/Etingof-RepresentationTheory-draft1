@@ -1,0 +1,48 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(n : Nat) \u2192\n  (la : n.Partition) \u2192\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n      (TensorProduct.{0, 0, 0} Rat Complex\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016118.{0} Rat n la) x))\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016118.{0} Complex n la) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016118"
+      ],
+      "structural_type_hash": "2706012437",
+      "temporary_id": "decl-023283"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1}\n    (LinearMap.comp.{0, 0, 0, 0, 0, 0}\n      (LinearEquiv.toLinearMap.{0, 0, 0, 0} (decl-023283 n la))\n      (LinearMap.baseChange.{0, 0, 0, 0} Complex (decl-023298.{0} Rat n la \u03c3)))\n    (LinearMap.comp.{0, 0, 0, 0, 0, 0} (decl-023298.{0} Complex n la \u03c3)\n      (LinearEquiv.toLinearMap.{0, 0, 0, 0} (decl-023283 n la)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016118",
+        "decl-023283",
+        "decl-023298"
+      ],
+      "structural_type_hash": "511114643",
+      "temporary_id": "decl-023288"
+    }
+  ],
+  "module_temporary_id": "module-0439",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,140 @@
+{
+  "module_name": "RingTheory.JacobsonRadical.TensorProduct",
+  "declarations": [
+    {
+      "temporary_id": "decl-018756",
+      "new_name": "exists_algEquiv_pi_matrix_of_isSemisimpleRing",
+      "docstring": "A finite-dimensional semisimple algebra over an algebraically closed field is equivalent to a finite product of nonzero-size full matrix algebras."
+    },
+    {
+      "temporary_id": "decl-020627",
+      "new_name": "tensorProductIdeal_aux3_isTwoSided",
+      "docstring": "The third auxiliary ideal of the tensor product is two-sided."
+    },
+    {
+      "temporary_id": "decl-020860",
+      "new_name": "tensorProductIdeal_aux1_isNilpotent",
+      "docstring": "The first auxiliary ideal of the tensor product is nilpotent when the left factor is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-020861",
+      "new_name": "tensorProductIdeal_aux2_isNilpotent",
+      "docstring": "The second auxiliary ideal of the tensor product is nilpotent when the right factor is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-020862",
+      "new_name": "tensorProductIdeal_aux3_isNilpotent",
+      "docstring": "The third auxiliary ideal of the tensor product is nilpotent when both factors are finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-020892",
+      "new_name": "isSemisimpleRing_tensorProduct",
+      "docstring": "The tensor product of two finite-dimensional semisimple algebras over an algebraically closed field is semisimple."
+    },
+    {
+      "temporary_id": "decl-021009",
+      "new_name": "jacobson_le_tensorProductIdeal_aux3_of_isSemisimpleRing",
+      "docstring": "If the tensor product of the Jacobson-radical quotients is semisimple, the Jacobson radical of the tensor product is contained in the third auxiliary ideal."
+    },
+    {
+      "temporary_id": "decl-021010",
+      "new_name": "jacobson_tensorProduct_eq_aux3",
+      "docstring": "For finite-dimensional algebras over an algebraically closed field, the Jacobson radical of their tensor product equals the third auxiliary ideal."
+    },
+    {
+      "temporary_id": "decl-021011",
+      "new_name": "jacobson_tensorProduct_actionRange_eq_aux3",
+      "docstring": "For two algebra actions on a finite-dimensional vector space over an algebraically closed field, the Jacobson radical of the tensor product of their ranges equals the corresponding third auxiliary ideal."
+    },
+    {
+      "temporary_id": "decl-021432",
+      "new_name": "le_jacobson_of_isNilpotent",
+      "docstring": "Every nilpotent ideal of a ring is contained in its Jacobson radical."
+    },
+    {
+      "temporary_id": "decl-021544",
+      "new_name": "map_includeLeft_mul_le",
+      "docstring": "The product of two ideals mapped through the left tensor-product inclusion is contained in the image of their product."
+    },
+    {
+      "temporary_id": "decl-021545",
+      "new_name": "map_includeLeft_pow_le",
+      "docstring": "A power of an ideal mapped through the left tensor-product inclusion is contained in the image of the corresponding ideal power."
+    },
+    {
+      "temporary_id": "decl-021546",
+      "new_name": "map_includeRight_mul_le",
+      "docstring": "The product of two ideals mapped through the right tensor-product inclusion is contained in the image of their product."
+    },
+    {
+      "temporary_id": "decl-021547",
+      "new_name": "map_includeRight_pow_le",
+      "docstring": "A power of an ideal mapped through the right tensor-product inclusion is contained in the image of the corresponding ideal power."
+    },
+    {
+      "temporary_id": "decl-022270",
+      "new_name": "quotientJacobsonTensorProductAlgEquiv",
+      "docstring": "The quotient of a finite-dimensional tensor-product algebra by its Jacobson radical is algebra-equivalent to the tensor product of the two Jacobson-radical quotients."
+    },
+    {
+      "temporary_id": "decl-022273",
+      "new_name": "quotientTensorProductIdealAux3AlgEquiv",
+      "docstring": "The quotient by the third auxiliary tensor-product ideal is algebra-equivalent to the tensor product of the factor algebras modulo their Jacobson radicals."
+    },
+    {
+      "temporary_id": "decl-022277",
+      "new_name": "tensorProductIdeal_aux1",
+      "docstring": "A first auxiliary ideal of a tensor-product algebra."
+    },
+    {
+      "temporary_id": "decl-022279",
+      "new_name": "tensorProductIdeal_aux2",
+      "docstring": "A second auxiliary ideal of a tensor-product algebra."
+    },
+    {
+      "temporary_id": "decl-022280",
+      "new_name": "tensorProductIdeal_aux3",
+      "docstring": "A third auxiliary ideal of a tensor-product algebra."
+    },
+    {
+      "temporary_id": "decl-022281",
+      "new_name": "tensorProductIdeal_aux3_eq_ker",
+      "docstring": "The third auxiliary tensor-product ideal is the kernel of the map to the tensor product of the Jacobson-radical quotients."
+    },
+    {
+      "temporary_id": "decl-022282",
+      "new_name": "tensorProductIdeal_aux3_le_jacobson",
+      "docstring": "For finite-dimensional factor algebras, the third auxiliary tensor-product ideal is contained in the Jacobson radical of the tensor product."
+    },
+    {
+      "temporary_id": "decl-024037",
+      "new_name": "tensorProductRangeModule",
+      "docstring": "The module structure induced by two commuting algebra actions over the tensor product of their ranges."
+    },
+    {
+      "temporary_id": "decl-024038",
+      "new_name": "tensorProductRangeAction",
+      "docstring": "The algebra homomorphism from the tensor product of the ranges of two commuting actions to endomorphisms of their common module."
+    },
+    {
+      "temporary_id": "decl-024045",
+      "new_name": "tensorProductRangeAction_tmul",
+      "docstring": "On a pure tensor from the two action ranges, the tensor-product action is the product of the corresponding endomorphisms."
+    },
+    {
+      "temporary_id": "decl-024046",
+      "new_name": "tensorProductQuotientMap",
+      "docstring": "The algebra homomorphism from a tensor product to the tensor product of the two factor algebras modulo their Jacobson radicals."
+    },
+    {
+      "temporary_id": "decl-024051",
+      "new_name": "tensorProductQuotientMap_surjective",
+      "docstring": "The tensor-product map to the tensor product of the Jacobson-radical quotients is surjective."
+    },
+    {
+      "temporary_id": "decl-024052",
+      "new_name": "tensorProductQuotientMap_tmul",
+      "docstring": "The tensor-product quotient map sends a pure tensor to the pure tensor of the two quotient classes."
+    }
+  ]
+}

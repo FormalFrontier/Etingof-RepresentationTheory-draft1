@@ -1,0 +1,7 @@
+{
+  "packet_id": "align-0032",
+  "associations": [
+    {"association_id": "association:6fe4e99505918ec42098", "role": "supporting", "rationale": "The type gives the q minus one cardinality for MonoidHom from the opaque family G p n; it does not itself identify G p n with GL₂(F_q)."},
+    {"association_id": "association:25025eafdea55c956cd3", "role": "supporting", "rationale": "The type displays an abstract equivalence of two MonoidHom types, but it does not state that the forward map is composition with determinant or expose G p n as GL₂(F_q)."}
+  ]
+}

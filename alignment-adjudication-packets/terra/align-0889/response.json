@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0889",
+  "associations": [
+    {
+      "association_id": "association:b83cdbfe11279a84c1b8",
+      "role": "supporting",
+      "rationale": "The displayed formal type is only a type-valued declaration parameterized by a Lie module; it does not directly state that its underlying space is V's dual."
+    }
+  ]
+}

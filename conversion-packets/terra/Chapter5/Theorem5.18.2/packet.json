@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.18.2",
+    "kind": "theorem",
+    "title": "B is the image of U(gl(V)) acting on V^{\u2297n}",
+    "node_id": "chapter-05/section-5-18",
+    "order": 349,
+    "slug": "theorem5-18-2",
+    "span": {
+      "start": {
+        "page": "123",
+        "line": 5
+      },
+      "end": {
+        "page": "123",
+        "line": 14
+      }
+    },
+    "source_sha256": "6cdbb2ba65822136f2b47538d0c46caec085332c4799341a386b5fda6e6b795d",
+    "features": {
+      "line_count": 10,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5182",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

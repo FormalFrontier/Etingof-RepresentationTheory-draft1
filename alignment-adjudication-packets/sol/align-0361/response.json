@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0361",
+  "associations": [
+    {
+      "association_id": "association:242ac0fc4441b8363478",
+      "role": "supporting",
+      "rationale": "The equality states the displayed character values, but it does not itself state simplicity, pairwise nonisomorphism, genuineness, or completeness of the five representations, so it covers only one part of the source claim."
+    },
+    {
+      "association_id": "association:dd2e89057a2339397180",
+      "role": "supporting",
+      "rationale": "The class-count equality supports completeness of a five-member irreducible family, but does not itself state that the displayed representations are complete."
+    },
+    {
+      "association_id": "association:229598bff08da9d23523",
+      "role": "supporting",
+      "rationale": "The formal type only supplies a family of five representations and does not state simplicity, pairwise nonisomorphism, character values, or completeness."
+    },
+    {
+      "association_id": "association:44a2fccf560053421406",
+      "role": "supporting",
+      "rationale": "The formal type states pairwise nonisomorphism within the displayed family, but it does not itself state simplicity, the character values, genuineness, or completeness, so it is partial evidence."
+    },
+    {
+      "association_id": "association:e4c48dd9388aa51c2b41",
+      "role": "supporting",
+      "rationale": "The formal type states simplicity of each displayed representation, but it does not itself state pairwise nonisomorphism, the character values, genuineness, or completeness, so it is partial evidence."
+    }
+  ]
+}

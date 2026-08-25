@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4793027e8b4c154cd127",
+      "declaration": "Etingof.Discussion2_9.bracket_add_left",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/76/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {L : Type u_2} [inst : LieRing.{u_2} L] (x y z : L),\n  Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} (HAdd.hAdd.{u_2, u_2, u_2} x y) z)\n    (HAdd.hAdd.{u_2, u_2, u_2} (Bracket.bracket.{u_2, u_2} x z) (Bracket.bracket.{u_2, u_2} y z))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_9_heading"
+    },
+    {
+      "association_id": "association:646806f0840c925b3cf0",
+      "declaration": "Etingof.Discussion2_9.bracket_add_right",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/76/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {L : Type u_2} [inst : LieRing.{u_2} L] (x y z : L),\n  Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} x (HAdd.hAdd.{u_2, u_2, u_2} y z))\n    (HAdd.hAdd.{u_2, u_2, u_2} (Bracket.bracket.{u_2, u_2} x y) (Bracket.bracket.{u_2, u_2} x z))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_9_heading"
+    },
+    {
+      "association_id": "association:2be8e4c749f37e94f355",
+      "declaration": "Etingof.Discussion2_9.bracket_smul_left",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/76/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {L : Type u_2} [inst : Field.{u_1} k] [inst_1 : LieRing.{u_2} L] [inst_2 : LieAlgebra.{u_1, u_2} k L]\n  (a : k) (x y : L),\n  Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} (HSMul.hSMul.{u_1, u_2, u_2} a x) y)\n    (HSMul.hSMul.{u_1, u_2, u_2} a (Bracket.bracket.{u_2, u_2} x y))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_9_heading"
+    },
+    {
+      "association_id": "association:b0222ab4638151d32fef",
+      "declaration": "Etingof.Discussion2_9.bracket_smul_right",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/76/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {L : Type u_2} [inst : Field.{u_1} k] [inst_1 : LieRing.{u_2} L] [inst_2 : LieAlgebra.{u_1, u_2} k L]\n  (a : k) (x y : L),\n  Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} x (HSMul.hSMul.{u_1, u_2, u_2} a y))\n    (HSMul.hSMul.{u_1, u_2, u_2} a (Bracket.bracket.{u_2, u_2} x y))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_9_heading"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.9_heading",
+  "packet_id": "align-0014",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0014"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:027e23dc93f8cb54d428",
+  "source_text": "The bracket is bilinear over the ground field."
+}

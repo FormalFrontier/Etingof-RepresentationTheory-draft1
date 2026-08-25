@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0370",
+  "associations": [
+    {
+      "association_id": "association:1b4d7a28a97ad9fd6766",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so packet-only evidence cannot show that this result directly states the reduction to a common quotient."
+    },
+    {
+      "association_id": "association:57fe4760441b0f0e5968",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable; a quotient-module construction supports the reduction but does not itself state the comparison argument."
+    }
+  ]
+}

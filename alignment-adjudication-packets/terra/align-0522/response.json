@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0522",
+  "associations": [
+    {
+      "association_id": "association:031ec651914e70556487",
+      "rationale": "The formal type failed to print, so the displayed evidence does not directly state the recurrence-based proof strategy in the source text.",
+      "role": "supporting"
+    }
+  ]
+}

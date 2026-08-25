@@ -1,0 +1,225 @@
+{
+  "module_name": "SymmetricGroup.AuxiliaryMonoidAlgebra",
+  "declarations": [
+    {
+      "temporary_id": "decl-004922",
+      "new_name": "auxiliaryCarrierToSubmodule",
+      "docstring": "The auxiliary linear map from the partition-indexed carrier to the associated monoid-algebra submodule."
+    },
+    {
+      "temporary_id": "decl-004923",
+      "new_name": "coe_auxiliaryCarrierToSubmodule",
+      "docstring": "The underlying monoid-algebra value of the auxiliary submodule map agrees with the corresponding ambient linear map."
+    },
+    {
+      "temporary_id": "decl-004924",
+      "new_name": "auxiliaryCarrierToSubmodule_injective",
+      "docstring": "The auxiliary linear map into the monoid-algebra submodule is injective."
+    },
+    {
+      "temporary_id": "decl-004925",
+      "new_name": "auxiliaryCarrierToSubmodule_surjective",
+      "docstring": "The auxiliary linear map onto the monoid-algebra submodule is surjective."
+    },
+    {
+      "temporary_id": "decl-004926",
+      "new_name": "auxiliaryCarrierToMonoidAlgebra",
+      "docstring": "An auxiliary linear map from the partition-indexed carrier to the complex monoid algebra of permutations."
+    },
+    {
+      "temporary_id": "decl-004927",
+      "new_name": "auxiliaryCarrierToMonoidAlgebra_indV_mk",
+      "docstring": "The auxiliary carrier map sends an induced-representation generator to the stated scalar multiple of an inverse permutation basis element times the auxiliary vector."
+    },
+    {
+      "temporary_id": "decl-004928",
+      "new_name": "auxiliaryCarrierToMonoidAlgebra_injective",
+      "docstring": "The auxiliary linear map from the carrier to the permutation monoid algebra is injective."
+    },
+    {
+      "temporary_id": "decl-004929",
+      "new_name": "auxiliaryCarrierToMonoidAlgebra_mem",
+      "docstring": "Every value of the auxiliary carrier map belongs to the associated monoid-algebra submodule."
+    },
+    {
+      "temporary_id": "decl-004930",
+      "new_name": "auxiliaryCarrierToMonoidAlgebra_coinvariants_mk",
+      "docstring": "After passing a tensor through the coinvariants map, the auxiliary carrier map agrees with the tensor-to-monoid-algebra map."
+    },
+    {
+      "temporary_id": "decl-004931",
+      "new_name": "auxiliaryCarrierToMonoidAlgebra_comp_monoidAlgebraToCarrier",
+      "docstring": "The composite from the monoid algebra through the auxiliary carrier is right multiplication by the auxiliary group-algebra element."
+    },
+    {
+      "temporary_id": "decl-004932",
+      "new_name": "normalizedMonoidAlgebraToAuxiliaryCarrier",
+      "docstring": "An auxiliary linear map from the complex permutation monoid algebra to the partition-indexed carrier."
+    },
+    {
+      "temporary_id": "decl-004934",
+      "new_name": "normalizedMonoidAlgebraToAuxiliaryCarrier_comp",
+      "docstring": "The normalized map back to the auxiliary carrier is a left inverse of the carrier-to-monoid-algebra map."
+    },
+    {
+      "temporary_id": "decl-004935",
+      "new_name": "normalizedMonoidAlgebraToAuxiliaryCarrier_single",
+      "docstring": "The normalized map on a single permutation basis term is the stated scalar multiple of an induced-representation generator at the inverse permutation."
+    },
+    {
+      "temporary_id": "decl-004936",
+      "new_name": "indV_mk_eq_coinvariants_mk_tmul",
+      "docstring": "An induced-representation generator equals the coinvariants class of the corresponding permutation basis term tensored with its scalar."
+    },
+    {
+      "temporary_id": "decl-004937",
+      "new_name": "indV_mk_mul_subgroup",
+      "docstring": "Left multiplication of the permutation parameter by a subgroup element does not change the induced-representation generator."
+    },
+    {
+      "temporary_id": "decl-004938",
+      "new_name": "auxiliaryRepresentationEquiv",
+      "docstring": "An auxiliary equivalence between the two displayed complex representations."
+    },
+    {
+      "temporary_id": "decl-004940",
+      "new_name": "auxiliaryCarrierToMonoidAlgebra_intertwines",
+      "docstring": "The auxiliary carrier map intertwines the displayed permutation actions as linear maps."
+    },
+    {
+      "temporary_id": "decl-004941",
+      "new_name": "auxiliaryCarrierToMonoidAlgebra_action_apply",
+      "docstring": "The auxiliary carrier map commutes pointwise with the displayed permutation actions."
+    },
+    {
+      "temporary_id": "decl-004942",
+      "new_name": "tensorToMonoidAlgebra",
+      "docstring": "A partition-indexed linear map from the tensor product of the permutation monoid algebra with the scalars to the monoid algebra."
+    },
+    {
+      "temporary_id": "decl-004947",
+      "new_name": "tensorToMonoidAlgebra_comp_subgroupAction",
+      "docstring": "Composing the tensor-to-monoid-algebra map with the action of a subgroup element leaves the map unchanged."
+    },
+    {
+      "temporary_id": "decl-004948",
+      "new_name": "tensorToMonoidAlgebra_mem",
+      "docstring": "The tensor-to-monoid-algebra map takes every tensor into the associated auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-004949",
+      "new_name": "tensorToMonoidAlgebra_tmul",
+      "docstring": "On a pure tensor, the tensor-to-monoid-algebra map is scalar multiplication of the associated auxiliary endomorphism value."
+    },
+    {
+      "temporary_id": "decl-004950",
+      "new_name": "auxiliaryMonoidAlgebraEndomorphism",
+      "docstring": "An auxiliary partition-indexed linear endomorphism of the complex monoid algebra of permutations."
+    },
+    {
+      "temporary_id": "decl-004952",
+      "new_name": "auxiliaryMonoidAlgebraEndomorphism_mem",
+      "docstring": "Every value of the auxiliary monoid-algebra endomorphism lies in the associated submodule."
+    },
+    {
+      "temporary_id": "decl-004953",
+      "new_name": "auxiliaryMonoidAlgebraEndomorphism_mul_subgroup",
+      "docstring": "The auxiliary endomorphism is unchanged after left multiplication by the basis element of a subgroup permutation."
+    },
+    {
+      "temporary_id": "decl-004954",
+      "new_name": "auxiliaryMonoidAlgebraEndomorphism_single",
+      "docstring": "The auxiliary endomorphism sends a single permutation term to the inverse-permutation term multiplied by the auxiliary group-algebra element."
+    },
+    {
+      "temporary_id": "decl-004955",
+      "new_name": "inversePermutationLinearMap",
+      "docstring": "A linear endomorphism of the complex monoid algebra of permutations."
+    },
+    {
+      "temporary_id": "decl-004960",
+      "new_name": "inversePermutationLinearMap_single",
+      "docstring": "The linear map sends a single permutation term to the term indexed by the inverse permutation with the same coefficient."
+    },
+    {
+      "temporary_id": "decl-004961",
+      "new_name": "auxiliarySubmodule_le_comap_action",
+      "docstring": "The auxiliary monoid-algebra submodule is contained in its inverse image under each permutation action."
+    },
+    {
+      "temporary_id": "decl-004962",
+      "new_name": "leftMultiplicationRepresentation",
+      "docstring": "A complex representation of the permutation group on its monoid algebra."
+    },
+    {
+      "temporary_id": "decl-004966",
+      "new_name": "leftMultiplicationRepresentation_apply",
+      "docstring": "The displayed representation acts by left multiplication with the monoid-algebra basis element of the permutation."
+    },
+    {
+      "temporary_id": "decl-004967",
+      "new_name": "leftRegular_apply",
+      "docstring": "The left regular representation acts on the permutation monoid algebra by left multiplication with the corresponding basis element."
+    },
+    {
+      "temporary_id": "decl-004968",
+      "new_name": "auxiliaryCarrierSubmoduleEquiv",
+      "docstring": "An auxiliary linear equivalence between the partition-indexed carrier and the associated monoid-algebra submodule."
+    },
+    {
+      "temporary_id": "decl-004971",
+      "new_name": "auxiliaryCarrierSubmoduleEquiv_intertwines",
+      "docstring": "The auxiliary carrier-submodule equivalence intertwines the displayed permutation representations."
+    },
+    {
+      "temporary_id": "decl-004972",
+      "new_name": "subgroup_mul_auxiliaryElement",
+      "docstring": "Left multiplication by the basis element of a subgroup permutation fixes the auxiliary monoid-algebra element."
+    },
+    {
+      "temporary_id": "decl-004973",
+      "new_name": "auxiliaryMonoidAlgebraSubmodule",
+      "docstring": "An auxiliary partition-indexed complex submodule of the monoid algebra of permutations."
+    },
+    {
+      "temporary_id": "decl-004975",
+      "new_name": "monoidAlgebraToAuxiliaryCarrier",
+      "docstring": "An auxiliary linear map from the complex permutation monoid algebra to the partition-indexed carrier."
+    },
+    {
+      "temporary_id": "decl-004977",
+      "new_name": "monoidAlgebraToAuxiliaryCarrier_single",
+      "docstring": "The auxiliary map sends a single permutation term to the corresponding scalar multiple of an induced-representation generator at the inverse permutation."
+    },
+    {
+      "temporary_id": "decl-004978",
+      "new_name": "AuxiliaryCarrier",
+      "docstring": "An auxiliary type indexed by a natural number and a partition of that number."
+    },
+    {
+      "temporary_id": "decl-004979",
+      "new_name": "auxiliarySubmoduleRepresentation",
+      "docstring": "An auxiliary complex representation of the permutation group on the associated monoid-algebra submodule."
+    },
+    {
+      "temporary_id": "decl-004980",
+      "new_name": "auxiliaryTensorProductRepresentation",
+      "docstring": "An auxiliary complex representation of the displayed permutation subgroup on the tensor product of the permutation monoid algebra with the scalars."
+    },
+    {
+      "temporary_id": "decl-004981",
+      "new_name": "monoidAlgebraCoeffLinearEquiv",
+      "docstring": "A linear equivalence from the complex permutation monoid algebra to finitely supported coefficient functions."
+    },
+    {
+      "temporary_id": "decl-004982",
+      "new_name": "monoidAlgebraCoeffLinearEquiv_apply",
+      "docstring": "The coefficient linear equivalence evaluates to the monoid-algebra coefficient function."
+    },
+    {
+      "temporary_id": "decl-004983",
+      "new_name": "auxiliaryScalarRepresentation",
+      "docstring": "An auxiliary complex representation of the displayed permutation subgroup on the complex numbers."
+    }
+  ]
+}

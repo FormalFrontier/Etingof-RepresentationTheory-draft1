@@ -1,0 +1,25 @@
+{
+  "module_name": "Induction.Transitivity",
+  "declarations": [
+    {
+      "temporary_id": "decl-020516",
+      "new_name": "Representation.reindexSubgroupOf",
+      "docstring": "Reindex a representation of a subgroup as a representation of its copy inside a larger subgroup."
+    },
+    {
+      "temporary_id": "decl-020517",
+      "new_name": "Representation.Coinvariants.ker_tprod_leftRegular_comp_eq_of_bijective",
+      "docstring": "A bijective change of the parameter group preserving both maps identifies the kernels of coinvariants for the corresponding tensor products with the pulled-back left regular representation."
+    },
+    {
+      "temporary_id": "decl-020524",
+      "new_name": "Representation.exists_induction_transitivity_intertwiner_of_le",
+      "docstring": "For nested subgroups, there is a map from induction through the intermediate subgroup to direct induction that commutes with the ambient group actions."
+    },
+    {
+      "temporary_id": "decl-020528",
+      "new_name": "Representation.exists_induction_transitivity_intertwiner",
+      "docstring": "Induction successively along two group homomorphisms admits a map to induction along their composite that intertwines the target group actions."
+    }
+  ]
+}

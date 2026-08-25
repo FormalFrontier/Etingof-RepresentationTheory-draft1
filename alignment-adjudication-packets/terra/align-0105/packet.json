@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:78e76becdc63a0bd7055",
+      "declaration": "Etingof.Example5_19_3_exterior_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/356/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [CharZero.{0} k] {V : Type} [inst_2 : AddCommGroup.{0} V] [inst_3 : Module.{0, 0} k V]\n  [Module.Finite.{0, 0} k V] (n : Nat)\n  (W : Submodule.{0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} (ExteriorAlgebra.exteriorPower.{0, 0} k n V) x)),\n  (\u2200 (g : LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) V V)\n      (w : Subtype.{1} fun x => Membership.mem.{0, 0} (ExteriorAlgebra.exteriorPower.{0, 0} k n V) x),\n      Membership.mem.{0, 0} W w \u2192\n        Membership.mem.{0, 0} W\n          (DFunLike.coe.{1, 1, 1} (exteriorPower.map.{0, 0, 0} n (LinearEquiv.toLinearMap.{0, 0, 0, 0} g)) w)) \u2192\n    Or (Eq.{1} W Bot.bot.{0}) (Eq.{1} W Top.top.{0})",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_19_3"
+    },
+    {
+      "association_id": "association:c9786377d08e476a6685",
+      "declaration": "Etingof.Example5_19_3_exterior_subsingleton_of_dim_lt",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/356/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {V : Type} [inst_1 : AddCommGroup.{0} V] [inst_2 : Module.{0, 0} k V]\n  [Module.Finite.{0, 0} k V] {n : Nat},\n  LT.lt.{0} (Module.finrank.{0, 0} k V) n \u2192\n    Subsingleton.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} (ExteriorAlgebra.exteriorPower.{0, 0} k n V) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_19_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Example5.19.3",
+  "packet_id": "align-0105",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0105"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2195de63a97e9dcf806a",
+  "source_text": "The exterior factor is irreducible when nonzero and vanishes when n exceeds dim V."
+}

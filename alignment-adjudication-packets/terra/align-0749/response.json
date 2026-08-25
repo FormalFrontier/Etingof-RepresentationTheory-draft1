@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0749",
+  "associations": [
+    {
+      "association_id": "association:9621504b127d8729f9d7",
+      "role": "supporting",
+      "rationale": "This constructs the one-dimensional representation associated to the character, a prerequisite for the displayed idempotent rather than the idempotent itself."
+    },
+    {
+      "association_id": "association:ad0c8b67d9415ba8b01d",
+      "role": "supporting",
+      "rationale": "The displayed type only constructs a group-algebra element from the subgroup character; it neither displays the character-average formula nor asserts normalization or idempotence."
+    }
+  ]
+}

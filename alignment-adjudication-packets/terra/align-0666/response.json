@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0666",
+  "associations": [
+    {
+      "association_id": "association:6dc3c36bd67f198e30bc",
+      "rationale": "The formal type only presents Vrep a as a Type and does not expose either one-dimensionality or the coordinate action.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a1b594bd86bf73f38e82",
+      "rationale": "The displayed equality states that every polynomial q acts on Vrep a through evaluation at a, but it does not state that Vrep a is one-dimensional.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9b77c7fc0ca75e55795b",
+      "rationale": "The formal type only presents polyAlg as a type-valued function on Nat and does not identify it with the polynomial algebra or state the Vrep action.",
+      "role": "supporting"
+    }
+  ]
+}

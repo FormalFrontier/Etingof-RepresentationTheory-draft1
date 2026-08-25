@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0349",
+  "associations": [
+    {
+      "association_id": "association:97fceba1069ff948c017",
+      "role": "supporting",
+      "rationale": "The formal type states only the F X corepresentability half of the source claim, so it supports but does not state the complete two-sided adjunction claim."
+    },
+    {
+      "association_id": "association:d1a387bfe220a6154976",
+      "role": "supporting",
+      "rationale": "The formal type states only the G Y representability half of the source claim, so it supports but does not state the complete two-sided adjunction claim."
+    }
+  ]
+}

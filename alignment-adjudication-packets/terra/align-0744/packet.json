@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b24b31c59ce999509c1a",
+      "declaration": "Etingof.Exercise5_27_3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/398/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Exercise5.27.3",
+  "packet_id": "align-0744",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0744"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Exercise5.27.3:part_i",
+  "source_text": "Deduce irreducibility in Theorem 5.27.1 from its character formula."
+}

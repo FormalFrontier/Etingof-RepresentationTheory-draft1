@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0365",
+  "associations": [
+    {
+      "association_id": "association:93684ec6fdfa3ae106f6",
+      "role": "primary",
+      "rationale": "The biconditional directly states that two quotient images are equal exactly when their difference belongs to the two-sided ideal."
+    }
+  ]
+}

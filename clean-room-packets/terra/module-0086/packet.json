@@ -1,0 +1,174 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {A : Type u_2} \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          {V : Type u_3} \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_2, u_3} A V] \u2192\n                (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Subalgebra.center.{u_1, u_2} k A) x) \u2192\n                  Module.End.{u_2, u_3} A V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1824659690",
+      "temporary_id": "decl-017801"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {A : Type u_2} \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          {V : Type u_3} \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    AlgHom.{u_1, u_2, u_3} k\n                      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Subalgebra.center.{u_1, u_2} k A) x)\n                      (Module.End.{u_2, u_3} A V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "19086028",
+      "temporary_id": "decl-017804"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  {V : Type u_3} [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_2, u_3} A V]\n  (z : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Subalgebra.center.{u_1, u_2} k A) x) (v : V),\n  Eq.{u_3 + 1} (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (decl-017801.{u_1, u_2, u_3} z) v)\n    (HSMul.hSMul.{u_2, u_3, u_3} (Subtype.val.{u_2 + 1} z) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017801"
+      ],
+      "structural_type_hash": "2297093353",
+      "temporary_id": "decl-017811"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_4} [inst : Field.{u_4} k] {A : Type u_5} [inst_1 : Ring.{u_5} A] [inst_2 : Algebra.{u_4, u_5} k A]\n  {V : Type u_6} [inst_3 : AddCommGroup.{u_6} V] [inst_4 : Module.{u_4, u_6} k V] [inst_5 : Module.{u_5, u_6} A V]\n  [inst_6 : IsScalarTower.{u_4, u_5, u_6} k A V] [FiniteDimensional.{u_4, u_6} k V],\n  decl-005194.{u_5, u_6} A V \u2192\n    \u2200 (z : Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} (Subalgebra.center.{u_4, u_5} k A) x) {\u03c7 : k} {v\u2080 : V},\n      Ne.{u_6 + 1} v\u2080 0 \u2192\n        Eq.{u_6 + 1} (HSMul.hSMul.{u_5, u_6, u_6} (Subtype.val.{u_5 + 1} z) v\u2080) (HSMul.hSMul.{u_4, u_6, u_6} \u03c7 v\u2080) \u2192\n          IsNilpotent.{u_6}\n            (HSub.hSub.{u_6, u_6, u_6} (decl-017801.{u_4, u_5, u_6} z) (HSMul.hSMul.{u_4, u_6, u_6} \u03c7 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194",
+        "decl-017801"
+      ],
+      "structural_type_hash": "1490224276",
+      "temporary_id": "decl-017812"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {A : Type u_2} \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          {V : Type u_3} \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    [IsAlgClosed.{u_1} k] \u2192\n                      [IsSimpleModule.{u_2, u_3} A V] \u2192\n                        [FiniteDimensional.{u_1, u_3} k V] \u2192\n                          AlgHom.{u_1, u_2, u_1} k\n                            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Subalgebra.center.{u_1, u_2} k A) x)\n                            k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4154745621",
+      "temporary_id": "decl-017813"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  {V : Type u_3} [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V] [inst_5 : Module.{u_2, u_3} A V]\n  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : IsAlgClosed.{u_1} k] [inst_8 : IsSimpleModule.{u_2, u_3} A V]\n  [inst_9 : FiniteDimensional.{u_1, u_3} k V]\n  (z : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Subalgebra.center.{u_1, u_2} k A) x) (v : V),\n  Eq.{u_3 + 1} (HSMul.hSMul.{u_2, u_3, u_3} (Subtype.val.{u_2 + 1} z) v)\n    (HSMul.hSMul.{u_1, u_3, u_3}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} decl-017813.{u_1, u_2, u_3} z) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017813"
+      ],
+      "structural_type_hash": "3748082919",
+      "temporary_id": "decl-017815"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {A : Type u_2} \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          {V : Type u_3} \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    [IsAlgClosed.{u_1} k] \u2192\n                      [IsSimpleModule.{u_2, u_3} A V] \u2192\n                        [FiniteDimensional.{u_1, u_3} k V] \u2192 AlgEquiv.{u_1, u_1, u_3} k k (Module.End.{u_2, u_3} A V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3680032962",
+      "temporary_id": "decl-018585"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  {V : Type u_3} [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V] [inst_5 : Module.{u_2, u_3} A V]\n  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : IsAlgClosed.{u_1} k] [inst_8 : IsSimpleModule.{u_2, u_3} A V]\n  [inst_9 : FiniteDimensional.{u_1, u_3} k V] (c : k),\n  Eq.{u_3 + 1} (DFunLike.coe.{max (u_3 + 1) (u_1 + 1), u_1 + 1, u_3 + 1} decl-018585.{u_1, u_2, u_3} c)\n    (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_1 + 1, u_3 + 1}\n      (Algebra.algebraMap.{u_1, u_3} k (Module.End.{u_2, u_3} A V)) c)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018585"
+      ],
+      "structural_type_hash": "3830106350",
+      "temporary_id": "decl-018586"
+    },
+    {
+      "formal_type": "{k : Type u_4} \u2192\n  [inst : Field.{u_4} k] \u2192\n    Subtype.{u_4 + 1} fun x => Membership.mem.{u_4, u_4} (Subalgebra.center.{u_4, u_4} k (DualNumber.{u_4} k)) x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2406655676",
+      "temporary_id": "decl-018609"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_4} [inst : Field.{u_4} k],\n  Eq.{u_4 + 1} (Subtype.val.{u_4 + 1} decl-018609.{u_4}) DualNumber.eps.{u_4}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018609"
+      ],
+      "structural_type_hash": "2385728343",
+      "temporary_id": "decl-018613"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_4} [inst : Field.{u_4} k],\n  Not\n    (Exists.{u_4 + 1} fun c =>\n      \u2200 (v : DualNumber.{u_4} k),\n        Eq.{u_4 + 1} (HMul.hMul.{u_4, u_4, u_4} DualNumber.eps.{u_4} v) (HSMul.hSMul.{u_4, u_4, u_4} c v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2017300833",
+      "temporary_id": "decl-018614"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_4} [inst : Field.{u_4} k] {A : Type u_5} [inst_1 : Ring.{u_5} A] [inst_2 : Algebra.{u_4, u_5} k A]\n  {V : Type u_6} [inst_3 : AddCommGroup.{u_6} V] [inst_4 : Module.{u_4, u_6} k V] [inst_5 : Module.{u_5, u_6} A V]\n  [inst_6 : IsScalarTower.{u_4, u_5, u_6} k A V] [Nontrivial.{u_6} V] {c : k},\n  IsNilpotent.{u_6} (HSMul.hSMul.{u_4, u_6, u_6} c 1) \u2192 Eq.{u_4 + 1} c 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1362231190",
+      "temporary_id": "decl-018616"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_4} [inst : Field.{u_4} k] {A : Type u_5} [inst_1 : Ring.{u_5} A] [inst_2 : Algebra.{u_4, u_5} k A]\n  {V : Type u_6} [inst_3 : AddCommGroup.{u_6} V] [inst_4 : Module.{u_4, u_6} k V] [inst_5 : Module.{u_5, u_6} A V]\n  [inst_6 : IsScalarTower.{u_4, u_5, u_6} k A V] [FiniteDimensional.{u_4, u_6} k V] [IsAlgClosed.{u_4} k],\n  decl-005194.{u_5, u_6} A V \u2192\n    Exists.{max (u_4 + 1) (u_5 + 1)} fun \u03c7_V =>\n      \u2200 (z : Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} (Subalgebra.center.{u_4, u_5} k A) x),\n        IsNilpotent.{u_6}\n          (HSub.hSub.{u_6, u_6, u_6} (decl-017801.{u_4, u_5, u_6} z)\n            (HSMul.hSMul.{u_4, u_6, u_6} (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), u_5 + 1, u_4 + 1} \u03c7_V z) 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194",
+        "decl-017801"
+      ],
+      "structural_type_hash": "1772903072",
+      "temporary_id": "decl-018773"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  {V : Type u_3} [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V] [inst_5 : Module.{u_2, u_3} A V]\n  [IsScalarTower.{u_1, u_2, u_3} k A V] [IsAlgClosed.{u_1} k] [IsSimpleModule.{u_2, u_3} A V]\n  [FiniteDimensional.{u_1, u_3} k V]\n  (z : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Subalgebra.center.{u_1, u_2} k A) x),\n  Exists.{u_1 + 1} fun c =>\n    \u2200 (v : V), Eq.{u_3 + 1} (HSMul.hSMul.{u_2, u_3, u_3} (Subtype.val.{u_2 + 1} z) v) (HSMul.hSMul.{u_1, u_3, u_3} c v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1821124393",
+      "temporary_id": "decl-018774"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_4} [inst : Field.{u_4} k] {A : Type u_5} [inst_1 : Ring.{u_5} A] [inst_2 : Algebra.{u_4, u_5} k A]\n  {V : Type u_6} [inst_3 : AddCommGroup.{u_6} V] [inst_4 : Module.{u_4, u_6} k V] [inst_5 : Module.{u_5, u_6} A V]\n  [inst_6 : IsScalarTower.{u_4, u_5, u_6} k A V] [FiniteDimensional.{u_4, u_6} k V] [IsAlgClosed.{u_4} k],\n  decl-005194.{u_5, u_6} A V \u2192\n    Exists.{u_6 + 1} fun S =>\n      And (IsSimpleModule.{u_5, u_6} A (Subtype.{u_6 + 1} fun x => Membership.mem.{u_6, u_6} S x))\n        (Exists.{max (u_4 + 1) (u_5 + 1)} fun \u03c7_V =>\n          And\n            (\u2200 (z : Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} (Subalgebra.center.{u_4, u_5} k A) x),\n              IsNilpotent.{u_6}\n                (HSub.hSub.{u_6, u_6, u_6} (decl-017801.{u_4, u_5, u_6} z)\n                  (HSMul.hSMul.{u_4, u_6, u_6} (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), u_5 + 1, u_4 + 1} \u03c7_V z) 1)))\n            (\u2200 (z : Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} (Subalgebra.center.{u_4, u_5} k A) x)\n              (s : Subtype.{u_6 + 1} fun x => Membership.mem.{u_6, u_6} S x),\n              Eq.{u_6 + 1} (HSMul.hSMul.{u_5, u_6, u_6} (Subtype.val.{u_5 + 1} z) (Subtype.val.{u_6 + 1} s))\n                (HSMul.hSMul.{u_4, u_6, u_6} (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), u_5 + 1, u_4 + 1} \u03c7_V z)\n                  (Subtype.val.{u_6 + 1} s))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194",
+        "decl-017801"
+      ],
+      "structural_type_hash": "2807628156",
+      "temporary_id": "decl-018868"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_4} [inst : Field.{u_4} k] {A : Type u_5} [inst_1 : Ring.{u_5} A] [inst_2 : Algebra.{u_4, u_5} k A]\n  {V : Type u_6} [inst_3 : AddCommGroup.{u_6} V] [inst_4 : Module.{u_4, u_6} k V] [inst_5 : Module.{u_5, u_6} A V]\n  [inst_6 : IsScalarTower.{u_4, u_5, u_6} k A V],\n  decl-005194.{u_5, u_6} A V \u2192\n    \u2200 (z : Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} (Subalgebra.center.{u_4, u_5} k A) x) {\u03c7 \u03c7' : k},\n      IsNilpotent.{u_6}\n          (HSub.hSub.{u_6, u_6, u_6} (decl-017801.{u_4, u_5, u_6} z) (HSMul.hSMul.{u_4, u_6, u_6} \u03c7 1)) \u2192\n        IsNilpotent.{u_6}\n            (HSub.hSub.{u_6, u_6, u_6} (decl-017801.{u_4, u_5, u_6} z) (HSMul.hSMul.{u_4, u_6, u_6} \u03c7' 1)) \u2192\n          Eq.{u_4 + 1} \u03c7 \u03c7'",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194",
+        "decl-017801"
+      ],
+      "structural_type_hash": "2073177161",
+      "temporary_id": "decl-020529"
+    }
+  ],
+  "module_temporary_id": "module-0086",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

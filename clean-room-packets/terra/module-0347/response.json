@@ -1,0 +1,70 @@
+{
+  "module_name": "SymmetricGroup.PartitionGroupAlgebra",
+  "declarations": [
+    {
+      "temporary_id": "decl-001308",
+      "new_name": "mul_perm_eq_sign_smul_of_mem",
+      "docstring": "If a permutation lies in the displayed set, multiplying the displayed group-algebra element on the right by its image in the group algebra scales that element by the permutation's sign."
+    },
+    {
+      "temporary_id": "decl-001309",
+      "new_name": "sign_action_sq_eq_card_smul",
+      "docstring": "The square of the displayed group-algebra element is the cardinality of the displayed set times that element."
+    },
+    {
+      "temporary_id": "decl-005444",
+      "new_name": "exists_sign_fixed_sandwich_eq_smul",
+      "docstring": "For each partition, there is a function-like scalar-valued object such that placing any group-algebra element between the two displayed elements gives its scalar value times a third displayed element."
+    },
+    {
+      "temporary_id": "decl-005445",
+      "new_name": "exists_fixed_sign_sandwich_eq_smul_mul",
+      "docstring": "For each partition, there is a function-like scalar-valued object such that placing any group-algebra element between the two displayed elements gives its scalar value times their product."
+    },
+    {
+      "temporary_id": "decl-005446",
+      "new_name": "exists_idempotent_sandwich_eq_smul",
+      "docstring": "For each partition, there is a function-like scalar-valued object such that placing any group-algebra element between the two displayed idempotent elements gives its scalar value times a third displayed element."
+    },
+    {
+      "temporary_id": "decl-015544",
+      "new_name": "mul_perm_eq_self_of_mem",
+      "docstring": "If a permutation lies in the displayed set, multiplying the displayed group-algebra element on the right by its image in the group algebra leaves that element unchanged."
+    },
+    {
+      "temporary_id": "decl-015545",
+      "new_name": "fixed_action_sq_eq_card_smul",
+      "docstring": "The square of the displayed group-algebra element is the cardinality of the displayed set times that element."
+    },
+    {
+      "temporary_id": "decl-021802",
+      "new_name": "perm_mul_eq_sign_smul_of_mem",
+      "docstring": "If a permutation lies in the displayed set, multiplying the displayed group-algebra element on the left by its image in the group algebra scales that element by the permutation's sign."
+    },
+    {
+      "temporary_id": "decl-021804",
+      "new_name": "perm_mul_eq_self_of_mem",
+      "docstring": "If a permutation lies in the displayed set, multiplying the displayed group-algebra element on the left by its image in the group algebra leaves that element unchanged."
+    },
+    {
+      "temporary_id": "decl-022035",
+      "new_name": "exists_swap_mem_left_of_not_mem_mul",
+      "docstring": "If a permutation does not lie in the product of the two displayed sets, there is a swap in the first set whose conjugate by that permutation lies in the second set."
+    },
+    {
+      "temporary_id": "decl-024565",
+      "new_name": "right_idempotent_sq",
+      "docstring": "The square of the displayed right-hand sandwich element is itself."
+    },
+    {
+      "temporary_id": "decl-024566",
+      "new_name": "right_idempotent_mul_left_idempotent",
+      "docstring": "The product of the two displayed idempotent elements is the inverse of the product of the two displayed set cardinalities, acting as a scalar on the displayed target element."
+    },
+    {
+      "temporary_id": "decl-024573",
+      "new_name": "left_idempotent_sq",
+      "docstring": "The square of the displayed left-hand sandwich element is itself."
+    }
+  ]
+}

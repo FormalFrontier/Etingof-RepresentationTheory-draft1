@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0504",
+  "associations": [
+    {
+      "association_id": "association:7301743cb26750d1e2cf",
+      "rationale": "The formal type displays a family B whose values are the pure tensors of the two basis families, but B's type is elided and thus does not directly show that B is a basis.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  [IsArtinian.{u_1, u_2} A V] [IsNoetherian.{u_1, u_2} A V],\n  Exists.{1} fun n =>\n    Exists.{u_2 + 1} fun W =>\n      And\n        (\u2200 (i : Fin n),\n          decl-005194.{u_1, u_2} A (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (W i) x))\n        (And (Eq.{u_2 + 1} (iSup.{u_2, 1} W) Top.top.{u_2}) (iSupIndep.{1, u_2} W))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "2430666445",
+      "temporary_id": "decl-018865"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  [IsArtinian.{u_1, u_2} A V] [IsNoetherian.{u_1, u_2} A V],\n  decl-005194.{u_1, u_2} A V \u2192 IsLocalRing.{u_2} (Module.End.{u_1, u_2} A V)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "1026014664",
+      "temporary_id": "decl-020854"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  [IsArtinian.{u_1, u_2} A V] [IsNoetherian.{u_1, u_2} A V],\n  decl-005194.{u_1, u_2} A V \u2192 \u2200 (f : Module.End.{u_1, u_2} A V), Or (IsNilpotent.{u_2} f) (IsUnit.{u_2} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "244763965",
+      "temporary_id": "decl-020859"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  [IsArtinian.{u_1, u_2} A V] [IsNoetherian.{u_1, u_2} A V],\n  decl-005194.{u_1, u_2} A V \u2192\n    \u2200 {n : Nat} (\u03b8 : Fin n \u2192 Module.End.{u_1, u_2} A V),\n      (\u2200 (i : Fin n), IsNilpotent.{u_2} (\u03b8 i)) \u2192 IsNilpotent.{u_2} (Finset.sum.{0, u_2} Finset.univ.{0} fun i => \u03b8 i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "931726331",
+      "temporary_id": "decl-020863"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  [IsArtinian.{u_1, u_2} A V] [IsNoetherian.{u_1, u_2} A V] {n m : Nat} (W : Fin n \u2192 Submodule.{u_1, u_2} A V)\n  (W' : Fin m \u2192 Submodule.{u_1, u_2} A V),\n  (\u2200 (i : Fin n),\n      decl-005194.{u_1, u_2} A (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (W i) x)) \u2192\n    (\u2200 (i : Fin m),\n        decl-005194.{u_1, u_2} A (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (W' i) x)) \u2192\n      (\u2200 (i : Fin n), Ne.{u_2 + 1} (W i) Bot.bot.{u_2}) \u2192\n        (\u2200 (i : Fin m), Ne.{u_2 + 1} (W' i) Bot.bot.{u_2}) \u2192\n          Eq.{u_2 + 1} (iSup.{u_2, 1} W) Top.top.{u_2} \u2192\n            iSupIndep.{1, u_2} W \u2192\n              Eq.{u_2 + 1} (iSup.{u_2, 1} W') Top.top.{u_2} \u2192\n                iSupIndep.{1, u_2} W' \u2192\n                  And (Eq.{1} n m)\n                    (Exists.{1} fun \u03c3 =>\n                      \u2200 (i : Fin n),\n                        Nonempty.{u_2 + 1}\n                          (LinearEquiv.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} A)\n                            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (W i) x)\n                            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (W' (DFunLike.coe.{1, 1, 1} \u03c3 i)) x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "3790191145",
+      "temporary_id": "decl-021302"
+    }
+  ],
+  "module_temporary_id": "module-0174",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

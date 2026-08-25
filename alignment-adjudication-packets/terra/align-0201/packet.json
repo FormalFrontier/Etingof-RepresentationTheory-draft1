@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:06ec1731dd5932c07927",
+      "declaration": "Etingof.Example2_9_13.HeisenbergPresentation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_2) \u2192 [CommRing.{u_2} k] \u2192 Type u_2",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    },
+    {
+      "association_id": "association:6c5545684bfa5d858fb5",
+      "declaration": "Etingof.Example2_9_13.heisenbergPresentationAlgEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    AlgEquiv.{u_2, u_2, u_2} k (Etingof.Example2_9_13.HeisenbergPresentation.{u_2} k)\n      (UniversalEnvelopingAlgebra.{u_2, u_2} k (Etingof.Example2_9_13.Heisenberg.{u_2} k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    },
+    {
+      "association_id": "association:8f04947483730e3933ec",
+      "declaration": "Etingof.Example2_9_13.heisenbergPresentationEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Exists.{u_2 + 1} fun e =>\n    And\n      (Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} e (Etingof.Example2_9_13.heisenbergPresGen.{u_2} k 0))\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k)\n          Etingof.Example2_9_13.x.{u_2}))\n      (And\n        (Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} e (Etingof.Example2_9_13.heisenbergPresGen.{u_2} k 1))\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k)\n            Etingof.Example2_9_13.y.{u_2}))\n        (Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} e (Etingof.Example2_9_13.heisenbergPresGen.{u_2} k 2))\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k)\n            Etingof.Example2_9_13.c.{u_2})))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.9.13",
+  "packet_id": "align-0201",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0201"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3cabd16a6c1600bf74a2",
+  "source_text": "Those three relations are a complete presentation of U(H)."
+}

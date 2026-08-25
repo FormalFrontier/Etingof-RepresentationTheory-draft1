@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1133",
+  "associations": [
+    {
+      "association_id": "association:7d8f6ae4dacbb1616213",
+      "role": "primary",
+      "rationale": "For every positive natural d, the formal type produces a complex sl2-module V whose finrank is d and which is irreducible, exactly the source statement."
+    }
+  ]
+}

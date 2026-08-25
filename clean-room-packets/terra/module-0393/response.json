@@ -1,0 +1,60 @@
+{
+  "module_name": "Algebra.MvPolynomial.WeightedComponents",
+  "declarations": [
+    {
+      "temporary_id": "decl-005658",
+      "new_name": "NatPairIndexedType",
+      "docstring": "A type family indexed by two natural numbers."
+    },
+    {
+      "temporary_id": "decl-018148",
+      "new_name": "NatPairIndexedType.matrixUnitsAlgHom",
+      "docstring": "An algebra endomorphism of the indexed type parametrized by a unit of complex square matrices."
+    },
+    {
+      "temporary_id": "decl-018150",
+      "new_name": "NatPairIndexedType.matrixUnitsAlgHom_X_isWeightedHomogeneous",
+      "docstring": "The image of a coordinate variable under the displayed algebra homomorphism is weighted homogeneous with its assigned weight."
+    },
+    {
+      "temporary_id": "decl-018153",
+      "new_name": "NatPairIndexedType.matrixUnitsAlgHom_monomial_isWeightedHomogeneous",
+      "docstring": "The image of a monomial under the displayed algebra homomorphism is weighted homogeneous with the weight of its exponent."
+    },
+    {
+      "temporary_id": "decl-018154",
+      "new_name": "NatPairIndexedType.weightedHomogeneousComponent_matrixUnitsAlgHom",
+      "docstring": "The displayed algebra homomorphism commutes with taking a weighted homogeneous component."
+    },
+    {
+      "temporary_id": "decl-019798",
+      "new_name": "NatPairIndexedType.finIndexedMatrix",
+      "docstring": "A family, indexed by a finite type, of square matrices with entries in the indexed type."
+    },
+    {
+      "temporary_id": "decl-020749",
+      "new_name": "NatPairIndexedType.complexSubalgebra",
+      "docstring": "A complex subalgebra of the indexed type."
+    },
+    {
+      "temporary_id": "decl-021565",
+      "new_name": "NatPairIndexedType.variableWeight",
+      "docstring": "A weight vector assigned to a tuple coordinate and a pair of matrix indices."
+    },
+    {
+      "temporary_id": "decl-024280",
+      "new_name": "NatPairIndexedType.listIndexedElement",
+      "docstring": "An element of the indexed type assigned to every list of finite indices."
+    },
+    {
+      "temporary_id": "decl-024282",
+      "new_name": "NatPairIndexedType.listIndexedElement_mem_complexSubalgebra",
+      "docstring": "Every list-indexed element belongs to the displayed complex subalgebra."
+    },
+    {
+      "temporary_id": "decl-024511",
+      "new_name": "NatPairIndexedType.weightedHomogeneousComponent_mem_complexSubalgebra",
+      "docstring": "Taking a weighted homogeneous component preserves membership in the displayed complex subalgebra."
+    }
+  ]
+}

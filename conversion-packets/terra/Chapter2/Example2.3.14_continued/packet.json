@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Example2.3.14_continued",
+    "kind": "example",
+    "title": "Representations of group algebras k[G]",
+    "node_id": "chapter-02/section-2-3",
+    "order": 43,
+    "slug": "example2-3-14-continued",
+    "span": {
+      "start": {
+        "page": "14",
+        "line": 1
+      },
+      "end": {
+        "page": "14",
+        "line": 2
+      }
+    },
+    "source_sha256": "3d65da4814e3c6708da933a37eaddfa04eb413bd6d92d8c2bf438587923699ea",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example2314Continued",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:20f2acfdbbf13c2560b4",
+      "declaration": "Etingof.Problem3_8_5.antiperiodicSubmod",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/168/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Submodule.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x)\n  (ContinuousMap.{0, 0} Real Real)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_5"
+    },
+    {
+      "association_id": "association:60f277354470411e1d85",
+      "declaration": "Etingof.Problem3_8_5.periodicSubalg",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/168/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Subalgebra.{0, 0} Real (ContinuousMap.{0, 0} Real Real)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_5"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.8.5",
+  "packet_id": "align-0649",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0649"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.8.5:claim-01",
+  "source_text": "A is the algebra of continuous real-valued period-one functions and M is its module of continuous antiperiodic functions f(x+1) = -f(x)."
+}

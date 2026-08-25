@@ -1,0 +1,30 @@
+{
+  "module_name": "SymmetricAlgebra.ProductTensorProduct",
+  "declarations": [
+    {
+      "temporary_id": "decl-023681",
+      "new_name": "SymmetricAlgebra.prodAlgEquivTensorProduct",
+      "docstring": "The algebra equivalence between the symmetric algebra on a product module and the tensor product of the two symmetric algebras."
+    },
+    {
+      "temporary_id": "decl-023686",
+      "new_name": "SymmetricAlgebra.prodAlgEquivTensorProduct_iota_fst",
+      "docstring": "The product-to-tensor algebra equivalence sends a generator from the first factor to its left tensor inclusion."
+    },
+    {
+      "temporary_id": "decl-023687",
+      "new_name": "SymmetricAlgebra.prodAlgEquivTensorProduct_iota_snd",
+      "docstring": "The product-to-tensor algebra equivalence sends a generator from the second factor to its right tensor inclusion."
+    },
+    {
+      "temporary_id": "decl-023689",
+      "new_name": "SymmetricAlgebra.prodToTensorProduct",
+      "docstring": "The algebra homomorphism from the symmetric algebra on a product module to the tensor product of the symmetric algebras of its factors."
+    },
+    {
+      "temporary_id": "decl-023707",
+      "new_name": "SymmetricAlgebra.tensorProductToProd",
+      "docstring": "The algebra homomorphism from a tensor product of symmetric algebras to the symmetric algebra on the product module."
+    }
+  ]
+}

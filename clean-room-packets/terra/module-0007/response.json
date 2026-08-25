@@ -1,0 +1,45 @@
+{
+  "module_name": "Algebra.AuxiliaryStructure",
+  "declarations": [
+    {
+      "temporary_id": "decl-000624",
+      "new_name": "AuxiliaryStructure",
+      "docstring": "An auxiliary structure associated with a field and one of its modules."
+    },
+    {
+      "temporary_id": "decl-000626",
+      "new_name": "op_add_left",
+      "docstring": "The associated binary operation is additive in its first argument."
+    },
+    {
+      "temporary_id": "decl-000629",
+      "new_name": "of_algebra",
+      "docstring": "Constructs the auxiliary structure from a ring that is an algebra over the field."
+    },
+    {
+      "temporary_id": "decl-000639",
+      "new_name": "op",
+      "docstring": "The binary operation supplied by the auxiliary structure."
+    },
+    {
+      "temporary_id": "decl-000640",
+      "new_name": "op_add_right",
+      "docstring": "The associated binary operation is additive in its second argument."
+    },
+    {
+      "temporary_id": "decl-000641",
+      "new_name": "op_assoc",
+      "docstring": "The associated binary operation is associative."
+    },
+    {
+      "temporary_id": "decl-000642",
+      "new_name": "op_smul_right",
+      "docstring": "The associated binary operation commutes with scalar multiplication in its second argument."
+    },
+    {
+      "temporary_id": "decl-000647",
+      "new_name": "smul_op_left",
+      "docstring": "The associated binary operation commutes with scalar multiplication in its first argument."
+    }
+  ]
+}

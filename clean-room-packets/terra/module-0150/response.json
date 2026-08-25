@@ -1,0 +1,35 @@
+{
+  "module_name": "Algebra.Module.TensorRestriction",
+  "declarations": [
+    {
+      "temporary_id": "decl-009434",
+      "new_name": "restrictScalarsLinearEquiv",
+      "docstring": "A tensor-product-algebra linear equivalence induces an A-linear equivalence of the same tensor-product modules."
+    },
+    {
+      "temporary_id": "decl-009445",
+      "new_name": "restrictScalarsLinearMap",
+      "docstring": "A tensor-product-algebra linear map induces an A-linear map of the same tensor-product modules."
+    },
+    {
+      "temporary_id": "decl-009448",
+      "new_name": "restrictScalarsLinearMap_apply",
+      "docstring": "The induced A-linear map has the same value as the original tensor-product-algebra linear map."
+    },
+    {
+      "temporary_id": "decl-009449",
+      "new_name": "restrictScalarsLinearEquiv_apply",
+      "docstring": "The induced A-linear equivalence has the same value as the original tensor-product-algebra linear equivalence."
+    },
+    {
+      "temporary_id": "decl-009451",
+      "new_name": "exists_retract_of_tensorRetract",
+      "docstring": "A retraction after tensor extension yields a retraction before tensor extension under finite-dimensionality hypotheses."
+    },
+    {
+      "temporary_id": "decl-009456",
+      "new_name": "exists_equiv_of_tensorEquiv",
+      "docstring": "An equivalence after tensor extension yields an equivalence before tensor extension under finite-dimensionality hypotheses."
+    }
+  ]
+}

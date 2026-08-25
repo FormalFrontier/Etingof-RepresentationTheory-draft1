@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0614",
+  "associations": [
+    {
+      "association_id": "association:6384bb6ad45edb758686",
+      "rationale": "The displayed type only introduces LocallyFiniteNatGrading as a type-valued construction; it does not expose the grading conditions or Hilbert-series formula.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4d55fc661317f0e487c4",
+      "rationale": "The type identifies the nth Hilbert-series coefficient with the finrank of the nth piece, but it does not itself expose the direct-sum grading or multiplication condition required by the complete claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6f416fa8f1f17c275b8b",
+      "rationale": "The displayed type only shows that a grading is sent to an integer power series; the defining coefficient formula is not present in this signature.",
+      "role": "supporting"
+    }
+  ]
+}

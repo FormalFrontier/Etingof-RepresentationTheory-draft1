@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0676",
+  "associations": [
+    {
+      "association_id": "association:f31cd36282678feb91b8",
+      "rationale": "Under finiteness and NoOrientedCycles, the formal type classifies irreducible quiver representations, but it does not itself identify these with finite-dimensional representations of the path algebra as stated in the source claim.",
+      "role": "supporting"
+    }
+  ]
+}

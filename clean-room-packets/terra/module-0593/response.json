@@ -1,0 +1,20 @@
+{
+  "module_name": "Algebra.FiniteDimensional.FGModuleCategory",
+  "declarations": [
+    {
+      "temporary_id": "decl-032678",
+      "new_name": "FGModuleCat.instAbelian_of_finiteDimensional",
+      "docstring": "Finitely generated modules over a finite-dimensional algebra form an abelian category."
+    },
+    {
+      "temporary_id": "decl-032915",
+      "new_name": "isNoetherianRing_of_finiteDimensional",
+      "docstring": "A finite-dimensional algebra over a field is a Noetherian ring."
+    },
+    {
+      "temporary_id": "decl-032934",
+      "new_name": "moduleFinite_iff_finiteDimensional",
+      "docstring": "A module over a finite-dimensional algebra is finitely generated exactly when it is finite-dimensional over the base field."
+    }
+  ]
+}

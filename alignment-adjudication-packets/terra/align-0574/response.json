@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0574",
+  "associations": [
+    {
+      "association_id": "association:e1a216f40f97bfd0f8f8",
+      "rationale": "Given a nonzero eigenvector with eigenvalue chi, the type proves that the central action minus chi is nilpotent; it does not itself provide existence or uniqueness of an eigenvalue for every central action.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a9a296c932202aea0d23",
+      "rationale": "The type proves uniqueness of two scalars whose shifted central actions are nilpotent, but it does not itself establish that every central action has such an eigenvalue.",
+      "role": "supporting"
+    }
+  ]
+}

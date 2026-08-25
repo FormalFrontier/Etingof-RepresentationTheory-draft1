@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0373",
+  "associations": [
+    {
+      "association_id": "association:c28c9f3fb3797f49f865",
+      "role": "supporting",
+      "rationale": "The formal type exposes only a proposition on functors between preadditive categories and does not display the additive preservation condition."
+    },
+    {
+      "association_id": "association:2870a893f496a60afb52",
+      "role": "supporting",
+      "rationale": "The formal type exposes only a proposition on a functor and does not display preservation of exact sequences or the left- and right-exact notions."
+    },
+    {
+      "association_id": "association:abb596be0d46adfc2811",
+      "role": "supporting",
+      "rationale": "The formal type exposes only a proposition on a functor between linear categories and does not display the linearity condition on morphisms."
+    }
+  ]
+}

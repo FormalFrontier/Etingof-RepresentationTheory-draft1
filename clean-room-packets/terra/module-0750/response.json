@@ -1,0 +1,100 @@
+{
+  "module_name": "ModuleTheory.SimpleModule.PropertyElementActions",
+  "declarations": [
+    {
+      "temporary_id": "decl-014092",
+      "new_name": "smul_eq_zero_of_witness",
+      "docstring": "Shows that a ring element annihilates every vector of the target module from the supplied witness and an annihilation hypothesis."
+    },
+    {
+      "temporary_id": "decl-014100",
+      "new_name": "equiv_property_subtype",
+      "docstring": "An equivalence from the given class to the subtype of ring elements satisfying the displayed predicate."
+    },
+    {
+      "temporary_id": "decl-014104",
+      "new_name": "equiv_property_subtype_apply",
+      "docstring": "Evaluating the equivalence agrees with the associated map into the predicate subtype."
+    },
+    {
+      "temporary_id": "decl-014109",
+      "new_name": "property_subtype_of_class",
+      "docstring": "Maps an element of the given class to the subtype of ring elements satisfying the predicate."
+    },
+    {
+      "temporary_id": "decl-014112",
+      "new_name": "property_subtype_of_quotient_eq",
+      "docstring": "The subtype value assigned to the quotient class of a simple module agrees with its associated element."
+    },
+    {
+      "temporary_id": "decl-014113",
+      "new_name": "nonempty_equiv_property_subtype",
+      "docstring": "There exists an equivalence between the given class and the predicate subtype."
+    },
+    {
+      "temporary_id": "decl-014140",
+      "new_name": "eq_of_property_act_id_on_simple_module",
+      "docstring": "Two elements satisfying the predicate coincide when both act as the identity on a simple module."
+    },
+    {
+      "temporary_id": "decl-014141",
+      "new_name": "eq_of_property_mul_ne_zero",
+      "docstring": "Elements satisfying the predicate are equal whenever their product is nonzero."
+    },
+    {
+      "temporary_id": "decl-014147",
+      "new_name": "existsUnique_property_subtype_smul_eq",
+      "docstring": "A simple module determines a unique predicate-subtype element acting as the identity."
+    },
+    {
+      "temporary_id": "decl-014154",
+      "new_name": "moduleCat_of_property_element",
+      "docstring": "Builds a module-category object from an element of the predicate subtype."
+    },
+    {
+      "temporary_id": "decl-014156",
+      "new_name": "isSimpleModule_moduleCat_of_property_element",
+      "docstring": "The module-category object attached to a predicate-subtype element is simple."
+    },
+    {
+      "temporary_id": "decl-014157",
+      "new_name": "property_element_smul_eq",
+      "docstring": "The attached predicate-subtype element acts as the identity on its constructed module."
+    },
+    {
+      "temporary_id": "decl-014158",
+      "new_name": "relation_iff_property_element_smul_eq",
+      "docstring": "Relates the given binary relation on modules to identity action of the element attached to a simple module."
+    },
+    {
+      "temporary_id": "decl-014170",
+      "new_name": "isFiniteLength_self",
+      "docstring": "The regular module has finite length under the stated finite-dimensional algebra assumptions."
+    },
+    {
+      "temporary_id": "decl-014195",
+      "new_name": "property_element_of_simple_module",
+      "docstring": "Chooses a predicate-subtype element associated with a simple module."
+    },
+    {
+      "temporary_id": "decl-014196",
+      "new_name": "property_element_of_simple_module_eq_of_relation",
+      "docstring": "Related simple modules give the same associated predicate-subtype element."
+    },
+    {
+      "temporary_id": "decl-014197",
+      "new_name": "property_element_of_simple_module_smul_eq",
+      "docstring": "The element associated with a simple module acts as the identity."
+    },
+    {
+      "temporary_id": "decl-014198",
+      "new_name": "eq_property_element_of_smul_eq",
+      "docstring": "An element satisfying the predicate and acting identically on a simple module is its associated element."
+    },
+    {
+      "temporary_id": "decl-014199",
+      "new_name": "smul_eq_zero_of_relation_ne_property_element",
+      "docstring": "For a module related to the simple module, a distinct predicate element annihilates every vector."
+    }
+  ]
+}

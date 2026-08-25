@@ -1,0 +1,120 @@
+{
+  "module_name": "SubcomplexHomologySequence",
+  "declarations": [
+    {
+      "temporary_id": "decl-013193",
+      "new_name": "Auxiliary.statement013193",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-013194",
+      "new_name": "IntCochainComplex",
+      "docstring": "The type of integer-indexed cochain complexes of integer modules used by this construction."
+    },
+    {
+      "temporary_id": "decl-013196",
+      "new_name": "Subcomplex",
+      "docstring": "A degreewise family of submodules of a cochain complex that is preserved by its differential."
+    },
+    {
+      "temporary_id": "decl-013199",
+      "new_name": "ambientComplex",
+      "docstring": "Returns the ambient cochain complex used between a subcomplex and its quotient."
+    },
+    {
+      "temporary_id": "decl-013204",
+      "new_name": "subcomplex",
+      "docstring": "Builds the cochain complex carried by the differential-stable degreewise submodules."
+    },
+    {
+      "temporary_id": "decl-013211",
+      "new_name": "connectingHom",
+      "docstring": "The connecting morphism from quotient homology in one degree to subcomplex homology in an adjacent degree."
+    },
+    {
+      "temporary_id": "decl-013213",
+      "new_name": "Auxiliary.statement013213",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-013214",
+      "new_name": "connectingHom_apply_quotientHomologyClass",
+      "docstring": "Evaluating the connecting morphism on the quotient class of a cocycle gives the homology class of its lifted differential."
+    },
+    {
+      "temporary_id": "decl-013215",
+      "new_name": "boundaryHomologyClass_eq_of_quotientMap_eq",
+      "docstring": "Two representatives with the same image in the quotient complex determine the same lifted-differential homology class."
+    },
+    {
+      "temporary_id": "decl-013216",
+      "new_name": "boundaryHomologyClass_eq_of_quotientHomologyClass_eq",
+      "docstring": "Representatives defining the same quotient homology class have equal lifted-differential homology classes."
+    },
+    {
+      "temporary_id": "decl-013218",
+      "new_name": "d_mem",
+      "docstring": "The differential sends every element of a degree submodule into the degree submodule at the target index."
+    },
+    {
+      "temporary_id": "decl-013219",
+      "new_name": "d_mem_of_quotientMap_d_eq_zero",
+      "docstring": "If the projected differential vanishes in the quotient complex, then the original differential belongs to the target degree submodule."
+    },
+    {
+      "temporary_id": "decl-013220",
+      "new_name": "inclusionHom",
+      "docstring": "The cochain map from the subcomplex into its ambient complex."
+    },
+    {
+      "temporary_id": "decl-013224",
+      "new_name": "dToDegreeSubmodule",
+      "docstring": "Regards the differential of a quotient cocycle representative as an element of the target degree submodule."
+    },
+    {
+      "temporary_id": "decl-013226",
+      "new_name": "boundaryHomologyClass",
+      "docstring": "The subcomplex homology class represented by the differential of a lifted quotient cocycle."
+    },
+    {
+      "temporary_id": "decl-013238",
+      "new_name": "degreeSubmodule",
+      "docstring": "The submodule selected by a subcomplex in a specified degree."
+    },
+    {
+      "temporary_id": "decl-013239",
+      "new_name": "quotientHom",
+      "docstring": "The cochain map from the ambient complex to the quotient complex."
+    },
+    {
+      "temporary_id": "decl-013242",
+      "new_name": "quotientComplex",
+      "docstring": "Forms the degreewise quotient of the ambient complex by the chosen subcomplex."
+    },
+    {
+      "temporary_id": "decl-013246",
+      "new_name": "quotientHomologyClass",
+      "docstring": "The quotient-complex homology class determined by a representative whose projected differential vanishes."
+    },
+    {
+      "temporary_id": "decl-013252",
+      "new_name": "subcomplexQuotientSequence",
+      "docstring": "The short complex consisting of the subcomplex, the ambient complex, and the quotient complex."
+    },
+    {
+      "temporary_id": "decl-013255",
+      "new_name": "subcomplexQuotientSequence_shortExact",
+      "docstring": "The subcomplex-to-ambient-to-quotient short complex is short exact."
+    },
+    {
+      "temporary_id": "decl-013256",
+      "new_name": "connectingHom",
+      "docstring": "The connecting morphism from the homology of the third complex to that of the first complex in adjacent degrees."
+    },
+    {
+      "temporary_id": "decl-013257",
+      "new_name": "Auxiliary.statement013257",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Proposition2.3.9",
+    "kind": "proposition",
+    "title": "Schur's lemma",
+    "node_id": "chapter-02/section-2-3",
+    "order": 35,
+    "slug": "proposition2-3-9",
+    "span": {
+      "start": {
+        "page": "12",
+        "line": 3
+      },
+      "end": {
+        "page": "12",
+        "line": 13
+      }
+    },
+    "source_sha256": "b8cfc6aaafe41526398fa4378386b7f385d161f6ef11508e130272b753431eb5",
+    "features": {
+      "line_count": 11,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Proposition239",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

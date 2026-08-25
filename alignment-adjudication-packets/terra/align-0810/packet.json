@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ec9d9081be5c07a8852b",
+      "declaration": "Etingof.Exercise7_8_4_directSum",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/505/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (K : CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int),\n  HomologicalComplex.Acyclic.{u, u + 1, 0} K \u2192\n    Exists.{u + 2} fun V =>\n      Exists.{u + 2} fun D =>\n        And (\u2200 (i : Int), Eq.{u + 2} (HomologicalComplex.X.{u, u + 1, 0} (D i) i) (V i))\n          (And (\u2200 (i : Int), Eq.{u + 2} (HomologicalComplex.X.{u, u + 1, 0} (D i) (HAdd.hAdd.{0, 0, 0} i 1)) (V i))\n            (And\n              (\u2200 (i n : Int),\n                Not (Or (Eq.{1} n i) (Eq.{1} n (HAdd.hAdd.{0, 0, 0} i 1))) \u2192\n                  CategoryTheory.Limits.IsZero.{u, u + 1} (HomologicalComplex.X.{u, u + 1, 0} (D i) n))\n              (And\n                (\u2200 (i : Int),\n                  CategoryTheory.IsIso.{u, u + 1}\n                    (HomologicalComplex.d.{u, u + 1, 0} (D i) i (HAdd.hAdd.{0, 0, 0} i 1)))\n                (Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} K (CategoryTheory.Limits.sigmaObj.{0, u, u + 1} D))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Exercise7_8_4"
+    }
+  ],
+  "canonical_reference": "Chapter7/Exercise7.8.4",
+  "packet_id": "align-0810",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0810"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter7/Exercise7.8.4:disk_decomposition",
+  "source_text": "Every exact vector-space complex is a direct sum of two-term identity complexes."
+}

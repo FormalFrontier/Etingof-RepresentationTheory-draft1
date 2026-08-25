@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1047",
+  "associations": [
+    {
+      "association_id": "association:995a4f232a7e8c3db76f",
+      "role": "supporting",
+      "rationale": "The displayed type only says FunctionSpace takes two types to a type; it does not directly identify it with k-valued functions on G."
+    }
+  ]
+}

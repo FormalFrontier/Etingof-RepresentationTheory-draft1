@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:db1a07c2c115c3903447",
+      "declaration": "AddMonoidAlgebra.commRing",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/21/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.MonoidAlgebra.Defs"
+    },
+    {
+      "association_id": "association:3a266e0a8cb6507f1f7b",
+      "declaration": "CommRing",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/21/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Ring.Defs"
+    },
+    {
+      "association_id": "association:02064a8621afa61b419c",
+      "declaration": "MvPolynomial",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/21/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.MvPolynomial.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_commutativity_examples",
+  "packet_id": "align-0028",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0028"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:06d779c8c468bf624f77",
+  "source_text": "The base field and polynomial algebra examples are commutative."
+}

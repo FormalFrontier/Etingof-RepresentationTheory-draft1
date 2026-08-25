@@ -1,0 +1,110 @@
+{
+  "module_name": "GeneralLinearGroup.PolynomialTransforms",
+  "declarations": [
+    {
+      "temporary_id": "decl-017210",
+      "new_name": "det_matrix_eq_sum_signed_monomials",
+      "docstring": "The determinant of the displayed matrix is the sum over permutations of monomials with permuted exponent data and coefficients given by the permutation signs."
+    },
+    {
+      "temporary_id": "decl-018022",
+      "new_name": "coeff_polynomial_of_transformed_dual_eq_finrank",
+      "docstring": "The coefficient at the given exponent of the polynomial attached to the displayed transformation of the dual equals the scalar cast of the finrank of the displayed subtype."
+    },
+    {
+      "temporary_id": "decl-018329",
+      "new_name": "pow_mul_inv_pow_neg_shift_eq_pow_add_shift",
+      "docstring": "Multiplying the given power of the displayed object by the inverse of its negative-shift power yields its power at the sum with the shift."
+    },
+    {
+      "temporary_id": "decl-018332",
+      "new_name": "pow_apply_indexed_element_eq_pow",
+      "docstring": "Evaluating the indicated integer power of the displayed homomorphism on the element indexed by a coordinate and a unit gives the corresponding power of that unit."
+    },
+    {
+      "temporary_id": "decl-019443",
+      "new_name": "finrank_displayed_subtype_eq_polynomial_coeff",
+      "docstring": "For an antitone natural-valued family, the scalar cast of the finrank of the displayed subtype equals the coefficient at the corresponding finitely supported exponent."
+    },
+    {
+      "temporary_id": "decl-019444",
+      "new_name": "finrank_subtype_eq_zero_of_neg_coordinate",
+      "docstring": "If one coordinate of the integer-valued index is negative, the displayed subtype has finrank zero."
+    },
+    {
+      "temporary_id": "decl-019522",
+      "new_name": "polynomial_of_transformed_dual_eq_indexed_polynomial",
+      "docstring": "Under the componentwise bound, the polynomial attached to the displayed transformation of the dual equals the displayed polynomial at the resulting natural-valued index."
+    },
+    {
+      "temporary_id": "decl-019872",
+      "new_name": "indexed_family_transformed_representation_eq_shift",
+      "docstring": "If the homomorphism has the prescribed values on the displayed indexed elements, the displayed family for the transformed representation at an index equals the original family at the coordinatewise shifted index."
+    },
+    {
+      "temporary_id": "decl-022720",
+      "new_name": "polynomial_index_map",
+      "docstring": "A rational linear self-map of multivariate polynomials, parameterized by the number of variables and a natural number."
+    },
+    {
+      "temporary_id": "decl-022724",
+      "new_name": "polynomial_index_map_apply_det",
+      "docstring": "Applying the polynomial index map to the determinant of the displayed matrix replaces each entry of its exponent family by its truncated difference from the parameter."
+    },
+    {
+      "temporary_id": "decl-022725",
+      "new_name": "coeff_polynomial_index_map_of_support_le",
+      "docstring": "When every supported exponent is coordinatewise bounded by the parameter, a coefficient after applying the polynomial index map is the corresponding reindexed coefficient inside the bound and zero outside it."
+    },
+    {
+      "temporary_id": "decl-022729",
+      "new_name": "polynomial_index_map_eq_support_sum",
+      "docstring": "The polynomial index map is the sum over the original support of monomials at the mapped exponent vectors with the original coefficients."
+    },
+    {
+      "temporary_id": "decl-022730",
+      "new_name": "polynomial_index_map_monomial",
+      "docstring": "The polynomial index map sends a monomial to the monomial with mapped exponent vector and unchanged rational coefficient."
+    },
+    {
+      "temporary_id": "decl-022731",
+      "new_name": "polynomial_index_map_mul",
+      "docstring": "For polynomials with coordinatewise bounded supports, the map at the sum of the bounds sends their product to the product of their respective mapped polynomials."
+    },
+    {
+      "temporary_id": "decl-022732",
+      "new_name": "polynomial_index_map_apply_special_det",
+      "docstring": "At the displayed parameter and exponent family, the polynomial index map sends the determinant to the same determinant multiplied by the sign of the reversing permutation."
+    },
+    {
+      "temporary_id": "decl-022734",
+      "new_name": "exponent_index_map",
+      "docstring": "A map on finitely supported natural exponent vectors, parameterized by the dimension and a natural number."
+    },
+    {
+      "temporary_id": "decl-022736",
+      "new_name": "exponent_index_map_add",
+      "docstring": "For exponent vectors bounded by their respective parameters, mapping their sum at the sum of the parameters equals the sum of the separately mapped vectors."
+    },
+    {
+      "temporary_id": "decl-022738",
+      "new_name": "exponent_index_map_apply",
+      "docstring": "At each coordinate, the exponent index map is the truncated difference of the parameter and the input exponent."
+    },
+    {
+      "temporary_id": "decl-023033",
+      "new_name": "exponent_le_of_polynomial_coeff_ne_zero",
+      "docstring": "If every entry of the indexing family is at most a bound, each coordinate of an exponent with nonzero coefficient in the displayed polynomial is at most that bound."
+    },
+    {
+      "temporary_id": "decl-023037",
+      "new_name": "degree_of_polynomial_le_of_index_le",
+      "docstring": "A coordinatewise bound on the indexing family bounds the degree of the displayed polynomial in every variable."
+    },
+    {
+      "temporary_id": "decl-023052",
+      "new_name": "auxiliary_result",
+      "docstring": "A result whose formal statement could not be displayed in the evidence packet."
+    }
+  ]
+}

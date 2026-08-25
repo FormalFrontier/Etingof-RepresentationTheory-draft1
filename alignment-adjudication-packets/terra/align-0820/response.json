@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0820",
+  "associations": [
+    {
+      "association_id": "association:2774a9ad0403f888cdd0",
+      "role": "primary",
+      "rationale": "The formal type directly says that if either displayed complex is acyclic, their tensor complex is acyclic, covering the stated exactness preservation claim."
+    }
+  ]
+}

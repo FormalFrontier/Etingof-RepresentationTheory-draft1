@@ -1,0 +1,10 @@
+{
+  "module_name": "AuxiliaryFiniteDimensionalFamily",
+  "declarations": [
+    {
+      "temporary_id": "decl-018398",
+      "new_name": "auxiliaryNatValue",
+      "docstring": "An auxiliary natural-number value assigned to each member of a finite family of finite-dimensional vector spaces."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "module_name": "Quiver.FiniteFreeSurjectivity",
+  "declarations": [
+    {
+      "temporary_id": "decl-014722",
+      "new_name": "nonemptyAuxiliaryOfSurjective",
+      "docstring": "Surjectivity of the displayed vertex-indexed map yields a nonempty auxiliary relation between the displayed transformed and original representations."
+    }
+  ]
+}

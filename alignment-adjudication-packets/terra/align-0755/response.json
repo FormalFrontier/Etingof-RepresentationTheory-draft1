@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0755",
+  "associations": [
+    {
+      "association_id": "association:7629a7549552c995abe6",
+      "role": "supporting",
+      "rationale": "This gives only the nontrivial-character case of induction from a subgroup of order three; it does not itself state the complete set of decompositions requested for all such induced representations."
+    },
+    {
+      "association_id": "association:4c6ad27657c73baf126a",
+      "role": "supporting",
+      "rationale": "This gives only the trivial-character case of induction from a subgroup of order three; it does not itself state the complete set of decompositions requested for all such induced representations."
+    }
+  ]
+}

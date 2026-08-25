@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.21",
+    "kind": "introduction",
+    "title": "Section 5.21: Schur polynomials",
+    "node_id": "chapter-05/section-5-21",
+    "order": 360,
+    "slug": "introduction-5-21",
+    "span": {
+      "start": {
+        "page": "131",
+        "line": 1
+      },
+      "end": {
+        "page": "131",
+        "line": 2
+      }
+    },
+    "source_sha256": "bd02d025f6ab0b729517023b0750274305959ddf18a9ad13eb04dd695870ef7b",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction521",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0480",
+  "associations": [
+    {
+      "association_id": "association:55bc372202ce4cdad3ae",
+      "role": "primary",
+      "rationale": "The categorical isomorphism directly identifies the Schur module indexed by lambda with one added to every part with the tensor product of the lambda module and the top exterior-power representation."
+    }
+  ]
+}

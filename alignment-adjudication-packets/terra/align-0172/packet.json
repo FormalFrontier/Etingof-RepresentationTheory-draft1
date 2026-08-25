@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a15720f642d5b52df74b",
+      "declaration": "Etingof.radical_isTwoSided",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/149/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A], Ideal.IsTwoSided.{u_1} (Ideal.jacobson.{u_1} Bot.bot.{u_1})",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Proposition3_5_2"
+    },
+    {
+      "association_id": "association:ff7fdefd6fe3b1a56b8f",
+      "declaration": "Etingof.radical_is_ideal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/149/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (a r : A),\n  Membership.mem.{u_1, u_1} (Ideal.jacobson.{u_1} Bot.bot.{u_1}) a \u2192\n    And (Membership.mem.{u_1, u_1} (Ideal.jacobson.{u_1} Bot.bot.{u_1}) (HMul.hMul.{u_1, u_1, u_1} r a))\n      (Membership.mem.{u_1, u_1} (Ideal.jacobson.{u_1} Bot.bot.{u_1}) (HMul.hMul.{u_1, u_1, u_1} a r))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Proposition3_5_2"
+    }
+  ],
+  "canonical_reference": "Chapter3/Proposition3.5.2",
+  "packet_id": "align-0172",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0172"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:34ec0e0ae36e294ab2ea",
+  "source_text": "Rad(A) is a two-sided ideal."
+}

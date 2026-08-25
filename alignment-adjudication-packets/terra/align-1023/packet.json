@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0a43f36e2e98f008be15",
+      "declaration": "Etingof.End_noncommutative_of_two_le_rank",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/21/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V],\n  LE.le.{u_2 + 1} 2 (Module.rank.{u_1, u_2} k V) \u2192\n    Exists.{u_2 + 1} fun f =>\n      Exists.{u_2 + 1} fun g => Ne.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} f g) (HMul.hMul.{u_2, u_2, u_2} g f)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_commutativity_examples"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_commutativity_examples",
+  "packet_id": "align-1023",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1023"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c3572e1d9ff9dfaffe98",
+  "source_text": "End_k(V) is noncommutative whenever dim V > 1, including for infinite-dimensional V."
+}

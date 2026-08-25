@@ -1,0 +1,130 @@
+{
+  "declarations": [
+    {
+      "docstring": "Auxiliary predicate on partitions of a natural number.",
+      "new_name": "auxiliaryPartitionPredicate",
+      "temporary_id": "decl-005280"
+    },
+    {
+      "docstring": "For a complex representation of permutations of `Fin (m + 1)`, the action of the displayed degree-`(m + 1)` element equals the action of the displayed degree-`m` element after the auxiliary representation-to-lower-`Fin` construction.",
+      "new_name": "auxiliaryRepresentationToLowerFin_action_eq",
+      "temporary_id": "decl-017254"
+    },
+    {
+      "docstring": "The auxiliary partition predicate holds exactly when the displayed integer-valued function is constant on every member of the specified collection of `m`-partitions.",
+      "new_name": "exists_constant_partitionStatistic_iff_auxiliaryPartitionPredicate",
+      "temporary_id": "decl-018188"
+    },
+    {
+      "docstring": "Rotation on `Fin (m + 1)` sends the cast of `k : Fin m` to its successor.",
+      "new_name": "finRotate_apply_castSucc",
+      "temporary_id": "decl-019390"
+    },
+    {
+      "docstring": "The monoid homomorphism lifting permutations of `Fin m` to permutations of `Fin (m + 1)` while fixing zero.",
+      "new_name": "fixZeroPermutationHom",
+      "temporary_id": "decl-021951"
+    },
+    {
+      "docstring": "The zero-fixing permutation lift is the conjugate of the last-fixing lift by rotation.",
+      "new_name": "fixZeroPermutationHom_eq_rotate_mul_fixLast_mul_rotate_inv",
+      "temporary_id": "decl-021953"
+    },
+    {
+      "docstring": "The zero-fixing lift sends the successor of an index to the successor of its image.",
+      "new_name": "fixZeroPermutationHom_apply_succ",
+      "temporary_id": "decl-021954"
+    },
+    {
+      "docstring": "The zero-fixing lift of a transposition is the transposition of the corresponding successor indices.",
+      "new_name": "fixZeroPermutationHom_apply_swap",
+      "temporary_id": "decl-021955"
+    },
+    {
+      "docstring": "Every zero-fixing permutation lift sends zero to zero.",
+      "new_name": "fixZeroPermutationHom_apply_zero",
+      "temporary_id": "decl-021959"
+    },
+    {
+      "docstring": "The last-fixing lift sends a cast index to the cast of its image.",
+      "new_name": "fixLastPermutationHom_apply_castSucc",
+      "temporary_id": "decl-021962"
+    },
+    {
+      "docstring": "Every last-fixing permutation lift fixes the last index.",
+      "new_name": "fixLastPermutationHom_apply_last",
+      "temporary_id": "decl-021963"
+    },
+    {
+      "docstring": "For an `(m + 1)`-partition and an `m`-partition, the displayed auxiliary value is one when the latter belongs to the specified collection and zero otherwise.",
+      "new_name": "auxiliaryPartitionValue_eq_indicator",
+      "temporary_id": "decl-022592"
+    },
+    {
+      "docstring": "An auxiliary construction sending a complex representation of permutations of `Fin (m + 1)` to a representation of permutations of `Fin m`.",
+      "new_name": "auxiliaryRepresentationToLowerFin",
+      "temporary_id": "decl-022690"
+    },
+    {
+      "docstring": "A partition evaluation has the same value on the zero-fixing and last-fixing lifts of a permutation.",
+      "new_name": "partitionEvaluation_fixZero_eq_fixLast",
+      "temporary_id": "decl-023319"
+    },
+    {
+      "docstring": "The displayed value at the zero-fixing permutation extension equals the sum, over the specified collection of `m`-partitions, of the corresponding displayed values.",
+      "new_name": "partitionValue_fixZero_eq_sum_over_specifiedPartitions",
+      "temporary_id": "decl-023322"
+    },
+    {
+      "docstring": "In the auxiliary partition representation, applying an algebra element to a supported vector agrees with multiplication by that element.",
+      "new_name": "auxiliaryPartitionRepresentation_apply_eq_mul",
+      "temporary_id": "decl-023334"
+    },
+    {
+      "docstring": "An auxiliary degree-indexed element, defined for nonzero `n`.",
+      "new_name": "auxiliaryDegreeElement",
+      "temporary_id": "decl-023498"
+    },
+    {
+      "docstring": "For an `(m + 1)`-partition, scalar action by the auxiliary degree element on every member of the specified subtype is equivalent to constancy of the displayed integer-valued function on the specified collection of `m`-partitions.",
+      "new_name": "auxiliaryDegreeElement_scalarAction_iff_constant_integerPartitionValue",
+      "temporary_id": "decl-023500"
+    },
+    {
+      "docstring": "For a fixed complex scalar, the stated scalar-action equality on every member of the specified subtype is equivalent to equality of the displayed integer-valued function with that scalar on every member of the specified collection.",
+      "new_name": "auxiliaryDegreeElement_scalarAction_iff_integerPartitionValue_eq",
+      "temporary_id": "decl-023501"
+    },
+    {
+      "docstring": "An auxiliary degree-indexed element, defined for nonzero `n`.",
+      "new_name": "auxiliaryDegreeElementForPartitionPredicate",
+      "temporary_id": "decl-023502"
+    },
+    {
+      "docstring": "For nonzero `n`, scalar action by the auxiliary degree element for the partition predicate on every member of the specified subtype is equivalent to the auxiliary partition predicate.",
+      "new_name": "auxiliaryDegreeElementForPartitionPredicate_scalarAction_iff_auxiliaryPartitionPredicate",
+      "temporary_id": "decl-023504"
+    },
+    {
+      "docstring": "For nonzero `n` and a finite complex representation of permutations of `Fin n`, there is a displayed `Fin (finrank)`-indexed collection on whose members the element acts by some scalar; moreover, every eigenvalue of its action is an integer between `1 - n` and `n - 1`.",
+      "new_name": "auxiliaryDegreeElementForPartitionPredicate_exists_indexed_scalar_actions_and_eigenvalue_bounds",
+      "temporary_id": "decl-023506"
+    },
+    {
+      "docstring": "For nonzero `n`, the auxiliary degree element for the partition predicate equals the difference of the two other displayed degree-indexed elements.",
+      "new_name": "auxiliaryDegreeElementForPartitionPredicate_eq_difference_of_displayedElements",
+      "temporary_id": "decl-023511"
+    },
+    {
+      "docstring": "Every eigenvalue of the auxiliary degree element for the partition predicate in a finite complex representation of permutations of `Fin (m + 1)` is an integer.",
+      "new_name": "auxiliaryDegreeElementForPartitionPredicate_eigenvalue_is_integer",
+      "temporary_id": "decl-023515"
+    },
+    {
+      "docstring": "If `n` is nonzero and the parts of an `n`-partition are `r` copies of `c`, then the auxiliary degree element for the partition predicate acts on every member of the specified subtype by the scalar `c - r`.",
+      "new_name": "auxiliaryDegreeElementForPartitionPredicate_scalarAction_of_parts_eq_replicate",
+      "temporary_id": "decl-023517"
+    }
+  ],
+  "module_name": "PermutationPartitionActions"
+}

@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0439",
+  "associations": [
+    {
+      "association_id": "association:76fcce2ebc870b3d1359",
+      "role": "supporting",
+      "rationale": "The theorem states pairwise nonisomorphism for Specht modules indexed by distinct partitions, but it does not itself state irreducibility or the Young-symmetrizer and Hom-space argument described in the source claim."
+    },
+    {
+      "association_id": "association:bbf814a72a868dd4e888",
+      "role": "supporting",
+      "rationale": "The theorem states irreducibility of every Specht module, but it does not itself state pairwise nonisomorphism or the Young-symmetrizer and Hom-space argument described in the source claim."
+    },
+    {
+      "association_id": "association:e735ac19828c1036ce9f",
+      "role": "supporting",
+      "rationale": "The nonzero scalar-square identity for the row-column symmetrizer is an input to the irreducibility argument, not the irreducibility or nonisomorphism conclusion itself."
+    },
+    {
+      "association_id": "association:bf064db3fbd1346b54e1",
+      "role": "supporting",
+      "rationale": "Simplicity of the Young-projector left ideal supports the Specht-module argument but does not itself state the source claim about the Specht modules."
+    }
+  ]
+}

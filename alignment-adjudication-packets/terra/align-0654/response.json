@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0654",
+  "associations": [
+    {
+      "association_id": "association:18575ea0e54dfb868bce",
+      "rationale": "The displayed type constructs ExtMod from an off-diagonal linear map and a cocycle hypothesis, but does not itself expose the claimed block action or direct-sum equivalence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ed7b7343f38bf9440096",
+      "rationale": "The formal type gives an A-linear equivalence from ExtMod for the zero map to V × W, but it does not itself display the general block-triangular action with off-diagonal block f, so it covers only one component of the complete claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c5e769852dbc3bf0d397",
+      "rationale": "The displayed type constructs, from f and a scalar a, a linear endomorphism of V × W; its opaque body does not directly state the block-triangular formula.",
+      "role": "supporting"
+    }
+  ]
+}

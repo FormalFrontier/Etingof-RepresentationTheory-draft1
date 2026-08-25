@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Discussion_after_Definition7.9.1",
+    "kind": "discussion",
+    "title": "Additive functors preserve direct sums",
+    "node_id": "chapter-07/section-7-9",
+    "order": 512,
+    "slug": "discussion-after-definition7-9-1",
+    "span": {
+      "start": {
+        "page": "194",
+        "line": 23
+      },
+      "end": {
+        "page": "194",
+        "line": 24
+      }
+    },
+    "source_sha256": "54cc49f0d7f6699c39bba16e231a667d441730ece143f9906da4f8675e94185f",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.DiscussionAfterDefinition791",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

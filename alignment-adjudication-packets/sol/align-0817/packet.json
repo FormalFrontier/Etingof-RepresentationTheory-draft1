@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ff997c7e9b436fe19389",
+      "declaration": "Etingof.Problem7_8_5_Subcomplex.concreteConnecting",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/506/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{D : Etingof.Problem7_8_5_Complex} \u2192\n  (C : Etingof.Problem7_8_5_Subcomplex D) \u2192\n    (i j : Int) \u2192\n      ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j \u2192\n        Quiver.Hom.{0, 1} (HomologicalComplex.homology.{0, 1, 0} C.quotient i)\n          (HomologicalComplex.homology.{0, 1, 0} C.complex j)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Problem7_8_5"
+    },
+    {
+      "association_id": "association:6708e0b278526d08463c",
+      "declaration": "Etingof.Problem7_8_5_Subcomplex.concreteConnecting_eq_categorical",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/506/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {D : Etingof.Problem7_8_5_Complex} (C : Etingof.Problem7_8_5_Subcomplex D) (i j : Int)\n  (hij : ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j),\n  Eq.{1} (C.concreteConnecting i j hij) (CategoryTheory.ShortComplex.ShortExact.\u03b4.{0, 1, 0} \u22ef i j hij)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Problem7_8_5"
+    },
+    {
+      "association_id": "association:4571c41c00e5808b092c",
+      "declaration": "Etingof.Problem7_8_5_Subcomplex.connecting_lift_independent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/506/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {D : Etingof.Problem7_8_5_Complex} (C : Etingof.Problem7_8_5_Subcomplex D) (i j : Int),\n  ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j \u2192\n    \u2200 (x y : ModuleCat.carrier.{0, 0} (HomologicalComplex.X.{0, 1, 0} D i))\n      (hx :\n        Eq.{1}\n          (DFunLike.coe.{1, 1, 1}\n            (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n            (DFunLike.coe.{1, 1, 1}\n              (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) x))\n          0)\n      (hy :\n        Eq.{1}\n          (DFunLike.coe.{1, 1, 1}\n            (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n            (DFunLike.coe.{1, 1, 1}\n              (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) y))\n          0),\n      Eq.{1}\n          (DFunLike.coe.{1, 1, 1}\n            (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) x)\n          (DFunLike.coe.{1, 1, 1}\n            (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) y) \u2192\n        \u2200 (k : Int) (hk : Eq.{1} (ComplexShape.next.{0} (ComplexShape.up.{0} Int) j) k),\n          Eq.{1} (C.liftedDifferentialClass i j x hx k hk) (C.liftedDifferentialClass i j y hy k hk)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Problem7_8_5"
+    },
+    {
+      "association_id": "association:57cd261f64826afbe39e",
+      "declaration": "Etingof.Problem7_8_5_Subcomplex.connecting_wellDefined",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/506/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {D : Etingof.Problem7_8_5_Complex} (C : Etingof.Problem7_8_5_Subcomplex D) (i j : Int)\n  (hij : ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j)\n  (x y : ModuleCat.carrier.{0, 0} (HomologicalComplex.X.{0, 1, 0} D i))\n  (hx :\n    Eq.{1}\n      (DFunLike.coe.{1, 1, 1}\n        (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n        (DFunLike.coe.{1, 1, 1}\n          (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) x))\n      0)\n  (hy :\n    Eq.{1}\n      (DFunLike.coe.{1, 1, 1}\n        (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n        (DFunLike.coe.{1, 1, 1}\n          (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) y))\n      0)\n  (k : Int) (hk : Eq.{1} (ComplexShape.next.{0} (ComplexShape.up.{0} Int) j) k),\n  Eq.{1} (C.quotientCocycleClass i j hij x hx) (C.quotientCocycleClass i j hij y hy) \u2192\n    Eq.{1} (C.liftedDifferentialClass i j x hx k hk) (C.liftedDifferentialClass i j y hy k hk)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Problem7_8_5"
+    }
+  ],
+  "canonical_reference": "Chapter7/Problem7.8.5",
+  "packet_id": "align-0817",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0817"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter7/Problem7.8.5:part_i",
+  "source_text": "Part (i): construct the connecting map by representatives and prove independence of both choices."
+}

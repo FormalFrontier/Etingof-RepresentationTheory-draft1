@@ -1,0 +1,205 @@
+{
+  "module_name": "Algebra.PrimeCharacteristicCyclicModels",
+  "declarations": [
+    {
+      "temporary_id": "decl-008933",
+      "new_name": "FourScalarParameterType",
+      "docstring": "An auxiliary type parameterized by four elements of a field of prime characteristic."
+    },
+    {
+      "temporary_id": "decl-008935",
+      "new_name": "ModuleScalarParameterType",
+      "docstring": "An auxiliary type parameterized by a module over the displayed algebra and two field elements."
+    },
+    {
+      "temporary_id": "decl-008936",
+      "new_name": "cyclicPositionEnd",
+      "docstring": "The cyclic position endomorphism on field-valued functions on `Fin p`, with the wraparound controlled by a scalar."
+    },
+    {
+      "temporary_id": "decl-008940",
+      "new_name": "cyclicPositionEnd_apply",
+      "docstring": "The cyclic position endomorphism evaluates by shifting the index backward and multiplying by the wraparound coefficient."
+    },
+    {
+      "temporary_id": "decl-008941",
+      "new_name": "cyclicPositionEnd_pow_prime",
+      "docstring": "The prime-th power of the cyclic position endomorphism is scalar multiplication by its wraparound parameter."
+    },
+    {
+      "temporary_id": "decl-008942",
+      "new_name": "cyclicPositionEnd_pow_single_zero",
+      "docstring": "Below the prime bound, the corresponding power of the cyclic position endomorphism sends the zeroth coordinate vector to the coordinate vector at that exponent."
+    },
+    {
+      "temporary_id": "decl-008944",
+      "new_name": "derivativeAddScalarEnd",
+      "docstring": "The endomorphism on finite functions given by a scalar term plus the cyclic formal-derivative term."
+    },
+    {
+      "temporary_id": "decl-008948",
+      "new_name": "derivativeAddScalarEnd_apply",
+      "docstring": "The derivative-plus-scalar endomorphism evaluates as the scalar multiple of the current value plus the successor coefficient times the next value."
+    },
+    {
+      "temporary_id": "decl-008949",
+      "new_name": "derivativeAddScalarEnd_pow_prime",
+      "docstring": "In characteristic `p`, the prime-th power of the derivative-plus-scalar endomorphism is scalar multiplication by the prime-th power of the scalar."
+    },
+    {
+      "temporary_id": "decl-008950",
+      "new_name": "derivativeEnd_pow_prime",
+      "docstring": "The prime-th power of the derivative endomorphism with zero scalar term is zero."
+    },
+    {
+      "temporary_id": "decl-008952",
+      "new_name": "derivativeEnd_pow_eq_factorial_smul_single_zero",
+      "docstring": "For a function vanishing above an index, the corresponding power of the derivative endomorphism is the indexed value times the factorial and the zeroth coordinate vector."
+    },
+    {
+      "temporary_id": "decl-008960",
+      "new_name": "existsUnique_nonempty_moduleScalarParameterType",
+      "docstring": "For every finite-dimensional simple module over the displayed algebra, there is a unique pair of field elements for which the associated auxiliary type is nonempty."
+    },
+    {
+      "temporary_id": "decl-008970",
+      "new_name": "exists_nonempty_moduleScalarParameterType",
+      "docstring": "For every finite-dimensional simple module over the displayed algebra, the associated auxiliary type is nonempty for some pair of field elements."
+    },
+    {
+      "temporary_id": "decl-008971",
+      "new_name": "existsUnique_pow_prime_eq",
+      "docstring": "Over an algebraically closed field of prime characteristic, every scalar has a unique prime-th root."
+    },
+    {
+      "temporary_id": "decl-008972",
+      "new_name": "fourScalarParameterMap_intertwines_action",
+      "docstring": "A map represented by the four-scalar auxiliary type intertwines the two displayed algebra actions."
+    },
+    {
+      "temporary_id": "decl-008973",
+      "new_name": "fourScalarParameterMap_map_smul",
+      "docstring": "A map represented by the four-scalar auxiliary type commutes with scalar multiplication by the base field."
+    },
+    {
+      "temporary_id": "decl-008974",
+      "new_name": "nonempty_fourScalarParameterType_iff",
+      "docstring": "The four-scalar auxiliary type is nonempty exactly when the first pair of parameters equals the second pair componentwise."
+    },
+    {
+      "temporary_id": "decl-008975",
+      "new_name": "modelModule",
+      "docstring": "The module structure of the displayed algebra on field-valued functions on `Fin p` determined by two scalar parameters."
+    },
+    {
+      "temporary_id": "decl-008976",
+      "new_name": "finrank_finFunction",
+      "docstring": "The field-valued functions on `Fin p` have finrank `p`."
+    },
+    {
+      "temporary_id": "decl-008977",
+      "new_name": "modelModule_isScalarTower",
+      "docstring": "The base-field and algebra actions on the finite-function model form a scalar tower."
+    },
+    {
+      "temporary_id": "decl-008978",
+      "new_name": "modelModule_isSimpleModule",
+      "docstring": "The finite-function model is a simple module over the displayed algebra."
+    },
+    {
+      "temporary_id": "decl-008979",
+      "new_name": "modelModule_smul_eq_representation_apply",
+      "docstring": "The model-module action agrees with evaluation of the associated algebra representation."
+    },
+    {
+      "temporary_id": "decl-008980",
+      "new_name": "modelModule_smulCommClass",
+      "docstring": "The base-field and algebra scalar actions on the finite-function model commute."
+    },
+    {
+      "temporary_id": "decl-008981",
+      "new_name": "derivativeAddScalarEnd_mul_cyclicPositionEnd",
+      "docstring": "The derivative-plus-scalar and cyclic position endomorphisms satisfy the displayed commutation relation."
+    },
+    {
+      "temporary_id": "decl-008982",
+      "new_name": "modelRepresentation",
+      "docstring": "The algebra representation on field-valued functions on `Fin p` determined by two scalar parameters."
+    },
+    {
+      "temporary_id": "decl-008985",
+      "new_name": "modelRepresentation_positionGenerator",
+      "docstring": "The position generator is represented by the cyclic position endomorphism."
+    },
+    {
+      "temporary_id": "decl-008986",
+      "new_name": "modelRepresentation_derivativeGenerator",
+      "docstring": "The derivative generator is represented by the derivative-plus-scalar endomorphism."
+    },
+    {
+      "temporary_id": "decl-008987",
+      "new_name": "modelRepresentation_derivativeGenerator_sub_scalar",
+      "docstring": "Subtracting the scalar term from the derivative generator is represented by the derivative endomorphism with zero scalar term."
+    },
+    {
+      "temporary_id": "decl-008988",
+      "new_name": "finrank_eq_prime_of_isSimpleModule",
+      "docstring": "Every finite-dimensional simple module over the displayed algebra has finrank equal to the field characteristic."
+    },
+    {
+      "temporary_id": "decl-008992",
+      "new_name": "prime_neZero",
+      "docstring": "A prime natural number is nonzero."
+    },
+    {
+      "temporary_id": "decl-008994",
+      "new_name": "eq_of_pow_prime_eq_pow_prime",
+      "docstring": "In a field of prime characteristic, equality of prime-th powers implies equality of the original scalars."
+    },
+    {
+      "temporary_id": "decl-008995",
+      "new_name": "map_smul_of_map_smul_generators",
+      "docstring": "A base-linear map that intertwines the actions of both distinguished generators intertwines the action of every algebra element."
+    },
+    {
+      "temporary_id": "decl-008996",
+      "new_name": "moduleScalarParameterTypeToLinearEquiv",
+      "docstring": "An element of the module-and-scalars auxiliary type determines a base-field linear equivalence with the finite-function space."
+    },
+    {
+      "temporary_id": "decl-009001",
+      "new_name": "moduleScalarParameterMap_map_smul",
+      "docstring": "The map represented by an element of the module-and-scalars auxiliary type commutes with scalar multiplication by the base field."
+    },
+    {
+      "temporary_id": "decl-009002",
+      "new_name": "cyclicPositionCoeff",
+      "docstring": "The coefficient controlling the wraparound in the cyclic position endomorphism."
+    },
+    {
+      "temporary_id": "decl-009005",
+      "new_name": "cyclicPositionCoeff_mul_successorCoeff_pred",
+      "docstring": "The cyclic position coefficient times the predecessor successor coefficient equals that successor coefficient."
+    },
+    {
+      "temporary_id": "decl-009006",
+      "new_name": "successorCoeff",
+      "docstring": "The coefficient used by the cyclic formal-derivative term at a finite index."
+    },
+    {
+      "temporary_id": "decl-009009",
+      "new_name": "successorCoeff_eq_cast_add_one",
+      "docstring": "In characteristic `p`, the successor coefficient is the index cast to the field plus one."
+    },
+    {
+      "temporary_id": "decl-009010",
+      "new_name": "successorCoeff_mul_cyclicPositionCoeff_succ",
+      "docstring": "The successor coefficient times the cyclic position coefficient at the next index equals the successor coefficient."
+    },
+    {
+      "temporary_id": "decl-009011",
+      "new_name": "successorCoeff_pred",
+      "docstring": "The successor coefficient at the preceding finite index is the cast of the current index."
+    }
+  ]
+}

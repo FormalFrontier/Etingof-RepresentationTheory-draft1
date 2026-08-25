@@ -1,0 +1,60 @@
+{
+  "module_name": "Quiver.AuxiliaryConstructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-009939",
+      "new_name": "homObject",
+      "docstring": "An auxiliary type associated to an ordered pair of quiver vertices."
+    },
+    {
+      "temporary_id": "decl-009943",
+      "new_name": "HasAuxiliaryProperty",
+      "docstring": "An auxiliary predicate on a quiver representation."
+    },
+    {
+      "temporary_id": "decl-009944",
+      "new_name": "HasAuxiliaryQuiverProperty",
+      "docstring": "An auxiliary predicate on a quiver."
+    },
+    {
+      "temporary_id": "decl-009952",
+      "new_name": "auxiliaryRelation_iff_isEmpty_hom",
+      "docstring": "Characterizes the displayed auxiliary relation on vertices by emptiness of the quiver hom type."
+    },
+    {
+      "temporary_id": "decl-009953",
+      "new_name": "auxiliaryDefinition",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009961",
+      "new_name": "auxiliaryDefinition_vertex_eq_zero",
+      "docstring": "The auxiliary definition evaluates to zero on the displayed pair of vertex-associated objects."
+    },
+    {
+      "temporary_id": "decl-009974",
+      "new_name": "finrank_homObject",
+      "docstring": "The dimension of the auxiliary type equals the cardinality of the quiver hom type."
+    },
+    {
+      "temporary_id": "decl-009982",
+      "new_name": "exists_vertex_nonempty_auxiliaryObject",
+      "docstring": "Under the displayed finiteness and auxiliary predicates, some vertex has a nonempty associated auxiliary object."
+    },
+    {
+      "temporary_id": "decl-010006",
+      "new_name": "hasAuxiliaryProperty_vertex",
+      "docstring": "The representation associated to a vertex satisfies the auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-010007",
+      "new_name": "vertexRepresentationComponentAddCommGroup",
+      "docstring": "An additive commutative group structure on a displayed component of a representation associated to a vertex."
+    },
+    {
+      "temporary_id": "decl-010051",
+      "new_name": "not_auxiliaryProperty_or_exists_bijective_map",
+      "docstring": "Under the displayed quiver and dimension hypotheses, either the auxiliary predicate fails or a displayed map is bijective."
+    }
+  ]
+}

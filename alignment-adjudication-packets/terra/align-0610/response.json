@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:b6885c12cee28f19a5ba",
+      "rationale": "The formal type states that the generic carrier Fin N to Complex has finrank N, but it does not itself identify that carrier with V(alpha,beta) or its q-Weyl action, so it only supports the family's dimension claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bdf93b7746a8b4fe5fdd",
+      "rationale": "Assuming orderOf q equals N, the formal type asserts irreducibility of the parameterized family, but it does not itself state that the family is N-dimensional, so it covers only one component of the complete claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0610"
+}

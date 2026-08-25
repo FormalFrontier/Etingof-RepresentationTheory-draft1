@@ -1,0 +1,130 @@
+{
+  "module_name": "Algebra.AuxiliaryLieModuleConstructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-004133",
+      "new_name": "ExteriorAlgebra.auxiliaryModel",
+      "docstring": "An auxiliary type associated with a module over a commutative ring."
+    },
+    {
+      "temporary_id": "decl-016225",
+      "new_name": "SymmetricAlgebra.auxiliaryModel",
+      "docstring": "An auxiliary type associated with a module over a commutative ring."
+    },
+    {
+      "temporary_id": "decl-016799",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryBasisType",
+      "docstring": "An auxiliary type depending on a Lie algebra over a field and a chosen basis."
+    },
+    {
+      "temporary_id": "decl-016817",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryType",
+      "docstring": "An auxiliary type depending on a Lie algebra over a commutative ring."
+    },
+    {
+      "temporary_id": "decl-017312",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryBasisLieHom",
+      "docstring": "A Lie homomorphism from a Lie algebra to the auxiliary type determined by a basis."
+    },
+    {
+      "temporary_id": "decl-017322",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap",
+      "docstring": "A linear map from a Lie algebra to the auxiliary type determined by a basis."
+    },
+    {
+      "temporary_id": "decl-017326",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap_apply_basis",
+      "docstring": "States the value of the auxiliary linear map at a selected basis vector."
+    },
+    {
+      "temporary_id": "decl-018214",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryAlgHom",
+      "docstring": "An algebra homomorphism between the two auxiliary types displayed in its type."
+    },
+    {
+      "temporary_id": "decl-018216",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryAlgHom_unique",
+      "docstring": "An algebra homomorphism is equal to the displayed auxiliary homomorphism when the stated pointwise condition holds."
+    },
+    {
+      "temporary_id": "decl-018217",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryAlgHom_apply",
+      "docstring": "Gives the value of the auxiliary algebra homomorphism on a displayed input."
+    },
+    {
+      "temporary_id": "decl-019255",
+      "new_name": "ExteriorAlgebra.auxiliaryModelEquivFinsupp",
+      "docstring": "An algebra equivalence from an auxiliary type to an exterior algebra on finitely supported coordinates."
+    },
+    {
+      "temporary_id": "decl-019259",
+      "new_name": "ExteriorAlgebra.auxiliaryModelEquivFinsupp_apply",
+      "docstring": "Gives the value of the displayed algebra equivalence on an exterior-algebra generator."
+    },
+    {
+      "temporary_id": "decl-019260",
+      "new_name": "ExteriorAlgebra.auxiliaryModelDirectSumEquiv",
+      "docstring": "A linear equivalence from an auxiliary type to the displayed Nat-indexed direct sum."
+    },
+    {
+      "temporary_id": "decl-019261",
+      "new_name": "ExteriorAlgebra.generator_sq_eq_zero",
+      "docstring": "Every canonical exterior-algebra generator has square zero."
+    },
+    {
+      "temporary_id": "decl-023670",
+      "new_name": "SymmetricAlgebra.auxiliaryModelDirectSumEquiv",
+      "docstring": "A basis-dependent linear equivalence from an auxiliary type to the displayed Nat-indexed direct sum."
+    },
+    {
+      "temporary_id": "decl-023676",
+      "new_name": "SymmetricAlgebra.auxiliaryModelEquivMvPolynomial",
+      "docstring": "An algebra equivalence from an auxiliary type to multivariable polynomials on the basis indices."
+    },
+    {
+      "temporary_id": "decl-023677",
+      "new_name": "SymmetricAlgebra.auxiliaryModelEquivMvPolynomial_apply_basis",
+      "docstring": "Gives the value of the displayed algebra equivalence on the image of a basis vector."
+    },
+    {
+      "temporary_id": "decl-023718",
+      "new_name": "SymmetricAlgebra.generator_mul_comm",
+      "docstring": "Canonical generators of a symmetric algebra commute with one another."
+    },
+    {
+      "temporary_id": "decl-023721",
+      "new_name": "unrenderedAuxiliary",
+      "docstring": "An auxiliary construction whose formal type is unavailable in rendered form."
+    },
+    {
+      "temporary_id": "decl-024372",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryBasisEquiv",
+      "docstring": "A basis-dependent algebra equivalence between the two auxiliary types displayed in its type."
+    },
+    {
+      "temporary_id": "decl-024375",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryBasisPairElement",
+      "docstring": "An element of a free algebra associated with a basis and a pair of basis indices."
+    },
+    {
+      "temporary_id": "decl-024377",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom",
+      "docstring": "An algebra homomorphism between the two auxiliary types displayed in its type."
+    },
+    {
+      "temporary_id": "decl-024380",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom_apply",
+      "docstring": "Gives the value of the auxiliary algebra homomorphism on a displayed basis-indexed input."
+    },
+    {
+      "temporary_id": "decl-024381",
+      "new_name": "UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom_unique",
+      "docstring": "An algebra homomorphism is equal to the displayed auxiliary homomorphism when the stated values on every index agree."
+    },
+    {
+      "temporary_id": "decl-024447",
+      "new_name": "UniversalEnvelopingAlgebra.generator_commutator",
+      "docstring": "The commutator of two canonical enveloping generators equals the generator associated with their Lie bracket."
+    }
+  ]
+}

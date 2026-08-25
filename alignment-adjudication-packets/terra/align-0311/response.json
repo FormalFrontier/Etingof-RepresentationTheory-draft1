@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0311",
+  "associations": [
+    {
+      "association_id": "association:9624a506c6286c800cc6",
+      "rationale": "The formal type gives the final irreducible factorization and identifies the number of factors with the conjugacy-class count, but it does not itself state that an inversion sign is absorbed into a factor.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0202",
+  "associations": [
+    {
+      "association_id": "association:9e4a7b9febe3ce66e06c",
+      "role": "primary",
+      "rationale": "It directly derives indecomposability from simplicity of the module."
+    }
+  ]
+}

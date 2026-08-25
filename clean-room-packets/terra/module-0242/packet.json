@@ -1,0 +1,62 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{A : Type u_1} \u2192\n  {B : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} A] \u2192\n      [inst_1 : CategoryTheory.Category.{u_4, u_2} B] \u2192\n        CategoryTheory.Functor.{u_3, u_4, u_1, u_2} A B \u2192\n          Quotient.{u_1 + 1} (CategoryTheory.isIsomorphicSetoid.{u_3, u_1} A) \u2192\n            Quotient.{u_2 + 1} (CategoryTheory.isIsomorphicSetoid.{u_4, u_2} B)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2699412920",
+      "temporary_id": "decl-020947"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} {B : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} A]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} B] (F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} A B)\n  [CategoryTheory.Functor.Full.{u_3, u_4, u_1, u_2} F] [CategoryTheory.Functor.Faithful.{u_3, u_4, u_1, u_2} F],\n  Function.Injective.{u_1 + 1, u_2 + 1} (decl-020947.{u_1, u_2, u_3, u_4} F)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020947"
+      ],
+      "structural_type_hash": "2147760385",
+      "temporary_id": "decl-020951"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) {R : Type u_1} {T : Type u_2} [inst : Field.{u} k] [inst_1 : Ring.{u_1} R] [inst_2 : Ring.{u_2} T]\n  [inst_3 : Algebra.{u, u_1} k R] [Module.Finite.{u, u_1} k R] (f : RingHom.{u_1, u_2} R T),\n  Function.Surjective.{u_1 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} f) \u2192\n    LE.le.{0} (Nat.card.{max (u + 1) u_2} (decl-015611.{u, u_2} T))\n      (Nat.card.{max (u + 1) u_1} (decl-015611.{u, u_1} R))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015611"
+      ],
+      "structural_type_hash": "3994653984",
+      "temporary_id": "decl-021704"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} {S : Type u_2} [inst : Ring.{u_1} R] [inst_1 : Ring.{u_2} S] {f : RingHom.{u_1, u_2} R S},\n  Function.Surjective.{u_1 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} f) \u2192\n    CategoryTheory.Functor.Full.{u, u, max (u + 1) u_2, max (u + 1) u_1} (ModuleCat.restrictScalars.{u, u_1, u_2} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3965462314",
+      "temporary_id": "decl-025160"
+    }
+  ],
+  "module_temporary_id": "module-0242",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

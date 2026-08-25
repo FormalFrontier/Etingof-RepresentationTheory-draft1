@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0070",
+  "associations": [
+    {
+      "association_id": "association:89107332ed13fccae52e",
+      "role": "supporting",
+      "rationale": "The type assumes the opaque relation Setoid.r; it does not state that this hypothesis is isomorphism of the two SL_N restrictions."
+    }
+  ]
+}

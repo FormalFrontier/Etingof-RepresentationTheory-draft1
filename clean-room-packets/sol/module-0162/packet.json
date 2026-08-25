@@ -1,0 +1,660 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192 LinearMap.BilinForm.{0, u_1} Complex V \u2192 Type u_1",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2629021940",
+      "temporary_id": "decl-010192"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      Even.{0} N \u2192\n        LE.le.{u_1} (Subalgebra.center.{0, u_1} Complex (decl-010192.{u_1} B)) Bot.bot.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "1774653782",
+      "temporary_id": "decl-010199"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      LE.le.{u_1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} Subalgebra.toSubmodule.{0, u_1}\n          (Subalgebra.center.{0, u_1} Complex (decl-010192.{u_1} B)))\n        (Submodule.span.{0, u_1} Complex\n          (Insert.insert.{u_1, u_1} (decl-010223.{u_1} B v EmptyCollection.emptyCollection.{0})\n            (Singleton.singleton.{u_1, u_1} (decl-010223.{u_1} B v Finset.univ.{0}))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010446"
+      ],
+      "structural_type_hash": "3400080190",
+      "temporary_id": "decl-010201"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V)\n  {x : decl-010192.{u_1} B},\n  (\u2200 (i : Fin N),\n      Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} x (decl-010323.{u_1} B v i))\n        (HMul.hMul.{u_1, u_1, u_1} (decl-010323.{u_1} B v i) x)) \u2192\n    \u2200 (y : decl-010192.{u_1} B),\n      Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} x y) (HMul.hMul.{u_1, u_1, u_1} y x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010323",
+        "decl-010446"
+      ],
+      "structural_type_hash": "690828225",
+      "temporary_id": "decl-010203"
+    },
+    {
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192\n      (B : LinearMap.BilinForm.{0, u_1} Complex V) \u2192\n        {N : Nat} \u2192\n          (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V) \u2192\n            LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n              Module.Basis.{0, 0, u_1} (Finset.{0} (Fin N)) Complex (decl-010192.{u_1} B)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "675439897",
+      "temporary_id": "decl-010204"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V)\n  (hv : LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v)) (S : Finset.{0} (Fin N)),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (decl-010204.{u_1} B v hv) S)\n    (decl-010223.{u_1} B v S)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010204",
+        "decl-010223",
+        "decl-010446"
+      ],
+      "structural_type_hash": "1878938755",
+      "temporary_id": "decl-010209"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V],\n  Nonempty.{u_1 + 1}\n    (AlgEquiv.{0, u_1, u_1} Complex (CliffordAlgebra.{0, u_1} (decl-010446.{u_1} 0))\n      (ExteriorAlgebra.{0, u_1} Complex V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010446"
+      ],
+      "structural_type_hash": "694527164",
+      "temporary_id": "decl-010210"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      \u2200 (i : Fin N),\n        Ne.{1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, 1}\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v i))\n            (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v i))\n          0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3687580163",
+      "temporary_id": "decl-010222"
+    },
+    {
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192\n      (B : LinearMap.BilinForm.{0, u_1} Complex V) \u2192\n        {N : Nat} \u2192\n          Module.Basis.{0, 0, u_1} (Fin N) Complex V \u2192 Finset.{0} (Fin N) \u2192 decl-010192.{u_1} B",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192"
+      ],
+      "structural_type_hash": "1922968390",
+      "temporary_id": "decl-010223"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      Odd.{0} N \u2192\n        Membership.mem.{u_1, u_1} (Subalgebra.center.{0, u_1} Complex (decl-010192.{u_1} B))\n          (decl-010223.{u_1} B v Finset.univ.{0})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010446"
+      ],
+      "structural_type_hash": "4128780221",
+      "temporary_id": "decl-010228"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  Eq.{u_1 + 1} (decl-010223.{u_1} B v EmptyCollection.emptyCollection.{0}) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010446"
+      ],
+      "structural_type_hash": "3911483129",
+      "temporary_id": "decl-010230"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V) {i : Fin N}\n  {S : Finset.{0} (Fin N)},\n  (\u2200 (j : Fin N), Membership.mem.{0, 0} S j \u2192 LT.lt.{0} i j) \u2192\n    Eq.{u_1 + 1} (decl-010223.{u_1} B v (Insert.insert.{0, 0} i S))\n      (HMul.hMul.{u_1, u_1, u_1} (decl-010323.{u_1} B v i) (decl-010223.{u_1} B v S))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010323",
+        "decl-010446"
+      ],
+      "structural_type_hash": "1997954955",
+      "temporary_id": "decl-010231"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V)\n  {S : Finset.{0} (Fin N)} (hS : Finset.Nonempty.{0} S),\n  Eq.{u_1 + 1} (decl-010223.{u_1} B v S)\n    (HMul.hMul.{u_1, u_1, u_1} (decl-010323.{u_1} B v (Finset.min'.{0} S hS))\n      (decl-010223.{u_1} B v (Finset.erase.{0} S (Finset.min'.{0} S hS))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010323",
+        "decl-010446"
+      ],
+      "structural_type_hash": "3951263988",
+      "temporary_id": "decl-010232"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    \u2200 (S T : Finset.{0} (Fin N)),\n      Membership.mem.{u_1, u_1}\n        (Submodule.span.{0, u_1} Complex\n          (Singleton.singleton.{u_1, u_1} (decl-010223.{u_1} B v (symmDiff.{0} S T))))\n        (HMul.hMul.{u_1, u_1, u_1} (decl-010223.{u_1} B v S) (decl-010223.{u_1} B v T))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010446"
+      ],
+      "structural_type_hash": "3509167143",
+      "temporary_id": "decl-010233"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V) (i : Fin N),\n  Eq.{u_1 + 1} (decl-010223.{u_1} B v (Singleton.singleton.{0, 0} i)) (decl-010323.{u_1} B v i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010323"
+      ],
+      "structural_type_hash": "180671553",
+      "temporary_id": "decl-010237"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      \u2200 (n : Nat),\n        Eq.{1} (Module.finrank.{0, u_1} Complex V) (HMul.hMul.{0, 0, 0} 2 n) \u2192\n          Exists.{2} fun S =>\n            Exists.{1} fun x =>\n              Exists.{1} fun x_1 =>\n                And (Eq.{1} (Module.finrank.{0, 0} Complex S) (HPow.hPow.{0, 0, 0} 2 n))\n                  (Nonempty.{max 1 (u_1 + 1)}\n                    (AlgEquiv.{0, u_1, 0} Complex (decl-010192.{u_1} B)\n                      (Module.End.{0, 0} Complex S)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "814162053",
+      "temporary_id": "decl-010313"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      Exists.{1} fun \u03bc =>\n        And (Ne.{1} \u03bc 0)\n          (Eq.{u_1 + 1}\n            (HMul.hMul.{u_1, u_1, u_1} (decl-010223.{u_1} B v Finset.univ.{0})\n              (decl-010223.{u_1} B v Finset.univ.{0}))\n            (HSMul.hSMul.{0, u_1, u_1} \u03bc 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010446"
+      ],
+      "structural_type_hash": "3394645106",
+      "temporary_id": "decl-010315"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      Odd.{0} N \u2192\n        Eq.{1}\n          (Module.finrank.{0, u_1} Complex\n            (Subtype.{u_1 + 1} fun x =>\n              Membership.mem.{u_1, u_1} (Subalgebra.center.{0, u_1} Complex (decl-010192.{u_1} B)) x))\n          2",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "3535755683",
+      "temporary_id": "decl-010316"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  Eq.{1} (Module.finrank.{0, u_1} Complex (decl-010192.{u_1} B)) (HPow.hPow.{0, 0, 0} 2 N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "301626319",
+      "temporary_id": "decl-010321"
+    },
+    {
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192\n      (B : LinearMap.BilinForm.{0, u_1} Complex V) \u2192\n        {N : Nat} \u2192 Module.Basis.{0, 0, u_1} (Fin N) Complex V \u2192 Fin N \u2192 decl-010192.{u_1} B",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192"
+      ],
+      "structural_type_hash": "597107538",
+      "temporary_id": "decl-010323"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    \u2200 {i j : Fin N},\n      Ne.{1} i j \u2192\n        Eq.{u_1 + 1}\n          (HMul.hMul.{u_1, u_1, u_1} (decl-010323.{u_1} B v i) (decl-010323.{u_1} B v j))\n          (Neg.neg.{u_1}\n            (HMul.hMul.{u_1, u_1, u_1} (decl-010323.{u_1} B v j) (decl-010323.{u_1} B v i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010323",
+        "decl-010446"
+      ],
+      "structural_type_hash": "361426402",
+      "temporary_id": "decl-010325"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010323",
+        "decl-010446"
+      ],
+      "structural_type_hash": "586034249",
+      "temporary_id": "decl-010326"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010323",
+        "decl-010446"
+      ],
+      "structural_type_hash": "473980612",
+      "temporary_id": "decl-010327"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    \u2200 (j : Fin N) (U : Finset.{0} (Fin N)),\n      Membership.mem.{u_1, u_1}\n        (Submodule.span.{0, u_1} Complex\n          (Singleton.singleton.{u_1, u_1}\n            (decl-010223.{u_1} B v (symmDiff.{0} U (Singleton.singleton.{0, 0} j)))))\n        (HMul.hMul.{u_1, u_1, u_1} (decl-010323.{u_1} B v j) (decl-010223.{u_1} B v U))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010323",
+        "decl-010446"
+      ],
+      "structural_type_hash": "1339281887",
+      "temporary_id": "decl-010331"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V) (i : Fin N),\n  Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (decl-010323.{u_1} B v i) (decl-010323.{u_1} B v i))\n    (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (Algebra.algebraMap.{0, u_1} Complex (decl-010192.{u_1} B))\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v i))\n        (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010323",
+        "decl-010446"
+      ],
+      "structural_type_hash": "1454234541",
+      "temporary_id": "decl-010336"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  Module.Finite.{0, u_1} Complex (decl-010192.{u_1} B)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "2372418199",
+      "temporary_id": "decl-010355"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010446"
+      ],
+      "structural_type_hash": "4091963562",
+      "temporary_id": "decl-010356"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    Iff (IsSemisimpleRing.{u_1} (decl-010192.{u_1} B)) (LinearMap.BilinForm.Nondegenerate.{0, u_1} B)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "319617778",
+      "temporary_id": "decl-010357"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192 IsSemisimpleRing.{u_1} (decl-010192.{u_1} B)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "2227687660",
+      "temporary_id": "decl-010358"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_2} [inst : Ring.{u_2} A] [inst_1 : Algebra.{0, u_2} Complex A] [Module.Finite.{0, u_2} Complex A],\n  (\u2200 (x : A),\n      (\u2200 (y : A),\n          Eq.{1}\n            (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (LinearMap.trace.{0, u_2} Complex A)\n              (LinearMap.mulLeft.{0, u_2} Complex (HMul.hMul.{u_2, u_2, u_2} x y)))\n            0) \u2192\n        Eq.{u_2 + 1} x 0) \u2192\n    IsSemisimpleRing.{u_2} A",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3110806120",
+      "temporary_id": "decl-010359"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      \u2200 (S : Finset.{0} (Fin N)), IsUnit.{u_1} (decl-010223.{u_1} B v S)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010446"
+      ],
+      "structural_type_hash": "2530158539",
+      "temporary_id": "decl-010360"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192 \u2200 (i : Fin N), IsUnit.{u_1} (decl-010323.{u_1} B v i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010323",
+        "decl-010446"
+      ],
+      "structural_type_hash": "2995884564",
+      "temporary_id": "decl-010361"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V)\n  (hsymm :\n    \u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)),\n  Eq.{u_1 + 1}\n    (RingHom.ker.{u_1, u_1, u_1}\n      (AlgHom.toRingHom.{0, u_1, u_1}\n        (CliffordAlgebra.map.{0, u_1, u_1} (decl-010459.{u_1} B hsymm))))\n    (decl-010447.{u_1} B)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010446",
+        "decl-010447",
+        "decl-010451",
+        "decl-010459",
+        "decl-010461"
+      ],
+      "structural_type_hash": "1918711360",
+      "temporary_id": "decl-010362"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {v : V},\n  Iff (Membership.mem.{u_1, u_1} (decl-010461.{u_1} B) v)\n    (Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B v) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010461"
+      ],
+      "structural_type_hash": "3272796801",
+      "temporary_id": "decl-010363"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) (c : Complex) (z : decl-010192.{u_1} B),\n  Eq.{u_1 + 1} (LinearMap.mulLeft.{0, u_1} Complex (HSMul.hSMul.{0, u_1, u_1} c z))\n    (HSMul.hSMul.{0, u_1, u_1} c (LinearMap.mulLeft.{0, u_1} Complex z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "2950150000",
+      "temporary_id": "decl-010364"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    Not (LinearMap.BilinForm.Nondegenerate.{0, u_1} B) \u2192\n      Not (IsSemisimpleRing.{u_1} (decl-010192.{u_1} B))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "1497938607",
+      "temporary_id": "decl-010365"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      \u2200 (n : Nat),\n        Eq.{1} (Module.finrank.{0, u_1} Complex V) (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 n) 1) \u2192\n          Exists.{1} fun d =>\n            And (\u2200 (i : Fin 2), LT.lt.{0} 0 (d i))\n              (Nonempty.{max 1 (u_1 + 1)}\n                (AlgEquiv.{0, u_1, 0} Complex (decl-010192.{u_1} B)\n                  ((i : Fin 2) \u2192 Matrix.{0, 0, 0} (Fin (d i)) (Fin (d i)) Complex)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "985500823",
+      "temporary_id": "decl-010434"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      \u2200 (n : Nat),\n        Eq.{1} (Module.finrank.{0, u_1} Complex V) (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 n) 1) \u2192\n          Exists.{2} fun S =>\n            Exists.{1} fun x =>\n              Exists.{1} fun x_1 =>\n                And (Eq.{1} (Module.finrank.{0, 0} Complex S) (HPow.hPow.{0, 0, 0} 2 n))\n                  (Nonempty.{max 1 (u_1 + 1)}\n                    (AlgEquiv.{0, u_1, 0} Complex (decl-010192.{u_1} B)\n                      (Prod.{0, 0} (Module.End.{0, 0} Complex S) (Module.End.{0, 0} Complex S))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "4064029961",
+      "temporary_id": "decl-010435"
+    },
+    {
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192 LinearMap.BilinForm.{0, u_1} Complex V \u2192 QuadraticForm.{0, u_1} Complex V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1969788195",
+      "temporary_id": "decl-010446"
+    },
+    {
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192\n      (B : LinearMap.BilinForm.{0, u_1} Complex V) \u2192 Ideal.{u_1} (decl-010192.{u_1} B)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "3926251364",
+      "temporary_id": "decl-010447"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    Eq.{u_1 + 1} (decl-010447.{u_1} B) (Ring.jacobson.{u_1} (decl-010192.{u_1} B))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446",
+        "decl-010447"
+      ],
+      "structural_type_hash": "475023670",
+      "temporary_id": "decl-010449"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    Ideal.IsTwoSided.{u_1} (decl-010447.{u_1} B)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446",
+        "decl-010447"
+      ],
+      "structural_type_hash": "1729868969",
+      "temporary_id": "decl-010450"
+    },
+    {
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192\n      (B : LinearMap.BilinForm.{0, u_1} Complex V) \u2192\n        (\u2200 (x y : V),\n            Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n              (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n          LinearMap.BilinForm.{0, u_1} Complex\n            (HasQuotient.Quotient.{u_1, u_1} V (decl-010461.{u_1} B))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010461"
+      ],
+      "structural_type_hash": "130199854",
+      "temporary_id": "decl-010451"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V)\n  (hsymm :\n    \u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x))\n  (x y : HasQuotient.Quotient.{u_1, u_1} V (decl-010461.{u_1} B)),\n  Eq.{1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-010451.{u_1} B hsymm) x) y)\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-010451.{u_1} B hsymm) y) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010451",
+        "decl-010461"
+      ],
+      "structural_type_hash": "771937218",
+      "temporary_id": "decl-010456"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V)\n  (hsymm :\n    \u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x))\n  (v w : V),\n  Eq.{1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-010451.{u_1} B hsymm)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Submodule.mkQ.{0, u_1} (decl-010461.{u_1} B))\n          v))\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Submodule.mkQ.{0, u_1} (decl-010461.{u_1} B)) w))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B v) w)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010451",
+        "decl-010461"
+      ],
+      "structural_type_hash": "293870217",
+      "temporary_id": "decl-010457"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V)\n  (hsymm :\n    \u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)),\n  LinearMap.BilinForm.Nondegenerate.{0, u_1} (decl-010451.{u_1} B hsymm)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010451",
+        "decl-010461"
+      ],
+      "structural_type_hash": "4131475096",
+      "temporary_id": "decl-010458"
+    },
+    {
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192\n      (B : LinearMap.BilinForm.{0, u_1} Complex V) \u2192\n        (hsymm :\n            \u2200 (x y : V),\n              Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n                (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n          QuadraticMap.Isometry.{0, u_1, u_1, 0} (decl-010446.{u_1} B)\n            (decl-010446.{u_1} (decl-010451.{u_1} B hsymm))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010446",
+        "decl-010451",
+        "decl-010461"
+      ],
+      "structural_type_hash": "1406174568",
+      "temporary_id": "decl-010459"
+    },
+    {
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192 LinearMap.BilinForm.{0, u_1} Complex V \u2192 Submodule.{0, u_1} Complex V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2907194656",
+      "temporary_id": "decl-010461"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    Not (LinearMap.BilinForm.Nondegenerate.{0, u_1} B) \u2192\n      Exists.{2} fun W =>\n        Exists.{1} fun x =>\n          Exists.{1} fun x_1 =>\n            Exists.{1} fun B' =>\n              And\n                (\u2200 (x_2 y : W),\n                  Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} B' x_2) y)\n                    (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} B' y) x_2))\n                (And (LinearMap.BilinForm.Nondegenerate.{0, 0} B')\n                  (Exists.{u_1 + 1} fun \u03c6 =>\n                    And (Function.Surjective.{u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c6))\n                      (Eq.{u_1 + 1} (RingHom.ker.{u_1, 0, u_1} (AlgHom.toRingHom.{0, u_1, 0} \u03c6))\n                        (Ring.jacobson.{u_1} (decl-010192.{u_1} B)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446"
+      ],
+      "structural_type_hash": "4251294282",
+      "temporary_id": "decl-010463"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    Eq.{u_1 + 1} (Submodule.span.{0, u_1} Complex (Set.range.{u_1, 1} (decl-010223.{u_1} B v))) Top.top.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010446"
+      ],
+      "structural_type_hash": "89513127",
+      "temporary_id": "decl-010464"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    \u2200 (R : Finset.{0} (Fin N)),\n      Eq.{1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (LinearMap.trace.{0, u_1} Complex (decl-010192.{u_1} B))\n          (LinearMap.mulLeft.{0, u_1} Complex (decl-010223.{u_1} B v R)))\n        (ite.{1} (Eq.{1} R EmptyCollection.emptyCollection.{0}) (HPow.hPow.{0, 0, 0} 2 N) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010446"
+      ],
+      "structural_type_hash": "3168128786",
+      "temporary_id": "decl-010528"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    \u2200 {S T : Finset.{0} (Fin N)},\n      Ne.{1} S T \u2192\n        Eq.{1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (LinearMap.trace.{0, u_1} Complex (decl-010192.{u_1} B))\n            (LinearMap.mulLeft.{0, u_1} Complex\n              (HMul.hMul.{u_1, u_1, u_1} (decl-010223.{u_1} B v S) (decl-010223.{u_1} B v T))))\n          0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010446"
+      ],
+      "structural_type_hash": "1499954440",
+      "temporary_id": "decl-010529"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    LinearMap.BilinForm.Nondegenerate.{0, u_1} B \u2192\n      \u2200 (T : Finset.{0} (Fin N)),\n        Ne.{1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (LinearMap.trace.{0, u_1} Complex (decl-010192.{u_1} B))\n            (LinearMap.mulLeft.{0, u_1} Complex\n              (HMul.hMul.{u_1, u_1, u_1} (decl-010223.{u_1} B v T) (decl-010223.{u_1} B v T))))\n          0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010223",
+        "decl-010446"
+      ],
+      "structural_type_hash": "3277114113",
+      "temporary_id": "decl-010530"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    \u2200 {u : V},\n      Membership.mem.{u_1, u_1} (decl-010461.{u_1} B) u \u2192\n        Membership.mem.{u_1, u_1} (Ring.jacobson.{u_1} (decl-010192.{u_1} B))\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (CliffordAlgebra.\u03b9.{0, u_1} (decl-010446.{u_1} B))\n            u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446",
+        "decl-010461"
+      ],
+      "structural_type_hash": "3858009643",
+      "temporary_id": "decl-010531"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {u : V},\n  Membership.mem.{u_1, u_1} (decl-010461.{u_1} B) u \u2192\n    Membership.mem.{u_1, u_1} (decl-010447.{u_1} B)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (CliffordAlgebra.\u03b9.{0, u_1} (decl-010446.{u_1} B)) u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446",
+        "decl-010447",
+        "decl-010461"
+      ],
+      "structural_type_hash": "2428807306",
+      "temporary_id": "decl-010534"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    \u2200 {u : V},\n      Membership.mem.{u_1, u_1} (decl-010461.{u_1} B) u \u2192\n        \u2200 (z : decl-010192.{u_1} B),\n          Eq.{u_1 + 1}\n            (HMul.hMul.{u_1, u_1, u_1}\n              (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n                (CliffordAlgebra.\u03b9.{0, u_1} (decl-010446.{u_1} B)) u)\n              z)\n            (HMul.hMul.{u_1, u_1, u_1}\n              (DFunLike.coe.{max (u_1 + 1) 1, max (u_1 + 1) 1, max (u_1 + 1) 1} CliffordAlgebra.involute.{0, u_1} z)\n              (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n                (CliffordAlgebra.\u03b9.{0, u_1} (decl-010446.{u_1} B)) u))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010192",
+        "decl-010446",
+        "decl-010461"
+      ],
+      "structural_type_hash": "212570351",
+      "temporary_id": "decl-010535"
+    }
+  ],
+  "module_temporary_id": "module-0162",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

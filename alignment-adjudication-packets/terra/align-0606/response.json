@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:25cb5feec0632347de62",
+      "rationale": "The formal type gives a unique parameter pair carrying a nonempty ToFamEquiv, but the displayed evidence leaves ToFamEquiv opaque rather than directly stating module isomorphism.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e72edbc333988b812059",
+      "rationale": "The displayed equivalence relates the opaque custom type FamEquiv to equality of both parameters; without its definition, it only supports the source's isomorphism iff assertion.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0606"
+}

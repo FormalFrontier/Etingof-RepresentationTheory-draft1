@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f190749a7577a273f448",
+      "declaration": "Etingof.Problem2_16_3.g",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/121/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 [CommRing.{u_1} k] \u2192 Nat \u2192 Type u_1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3"
+    },
+    {
+      "association_id": "association:0f522710070a021e6745",
+      "declaration": "Etingof.Problem2_16_3.proj",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/121/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (n : Nat) \u2192 LieHom.{u_1, u_1, u_1} k (FreeLieAlgebra.{u_1, 0} k (Fin 2)) (Etingof.Problem2_16_3.g.{u_1} k n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3"
+    },
+    {
+      "association_id": "association:fe89efdc43eb29b2b578",
+      "declaration": "Etingof.Problem2_16_3.relIdeal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/121/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 Nat \u2192 LieIdeal.{u_1, u_1} k (FreeLieAlgebra.{u_1, 0} k (Fin 2))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.3",
+  "packet_id": "align-0550",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0550"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.3:claim-01",
+  "source_text": "ad(x) is the operator y \u21a6 [x,y], and g_n is the free Lie algebra on x,y modulo ad(x)^2(y) = ad(y)^(n+1)(x) = 0."
+}

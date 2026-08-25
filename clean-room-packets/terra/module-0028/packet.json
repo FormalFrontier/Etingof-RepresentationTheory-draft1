@@ -1,0 +1,92 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192 (V : Type v) \u2192 [inst_1 : AddCommGroup.{v} V] \u2192 [Module.{u, v} k V] \u2192 Type (max u v)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2210693303",
+      "temporary_id": "decl-016272"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          AlgEquiv.{u, max v u, max u v} k (decl-016272.{u, v} k V)\n            (DirectSum.{0, max u v} Nat fun n => TensorPower.{u, v} k n V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016272"
+      ],
+      "structural_type_hash": "242508882",
+      "temporary_id": "decl-023842"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] {n : Nat}\n  (x : Fin n \u2192 V),\n  Eq.{max (u + 1) (v + 1)}\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n      (decl-023842.{u, v} k V)\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (TensorAlgebra.tprod.{u, v} k V n) x))\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n      (DirectSum.of.{0, max u v} (fun n => TensorPower.{u, v} k n V) n)\n      (DFunLike.coe.{max (max (u + 1) (v + 1)) 1, max (v + 1) 1, max (max (u + 1) (v + 1)) 1}\n        (PiTensorProduct.tprod.{0, u, v} k) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016272",
+        "decl-023842"
+      ],
+      "structural_type_hash": "1891619158",
+      "temporary_id": "decl-023843"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          {\u03b9 : Type w} \u2192\n            Module.Basis.{w, u, v} \u03b9 k V \u2192\n              AlgEquiv.{u, max v u, max w u} k (decl-016272.{u, v} k V) (FreeAlgebra.{u, w} k \u03b9)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016272"
+      ],
+      "structural_type_hash": "4116458188",
+      "temporary_id": "decl-023844"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] {\u03b9 : Type w}\n  (b : Module.Basis.{w, u, v} \u03b9 k V) (i : \u03b9),\n  Eq.{max (u + 1) (w + 1)}\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), max (u + 1) (v + 1), max (u + 1) (w + 1)}\n      (decl-023844.{u, v, w} k V b)\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (TensorAlgebra.\u03b9.{u, v} k)\n        (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, v + 1} b i)))\n    (FreeAlgebra.\u03b9.{u, w} k i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016272",
+        "decl-023844"
+      ],
+      "structural_type_hash": "2942172440",
+      "temporary_id": "decl-023845"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] {n m : Nat}\n  (a : TensorPower.{u, v} k n V) (b : TensorPower.{u, v} k m V),\n  Eq.{max (u + 1) (v + 1)}\n    (HMul.hMul.{max u v, max u v, max u v}\n      (DFunLike.coe.{max (v + 1) (u + 1), max (v + 1) (u + 1), max (v + 1) (u + 1)} TensorPower.toTensorAlgebra.{u, v}\n        a)\n      (DFunLike.coe.{max (v + 1) (u + 1), max (v + 1) (u + 1), max (v + 1) (u + 1)} TensorPower.toTensorAlgebra.{u, v}\n        b))\n    (DFunLike.coe.{max (v + 1) (u + 1), max (v + 1) (u + 1), max (v + 1) (u + 1)} TensorPower.toTensorAlgebra.{u, v}\n      (GradedMonoid.GMul.mul.{0, max u v} a b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2108921743",
+      "temporary_id": "decl-023851"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V],\n  Function.Injective.{v + 1, max (u + 1) (v + 1)}\n    (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (TensorAlgebra.\u03b9.{u, v} k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1075521051",
+      "temporary_id": "decl-023852"
+    }
+  ],
+  "module_temporary_id": "module-0028",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

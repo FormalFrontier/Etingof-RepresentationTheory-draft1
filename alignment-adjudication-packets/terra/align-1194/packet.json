@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2dcf4089d57581ba0ef0",
+      "declaration": "Etingof.Example_8_1_7",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/531/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [FiniteDimensional.{u, u} k A] {P : Type u} [inst_4 : AddCommGroup.{u} P] [inst_5 : Module.{u, u} k P]\n  [inst_6 : Module.{u, u} A P] [inst_7 : IsScalarTower.{u, u, u} k A P] [FiniteDimensional.{u, u} k P],\n  Iff (Module.Projective.{u, u} A P) (Module.Injective.{u, u} (MulOpposite.{u} A) (Module.Dual.{u, u} k P))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Example8_1_7"
+    }
+  ],
+  "canonical_reference": "Chapter8/Example8.1.7",
+  "packet_id": "align-1194",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1194"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f985c48dfbb65cb860c9",
+  "source_text": "A finite-dimensional left module is projective iff its contragredient dual is injective as a right module."
+}

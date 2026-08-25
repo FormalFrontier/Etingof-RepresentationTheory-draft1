@@ -1,0 +1,15 @@
+{
+  "declarations": [
+    {
+      "docstring": "For a symmetric integer matrix with zero diagonal, the quadratic form defined by twice the identity minus that matrix takes only even values.",
+      "new_name": "Matrix.even_dotProduct_mulVec_two_smul_one_sub",
+      "temporary_id": "decl-005520"
+    },
+    {
+      "docstring": "Under the given matrix condition, the quadratic form defined by twice the identity minus the matrix is strictly positive on every nonzero integer vector.",
+      "new_name": "Matrix.dotProduct_mulVec_two_smul_one_sub_pos",
+      "temporary_id": "decl-005522"
+    }
+  ],
+  "module_name": "LinearAlgebra.Matrix.TwoIdentitySub"
+}

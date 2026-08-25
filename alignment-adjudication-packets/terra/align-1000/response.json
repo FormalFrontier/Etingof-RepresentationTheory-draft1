@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1000",
+  "associations": [
+    {
+      "association_id": "association:16ad6a4195514c23afe0",
+      "role": "primary",
+      "rationale": "The equality says scalar action on a quotient class equals the quotient class of the scalar action, exactly expressing rho_(V/W)(a)(pi(x)) = pi(rho_V(a)(x))."
+    }
+  ]
+}

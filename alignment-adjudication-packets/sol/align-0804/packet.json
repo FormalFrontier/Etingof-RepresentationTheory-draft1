@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:dbec438edcbd63a3bf30",
+      "declaration": "Etingof.Problem6_9_2.E6Lattice",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/461/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Set.{0} (Fin 8 \u2192 Rat)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_2"
+    },
+    {
+      "association_id": "association:0b674e5b757985f08e7d",
+      "declaration": "Etingof.Problem6_9_2.E6Simple_gram_type",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/461/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (i j : Fin 6),\n  Eq.{1} (Etingof.Problem6_9_2.simpleRootAdj Etingof.Problem6_9_2.E6Simple i j) (Etingof.DynkinType.E6.adj i j)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_2_RootSystem"
+    },
+    {
+      "association_id": "association:f36a25327efc3e305306",
+      "declaration": "Etingof.Problem6_9_2.E7Lattice",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/461/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Set.{0} (Fin 8 \u2192 Rat)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_2"
+    },
+    {
+      "association_id": "association:9d663aee3dc5dbfadfdc",
+      "declaration": "Etingof.Problem6_9_2.E7Simple_gram_type",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/461/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (i j : Fin 7),\n  Eq.{1} (Etingof.Problem6_9_2.simpleRootAdj Etingof.Problem6_9_2.E7Simple i j) (Etingof.DynkinType.E7.adj i j)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_2_RootSystem"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.9.2",
+  "packet_id": "align-0804",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0804"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.9.2:part_c",
+  "source_text": "Part (c): realize E7 and E6 as the stated coordinate-equality sublattices."
+}

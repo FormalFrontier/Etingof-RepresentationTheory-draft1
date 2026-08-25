@@ -1,0 +1,50 @@
+{
+  "module_name": "Mathlib.LinearAlgebra.SymmetricPower.Functor",
+  "declarations": [
+    {
+      "temporary_id": "decl-025165",
+      "new_name": "SymmetricPower.moduleEndofunctorOfNat",
+      "docstring": "A natural-number-indexed family of endofunctors on modules over a commutative ring."
+    },
+    {
+      "temporary_id": "decl-025166",
+      "new_name": "SymmetricPower.moduleEndofunctorOfType",
+      "docstring": "A type-indexed family of endofunctors on modules over a commutative ring."
+    },
+    {
+      "temporary_id": "decl-025584",
+      "new_name": "SymmetricPower.linearMap_ext",
+      "docstring": "Two linear maps from a symmetric power are equal when they agree on all quotient constructors."
+    },
+    {
+      "temporary_id": "decl-025585",
+      "new_name": "SymmetricPower.map",
+      "docstring": "The linear map on symmetric powers induced by a linear map of modules."
+    },
+    {
+      "temporary_id": "decl-025589",
+      "new_name": "SymmetricPower.map_comp",
+      "docstring": "Mapping a composite linear map on symmetric powers is the composite of the induced maps."
+    },
+    {
+      "temporary_id": "decl-025590",
+      "new_name": "SymmetricPower.map_comp_apply",
+      "docstring": "The induced map of a composite agrees pointwise with the composite of the induced maps."
+    },
+    {
+      "temporary_id": "decl-025591",
+      "new_name": "SymmetricPower.map_id",
+      "docstring": "The map on a symmetric power induced by the identity linear map is the identity."
+    },
+    {
+      "temporary_id": "decl-025592",
+      "new_name": "SymmetricPower.map_mk",
+      "docstring": "The induced map sends a quotient constructor to the constructor of its mapped tensor."
+    },
+    {
+      "temporary_id": "decl-025593",
+      "new_name": "SymmetricPower.map_tprod",
+      "docstring": "The induced map sends a symmetric tensor product to the tensor product of the mapped entries."
+    }
+  ]
+}

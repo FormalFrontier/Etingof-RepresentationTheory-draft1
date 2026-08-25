@@ -1,0 +1,10 @@
+{
+  "module_name": "GeneralLinear.PolynomialQuotientEmbeddings",
+  "declarations": [
+    {
+      "temporary_id": "decl-005356",
+      "new_name": "exists_auxiliary_antitone_with_zero_of_equivariant_embedding",
+      "docstring": "A simple finite-dimensional representation admitting an injective equivariant linear map into the polynomial quotient has an auxiliary antitone function whose range contains zero and whose auxiliary value agrees with that of the representation."
+    }
+  ]
+}

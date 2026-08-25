@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Remark3.1.5",
+    "kind": "remark",
+    "title": "Generalization of Proposition 3.1.4 to non-algebraically-closed fields",
+    "node_id": "chapter-03/section-3-1",
+    "order": 131,
+    "slug": "remark3-1-5",
+    "span": {
+      "start": {
+        "page": "44",
+        "line": 9
+      },
+      "end": {
+        "page": "45",
+        "line": 2
+      }
+    },
+    "source_sha256": "ee13824bf7973802f403b4b61f7b9ec534e3e5f68d5b45130e089e6b2747b302",
+    "features": {
+      "line_count": 5,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 1,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Remark315",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

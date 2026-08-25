@@ -1,0 +1,14 @@
+{
+  "module_name": "AuxiliaryTypeCharacters",
+  "declarations": [
+    {"temporary_id": "decl-001818", "new_name": "AuxiliaryType", "docstring": "An auxiliary type depending on a prime and a natural number."},
+    {"temporary_id": "decl-001819", "new_name": "card_auxiliaryType_complexCharacters", "docstring": "Computes the number of homomorphisms from the auxiliary type to complex units."},
+    {"temporary_id": "decl-001820", "new_name": "unitsCharacterEquiv", "docstring": "An equivalence between characters of field units and characters of the auxiliary type."},
+    {"temporary_id": "decl-001821", "new_name": "unitsCharacterEquiv_apply", "docstring": "The character equivalence is given by composition with the displayed homomorphism."},
+    {"temporary_id": "decl-001822", "new_name": "auxiliaryTypeToUnits", "docstring": "A homomorphism from the auxiliary type to the units of the finite field."},
+    {"temporary_id": "decl-001823", "new_name": "ker_auxiliaryTypeToUnits", "docstring": "The kernel of the displayed homomorphism is the commutator subgroup."},
+    {"temporary_id": "decl-001824", "new_name": "ker_auxiliaryTypeToUnits_le_ker_character", "docstring": "The displayed kernel is contained in the kernel of every complex character."},
+    {"temporary_id": "decl-001825", "new_name": "auxiliaryTypeToUnits_surjective", "docstring": "The homomorphism from the auxiliary type to field units is surjective."},
+    {"temporary_id": "decl-001826", "new_name": "specialLinear_range_eq_ker_auxiliaryTypeToUnits", "docstring": "Identifies the range of the special linear inclusion with the displayed kernel."}
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:00c14282a86dc6238eb5",
+      "declaration": "Etingof.characterDoubleDualEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/194/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(G : Type u_1) \u2192\n  [inst : CommGroup.{u_1} G] \u2192\n    [Finite.{u_1 + 1} G] \u2192 MulEquiv.{u_1, u_1} G (Etingof.CharacterGroup.{u_1} (Etingof.CharacterGroup.{u_1} G))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_FiniteAbelianGroups"
+    },
+    {
+      "association_id": "association:e07f9fd1f0588e5f6e18",
+      "declaration": "Etingof.characterDoubleDualEquiv_apply_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/194/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type u_1) [inst : CommGroup.{u_1} G] [inst_1 : Finite.{u_1 + 1} G] (g : G) (\u03c7 : Etingof.CharacterGroup.{u_1} G),\n  Eq.{1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Etingof.characterDoubleDualEquiv.{u_1} G) g) \u03c7)\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c7 g)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_FiniteAbelianGroups"
+    },
+    {
+      "association_id": "association:b5dab8264e042b5d4dda",
+      "declaration": "Etingof.nonempty_mulEquiv_characterGroup",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/194/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type u_1) [inst : CommGroup.{u_1} G] [Finite.{u_1 + 1} G],\n  Nonempty.{u_1 + 1} (MulEquiv.{u_1, u_1} G (Etingof.CharacterGroup.{u_1} G))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_FiniteAbelianGroups"
+    }
+  ],
+  "canonical_reference": "Chapter4/Example4.3_FiniteAbelianGroups",
+  "packet_id": "align-1132",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1132"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e68f555d558fa6595c4e",
+  "source_text": "A finite abelian group is noncanonically isomorphic to its dual and canonically isomorphic to its double dual by evaluation."
+}

@@ -1,0 +1,6 @@
+{
+  "packet_id": "align-0040",
+  "associations": [
+    {"association_id": "association:c42501b64e8b1a173f03", "role": "primary", "rationale": "For every simple S4 representation, this theorem directly gives an isomorphism to one of the five listed representations, proving exhaustiveness."}
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "packet_id": "align-0350",
+  "associations": [
+    {
+      "association_id": "association:709e51ffc033b8cbeed7",
+      "role": "supporting",
+      "rationale": "This type family constructs the candidate modules V_i, but its displayed formal type alone does not state their action, simplicity, dimension, classification, or pairwise nonisomorphism."
+    },
+    {
+      "association_id": "association:4ab781e350c37c955378",
+      "role": "supporting",
+      "rationale": "The equality states the action clause, but it does not by itself state the complete classification, dimension, simplicity, and pairwise-nonisomorphism claim."
+    },
+    {
+      "association_id": "association:1a8b882d103670433cd0",
+      "role": "supporting",
+      "rationale": "The existential equivalence states the exhaustiveness clause, but it does not by itself state the complete action, dimension, simplicity, and pairwise-nonisomorphism claim."
+    },
+    {
+      "association_id": "association:62bb3d4befe442a6576e",
+      "role": "supporting",
+      "rationale": "The finrank equality states the dimension clause, but it does not by itself state the complete action, classification, simplicity, and pairwise-nonisomorphism claim."
+    },
+    {
+      "association_id": "association:2c48deceb9cbdf0ac568",
+      "role": "supporting",
+      "rationale": "The instance-valued statement establishes the simplicity clause, but it does not by itself state the complete action, dimension, classification, and pairwise-nonisomorphism claim."
+    },
+    {
+      "association_id": "association:73075e94f1a498c249d2",
+      "role": "supporting",
+      "rationale": "The negated equivalence states the pairwise-nonisomorphism clause, but it does not by itself state the complete action, dimension, simplicity, and classification claim."
+    }
+  ]
+}

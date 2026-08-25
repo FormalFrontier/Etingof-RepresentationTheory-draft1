@@ -1,0 +1,74 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192 [Fintype.{u_1} G] \u2192 FDRep.{0, u_1} Complex G \u2192 MonoidAlgebra.{0, u_1} Complex G",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1490216932",
+      "temporary_id": "decl-022206"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (V W : FDRep.{0, u_1} Complex G)\n  [CategoryTheory.Simple.{0, max 1 u_1} V] [CategoryTheory.Simple.{0, max 1 u_1} W],\n  IsEmpty.{1} (CategoryTheory.Iso.{0, max 1 u_1} W V) \u2192\n    Eq.{1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Representation.asAlgebraHom.{0, u_1, 0} (FDRep.\u03c1.{0, u_1} W))\n        (decl-022206.{u_1} V))\n      0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022206"
+      ],
+      "structural_type_hash": "703464001",
+      "temporary_id": "decl-022208"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (V : FDRep.{0, u_1} Complex G)\n  [CategoryTheory.Simple.{0, max 1 u_1} V],\n  Eq.{1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Representation.asAlgebraHom.{0, u_1, 0} (FDRep.\u03c1.{0, u_1} V))\n      (decl-022206.{u_1} V))\n    LinearMap.id.{0, 0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022206"
+      ],
+      "structural_type_hash": "2708693393",
+      "temporary_id": "decl-022209"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (V : FDRep.{0, u_1} Complex G)\n  [CategoryTheory.Simple.{0, max 1 u_1} V],\n  Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (decl-022206.{u_1} V) (decl-022206.{u_1} V)) (decl-022206.{u_1} V)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022206"
+      ],
+      "structural_type_hash": "2359066840",
+      "temporary_id": "decl-022210"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (V W : FDRep.{0, u_1} Complex G)\n  [CategoryTheory.Simple.{0, max 1 u_1} V] [CategoryTheory.Simple.{0, max 1 u_1} W],\n  IsEmpty.{1} (CategoryTheory.Iso.{0, max 1 u_1} W V) \u2192\n    Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (decl-022206.{u_1} W) (decl-022206.{u_1} V)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022206"
+      ],
+      "structural_type_hash": "1531829006",
+      "temporary_id": "decl-022211"
+    }
+  ],
+  "module_temporary_id": "module-0236",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

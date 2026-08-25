@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Corollary2.3.12",
+    "kind": "corollary",
+    "title": "Irreducible representations of commutative algebras are 1-dimensional",
+    "node_id": "chapter-02/section-2-3",
+    "order": 39,
+    "slug": "corollary2-3-12",
+    "span": {
+      "start": {
+        "page": "12",
+        "line": 21
+      },
+      "end": {
+        "page": "12",
+        "line": 21
+      }
+    },
+    "source_sha256": "4509821617275f522c9045df58ed41fbf55f9105583d1874382f6ebc6e97a3dd",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Corollary2312",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

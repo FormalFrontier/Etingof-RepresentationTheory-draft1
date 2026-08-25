@@ -1,0 +1,65 @@
+{
+  "module_name": "Representation.Character.AuxiliaryProperties",
+  "declarations": [
+    {
+      "temporary_id": "decl-019678",
+      "new_name": "auxiliaryStatement",
+      "docstring": "Auxiliary declaration whose formal type could not be displayed."
+    },
+    {
+      "temporary_id": "decl-019686",
+      "new_name": "auxiliaryStatement'",
+      "docstring": "Auxiliary declaration whose formal type could not be displayed."
+    },
+    {
+      "temporary_id": "decl-019687",
+      "new_name": "auxiliaryStatement''",
+      "docstring": "Auxiliary declaration whose formal type could not be displayed."
+    },
+    {
+      "temporary_id": "decl-020818",
+      "new_name": "auxiliaryPredicate_iff_auxiliaryValue_eq_zero",
+      "docstring": "For a simple complex representation, an auxiliary predicate is equivalent to vanishing of an associated auxiliary value."
+    },
+    {
+      "temporary_id": "decl-020820",
+      "new_name": "simpleRepresentation_auxiliaryPredicate_disjunction",
+      "docstring": "A simple complex representation satisfies at least one of three displayed auxiliary predicates."
+    },
+    {
+      "temporary_id": "decl-020871",
+      "new_name": "auxiliaryStatement'''",
+      "docstring": "Auxiliary declaration whose formal type could not be displayed."
+    },
+    {
+      "temporary_id": "decl-020872",
+      "new_name": "auxiliaryStatement''''",
+      "docstring": "Auxiliary declaration whose formal type could not be displayed."
+    },
+    {
+      "temporary_id": "decl-020874",
+      "new_name": "auxiliaryPredicate_iff_auxiliaryValue_eq_one",
+      "docstring": "For a simple complex representation, an auxiliary predicate is equivalent to an associated auxiliary value being one."
+    },
+    {
+      "temporary_id": "decl-021771",
+      "new_name": "not_firstAndSecondAuxiliaryPredicates",
+      "docstring": "The first and second auxiliary predicates displayed here are incompatible."
+    },
+    {
+      "temporary_id": "decl-021773",
+      "new_name": "not_firstAndThirdAuxiliaryPredicates",
+      "docstring": "The first and third auxiliary predicates displayed here are incompatible."
+    },
+    {
+      "temporary_id": "decl-021779",
+      "new_name": "simpleRepresentation_not_secondAndThirdAuxiliaryPredicates",
+      "docstring": "For a simple representation, the second and third auxiliary predicates displayed here are incompatible."
+    },
+    {
+      "temporary_id": "decl-023069",
+      "new_name": "character_inversionInvariant_of_not_auxiliaryPredicate",
+      "docstring": "If an auxiliary predicate fails, the character agrees at every group element and its inverse."
+    }
+  ]
+}

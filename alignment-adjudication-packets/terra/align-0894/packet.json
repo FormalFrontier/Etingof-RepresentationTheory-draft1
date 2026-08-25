@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b480352286fceb6ccd71",
+      "declaration": "Etingof.freeAlgebra_noncommutative_of_one_lt",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/21/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] [Nontrivial.{u_1} k] (n : Nat),\n  LT.lt.{0} 1 n \u2192\n    Exists.{u_1 + 1} fun a =>\n      Exists.{u_1 + 1} fun b => Ne.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} a b) (HMul.hMul.{u_1, u_1, u_1} b a)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_commutativity_examples"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_commutativity_examples",
+  "packet_id": "align-0894",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0894"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a27fff1eb1d6da6c32c9",
+  "source_text": "The free algebra on n generators is noncommutative whenever n > 1."
+}

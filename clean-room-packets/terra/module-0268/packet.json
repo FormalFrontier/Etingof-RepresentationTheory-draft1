@@ -1,0 +1,77 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat)\n  (M : FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)),\n  Eq.{1} (decl-019511.{0} k N (FDRep.of.{0, 0} (FDRep.\u03c1.{0, 0} M))) (decl-019511.{0} k N M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019511"
+      ],
+      "structural_type_hash": "156215534",
+      "temporary_id": "decl-019513"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat) {\u03b9 : Type} [inst_3 : Fintype.{0} \u03b9]\n  [DecidableEq.{1} \u03b9] (L : \u03b9 \u2192 FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)),\n  (\u2200 (i : \u03b9), decl-005106.{0, 0} N (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} (L i)))) \u2192\n    (\u2200 (i : \u03b9),\n        IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n          (Representation.asModule.{0, 0, 0} (FDRep.\u03c1.{0, 0} (L i)))) \u2192\n      (Pairwise.{0} fun i j => Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (L i) (L j)))) \u2192\n        \u2200 (c : \u03b9 \u2192 Rat),\n          (\u2200 (t : Fin N \u2192 Units.{0} k),\n              Eq.{1}\n                (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n                  HSMul.hSMul.{0, 0, 0} (Rat.cast.{0} (c i))\n                    (DFunLike.coe.{1, 1, 1}\n                      (LinearMap.trace.{0, 0} k (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (L i))))\n                      (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} (L i)) (decl-018364.{0} k N t))))\n                0) \u2192\n            \u2200 (i : \u03b9), Eq.{1} (c i) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-018364"
+      ],
+      "structural_type_hash": "2839542782",
+      "temporary_id": "decl-019541"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n      (Representation.asModule.{0, 0, 0} (FDRep.\u03c1.{0, 0} (decl-015559.{0} k N lam)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015559",
+        "decl-015576",
+        "decl-016473"
+      ],
+      "structural_type_hash": "2852981554",
+      "temporary_id": "decl-023005"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    [inst : CommSemiring.{u_1} k] \u2192\n      [inst_1 : Monoid.{u_2} G] \u2192\n        {V : Type u_3} \u2192\n          {W : Type u_4} \u2192\n            [inst_2 : AddCommMonoid.{u_3} V] \u2192\n              [inst_3 : Module.{u_1, u_3} k V] \u2192\n                [inst_4 : AddCommMonoid.{u_4} W] \u2192\n                  [inst_5 : Module.{u_1, u_4} k W] \u2192\n                    {\u03c1 : Representation.{u_1, u_2, u_3} k G V} \u2192\n                      {\u03c3 : Representation.{u_1, u_2, u_4} k G W} \u2192\n                        LinearEquiv.{max u_1 u_2, max u_1 u_2, u_3, u_4}\n                            (RingHom.id.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G))\n                            (Representation.asModule.{u_1, u_2, u_3} \u03c1) (Representation.asModule.{u_1, u_2, u_4} \u03c3) \u2192\n                          LinearEquiv.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} k) V W",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1928985322",
+      "temporary_id": "decl-025556"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : CommSemiring.{u_1} k] [inst_1 : Monoid.{u_2} G] {V : Type u_3} {W : Type u_4}\n  [inst_2 : AddCommMonoid.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] [inst_4 : AddCommMonoid.{u_4} W]\n  [inst_5 : Module.{u_1, u_4} k W] {\u03c1 : Representation.{u_1, u_2, u_3} k G V} {\u03c3 : Representation.{u_1, u_2, u_4} k G W}\n  (\u03c6 :\n    LinearEquiv.{max u_1 u_2, max u_1 u_2, u_3, u_4} (RingHom.id.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G))\n      (Representation.asModule.{u_1, u_2, u_3} \u03c1) (Representation.asModule.{u_1, u_2, u_4} \u03c3))\n  (g : G) (v : V),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1}\n      (decl-025556.{u_1, u_2, u_3, u_4} \u03c6)\n      (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g) v))\n    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1} (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} \u03c3 g)\n      (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1}\n        (decl-025556.{u_1, u_2, u_3, u_4} \u03c6) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025556"
+      ],
+      "structural_type_hash": "1595521666",
+      "temporary_id": "decl-025562"
+    }
+  ],
+  "module_temporary_id": "module-0268",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,130 @@
+{
+  "module_name": "GeneralLinearGroup.AuxiliaryDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-006691",
+      "new_name": "Subrepresentation.isSemisimpleModule_of_toRepresentation_isSemisimple",
+      "docstring": "A subrepresentation is semisimple as a module when its associated representation is semisimple."
+    },
+    {
+      "temporary_id": "decl-006694",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.algebraicallyClosedDegreeSubmodule",
+      "docstring": "The auxiliary submodule indexed by a natural number over an algebraically closed field."
+    },
+    {
+      "temporary_id": "decl-006695",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.algebraicallyClosedDegreeSubmodule_eq_characteristicZeroDegreeSubmodule",
+      "docstring": "Under the spanning hypothesis, the two auxiliary degree-indexed submodule constructions agree."
+    },
+    {
+      "temporary_id": "decl-006696",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.algebraicallyClosedDegreeSubmodule_le_characteristicZeroDegreeSubmodule",
+      "docstring": "The algebraically closed auxiliary degree submodule is contained in the characteristic-zero auxiliary degree submodule."
+    },
+    {
+      "temporary_id": "decl-006697",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.algebraicallyClosedDegreeSubmodule_stable",
+      "docstring": "Each algebraically closed auxiliary degree submodule is stable under the general linear group action, assuming the displayed spanning condition."
+    },
+    {
+      "temporary_id": "decl-006698",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.spanningAuxiliarySubrepresentation",
+      "docstring": "The auxiliary subrepresentation indexed by a natural number constructed from a displayed spanning equality."
+    },
+    {
+      "temporary_id": "decl-006700",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.spanningAuxiliarySubrepresentation_isSemisimpleModule",
+      "docstring": "Under the displayed auxiliary and spanning hypotheses, every indexed auxiliary subrepresentation is semisimple as a module."
+    },
+    {
+      "temporary_id": "decl-006701",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.sum_eq_degree_of_auxiliaryComponent_ne_bot",
+      "docstring": "A nonzero auxiliary component of an indexed auxiliary subrepresentation has index sum equal to its degree."
+    },
+    {
+      "temporary_id": "decl-006702",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.spanningAuxiliarySubrepresentation_components_span",
+      "docstring": "The auxiliary components of an indexed auxiliary subrepresentation span its ambient subrepresentation."
+    },
+    {
+      "temporary_id": "decl-006703",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.spanningAuxiliarySubrepresentation_satisfiesAuxiliaryProperty",
+      "docstring": "Under the displayed hypotheses, each indexed auxiliary subrepresentation satisfies the indicated auxiliary property."
+    },
+    {
+      "temporary_id": "decl-006704",
+      "new_name": "Submodule.family_eq_of_le_iSupIndep_iSup_eq_top",
+      "docstring": "A family of submodules below an independent family equals that family when its supremum is top."
+    },
+    {
+      "temporary_id": "decl-006705",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.auxiliaryComponent_le_eigenspace",
+      "docstring": "An auxiliary component is contained in the eigenspace for the displayed power of the auxiliary unit."
+    },
+    {
+      "temporary_id": "decl-006706",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.auxiliaryComponent_subrepresentation_eq_comap",
+      "docstring": "The auxiliary component of a subrepresentation is the comap of the corresponding ambient auxiliary component."
+    },
+    {
+      "temporary_id": "decl-006707",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.iSup_spanningAuxiliarySubrepresentation_eq_top",
+      "docstring": "The supremum of the indexed auxiliary subrepresentations is top."
+    },
+    {
+      "temporary_id": "decl-006708",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.iSup_algebraicallyClosedDegreeSubmodule_eq_top",
+      "docstring": "If the displayed auxiliary components span, then the supremum of the algebraically closed degree submodules is top."
+    },
+    {
+      "temporary_id": "decl-006709",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.isSemisimpleModule_of_auxiliaryConditions",
+      "docstring": "The representation module is semisimple under the displayed auxiliary property, spanning condition, and common index-sum condition."
+    },
+    {
+      "temporary_id": "decl-006711",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.isSemisimpleModule_of_auxiliaryCondition",
+      "docstring": "The representation module is semisimple under the displayed auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-006712",
+      "new_name": "Subrepresentation.restrictScalars_asSubmodule_eq_toSubmodule",
+      "docstring": "Restricting scalars on the underlying submodule of a subrepresentation leaves that submodule unchanged."
+    },
+    {
+      "temporary_id": "decl-006713",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.characteristicZeroDegreeSubmodule",
+      "docstring": "The auxiliary submodule indexed by a natural number in characteristic zero."
+    },
+    {
+      "temporary_id": "decl-006714",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.characteristicZeroDegreeSubmodule_iSupIndep",
+      "docstring": "The characteristic-zero family of auxiliary degree submodules is supremum-independent."
+    },
+    {
+      "temporary_id": "decl-006715",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.auxiliaryGeneralLinearElement_commutes",
+      "docstring": "The displayed auxiliary general linear element commutes with every general linear group element."
+    },
+    {
+      "temporary_id": "decl-006716",
+      "new_name": "auxiliaryElidedStatement006716",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-006718",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.auxiliaryUnit",
+      "docstring": "The distinguished auxiliary unit of the field."
+    },
+    {
+      "temporary_id": "decl-006722",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.auxiliaryUnit_pow_injective",
+      "docstring": "Taking natural powers of the auxiliary unit defines an injective map."
+    },
+    {
+      "temporary_id": "decl-006723",
+      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.auxiliaryUnit_val_eq_two",
+      "docstring": "The value of the auxiliary unit is equal to two."
+    }
+  ]
+}

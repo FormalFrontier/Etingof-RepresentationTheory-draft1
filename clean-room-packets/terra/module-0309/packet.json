@@ -1,0 +1,94 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {N : Nat} {k : Type u_1} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [CharZero.{u_1} k]\n  [inst_3 : DecidableEq.{u_1 + 1} k] (M : Matrix.{0, 0, u_1} (Fin N) (Fin N) k),\n  LT.lt.{0} 0 N \u2192\n    Ne.{u_1 + 1} (Matrix.discr.{u_1, 0} M) 0 \u2192\n      Eq.{1} (Finset.card.{u_1} (Multiset.toFinset.{u_1} (Polynomial.roots.{u_1} (Matrix.charpoly.{u_1, 0} M)))) N",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3897727997",
+      "temporary_id": "decl-025142"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} {k : Type u_1} [inst : Field.{u_1} k] [CharZero.{u_1} k] (M : Matrix.{0, 0, u_1} (Fin N) (Fin N) k),\n  LT.lt.{0} 0 N \u2192\n    Ne.{u_1 + 1} (Matrix.discr.{u_1, 0} M) 0 \u2192\n      Multiset.Nodup.{u_1} (Polynomial.roots.{u_1} (Matrix.charpoly.{u_1, 0} M))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "983762333",
+      "temporary_id": "decl-025143"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} {k : Type u_1} [inst : Field.{u_1} k] [CharZero.{u_1} k] (M : Matrix.{0, 0, u_1} (Fin N) (Fin N) k),\n  LT.lt.{0} 0 N \u2192 Ne.{u_1 + 1} (Matrix.discr.{u_1, 0} M) 0 \u2192 Polynomial.Separable.{u_1} (Matrix.charpoly.{u_1, 0} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "215812916",
+      "temporary_id": "decl-025144"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192 [inst : Field.{u_2} k] \u2192 (N : Nat) \u2192 MvPolynomial.{0, u_2} (Prod.{0, 0} (Fin N) (Fin N)) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4007709239",
+      "temporary_id": "decl-025145"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [CharZero.{u_1} k] (N : Nat),\n  LT.lt.{0} 0 N \u2192 Ne.{u_1 + 1} (decl-025145.{u_1} k N) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025145"
+      ],
+      "structural_type_hash": "3196678557",
+      "temporary_id": "decl-025147"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (N : Nat) (x : Prod.{0, 0} (Fin N) (Fin N) \u2192 k),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (MvPolynomial.eval.{u_1, 0} x) (decl-025145.{u_1} k N))\n    (Matrix.discr.{u_1, 0}\n      (DFunLike.coe.{max 1 (u_1 + 1), max 1 (u_1 + 1), max 1 (u_1 + 1)} Matrix.of.{u_1, 0, 0} fun i j =>\n        x (Prod.mk.{0, 0} i j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025145"
+      ],
+      "structural_type_hash": "965884602",
+      "temporary_id": "decl-025148"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} {S : Type u_2} [inst : CommRing.{u_1} R] [inst_1 : CommRing.{u_2} S] [Nontrivial.{u_2} S]\n  {f : Polynomial.{u_1} R},\n  Polynomial.Monic.{u_1} f \u2192\n    \u2200 (\u03c6 : RingHom.{u_1, u_2} R S),\n      Eq.{u_2 + 1} (Polynomial.discr.{u_2} (Polynomial.map.{u_1, u_2} \u03c6 f))\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c6 (Polynomial.discr.{u_1} f))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3320700442",
+      "temporary_id": "decl-025240"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u_3} [inst : Field.{u_3} K] {f : Polynomial.{u_3} K},\n  LT.lt.{0} 0 (Polynomial.natDegree.{u_3} f) \u2192\n    Eq.{1} (Polynomial.natDegree.{u_3} (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} Polynomial.derivative.{u_3} f))\n        (HSub.hSub.{0, 0, 0} (Polynomial.natDegree.{u_3} f) 1) \u2192\n      Iff (Ne.{u_3 + 1} (Polynomial.discr.{u_3} f) 0) (Polynomial.Separable.{u_3} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "813464367",
+      "temporary_id": "decl-025241"
+    }
+  ],
+  "module_temporary_id": "module-0309",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,10 @@
+{
+  "module_name": "IntegerMatrixVectorCoordinateFunction",
+  "declarations": [
+    {
+      "temporary_id": "decl-018248",
+      "new_name": "matrixVectorCoordinateValue",
+      "docstring": "An integer-valued function of a square integer matrix, an integer vector, and a finite index."
+    }
+  ]
+}

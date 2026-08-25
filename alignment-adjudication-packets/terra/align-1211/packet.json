@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:bbe55cfd85c997304c7f",
+      "declaration": "A\u2083Rep.exists_unique_iso_rep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/417/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03c1 : A\u2083Rep.{u_1, u_2, u_3, u_4} k),\n  A\u2083Rep.Indecomposable.{u_1, u_2, u_3, u_4} \u03c1 \u2192\n    ExistsUnique.{1} fun i =>\n      Nonempty.{max (max (max (u_1 + 1) (u_4 + 1)) (u_3 + 1)) (u_2 + 1)}\n        (A\u2083Rep.Iso.{u_1, u_2, u_3, u_4, u_1, u_1, u_1} \u03c1 (A\u2083Rep.rep.{u_1} k i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_2_4_Source"
+    },
+    {
+      "association_id": "association:408f4e114a312e9f25c2",
+      "declaration": "A\u2083SinkRep.exists_unique_iso_rep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/417/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03c1 : A\u2083SinkRep.{u_1, u_2, u_3, u_4} k),\n  A\u2083SinkRep.Indecomposable.{u_1, u_2, u_3, u_4} \u03c1 \u2192\n    ExistsUnique.{1} fun i =>\n      Nonempty.{max (max (max (u_1 + 1) (u_4 + 1)) (u_3 + 1)) (u_2 + 1)}\n        (A\u2083SinkRep.Iso.{u_1, u_2, u_3, u_4, u_1, u_1, u_1} \u03c1 (A\u2083SinkRep.rep.{u_1} k i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_2_4_Sink"
+    }
+  ],
+  "canonical_reference": "Chapter6/Example6.2.4",
+  "packet_id": "align-1211",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1211"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ff0a6250e54a160f633f",
+  "source_text": "Every indecomposable representation in either orientation is isomorphic to a unique representative."
+}

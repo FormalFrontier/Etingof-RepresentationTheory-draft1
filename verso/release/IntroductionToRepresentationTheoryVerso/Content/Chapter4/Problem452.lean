@@ -1,0 +1,47 @@
+/-
+Copyright (c) 2026 American Mathematical Society. All rights reserved.
+-/
+
+import VersoManual
+import RepresentationTheory
+
+open Verso.Genre Manual
+
+namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Problem452
+
+#doc (Manual) "Idempotents from characters in the group algebra" =>
+
+# Idempotents from characters in the group algebra
+%%%
+tag := "Chapter4/Problem4.5.2"
+number := false
+%%%
+
+**Problem 4.5.2.** Let $`G` be a finite group. Let $`V_i` be the irreducible complex representations of $`G`.
+For every $`i`, let
+
+$$`\psi_i = \frac{\dim V_i}{|G|} \sum_{g \in G} \chi_{V_i}(g) \cdot g^{-1} \in \mathbb{C}[G].`
+
+(i) Prove that $`\psi_i` acts on $`V_j` as the identity if $`j = i`, and as the null map if $`j \neq i`.
+
+(ii) Prove that $`\psi_i` are **idempotents**; i.e., $`\psi_i^2 = \psi_i` for any $`i`, and $`\psi_i \psi_j = 0` for any $`i \neq j`.
+
+Hint: In (i), notice that $`\psi_i` commutes with any element of $`k[G]` and thus acts on $`V_j` as an intertwining operator. Corollary 2.3.10 thus yields that $`\psi_i` acts on $`V_j` as a scalar. Compute this scalar by taking its trace in $`V_j`.
+
+## Formalization
+%%%
+tag := "Chapter4/Problem4.5.2/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.ComplexRepresentationAuxiliaryElements.auxiliaryElement}
+
+{Manual.docstring RepresentationTheory.ComplexRepresentationAuxiliaryElements.auxiliaryElement_mul_eq_zero_of_not_iso}
+
+{Manual.docstring RepresentationTheory.ComplexRepresentationAuxiliaryElements.auxiliaryElement_mul_self}
+
+{Manual.docstring RepresentationTheory.ComplexRepresentationAuxiliaryElements.map_auxiliaryElement_eq_id}
+
+{Manual.docstring RepresentationTheory.ComplexRepresentationAuxiliaryElements.map_auxiliaryElement_eq_zero_of_not_iso}

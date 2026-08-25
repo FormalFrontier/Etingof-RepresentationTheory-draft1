@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0561",
+  "associations": [
+    {
+      "association_id": "association:4aef9d2749322120bc6f",
+      "rationale": "For every finite-dimensional irreducible sl(2,k)-module in the displayed characteristic-p setting, the type directly provides a parameter whose family carrier is Lie-module equivalent to that module.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "declarations": [
+    {
+      "docstring": "Shows that the displayed auxiliary membership predicate is closed under scalar multiplication.",
+      "new_name": "TensorProduct.Auxiliary.smul_mem",
+      "temporary_id": "decl-017275"
+    },
+    {
+      "docstring": "Provides the indicated module structure over the commutative scalar ring for the auxiliary target.",
+      "new_name": "TensorProduct.Auxiliary.moduleStructure",
+      "temporary_id": "decl-020644"
+    },
+    {
+      "docstring": "Defines the indicated scalar action on the auxiliary target.",
+      "new_name": "TensorProduct.Auxiliary.scalarAction",
+      "temporary_id": "decl-020665"
+    },
+    {
+      "docstring": "Computes scalar multiplication on the quotient class of a tensor product element.",
+      "new_name": "TensorProduct.Auxiliary.smul_mk",
+      "temporary_id": "decl-023257"
+    }
+  ],
+  "module_name": "TensorProduct.AuxiliaryScalarAction"
+}

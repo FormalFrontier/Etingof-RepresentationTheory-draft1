@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0453",
+  "associations": [
+    {
+      "association_id": "association:db1548ec37ae25ac10c6",
+      "role": "supporting",
+      "rationale": "The theorem classifies every simple complex symmetric-group module by a Specht module and supplies a rational Specht form with compatible complexified action, but it does not itself state the existence of a basis in which all representation matrices have rational entries."
+    },
+    {
+      "association_id": "association:5e85d45a26ddba7597c6",
+      "role": "supporting",
+      "rationale": "The complexification equivalence for an individual rational Specht module is a key ingredient, but does not itself quantify over every irreducible complex representation."
+    }
+  ]
+}

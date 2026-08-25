@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b86d27cde3cfb38ddf4b",
+      "declaration": "Module.length",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/161/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RingTheory.Length"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_after_Theorem3.7.1",
+  "packet_id": "align-1131",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1131"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e668ce3eb4e8f9591043",
+  "source_text": "This common number is called the length of V."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_before_Lemma5.4.5",
+    "kind": "discussion",
+    "title": "The proof will be based on the following lemma",
+    "node_id": "chapter-05/section-5-4",
+    "order": 274,
+    "slug": "discussion-before-lemma5-4-5",
+    "span": {
+      "start": {
+        "page": "100",
+        "line": 23
+      },
+      "end": {
+        "page": "100",
+        "line": 24
+      }
+    },
+    "source_sha256": "d70086947eb8d90d8c750c525824d5b1249e0dbc3a178a8b643946a437aba7a3",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionBeforeLemma545",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

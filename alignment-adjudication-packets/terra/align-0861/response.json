@@ -1,0 +1,20 @@
+{
+  "associations": [
+    {
+      "association_id": "association:9750685c0fabc4d41c07",
+      "rationale": "The formal type gives only the exhaustiveness component of the classification; it does not itself state the irredundancy required by the complete source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8836a802ba1dae2cb014",
+      "rationale": "The formal type gives only the irredundancy component; it does not itself state the exhaustiveness required by the complete source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ce1c992e2bbd43091645",
+      "rationale": "The formal type gives an exclusive-or classification of every simple module by Splus and Sminus, directly stating the claim.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0861"
+}

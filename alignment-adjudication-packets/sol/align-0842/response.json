@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0842",
+  "associations": [
+    {
+      "association_id": "association:3ca39619560f6baccc9e",
+      "role": "supporting",
+      "rationale": "The type gives only the comparison-isomorphism component; it does not itself state the identity and composition laws required by the complete source claim."
+    },
+    {
+      "association_id": "association:bb699f752813c5b4b786",
+      "role": "supporting",
+      "rationale": "The type gives only the identity-law component; it does not itself state comparison isomorphisms and the composition law required by the complete source claim."
+    },
+    {
+      "association_id": "association:cade92bd809cdab1bac6",
+      "role": "supporting",
+      "rationale": "The type gives only the composition-law component; it does not itself state comparison isomorphisms and the identity law required by the complete source claim."
+    },
+    {
+      "association_id": "association:a83d5f15af8dd004e342",
+      "role": "supporting",
+      "rationale": "torLiftMap_eq_comparison identifies a map induced by a chosen compatible lift with the canonical comparison map; it supports its construction rather than stating an isomorphism or its laws."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.AuxiliaryTwoModuleType",
+  "declarations": [
+    {
+      "temporary_id": "decl-016474",
+      "new_name": "AuxiliaryModuleType",
+      "docstring": "An auxiliary type depending on two modules over a commutative ring."
+    }
+  ]
+}

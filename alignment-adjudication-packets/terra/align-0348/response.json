@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0348",
+  "associations": [
+    {
+      "association_id": "association:bb60ea771f8673c45a8c",
+      "role": "supporting",
+      "rationale": "The displayed type supplies the homotopy-quotient construction, but its formal type does not itself assert a category instance or the broader list of examples."
+    },
+    {
+      "association_id": "association:2cdcd70b3feb66d43326",
+      "role": "supporting",
+      "rationale": "The homotopy relation is prerequisite data for forming the quotient category and does not itself state that the quotient is a category."
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "declarations": [
+    {
+      "docstring": "Combines an index, a scalar, and an auxiliary carrier element in the target carrier.",
+      "new_name": "indexedTerm",
+      "temporary_id": "decl-005938"
+    },
+    {
+      "docstring": "The scalar dependence of an indexed term, packaged as an additive homomorphism.",
+      "new_name": "indexedTermHom",
+      "temporary_id": "decl-005940"
+    },
+    {
+      "docstring": "An indexed term is additive in its scalar argument.",
+      "new_name": "indexedTerm_add_scalar",
+      "temporary_id": "decl-005941"
+    },
+    {
+      "docstring": "An indexed term is additive in its auxiliary carrier argument.",
+      "new_name": "indexedTerm_add_input",
+      "temporary_id": "decl-005942"
+    },
+    {
+      "docstring": "Expands an indexed term for a path extended by one arrow as an iterated pure tensor.",
+      "new_name": "indexedTerm_cons",
+      "temporary_id": "decl-005943"
+    },
+    {
+      "docstring": "The indexed term associated with an empty path vanishes.",
+      "new_name": "indexedTerm_nil",
+      "temporary_id": "decl-005944"
+    },
+    {
+      "docstring": "An indexed term with zero scalar is zero.",
+      "new_name": "indexedTerm_zero_scalar",
+      "temporary_id": "decl-005945"
+    },
+    {
+      "docstring": "An indexed term applied to zero in the auxiliary carrier is zero.",
+      "new_name": "indexedTerm_zero_input",
+      "temporary_id": "decl-005946"
+    },
+    {
+      "docstring": "Moves a scalar from the first factor of an iterated pure tensor into the coefficient of a single-support function.",
+      "new_name": "smul_tmul_single_eq_tmul_single_mul",
+      "temporary_id": "decl-005948"
+    },
+    {
+      "docstring": "An iterated pure tensor with incompatible intermediate vertices is zero.",
+      "new_name": "smul_tmul_single_eq_zero_of_ne",
+      "temporary_id": "decl-005949"
+    },
+    {
+      "docstring": "A single-support function is the scalar multiple of its canonical indexed element.",
+      "new_name": "single_eq_smul_index",
+      "temporary_id": "decl-006369"
+    },
+    {
+      "docstring": "An additive retraction from the source carrier to the target carrier.",
+      "new_name": "retractionAddHom",
+      "temporary_id": "decl-006406"
+    },
+    {
+      "docstring": "The additive map assigning to each owner element its additive action on the auxiliary carrier.",
+      "new_name": "actionAddHom",
+      "temporary_id": "decl-006407"
+    },
+    {
+      "docstring": "Evaluating the action map agrees with evaluating its argument-flipped form.",
+      "new_name": "actionAddHom_apply_eq_flip",
+      "temporary_id": "decl-006414"
+    },
+    {
+      "docstring": "Scalar multiplication in the acting argument may be transferred to the auxiliary carrier argument.",
+      "new_name": "actionAddHom_smul",
+      "temporary_id": "decl-006415"
+    },
+    {
+      "docstring": "The action with a fixed auxiliary carrier element, packaged as an additive homomorphism.",
+      "new_name": "flipActionAddHom",
+      "temporary_id": "decl-006416"
+    },
+    {
+      "docstring": "The flipped action homomorphism is additive in its fixed auxiliary carrier argument.",
+      "new_name": "flipActionAddHom_add",
+      "temporary_id": "decl-006417"
+    },
+    {
+      "docstring": "The flipped action on a single-support element is the corresponding indexed term.",
+      "new_name": "flipActionAddHom_single",
+      "temporary_id": "decl-006419"
+    },
+    {
+      "docstring": "The flipped action associated with the zero auxiliary carrier element vanishes.",
+      "new_name": "flipActionAddHom_zero",
+      "temporary_id": "decl-006420"
+    },
+    {
+      "docstring": "The additive retraction is a left inverse to the displayed module homomorphism.",
+      "new_name": "retractionAddHom_leftInverse",
+      "temporary_id": "decl-006421"
+    },
+    {
+      "docstring": "The retraction of a pure tensor agrees with the flipped action evaluation.",
+      "new_name": "retractionAddHom_tmul",
+      "temporary_id": "decl-006422"
+    },
+    {
+      "docstring": "The displayed module homomorphism from the target carrier to the source carrier is injective.",
+      "new_name": "moduleHom_injective",
+      "temporary_id": "decl-006426"
+    }
+  ],
+  "module_name": "IndexedTensorAction"
+}

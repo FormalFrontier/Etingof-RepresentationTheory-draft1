@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0153",
+  "associations": [
+    {
+      "association_id": "association:260b90c45f79e3126dc7",
+      "role": "supporting",
+      "rationale": "The conclusion gives some sequence of simple reflections carrying the root to a simple root, but the displayed type has no condition stating that the sequence is admissible."
+    }
+  ]
+}

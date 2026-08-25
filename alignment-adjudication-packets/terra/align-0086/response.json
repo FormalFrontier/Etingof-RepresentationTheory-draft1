@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0086",
+  "associations": [
+    {
+      "association_id": "association:adb1ea3763d7c5bd4266",
+      "role": "primary",
+      "rationale": "Its surjectivity conclusion is exactly the combined-map density statement for the finite family of simple modules."
+    }
+  ]
+}

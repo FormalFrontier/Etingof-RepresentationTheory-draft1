@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0955",
+  "associations": [
+    {
+      "association_id": "association:b3de5b683ce8491a58ce",
+      "role": "supporting",
+      "rationale": "The displayed formal type failed to pretty print, so it cannot directly verify the stated indicator alternative."
+    },
+    {
+      "association_id": "association:72f38f239566311deeac",
+      "role": "supporting",
+      "rationale": "It gives the zero case under a non-self-duality condition, one part of the stated alternatives."
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(G : Type u_1) \u2192 [CommGroup.{u_1} G] \u2192 Type u_1",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2819020102",
+      "temporary_id": "decl-001172"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] {G : Type u_2} [inst_2 : CommGroup.{u_2} G]\n  [Finite.{u_2 + 1} G] {V : Type u_3} [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V]\n  [Module.Finite.{u_1, u_3} k V] (\u03c1 : Representation.{u_1, u_2, u_3} k G V)\n  [hirr : IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_3} \u03c1)],\n  Eq.{1} (Module.finrank.{u_1, u_3} k V) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1059003291",
+      "temporary_id": "decl-002375"
+    },
+    {
+      "formal_type": "(G : Type u_1) \u2192\n  [inst : CommGroup.{u_1} G] \u2192\n    [Finite.{u_1 + 1} G] \u2192 MulEquiv.{u_1, u_1} G (decl-001172.{u_1} (decl-001172.{u_1} G))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001172"
+      ],
+      "structural_type_hash": "3201958672",
+      "temporary_id": "decl-017934"
+    },
+    {
+      "formal_type": "\u2200 (G : Type u_1) [inst : CommGroup.{u_1} G] [inst_1 : Finite.{u_1 + 1} G] (g : G) (\u03c7 : decl-001172.{u_1} G),\n  Eq.{1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-017934.{u_1} G) g) \u03c7)\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c7 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001172",
+        "decl-017934"
+      ],
+      "structural_type_hash": "3570419354",
+      "temporary_id": "decl-017936"
+    },
+    {
+      "formal_type": "{\u03b9 : Type u_1} \u2192\n  [Fintype.{u_1} \u03b9] \u2192\n    [DecidableEq.{u_1 + 1} \u03b9] \u2192\n      (G : \u03b9 \u2192 Type u_2) \u2192\n        [inst : (i : \u03b9) \u2192 CommGroup.{u_2} (G i)] \u2192\n          MulEquiv.{max u_1 u_2, max u_1 u_2} (decl-001172.{max u_1 u_2} ((i : \u03b9) \u2192 G i))\n            ((i : \u03b9) \u2192 decl-001172.{u_2} (G i))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001172"
+      ],
+      "structural_type_hash": "2701539438",
+      "temporary_id": "decl-017937"
+    },
+    {
+      "formal_type": "(G\u2081 : Type u_1) \u2192\n  (G\u2082 : Type u_2) \u2192\n    [inst : CommGroup.{u_1} G\u2081] \u2192\n      [inst_1 : CommGroup.{u_2} G\u2082] \u2192\n        MulEquiv.{max u_2 u_1, max u_2 u_1} (decl-001172.{max u_2 u_1} (Prod.{u_1, u_2} G\u2081 G\u2082))\n          (Prod.{u_1, u_2} (decl-001172.{u_1} G\u2081) (decl-001172.{u_2} G\u2082))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001172"
+      ],
+      "structural_type_hash": "1037601888",
+      "temporary_id": "decl-017938"
+    },
+    {
+      "formal_type": "\u2200 (G : Type u_1) [inst : Group.{u_1} G] [Finite.{u_1 + 1} G],\n  HasEnoughRootsOfUnity.{0} Complex (Monoid.exponent.{u_1} G)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "729101317",
+      "temporary_id": "decl-020617"
+    },
+    {
+      "formal_type": "\u2200 (G : Type u_1) [inst : CommGroup.{u_1} G] [Finite.{u_1 + 1} G],\n  Nonempty.{u_1 + 1} (MulEquiv.{u_1, u_1} G (decl-001172.{u_1} G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001172"
+      ],
+      "structural_type_hash": "2592742416",
+      "temporary_id": "decl-021732"
+    }
+  ],
+  "module_temporary_id": "module-0193",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

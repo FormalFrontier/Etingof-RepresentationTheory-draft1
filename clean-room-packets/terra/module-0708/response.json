@@ -1,0 +1,20 @@
+{
+  "module_name": "CategoryTheory.NoetherianObjects",
+  "declarations": [
+    {
+      "temporary_id": "decl-000311",
+      "new_name": "isNoetherianObject_of_finiteDimensionalOrder_subobject",
+      "docstring": "An object is Noetherian when its poset of subobjects has finite dimension."
+    },
+    {
+      "temporary_id": "decl-005273",
+      "new_name": "exists_epi",
+      "docstring": "For each object, there are a parameter and a morphism that is an epimorphism."
+    },
+    {
+      "temporary_id": "decl-005274",
+      "new_name": "implies_property",
+      "docstring": "The hypothesis on P implies the target property."
+    }
+  ]
+}

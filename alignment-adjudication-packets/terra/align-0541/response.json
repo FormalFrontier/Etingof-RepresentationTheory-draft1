@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0541",
+  "associations": [
+    {
+      "association_id": "association:7dbf7ef90c9f504671be",
+      "rationale": "No formal type is displayed, so the declaration cannot directly establish the commutant's bracket-span description or ideal property.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:88303664acfd5f957897",
+      "rationale": "No formal type is displayed for the derived-series construction, making it only opaque supporting evidence for the commutant claim.",
+      "role": "supporting"
+    }
+  ]
+}

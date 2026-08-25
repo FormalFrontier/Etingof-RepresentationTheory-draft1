@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-1265",
+  "associations": [
+    {
+      "association_id": "association:0d604cf3f395e83ea40b",
+      "rationale": "The formal type directly states that every two irreducible-representation vertices are joined by a path whose consecutive McKay multiplicities are positive, which is the requested connectedness of the McKay graph.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1de8b5e2ed1d91fb5997",
+      "rationale": "The theorem shows that the irreducible dimensions form a null vector of the McKay Cartan matrix, a key characterization used to identify affine-Dynkin marks, but it does not itself state equality with the displayed vertex labels.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e5d3da9824c86770f925",
+      "rationale": "For a nontrivial finite subgroup and a complete list of irreducibles, the formal conclusion directly says that the McKay adjacency matrix is an affine Dynkin diagram, matching part (c).",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1fc7f4b750d8ba30f8fd",
+      "rationale": "The formal equality of the McKay multiplicities with their transposes directly states the symmetry r_ij = r_ji requested in part (a).",
+      "role": "supporting"
+    }
+  ]
+}

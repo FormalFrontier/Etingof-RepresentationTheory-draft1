@@ -1,0 +1,36 @@
+/-
+Copyright (c) 2026 American Mathematical Society. All rights reserved.
+-/
+
+import VersoManual
+import RepresentationTheory
+
+open Verso.Genre Manual
+
+namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Exercise423
+
+#doc (Manual) "Fewer irreducible representations when |G| = 0 in k" =>
+
+# Fewer irreducible representations when |G| = 0 in k
+%%%
+tag := "Chapter4/Exercise4.2.3"
+number := false
+%%%
+
+**Exercise 4.2.3.** Show that if $`|G| = 0` in $`k`, then the number of isomorphism classes of irreducible representations of $`G` over $`k` is strictly less than the number of conjugacy classes in $`G`.
+
+Hint: Let $`P = \sum_{g \in G} g \in k[G]`. Then $`P^2 = 0`. So $`P` has zero trace in every finite dimensional representation of $`G` over $`k`.
+
+## Formalization
+%%%
+tag := "Chapter4/Exercise4.2.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.GroupTheory.CardinalityBounds.auxiliaryCard_lt_conjClasses_of_card_cast_eq_zero}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.GroupTheory.CardinalityBounds.auxiliaryCard_lt_conjClasses_of_card_cast_eq_zero_algClosed}

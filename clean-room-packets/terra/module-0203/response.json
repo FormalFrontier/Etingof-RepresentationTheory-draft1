@@ -1,0 +1,25 @@
+{
+  "module_name": "IndexedPermutationFinsetAction",
+  "declarations": [
+    {"temporary_id":"decl-002780","new_name":"auxiliaryIndexedPermutations","docstring":"An auxiliary family of six permutations of five elements."},
+    {"temporary_id":"decl-002782","new_name":"indexedPermutationFinsets","docstring":"A family of six finite sets of permutations of five elements."},
+    {"temporary_id":"decl-002783","new_name":"indexedPermutationFinsets_injective","docstring":"Distinct indices determine distinct finite sets in the indexed permutation family."},
+    {"temporary_id":"decl-002794","new_name":"permutationFinsetIndexAction","docstring":"The action of a group element on the six indices of the permutation-finset family."},
+    {"temporary_id":"decl-002795","new_name":"indexedPermutationFinsets_action","docstring":"Acting on an index corresponds to taking the image of its permutation finset under the permutation action map."},
+    {"temporary_id":"decl-002796","new_name":"permutationActionMap","docstring":"The action of a group element on permutations of five elements."},
+    {"temporary_id":"decl-002798","new_name":"permutationActionMap_mul","docstring":"Successive permutation action maps agree with the action map of the product."},
+    {"temporary_id":"decl-002806","new_name":"permutationActionMap_one","docstring":"The identity group element induces the identity map on permutations."},
+    {"temporary_id":"decl-002807","new_name":"auxiliaryTriplePermutation","docstring":"An auxiliary permutation of five elements indexed by three five-valued arguments."},
+    {"temporary_id":"decl-002813","new_name":"permutationFinsetIndexMulAction","docstring":"The multiplicative action on six indices induced by the permutation-finset action."},
+    {"temporary_id":"decl-002898","new_name":"auxiliaryRepresentationOne","docstring":"An auxiliary finite-dimensional complex representation."},
+    {"temporary_id":"decl-002901","new_name":"character_auxiliaryRepresentationOne","docstring":"The first auxiliary representation's character is the displayed natural-number statistic minus one."},
+    {"temporary_id":"decl-002903","new_name":"simple_auxiliaryRepresentationOne","docstring":"The first auxiliary representation is simple."},
+    {"temporary_id":"decl-002904","new_name":"auxiliaryRepresentationTwo","docstring":"An auxiliary finite-dimensional complex representation."},
+    {"temporary_id":"decl-002907","new_name":"character_auxiliaryRepresentationTwo","docstring":"The second auxiliary representation's character is the displayed natural-number statistic minus one."},
+    {"temporary_id":"decl-002909","new_name":"simple_auxiliaryRepresentationTwo","docstring":"The second auxiliary representation is simple."},
+    {"temporary_id":"decl-002910","new_name":"trivialRepresentation","docstring":"A finite-dimensional complex representation with constant character one."},
+    {"temporary_id":"decl-002913","new_name":"character_trivialRepresentation","docstring":"The character of the trivial representation is one on every group element."},
+    {"temporary_id":"decl-002915","new_name":"simple_trivialRepresentation","docstring":"The trivial representation is simple."},
+    {"temporary_id":"decl-002923","new_name":"sum_auxiliaryStatistic_eq_weightedIndexedSum","docstring":"Summing a function of the displayed natural-number statistic over the group equals the weighted sum over five indexed elements."}
+  ]
+}

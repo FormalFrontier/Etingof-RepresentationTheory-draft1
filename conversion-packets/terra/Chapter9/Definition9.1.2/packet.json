@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Definition9.1.2",
+    "kind": "definition",
+    "title": "Complete system of orthogonal idempotents",
+    "node_id": "chapter-09/section-9-1",
+    "order": 550,
+    "slug": "definition9-1-2",
+    "span": {
+      "start": {
+        "page": "214",
+        "line": 5
+      },
+      "end": {
+        "page": "214",
+        "line": 6
+      }
+    },
+    "source_sha256": "3306357c19bc18db142826b13da1247e36ec3989d6d393c9af29875e06dda10f",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Definition912",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

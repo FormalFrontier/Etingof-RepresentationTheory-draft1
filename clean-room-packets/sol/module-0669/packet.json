@@ -1,0 +1,373 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k A W : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        [inst_3 : AddCommGroup.{u} W] \u2192\n          [inst_4 : Module.{u, u} k W] \u2192\n            [inst_5 : Module.{u, u} A W] \u2192\n              [IsScalarTower.{u, u, u} k A W] \u2192 CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} A) Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1492911463",
+      "temporary_id": "decl-017287"
+    },
+    {
+      "formal_type": "(k A W V : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        [inst_3 : AddCommGroup.{u} V] \u2192\n          [inst_4 : Module.{u, u} k V] \u2192\n            [inst_5 : Module.{u, u} A V] \u2192\n              [inst_6 : IsScalarTower.{u, u, u} k A V] \u2192\n                [inst_7 : AddCommGroup.{u} W] \u2192\n                  [inst_8 : Module.{u, u} k W] \u2192\n                    [inst_9 : Module.{u, u} A W] \u2192\n                      [inst_10 : IsScalarTower.{u, u, u} k A W] \u2192\n                        AddEquiv.{u, u}\n                          (CochainComplex.HomComplex.Cocycle.{u, u + 1} (decl-017287.{u} k A W)\n                            (decl-023219.{u} A V) 1)\n                          (Subtype.{u + 1} fun x =>\n                            Membership.mem.{u, u} (decl-009691.{u, u, u, u} k A V W) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009691",
+        "decl-017287",
+        "decl-023219"
+      ],
+      "structural_type_hash": "2648356033",
+      "temporary_id": "decl-017288"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W]\n  (z : CochainComplex.HomComplex.Cocycle.{u, u + 1} (decl-017287.{u} k A W) (decl-023219.{u} A V) 1)\n  (a : A) (w : W),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (Subtype.val.{u + 1}\n          (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-017288.{u} k A W V) z))\n        a)\n      w)\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-020008.{u} k A W V 1) (Subtype.val.{u + 1} z))\n      (TensorProduct.tmul.{u, u, u} k 1\n        (TensorProduct.tmul.{u, u, u} k\n          (DFunLike.coe.{max (u + 1) 1, max (u + 1) 1, max (u + 1) 1} (PiTensorProduct.tprod.{0, u, u} k)\n            (Matrix.vecCons.{u} a Matrix.vecEmpty.{u}))\n          w)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657",
+        "decl-000734",
+        "decl-009691",
+        "decl-017287",
+        "decl-017288",
+        "decl-020008",
+        "decl-023219"
+      ],
+      "structural_type_hash": "3111116068",
+      "temporary_id": "decl-017294"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W]\n  (z : CochainComplex.HomComplex.Cocycle.{u, u + 1} (decl-017287.{u} k A W) (decl-023219.{u} A V) 1),\n  Eq.{u + 1}\n    (Subtype.val.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-017288.{u} k A W V) z))\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024719.{u} k A W V) (Subtype.val.{u + 1} z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009691",
+        "decl-017287",
+        "decl-017288",
+        "decl-023219",
+        "decl-024719"
+      ],
+      "structural_type_hash": "3114962926",
+      "temporary_id": "decl-017295"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W],\n  Eq.{u + 1}\n    (AddSubgroup.map.{u, u} (AddEquiv.toAddMonoidHom.{u, u} (decl-017288.{u} k A W V))\n      (CochainComplex.HomComplex.coboundaries.{u, u + 1} (decl-017287.{u} k A W) (decl-023219.{u} A V)\n        1))\n    (decl-022161.{u} k A V W)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009691",
+        "decl-017287",
+        "decl-017288",
+        "decl-022161",
+        "decl-023219"
+      ],
+      "structural_type_hash": "1820013356",
+      "temporary_id": "decl-017296"
+    },
+    {
+      "formal_type": "(k A W : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        [inst_3 : AddCommGroup.{u} W] \u2192\n          [inst_4 : Module.{u, u} k W] \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) (decl-000657.{u} k A W 1)\n              (TensorProduct.{u, u, u} k A W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657"
+      ],
+      "structural_type_hash": "2625543249",
+      "temporary_id": "decl-017297"
+    },
+    {
+      "formal_type": "\u2200 (k A W : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} W] [inst_4 : Module.{u, u} k W] [inst_5 : Module.{u, u} A W]\n  [IsScalarTower.{u, u, u} k A W] (a : A) (w : W),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (LinearEquiv.symm.{u, u, u, u} (decl-017297.{u} k A W))\n      (TensorProduct.tmul.{u, u, u} k a w))\n    (TensorProduct.tmul.{u, u, u} k\n      (DFunLike.coe.{max (u + 1) 1, max (u + 1) 1, max (u + 1) 1} (PiTensorProduct.tprod.{0, u, u} k)\n        (Matrix.vecCons.{u} a Matrix.vecEmpty.{u}))\n      w)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657",
+        "decl-017297"
+      ],
+      "structural_type_hash": "2617102159",
+      "temporary_id": "decl-017300"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [IsScalarTower.{u, u, u} k A W] {n : Nat}\n  {F G :\n    LinearMap.{u, u, u, u} (RingHom.id.{u} A) (decl-000734.{u} k A W (HAdd.hAdd.{0, 0, 0} n 1)) V},\n  (\u2200 (a\u2080 : A) (v : Fin (HAdd.hAdd.{0, 0, 0} n 1) \u2192 A) (w : W),\n      Eq.{u + 1}\n        (DFunLike.coe.{u + 1, u + 1, u + 1} F\n          (TensorProduct.tmul.{u, u, u} k a\u2080\n            (TensorProduct.tmul.{u, u, u} k\n              (DFunLike.coe.{max (u + 1) 1, max (u + 1) 1, max (u + 1) 1} (PiTensorProduct.tprod.{0, u, u} k) v) w)))\n        (DFunLike.coe.{u + 1, u + 1, u + 1} G\n          (TensorProduct.tmul.{u, u, u} k a\u2080\n            (TensorProduct.tmul.{u, u, u} k\n              (DFunLike.coe.{max (u + 1) 1, max (u + 1) 1, max (u + 1) 1} (PiTensorProduct.tprod.{0, u, u} k) v) w)))) \u2192\n    Eq.{u + 1} F G",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657",
+        "decl-000734"
+      ],
+      "structural_type_hash": "1033784048",
+      "temporary_id": "decl-017307"
+    },
+    {
+      "formal_type": "\u2200 (k A W : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} W] [inst_4 : Module.{u, u} k W] [inst_5 : Module.{u, u} A W]\n  [inst_6 : IsScalarTower.{u, u, u} k A W] (n : Nat),\n  Eq.{u + 1}\n    (HomologicalComplex.d.{u, u + 1, 0}\n      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (decl-017309.{u} k A W))\n      (HAdd.hAdd.{0, 0, 0} n 1) n)\n    (ModuleCat.ofHom.{u, u} (decl-000693.{u} k A W n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657",
+        "decl-000693",
+        "decl-000734",
+        "decl-017309"
+      ],
+      "structural_type_hash": "960607050",
+      "temporary_id": "decl-017311"
+    },
+    {
+      "formal_type": "(k A W V : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        [inst_3 : AddCommGroup.{u} V] \u2192\n          [inst_4 : Module.{u, u} k V] \u2192\n            [inst_5 : Module.{u, u} A V] \u2192\n              [IsScalarTower.{u, u, u} k A V] \u2192\n                [inst_7 : AddCommGroup.{u} W] \u2192\n                  [inst_8 : Module.{u, u} k W] \u2192\n                    AddEquiv.{u, u}\n                      (LinearMap.{u, u, u, u} (RingHom.id.{u} A) (decl-000734.{u} k A W 0) V)\n                      (LinearMap.{u, u, u, u} (RingHom.id.{u} k) W V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657",
+        "decl-000734"
+      ],
+      "structural_type_hash": "2662806858",
+      "temporary_id": "decl-017998"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [IsScalarTower.{u, u, u} k A W]\n  (f : LinearMap.{u, u, u, u} (RingHom.id.{u} A) (decl-000734.{u} k A W 0) V) (w : W),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-017998.{u} k A W V) f) w)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} f\n      (TensorProduct.tmul.{u, u, u} k 1\n        (DFunLike.coe.{u + 1, u + 1, u + 1}\n          (LinearEquiv.symm.{u, u, u, u} (decl-000665.{u} k A W)) w)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657",
+        "decl-000665",
+        "decl-000734",
+        "decl-017998"
+      ],
+      "structural_type_hash": "2530578886",
+      "temporary_id": "decl-017999"
+    },
+    {
+      "formal_type": "(k A W V : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        [inst_3 : AddCommGroup.{u} V] \u2192\n          [inst_4 : Module.{u, u} k V] \u2192\n            [inst_5 : Module.{u, u} A V] \u2192\n              [IsScalarTower.{u, u, u} k A V] \u2192\n                [inst_7 : AddCommGroup.{u} W] \u2192\n                  [inst_8 : Module.{u, u} k W] \u2192\n                    AddEquiv.{u, u}\n                      (LinearMap.{u, u, u, u} (RingHom.id.{u} A) (decl-000734.{u} k A W 1) V)\n                      (LinearMap.{u, u, u, u} (RingHom.id.{u} k) A (LinearMap.{u, u, u, u} (RingHom.id.{u} k) W V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657",
+        "decl-000734"
+      ],
+      "structural_type_hash": "523615212",
+      "temporary_id": "decl-018000"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [IsScalarTower.{u, u, u} k A W]\n  (f : LinearMap.{u, u, u, u} (RingHom.id.{u} A) (decl-000734.{u} k A W 1) V) (a : A) (w : W),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-018000.{u} k A W V) f) a) w)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} f\n      (TensorProduct.tmul.{u, u, u} k 1\n        (TensorProduct.tmul.{u, u, u} k\n          (DFunLike.coe.{max (u + 1) 1, max (u + 1) 1, max (u + 1) 1} (PiTensorProduct.tprod.{0, u, u} k)\n            (Matrix.vecCons.{u} a Matrix.vecEmpty.{u}))\n          w)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657",
+        "decl-000734",
+        "decl-018000"
+      ],
+      "structural_type_hash": "3014020904",
+      "temporary_id": "decl-018006"
+    },
+    {
+      "formal_type": "(k A V : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        [inst_3 : AddCommGroup.{u} V] \u2192\n          [inst_4 : Module.{u, u} k V] \u2192\n            [inst_5 : Module.{u, u} A V] \u2192\n              [IsScalarTower.{u, u, u} k A V] \u2192\n                (X : Type u) \u2192\n                  [inst_7 : AddCommGroup.{u} X] \u2192\n                    [inst_8 : Module.{u, u} k X] \u2192\n                      AddEquiv.{u, u} (LinearMap.{u, u, u, u} (RingHom.id.{u} A) (TensorProduct.{u, u, u} k A X) V)\n                        (LinearMap.{u, u, u, u} (RingHom.id.{u} k) X V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1501674939",
+      "temporary_id": "decl-018007"
+    },
+    {
+      "formal_type": "\u2200 (k A V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] (X : Type u) [inst_7 : AddCommGroup.{u} X] [inst_8 : Module.{u, u} k X]\n  (f : LinearMap.{u, u, u, u} (RingHom.id.{u} A) (TensorProduct.{u, u, u} k A X) V) (x : X),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-018007.{u} k A V X) f) x)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} f (TensorProduct.tmul.{u, u, u} k 1 x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018007"
+      ],
+      "structural_type_hash": "56305968",
+      "temporary_id": "decl-018018"
+    },
+    {
+      "formal_type": "(k A W V : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        [inst_3 : AddCommGroup.{u} V] \u2192\n          [inst_4 : Module.{u, u} k V] \u2192\n            [inst_5 : Module.{u, u} A V] \u2192\n              [inst_6 : IsScalarTower.{u, u, u} k A V] \u2192\n                [inst_7 : AddCommGroup.{u} W] \u2192\n                  [inst_8 : Module.{u, u} k W] \u2192\n                    [inst_9 : Module.{u, u} A W] \u2192\n                      [inst_10 : IsScalarTower.{u, u, u} k A W] \u2192\n                        AddEquiv.{u, u}\n                          (CochainComplex.HomComplex.CohomologyClass.{u, u + 1} (decl-017287.{u} k A W)\n                            (decl-023219.{u} A V) 1)\n                          (decl-009545.{u, u, u, u} k A V W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009545",
+        "decl-009654",
+        "decl-009664",
+        "decl-009691",
+        "decl-009693",
+        "decl-017287",
+        "decl-023219"
+      ],
+      "structural_type_hash": "3642723219",
+      "temporary_id": "decl-018039"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W]\n  (z : CochainComplex.HomComplex.Cocycle.{u, u + 1} (decl-017287.{u} k A W) (decl-023219.{u} A V) 1),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-018039.{u} k A W V)\n      (CochainComplex.HomComplex.CohomologyClass.mk.{u, u + 1} z))\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (QuotientAddGroup.mk'.{u} (decl-022161.{u} k A V W))\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-017288.{u} k A W V) z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009545",
+        "decl-009654",
+        "decl-009664",
+        "decl-009691",
+        "decl-009693",
+        "decl-017287",
+        "decl-017288",
+        "decl-018039",
+        "decl-022161",
+        "decl-023219"
+      ],
+      "structural_type_hash": "157496759",
+      "temporary_id": "decl-018042"
+    },
+    {
+      "formal_type": "(k A W V : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        [inst_3 : AddCommGroup.{u} V] \u2192\n          [inst_4 : Module.{u, u} A V] \u2192\n            [inst_5 : AddCommGroup.{u} W] \u2192\n              [inst_6 : Module.{u, u} k W] \u2192\n                [inst_7 : Module.{u, u} A W] \u2192\n                  [inst_8 : IsScalarTower.{u, u, u} k A W] \u2192\n                    (n : Nat) \u2192\n                      AddEquiv.{u, u}\n                        (CochainComplex.HomComplex.Cochain.{u, u + 1} (decl-017287.{u} k A W)\n                          (decl-023219.{u} A V) (Nat.cast.{0} n))\n                        (LinearMap.{u, u, u, u} (RingHom.id.{u} A) (decl-000734.{u} k A W n) V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657",
+        "decl-000734",
+        "decl-017287",
+        "decl-023219"
+      ],
+      "structural_type_hash": "1250124228",
+      "temporary_id": "decl-020008"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W] (n : Nat)\n  (z :\n    CochainComplex.HomComplex.Cochain.{u, u + 1} (decl-017287.{u} k A W) (decl-023219.{u} A V)\n      (Nat.cast.{0} n)),\n  Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-020008.{u} k A W V n) z)\n    (ModuleCat.Hom.hom.{u, u}\n      (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n        (CategoryTheory.Iso.inv.{u, u + 1}\n          (CategoryTheory.ProjectiveResolution.cochainComplexXIso.{u, u + 1} (decl-017309.{u} k A W)\n            (Neg.neg.{0} (Nat.cast.{0} n)) n \u22ef))\n        (DFunLike.coe.{u + 1, u + 1, u + 1} (CochainComplex.HomComplex.Cochain.toSingleEquiv.{u, u + 1} \u22ef) z)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657",
+        "decl-000734",
+        "decl-017287",
+        "decl-017309",
+        "decl-020008",
+        "decl-023219"
+      ],
+      "structural_type_hash": "255554687",
+      "temporary_id": "decl-020013"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W]\n  (z : CochainComplex.HomComplex.Cochain.{u, u + 1} (decl-017287.{u} k A W) (decl-023219.{u} A V) 1),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-020008.{u} k A W V 2)\n      (CochainComplex.HomComplex.\u03b4.{u, u + 1} 1 2 z))\n    (LinearMap.comp.{u, u, u, u, u, u} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-020008.{u} k A W V 1) z)\n      (decl-000693.{u} k A W 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657",
+        "decl-000693",
+        "decl-000734",
+        "decl-017287",
+        "decl-020008",
+        "decl-023219"
+      ],
+      "structural_type_hash": "2649136229",
+      "temporary_id": "decl-020014"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W]\n  (\u03b2 : CochainComplex.HomComplex.Cochain.{u, u + 1} (decl-017287.{u} k A W) (decl-023219.{u} A V) 0),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-020008.{u} k A W V 1)\n      (CochainComplex.HomComplex.\u03b4.{u, u + 1} 0 1 \u03b2))\n    (Neg.neg.{u}\n      (LinearMap.comp.{u, u, u, u, u, u} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-020008.{u} k A W V 0) \u03b2)\n        (decl-000693.{u} k A W 0)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000657",
+        "decl-000693",
+        "decl-000734",
+        "decl-017287",
+        "decl-020008",
+        "decl-023219"
+      ],
+      "structural_type_hash": "3419139383",
+      "temporary_id": "decl-020015"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W]\n  (z : CochainComplex.HomComplex.Cochain.{u, u + 1} (decl-017287.{u} k A W) (decl-023219.{u} A V) 1),\n  Iff\n    (decl-009653.{u, u, u, u} k A V W\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024719.{u} k A W V) z))\n    (Eq.{u + 1} (CochainComplex.HomComplex.\u03b4.{u, u + 1} 1 2 z) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009653",
+        "decl-017287",
+        "decl-023219",
+        "decl-024719"
+      ],
+      "structural_type_hash": "3874470711",
+      "temporary_id": "decl-020782"
+    },
+    {
+      "formal_type": "(k A V W : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        [inst_3 : AddCommGroup.{u} V] \u2192\n          [inst_4 : Module.{u, u} k V] \u2192\n            [inst_5 : Module.{u, u} A V] \u2192\n              [inst_6 : IsScalarTower.{u, u, u} k A V] \u2192\n                [inst_7 : AddCommGroup.{u} W] \u2192\n                  [inst_8 : Module.{u, u} k W] \u2192\n                    [inst_9 : Module.{u, u} A W] \u2192\n                      [inst_10 : IsScalarTower.{u, u, u} k A W] \u2192\n                        AddSubgroup.{u}\n                          (Subtype.{u + 1} fun x =>\n                            Membership.mem.{u, u} (decl-009691.{u, u, u, u} k A V W) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009691"
+      ],
+      "structural_type_hash": "2414864246",
+      "temporary_id": "decl-022161"
+    },
+    {
+      "formal_type": "(A V : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    [inst_1 : AddCommGroup.{u} V] \u2192 [Module.{u, u} A V] \u2192 CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} A) Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2773224353",
+      "temporary_id": "decl-023219"
+    },
+    {
+      "formal_type": "(k A W V : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        [inst_3 : AddCommGroup.{u} V] \u2192\n          [inst_4 : Module.{u, u} k V] \u2192\n            [inst_5 : Module.{u, u} A V] \u2192\n              [IsScalarTower.{u, u, u} k A V] \u2192\n                [inst_7 : AddCommGroup.{u} W] \u2192\n                  [inst_8 : Module.{u, u} k W] \u2192\n                    [inst_9 : Module.{u, u} A W] \u2192\n                      [inst_10 : IsScalarTower.{u, u, u} k A W] \u2192\n                        AddEquiv.{u, u}\n                          (CochainComplex.HomComplex.Cochain.{u, u + 1} (decl-017287.{u} k A W)\n                            (decl-023219.{u} A V) 0)\n                          (LinearMap.{u, u, u, u} (RingHom.id.{u} k) W V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017287",
+        "decl-023219"
+      ],
+      "structural_type_hash": "3751581111",
+      "temporary_id": "decl-024717"
+    },
+    {
+      "formal_type": "(k A W V : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        [inst_3 : AddCommGroup.{u} V] \u2192\n          [inst_4 : Module.{u, u} k V] \u2192\n            [inst_5 : Module.{u, u} A V] \u2192\n              [IsScalarTower.{u, u, u} k A V] \u2192\n                [inst_7 : AddCommGroup.{u} W] \u2192\n                  [inst_8 : Module.{u, u} k W] \u2192\n                    [inst_9 : Module.{u, u} A W] \u2192\n                      [inst_10 : IsScalarTower.{u, u, u} k A W] \u2192\n                        AddEquiv.{u, u}\n                          (CochainComplex.HomComplex.Cochain.{u, u + 1} (decl-017287.{u} k A W)\n                            (decl-023219.{u} A V) 1)\n                          (LinearMap.{u, u, u, u} (RingHom.id.{u} k) A (LinearMap.{u, u, u, u} (RingHom.id.{u} k) W V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017287",
+        "decl-023219"
+      ],
+      "structural_type_hash": "1282421490",
+      "temporary_id": "decl-024719"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W]\n  (\u03b2 : CochainComplex.HomComplex.Cochain.{u, u + 1} (decl-017287.{u} k A W) (decl-023219.{u} A V) 0),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024719.{u} k A W V) (CochainComplex.HomComplex.\u03b4.{u, u + 1} 0 1 \u03b2))\n    (decl-009675.{u, u, u, u} k A V W\n      (Neg.neg.{u} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024717.{u} k A W V) \u03b2)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009675",
+        "decl-017287",
+        "decl-023219",
+        "decl-024717",
+        "decl-024719"
+      ],
+      "structural_type_hash": "1326092051",
+      "temporary_id": "decl-024721"
+    },
+    {
+      "formal_type": "\u2200 (k A W V : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W]\n  (\u03b2 : CochainComplex.HomComplex.Cochain.{u, u + 1} (decl-017287.{u} k A W) (decl-023219.{u} A V) 0),\n  Membership.mem.{u, u} (decl-009664.{u, u, u, u} k A V W)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024719.{u} k A W V) (CochainComplex.HomComplex.\u03b4.{u, u + 1} 0 1 \u03b2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009664",
+        "decl-017287",
+        "decl-023219",
+        "decl-024719"
+      ],
+      "structural_type_hash": "952558237",
+      "temporary_id": "decl-024724"
+    }
+  ],
+  "module_temporary_id": "module-0669",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

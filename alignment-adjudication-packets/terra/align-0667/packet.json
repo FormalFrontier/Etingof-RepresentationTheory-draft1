@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d672c0508d50d5ce1feb",
+      "declaration": "Etingof.Problem3_9_2.ext1_self",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (a : Fin n \u2192 Complex),\n  Nonempty.{1}\n    (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n      (Etingof.Problem3_9_1.Ext1.{0, 0, 0, 0} Complex (Etingof.Problem3_9_2.polyAlg n) (Etingof.Problem3_9_2.Vrep a)\n        (Etingof.Problem3_9_2.Vrep a))\n      (Fin n \u2192 Complex))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.2",
+  "packet_id": "align-0667",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0667"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.2:claim-02",
+  "source_text": "Ext\u00b9(V\u2090,V\u2090) is isomorphic to \u2102\u207f."
+}

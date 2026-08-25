@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:30d6a0bc8bfc9d2f6ffc",
+      "declaration": "Etingof.Theorem6_8_1_representation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/452/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Etingof.IsDynkinDiagram n adj \u2192\n    \u2200 {k : Type u_1} [inst : Field.{u_1} k] {Q : Quiver.{0, 0} (Fin n)},\n      Etingof.IsOrientationOf.{0} Q adj \u2192\n        \u2200 [\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)]\n          (\u03c1 : Etingof.QuiverRepresentation.{u_1, 0, 0, 0} k (Fin n))\n          [\u2200 (v : Fin n), Module.Free.{u_1, 0} k (Etingof.QuiverRepresentation.obj.{u_1, 0, 0, 0} \u03c1 v)]\n          [\u2200 (v : Fin n), Module.Finite.{u_1, 0} k (Etingof.QuiverRepresentation.obj.{u_1, 0, 0, 0} \u03c1 v)],\n          Etingof.QuiverRepresentation.IsIndecomposable.{u_1, 0, 0, 0} \u03c1 \u2192\n            Exists.{1} fun vertices =>\n              Exists.{1} fun p =>\n                And\n                  (Eq.{1}\n                    (Etingof.iteratedSimpleReflection n (Etingof.cartanMatrix n adj) vertices fun v =>\n                      Nat.cast.{0} (Module.finrank.{u_1, 0} k (Etingof.QuiverRepresentation.obj.{u_1, 0, 0, 0} \u03c1 v)))\n                    (Etingof.simpleRoot n p))\n                  (Exists.{2} fun Q_end =>\n                    And (Etingof.IsOrientationOf.{0} Q_end adj)\n                      (And (\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b))\n                        (Exists.{max 2 (u_1 + 1)} fun W =>\n                          And\n                            (\u2200 (v : Fin n),\n                              Module.Free.{u_1, 0} k (Etingof.QuiverRepresentation.obj.{u_1, 0, 0, 0} W v))\n                            (And\n                              (\u2200 (v : Fin n),\n                                Module.Finite.{u_1, 0} k (Etingof.QuiverRepresentation.obj.{u_1, 0, 0, 0} W v))\n                              (And (Etingof.QuiverRepresentation.IsIndecomposable.{u_1, 0, 0, 0} W)\n                                (\u2200 (v : Fin n),\n                                  Eq.{1}\n                                    (Nat.cast.{0}\n                                      (Module.finrank.{u_1, 0} k (Etingof.QuiverRepresentation.obj.{u_1, 0, 0, 0} W v)))\n                                    (Etingof.simpleRoot n p v)))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.CoxeterInfrastructure"
+    }
+  ],
+  "canonical_reference": "Chapter6/Theorem6.8.1",
+  "packet_id": "align-0035",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0035"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:09b777e35f820c9f526b",
+  "source_text": "For an indecomposable representation, the corresponding categorical reflection sequence terminates in an indecomposable representation with simple-root dimension vector."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Lemma5.13.2",
+    "kind": "lemma",
+    "title": "a_lambda C[S_n] b_mu = 0 when lambda > mu lexicographically",
+    "node_id": "chapter-05/section-5-13",
+    "order": 318,
+    "slug": "lemma5-13-2",
+    "span": {
+      "start": {
+        "page": "115",
+        "line": 5
+      },
+      "end": {
+        "page": "115",
+        "line": 8
+      }
+    },
+    "source_sha256": "d6072c1ff2a6b835978d2043a0c9589c45e871686248c1f6f51590767545837f",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma5132",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

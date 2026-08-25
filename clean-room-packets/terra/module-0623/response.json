@@ -1,0 +1,55 @@
+{
+  "module_name": "Algebra.Category.ModuleCat.TensorHom",
+  "declarations": [
+    {
+      "temporary_id": "decl-020021",
+      "new_name": "ModuleCat.linearMapToAddMonoidHom",
+      "docstring": "Converts a linear family of additive homomorphisms into an additive homomorphism with the displayed domain."
+    },
+    {
+      "temporary_id": "decl-020026",
+      "new_name": "ModuleCat.linearMapToAddMonoidHom_mk_tmul",
+      "docstring": "On the class of a pure tensor, the resulting additive homomorphism agrees with successive evaluation of the original linear map."
+    },
+    {
+      "temporary_id": "decl-020034",
+      "new_name": "ModuleCat.addMonoidHomToLinearMap",
+      "docstring": "Converts an additive homomorphism with the displayed domain into a linear family of additive homomorphisms out of the right module."
+    },
+    {
+      "temporary_id": "decl-020041",
+      "new_name": "ModuleCat.addMonoidHomToLinearMap_apply",
+      "docstring": "Successive evaluation of the resulting linear map agrees with the original additive homomorphism on the class of the corresponding pure tensor."
+    },
+    {
+      "temporary_id": "decl-020064",
+      "new_name": "ModuleCat.rightModuleHomFunctor",
+      "docstring": "The functor from additive commutative groups to A-modules associated with a right A-module."
+    },
+    {
+      "temporary_id": "decl-020101",
+      "new_name": "ModuleCat.rightModuleHomModule",
+      "docstring": "The A-module structure on additive homomorphisms from a right A-module to an additive commutative group."
+    },
+    {
+      "temporary_id": "decl-020108",
+      "new_name": "ModuleCat.rightModuleHomSMul",
+      "docstring": "The scalar action on additive homomorphisms from a right A-module."
+    },
+    {
+      "temporary_id": "decl-020109",
+      "new_name": "ModuleCat.rightModuleHom_smul_apply",
+      "docstring": "Scalar multiplication of an additive homomorphism is evaluated by acting on its input through the opposite ring."
+    },
+    {
+      "temporary_id": "decl-023898",
+      "new_name": "ModuleCat.rightModuleHomAdjunction",
+      "docstring": "An adjunction whose right adjoint is the additive-hom functor associated with a right A-module."
+    },
+    {
+      "temporary_id": "decl-023921",
+      "new_name": "ModuleCat.rightModuleHomLeftAdjoint_preservesFiniteColimits",
+      "docstring": "The displayed functor preserves finite colimits."
+    }
+  ]
+}

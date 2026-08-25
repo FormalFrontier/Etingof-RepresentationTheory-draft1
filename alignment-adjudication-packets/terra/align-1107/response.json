@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1107",
+  "associations": [
+    {
+      "association_id": "association:1462b301ef6355e3ffd1",
+      "role": "supporting",
+      "rationale": "The displayed type shows an algebra equivalence with the Nat-indexed direct sum of tensor powers, but it gives no equation showing that a pure n-fold tensor maps into the degree-n summand."
+    }
+  ]
+}

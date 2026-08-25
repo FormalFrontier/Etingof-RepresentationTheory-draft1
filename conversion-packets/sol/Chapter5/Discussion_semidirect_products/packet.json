@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_semidirect_products",
+    "kind": "discussion",
+    "title": "Semidirect product definition and construction of V_{(O,U)}",
+    "node_id": "chapter-05/section-5-27",
+    "order": 396,
+    "slug": "discussion-semidirect-products",
+    "span": {
+      "start": {
+        "page": "145",
+        "line": 11
+      },
+      "end": {
+        "page": "146",
+        "line": 10
+      }
+    },
+    "source_sha256": "e08569f3e3b1209a26c9cbb977c1b140466aea667905d520a64ccecc1cf762b6",
+    "features": {
+      "line_count": 19,
+      "crosses_page": true,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionSemidirectProducts",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

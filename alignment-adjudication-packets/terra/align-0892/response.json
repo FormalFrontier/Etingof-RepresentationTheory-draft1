@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:548fb32d5787cc15e408",
+      "rationale": "The type identifies a coinduced-function subtype with functions on right cosets; it does not directly state the source's induced-function determination claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0892"
+}

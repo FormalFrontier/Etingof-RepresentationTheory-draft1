@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:446e3d21e408347f12c2",
+      "declaration": "Etingof.Problem3_3_3.factorSummandModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/142/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{r : Nat} \u2192\n  (\ud835\udc9c : Fin r \u2192 Type u_1) \u2192\n    [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] \u2192\n      (V : Type u_2) \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] \u2192\n            (i : Fin r) \u2192\n              Module.{u_1, u_2} (\ud835\udc9c i)\n                (Subtype.{u_2 + 1} fun x =>\n                  Membership.mem.{u_2, u_2}\n                    (LinearMap.range.{u_1, u_1, u_2, u_2} (Etingof.Problem3_3_3.idemProj.{u_1, u_2} \ud835\udc9c V i)) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_3_3"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.3.3",
+  "packet_id": "align-0629",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0629"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.3.3:claim-05",
+  "source_text": "For an A-representation V, the summand 1_i V is a representation of the factor A_i."
+}

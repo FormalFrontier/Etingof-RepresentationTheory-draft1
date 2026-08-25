@@ -1,0 +1,50 @@
+{
+  "declarations": [
+    {
+      "docstring": "Equivalence from the ambient module to the function of displayed component carriers.",
+      "new_name": "linearEquiv",
+      "temporary_id": "decl-005761"
+    },
+    {
+      "docstring": "Identifies a displayed component with the quotient by the span of its given element.",
+      "new_name": "componentIso",
+      "temporary_id": "decl-005782"
+    },
+    {
+      "docstring": "Equivalence between the carrier of a finite biproduct and the corresponding function type.",
+      "new_name": "biproductAddEquiv",
+      "temporary_id": "decl-017475"
+    },
+    {
+      "docstring": "Proves subsingletonness of the ambient value from that of every displayed component.",
+      "new_name": "subsingleton_of_componentSubsingleton",
+      "temporary_id": "decl-023495"
+    },
+    {
+      "docstring": "Transports the displayed construction along an isomorphism of module objects.",
+      "new_name": "mapIso",
+      "temporary_id": "decl-024202"
+    },
+    {
+      "docstring": "Equivalence between the construction at an ambient object and the family at its indexed components.",
+      "new_name": "addEquiv",
+      "temporary_id": "decl-024203"
+    },
+    {
+      "docstring": "Equivalence between one displayed construction and a doubly indexed family of component constructions.",
+      "new_name": "addEquivPi",
+      "temporary_id": "decl-024214"
+    },
+    {
+      "docstring": "Transports the displayed construction along a linear equivalence of coefficient modules.",
+      "new_name": "mapLinearEquiv",
+      "temporary_id": "decl-024225"
+    },
+    {
+      "docstring": "Equivalence from a construction with a module object to its family from displayed carriers.",
+      "new_name": "addEquivComponents",
+      "temporary_id": "decl-024229"
+    }
+  ],
+  "module_name": "Auxiliary.ComponentEquivalences"
+}

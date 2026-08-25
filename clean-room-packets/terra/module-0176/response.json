@@ -1,0 +1,12 @@
+{"module_name":"Algebra.Module.TensorProductSimplicity","declarations":[
+{"temporary_id":"decl-024111","new_name":"nonempty_linearEquiv_of_tensorEquiv_left","docstring":"A tensor-product equivalence respecting the displayed left action induces an equivalence of the left module factors."},
+{"temporary_id":"decl-024113","new_name":"submodule_eq_bot_or_top_of_tensorActions","docstring":"A submodule stable under the displayed tensor-factor actions is bottom or top."},
+{"temporary_id":"decl-024114","new_name":"auxiliary","docstring":"An auxiliary result under the displayed hypotheses."},
+{"temporary_id":"decl-024116","new_name":"nonempty_linearEquiv_factors_of_tensorEquiv","docstring":"A tensor-product equivalence respecting both displayed factor actions induces equivalences of both factors."},
+{"temporary_id":"decl-032813","new_name":"evaluationTensorLinearMap","docstring":"A linear map evaluating a pure tensor of a submodule element and a linear map at that element."},
+{"temporary_id":"decl-032825","new_name":"evaluationTensorLinearMap_tmul","docstring":"The evaluation tensor map sends a pure tensor to the displayed evaluation."},
+{"temporary_id":"decl-032896","new_name":"polynomial_scalarTower","docstring":"The displayed action of a polynomial algebra on its base field forms a scalar tower."},
+{"temporary_id":"decl-032897","new_name":"polynomial_isSimpleModule","docstring":"The base field is a simple module over the displayed polynomial algebra."},
+{"temporary_id":"decl-032898","new_name":"polynomial_smulCommClass","docstring":"The displayed polynomial algebra actions on the base field commute."},
+{"temporary_id":"decl-032963","new_name":"polynomialModule","docstring":"A module structure of a polynomial algebra on its base field."}
+]}

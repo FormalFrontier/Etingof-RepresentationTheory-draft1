@@ -1,0 +1,137 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0068b2d1e95f74943fd2",
+      "declaration": "Etingof.Exercise5_27_2.AffineGroup",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(K : Type) \u2192 [Field.{0} K] \u2192 Type",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine"
+    },
+    {
+      "association_id": "association:5da9861d06c68033e297",
+      "declaration": "Etingof.Exercise5_27_2.affineEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(K : Type) \u2192\n  [inst : Field.{0} K] \u2192 MulEquiv.{0, 0} (Etingof.Problem4_12_6.Affine.{0} K) (Etingof.Exercise5_27_2.AffineGroup K)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine"
+    },
+    {
+      "association_id": "association:73fc256a3b282651a829",
+      "declaration": "Etingof.Exercise5_27_2.affine_classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (K : Type) [inst : Field.{0} K] [inst_1 : Fintype.{0} K],\n  LT.lt.{0} 2 (Fintype.card.{0} K) \u2192\n    Exists.{1} fun n =>\n      Exists.{2} fun W =>\n        And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n          (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n            (And\n              (\u2200 (S : FDRep.{0, 0} Complex (Etingof.Exercise5_27_2.AffineGroup K)),\n                CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n              (And (Eq.{1} n (Fintype.card.{0} K))\n                (And\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            1)\n                        Finset.univ.{0}))\n                    (HSub.hSub.{0, 0, 0} (Fintype.card.{0} K) 1))\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            (HSub.hSub.{0, 0, 0} (Fintype.card.{0} K) 1))\n                        Finset.univ.{0}))\n                    1)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine"
+    },
+    {
+      "association_id": "association:9c9f9b8354b39a52210d",
+      "declaration": "Etingof.Exercise5_27_2.affine_classification'",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (K : Type) [inst : Field.{0} K] [inst_1 : Fintype.{0} K],\n  LT.lt.{0} 2 (Fintype.card.{0} K) \u2192\n    Exists.{1} fun n =>\n      Exists.{2} fun W =>\n        And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n          (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n            (And\n              (\u2200 (S : FDRep.{0, 0} Complex (Etingof.Problem4_12_6.Affine.{0} K)),\n                CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n              (And (Eq.{1} n (Fintype.card.{0} K))\n                (And\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            1)\n                        Finset.univ.{0}))\n                    (HSub.hSub.{0, 0, 0} (Fintype.card.{0} K) 1))\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            (HSub.hSub.{0, 0, 0} (Fintype.card.{0} K) 1))\n                        Finset.univ.{0}))\n                    1)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine"
+    },
+    {
+      "association_id": "association:cb899284ab6bc74545d7",
+      "declaration": "Etingof.Exercise5_27_2.affine_classification_named",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (K : Type) [inst : Field.{0} K] [inst_1 : Fintype.{0} K],\n  LT.lt.{0} 2 (Fintype.card.{0} K) \u2192\n    Exists.{1} fun n =>\n      Exists.{2} fun W =>\n        And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n          (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n            (And\n              (\u2200 (S : FDRep.{0, 0} Complex (Etingof.Problem4_12_6.Affine.{0} K)),\n                CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n              (And (Eq.{1} n (Fintype.card.{0} K))\n                (And\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            1)\n                        Finset.univ.{0}))\n                    (HSub.hSub.{0, 0, 0} (Fintype.card.{0} K) 1))\n                  (And\n                    (Eq.{1}\n                      (Finset.card.{0}\n                        (Finset.filter.{0}\n                          (fun i =>\n                            Eq.{1}\n                              (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                              (HSub.hSub.{0, 0, 0} (Fintype.card.{0} K) 1))\n                          Finset.univ.{0}))\n                      1)\n                    (And\n                      (\u2200 (i : Fin n),\n                        Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            1 \u2192\n                          Exists.{1} fun \u03c7 =>\n                            Nonempty.{1}\n                              (CategoryTheory.Iso.{0, 1} (W i) (FDRep.of.{0, 0} (Etingof.Problem4_12_6.charRep.{0} \u03c7))))\n                      (And\n                        (\u2200 (i : Fin n),\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                              (HSub.hSub.{0, 0, 0} (Fintype.card.{0} K) 1) \u2192\n                            Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (Etingof.Exercise5_27_2.zeroSumFDRep K)))\n                        (And\n                          (\u2200 (\u03c7 : MonoidHom.{0, 0} (Etingof.Problem4_12_6.Affine.{0} K) (Units.{0} Complex)),\n                            Exists.{1} fun i =>\n                              Nonempty.{1}\n                                (CategoryTheory.Iso.{0, 1} (FDRep.of.{0, 0} (Etingof.Problem4_12_6.charRep.{0} \u03c7))\n                                  (W i)))\n                          (Exists.{1} fun i =>\n                            Nonempty.{1}\n                              (CategoryTheory.Iso.{0, 1} (Etingof.Exercise5_27_2.zeroSumFDRep K) (W i)))))))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine"
+    },
+    {
+      "association_id": "association:8da1c3122913492f0b19",
+      "declaration": "Etingof.Exercise5_27_2.affine_classification_two",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (K : Type) [inst : Field.{0} K] [inst_1 : Fintype.{0} K],\n  Eq.{1} (Fintype.card.{0} K) 2 \u2192\n    Exists.{1} fun n =>\n      Exists.{2} fun W =>\n        And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n          (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n            (And\n              (\u2200 (S : FDRep.{0, 0} Complex (Etingof.Exercise5_27_2.AffineGroup K)),\n                CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n              (And (Eq.{1} n 2)\n                (\u2200 (i : Fin n),\n                  Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine"
+    },
+    {
+      "association_id": "association:43cf9eaff236a0baac53",
+      "declaration": "Etingof.Exercise5_27_2.affine_classification_two'",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (K : Type) [inst : Field.{0} K] [inst_1 : Fintype.{0} K],\n  Eq.{1} (Fintype.card.{0} K) 2 \u2192\n    Exists.{1} fun n =>\n      Exists.{2} fun W =>\n        And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n          (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n            (And\n              (\u2200 (S : FDRep.{0, 0} Complex (Etingof.Problem4_12_6.Affine.{0} K)),\n                CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n              (And (Eq.{1} n 2)\n                (\u2200 (i : Fin n),\n                  Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine"
+    },
+    {
+      "association_id": "association:7c002e682c2fd3b82753",
+      "declaration": "Etingof.Exercise5_27_2.affine\u03c6",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(K : Type) \u2192 [inst : Field.{0} K] \u2192 MonoidHom.{0, 0} (Units.{0} K) (MulAut.{0} (Multiplicative.{0} K))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine"
+    },
+    {
+      "association_id": "association:ed811158fa3f0c18d47d",
+      "declaration": "Etingof.Exercise5_27_2.zeroSumFDRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(K : Type) \u2192 [inst : Field.{0} K] \u2192 [Fintype.{0} K] \u2192 FDRep.{0, 0} Complex (Etingof.Problem4_12_6.Affine.{0} K)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine"
+    }
+  ],
+  "canonical_reference": "Chapter5/Exercise5.27.2",
+  "packet_id": "align-0741",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0741"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Exercise5.27.2:affine_reprise",
+  "source_text": "Re-derive the finite affine-group classification using the semidirect-product theorem."
+}

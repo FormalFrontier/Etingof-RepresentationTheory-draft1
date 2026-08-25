@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0527",
+  "associations": [
+    {
+      "association_id": "association:9114a9d22a78ca0a0e50",
+      "rationale": "For a highest-weight vector w, the displayed equality identifies E^k F^k w with a named polynomial in H applied to w, but it does not itself state that this polynomial has degree k, so it states only part of the combined claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:38c08521823ad745a9cd",
+      "rationale": "This is only the type of the named polynomial and does not state the highest-weight-vector identity.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:09e7aa091434ea7075eb",
+      "rationale": "This theorem states that the named polynomial has natural degree k, but it does not itself state the E^k F^k w polynomial-action identity, so it states only the degree component of the combined claim.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f08dc86667f53d840b97",
+      "declaration": "Etingof.Theorem5_18_1_commutant_semisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/346/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (E : Type v) [inst_1 : AddCommGroup.{v} E] [inst_2 : Module.{u, v} k E]\n  [Module.Finite.{u, v} k E] (A : Subalgebra.{u, v} k (Module.End.{u, v} k E))\n  [IsSemisimpleRing.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)]\n  [FaithfulSMul.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E],\n  IsSemisimpleRing.{v}\n    (Subtype.{v + 1} fun x => Membership.mem.{v, v} (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} A)) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_1"
+    },
+    {
+      "association_id": "association:23d020731570353269f4",
+      "declaration": "Etingof.Theorem5_18_1_double_centralizer",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/346/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (E : Type v) [inst_1 : AddCommGroup.{v} E] [inst_2 : Module.{u, v} k E]\n  [Module.Finite.{u, v} k E] (A : Subalgebra.{u, v} k (Module.End.{u, v} k E))\n  [IsSemisimpleRing.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)]\n  [FaithfulSMul.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E],\n  Eq.{v + 1}\n    (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} A)))) A",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.18.1",
+  "packet_id": "align-0904",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0904"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a4156bfbed857de2849a",
+  "source_text": "For a semisimple subalgebra A acting faithfully on E, its commutant is semisimple and its double commutant is A."
+}

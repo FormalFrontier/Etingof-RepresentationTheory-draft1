@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Definition3.3.2",
+    "kind": "definition",
+    "title": "Dual representation",
+    "node_id": "chapter-03/section-3-3",
+    "order": 141,
+    "slug": "definition3-3-2",
+    "span": {
+      "start": {
+        "page": "47",
+        "line": 9
+      },
+      "end": {
+        "page": "47",
+        "line": 12
+      }
+    },
+    "source_sha256": "bfe1e641d438c5159506a8116002b22a9ad820cafde4d146a69bd4eead930ce5",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Definition332",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

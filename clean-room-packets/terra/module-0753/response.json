@@ -1,0 +1,35 @@
+{
+  "module_name": "CategoryTheory.Abelian.ModuleCat.ExtProperties",
+  "declarations": [
+    {
+      "temporary_id": "decl-019248",
+      "new_name": "extOneSubsingleton_of_simpleModule_of_finiteLength_of_exclusion",
+      "docstring": "The degree-one extension space between the indicated objects has at most one element under the given simplicity, finite-length, and exclusion hypotheses."
+    },
+    {
+      "temporary_id": "decl-019249",
+      "new_name": "extOneSubsingleton_of_finiteLengthModules_of_exclusion",
+      "docstring": "The degree-one extension space between two finite-length module objects is a subsingleton when the stated exclusion hypothesis holds."
+    },
+    {
+      "temporary_id": "decl-019250",
+      "new_name": "extOneSubsingleton_of_finiteLengthCarrier_of_exclusion",
+      "docstring": "After forming the module object from the specified finite-length carrier, its degree-one extension space with the other finite-length object has at most one element under the displayed exclusion condition."
+    },
+    {
+      "temporary_id": "decl-020822",
+      "new_name": "selfCondition_of_isSimpleModule",
+      "docstring": "A simple module object satisfies the displayed condition relating it to itself."
+    },
+    {
+      "temporary_id": "decl-023481",
+      "new_name": "extSubsingleton_of_isZero_left",
+      "docstring": "Extensions in every degree with a zero module object as the left argument form a subsingleton."
+    },
+    {
+      "temporary_id": "decl-023482",
+      "new_name": "extSubsingleton_of_isZero_right",
+      "docstring": "Extensions in every degree with a zero module object as the right argument form a subsingleton."
+    }
+  ]
+}

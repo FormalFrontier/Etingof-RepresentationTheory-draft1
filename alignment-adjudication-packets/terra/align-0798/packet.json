@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d04e4034fc4f2dee850b",
+      "declaration": "Etingof.Problem6_9_1_unique",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/460/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (\u03c1 : Q\u2082Rep.{0, u_1, u_2} Complex) {c d : Etingof.Q\u2082Family},\n  Nonempty.{max (u_2 + 1) (u_1 + 1)} (Q\u2082Rep.Iso.{0, u_1, u_2, 0, 0} \u03c1 c.rep) \u2192\n    Nonempty.{max (u_2 + 1) (u_1 + 1)} (Q\u2082Rep.Iso.{0, u_1, u_2, 0, 0} \u03c1 d.rep) \u2192 Eq.{1} c d",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_1_Classification"
+    },
+    {
+      "association_id": "association:3aa7106a5d03f27d0383",
+      "declaration": "Etingof.Q\u2082Family.eq_of_rep_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/460/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {c d : Etingof.Q\u2082Family} (e : Q\u2082Rep.Iso.{0, 0, 0, 0, 0} c.rep d.rep), Eq.{1} c d",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_1"
+    },
+    {
+      "association_id": "association:5a99be3ba1ad6350046d",
+      "declaration": "Etingof.Q\u2082Family.rep_indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/460/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (c : Etingof.Q\u2082Family), Q\u2082Rep.Indecomposable.{0, 0, 0} c.rep",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_1"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.9.1",
+  "packet_id": "align-0798",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0798"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.9.1:part_a_families",
+  "source_text": "Part (a): construct the four families and prove them indecomposable, pairwise nonisomorphic, with unique parameters."
+}

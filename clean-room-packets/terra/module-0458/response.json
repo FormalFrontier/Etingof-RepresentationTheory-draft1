@@ -1,0 +1,110 @@
+{
+  "module_name": "PartitionPolynomials",
+  "declarations": [
+    {
+      "temporary_id": "decl-005707",
+      "new_name": "partitionExponentVector",
+      "docstring": "Associates an exponent vector indexed by `Fin N` to a partition."
+    },
+    {
+      "temporary_id": "decl-005710",
+      "new_name": "partitionExponentVector_eq_auxiliary",
+      "docstring": "Identifies the partition exponent vector with the corresponding auxiliary construction."
+    },
+    {
+      "temporary_id": "decl-016529",
+      "new_name": "signedAuxiliaryValue_eq_coefficient",
+      "docstring": "Expresses a signed auxiliary value as a coefficient of a multivariate polynomial."
+    },
+    {
+      "temporary_id": "decl-017202",
+      "new_name": "allOneExponentVector",
+      "docstring": "The exponent vector assigning one to every index of `Fin N`."
+    },
+    {
+      "temporary_id": "decl-018270",
+      "new_name": "auxiliaryPermutationPolynomial",
+      "docstring": "The auxiliary multivariate polynomial associated with a permutation."
+    },
+    {
+      "temporary_id": "decl-018272",
+      "new_name": "auxiliaryPermutationPolynomial_self_eq_auxiliary",
+      "docstring": "Relates the auxiliary permutation polynomial with equal ambient and permutation sizes to an auxiliary polynomial."
+    },
+    {
+      "temporary_id": "decl-018450",
+      "new_name": "dropFirstVariableHom",
+      "docstring": "A ring homomorphism from polynomials in `Fin (N + 1)` variables to polynomials in `Fin N` variables."
+    },
+    {
+      "temporary_id": "decl-018452",
+      "new_name": "dropFirstVariableHom_X_succ",
+      "docstring": "The variable homomorphism sends each successor-indexed variable to its predecessor-indexed variable."
+    },
+    {
+      "temporary_id": "decl-018453",
+      "new_name": "dropFirstVariableHom_X_zero",
+      "docstring": "The variable homomorphism sends the zero-indexed variable to zero."
+    },
+    {
+      "temporary_id": "decl-018454",
+      "new_name": "dropFirstVariableHom_auxiliaryPermutationPolynomial",
+      "docstring": "Applying the variable homomorphism to the auxiliary permutation polynomial lowers its ambient size."
+    },
+    {
+      "temporary_id": "decl-018455",
+      "new_name": "dropFirstVariableHom_psum",
+      "docstring": "The variable homomorphism preserves a positive power sum after lowering the ambient size."
+    },
+    {
+      "temporary_id": "decl-018456",
+      "new_name": "dropFirstVariableHom_auxiliaryPolynomial",
+      "docstring": "Computes the image of an auxiliary polynomial under the variable homomorphism."
+    },
+    {
+      "temporary_id": "decl-019655",
+      "new_name": "coefficient_partitionDerivedExponentVector_mul_auxiliaryPermutationPolynomial",
+      "docstring": "Computes a coefficient at the derived partition exponent vector after multiplication by the auxiliary permutation polynomial."
+    },
+    {
+      "temporary_id": "decl-019657",
+      "new_name": "coefficient_partitionDerivedExponentVector_mul_auxiliaryPermutationPolynomial_self",
+      "docstring": "Specializes the coefficient computation to equal partition and ambient sizes."
+    },
+    {
+      "temporary_id": "decl-019659",
+      "new_name": "coefficient_partitionDerivedExponentVector_mul_auxiliaryPermutationPolynomial_succ",
+      "docstring": "Shows that the indicated coefficient is unchanged when the ambient size is increased by one."
+    },
+    {
+      "temporary_id": "decl-019660",
+      "new_name": "partitionDerivedExponentVector",
+      "docstring": "Associates a derived exponent vector indexed by `Fin N` to a partition."
+    },
+    {
+      "temporary_id": "decl-019662",
+      "new_name": "partitionDerivedExponentVector_eq_reversed_partitionExponentVector_add_auxiliary",
+      "docstring": "Describes the derived partition exponent vector using reversal, the partition exponent vector, and an auxiliary vector."
+    },
+    {
+      "temporary_id": "decl-019665",
+      "new_name": "partitionDerivedExponentVector_succ_eq_cons_add_allOneExponentVector",
+      "docstring": "Describes the derived exponent vector at successor ambient size by consing zero and adding the all-one vector."
+    },
+    {
+      "temporary_id": "decl-021636",
+      "new_name": "monomial_allOneExponentVector",
+      "docstring": "The monomial with the all-one exponent vector is the product of all variables."
+    },
+    {
+      "temporary_id": "decl-022571",
+      "new_name": "rename_auxiliaryPermutationPolynomial",
+      "docstring": "Renaming variables by a permutation leaves the auxiliary permutation polynomial unchanged."
+    },
+    {
+      "temporary_id": "decl-022572",
+      "new_name": "rename_auxiliaryPolynomial_eq_sign_smul",
+      "docstring": "Renaming variables in the auxiliary polynomial scales it by the sign of the renaming permutation."
+    }
+  ]
+}

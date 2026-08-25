@@ -1,0 +1,305 @@
+{
+  "module_name": "FiniteGroupRepresentationExamples",
+  "declarations": [
+    {
+      "temporary_id": "decl-000472",
+      "new_name": "auxiliaryTheoremA",
+      "docstring": "An auxiliary theorem."
+    },
+    {
+      "temporary_id": "decl-003420",
+      "new_name": "auxiliaryPropertyOfSimpleAlternatingFiveRepresentation",
+      "docstring": "A simple finite-dimensional complex representation of the alternating group on five letters has the auxiliary property."
+    },
+    {
+      "temporary_id": "decl-003421",
+      "new_name": "existsSimpleQuaternionRepresentationWithAuxiliaryProperty",
+      "docstring": "There exists a simple complex representation of the quaternion group satisfying the auxiliary property."
+    },
+    {
+      "temporary_id": "decl-003422",
+      "new_name": "auxiliaryPropertyForQuaternionRepresentationOnComplex",
+      "docstring": "Every complex representation of the quaternion group on the complex numbers has the auxiliary property."
+    },
+    {
+      "temporary_id": "decl-003423",
+      "new_name": "simpleQuaternionRepresentationOfFinrankTwoIso",
+      "docstring": "A simple two-dimensional complex representation of the quaternion group is isomorphic to the specified representation."
+    },
+    {
+      "temporary_id": "decl-003428",
+      "new_name": "auxiliaryPropertyOfSimpleSymmetricThreeRepresentation",
+      "docstring": "A simple finite-dimensional complex representation of the symmetric group on three letters has the auxiliary property."
+    },
+    {
+      "temporary_id": "decl-003435",
+      "new_name": "auxiliaryPropertyOfSimpleSymmetricFourRepresentation",
+      "docstring": "A simple finite-dimensional complex representation of the symmetric group on four letters has the auxiliary property."
+    },
+    {
+      "temporary_id": "decl-003436",
+      "new_name": "auxiliaryTheoremB",
+      "docstring": "An auxiliary theorem."
+    },
+    {
+      "temporary_id": "decl-003437",
+      "new_name": "simpleFiniteCyclicRepresentationIsoAuxiliary",
+      "docstring": "A simple complex representation of a finite cyclic group of positive order is isomorphic to one of the auxiliary representations."
+    },
+    {
+      "temporary_id": "decl-003438",
+      "new_name": "auxiliaryCharacterCriterionForFiniteCyclicGroup",
+      "docstring": "An auxiliary condition on the value constructed from a cyclic character holds exactly when the character is nontrivial and differs from the specified character for every proof that two divides the order."
+    },
+    {
+      "temporary_id": "decl-003439",
+      "new_name": "auxiliaryCharacterCriterion_eq_one_or_eq_specifiedEvenOrder",
+      "docstring": "An auxiliary condition on the value constructed from a cyclic character holds exactly when the character is trivial or agrees with the specified character for some proof that two divides the order."
+    },
+    {
+      "temporary_id": "decl-003440",
+      "new_name": "auxiliaryPropertyForEvenCyclicCharacter",
+      "docstring": "The value constructed from the specified character for an even order satisfies the auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-003441",
+      "new_name": "auxiliaryPropertyForTrivialCyclicCharacter",
+      "docstring": "The value constructed from the trivial character of a positive-order finite cyclic group satisfies the auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-014765",
+      "new_name": "auxiliaryMatrixA",
+      "docstring": "An auxiliary two-by-two complex matrix."
+    },
+    {
+      "temporary_id": "decl-014767",
+      "new_name": "auxiliaryMatrixA_mul_auxiliaryMatrixB",
+      "docstring": "The product of the first auxiliary matrix with the second equals the second multiplied by the cube of the first."
+    },
+    {
+      "temporary_id": "decl-014768",
+      "new_name": "auxiliaryMatrixA_pow_eq_pow_of_natCast_eq",
+      "docstring": "Equal casts of natural exponents give equal powers of the first auxiliary matrix."
+    },
+    {
+      "temporary_id": "decl-014769",
+      "new_name": "auxiliaryMatrixA_pow_four",
+      "docstring": "The fourth power of the first auxiliary matrix is the identity."
+    },
+    {
+      "temporary_id": "decl-014770",
+      "new_name": "auxiliaryMatrixA_pow_mul_auxiliaryMatrixB",
+      "docstring": "Multiplying a power of the first auxiliary matrix by the second moves the second to the left and triples the exponent."
+    },
+    {
+      "temporary_id": "decl-014773",
+      "new_name": "auxiliaryTheoremC",
+      "docstring": "An auxiliary theorem."
+    },
+    {
+      "temporary_id": "decl-014774",
+      "new_name": "quaternionGroupMatrixMap",
+      "docstring": "A function from the quaternion group to two-by-two complex matrices."
+    },
+    {
+      "temporary_id": "decl-014778",
+      "new_name": "quaternionGroupMatrixHom",
+      "docstring": "A multiplicative homomorphism from the quaternion group to two-by-two complex matrices."
+    },
+    {
+      "temporary_id": "decl-014781",
+      "new_name": "auxiliaryMatrixB",
+      "docstring": "A second auxiliary two-by-two complex matrix."
+    },
+    {
+      "temporary_id": "decl-014783",
+      "new_name": "auxiliaryMatrixB_mul_pow_mul_auxiliaryMatrixB",
+      "docstring": "Sandwiching a power of the first auxiliary matrix between two copies of the second yields the indicated power of the first."
+    },
+    {
+      "temporary_id": "decl-014784",
+      "new_name": "auxiliaryMatrixB_sq",
+      "docstring": "The square of the second auxiliary matrix equals the square of the first."
+    },
+    {
+      "temporary_id": "decl-014785",
+      "new_name": "auxiliaryMatrixA_det",
+      "docstring": "The determinant of the first auxiliary matrix is one."
+    },
+    {
+      "temporary_id": "decl-014786",
+      "new_name": "auxiliaryMatrixB_det",
+      "docstring": "The determinant of the second auxiliary matrix is one."
+    },
+    {
+      "temporary_id": "decl-014787",
+      "new_name": "quaternionGroupTwoDimensionalRepresentation",
+      "docstring": "A two-dimensional complex representation of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-014793",
+      "new_name": "quaternionGroupTwoDimensionalRepresentation_apply",
+      "docstring": "The action of the two-dimensional quaternion representation is matrix-vector multiplication by its matrix homomorphism."
+    },
+    {
+      "temporary_id": "decl-014794",
+      "new_name": "quaternionGroupTwoDimensionalRepresentation_isSimple",
+      "docstring": "The specified two-dimensional complex representation of the quaternion group is simple."
+    },
+    {
+      "temporary_id": "decl-015547",
+      "new_name": "auxiliaryPermutationA_mul_auxiliaryPermutationB",
+      "docstring": "The product of the first auxiliary permutation with the second equals the second followed by two copies of the first."
+    },
+    {
+      "temporary_id": "decl-015548",
+      "new_name": "auxiliaryPermutationA_mul_inv_mul",
+      "docstring": "Multiplying the first auxiliary permutation by the inverse of the second and then by the second returns the first."
+    },
+    {
+      "temporary_id": "decl-015549",
+      "new_name": "auxiliaryPermutationA_sq_relation",
+      "docstring": "The square of the first auxiliary permutation equals the stated product involving the second permutation and its inverse."
+    },
+    {
+      "temporary_id": "decl-015550",
+      "new_name": "mem_invariantSubmodule_of_stable_under_auxiliaryPermutations",
+      "docstring": "A submodule stable under both auxiliary permutations is invariant under the representation."
+    },
+    {
+      "temporary_id": "decl-015551",
+      "new_name": "auxiliaryPermutations_closure",
+      "docstring": "The two auxiliary permutations generate the full symmetric group on three letters."
+    },
+    {
+      "temporary_id": "decl-015552",
+      "new_name": "auxiliaryPermutationA",
+      "docstring": "An auxiliary permutation of three elements."
+    },
+    {
+      "temporary_id": "decl-015553",
+      "new_name": "auxiliaryPermutationA_pow_three",
+      "docstring": "The cube of the first auxiliary permutation is the identity."
+    },
+    {
+      "temporary_id": "decl-015554",
+      "new_name": "auxiliaryPermutationA_ne_sq",
+      "docstring": "The first auxiliary permutation differs from its square."
+    },
+    {
+      "temporary_id": "decl-015555",
+      "new_name": "auxiliaryPermutationA_sq_sq",
+      "docstring": "The square of the square of the first auxiliary permutation equals that permutation."
+    },
+    {
+      "temporary_id": "decl-015556",
+      "new_name": "auxiliaryPermutationB",
+      "docstring": "A second auxiliary permutation of three elements."
+    },
+    {
+      "temporary_id": "decl-015557",
+      "new_name": "auxiliaryPermutationB_sq",
+      "docstring": "The square of the second auxiliary permutation is the identity."
+    },
+    {
+      "temporary_id": "decl-017115",
+      "new_name": "cyclicCharacterOfEvenOrder",
+      "docstring": "A complex-valued multiplicative character attached to a finite cyclic group of even order."
+    },
+    {
+      "temporary_id": "decl-017118",
+      "new_name": "cyclicCharacterOfEvenOrder_ne_one",
+      "docstring": "For an even order at least two, the associated cyclic character is nontrivial."
+    },
+    {
+      "temporary_id": "decl-017120",
+      "new_name": "auxiliaryTheoremD",
+      "docstring": "An auxiliary theorem."
+    },
+    {
+      "temporary_id": "decl-017212",
+      "new_name": "isConj_inv_in_alternatingGroupFive",
+      "docstring": "Every element of the alternating group on five letters is conjugate to its inverse."
+    },
+    {
+      "temporary_id": "decl-017725",
+      "new_name": "card_conjClasses_alternatingGroupFive",
+      "docstring": "The alternating group on five letters has five conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-019679",
+      "new_name": "auxiliaryInvariant_eq_of_character_eq",
+      "docstring": "Finite-dimensional complex representations with equal characters have equal auxiliary invariants."
+    },
+    {
+      "temporary_id": "decl-019690",
+      "new_name": "auxiliaryTheoremE",
+      "docstring": "An auxiliary theorem."
+    },
+    {
+      "temporary_id": "decl-020875",
+      "new_name": "auxiliaryPropertyOfEvenDimensionalSimpleAlternatingFiveRepresentation",
+      "docstring": "A simple even-dimensional representation of the alternating group on five letters whose character is invariant under inversion has the auxiliary property."
+    },
+    {
+      "temporary_id": "decl-021805",
+      "new_name": "auxiliaryTheoremF",
+      "docstring": "An auxiliary theorem."
+    },
+    {
+      "temporary_id": "decl-021806",
+      "new_name": "auxiliaryTheoremG",
+      "docstring": "An auxiliary theorem."
+    },
+    {
+      "temporary_id": "decl-021807",
+      "new_name": "isSimpleModule_representationOnComplex",
+      "docstring": "Every complex representation on the complex numbers is simple as a module over the group algebra."
+    },
+    {
+      "temporary_id": "decl-021808",
+      "new_name": "auxiliaryTheoremH",
+      "docstring": "An auxiliary theorem."
+    },
+    {
+      "temporary_id": "decl-024693",
+      "new_name": "auxiliarySymmetricGroupCoefficient_im_eq_zero",
+      "docstring": "Every coefficient of the specified symmetric-group algebra element has zero imaginary part."
+    },
+    {
+      "temporary_id": "decl-032748",
+      "new_name": "coefficientPairing",
+      "docstring": "A linear pairing from a finite monoid algebra to its linear dual."
+    },
+    {
+      "temporary_id": "decl-032754",
+      "new_name": "coefficientPairing_apply",
+      "docstring": "The coefficient pairing is the sum of pointwise products of coefficients."
+    },
+    {
+      "temporary_id": "decl-032755",
+      "new_name": "coefficientPairing_mul_single_left",
+      "docstring": "Left multiplication of both arguments by the same group element preserves the coefficient pairing."
+    },
+    {
+      "temporary_id": "decl-032756",
+      "new_name": "coefficientPairing_self_ne_zero_of_coeff_im_eq_zero",
+      "docstring": "A nonzero group-algebra element with real coefficients has nonzero self-pairing."
+    },
+    {
+      "temporary_id": "decl-032757",
+      "new_name": "coefficientPairing_comm",
+      "docstring": "The coefficient pairing is symmetric."
+    },
+    {
+      "temporary_id": "decl-032826",
+      "new_name": "monoidAlgebraCoeFunToCoeff",
+      "docstring": "A function coercion that evaluates a monoid-algebra element at a coefficient index."
+    },
+    {
+      "temporary_id": "decl-032916",
+      "new_name": "auxiliaryPropertyOfEquivariantMapWithNonzeroRealImage",
+      "docstring": "A simple representation has the auxiliary property when an equivariant map sends some vector to a nonzero group-algebra element with real coefficients."
+    }
+  ]
+}

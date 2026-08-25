@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1081",
+  "associations": [
+    {
+      "association_id": "association:0d28442f0a2bbbe54146",
+      "role": "primary",
+      "rationale": "The formal type directly states that an additive functor from a semisimple abelian category maps every short exact complex to a short exact complex."
+    }
+  ]
+}

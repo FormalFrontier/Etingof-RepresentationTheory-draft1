@@ -1,0 +1,134 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommSemiring.{u_1} k] \u2192\n    {\u0393 : Type u_2} \u2192\n      {M : Type u_3} \u2192\n        [inst_1 : Monoid.{u_2} \u0393] \u2192\n          [inst_2 : AddCommGroup.{u_3} M] \u2192\n            [inst_3 : Module.{u_1, u_3} k M] \u2192 Representation.{u_1, u_2, u_3} k \u0393 M \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3444510028",
+      "temporary_id": "decl-005201"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] [IsAlgClosed.{u_2} k] {G : Type u_3} {H : Type u_4} [inst_2 : Group.{u_3} G]\n  [inst_3 : Group.{u_4} H],\n  And\n    (\u2200 {V W : Type u} [inst_4 : AddCommGroup.{u} V] [inst_5 : Module.{u_2, u} k V] [FiniteDimensional.{u_2, u} k V]\n      [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u_2, u} k W] [FiniteDimensional.{u_2, u} k W]\n      (\u03c1 : Representation.{u_2, u_3, u} k G V) (\u03c3 : Representation.{u_2, u_4, u} k H W),\n      decl-005201.{u_2, u_3, u} \u03c1 \u2192\n        decl-005201.{u_2, u_4, u} \u03c3 \u2192\n          decl-005201.{u_2, max u_3 u_4, u} (decl-019234.{u_2, u_3, u_4, u, u} \u03c1 \u03c3))\n    (\u2200 {M : Type u} [inst_4 : AddCommGroup.{u} M] [inst_5 : Module.{u_2, u} k M] [FiniteDimensional.{u_2, u} k M]\n      (\u03c4 : Representation.{u_2, max u_4 u_3, u} k (Prod.{u_3, u_4} G H) M),\n      decl-005201.{u_2, max u_3 u_4, u} \u03c4 \u2192\n        Exists.{u + 2} fun V =>\n          Exists.{u + 2} fun W =>\n            Exists.{u + 1} fun x =>\n              Exists.{max (u + 1) (u_2 + 1)} fun x_1 =>\n                Exists.{0} fun x_2 =>\n                  Exists.{u + 1} fun x_3 =>\n                    Exists.{max (u + 1) (u_2 + 1)} fun x_4 =>\n                      Exists.{0} fun x_5 =>\n                        Exists.{max (u + 1) (u_3 + 1)} fun \u03c1 =>\n                          Exists.{max (u + 1) (u_4 + 1)} fun \u03c3 =>\n                            And (decl-005201.{u_2, u_3, u} \u03c1)\n                              (And (decl-005201.{u_2, u_4, u} \u03c3)\n                                (Exists.{u + 1} fun e =>\n                                  \u2200 (gh : Prod.{u_3, u_4} G H) (m : M),\n                                    Eq.{u + 1}\n                                      (DFunLike.coe.{u + 1, u + 1, u + 1} e\n                                        (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                          (DFunLike.coe.{max (max (u + 1) (u_3 + 1)) (u_4 + 1), max (u_3 + 1) (u_4 + 1),\n                                              u + 1}\n                                            \u03c4 gh)\n                                          m))\n                                      (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                        (DFunLike.coe.{max (max (u + 1) (u_3 + 1)) (u_4 + 1), max (u_3 + 1) (u_4 + 1),\n                                            u + 1}\n                                          (decl-019234.{u_2, u_3, u_4, u, u} \u03c1 \u03c3) gh)\n                                        (DFunLike.coe.{u + 1, u + 1, u + 1} e m)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005201",
+        "decl-019234"
+      ],
+      "structural_type_hash": "3849464635",
+      "temporary_id": "decl-016653"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] [IsAlgClosed.{u_2} k] {G : Type u_3} {H : Type u_4} [inst_2 : Group.{u_3} G]\n  [inst_3 : Group.{u_4} H] {M : Type u} [inst_4 : AddCommGroup.{u} M] [inst_5 : Module.{u_2, u} k M]\n  [FiniteDimensional.{u_2, u} k M] (\u03c4 : Representation.{u_2, max u_4 u_3, u} k (Prod.{u_3, u_4} G H) M),\n  decl-005201.{u_2, max u_3 u_4, u} \u03c4 \u2192\n    Exists.{u + 2} fun V =>\n      Exists.{u + 2} fun W =>\n        Exists.{u + 1} fun x =>\n          Exists.{max (u + 1) (u_2 + 1)} fun x_1 =>\n            Exists.{0} fun x_2 =>\n              Exists.{u + 1} fun x_3 =>\n                Exists.{max (u + 1) (u_2 + 1)} fun x_4 =>\n                  Exists.{0} fun x_5 =>\n                    Exists.{max (u + 1) (u_3 + 1)} fun \u03c1 =>\n                      Exists.{max (u + 1) (u_4 + 1)} fun \u03c3 =>\n                        And (decl-005201.{u_2, u_3, u} \u03c1)\n                          (And (decl-005201.{u_2, u_4, u} \u03c3)\n                            (Exists.{u + 1} fun e =>\n                              \u2200 (gh : Prod.{u_3, u_4} G H) (m : M),\n                                Eq.{u + 1}\n                                  (DFunLike.coe.{u + 1, u + 1, u + 1} e\n                                    (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                      (DFunLike.coe.{max (max (u + 1) (u_3 + 1)) (u_4 + 1), max (u_3 + 1) (u_4 + 1),\n                                          u + 1}\n                                        \u03c4 gh)\n                                      m))\n                                  (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                    (DFunLike.coe.{max (max (u + 1) (u_3 + 1)) (u_4 + 1), max (u_3 + 1) (u_4 + 1),\n                                        u + 1}\n                                      (decl-019234.{u_2, u_3, u_4, u, u} \u03c1 \u03c3) gh)\n                                    (DFunLike.coe.{u + 1, u + 1, u + 1} e m))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005201",
+        "decl-019234"
+      ],
+      "structural_type_hash": "1150522783",
+      "temporary_id": "decl-018834"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommSemiring.{u_1} k] \u2192\n    {G : Type u_2} \u2192\n      {H : Type u_3} \u2192\n        {V : Type u_4} \u2192\n          {W : Type u_5} \u2192\n            [inst_1 : Monoid.{u_2} G] \u2192\n              [inst_2 : Monoid.{u_3} H] \u2192\n                [inst_3 : AddCommMonoid.{u_4} V] \u2192\n                  [inst_4 : Module.{u_1, u_4} k V] \u2192\n                    [inst_5 : AddCommMonoid.{u_5} W] \u2192\n                      [inst_6 : Module.{u_1, u_5} k W] \u2192\n                        Representation.{u_1, u_2, u_4} k G V \u2192\n                          Representation.{u_1, u_3, u_5} k H W \u2192\n                            Representation.{u_1, max u_3 u_2, max u_5 u_4} k (Prod.{u_2, u_3} G H)\n                              (TensorProduct.{u_1, u_4, u_5} k V W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3611951594",
+      "temporary_id": "decl-019234"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommSemiring.{u_1} k] {G : Type u_2} {H : Type u_3} {V : Type u_4} {W : Type u_5}\n  [inst_1 : Monoid.{u_2} G] [inst_2 : Monoid.{u_3} H] [inst_3 : AddCommMonoid.{u_4} V] [inst_4 : Module.{u_1, u_4} k V]\n  [inst_5 : AddCommMonoid.{u_5} W] [inst_6 : Module.{u_1, u_5} k W] (\u03c1 : Representation.{u_1, u_2, u_4} k G V)\n  (\u03c3 : Representation.{u_1, u_3, u_5} k H W) (gh : Prod.{u_2, u_3} G H),\n  Eq.{max (u_4 + 1) (u_5 + 1)}\n    (DFunLike.coe.{max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) (u_5 + 1), max (u_2 + 1) (u_3 + 1),\n        max (u_4 + 1) (u_5 + 1)}\n      (decl-019234.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u03c3) gh)\n    (TensorProduct.map.{u_1, u_1, u_4, u_5, u_4, u_5}\n      (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} \u03c1 (Prod.fst.{u_2, u_3} gh))\n      (DFunLike.coe.{max (u_3 + 1) (u_5 + 1), u_3 + 1, u_5 + 1} \u03c3 (Prod.snd.{u_2, u_3} gh)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019234"
+      ],
+      "structural_type_hash": "3964393862",
+      "temporary_id": "decl-019237"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] [IsAlgClosed.{u_2} k] {G : Type u_3} {H : Type u_4} [inst_2 : Group.{u_3} G]\n  [inst_3 : Group.{u_4} H] {V : Type u_5} {W : Type u_6} [inst_4 : AddCommGroup.{u_5} V]\n  [inst_5 : Module.{u_2, u_5} k V] [FiniteDimensional.{u_2, u_5} k V] [inst_7 : AddCommGroup.{u_6} W]\n  [inst_8 : Module.{u_2, u_6} k W] [FiniteDimensional.{u_2, u_6} k W] {\u03c1 : Representation.{u_2, u_3, u_5} k G V}\n  {\u03c3 : Representation.{u_2, u_4, u_6} k H W},\n  decl-005201.{u_2, u_3, u_5} \u03c1 \u2192\n    decl-005201.{u_2, u_4, u_6} \u03c3 \u2192\n      decl-005201.{u_2, max u_3 u_4, max u_5 u_6} (decl-019234.{u_2, u_3, u_4, u_5, u_6} \u03c1 \u03c3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005201",
+        "decl-019234"
+      ],
+      "structural_type_hash": "2998728863",
+      "temporary_id": "decl-019238"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} {G : Type u_3} {V : Type u_4} [inst : Field.{u_2} k] [inst_1 : Monoid.{u_3} G]\n  [inst_2 : AddCommGroup.{u_4} V] [inst_3 : Module.{u_2, u_4} k V]\n  [inst_4 : Module.{max u_3 u_2, u_4} (MonoidAlgebra.{u_2, u_3} k G) V]\n  [inst_5 : IsScalarTower.{u_2, max u_3 u_2, u_4} k (MonoidAlgebra.{u_2, u_3} k G) V]\n  [IsSimpleModule.{max u_3 u_2, u_4} (MonoidAlgebra.{u_2, u_3} k G) V],\n  decl-005201.{u_2, u_3, u_4} decl-021791.{u_2, u_3, u_4}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005201",
+        "decl-021791"
+      ],
+      "structural_type_hash": "164046619",
+      "temporary_id": "decl-020846"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} {\u0393 : Type u_3} {M : Type u_4} [inst : Field.{u_2} k] [inst_1 : Monoid.{u_3} \u0393]\n  [inst_2 : AddCommGroup.{u_4} M] [inst_3 : Module.{u_2, u_4} k M] {\u03c1 : Representation.{u_2, u_3, u_4} k \u0393 M},\n  decl-005201.{u_2, u_3, u_4} \u03c1 \u2192\n    IsSimpleModule.{max u_3 u_2, u_4} (MonoidAlgebra.{u_2, u_3} k \u0393) (Representation.asModule.{u_2, u_3, u_4} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005201"
+      ],
+      "structural_type_hash": "2398306",
+      "temporary_id": "decl-020903"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} {G : Type u_3} {V : Type u_4} [inst : CommSemiring.{u_2} k] [inst_1 : Monoid.{u_3} G]\n  [inst_2 : AddCommGroup.{u_4} V] [inst_3 : Module.{u_2, u_4} k V]\n  [inst_4 : Module.{max u_3 u_2, u_4} (MonoidAlgebra.{u_2, u_3} k G) V]\n  [inst_5 : IsScalarTower.{u_2, max u_3 u_2, u_4} k (MonoidAlgebra.{u_2, u_3} k G) V] (g : G),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (u_4 + 1) ((max u_3 u_2) + 1), (max u_3 u_2) + 1, u_4 + 1}\n      (Algebra.lsmul.{u_2, max u_3 u_2, u_2, u_4} k k V) (MonoidAlgebra.single.{u_2, u_3} g 1))\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} decl-021791.{u_2, u_3, u_4} g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021791"
+      ],
+      "structural_type_hash": "3881499800",
+      "temporary_id": "decl-021527"
+    },
+    {
+      "formal_type": "{k : Type u_2} \u2192\n  {G : Type u_3} \u2192\n    {V : Type u_4} \u2192\n      [inst : CommSemiring.{u_2} k] \u2192\n        [inst_1 : Monoid.{u_3} G] \u2192\n          [inst_2 : AddCommGroup.{u_4} V] \u2192\n            [inst_3 : Module.{u_2, u_4} k V] \u2192\n              [inst_4 : Module.{max u_3 u_2, u_4} (MonoidAlgebra.{u_2, u_3} k G) V] \u2192\n                [IsScalarTower.{u_2, max u_3 u_2, u_4} k (MonoidAlgebra.{u_2, u_3} k G) V] \u2192\n                  Representation.{u_2, u_3, u_4} k G V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2726654521",
+      "temporary_id": "decl-021791"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} {G : Type u_3} {V : Type u_4} [inst : CommSemiring.{u_2} k] [inst_1 : Monoid.{u_3} G]\n  [inst_2 : AddCommGroup.{u_4} V] [inst_3 : Module.{u_2, u_4} k V]\n  [inst_4 : Module.{max u_3 u_2, u_4} (MonoidAlgebra.{u_2, u_3} k G) V]\n  [inst_5 : IsScalarTower.{u_2, max u_3 u_2, u_4} k (MonoidAlgebra.{u_2, u_3} k G) V] (g : G) (v : V),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1}\n      (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} decl-021791.{u_2, u_3, u_4} g) v)\n    (HSMul.hSMul.{max u_2 u_3, u_4, u_4} (MonoidAlgebra.single.{u_2, u_3} g 1) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021791"
+      ],
+      "structural_type_hash": "1937619256",
+      "temporary_id": "decl-021801"
+    }
+  ],
+  "module_temporary_id": "module-0478",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

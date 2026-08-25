@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:54612e142055e1665085",
+      "declaration": "toDualHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {r : Nat} \u2192\n      {d : Fin r \u2192 Nat} \u2192\n        {X : Type u_2} \u2192\n          [inst_1 : AddCommGroup.{u_2} X] \u2192\n            [inst_2 : Module.{u_1, u_2} k X] \u2192\n              [inst_3 : Module.{u_1, u_2} (MatProd.{u_1} k d) X] \u2192\n                [inst_4 : IsScalarTower.{u_1, u_1, u_2} k (MatProd.{u_1} k d) X] \u2192\n                  {n : Nat} \u2192\n                    Module.Basis.{0, u_1, max u_2 u_1} (Fin n) k (Module.Dual.{u_1, u_2} k X) \u2192\n                      LinearMap.{u_1, u_1, u_1, max u_2 u_1} (RingHom.id.{u_1} (MatProd.{u_1} k d))\n                        (Fin n \u2192 MatProd.{u_1} k d) (Module.Dual.{u_1, u_2} k X)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    },
+    {
+      "association_id": "association:bd0be8ffcf875ccce70c",
+      "declaration": "toDualHom_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {r : Nat} {d : Fin r \u2192 Nat} {X : Type u_2} [inst_1 : AddCommGroup.{u_2} X]\n  [inst_2 : Module.{u_1, u_2} k X] [inst_3 : Module.{u_1, u_2} (MatProd.{u_1} k d) X]\n  [inst_4 : IsScalarTower.{u_1, u_1, u_2} k (MatProd.{u_1} k d) X] {n : Nat}\n  (yb : Module.Basis.{0, u_1, max u_2 u_1} (Fin n) k (Module.Dual.{u_1, u_2} k X)) (a : Fin n \u2192 MatProd.{u_1} k d),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)} (toDualHom.{u_1, u_2} yb) a)\n    (Finset.sum.{0, max u_1 u_2} Finset.univ.{0} fun l =>\n      HSMul.hSMul.{u_1, max u_1 u_2, max u_1 u_2} (a l)\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), 1, max (u_1 + 1) (u_2 + 1)} yb l))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.3.1",
+  "packet_id": "align-1061",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1061"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:cf785cc092d4a0d97f87",
+  "source_text": "A basis y_l of X* defines the A-linear map \u03c6 : A^n \u2192 X* by \u03c6(a) = \u2211_l a_l y_l."
+}

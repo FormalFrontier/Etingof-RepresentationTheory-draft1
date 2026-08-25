@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0829",
+  "associations": [
+    {
+      "association_id": "association:ac04e981a80fb472621c",
+      "role": "primary",
+      "rationale": "For every projective right A-module M, the type directly concludes Etingof.IsFlat A M, matching the stated exact-functor flatness claim."
+    }
+  ]
+}

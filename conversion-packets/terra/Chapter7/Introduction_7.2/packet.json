@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Introduction_7.2",
+    "kind": "introduction",
+    "title": "Section 7.2: Functors",
+    "node_id": "chapter-07/section-7-2",
+    "order": 474,
+    "slug": "introduction-7-2",
+    "span": {
+      "start": {
+        "page": "183",
+        "line": 11
+      },
+      "end": {
+        "page": "183",
+        "line": 14
+      }
+    },
+    "source_sha256": "b041432e8ee73e4739f45b710c5fbe33e1423e091053e14513c95805f9469ace",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction72",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

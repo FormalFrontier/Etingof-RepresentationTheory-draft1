@@ -1,0 +1,111 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cebb79fa4f2d76b70d33",
+      "declaration": "Etingof.Problem_2_15_1_f",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (lam : Nat) {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V]\n  [inst_3 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V]\n  [LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V],\n  Eq.{1} (Module.finrank.{0, u_1} Complex V) (HAdd.hAdd.{0, 0, 0} lam 1) \u2192\n    LieModule.IsIrreducible.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V \u2192\n      Nonempty.{max 1 (u_1 + 1)}\n        (LieModuleEquiv.{0, 0, u_1, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V\n          (Fin (HAdd.hAdd.{0, 0, 0} lam 1) \u2192 Complex))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_1"
+    },
+    {
+      "association_id": "association:a478de6f68de83364dcb",
+      "declaration": "Etingof.Sl2Irrep.irrep_finrank",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (d : Nat) [NeZero.{0} d], Eq.{1} (Module.finrank.{0, 0} Complex (Fin d \u2192 Complex)) d",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    },
+    {
+      "association_id": "association:f54038899594abe037bb",
+      "declaration": "Etingof.Sl2Irrep.irrep_isIrreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (d : Nat) [NeZero.{0} d],\n  LieModule.IsIrreducible.{0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) (Fin d \u2192 Complex)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    },
+    {
+      "association_id": "association:692e417f6585b31bed17",
+      "declaration": "Etingof.Sl2Irrep.lie_sl2_e_e_basis",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (d i : Nat) (hi : LT.lt.{0} i d),\n  Eq.{1} (Bracket.bracket.{0, 0} Etingof.Sl2Irrep.sl2_e (Etingof.Sl2Irrep.e_basis d \u27e8i, hi\u27e9))\n    (HSMul.hSMul.{0, 0, 0} (Nat.cast.{0} i) (Etingof.Sl2Irrep.e_basis d \u27e8HSub.hSub.{0, 0, 0} i 1, \u22ef\u27e9))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    },
+    {
+      "association_id": "association:8b9cc520976b7f832e53",
+      "declaration": "Etingof.Sl2Irrep.lie_sl2_f_e_basis",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (d i : Nat) (hi : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} i 1) d),\n  Eq.{1} (Bracket.bracket.{0, 0} Etingof.Sl2Irrep.sl2_f (Etingof.Sl2Irrep.e_basis d \u27e8i, \u22ef\u27e9))\n    (HSMul.hSMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Nat.cast.{0} d) 1) (Nat.cast.{0} i))\n      (Etingof.Sl2Irrep.e_basis d \u27e8HAdd.hAdd.{0, 0, 0} i 1, hi\u27e9))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    },
+    {
+      "association_id": "association:6dbb25c446e5fad72b85",
+      "declaration": "Etingof.Sl2Irrep.lie_sl2_f_e_basis_top",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (d i : Nat) (hi : LT.lt.{0} i d),\n  Eq.{1} (HAdd.hAdd.{0, 0, 0} i 1) d \u2192\n    Eq.{1} (Bracket.bracket.{0, 0} Etingof.Sl2Irrep.sl2_f (Etingof.Sl2Irrep.e_basis d \u27e8i, hi\u27e9)) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    },
+    {
+      "association_id": "association:b7c71b1475a1c59233f9",
+      "declaration": "Etingof.Sl2Irrep.lie_sl2_h_e_basis",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (d : Nat) (i : Fin d),\n  Eq.{1} (Bracket.bracket.{0, 0} Etingof.Sl2Irrep.sl2_h (Etingof.Sl2Irrep.e_basis d i))\n    (HSMul.hSMul.{0, 0, 0}\n      (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Nat.cast.{0} d) 1) (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} i.val)))\n      (Etingof.Sl2Irrep.e_basis d i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.15.1",
+  "packet_id": "align-0531",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0531"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.15.1:claim-07",
+  "source_text": "Part (f): for every positive N there is a unique N-dimensional irreducible sl(2)-module, with explicit E, F, H matrices in a standard basis."
+}

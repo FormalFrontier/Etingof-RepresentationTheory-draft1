@@ -1,0 +1,20 @@
+{
+  "module_name": "AuxiliarySubgroupFunctions",
+  "declarations": [
+    {
+      "temporary_id": "decl-016601",
+      "new_name": "auxiliary_cover_iff_character_mem_span",
+      "docstring": "For a conjugation-stable family of subgroups, the auxiliary covering condition is equivalent to character membership in the displayed span."
+    },
+    {
+      "temporary_id": "decl-020539",
+      "new_name": "auxiliaryFunction",
+      "docstring": "An auxiliary complex-valued function on a finite group constructed from a subgroup function."
+    },
+    {
+      "temporary_id": "decl-020541",
+      "new_name": "auxiliaryFunction_eq_sum_character",
+      "docstring": "The auxiliary subgroup function is expressed as a finite sum of displayed characters with multiplicity coefficients."
+    }
+  ]
+}

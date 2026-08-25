@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:271bc3fb9c18b54d3ee1",
+      "declaration": "Etingof.Lemma5_4_7",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/277/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type) [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (p : Nat),\n  Nat.Prime p \u2192\n    \u2200 (k : Nat),\n      LT.lt.{0} 0 k \u2192\n        \u2200 (g : G),\n          Eq.{1} (Fintype.card.{0} (Subtype.{1} fun h => IsConj.{0} g h)) (HPow.hPow.{0, 0, 0} p k) \u2192\n            Exists.{2} fun V =>\n              And (CategoryTheory.Simple.{0, 1} V)\n                (And\n                  (Not\n                    (Nonempty.{1}\n                      (CategoryTheory.Iso.{0, 1} V\n                        (FDRep.of.{0, 0} (Representation.trivial.{0, 0, 0} Complex G Complex)))))\n                  (And\n                    (Not\n                      (Dvd.dvd.{0} p\n                        (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V)))))\n                    (Ne.{1} (FDRep.character.{0, 0} V g) 0)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_4_7"
+    }
+  ],
+  "canonical_reference": "Chapter5/Lemma5.4.7",
+  "packet_id": "align-0174",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0174"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:35bec65139a10634560d",
+  "source_text": "There is a nontrivial irreducible V with p not dividing dim(V) and chi_V(g) nonzero."
+}

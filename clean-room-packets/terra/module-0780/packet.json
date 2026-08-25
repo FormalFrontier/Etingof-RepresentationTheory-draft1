@@ -1,0 +1,100 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C] {X : C},\n  decl-004727.{u_1, u_2} X \u2192 FiniteDimensionalOrder.{max u_1 u_2} (CategoryTheory.Subobject.{u_2, u_1} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004727"
+      ],
+      "structural_type_hash": "1942482320",
+      "temporary_id": "decl-019393"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C] (X : C),\n  IsModularLattice.{max u_1 u_2} (CategoryTheory.Subobject.{u_2, u_1} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1635898693",
+      "temporary_id": "decl-020856"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C] {X Y : C}\n  (f : Quiver.Hom.{u_2, u_1} X Y) [inst_2 : CategoryTheory.Mono.{u_2, u_1} f]\n  (P : CategoryTheory.Subobject.{u_2, u_1} Y),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (CategoryTheory.Functor.obj.{max u_1 u_2, max u_1 u_2, max u_1 u_2, max u_1 u_2}\n      (CategoryTheory.Subobject.map.{u_2, u_1} f)\n      (CategoryTheory.Functor.obj.{max u_1 u_2, max u_1 u_2, max u_1 u_2, max u_1 u_2}\n        (CategoryTheory.Subobject.pullback.{u_2, u_1} f) P))\n    (Min.min.{max u_1 u_2} P (CategoryTheory.Subobject.mk.{u_2, u_1} f))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1913144431",
+      "temporary_id": "decl-021548"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C] {X Y : C}\n  (g : Quiver.Hom.{u_2, u_1} X Y) (P : CategoryTheory.Subobject.{u_2, u_1} X),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (CategoryTheory.Functor.obj.{max u_1 u_2, max u_1 u_2, max u_1 u_2, max u_1 u_2}\n      (CategoryTheory.Subobject.pullback.{u_2, u_1} g)\n      (CategoryTheory.Functor.obj.{max u_1 u_2, max u_1 u_2, max u_1 u_2, max u_1 u_2}\n        (CategoryTheory.Subobject.exists.{u_2, u_1} g) P))\n    (Max.max.{max u_1 u_2} P (CategoryTheory.Limits.kernelSubobject.{u_2, u_1} g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1722649394",
+      "temporary_id": "decl-022217"
+    },
+    {
+      "formal_type": "\u2200 (\u03b3 : Type u_3) [inst : Preorder.{u_3} \u03b3] [Finite.{u_3 + 1} \u03b3] [Nonempty.{u_3 + 1} \u03b3], FiniteDimensionalOrder.{u_3} \u03b3",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1382566222",
+      "temporary_id": "decl-025230"
+    },
+    {
+      "formal_type": "\u2200 {\u03b1 : Type u_1} {\u03b2 : Type u_2} [inst : Preorder.{u_1} \u03b1] [inst_1 : Preorder.{u_2} \u03b2] (e : OrderIso.{u_1, u_2} \u03b1 \u03b2)\n  [FiniteDimensionalOrder.{u_2} \u03b2], FiniteDimensionalOrder.{u_1} \u03b1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2686123757",
+      "temporary_id": "decl-025232"
+    },
+    {
+      "formal_type": "\u2200 {\u03b1 : Type u_1} {\u03b2 : Type u_2} [inst : Preorder.{u_1} \u03b1] [inst_1 : Preorder.{u_2} \u03b2] {f : \u03b1 \u2192 \u03b2},\n  StrictMono.{u_1, u_2} f \u2192 \u2200 [FiniteDimensionalOrder.{u_2} \u03b2] [Nonempty.{u_1 + 1} \u03b1], FiniteDimensionalOrder.{u_1} \u03b1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1210244825",
+      "temporary_id": "decl-025233"
+    },
+    {
+      "formal_type": "\u2200 {\u03b1 : Type u_1} {\u03b2 : Type u_2} [inst : Preorder.{u_1} \u03b1] [inst_1 : Preorder.{u_2} \u03b2] [FiniteDimensionalOrder.{u_1} \u03b1]\n  [FiniteDimensionalOrder.{u_2} \u03b2], FiniteDimensionalOrder.{max u_2 u_1} (Prod.{u_1, u_2} \u03b1 \u03b2)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3401343862",
+      "temporary_id": "decl-025234"
+    },
+    {
+      "formal_type": "\u2200 {\u03b1 : Type u_1} [inst : Preorder.{u_1} \u03b1] [FiniteDimensionalOrder.{u_1} \u03b1] (x : \u03b1),\n  LT.lt.{0} (Order.height.{u_1} x) Top.top.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2047453564",
+      "temporary_id": "decl-025238"
+    }
+  ],
+  "module_temporary_id": "module-0780",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

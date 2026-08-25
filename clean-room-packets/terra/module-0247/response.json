@@ -1,0 +1,65 @@
+{
+  "module_name": "FiniteGroup.CharacterColumnOrthogonality",
+  "declarations": [
+    {
+      "temporary_id": "decl-016506",
+      "new_name": "FiniteGroup.sum_complete_simple_characters_mul_inv",
+      "docstring": "For a complete pairwise nonisomorphic family of simple representations, the sum of the character values at g times those at the inverse of h is the centralizer order when g and h are conjugate and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-025054",
+      "new_name": "character_eq_matrixTrace",
+      "docstring": "The character of the i-th indexed representation at g is the trace of the matrix produced by the displayed auxiliary map from the group-algebra element supported at g."
+    },
+    {
+      "temporary_id": "decl-025056",
+      "new_name": "simpleRepresentatives_spec",
+      "docstring": "The indexed family consists of simple representations, has no isomorphic members at distinct indices, and contains a representative of every simple finite-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-032698",
+      "new_name": "FiniteGroup.card_conjugators_eq_ite_isConj",
+      "docstring": "The number of elements conjugating g to h is the order of the centralizer of g when g and h are conjugate, and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-032699",
+      "new_name": "FiniteGroup.card_conjugators_eq_card_centralizer",
+      "docstring": "When g and h are conjugate, the number of elements conjugating g to h equals the order of the centralizer of g."
+    },
+    {
+      "temporary_id": "decl-032707",
+      "new_name": "FiniteGroup.card_mul_mul_inv_fixed_eq_card_conjugators",
+      "docstring": "The number of x satisfying g * x * h⁻¹ = x equals the number of x satisfying x * g * x⁻¹ = h."
+    },
+    {
+      "temporary_id": "decl-032722",
+      "new_name": "FiniteGroup.sum_auxiliaryFamily_characters_mul_inv",
+      "docstring": "The sum over the displayed auxiliary family of the character at g times the character at h⁻¹ is the centralizer order when g and h are conjugate and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-032732",
+      "new_name": "FiniteGroup.centralizerEquivConjugators",
+      "docstring": "A chosen element conjugating g to h induces an equivalence between the centralizer of g and the subtype of elements conjugating g to h."
+    },
+    {
+      "temporary_id": "decl-032746",
+      "new_name": "FiniteGroup.conjugators_eq_empty_of_not_isConj",
+      "docstring": "If g and h are not conjugate, the finite set of elements conjugating g to h is empty."
+    },
+    {
+      "temporary_id": "decl-033004",
+      "new_name": "FiniteGroup.sum_characterProducts_eq_of_complete_simple_families",
+      "docstring": "The sum of products of character values is independent of the choice of complete pairwise nonisomorphic family of simple finite-dimensional representations."
+    },
+    {
+      "temporary_id": "decl-033019",
+      "new_name": "MonoidAlgebra.trace_mulLeftRight_eq_sum_matrixTrace_mul",
+      "docstring": "The trace of simultaneous left and right multiplication by group-algebra elements a and b equals the sum of products of traces of the indexed matrices produced by the displayed auxiliary map."
+    },
+    {
+      "temporary_id": "decl-033022",
+      "new_name": "MonoidAlgebra.trace_mulLeftRight_single_inv",
+      "docstring": "For group elements g and h, the trace of left-right multiplication by their group-algebra elements at g and h⁻¹ is the centralizer order when they are conjugate and zero otherwise."
+    }
+  ]
+}

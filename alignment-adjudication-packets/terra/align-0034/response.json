@@ -1,0 +1,7 @@
+{
+  "packet_id": "align-0034",
+  "associations": [
+    {"association_id": "association:02fd21181624fb38383e", "role": "primary", "rationale": "Under the stated semisimplicity hypothesis, this lemma directly proves the required radical inclusion in radTensorSum."},
+    {"association_id": "association:e2b9c811ca2781ba7bfa", "role": "primary", "rationale": "This theorem directly states the completed equality for the Jacobson radical of the tensor product."}
+  ]
+}

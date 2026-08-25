@@ -1,0 +1,575 @@
+name: Update formalization dependency
+
+on:
+  repository_dispatch:
+    types: [formalization-updated]
+
+permissions:
+  contents: read
+
+# Public revisions can finish CI out of order. Serializing dependency updates and
+# cancelling a superseded one keeps a slower older revision from landing after a
+# newer one and regressing the pin.
+concurrency:
+  group: update-formalization
+  cancel-in-progress: true
+
+env:
+  FORMALIZATION_REPO: mathlib-initiative/EtingofRepresentationTheory
+  FORMALIZATION_RELEASE_PREFIX: formalization-cache-
+
+jobs:
+  prepare_update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - name: Reclaim hosted-runner disk space
+        run: |
+          df -h /
+          sudo rm -rf -- /usr/local/lib/android
+          sudo rm -rf -- /usr/share/dotnet
+          sudo rm -rf -- /opt/ghc
+          sudo rm -rf -- /usr/local/.ghcup
+          sudo rm -rf -- /opt/hostedtoolcache/CodeQL
+          df -h /
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Validate the dispatched public revision
+        id: revision
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REVISION: ${{ github.event.client_payload.sha }}
+        run: |
+          python3 - "$REVISION" <<'PY'
+          import re
+          import sys
+
+          if re.fullmatch(r"[0-9a-f]{40}", sys.argv[1]) is None:
+              raise SystemExit("dispatched formalization revision is not exact lowercase 40-hex")
+          PY
+          current_main=$(gh api \
+            "repos/$FORMALIZATION_REPO/git/ref/heads/main" \
+            --jq .object.sha)
+          if test "$REVISION" != "$current_main"; then
+            echo "::error::Refusing stale revision $REVISION; public main is $current_main."
+            exit 1
+          fi
+          echo "revision=$REVISION" >> "$GITHUB_OUTPUT"
+      - name: Update the pinned public revision and bootstrap Lake
+        env:
+          FORMALIZATION_SHA: ${{ steps.revision.outputs.revision }}
+        run: |
+          python3 scripts/update_formalization_dependency.py "$FORMALIZATION_SHA"
+          elan_init="$RUNNER_TEMP/elan-init.sh"
+          curl --fail --location --silent --show-error \
+            --proto '=https' --tlsv1.2 \
+            --output "$elan_init" \
+            https://raw.githubusercontent.com/leanprover/elan/464c9d28395000a2a0128e07081e4956d50eced2/elan-init.sh
+          echo "a620ff1641616222c8d37c54845492004bb84d6877cdbc944dd65c1aa685bf53  $elan_init" |
+            sha256sum --check --strict -
+          sh "$elan_init" -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/lake" update
+      - name: Derive the stable Mathlib native cache identity
+        id: mathlib-ir-key
+        env:
+          RUNNER_OS_VALUE: ${{ runner.os }}
+          RUNNER_ARCH_VALUE: ${{ runner.arch }}
+        run: |
+          key_base=$(python3 scripts/mathlib_ir_cache_key.py \
+            "$RUNNER_OS_VALUE" "$RUNNER_ARCH_VALUE")
+          printf 'key-base=%s\n' "$key_base" >> "$GITHUB_OUTPUT"
+      # The dispatching revision has already been built and published by the
+      # public repository, so this job replays its artifact cache payload rather
+      # than recompiling ~800 modules.
+      - name: Download the updated formalization artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REVISION: ${{ steps.revision.outputs.revision }}
+        run: |
+          release="$FORMALIZATION_RELEASE_PREFIX$REVISION"
+          asset="formalization-$REVISION.tar.gz"
+          sidecar="$asset.sha256"
+          tag_name=$(gh release view "$release" \
+            --repo "$FORMALIZATION_REPO" --json tagName --jq .tagName)
+          target=$(gh release view "$release" \
+            --repo "$FORMALIZATION_REPO" --json targetCommitish --jq .targetCommitish)
+          is_draft=$(gh release view "$release" \
+            --repo "$FORMALIZATION_REPO" --json isDraft --jq .isDraft)
+          immutable=$(gh api \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "repos/$FORMALIZATION_REPO/releases/tags/$release" \
+            --jq .immutable)
+          if test "$tag_name" != "$release" || test "$target" != "$REVISION" ||
+             test "$is_draft" != false || test "$immutable" != true; then
+            echo "::error::Artifact release metadata is not published, immutable, and revision-bound."
+            exit 1
+          fi
+          names=$(gh release view "$release" \
+            --repo "$FORMALIZATION_REPO" --json assets --jq '.assets[].name')
+          count=0
+          have_asset=false
+          have_sidecar=false
+          while IFS= read -r name; do
+            if test -z "$name"; then continue; fi
+            count=$((count + 1))
+            case "$name" in
+              "$asset") have_asset=true ;;
+              "$sidecar") have_sidecar=true ;;
+              *) echo "::error::Unexpected release asset: $name"; exit 1 ;;
+            esac
+          done <<< "$names"
+          if test "$count" -ne 2 || test "$have_asset" != true || test "$have_sidecar" != true; then
+            echo "::error::Artifact release does not contain the exact pair."
+            exit 1
+          fi
+          tag_type=$(gh api \
+            "repos/$FORMALIZATION_REPO/git/ref/tags/$release" \
+            --jq .object.type)
+          tag_sha=$(gh api \
+            "repos/$FORMALIZATION_REPO/git/ref/tags/$release" \
+            --jq .object.sha)
+          if test "$tag_type" != commit || test "$tag_sha" != "$REVISION"; then
+            echo "::error::Artifact release $release is not bound to revision $REVISION."
+            exit 1
+          fi
+          if test -e "$RUNNER_TEMP/$asset" || test -e "$RUNNER_TEMP/$sidecar"; then
+            echo "::error::Refusing to reuse pre-existing artifact download paths."
+            exit 1
+          fi
+          if ! gh release download "$release" \
+              --repo "$FORMALIZATION_REPO" \
+              --pattern "$asset" \
+              --pattern "$sidecar" \
+              --dir "$RUNNER_TEMP"; then
+            echo "::error::No published artifact cache for dispatched revision $REVISION."
+            echo "Lean CI on $FORMALIZATION_REPO must publish that revision before" >&2
+            echo "the dependency update can be prepared." >&2
+            exit 1
+          fi
+          cd "$RUNNER_TEMP"
+          if ! { test -f "$asset" && test ! -L "$asset" &&
+                 test -f "$sidecar" && test ! -L "$sidecar"; }; then
+            echo "::error::Downloaded artifact pair is incomplete or not regular files."
+            exit 1
+          fi
+          python3 - "$sidecar" "$asset" <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+
+          sidecar, asset = sys.argv[1:]
+          contents = Path(sidecar).read_text(encoding="ascii")
+          if re.fullmatch(rf"[0-9a-f]{{64}}  {re.escape(asset)}\n", contents) is None:
+              raise SystemExit(f"noncanonical checksum sidecar: {sidecar}")
+          PY
+          sha256sum --check --strict "$sidecar"
+          ls -l "$asset"
+      - name: Load the updated formalization into the Lake cache
+        env:
+          REVISION: ${{ steps.revision.outputs.revision }}
+        run: |
+          archive="$RUNNER_TEMP/formalization-$REVISION.tar.gz"
+          python3 - "$archive" <<'PY'
+          import sys
+          import tarfile
+          from pathlib import PurePosixPath
+
+          max_members = 100_000
+          max_file_size = 2 * 1024**3
+          max_total_size = 16 * 1024**3
+          archive = sys.argv[1]
+          with tarfile.open(archive, "r:gz") as handle:
+              members = handle.getmembers()
+              if not members or len(members) > max_members:
+                  raise SystemExit("artifact archive member count is invalid")
+              seen = set()
+              total_size = 0
+              for member in members:
+                  parsed = PurePosixPath(member.name)
+                  normalized = parsed.as_posix()
+                  if (
+                      member.name != normalized
+                      or parsed.is_absolute()
+                      or ".." in parsed.parts
+                      or not parsed.parts
+                      or parsed.parts[0] != "staging"
+                      or "\\" in member.name
+                      or any(ord(character) < 32 or ord(character) == 127 for character in member.name)
+                  ):
+                      raise SystemExit(f"noncanonical archive member: {member.name!r}")
+                  if normalized in seen:
+                      raise SystemExit(f"duplicate normalized archive member: {normalized!r}")
+                  seen.add(normalized)
+                  if member.isfile():
+                      if member.size < 0 or member.size > max_file_size:
+                          raise SystemExit(f"archive member exceeds 2 GiB: {member.name}")
+                      total_size += member.size
+                      if total_size > max_total_size:
+                          raise SystemExit("artifact archive exceeds 16 GiB expanded")
+                  elif not member.isdir():
+                      raise SystemExit(f"unsupported archive member type: {member.name!r}")
+              if "staging" not in seen:
+                  raise SystemExit("artifact archive omits the staging root")
+          PY
+          cache_root="$RUNNER_TEMP/formalization-cache"
+          if test -e "$cache_root" || test -L "$cache_root"; then
+            echo "::error::Refusing pre-existing cache extraction path."
+            exit 1
+          fi
+          mkdir -- "$cache_root"
+          tar --extract --gzip \
+            --file "$archive" \
+            --directory "$cache_root" \
+            --no-same-owner --no-same-permissions
+          # The mappings were recorded with the formalization as the public
+          # workspace root. Restore them into that dependency's cache scope.
+          lake cache unstage "$cache_root/staging" RepresentationTheoryFormalization
+      # Asserted before the build below: afterwards every target is up to date
+      # whether it was replayed or recompiled, so the check would be vacuous.
+      - name: Verify the updated formalization was replayed, not rebuilt
+        run: lake --no-build build @RepresentationTheoryFormalization
+      - name: Restore the Mathlib native objects
+        id: mathlib-ir-restore
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .lake/packages/mathlib/.lake/build/ir
+          key: ${{ steps.mathlib-ir-key.outputs.key-base }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            ${{ steps.mathlib-ir-key.outputs.key-base }}-
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1
+        with:
+          build: true
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: false
+      - name: Save the Mathlib native objects
+        if: ${{ always() && steps.mathlib-ir-restore.outcome == 'success' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .lake/packages/mathlib/.lake/build/ir
+          key: ${{ steps.mathlib-ir-restore.outputs.cache-primary-key }}
+      - name: Synchronize formalization panels
+        run: |
+          lake env lean --run AlignmentExport.lean > "$RUNNER_TEMP/formalization-alignment.json"
+          python3 scripts/sync_formalization_panels.py "$RUNNER_TEMP/formalization-alignment.json"
+      - name: Validate and package the dependency update
+        run: |
+          python3 - <<'PY'
+          import os
+          import subprocess
+
+          prefix = b"IntroductionToRepresentationTheoryVerso/Content/"
+          raw = subprocess.check_output(["git", "diff", "--name-only", "-z"])
+          paths = [path for path in raw.split(b"\0") if path]
+          unexpected = [
+              os.fsdecode(path)
+              for path in paths
+              if not (path == b"lakefile.toml" or (path.startswith(prefix) and path.endswith(b".lean")))
+          ]
+          if unexpected:
+              raise SystemExit(f"unexpected dependency-update paths: {unexpected}")
+          if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode:
+              raise SystemExit("dependency preparation unexpectedly changed the Git index")
+          for raw_path in paths:
+              path = os.fsdecode(raw_path)
+              if os.path.islink(path) or not os.path.isfile(path):
+                  raise SystemExit(f"dependency update is not a regular file modification: {path}")
+          subprocess.run(["git", "diff", "--check"], check=True)
+          summary = subprocess.check_output(["git", "diff", "--summary"])
+          if summary:
+              raise SystemExit("dependency update contains a create/delete/rename/mode change:\n" + summary.decode())
+          PY
+          git diff --binary --full-index -- \
+            lakefile.toml \
+            IntroductionToRepresentationTheoryVerso/Content \
+            > "$RUNNER_TEMP/formalization-update.patch"
+      - name: Upload the validated dependency update
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: formalization-update-${{ github.run_id }}
+          path: ${{ runner.temp }}/formalization-update.patch
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 1
+
+  update:
+    if: ${{ always() }}
+    needs: prepare_update
+    permissions:
+      actions: write
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Require a validated dependency update
+        if: ${{ needs.prepare_update.result != 'success' }}
+        run: |
+          echo "The dependency update preparation job did not succeed." >&2
+          exit 1
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Revalidate current public main before privileged update
+        id: privileged_revision
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVISION: ${{ github.event.client_payload.sha }}
+        run: |
+          python3 - "$REVISION" <<'PY'
+          import re
+          import sys
+
+          if re.fullmatch(r"[0-9a-f]{40}", sys.argv[1]) is None:
+              raise SystemExit("dispatched formalization revision is not exact lowercase 40-hex")
+          PY
+          current_main=$(gh api \
+            "repos/$FORMALIZATION_REPO/git/ref/heads/main" \
+            --jq .object.sha)
+          if test "$REVISION" != "$current_main"; then
+            echo "::error::Refusing stale revision $REVISION; public main is $current_main."
+            exit 1
+          fi
+          echo "revision=$REVISION" >> "$GITHUB_OUTPUT"
+      - name: Download the validated dependency update
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: formalization-update-${{ github.run_id }}
+          path: ${{ runner.temp }}/formalization-update
+      - name: Apply and revalidate the dependency update
+        env:
+          FORMALIZATION_SHA: ${{ steps.privileged_revision.outputs.revision }}
+        run: |
+          patch="$RUNNER_TEMP/formalization-update/formalization-update.patch"
+          test -f "$patch"
+          if test -s "$patch"; then
+            git apply --index --whitespace=error-all "$patch"
+          fi
+          python3 - <<'PY'
+          import os
+          import re
+          import subprocess
+          import tomllib
+          from pathlib import Path
+
+          prefix = b"IntroductionToRepresentationTheoryVerso/Content/"
+          raw = subprocess.check_output(["git", "diff", "--cached", "--name-only", "-z"])
+          paths = [path for path in raw.split(b"\0") if path]
+          unexpected = [
+              os.fsdecode(path)
+              for path in paths
+              if not (path == b"lakefile.toml" or (path.startswith(prefix) and path.endswith(b".lean")))
+          ]
+          if unexpected:
+              raise SystemExit(f"unexpected staged dependency-update paths: {unexpected}")
+          for raw_path in paths:
+              path = os.fsdecode(raw_path)
+              if os.path.islink(path) or not os.path.isfile(path):
+                  raise SystemExit(f"staged dependency update is not a regular file modification: {path}")
+          subprocess.run(["git", "diff", "--cached", "--check"], check=True)
+          summary = subprocess.check_output(["git", "diff", "--cached", "--summary"])
+          if summary:
+              raise SystemExit("staged update contains a create/delete/rename/mode change:\n" + summary.decode())
+
+          sha = os.environ["FORMALIZATION_SHA"]
+          if re.fullmatch(r"[0-9a-f]{40}", sha) is None:
+              raise SystemExit("dispatched formalization SHA is not canonical")
+          verso_url = "https://github.com/leanprover/verso.git"
+          verso_rev = "e09d21a5f7f66c9fc985b73197708298569bf583"
+          formalization_url = (
+              "https://github.com/mathlib-initiative/EtingofRepresentationTheory.git"
+          )
+
+          def validate_dependencies(source: str) -> str:
+              config = tomllib.loads(source)
+              requires = config.get("require")
+              if not isinstance(requires, list) or len(requires) != 2:
+                  raise SystemExit("lakefile must contain exactly two Git dependencies")
+              revision = requires[1].get("rev") if isinstance(requires[1], dict) else None
+              if not isinstance(revision, str) or re.fullmatch(r"[0-9a-f]{40}", revision) is None:
+                  raise SystemExit("lakefile formalization revision is not canonical")
+              expected_requires = [
+                  {"name": "verso", "git": verso_url, "rev": verso_rev},
+                  {
+                      "name": "RepresentationTheoryFormalization",
+                      "git": formalization_url,
+                      "rev": revision,
+                  },
+              ]
+              if requires != expected_requires:
+                  raise SystemExit("lakefile dependency layout is not canonical")
+              return revision
+
+          base = subprocess.check_output(["git", "show", "HEAD:lakefile.toml"]).decode("utf-8")
+          base_revision = validate_dependencies(base)
+          old_stanza = (
+              '[[require]]\nname = "RepresentationTheoryFormalization"\n'
+              f'git = "{formalization_url}"\nrev = "{base_revision}"\n'
+          )
+          new_stanza = (
+              '[[require]]\nname = "RepresentationTheoryFormalization"\n'
+              f'git = "{formalization_url}"\nrev = "{sha}"\n'
+          )
+          if base.count(old_stanza) != 1:
+              raise SystemExit("base lakefile formalization stanza text is not canonical")
+          expected = base.replace(old_stanza, new_stanza, 1)
+          staged = Path("lakefile.toml").read_text(encoding="utf-8")
+          if staged != expected or validate_dependencies(staged) != sha:
+              raise SystemExit("staged lakefile is not the exact canonical dispatched-SHA update")
+          PY
+      - name: Create or refresh dependency update pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORMALIZATION_SHA: ${{ steps.privileged_revision.outputs.revision }}
+          SOURCE_REF: ${{ github.event.client_payload.ref }}
+        run: |
+          private_base_sha=$(git rev-parse HEAD)
+          checked_out_private_main=$(gh api \
+            "repos/$GITHUB_REPOSITORY/git/ref/heads/main" \
+            --jq .object.sha)
+          if test "$private_base_sha" != "$checked_out_private_main"; then
+            echo "::error::Checked-out private base $private_base_sha is not current main $checked_out_private_main."
+            exit 1
+          fi
+          current_public_main=$(gh api \
+            "repos/$FORMALIZATION_REPO/git/ref/heads/main" \
+            --jq .object.sha)
+          if test "$FORMALIZATION_SHA" != "$current_public_main"; then
+            echo "::error::Public main advanced to $current_public_main before publication."
+            exit 1
+          fi
+          if git diff --cached --quiet; then
+            has_update=false
+          else
+            has_update=true
+          fi
+          branch="automation/formalization-${FORMALIZATION_SHA:0:12}"
+          current_pr_url=""
+          reserved_prs=$(gh pr list \
+            --state open --limit 1000 \
+            --json number,headRefName,url,autoMergeRequest \
+            --jq '.[] | select(.headRefName | startswith("automation/formalization-")) | [.number, .headRefName, .url, (.autoMergeRequest != null)] | @tsv')
+          while IFS=$'\t' read -r number head_ref url auto_merge; do
+            if test -z "$number"; then
+              continue
+            fi
+            if test "$has_update" = true && test "$head_ref" = "$branch" && test -z "$current_pr_url"; then
+              current_pr_url="$url"
+              if test "$auto_merge" = true; then
+                gh pr merge "$url" --disable-auto
+              fi
+            else
+              gh pr close "$number" \
+                --comment "Closing stale reserved formalization automation before publishing $FORMALIZATION_SHA."
+            fi
+          done <<< "$reserved_prs"
+          reserved_refs=$(gh api --paginate \
+            "repos/$GITHUB_REPOSITORY/git/matching-refs/heads/automation/formalization-" \
+            --jq '.[].ref')
+          while IFS= read -r full_ref; do
+            if test -z "$full_ref"; then
+              continue
+            fi
+            stale_branch=${full_ref#refs/heads/}
+            if test "$has_update" = true && test "$stale_branch" = "$branch"; then
+              continue
+            fi
+            gh api --method DELETE \
+              "repos/$GITHUB_REPOSITORY/git/refs/heads/$stale_branch"
+          done <<< "$reserved_refs"
+          if test "$has_update" = false; then
+            echo "The requested formalization revision is already pinned; stale automation was removed."
+            exit 0
+          fi
+          gh auth setup-git --hostname github.com --force
+          lease="refs/heads/$branch:"
+          remote_ref=$(git ls-remote --heads origin "refs/heads/$branch")
+          remote_sha=${remote_ref%%[[:space:]]*}
+          if [ -n "$remote_sha" ]; then
+            git fetch --no-tags origin \
+              "refs/heads/$branch:refs/remotes/origin/$branch"
+            remote_sha=$(git rev-parse "refs/remotes/origin/$branch")
+            lease="refs/heads/$branch:$remote_sha"
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git commit -m "Update formalization to ${FORMALIZATION_SHA:0:12}"
+          head_sha=$(git rev-parse HEAD)
+          git push --force-with-lease="$lease" origin "HEAD:refs/heads/$branch"
+          pr_url="$current_pr_url"
+          if test -z "$pr_url"; then
+            pr_url=$(gh pr list --head "$branch" --state open --json url --jq '.[0].url')
+          fi
+          if [ -z "$pr_url" ]; then
+            pr_url=$(gh pr create \
+              --base main \
+              --head "$branch" \
+              --title "Update formalization to ${FORMALIZATION_SHA:0:12}" \
+              --body "Pins mathlib-initiative/EtingofRepresentationTheory at \`${FORMALIZATION_SHA}\` (source ref: \`${SOURCE_REF}\`). The private Verso CI must build and render successfully before merge.")
+          fi
+          # Events emitted with GITHUB_TOKEN do not recursively trigger the
+          # pull_request workflow, so explicitly dispatch CI on the PR head.
+          dispatch_started=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          gh workflow run ci.yml --ref "$branch"
+          run_id=""
+          for attempt in {1..60}; do
+            run_id=$(gh run list \
+              --workflow ci.yml \
+              --branch "$branch" \
+              --event workflow_dispatch \
+              --limit 20 \
+              --json databaseId,createdAt,headSha \
+              --jq ".[] | select(.headSha == \"$head_sha\" and .createdAt >= \"$dispatch_started\") | .databaseId" |
+              head -n 1)
+            if test -n "$run_id"; then
+              break
+            fi
+            sleep 5
+          done
+          if test -z "$run_id"; then
+            echo "Could not locate the dispatched private CI run." >&2
+            exit 1
+          fi
+          while true; do
+            status=$(gh api \
+              "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" \
+              --jq .status)
+            if test "$status" = completed; then
+              conclusion=$(gh api \
+                "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" \
+                --jq .conclusion)
+              if test "$conclusion" != success; then
+                echo "Private CI run $run_id concluded with $conclusion." >&2
+                exit 1
+              fi
+              break
+            fi
+            case "$status" in
+              queued|in_progress|pending|requested|waiting) ;;
+              *)
+                echo "Private CI run $run_id has unexpected status $status." >&2
+                exit 1
+                ;;
+            esac
+            sleep 30
+          done
+          current_public_main=$(gh api \
+            "repos/$FORMALIZATION_REPO/git/ref/heads/main" \
+            --jq .object.sha)
+          if test "$FORMALIZATION_SHA" != "$current_public_main"; then
+            echo "::error::Public main advanced to $current_public_main before merge."
+            exit 1
+          fi
+          current_private_main=$(gh api \
+            "repos/$GITHUB_REPOSITORY/git/ref/heads/main" \
+            --jq .object.sha)
+          if test "$private_base_sha" != "$current_private_main"; then
+            echo "::error::Private main advanced to $current_private_main before merge."
+            exit 1
+          fi
+          gh pr merge "$pr_url" \
+            --match-head-commit "$head_sha" --squash --delete-branch

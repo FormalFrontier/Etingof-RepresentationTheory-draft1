@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1124",
+  "associations": [
+    {
+      "association_id": "association:3e33f94e0fff9fff3db0",
+      "role": "supporting",
+      "rationale": "No formal type is displayed, so the packet does not directly establish the stated finite-dimensional endomorphism eigenvalue claim."
+    }
+  ]
+}

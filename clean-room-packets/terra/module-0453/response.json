@@ -1,0 +1,45 @@
+{
+  "module_name": "PartitionAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-016116",
+      "new_name": "partitionSubmodule",
+      "docstring": "Associates each partition with a submodule of the corresponding auxiliary type."
+    },
+    {
+      "temporary_id": "decl-016224",
+      "new_name": "natIndexedType",
+      "docstring": "An auxiliary family of types indexed by natural numbers."
+    },
+    {
+      "temporary_id": "decl-016526",
+      "new_name": "partitionSubmodule_isSimpleModule",
+      "docstring": "The submodule associated with any partition is simple as a module."
+    },
+    {
+      "temporary_id": "decl-021709",
+      "new_name": "cardNatCast_neZero",
+      "docstring": "The natural-number cast of the cardinality of the auxiliary object is nonzero."
+    },
+    {
+      "temporary_id": "decl-022892",
+      "new_name": "perm_eq_one_of_mem_of_mem",
+      "docstring": "A permutation lying in both displayed auxiliary membership predicates is the identity."
+    },
+    {
+      "temporary_id": "decl-024122",
+      "new_name": "MonoidAlgebra.coeFun",
+      "docstring": "Provides the function coercion from a monoid algebra to its coefficient functions."
+    },
+    {
+      "temporary_id": "decl-024692",
+      "new_name": "coeff_one_eq_one",
+      "docstring": "The coefficient at the identity element of the partition-indexed element equals one."
+    },
+    {
+      "temporary_id": "decl-024706",
+      "new_name": "self_mul_ne_zero",
+      "docstring": "The square of the partition-indexed element is nonzero."
+    }
+  ]
+}

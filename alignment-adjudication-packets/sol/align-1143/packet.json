@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b0f66c0bfd518d4cc4d5",
+      "declaration": "Etingof.Problem2_16_2.basisXY",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/83/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    Module.Basis.{0, 0, 0} (Fin 2) k (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.Problem2_16_2.g.{0} k) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_concrete_Lie_examples_continued"
+    },
+    {
+      "association_id": "association:690bb88090766a18f497",
+      "declaration": "Etingof.Problem2_16_2.finrank_aff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/83/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k],\n  Eq.{1} (Module.finrank.{0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.Problem2_16_2.g.{0} k) x)) 2",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_concrete_Lie_examples_continued"
+    },
+    {
+      "association_id": "association:7391a0113e7bbef5fdf5",
+      "declaration": "Etingof.Problem2_16_2.linearIndependent_XY",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/83/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k],\n  LinearIndependent.{0, 0, 0} k\n    (Matrix.vecCons.{0} (Etingof.Problem2_16_2.X.{0} k)\n      (Matrix.vecCons.{0} (Etingof.Problem2_16_2.Y.{0} k) Matrix.vecEmpty.{0}))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_concrete_Lie_examples_continued"
+    },
+    {
+      "association_id": "association:8f0f356500a356eb6076",
+      "declaration": "Etingof.Problem2_16_2.span_XY",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/83/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k],\n  Eq.{1}\n    (Submodule.span.{0, 0} k\n      (Set.range.{0, 1}\n        (Matrix.vecCons.{0} (Etingof.Problem2_16_2.X.{0} k)\n          (Matrix.vecCons.{0} (Etingof.Problem2_16_2.Y.{0} k) Matrix.vecEmpty.{0}))))\n    Top.top.{0}",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_concrete_Lie_examples_continued"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_concrete_Lie_examples_continued",
+  "packet_id": "align-1143",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1143"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ea0fbba9b4ef273e70b8",
+  "source_text": "X=E00 and Y=E01 form a basis of aff(1)."
+}

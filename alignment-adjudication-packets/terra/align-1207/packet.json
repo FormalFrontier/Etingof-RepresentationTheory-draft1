@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c581431f46620abc116e",
+      "declaration": "Etingof.ProjectiveObject",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/533/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192 [CategoryTheory.Category.{u_2, u_1} C] \u2192 C \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_1_8"
+    },
+    {
+      "association_id": "association:6499ca90e53ec02138a1",
+      "declaration": "Etingof.projectiveObject_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/533/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C] (P : C),\n  Iff (Etingof.ProjectiveObject.{u_1, u_2} P)\n    (And\n      (CategoryTheory.Limits.PreservesFiniteLimits.{u_2, u_2, u_1, u_2 + 1}\n        (CategoryTheory.preadditiveCoyonedaObj.{u_2, u_1} P))\n      (CategoryTheory.Limits.PreservesFiniteColimits.{u_2, u_2, u_1, u_2 + 1}\n        (CategoryTheory.preadditiveCoyonedaObj.{u_2, u_1} P)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_1_8"
+    }
+  ],
+  "canonical_reference": "Chapter8/Definition8.1.8",
+  "packet_id": "align-1207",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1207"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:fe8b14f332e4f1aca313",
+  "source_text": "A projective object P in an abelian category is characterized by exactness of the covariant Hom functor Hom(P, -)."
+}

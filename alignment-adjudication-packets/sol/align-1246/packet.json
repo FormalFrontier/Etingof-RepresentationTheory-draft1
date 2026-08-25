@@ -1,0 +1,181 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:63d78307f981b6a57592",
+      "declaration": "Etingof.GL2.card_constructedIndex",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/388/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hn : Ne.{1} n 0),\n  Eq.{1} (Nat.card.{0} (Etingof.GL2.ConstructedIndex p n hn))\n    (HAdd.hAdd.{0, 0, 0}\n      (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n            (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n          2))\n      (HDiv.hDiv.{0, 0, 0}\n        (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n          (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n        2))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:47212f68f48943caa540",
+      "declaration": "Etingof.GL2.card_irreps_eq_q_sq_sub_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/388/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Exists.{2} fun Irrep =>\n        Exists.{1} fun x =>\n          Eq.{1} (Nat.card.{0} Irrep)\n            (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:7200a6e5ca2ee784537d",
+      "declaration": "Etingof.GL2.constructedCount_eq_card_conjClasses",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/388/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1}\n        (HAdd.hAdd.{0, 0, 0}\n          (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n            (HDiv.hDiv.{0, 0, 0}\n              (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n              2))\n          (HDiv.hDiv.{0, 0, 0}\n            (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n              (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n            2))\n        (Nat.card.{0} (ConjClasses.{0} (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:12f385228279103395ae",
+      "declaration": "Etingof.GL2.constructedFamily",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/388/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(p : Nat) \u2192\n  [inst : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      [inst_1 : Fintype.{0} (GaloisField p n)] \u2192\n        Ne.{1} p 2 \u2192\n          (hn : Ne.{1} n 0) \u2192\n            Etingof.GL2.ConstructedIndex p n hn \u2192\n              FDRep.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:88047e24f2ac3b76a4a8",
+      "declaration": "Etingof.GL2.constructedFamily_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/388/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hp2 : Ne.{1} p 2)\n  (hn : Ne.{1} n 0) (i j : Etingof.GL2.ConstructedIndex p n hn),\n  Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (Etingof.GL2.constructedFamily p n hp2 hn i)\n        (Etingof.GL2.constructedFamily p n hp2 hn j)) \u2192\n    Eq.{1} i j",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:de8fefd4a70582e6a3f3",
+      "declaration": "Etingof.GL2.constructedFamily_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/388/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hp2 : Ne.{1} p 2)\n  (hn : Ne.{1} n 0) (i : Etingof.GL2.ConstructedIndex p n hn),\n  CategoryTheory.Simple.{0, 1} (Etingof.GL2.constructedFamily p n hp2 hn i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:26ea96179aa40c051df1",
+      "declaration": "Etingof.GL2.constructed_families_exhaust",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/388/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      \u2200 {N : Nat} (W : Fin N \u2192 FDRep.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))),\n        (\u2200 (i : Fin N), CategoryTheory.Simple.{0, 1} (W i)) \u2192\n          (\u2200 (i j : Fin N), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j) \u2192\n            Eq.{1} N\n                (HAdd.hAdd.{0, 0, 0}\n                  (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n                    (HDiv.hDiv.{0, 0, 0}\n                      (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                        (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n                      2))\n                  (HDiv.hDiv.{0, 0, 0}\n                    (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                      (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n                    2)) \u2192\n              \u2200 (U : FDRep.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))),\n                CategoryTheory.Simple.{0, 1} U \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} U (W i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:ed2d4ff342ec48bbd77b",
+      "declaration": "Etingof.GL2.constructed_irreps_complete",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/388/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (numIrreps : Nat),\n  Eq.{1} numIrreps (Nat.card.{0} (ConjClasses.{0} (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n)))) \u2192\n    Ne.{1} p 2 \u2192\n      Ne.{1} n 0 \u2192\n        Eq.{1} numIrreps\n          (HAdd.hAdd.{0, 0, 0}\n            (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n              (HDiv.hDiv.{0, 0, 0}\n                (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                  (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n                2))\n            (HDiv.hDiv.{0, 0, 0}\n              (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n              2))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:c87d5630a6fcfcc57103",
+      "declaration": "Etingof.GL2.constructed_irreps_complete_final",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/388/lean_ref",
+          "verdict": "proof_polished"
+        },
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/388/coverage/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hp2 : Ne.{1} p 2)\n  (hn : Ne.{1} n 0) (U : FDRep.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))),\n  CategoryTheory.Simple.{0, 1} U \u2192\n    ExistsUnique.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} U (Etingof.GL2.constructedFamily p n hp2 hn i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:369b46a6400d9757445a",
+      "declaration": "Etingof.GL2.constructed_irreps_complete_unconditional",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/388/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Exists.{2} fun Irrep =>\n        Exists.{1} fun x =>\n          And\n            (Exists.{1} fun d =>\n              And (\u2200 (j : Irrep), Ne.{1} (d j) 0)\n                (Nonempty.{1}\n                  (AlgEquiv.{0, 0, 0} Complex\n                    (MonoidAlgebra.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n)))\n                    ((j : Irrep) \u2192 Matrix.{0, 0, 0} (Fin (d j)) (Fin (d j)) Complex))))\n            (Eq.{1} (Nat.card.{0} Irrep)\n              (HAdd.hAdd.{0, 0, 0}\n                (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n                  (HDiv.hDiv.{0, 0, 0}\n                    (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                      (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n                    2))\n                (HDiv.hDiv.{0, 0, 0}\n                  (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                    (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n                  2)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:24165ae118e86be541e8",
+      "declaration": "Etingof.GL2.exists_complete_simples",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/388/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Exists.{1} fun m =>\n        Exists.{2} fun V =>\n          And (\u2200 (i : Fin m), CategoryTheory.Simple.{0, 1} (V i))\n            (And (\u2200 (i j : Fin m), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j)\n              (And\n                (\u2200 (U : FDRep.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))),\n                  CategoryTheory.Simple.{0, 1} U \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} U (V i)))\n                (Eq.{1} m (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:cdcc4dd571552108116e",
+      "declaration": "Etingof.GL2.foundAllIrreducibles_galoisField",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/388/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)],\n  Ne.{1} p 2 \u2192 Ne.{1} n 0 \u2192 Etingof.GL2.foundAllIrreducibles.{0} (GaloisField p n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_complementary_series_summary",
+  "packet_id": "align-1246",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1246"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Discussion_complementary_series_summary",
+  "source_text": "We have now shown that for any $\\nu$ with $\\nu^q \\neq \\nu$ the representation $Y_\\nu$ with the same character as\n\n$$W_1 \\otimes V_{\\alpha,1} - V_{\\alpha,1} - \\operatorname{Ind}_K^G \\mathbb{C}_\\nu$$\n\nexists and is irreducible. These characters are distinct for distinct pairs $(\\alpha, \\nu)$ (up to switching $\\nu \\to \\nu^q$), so there are $\\frac{q(q-1)}{2}$ such representations, each of dimension $q - 1$. These representations are called complementary series representations.\n\nWe have thus found $q - 1$ 1-dimensional representations of $G$, $\\frac{q(q-1)}{2}$ principal series representations, and $\\frac{q(q-1)}{2}$ complementary series representations, for a total of $q^2 - 1$ representations, i.e., the number of conjugacy classes in $G$. This implies that we have in fact found all irreducible representations of $GL_2(\\mathbb{F}_q)$.\n\n"
+}

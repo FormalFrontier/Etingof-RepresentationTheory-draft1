@@ -1,0 +1,49 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Eq.{1} (Finset.card.{0} decl-000466) 12",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000466"
+      ],
+      "structural_type_hash": "3018060359",
+      "temporary_id": "decl-000468"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03c1 : decl-000330.{u_1, u_2, u_3, u_4, u_5} k),\n  decl-000357.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u2192\n    Membership.mem.{0, 0} decl-000466 (decl-000407.{u_1, u_2, u_3, u_4, u_5} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000330",
+        "decl-000357",
+        "decl-000407",
+        "decl-000466"
+      ],
+      "structural_type_hash": "2710753112",
+      "temporary_id": "decl-003731"
+    }
+  ],
+  "module_temporary_id": "module-0520",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

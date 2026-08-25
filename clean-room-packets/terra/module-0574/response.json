@@ -1,0 +1,10 @@
+{
+  "module_name": "FunctorPairConstructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-005713",
+      "new_name": "associatedType",
+      "docstring": "The type associated with two functors between the same pair of categories."
+    }
+  ]
+}

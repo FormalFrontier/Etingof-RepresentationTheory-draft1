@@ -1,0 +1,10 @@
+{
+  "module_name": "Auxiliary.FiniteIndexedRingFunctionPredicate",
+  "declarations": [
+    {
+      "docstring": "An auxiliary predicate on functions from a finite decidable index type to a ring.",
+      "new_name": "isFiniteIndexedRingFunctionAuxiliary",
+      "temporary_id": "decl-005129"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0912",
+  "associations": [
+    {
+      "association_id": "association:c0c32290206bf5b72775",
+      "role": "supporting",
+      "rationale": "The displayed type only gives a function from two Fin indices to Int; it does not directly state that the values are the standard coordinate vectors."
+    }
+  ]
+}

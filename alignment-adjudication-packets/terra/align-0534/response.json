@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0534",
+  "associations": [
+    {
+      "association_id": "association:eeca012604a973dc5c71",
+      "rationale": "A complement-existence theorem is supporting structure and does not directly state the minimal-counterexample submodule and quotient description.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:cd378e1a55b321631567",
+      "rationale": "The displayed general decomposition has unspecified summands and does not directly identify W or the quotient as copies of V_lambda.",
+      "role": "supporting"
+    }
+  ]
+}

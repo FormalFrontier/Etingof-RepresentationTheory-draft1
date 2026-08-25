@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:61680cb8429b459164a8",
+      "declaration": "Etingof.centralizerMulEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/327/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{\u03b1 : Type u_1} \u2192\n  [Finite.{u_1 + 1} \u03b1] \u2192\n    (g : Equiv.Perm.{u_1 + 1} \u03b1) \u2192\n      MulEquiv.{u_1, u_1}\n        (Subtype.{u_1 + 1} fun x =>\n          Membership.mem.{u_1, u_1} (Subgroup.centralizer.{u_1} (Singleton.singleton.{u_1, u_1} g)) x)\n        ((m : Nat) \u2192 Etingof.Wreath.WreathBlock.{u_1} (Etingof.CyclesOfLen.{u_1} g m) m)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_14_3_Centralizer"
+    },
+    {
+      "association_id": "association:f913e4cd3adcf2f370f8",
+      "declaration": "Etingof.centralizerMulEquivFin",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/327/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{\u03b1 : Type u_1} \u2192\n  [Finite.{u_1 + 1} \u03b1] \u2192\n    (g : Equiv.Perm.{u_1 + 1} \u03b1) \u2192\n      MulEquiv.{u_1, 0}\n        (Subtype.{u_1 + 1} fun x =>\n          Membership.mem.{u_1, u_1} (Subgroup.centralizer.{u_1} (Singleton.singleton.{u_1, u_1} g)) x)\n        ((m : Nat) \u2192 Etingof.Wreath.WreathBlock.{0} (Fin (Etingof.cycleCount.{u_1} g m)) m)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_14_3_Centralizer"
+    },
+    {
+      "association_id": "association:36decc8b7407f891de69",
+      "declaration": "Etingof.nat_card_centralizer_eq_prod",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/327/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {\u03b1 : Type u_1} [Finite.{u_1 + 1} \u03b1] (g : Equiv.Perm.{u_1 + 1} \u03b1),\n  Eq.{1}\n    (Nat.card.{u_1}\n      (Subtype.{u_1 + 1} fun x =>\n        Membership.mem.{u_1, u_1} (Subgroup.centralizer.{u_1} (Singleton.singleton.{u_1, u_1} g)) x))\n    (Finset.prod.{0, 0} (Finset.range (HAdd.hAdd.{0, 0, 0} (Nat.card.{u_1} \u03b1) 1)) fun m =>\n      HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} m (Etingof.cycleCount.{u_1} g m))\n        (Etingof.cycleCount.{u_1} g m).factorial)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_14_3_Centralizer"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.14.3",
+  "packet_id": "align-0925",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0925"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a7fcbd9b0f302e56530b",
+  "source_text": "The centralizer is the product of wreath factors and has order product_m m^{i_m} i_m!."
+}

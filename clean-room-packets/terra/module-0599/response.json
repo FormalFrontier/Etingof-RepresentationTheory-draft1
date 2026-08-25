@@ -1,0 +1,10 @@
+{
+  "module_name": "CategoryTheory.Abelian.AdditiveAdjunctionAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-004090",
+      "new_name": "auxiliaryProperties",
+      "docstring": "An additive adjunction between abelian categories satisfies both auxiliary properties in the conclusion."
+    }
+  ]
+}

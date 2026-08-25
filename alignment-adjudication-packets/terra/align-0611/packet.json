@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cbdd16a22134310d0d8e",
+      "declaration": "Etingof.Problem2_7_5.exists_fam_linearEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/60/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex) [inst : NeZero.{0} (orderOf.{0} q)] (V : Type u_1) [inst_1 : AddCommGroup.{u_1} V]\n  [inst_2 : Module.{0, u_1} Complex V]\n  [inst_3 : Module.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x) V]\n  [IsScalarTower.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x)\n      V]\n  [FiniteDimensional.{0, u_1} Complex V]\n  [IsSimpleModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x) V],\n  Exists.{1} fun \u03b1 =>\n    Exists.{1} fun \u03b2 =>\n      Nonempty.{max (u_1 + 1) 1}\n        (LinearEquiv.{0, 0, 0, u_1}\n          (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x))\n          (Etingof.Problem2_7_5.Fam q \u03b1 \u03b2) V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.7.5",
+  "packet_id": "align-0611",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0611"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.7.5:claim-05",
+  "source_text": "Every finite-dimensional irreducible q-Weyl representation is isomorphic to a member V(alpha,beta)."
+}

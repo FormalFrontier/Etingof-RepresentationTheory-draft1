@@ -1,0 +1,150 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [Algebra.{u_1, u} k A] \u2192 (B : Type u) \u2192 [inst_3 : Ring.{u} B] \u2192 [Algebra.{u_1, u} k B] \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2384839334",
+      "temporary_id": "decl-005305"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u_1, u} k A] {B : Type u}\n  [inst_3 : Ring.{u} B] [inst_4 : Algebra.{u_1, u} k B],\n  decl-005305.{u, u_1} k A B \u2192 decl-005305.{u, u_1} k B A",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005305",
+      "project_type_dependencies": [
+        "decl-005305"
+      ],
+      "structural_type_hash": "2842702653",
+      "temporary_id": "decl-005306"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u_1, u} k A] {B : Type u}\n  [inst_3 : Ring.{u} B] [inst_4 : Algebra.{u_1, u} k B],\n  decl-005305.{u, u_1} k A B \u2192 decl-005663.{u, u} A B",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005305",
+      "project_type_dependencies": [
+        "decl-005305",
+        "decl-005663"
+      ],
+      "structural_type_hash": "1716329043",
+      "temporary_id": "decl-005308"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u_1, u} k A] {B : Type u}\n  [inst_3 : Ring.{u} B] [inst_4 : Algebra.{u_1, u} k B] {C : Type u} [inst_5 : Ring.{u} C]\n  [inst_6 : Algebra.{u_1, u} k C],\n  decl-005305.{u, u_1} k A B \u2192\n    decl-005305.{u, u_1} k B C \u2192 decl-005305.{u, u_1} k A C",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005305",
+      "project_type_dependencies": [
+        "decl-005305"
+      ],
+      "structural_type_hash": "2075804307",
+      "temporary_id": "decl-005310"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [Algebra.{u_1, u} k A] \u2192 (B : Type u) \u2192 [inst_3 : Ring.{u} B] \u2192 [Algebra.{u_1, u} k B] \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2384839334",
+      "temporary_id": "decl-005311"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u_1, u} k A] {B : Type u}\n  [inst_3 : Ring.{u} B] [inst_4 : Algebra.{u_1, u} k B],\n  decl-005311.{u, u_1} k A B \u2192 decl-005311.{u, u_1} k B A",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005311",
+      "project_type_dependencies": [
+        "decl-005311"
+      ],
+      "structural_type_hash": "209134602",
+      "temporary_id": "decl-005313"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u_1, u} k A] {B : Type u}\n  [inst_3 : Ring.{u} B] [inst_4 : Algebra.{u_1, u} k B],\n  decl-005311.{u, u_1} k A B \u2192 decl-005672.{u} A B",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005311",
+      "project_type_dependencies": [
+        "decl-005311",
+        "decl-005672"
+      ],
+      "structural_type_hash": "1311770860",
+      "temporary_id": "decl-005315"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u_1, u} k A] {B : Type u}\n  [inst_3 : Ring.{u} B] [inst_4 : Algebra.{u_1, u} k B] {C : Type u} [inst_5 : Ring.{u} C]\n  [inst_6 : Algebra.{u_1, u} k C],\n  decl-005311.{u, u_1} k A B \u2192\n    decl-005311.{u, u_1} k B C \u2192 decl-005311.{u, u_1} k A C",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005311",
+      "project_type_dependencies": [
+        "decl-005311"
+      ],
+      "structural_type_hash": "622978453",
+      "temporary_id": "decl-005317"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192 [Ring.{u} A] \u2192 (B : Type v) \u2192 [Ring.{v} B] \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1679045064",
+      "temporary_id": "decl-005663"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192 [Ring.{u} A] \u2192 (B : Type u) \u2192 [Ring.{u} B] \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2410666294",
+      "temporary_id": "decl-005672"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A], decl-005672.{u} A A",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005672",
+      "project_type_dependencies": [
+        "decl-005672"
+      ],
+      "structural_type_hash": "1465705472",
+      "temporary_id": "decl-005677"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {B : Type u} [inst_1 : Ring.{u} B],\n  decl-005672.{u} A B \u2192 decl-005672.{u} B A",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005672",
+      "project_type_dependencies": [
+        "decl-005672"
+      ],
+      "structural_type_hash": "3229828560",
+      "temporary_id": "decl-005678"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {B : Type u} [inst_1 : Ring.{u} B] {C : Type u} [inst_2 : Ring.{u} C],\n  decl-005672.{u} A B \u2192 decl-005672.{u} B C \u2192 decl-005672.{u} A C",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005672",
+      "project_type_dependencies": [
+        "decl-005672"
+      ],
+      "structural_type_hash": "3575016402",
+      "temporary_id": "decl-005681"
+    }
+  ],
+  "module_temporary_id": "module-0710",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

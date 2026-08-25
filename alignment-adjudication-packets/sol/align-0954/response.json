@@ -1,0 +1,25 @@
+{
+  "associations": [
+    {
+      "association_id": "association:a68c2483f60e085fc3a9",
+      "rationale": "Its type supplies a quiver on four vertices, but does not display that the three listed arrows are exactly all arrows.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:45fc15204a36ff51d3c1",
+      "rationale": "Its type supplies an arrow 0→1, but this individual Hom term does not itself state the complete four-vertex, exactly-three-arrow claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:11afe1732ebf3638831a",
+      "rationale": "Its type supplies an arrow 2→1, but this individual Hom term does not itself state the complete four-vertex, exactly-three-arrow claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d6b10f4107f7596bafd9",
+      "rationale": "Its type supplies an arrow 3→0, but this individual Hom term does not itself state the complete four-vertex, exactly-three-arrow claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0954"
+}

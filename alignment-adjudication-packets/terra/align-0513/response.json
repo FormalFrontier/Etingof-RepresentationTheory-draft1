@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0513",
+  "associations": [
+    {
+      "association_id": "association:8e2d82ba5fb6188c0ebb",
+      "rationale": "Under the displayed nonzero factorial hypothesis, the type directly gives a linear equivalence from ExtPow to the alternating-tensor submodule.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:dcdc439edd7acc99194d",
+      "rationale": "This gives the equivalence only through the stronger CharZero specialization, rather than directly under the displayed factorial condition.",
+      "role": "supporting"
+    }
+  ]
+}

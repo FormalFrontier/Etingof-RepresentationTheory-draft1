@@ -1,0 +1,10 @@
+{
+  "module_name": "Representation.IsIrreducible",
+  "declarations": [
+    {
+      "temporary_id": "decl-025072",
+      "new_name": "isIrreducible",
+      "docstring": "Every representation selected by an index from the given datum is irreducible."
+    }
+  ]
+}

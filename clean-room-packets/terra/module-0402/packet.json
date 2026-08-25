@@ -1,0 +1,179 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    LT.lt.{0} 2 (Nat.card.{0} (GaloisField p n)) \u2192\n      Eq.{1} (commutator.{0} (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n)))\n        (MonoidHom.range.{0, 0} Matrix.SpecialLinearGroup.toGL.{0, 0})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3507421086",
+      "temporary_id": "decl-014676"
+    },
+    {
+      "formal_type": "{F : Type u_1} \u2192 [inst : Field.{u_1} F] \u2192 F \u2192 decl-025266.{u_1} F",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025266"
+      ],
+      "structural_type_hash": "1248801854",
+      "temporary_id": "decl-025242"
+    },
+    {
+      "formal_type": "\u2200 {F : Type u_1} [inst : Field.{u_1} F] (t a : F),\n  Ne.{u_1 + 1} a 0 \u2192\n    Ne.{u_1 + 1} a 1 \u2192\n      Membership.mem.{u_1, u_1} (commutator.{u_1} (decl-025266.{u_1} F))\n        (decl-025242.{u_1} t)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025242",
+        "decl-025266"
+      ],
+      "structural_type_hash": "3316452934",
+      "temporary_id": "decl-025246"
+    },
+    {
+      "formal_type": "{F : Type u_1} \u2192 [inst : Field.{u_1} F] \u2192 F \u2192 decl-025266.{u_1} F",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025266"
+      ],
+      "structural_type_hash": "1248801854",
+      "temporary_id": "decl-025254"
+    },
+    {
+      "formal_type": "\u2200 {F : Type u_1} [inst : Field.{u_1} F] (t a : F),\n  Ne.{u_1 + 1} a 0 \u2192\n    Ne.{u_1 + 1} a 1 \u2192\n      Membership.mem.{u_1, u_1} (commutator.{u_1} (decl-025266.{u_1} F))\n        (decl-025254.{u_1} t)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025254",
+        "decl-025266"
+      ],
+      "structural_type_hash": "819969811",
+      "temporary_id": "decl-025258"
+    },
+    {
+      "formal_type": "(F : Type u_2) \u2192 [CommRing.{u_2} F] \u2192 Type u_2",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4195702166",
+      "temporary_id": "decl-025266"
+    },
+    {
+      "formal_type": "\u2200 {F : Type u_1} [inst : Field.{u_1} F] (a t : F) (ha : Ne.{u_1 + 1} a 0),\n  Eq.{u_1 + 1}\n    (HMul.hMul.{u_1, u_1, u_1}\n      (HMul.hMul.{u_1, u_1, u_1}\n        (HMul.hMul.{u_1, u_1, u_1} (decl-025285.{u_1} a 1 ha \u22ef) (decl-025242.{u_1} t))\n        (Inv.inv.{u_1} (decl-025285.{u_1} a 1 ha \u22ef)))\n      (Inv.inv.{u_1} (decl-025242.{u_1} t)))\n    (decl-025242.{u_1} (HMul.hMul.{u_1, u_1, u_1} (HSub.hSub.{u_1, u_1, u_1} a 1) t))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025242",
+        "decl-025266",
+        "decl-025285"
+      ],
+      "structural_type_hash": "1837235547",
+      "temporary_id": "decl-025267"
+    },
+    {
+      "formal_type": "\u2200 {F : Type u_1} [inst : Field.{u_1} F] (a t : F) (ha : Ne.{u_1 + 1} a 0),\n  Eq.{u_1 + 1}\n    (HMul.hMul.{u_1, u_1, u_1}\n      (HMul.hMul.{u_1, u_1, u_1}\n        (HMul.hMul.{u_1, u_1, u_1} (decl-025285.{u_1} 1 a \u22ef ha) (decl-025254.{u_1} t))\n        (Inv.inv.{u_1} (decl-025285.{u_1} 1 a \u22ef ha)))\n      (Inv.inv.{u_1} (decl-025254.{u_1} t)))\n    (decl-025254.{u_1} (HMul.hMul.{u_1, u_1, u_1} (HSub.hSub.{u_1, u_1, u_1} a 1) t))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025254",
+        "decl-025266",
+        "decl-025285"
+      ],
+      "structural_type_hash": "3252644361",
+      "temporary_id": "decl-025275"
+    },
+    {
+      "formal_type": "\u2200 {F : Type u_1} [inst : Field.{u_1} F] (d : F) (hd : Ne.{u_1 + 1} d 0),\n  Eq.{u_1 + 1}\n    (HMul.hMul.{u_1, u_1, u_1}\n      (HMul.hMul.{u_1, u_1, u_1}\n        (HMul.hMul.{u_1, u_1, u_1} (decl-025285.{u_1} d 1 hd \u22ef) decl-025301.{u_1})\n        (Inv.inv.{u_1} (decl-025285.{u_1} d 1 hd \u22ef)))\n      (Inv.inv.{u_1} decl-025301.{u_1}))\n    (decl-025285.{u_1} d (Inv.inv.{u_1} d) hd \u22ef)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025266",
+        "decl-025285",
+        "decl-025301"
+      ],
+      "structural_type_hash": "1980498672",
+      "temporary_id": "decl-025283"
+    },
+    {
+      "formal_type": "\u2200 {F : Type u_1} [inst : Field.{u_1} F] (g h : decl-025266.{u_1} F),\n  Membership.mem.{u_1, u_1} (commutator.{u_1} (decl-025266.{u_1} F))\n    (HMul.hMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} g h) (Inv.inv.{u_1} g))\n      (Inv.inv.{u_1} h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025266"
+      ],
+      "structural_type_hash": "3351497300",
+      "temporary_id": "decl-025284"
+    },
+    {
+      "formal_type": "{F : Type u_1} \u2192\n  [inst : Field.{u_1} F] \u2192 (a b : F) \u2192 Ne.{u_1 + 1} a 0 \u2192 Ne.{u_1 + 1} b 0 \u2192 decl-025266.{u_1} F",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025266"
+      ],
+      "structural_type_hash": "652224640",
+      "temporary_id": "decl-025285"
+    },
+    {
+      "formal_type": "\u2200 {F : Type u_1} [inst : Field.{u_1} F] (d : F) (hd : Ne.{u_1 + 1} d 0),\n  Membership.mem.{u_1, u_1} (commutator.{u_1} (decl-025266.{u_1} F))\n    (decl-025285.{u_1} d (Inv.inv.{u_1} d) hd \u22ef)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025266",
+        "decl-025285"
+      ],
+      "structural_type_hash": "833195757",
+      "temporary_id": "decl-025289"
+    },
+    {
+      "formal_type": "\u2200 {F : Type u_1} [inst : Field.{u_1} F],\n  LT.lt.{0} 2 (Nat.card.{u_1} F) \u2192 Exists.{u_1 + 1} fun a => And (Ne.{u_1 + 1} a 0) (Ne.{u_1 + 1} a 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3461305788",
+      "temporary_id": "decl-025290"
+    },
+    {
+      "formal_type": "\u2200 {F : Type u_1} [inst : Field.{u_1} F] (s : Matrix.SpecialLinearGroup.{0, u_1} (Fin 2) F) (a\u2080 : F),\n  Ne.{u_1 + 1} a\u2080 0 \u2192\n    Ne.{u_1 + 1} a\u2080 1 \u2192\n      Membership.mem.{u_1, u_1} (commutator.{u_1} (decl-025266.{u_1} F))\n        (DFunLike.coe.{max (u_1 + 1) 1, max (u_1 + 1) 1, max (u_1 + 1) 1} Matrix.SpecialLinearGroup.toGL.{0, u_1} s)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025266"
+      ],
+      "structural_type_hash": "1542399836",
+      "temporary_id": "decl-025293"
+    },
+    {
+      "formal_type": "{F : Type u_1} \u2192 [inst : Field.{u_1} F] \u2192 decl-025266.{u_1} F",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025266"
+      ],
+      "structural_type_hash": "2494305862",
+      "temporary_id": "decl-025301"
+    }
+  ],
+  "module_temporary_id": "module-0402",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

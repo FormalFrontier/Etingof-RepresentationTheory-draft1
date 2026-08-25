@@ -1,0 +1,228 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:56d4f4b65a2da2421985",
+      "declaration": "GL2.centralizerCard_isElliptic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)] {g : GL2'\u271d p n},\n  GL2.IsElliptic g \u2192\n    Eq.{1}\n      (Nat.card.{0}\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.centralizer.{0} (Singleton.singleton.{0, 0} g)) x))\n      (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:96bfd33a43cc6cc71f1e",
+      "declaration": "GL2.centralizerCard_isParabolic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)] {g : GL2'\u271d p n},\n  GL2.IsParabolic g \u2192\n    Eq.{1}\n      (Nat.card.{0}\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.centralizer.{0} (Singleton.singleton.{0, 0} g)) x))\n      (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n        (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:0fc5b130c8208ce2150f",
+      "declaration": "GL2.centralizerCard_isScalar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)] {g : GL2'\u271d p n},\n  GL2.IsScalar g \u2192\n    Eq.{1}\n      (Nat.card.{0}\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.centralizer.{0} (Singleton.singleton.{0, 0} g)) x))\n      (HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1)\n        (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2)\n          (Fintype.card.{0} (GaloisField p n))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:fb291710ad1b602876d1",
+      "declaration": "GL2.centralizerCard_isSplitSemisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    \u2200 {g : GL2'\u271d p n},\n      GL2.IsSplitSemisimple g \u2192\n        Eq.{1}\n          (Nat.card.{0}\n            (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.centralizer.{0} (Singleton.singleton.{0, 0} g)) x))\n          (HPow.hPow.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1) 2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:661c532a8ace03f21652",
+      "declaration": "GL2.classCard_isElliptic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} n 0 \u2192\n    \u2200 {g : GL2'\u271d p n},\n      GL2.IsElliptic g \u2192\n        Eq.{1} (Nat.card.{0} (Set.Elem.{0} (MulAction.orbit.{0, 0} (ConjAct.{0} (GL2'\u271d p n)) g)))\n          (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2)\n            (Fintype.card.{0} (GaloisField p n)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:10d9ae400f26458d663d",
+      "declaration": "GL2.classCard_isParabolic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} n 0 \u2192\n    \u2200 {g : GL2'\u271d p n},\n      GL2.IsParabolic g \u2192\n        Eq.{1} (Nat.card.{0} (Set.Elem.{0} (MulAction.orbit.{0, 0} (ConjAct.{0} (GL2'\u271d p n)) g)))\n          (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:bd6ccee3d3682448ca82",
+      "declaration": "GL2.classCard_isScalar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [Fintype.{0} (GaloisField p n)] [DecidableEq.{1} (GaloisField p n)]\n  [Fintype.{0} (GL2'\u271d p n)] {g : GL2'\u271d p n},\n  GL2.IsScalar g \u2192 Eq.{1} (Nat.card.{0} (Set.Elem.{0} (MulAction.orbit.{0, 0} (ConjAct.{0} (GL2'\u271d p n)) g))) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:f73876d3c15f864d5188",
+      "declaration": "GL2.classCard_isSplitSemisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      \u2200 {g : GL2'\u271d p n},\n        GL2.IsSplitSemisimple g \u2192\n          Eq.{1} (Nat.card.{0} (Set.Elem.{0} (MulAction.orbit.{0, 0} (ConjAct.{0} (GL2'\u271d p n)) g)))\n            (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2)\n              (Fintype.card.{0} (GaloisField p n)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:16aa36a179805c01b1bf",
+      "declaration": "GL2.exists_conj_isElliptic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat},\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      \u2200 {g : GL2'\u271d p n},\n        GL2.IsElliptic g \u2192\n          \u2200 {\u03b5 : GaloisField p n} (h\u03b5 : Not (IsSquare.{0} \u03b5)),\n            Exists.{1} fun x => Exists.{1} fun y => Exists.{0} fun hy => IsConj.{0} g (GL2.ellipticRep \u03b5 x y h\u03b5 hy)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:608313948c49a7887ad8",
+      "declaration": "GL2.exists_conj_isParabolic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat},\n  Ne.{1} p 2 \u2192\n    \u2200 {g : GL2'\u271d p n}, GL2.IsParabolic g \u2192 Exists.{1} fun x => Exists.{0} fun hx => IsConj.{0} g (GL2.jordanRepr x hx)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:98ba7c982ce8bbcdb037",
+      "declaration": "GL2.exists_conj_isScalar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} {g : GL2'\u271d p n},\n  GL2.IsScalar g \u2192 Exists.{1} fun x => Exists.{0} fun hx => IsConj.{0} g (GL2.scalarRepr x hx)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:315f387011dcd22ed681",
+      "declaration": "GL2.exists_conj_isSplitSemisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat},\n  Ne.{1} p 2 \u2192\n    \u2200 {g : GL2'\u271d p n},\n      GL2.IsSplitSemisimple g \u2192\n        Exists.{1} fun x =>\n          Exists.{1} fun y =>\n            Exists.{0} fun hx => Exists.{0} fun hy => And (Ne.{1} x y) (IsConj.{0} g (GL2.diagRepr x y hx hy))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:6935a89e36ea924d78e3",
+      "declaration": "GL2.numEllipticClasses_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} GL2.numEllipticClasses\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n            (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n          2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:f5fe1fb578a29b07bff8",
+      "declaration": "GL2.numParabolicClasses_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192 Ne.{1} n 0 \u2192 Eq.{1} GL2.numParabolicClasses (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:8b7b6b7e351b0f2b74d2",
+      "declaration": "GL2.numScalarClasses_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} n 0 \u2192 Eq.{1} GL2.numScalarClasses (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:763f4c381a5ac6b30971",
+      "declaration": "GL2.numSplitSemisimpleClasses_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} GL2.numSplitSemisimpleClasses\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n            (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2))\n          2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_5.25.1",
+  "packet_id": "align-0058",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0058"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:10a831796e5c54ea3044",
+  "source_text": "The table's type counts, centralizer orders, conjugacy-class sizes, and normal forms have public theorems."
+}

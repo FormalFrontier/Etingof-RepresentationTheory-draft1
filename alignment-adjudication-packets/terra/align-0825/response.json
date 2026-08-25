@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0825",
+  "associations": [
+    {
+      "association_id": "association:95c7a28bd9324263640b",
+      "role": "primary",
+      "rationale": "For every module M, the type directly asserts that a ProjectiveResolution of M is nonempty."
+    }
+  ]
+}

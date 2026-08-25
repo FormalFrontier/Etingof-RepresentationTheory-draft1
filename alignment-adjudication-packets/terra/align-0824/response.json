@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0824",
+  "associations": [
+    {
+      "association_id": "association:57417773cd3d2b101d25",
+      "role": "supporting",
+      "rationale": "The type visibly gives an existential witness whose displayed ProjectiveResolution.complex terms are free, but the witness's own type is elided, so it does not directly display the complete free-projective-resolution claim."
+    },
+    {
+      "association_id": "association:c86c60c49148bb7825e3",
+      "role": "supporting",
+      "rationale": "It returns a ProjectiveResolution through an opaque structure and does not visibly state that its terms are free."
+    }
+  ]
+}

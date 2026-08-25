@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6f6ec21245165565aba6",
+      "declaration": "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_iff_proportional",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/171/claim_coverage/claims/11/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} {W : Type u_4} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : AddCommGroup.{u_4} W]\n  [inst_8 : Module.{u_1, u_4} k W] [inst_9 : Module.{u_2, u_4} A W] [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A W]\n  {f f' :\n    LinearMap.{u_1, u_1, u_2, max u_3 u_4} (RingHom.id.{u_1} k) A\n      (LinearMap.{u_1, u_1, u_4, u_3} (RingHom.id.{u_1} k) W V)}\n  [IsAlgClosed.{u_1} k] [FiniteDimensional.{u_1, u_3} k V] [FiniteDimensional.{u_1, u_4} k W]\n  [IsSimpleModule.{u_2, u_3} A V] [IsSimpleModule.{u_2, u_4} A W]\n  (hf : Etingof.Problem3_9_1.IsCocycle.{u_1, u_2, u_3, u_4} k A V W f)\n  (hf' : Etingof.Problem3_9_1.IsCocycle.{u_1, u_2, u_3, u_4} k A V W f'),\n  Iff\n    (Nonempty.{(max u_4 u_3) + 1}\n      (LinearEquiv.{u_2, u_2, max u_4 u_3, max u_4 u_3} (RingHom.id.{u_2} A)\n        (Etingof.Problem3_9_1.ExtMod.{u_1, u_2, u_3, u_4} k A V W f hf)\n        (Etingof.Problem3_9_1.ExtMod.{u_1, u_2, u_3, u_4} k A V W f' hf')))\n    (Exists.{u_1 + 1} fun c =>\n      And (Ne.{u_1 + 1} c 0)\n        (Membership.mem.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n          (Etingof.Problem3_9_1.coboundaries.{u_1, u_2, u_3, u_4} k A V W)\n          (HSub.hSub.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4} f\n            (HSMul.hSMul.{u_1, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4} c f'))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_1"
+    },
+    {
+      "association_id": "association:3431b22b8d5f3fb4ae88",
+      "declaration": "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_prod_iff_mem_coboundaries",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/171/claim_coverage/claims/11/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} {W : Type u_4} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : AddCommGroup.{u_4} W]\n  [inst_8 : Module.{u_1, u_4} k W] [inst_9 : Module.{u_2, u_4} A W] [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A W]\n  {f :\n    LinearMap.{u_1, u_1, u_2, max u_3 u_4} (RingHom.id.{u_1} k) A\n      (LinearMap.{u_1, u_1, u_4, u_3} (RingHom.id.{u_1} k) W V)}\n  [IsAlgClosed.{u_1} k] [FiniteDimensional.{u_1, u_3} k V] [FiniteDimensional.{u_1, u_4} k W]\n  [IsSimpleModule.{u_2, u_3} A V] [IsSimpleModule.{u_2, u_4} A W]\n  (hf : Etingof.Problem3_9_1.IsCocycle.{u_1, u_2, u_3, u_4} k A V W f),\n  Iff\n    (Nonempty.{(max u_4 u_3) + 1}\n      (LinearEquiv.{u_2, u_2, max u_4 u_3, max u_4 u_3} (RingHom.id.{u_2} A)\n        (Etingof.Problem3_9_1.ExtMod.{u_1, u_2, u_3, u_4} k A V W f hf) (Prod.{u_3, u_4} V W)))\n    (Membership.mem.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n      (Etingof.Problem3_9_1.coboundaries.{u_1, u_2, u_3, u_4} k A V W) f)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.1",
+  "packet_id": "align-0665",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0665"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.1:claim-12",
+  "source_text": "Nontrivial extensions are parametrized by \u2119Ext\u00b9(W,V), and every extension splits if and only if Ext\u00b9(W,V)=0."
+}

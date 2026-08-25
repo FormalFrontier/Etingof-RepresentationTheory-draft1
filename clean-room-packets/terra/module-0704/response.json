@@ -1,0 +1,70 @@
+{
+  "module_name": "ModuleCat.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-000621",
+      "new_name": "auxiliaryModuleRelation",
+      "docstring": "An auxiliary relation on objects of the category of modules over a small ring."
+    },
+    {
+      "temporary_id": "decl-000898",
+      "new_name": "AuxiliaryModuleType",
+      "docstring": "An auxiliary type associated with a small ring."
+    },
+    {
+      "temporary_id": "decl-001638",
+      "new_name": "auxiliaryModuleRelation'",
+      "docstring": "An auxiliary relation on objects of the category of modules over a small ring."
+    },
+    {
+      "temporary_id": "decl-004112",
+      "new_name": "auxiliaryModuleRelation''",
+      "docstring": "An auxiliary relation on objects of the category of modules over a small ring."
+    },
+    {
+      "temporary_id": "decl-004113",
+      "new_name": "auxiliaryModuleRelation'''",
+      "docstring": "An auxiliary relation on objects of the category of modules over a small ring."
+    },
+    {
+      "temporary_id": "decl-004834",
+      "new_name": "auxiliaryModuleRelation''''",
+      "docstring": "An auxiliary relation on objects of the category of modules over a small ring."
+    },
+    {
+      "temporary_id": "decl-005131",
+      "new_name": "auxiliaryModuleRelationOverRing",
+      "docstring": "An auxiliary relation on objects of the category of modules over a ring."
+    },
+    {
+      "temporary_id": "decl-015612",
+      "new_name": "AuxiliaryType",
+      "docstring": "An auxiliary type associated with a ring."
+    },
+    {
+      "temporary_id": "decl-017221",
+      "new_name": "auxiliaryModuleRelation_equivalence",
+      "docstring": "The auxiliary relation on module objects is an equivalence relation."
+    },
+    {
+      "temporary_id": "decl-017222",
+      "new_name": "auxiliaryModuleRelation_of_auxiliaryModuleRelation''",
+      "docstring": "Transfers one auxiliary module relation to another between simple module objects."
+    },
+    {
+      "temporary_id": "decl-017223",
+      "new_name": "auxiliaryModuleRelation_of_iso",
+      "docstring": "Establishes the auxiliary module relation between simple module objects joined by an isomorphism."
+    },
+    {
+      "temporary_id": "decl-017494",
+      "new_name": "auxiliaryTypeSetoid",
+      "docstring": "A setoid on the auxiliary type associated with a small ring."
+    },
+    {
+      "temporary_id": "decl-019251",
+      "new_name": "subsingleton_ext_one_of_not_auxiliaryModuleRelation",
+      "docstring": "Degree-one extensions between simple module objects form a subsingleton when the auxiliary relation does not hold."
+    }
+  ]
+}

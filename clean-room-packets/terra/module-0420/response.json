@@ -1,0 +1,40 @@
+{
+  "module_name": "Auxiliary.GeneralLinearPolynomialSubrepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-015499",
+      "new_name": "auxiliarySubrepresentation_property",
+      "docstring": "Records the displayed property of the representation associated with the auxiliary subrepresentation."
+    },
+    {
+      "temporary_id": "decl-015506",
+      "new_name": "auxiliarySubrepresentation",
+      "docstring": "The auxiliary subrepresentation indexed by a natural-number parameter."
+    },
+    {
+      "temporary_id": "decl-015508",
+      "new_name": "auxiliarySubrepresentation_finite",
+      "docstring": "The module underlying the auxiliary subrepresentation is finite."
+    },
+    {
+      "temporary_id": "decl-015510",
+      "new_name": "auxiliarySubrepresentation_apply_coe",
+      "docstring": "The restricted action on the auxiliary subrepresentation agrees with the ambient action after coercion."
+    },
+    {
+      "temporary_id": "decl-015522",
+      "new_name": "auxiliaryMap_injective",
+      "docstring": "The auxiliary map indexed by a natural number is injective."
+    },
+    {
+      "temporary_id": "decl-015523",
+      "new_name": "auxiliaryMap_action",
+      "docstring": "The auxiliary map commutes with the displayed group action."
+    },
+    {
+      "temporary_id": "decl-015529",
+      "new_name": "auxiliarySubrepresentation_isSemisimple",
+      "docstring": "The representation arising from the displayed auxiliary subrepresentation is semisimple."
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "module_name": "LieAlgebra.PolynomialMatrixRealization",
+  "declarations": [
+    {
+      "temporary_id": "decl-007422",
+      "new_name": "xAtTwoZeroMatrix_apply",
+      "docstring": "The displayed polynomial matrix has entry `X` at index `(2, 0)` and zero at every other index."
+    },
+    {
+      "temporary_id": "decl-007430",
+      "new_name": "upperChainDifferenceMatrix_apply",
+      "docstring": "The displayed matrix entry is the indicator of `(0, 1)` minus the indicator of `(1, 2)`."
+    },
+    {
+      "temporary_id": "decl-007515",
+      "new_name": "matrix_eq_scalar_of_bracket_eq_zero",
+      "docstring": "A polynomial matrix whose brackets with both displayed matrices vanish is the scalar matrix determined by its `(0, 0)` entry."
+    },
+    {
+      "temporary_id": "decl-007562",
+      "new_name": "auxiliaryMap_eq_zero_of_predicate",
+      "docstring": "Under the stated nonvanishing and injectivity hypotheses, the displayed auxiliary value is zero whenever its input satisfies the displayed predicate."
+    },
+    {
+      "temporary_id": "decl-007595",
+      "new_name": "eq_zero_of_mem_auxiliarySet_and_bracket_eq_zero",
+      "docstring": "A matrix in the displayed set is zero if its brackets with both distinguished matrices vanish."
+    },
+    {
+      "temporary_id": "decl-007691",
+      "new_name": "auxiliaryComposite_eq_zero_of_predicate",
+      "docstring": "Under the stated nonvanishing hypotheses, the displayed composite vanishes on every element satisfying the displayed predicate."
+    },
+    {
+      "temporary_id": "decl-007692",
+      "new_name": "auxiliaryMap_eq_zero_of_forall_bracket_eq_zero",
+      "docstring": "If every element has zero bracket with the given element, then its image under the displayed auxiliary map is zero."
+    },
+    {
+      "temporary_id": "decl-007698",
+      "new_name": "auxiliaryMap_bracket",
+      "docstring": "The displayed auxiliary map sends a bracket to the bracket of the images."
+    },
+    {
+      "temporary_id": "decl-007701",
+      "new_name": "auxiliaryMap_mem",
+      "docstring": "The image of every element under the displayed auxiliary map belongs to the displayed set of matrices."
+    },
+    {
+      "temporary_id": "decl-007703",
+      "new_name": "auxiliaryMap_comp_apply",
+      "docstring": "On every free Lie algebra element, the displayed composite of auxiliary maps agrees with the displayed comparison map."
+    },
+    {
+      "temporary_id": "decl-007706",
+      "new_name": "auxiliaryMap_apply_eq_xAtTwoZeroMatrix",
+      "docstring": "The displayed auxiliary map sends the displayed element to the polynomial matrix supported at `(2, 0)` with value `X`."
+    },
+    {
+      "temporary_id": "decl-007707",
+      "new_name": "auxiliaryMap_apply_eq_upperChainDifferenceMatrix",
+      "docstring": "The displayed auxiliary map sends the displayed element to the matrix whose entries are the indicator of `(0, 1)` minus the indicator of `(1, 2)`."
+    },
+    {
+      "temporary_id": "decl-007873",
+      "new_name": "auxiliaryIteratedBracket_eq_zero",
+      "docstring": "Under the stated nonvanishing and injectivity hypotheses, the displayed iterated bracket is zero for every natural-number index."
+    },
+    {
+      "temporary_id": "decl-008108",
+      "new_name": "auxiliaryPredicate_transformedElement",
+      "docstring": "Under the stated nonvanishing and injectivity hypotheses, the displayed predicate relates each transformed family element to its displayed auxiliary value."
+    },
+    {
+      "temporary_id": "decl-008112",
+      "new_name": "auxiliaryPredicate_familyPair",
+      "docstring": "Under the stated nonvanishing and injectivity hypotheses, the displayed predicate holds for the two indexed auxiliary family elements."
+    },
+    {
+      "temporary_id": "decl-008212",
+      "new_name": "span_range_auxiliaryFamily_eq_top",
+      "docstring": "Under the stated nonvanishing and injectivity hypotheses, the range of the displayed family spans the entire module."
+    },
+    {
+      "temporary_id": "decl-008224",
+      "new_name": "auxiliaryFamily_eq_zero",
+      "docstring": "Under the stated nonvanishing and injectivity hypotheses, every member of the displayed auxiliary family is zero."
+    }
+  ]
+}

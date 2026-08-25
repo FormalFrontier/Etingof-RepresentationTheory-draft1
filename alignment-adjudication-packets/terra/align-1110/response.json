@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1110",
+  "associations": [
+    {
+      "association_id": "association:f7ec31b0325d2c1e1ab3",
+      "role": "primary",
+      "rationale": "For a submodule W of the finite direct sum of pairwise nonisomorphic simple modules, the theorem produces r with r i <= n i and a linear equivalence W to the corresponding direct sum, exactly stating the claim."
+    },
+    {
+      "association_id": "association:dca243214e19392674bf",
+      "role": "supporting",
+      "rationale": "This variant proves the analogous multiplicity result for the dependent-function presentation rather than itself stating the source's direct-sum formulation."
+    }
+  ]
+}

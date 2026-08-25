@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:dd115ce5acc6544b05ed",
+      "declaration": "LinearMap.conjugate",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/183/claim_coverage/claims/12/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RepresentationTheory.Maschke"
+    },
+    {
+      "association_id": "association:358cc45e35e00d57aa86",
+      "declaration": "LinearMap.equivariantProjection",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/183/claim_coverage/claims/12/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RepresentationTheory.Maschke"
+    },
+    {
+      "association_id": "association:bbd34f30c81819b08f33",
+      "declaration": "LinearMap.sumOfConjugates",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/183/claim_coverage/claims/12/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RepresentationTheory.Maschke"
+    }
+  ],
+  "canonical_reference": "Chapter4/Theorem4.1.1",
+  "packet_id": "align-0985",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0985"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:bb3e8065f25ce6a7de23",
+  "source_text": "Averaging the conjugates of P over G and dividing by |G| produces the operator P\u0304 used in Maschke's proof."
+}

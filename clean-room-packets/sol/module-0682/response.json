@@ -1,0 +1,25 @@
+{
+  "declarations": [
+    {
+      "docstring": "Constructs an isomorphism from a mapped complex associated with the two projective resolutions to the tensor product of their separately mapped complexes.",
+      "new_name": "mappedComplexIsoTensorMappedProjectiveResolutionComplexes",
+      "temporary_id": "decl-022350"
+    },
+    {
+      "docstring": "Identifies the bifunctor image of the two projective-resolution complexes with the tensor product of their separately mapped complexes.",
+      "new_name": "mappedBifunctorComplexIsoTensorMappedProjectiveResolutionComplexes",
+      "temporary_id": "decl-022368"
+    },
+    {
+      "docstring": "The hom of the mapped-complex comparison intertwines the bifunctor inclusion at a pair of degrees with the pointwise comparison followed by the tensor-complex inclusion.",
+      "new_name": "mappedComplexIsoTensorMappedProjectiveResolutionComplexes_hom_comp_iota",
+      "temporary_id": "decl-022379"
+    },
+    {
+      "docstring": "The compatibility of the mapped-complex comparison with a bifunctor inclusion remains valid after postcomposition by an arbitrary morphism.",
+      "new_name": "mappedComplexIsoTensorMappedProjectiveResolutionComplexes_hom_comp_iota_assoc",
+      "temporary_id": "decl-022380"
+    }
+  ],
+  "module_name": "HomologicalAlgebra.TensorProduct.ProjectiveResolutionComplexComparison"
+}

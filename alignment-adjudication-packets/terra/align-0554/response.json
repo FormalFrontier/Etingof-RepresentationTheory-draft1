@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0554",
+  "associations": [
+    {
+      "association_id": "association:f5500610a4d0749f91e5",
+      "rationale": "Under the displayed assumption that 2 is nonzero in the field, the type directly concludes finrank 6 for g_3, matching the characteristic-not-two dimension claim.",
+      "role": "primary"
+    }
+  ]
+}

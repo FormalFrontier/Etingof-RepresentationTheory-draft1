@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Remark2.3.11",
+    "kind": "remark",
+    "title": "Corollary 2.3.10 is false over the reals",
+    "node_id": "chapter-02/section-2-3",
+    "order": 37,
+    "slug": "remark2-3-11",
+    "span": {
+      "start": {
+        "page": "12",
+        "line": 17
+      },
+      "end": {
+        "page": "12",
+        "line": 17
+      }
+    },
+    "source_sha256": "5bf0dfc226774a3f57e659fe9542b9b0599d1c0a130880694f76a04cc022f81d",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2311",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

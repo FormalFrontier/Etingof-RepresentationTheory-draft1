@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3b118f4b631ad9255c3c",
+      "declaration": "Etingof.exteriorAlgebraEquivBasisModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/109/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          {\u03b9 : Type w} \u2192\n            Module.Basis.{w, u, v} \u03b9 k V \u2192\n              AlgEquiv.{u, max v u, max u w} k (Etingof.ExteriorAlgebraDef.{u, v} k V)\n                (ExteriorAlgebra.{u, max u w} k (Finsupp.{w, u} \u03b9 k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_12_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.12.1",
+  "packet_id": "align-0905",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0905"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a4357eb2c0cd629ee3f6",
+  "source_text": "A chosen basis identifies \u2227(V) with the exterior algebra on the corresponding coordinate generators."
+}

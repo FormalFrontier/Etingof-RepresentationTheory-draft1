@@ -1,0 +1,1 @@
+{"module_name":"Group.SimpleCharacterCriterion","declarations":[{"temporary_id":"decl-001831","new_name":"simple_iff_characterInner_eq_one","docstring":"A finite-group representation is simple exactly when its displayed character inner value is one."}]}

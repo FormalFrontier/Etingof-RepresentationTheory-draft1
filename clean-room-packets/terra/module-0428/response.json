@@ -1,0 +1,10 @@
+{
+  "module_name": "MvPolynomial.UniformIndexShift",
+  "declarations": [
+    {
+      "temporary_id": "decl-023051",
+      "new_name": "auxiliaryValue_add_one_eq_prod_X_mul",
+      "docstring": "Adding one pointwise to the index function multiplies the displayed value by the product of all polynomial variables."
+    }
+  ]
+}

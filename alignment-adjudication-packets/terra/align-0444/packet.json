@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8a27a46f7c7a3bab835d",
+      "declaration": "Etingof.ueaBasisAlgEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/109/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type v) \u2192\n      [inst_1 : LieRing.{v} L] \u2192\n        [inst_2 : LieAlgebra.{u, v} k L] \u2192\n          {\u03b9 : Type w} \u2192\n            (b : Module.Basis.{w, u, v} \u03b9 k L) \u2192\n              AlgEquiv.{u, max w u, max v u} k (Etingof.UEABasisPresentation.{u, v, w} k L b)\n                (Etingof.UniversalEnvelopingAlgebraDef.{u, v} k L)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_12_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.12.1",
+  "packet_id": "align-0444",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0444"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:8f2665f9d9af79b4ca13",
+  "source_text": "A chosen basis identifies the coordinate-free U(L) with the basis-and-structure-constants presentation defined previously."
+}

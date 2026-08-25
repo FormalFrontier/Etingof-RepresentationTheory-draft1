@@ -1,0 +1,68 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : CommRing.{u} k] (A : Type u) [inst_1 : Ring.{u} A] (N : Type u) [inst_2 : AddCommGroup.{u} N]\n  [inst_3 : Module.{u, u} A N] (M : Type u) [inst_4 : AddCommGroup.{u} M] [inst_5 : Module.{u, u} (MulOpposite.{u} A) M]\n  [inst_6 : Module.{u, u} k M] [SMulCommClass.{u, u, u} k (MulOpposite.{u} A) M] (c : k)\n  {x : TensorProduct.{0, u, u} Int M N},\n  Membership.mem.{u, u} (decl-017273.{u} A N M) x \u2192\n    Membership.mem.{u, u} (decl-017273.{u} A N M) (HSMul.hSMul.{u, u, u} c x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273"
+      ],
+      "structural_type_hash": "3222697185",
+      "temporary_id": "decl-017275"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        (N : Type u) \u2192\n          [inst_2 : AddCommGroup.{u} N] \u2192\n            [inst_3 : Module.{u, u} A N] \u2192\n              (M : Type u) \u2192\n                [inst_4 : AddCommGroup.{u} M] \u2192\n                  [inst_5 : Module.{u, u} (MulOpposite.{u} A) M] \u2192\n                    [inst_6 : Module.{u, u} k M] \u2192\n                      [SMulCommClass.{u, u, u} k (MulOpposite.{u} A) M] \u2192 Module.{u, u} k (decl-023968.{u} A N M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-023968"
+      ],
+      "structural_type_hash": "644447429",
+      "temporary_id": "decl-020644"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        (N : Type u) \u2192\n          [inst_2 : AddCommGroup.{u} N] \u2192\n            [inst_3 : Module.{u, u} A N] \u2192\n              (M : Type u) \u2192\n                [inst_4 : AddCommGroup.{u} M] \u2192\n                  [inst_5 : Module.{u, u} (MulOpposite.{u} A) M] \u2192\n                    [inst_6 : Module.{u, u} k M] \u2192\n                      [SMulCommClass.{u, u, u} k (MulOpposite.{u} A) M] \u2192 SMul.{u, u} k (decl-023968.{u} A N M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023968"
+      ],
+      "structural_type_hash": "2056628487",
+      "temporary_id": "decl-020665"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {A : Type u} [inst_1 : Ring.{u} A] {N : Type u} [inst_2 : AddCommGroup.{u} N]\n  [inst_3 : Module.{u, u} A N] {M : Type u} [inst_4 : AddCommGroup.{u} M] [inst_5 : Module.{u, u} (MulOpposite.{u} A) M]\n  [inst_6 : Module.{u, u} k M] [inst_7 : SMulCommClass.{u, u, u} k (MulOpposite.{u} A) M] (c : k)\n  (x : TensorProduct.{0, u, u} Int M N),\n  Eq.{u + 1} (HSMul.hSMul.{u, u, u} c (QuotientAddGroup.mk.{u} x)) (QuotientAddGroup.mk.{u} (HSMul.hSMul.{u, u, u} c x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-020665"
+      ],
+      "structural_type_hash": "1524326379",
+      "temporary_id": "decl-023257"
+    }
+  ],
+  "module_temporary_id": "module-0688",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

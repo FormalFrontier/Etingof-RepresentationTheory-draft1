@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9d733f2487f6f6854199",
+      "declaration": "CategoryTheory.Functor.IsCorepresentable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/483/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.CategoryTheory.Yoneda"
+    },
+    {
+      "association_id": "association:e65764992175a0ce994e",
+      "declaration": "CategoryTheory.Functor.IsRepresentable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/483/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.CategoryTheory.Yoneda"
+    }
+  ],
+  "canonical_reference": "Chapter7/Introduction_7.5",
+  "packet_id": "align-0090",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0090"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:1c9d4eb7afc8cfaae282",
+  "source_text": "A Set-valued functor is representable when naturally isomorphic to a Hom functor, with the dual notion for C-op."
+}

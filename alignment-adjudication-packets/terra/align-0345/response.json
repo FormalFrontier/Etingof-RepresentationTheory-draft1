@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0345",
+  "associations": [
+    {
+      "association_id": "association:c9f467584525c6458014",
+      "rationale": "The formal type gives a finite-representation-type characterization using graph and arrow conditions, from which orientation independence follows, but it does not directly state orientation independence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:caeff2d379ceef58a625",
+      "rationale": "The formal type gives a finite-representation-type/Dynkin characterization from which orientation independence follows, but it does not directly state orientation independence.",
+      "role": "supporting"
+    }
+  ]
+}

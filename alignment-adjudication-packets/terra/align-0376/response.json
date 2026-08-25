@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0376",
+  "associations": [
+    {
+      "association_id": "association:3461e9391fda18ee217a",
+      "role": "supporting",
+      "rationale": "The formal type supplies a vertex-indexed natural-number construction from finite-dimensional spaces, but it does not display that each value is the corresponding dimension."
+    }
+  ]
+}

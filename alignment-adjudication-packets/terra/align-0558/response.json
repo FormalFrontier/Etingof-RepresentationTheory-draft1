@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0558",
+  "associations": [
+    {
+      "association_id": "association:e3eb44782c8c77ea7f78",
+      "rationale": "The negated universal supplies evidence that the strict bound below p fails, but it does not itself directly state existence of an irreducible module of dimension exactly p or the combined sharp-bound claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9538f13bdf42e1e8063e",
+      "rationale": "The type directly gives the upper bound finrank at most p for every finite-dimensional irreducible module, but does not itself state that equality is achieved.",
+      "role": "supporting"
+    }
+  ]
+}

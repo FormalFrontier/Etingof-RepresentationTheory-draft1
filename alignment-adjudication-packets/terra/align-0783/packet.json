@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:95239c218afcb22c592e",
+      "declaration": "Etingof.Problem6_1_3_tildeE.cartan_det_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/407/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (t : Etingof.Problem6_1_3_tildeE.AffineType),\n  Eq.{1} (Matrix.det.{0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) t.adj)) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE"
+    },
+    {
+      "association_id": "association:ed55faebcd9fb81e7f89",
+      "declaration": "Etingof.Problem6_1_3_tildeE.cartan_mulVec_marks_eq_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/407/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (t : Etingof.Problem6_1_3_tildeE.AffineType),\n  Eq.{1} (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) t.adj) t.marks) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.3_continued_E7_E8",
+  "packet_id": "align-0783",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0783"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.1.3_continued_E7_E8:part_e",
+  "source_text": "Part (e): verify the remaining forbidden determinant-zero graphs."
+}

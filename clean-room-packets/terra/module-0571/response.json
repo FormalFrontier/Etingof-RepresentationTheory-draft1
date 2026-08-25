@@ -1,0 +1,10 @@
+{
+  "module_name": "UniverseTypeOperator",
+  "declarations": [
+    {
+      "temporary_id": "decl-001060",
+      "new_name": "TypeOperator",
+      "docstring": "A universe-polymorphic operation assigning to each type a type in a universe large enough for the input level and an additional successor level."
+    }
+  ]
+}

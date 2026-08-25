@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1061",
+  "associations": [
+    {
+      "association_id": "association:54612e142055e1665085",
+      "rationale": "The type defines the A-linear map from A^n to X*, but it does not itself state the coefficient-sum formula also required by the source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bd0be8ffcf875ccce70c",
+      "rationale": "The type states the coefficient-sum formula for the map, but it does not itself include the map construction also asserted by the source claim.",
+      "role": "supporting"
+    }
+  ]
+}

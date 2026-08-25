@@ -1,0 +1,95 @@
+{
+  "module_name": "Auxiliary.SubgroupRepresentationMatrices",
+  "declarations": [
+    {
+      "temporary_id": "decl-015378",
+      "new_name": "auxiliaryComplexCondition",
+      "docstring": "An auxiliary proposition involving a finite group representation, subgroups, and representation data."
+    },
+    {
+      "temporary_id": "decl-015380",
+      "new_name": "auxiliaryRationalCondition",
+      "docstring": "An auxiliary proposition involving a finite group representation, subgroups, and representation data."
+    },
+    {
+      "temporary_id": "decl-015382",
+      "new_name": "matrixColumnsSpanTop_iff_rows_linearIndependent",
+      "docstring": "Characterizes when the column range of a matrix spans the full module by linear independence of its rows."
+    },
+    {
+      "temporary_id": "decl-015383",
+      "new_name": "complexCoefficientFunctionMap",
+      "docstring": "Maps complex-valued coefficient vectors indexed by a finite representation index to group functions."
+    },
+    {
+      "temporary_id": "decl-015385",
+      "new_name": "complexCoefficientFunctionMap_apply_integerMatrixColumn",
+      "docstring": "Evaluating the complex coefficient map on a converted integer-matrix column gives the corresponding indexed group function."
+    },
+    {
+      "temporary_id": "decl-015386",
+      "new_name": "Matrix.intCastToComplex",
+      "docstring": "Converts every integer entry of a matrix to a complex number."
+    },
+    {
+      "temporary_id": "decl-015388",
+      "new_name": "auxiliaryComplexCondition_iff_integerMatrixColumnsSpan",
+      "docstring": "Expresses the auxiliary complex proposition as spanning by converted integer-matrix columns."
+    },
+    {
+      "temporary_id": "decl-015389",
+      "new_name": "auxiliaryIntegerMatrix",
+      "docstring": "An integer-valued matrix associated with a finite group representation, subgroups, and representation data."
+    },
+    {
+      "temporary_id": "decl-015391",
+      "new_name": "auxiliarySubgroupRepresentationFunctions",
+      "docstring": "Produces group functions indexed by a family of subgroups and corresponding representations."
+    },
+    {
+      "temporary_id": "decl-015393",
+      "new_name": "representationCharacterFamily_linearIndependent",
+      "docstring": "The displayed family of complex-valued representation characters is linearly independent."
+    },
+    {
+      "temporary_id": "decl-015395",
+      "new_name": "rationalCoefficientFunctionMap",
+      "docstring": "Maps rational-valued coefficient vectors indexed by a finite representation index to complex-valued group functions."
+    },
+    {
+      "temporary_id": "decl-015397",
+      "new_name": "rationalCoefficientFunctionMap_apply_integerMatrixColumn",
+      "docstring": "Evaluating the rational coefficient map on a converted integer-matrix column gives the corresponding indexed group function."
+    },
+    {
+      "temporary_id": "decl-015398",
+      "new_name": "Matrix.intCastToRat",
+      "docstring": "Converts every integer entry of a matrix to a rational number."
+    },
+    {
+      "temporary_id": "decl-015400",
+      "new_name": "auxiliaryRationalCondition_iff_integerMatrixColumnsSpan",
+      "docstring": "Expresses the auxiliary rational proposition as spanning by converted integer-matrix columns."
+    },
+    {
+      "temporary_id": "decl-015401",
+      "new_name": "integerMatrixRatColumnsSpanTop_iff_complexColumnsSpanTop",
+      "docstring": "For an integer matrix, rational column spanning is equivalent to complex column spanning after entrywise conversion."
+    },
+    {
+      "temporary_id": "decl-015402",
+      "new_name": "subgroupRepresentationFamily",
+      "docstring": "Associates to each finite representation index a representation of a specified subgroup."
+    },
+    {
+      "temporary_id": "decl-015405",
+      "new_name": "integerMatrixSpanningAndRowIndependence",
+      "docstring": "Collects the rational and complex spanning equivalences and their row-linear-independence characterizations for an integer matrix."
+    },
+    {
+      "temporary_id": "decl-015408",
+      "new_name": "simpleSubgroupRepresentationFamily_auxiliaryConditions",
+      "docstring": "Under simplicity of each displayed subgroup representation, relates the auxiliary rational and complex propositions and their matrix row-independence forms."
+    }
+  ]
+}

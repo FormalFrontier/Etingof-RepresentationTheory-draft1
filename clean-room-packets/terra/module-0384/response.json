@@ -1,0 +1,110 @@
+{
+  "module_name": "Auxiliary.PartitionPermutationRelations",
+  "declarations": [
+    {
+      "temporary_id": "decl-005206",
+      "new_name": "Auxiliary.index_condition",
+      "docstring": "An auxiliary predicate on an index of a natural-number sequence of length one more than its parameter."
+    },
+    {
+      "temporary_id": "decl-005819",
+      "new_name": "partition_eq_of_row_len_eq",
+      "docstring": "Two partitions are equal when their Young diagrams have the same row length at every natural index."
+    },
+    {
+      "temporary_id": "decl-017127",
+      "new_name": "Auxiliary.partition_finset_succ",
+      "docstring": "An auxiliary finite set of partitions of the successor associated with a partition."
+    },
+    {
+      "temporary_id": "decl-017507",
+      "new_name": "Auxiliary.construct_from_index_condition",
+      "docstring": "Constructs an auxiliary object from an antitone sequence indexed by `Fin (n + 1)` whose entries sum to `n + 1`, and a distinguished index satisfying the auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-017515",
+      "new_name": "Auxiliary.construct_from_index_condition_parts",
+      "docstring": "The parts of the auxiliary object are obtained by truncated subtraction of one at the distinguished index and are unchanged elsewhere."
+    },
+    {
+      "temporary_id": "decl-017516",
+      "new_name": "Auxiliary.statement017516",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-017684",
+      "new_name": "Auxiliary.complex_function_operation",
+      "docstring": "An auxiliary complex-valued operation on two complex-valued functions on permutations of a finite type."
+    },
+    {
+      "temporary_id": "decl-019733",
+      "new_name": "Auxiliary.multiset_value_permutation_hom_succ",
+      "docstring": "Applying the auxiliary multiset-valued map after the successor permutation homomorphism adjoins one to its original value."
+    },
+    {
+      "temporary_id": "decl-020525",
+      "new_name": "Auxiliary.complex_function_operation_eq_indicator_le",
+      "docstring": "The auxiliary operation on the two specified permutation functions is one when the first partition diagram is at most the second and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-021519",
+      "new_name": "List.eq_of_get_d_zero_eq_of_pos",
+      "docstring": "Positive natural-number lists are equal if their zero-defaulted entries agree at every index."
+    },
+    {
+      "temporary_id": "decl-021949",
+      "new_name": "Auxiliary.permutation_hom_succ",
+      "docstring": "An auxiliary monoid homomorphism from permutations of a finite type to permutations of its successor."
+    },
+    {
+      "temporary_id": "decl-022214",
+      "new_name": "Auxiliary.psum_part_permutation_hom_succ",
+      "docstring": "The partial power-sum expression after the successor permutation homomorphism equals the sum of all variables multiplied by the original partial power-sum expression."
+    },
+    {
+      "temporary_id": "decl-022567",
+      "new_name": "Auxiliary.partition_finset_pred",
+      "docstring": "An auxiliary finite set of partitions of the predecessor associated with a partition of successor size."
+    },
+    {
+      "temporary_id": "decl-022635",
+      "new_name": "Auxiliary.construct_from_partition",
+      "docstring": "Constructs an auxiliary successor-indexed object from a partition."
+    },
+    {
+      "temporary_id": "decl-022649",
+      "new_name": "Auxiliary.statement022649",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-022678",
+      "new_name": "Auxiliary.value_permutation_hom_succ_eq_sum_partition_finset_pred",
+      "docstring": "The auxiliary value of a successor-size partition on the image of a permutation is the sum of the corresponding values over its predecessor partition finset."
+    },
+    {
+      "temporary_id": "decl-023125",
+      "new_name": "Auxiliary.sequence_transform_apply",
+      "docstring": "The auxiliary sequence transform at an index is the original entry plus the truncated difference of the parameter and the index value."
+    },
+    {
+      "temporary_id": "decl-023558",
+      "new_name": "partition_sum_row_len",
+      "docstring": "The row lengths of a partition, summed over indices below its size, add up to that size."
+    },
+    {
+      "temporary_id": "decl-024168",
+      "new_name": "partition_row_len_eq_zero_of_size_le",
+      "docstring": "A partition has row length zero at every index greater than or equal to its size."
+    },
+    {
+      "temporary_id": "decl-024504",
+      "new_name": "Auxiliary.statement024504",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024557",
+      "new_name": "YoungDiagram.le_iff_row_len_le",
+      "docstring": "One Young diagram is at most another exactly when each of its row lengths is at most the corresponding row length."
+    }
+  ]
+}

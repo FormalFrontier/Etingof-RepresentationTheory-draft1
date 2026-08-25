@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Theorem3.10.2",
+    "kind": "theorem",
+    "title": "Irreducible representations of tensor products of algebras",
+    "node_id": "chapter-03/section-3-10",
+    "order": 180,
+    "slug": "theorem3-10-2",
+    "span": {
+      "start": {
+        "page": "59",
+        "line": 13
+      },
+      "end": {
+        "page": "59",
+        "line": 16
+      }
+    },
+    "source_sha256": "bdebb4e844c3e885f1c13bfa55d424a5f949237431ad684e631c620922604aac",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Theorem3102",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

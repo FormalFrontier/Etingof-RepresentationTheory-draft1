@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_after_Theorem5.4.3",
+    "kind": "discussion",
+    "title": "Historical note on Burnside's theorem and proof plan",
+    "node_id": "chapter-05/section-5-4",
+    "order": 272,
+    "slug": "discussion-after-theorem5-4-3",
+    "span": {
+      "start": {
+        "page": "100",
+        "line": 17
+      },
+      "end": {
+        "page": "100",
+        "line": 20
+      }
+    },
+    "source_sha256": "44aa1ef642be567f938bb12d47999087c0bd88c359d398d1c17366ec25069b90",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionAfterTheorem543",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

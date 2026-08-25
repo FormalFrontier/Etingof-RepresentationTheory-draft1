@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.16.1",
+    "kind": "exercise",
+    "title": "Lie's theorem: irreducible representations of solvable Lie algebras",
+    "node_id": "chapter-02/section-2-16",
+    "order": 120,
+    "slug": "problem2-16-1",
+    "span": {
+      "start": {
+        "page": "39",
+        "line": 18
+      },
+      "end": {
+        "page": "40",
+        "line": 4
+      }
+    },
+    "source_sha256": "2099d408f767f56bf5ddd79b8b21e05f5e5a6dea50438c566e22f64951da00ae",
+    "features": {
+      "line_count": 6,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2161",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

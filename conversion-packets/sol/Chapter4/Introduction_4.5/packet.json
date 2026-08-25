@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Introduction_4.5",
+    "kind": "introduction",
+    "title": "Section 4.5: Orthogonality of characters \u2014 Hermitian inner product on class functions",
+    "node_id": "chapter-04/section-4-5",
+    "order": 201,
+    "slug": "introduction-4-5",
+    "span": {
+      "start": {
+        "page": "67",
+        "line": 25
+      },
+      "end": {
+        "page": "68",
+        "line": 2
+      }
+    },
+    "source_sha256": "3ca45419bfd621110deb6ab45355c0d27ffb12bb0fa889d55783e50c11cecf37",
+    "features": {
+      "line_count": 7,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Introduction45",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

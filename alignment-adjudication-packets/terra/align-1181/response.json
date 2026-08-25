@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1181",
+  "associations": [
+    {
+      "association_id": "association:dfb36392669ea1417069",
+      "rationale": "For every finite group and simple finite-dimensional complex representation V, the displayed type directly states that its finrank divides the cardinality of G.",
+      "role": "primary"
+    }
+  ]
+}

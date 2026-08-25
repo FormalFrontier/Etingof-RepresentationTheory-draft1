@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0659",
+  "associations": [
+    {
+      "association_id": "association:e144ef1c539b6e96ebfb",
+      "rationale": "The formal type directly identifies coboundaryOf X = 0 with the pointwise relation X(a • w) = a • X(w), exactly the A-linearity condition for a representation homomorphism.",
+      "role": "primary"
+    }
+  ]
+}

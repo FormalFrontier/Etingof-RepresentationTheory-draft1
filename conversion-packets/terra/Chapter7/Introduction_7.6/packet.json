@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Introduction_7.6",
+    "kind": "introduction",
+    "title": "Section 7.6: Adjoint functors",
+    "node_id": "chapter-07/section-7-6",
+    "order": 488,
+    "slug": "introduction-7-6",
+    "span": {
+      "start": {
+        "page": "188",
+        "line": 9
+      },
+      "end": {
+        "page": "188",
+        "line": 12
+      }
+    },
+    "source_sha256": "1f5bc624b13947200bc649a4f4a90c312dae9d7332d4302c1322d34ad18ba42c",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction76",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,428 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (q : Units.{u_1} k) \u2192\n      Module.Basis.{0, u_1, u_1} (Prod.{0, 0} Int Int) k\n        (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-022235.{u_1} k q) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "2778347130",
+      "temporary_id": "decl-014796"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) (p : Prod.{0, 0} Int Int),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (decl-014796.{u_1} q) p) (decl-014830.{u_1} q p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014796",
+        "decl-014830",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "2792558257",
+      "temporary_id": "decl-014797"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V],\n  Eq.{u_2 + 1} (Units.val.{u_2} (decl-014826.{u_1, u_2} q))\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1}\n      (Algebra.algebraMap.{u_1, u_2} k (Module.End.{u_1, u_2} k V)) (Units.val.{u_1} q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014826"
+      ],
+      "structural_type_hash": "3938290121",
+      "temporary_id": "decl-014798"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (a : Int),\n  Eq.{u_2 + 1} (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} (decl-014826.{u_1, u_2} q) a))\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1}\n      (Algebra.algebraMap.{u_1, u_2} k (Module.End.{u_1, u_2} k V)) (Units.val.{u_1} (HPow.hPow.{u_1, 0, u_1} q a)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014826"
+      ],
+      "structural_type_hash": "3448646999",
+      "temporary_id": "decl-014799"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) (p : Prod.{0, 0} Int Int),\n  Eq.{u_1 + 1} (Subtype.val.{u_1 + 1} (decl-014830.{u_1} q p)) (decl-022218.{u_1} k q p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014830",
+        "decl-014872",
+        "decl-022218",
+        "decl-022235"
+      ],
+      "structural_type_hash": "3276422555",
+      "temporary_id": "decl-014800"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (u : Units.{u_2} (Module.End.{u_1, u_2} k V)),\n  Commute.{u_2} (decl-014826.{u_1, u_2} q) u",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014826"
+      ],
+      "structural_type_hash": "3185426504",
+      "temporary_id": "decl-014801"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V)),\n  Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y))) \u2192\n    Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} Y X)\n      (HMul.hMul.{u_2, u_2, u_2} (HMul.hMul.{u_2, u_2, u_2} (decl-014826.{u_1, u_2} q) X) Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014826"
+      ],
+      "structural_type_hash": "2033109910",
+      "temporary_id": "decl-014802"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V)),\n  Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y))) \u2192\n    Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} Y (Inv.inv.{u_2} X))\n      (HMul.hMul.{u_2, u_2, u_2}\n        (HMul.hMul.{u_2, u_2, u_2} (Inv.inv.{u_2} (decl-014826.{u_1, u_2} q)) (Inv.inv.{u_2} X)) Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014826"
+      ],
+      "structural_type_hash": "2525426397",
+      "temporary_id": "decl-014803"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (q : Units.{u_1} k) \u2192\n      {V : Type u_2} \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V)) \u2192\n              Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n                  (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n                    (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y))) \u2192\n                Module.{u_1, u_2}\n                  (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-022235.{u_1} k q) x) V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "3492074076",
+      "temporary_id": "decl-014811"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V))\n  (hrel :\n    Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y)))),\n  IsScalarTower.{u_1, u_1, u_2} k\n    (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-022235.{u_1} k q) x) V",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014811",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "2856725122",
+      "temporary_id": "decl-014812"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V))\n  (hrel :\n    Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y))))\n  (a : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-022235.{u_1} k q) x) (v : V),\n  Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} a v)\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014839.{u_1, u_2} q X Y hrel) a) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014811",
+        "decl-014839",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "4204593492",
+      "temporary_id": "decl-014813"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192\n          Units.{u_2} (Module.End.{u_1, u_2} k V) \u2192\n            Units.{u_2} (Module.End.{u_1, u_2} k V) \u2192 Int \u2192 Int \u2192 Module.End.{u_1, u_2} k V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "406657743",
+      "temporary_id": "decl-014814"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V)),\n  Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y))) \u2192\n    \u2200 (i j i' j' : Int),\n      Eq.{u_2 + 1}\n        (HMul.hMul.{u_2, u_2, u_2} (decl-014814.{u_1, u_2} X Y i j) (decl-014814.{u_1, u_2} X Y i' j'))\n        (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} (HPow.hPow.{u_1, 0, u_1} q (HMul.hMul.{0, 0, 0} j i')))\n          (decl-014814.{u_1, u_2} X Y (HAdd.hAdd.{0, 0, 0} i i') (HAdd.hAdd.{0, 0, 0} j j')))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014814"
+      ],
+      "structural_type_hash": "3628832911",
+      "temporary_id": "decl-014817"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V)),\n  Eq.{u_2 + 1} (decl-014814.{u_1, u_2} X Y 0 0) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014814"
+      ],
+      "structural_type_hash": "630193230",
+      "temporary_id": "decl-014825"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    Units.{u_1} k \u2192\n      {V : Type u_2} \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192 [inst_2 : Module.{u_1, u_2} k V] \u2192 Units.{u_2} (Module.End.{u_1, u_2} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2489717070",
+      "temporary_id": "decl-014826"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (m : Module.End.{u_1, u_2} k V),\n  Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} (decl-014826.{u_1, u_2} q)) m)\n    (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q) m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014826"
+      ],
+      "structural_type_hash": "3466733175",
+      "temporary_id": "decl-014829"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (q : Units.{u_1} k) \u2192\n      Prod.{0, 0} Int Int \u2192 Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-022235.{u_1} k q) x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "4162802260",
+      "temporary_id": "decl-014830"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k),\n  LinearIndependent.{0, u_1, u_1} k (decl-014830.{u_1} q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014830",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "46503583",
+      "temporary_id": "decl-014833"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) (p r : Prod.{0, 0} Int Int),\n  Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (decl-014830.{u_1} q p) (decl-014830.{u_1} q r))\n    (HSMul.hSMul.{u_1, u_1, u_1}\n      (Units.val.{u_1} (HPow.hPow.{u_1, 0, u_1} q (HMul.hMul.{0, 0, 0} (Prod.snd.{0, 0} p) (Prod.fst.{0, 0} r))))\n      (decl-014830.{u_1} q\n        (Prod.mk.{0, 0} (HAdd.hAdd.{0, 0, 0} (Prod.fst.{0, 0} p) (Prod.fst.{0, 0} r))\n          (HAdd.hAdd.{0, 0, 0} (Prod.snd.{0, 0} p) (Prod.snd.{0, 0} r)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014830",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "2197398137",
+      "temporary_id": "decl-014834"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k),\n  LE.le.{u_1} Top.top.{u_1} (Submodule.span.{u_1, u_1} k (Set.range.{u_1, 1} (decl-014830.{u_1} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014830",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "1409967344",
+      "temporary_id": "decl-014835"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) (i : Int) (m : Nat),\n  Eq.{u_1 + 1} (HPow.hPow.{u_1, 0, u_1} (decl-014830.{u_1} q (Prod.mk.{0, 0} i 0)) m)\n    (decl-014830.{u_1} q (Prod.mk.{0, 0} (HMul.hMul.{0, 0, 0} i (Nat.cast.{0} m)) 0))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014830",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "2226308452",
+      "temporary_id": "decl-014836"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) (j : Int) (m : Nat),\n  Eq.{u_1 + 1} (HPow.hPow.{u_1, 0, u_1} (decl-014830.{u_1} q (Prod.mk.{0, 0} 0 j)) m)\n    (decl-014830.{u_1} q (Prod.mk.{0, 0} 0 (HMul.hMul.{0, 0, 0} j (Nat.cast.{0} m))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014830",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "3349543355",
+      "temporary_id": "decl-014837"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k),\n  Eq.{u_1 + 1} (decl-014830.{u_1} q (Prod.mk.{0, 0} 0 0)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014830",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "2451926915",
+      "temporary_id": "decl-014838"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (q : Units.{u_1} k) \u2192\n      {V : Type u_2} \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V)) \u2192\n              Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n                  (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n                    (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y))) \u2192\n                AlgHom.{u_1, u_1, u_2} k\n                  (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-022235.{u_1} k q) x)\n                  (Module.End.{u_1, u_2} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "2344485554",
+      "temporary_id": "decl-014839"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (q : Units.{u_1} k) \u2192\n      {V : Type u_2} \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            Units.{u_2} (Module.End.{u_1, u_2} k V) \u2192\n              Units.{u_2} (Module.End.{u_1, u_2} k V) \u2192\n                LinearMap.{u_1, u_1, u_1, u_2} (RingHom.id.{u_1} k)\n                  (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-022235.{u_1} k q) x)\n                  (Module.End.{u_1, u_2} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "931008121",
+      "temporary_id": "decl-014842"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V)),\n  Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y))) \u2192\n    \u2200 (p r : Prod.{0, 0} Int Int),\n      Eq.{u_2 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014842.{u_1, u_2} q X Y)\n          (HMul.hMul.{u_1, u_1, u_1} (decl-014830.{u_1} q p) (decl-014830.{u_1} q r)))\n        (HMul.hMul.{u_2, u_2, u_2}\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014842.{u_1, u_2} q X Y)\n            (decl-014830.{u_1} q p))\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014842.{u_1, u_2} q X Y)\n            (decl-014830.{u_1} q r)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014830",
+        "decl-014842",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "4039725238",
+      "temporary_id": "decl-014846"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V)),\n  Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y))) \u2192\n    \u2200 (a b : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-022235.{u_1} k q) x),\n      Eq.{u_2 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014842.{u_1, u_2} q X Y)\n          (HMul.hMul.{u_1, u_1, u_1} a b))\n        (HMul.hMul.{u_2, u_2, u_2}\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014842.{u_1, u_2} q X Y) a)\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014842.{u_1, u_2} q X Y) b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014842",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "585427092",
+      "temporary_id": "decl-014847"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V)),\n  Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y))) \u2192\n    \u2200 (a : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-022235.{u_1} k q) x)\n      (r : Prod.{0, 0} Int Int),\n      Eq.{u_2 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014842.{u_1, u_2} q X Y)\n          (HMul.hMul.{u_1, u_1, u_1} a (decl-014830.{u_1} q r)))\n        (HMul.hMul.{u_2, u_2, u_2}\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014842.{u_1, u_2} q X Y) a)\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014842.{u_1, u_2} q X Y)\n            (decl-014830.{u_1} q r)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014830",
+        "decl-014842",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "1070089555",
+      "temporary_id": "decl-014848"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V)) (p : Prod.{0, 0} Int Int),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014842.{u_1, u_2} q X Y)\n      (decl-014830.{u_1} q p))\n    (decl-014814.{u_1, u_2} X Y (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014814",
+        "decl-014830",
+        "decl-014842",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "673314215",
+      "temporary_id": "decl-014849"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V))\n  (hrel :\n    Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y))))\n  (p : Prod.{0, 0} Int Int),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014839.{u_1, u_2} q X Y hrel)\n      (decl-014830.{u_1} q p))\n    (decl-014814.{u_1, u_2} X Y (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014814",
+        "decl-014830",
+        "decl-014839",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "2673498706",
+      "temporary_id": "decl-014851"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V))\n  (hrel :\n    Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y)))),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014839.{u_1, u_2} q X Y hrel)\n      (decl-014830.{u_1} q (Prod.mk.{0, 0} 1 0)))\n    (Units.val.{u_2} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014830",
+        "decl-014839",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "2780354419",
+      "temporary_id": "decl-014852"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V))\n  (hrel :\n    Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y)))),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-014839.{u_1, u_2} q X Y hrel)\n      (decl-014830.{u_1} q (Prod.mk.{0, 0} 0 1)))\n    (Units.val.{u_2} Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014830",
+        "decl-014839",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "4207859046",
+      "temporary_id": "decl-014853"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V)),\n  Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y))) \u2192\n    \u2200 (n : Int),\n      Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} Y (HPow.hPow.{u_2, 0, u_2} X n))\n        (HMul.hMul.{u_2, u_2, u_2}\n          (HMul.hMul.{u_2, u_2, u_2} (HPow.hPow.{u_2, 0, u_2} (decl-014826.{u_1, u_2} q) n)\n            (HPow.hPow.{u_2, 0, u_2} X n))\n          Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014826"
+      ],
+      "structural_type_hash": "4099957886",
+      "temporary_id": "decl-014854"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (q : Units.{u_1} k) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X Y : Units.{u_2} (Module.End.{u_1, u_2} k V)),\n  Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} Y) (Units.val.{u_2} X))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Units.val.{u_1} q)\n        (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} X) (Units.val.{u_2} Y))) \u2192\n    \u2200 (m n : Int),\n      Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (HPow.hPow.{u_2, 0, u_2} Y m) (HPow.hPow.{u_2, 0, u_2} X n))\n        (HMul.hMul.{u_2, u_2, u_2}\n          (HMul.hMul.{u_2, u_2, u_2} (HPow.hPow.{u_2, 0, u_2} (decl-014826.{u_1, u_2} q) (HMul.hMul.{0, 0, 0} m n))\n            (HPow.hPow.{u_2, 0, u_2} X n))\n          (HPow.hPow.{u_2, 0, u_2} Y m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014826"
+      ],
+      "structural_type_hash": "2338042542",
+      "temporary_id": "decl-014862"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (X : Units.{u_2} (Module.End.{u_1, u_2} k V)) (i i' : Int),\n  Eq.{u_2 + 1}\n    (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} X i))\n      (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} X i')))\n    (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} X (HAdd.hAdd.{0, 0, 0} i i')))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3341943247",
+      "temporary_id": "decl-014870"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (Y : Units.{u_2} (Module.End.{u_1, u_2} k V)) (j j' : Int),\n  Eq.{u_2 + 1}\n    (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} Y j))\n      (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} Y j')))\n    (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} Y (HAdd.hAdd.{0, 0, 0} j j')))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3341943247",
+      "temporary_id": "decl-014871"
+    }
+  ],
+  "module_temporary_id": "module-0106",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

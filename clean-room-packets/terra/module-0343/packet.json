@@ -1,0 +1,42 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (G : Type u_1) [inst : Group.{u_1} G] [Finite.{u_1 + 1} G],\n  Exists.{2} fun Irrep =>\n    Exists.{1} fun x =>\n      And (Eq.{1} (Nat.card.{0} Irrep) (Nat.card.{u_1} (ConjClasses.{u_1} G)))\n        (Exists.{1} fun d =>\n          And (\u2200 (j : Irrep), Ne.{1} (d j) 0)\n            (Nonempty.{max 1 (u_1 + 1)}\n              (AlgEquiv.{0, u_1, 0} Complex (MonoidAlgebra.{0, u_1} Complex G)\n                ((j : Irrep) \u2192 Matrix.{0, 0, 0} (Fin (d j)) (Fin (d j)) Complex))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2717460005",
+      "temporary_id": "decl-017728"
+    },
+    {
+      "formal_type": "\u2200 (G : Type u_1) [inst : Group.{u_1} G] [Finite.{u_1 + 1} G],\n  Exists.{1} fun d =>\n    And (\u2200 (i : Fin (Nat.card.{u_1} (ConjClasses.{u_1} G))), Ne.{1} (d i) 0)\n      (Nonempty.{max 1 (u_1 + 1)}\n        (AlgEquiv.{0, u_1, 0} Complex (MonoidAlgebra.{0, u_1} Complex G)\n          ((i : Fin (Nat.card.{u_1} (ConjClasses.{u_1} G))) \u2192 Matrix.{0, 0, 0} (Fin (d i)) (Fin (d i)) Complex)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2644953639",
+      "temporary_id": "decl-021631"
+    }
+  ],
+  "module_temporary_id": "module-0343",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

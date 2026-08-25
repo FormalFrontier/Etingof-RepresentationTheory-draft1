@@ -1,0 +1,695 @@
+{
+  "module_name": "LieAlgebra.AuxiliaryBracketCalculus",
+  "declarations": [
+    {
+      "temporary_id": "decl-007286",
+      "new_name": "AuxiliaryCondition",
+      "docstring": "An inductively generated condition on elements of the displayed Lie algebra."
+    },
+    {
+      "temporary_id": "decl-007288",
+      "new_name": "bracket_auxiliaryTransform_eq_zero",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, every element has zero bracket with the auxiliary transform."
+    },
+    {
+      "temporary_id": "decl-007289",
+      "new_name": "auxiliaryIterate_eq_zero_one",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the displayed fifth iterate is zero."
+    },
+    {
+      "temporary_id": "decl-007290",
+      "new_name": "auxiliaryBracketIdentityOne",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the displayed iterated-bracket identity with coefficients two holds."
+    },
+    {
+      "temporary_id": "decl-007291",
+      "new_name": "auxiliaryIterate_eq_zero_two",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the displayed third iterate of the transformed element is zero."
+    },
+    {
+      "temporary_id": "decl-007292",
+      "new_name": "auxiliaryIterate_eq_zero_three",
+      "docstring": "The owner's condition implies that the displayed third iterate is zero."
+    },
+    {
+      "temporary_id": "decl-007293",
+      "new_name": "auxiliaryBracketIdentityTwo",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the displayed second- and third-iterate bracket identity holds."
+    },
+    {
+      "temporary_id": "decl-007294",
+      "new_name": "auxiliaryTransform",
+      "docstring": "The auxiliary endomorphism of the displayed Lie algebra used by the owner's condition."
+    },
+    {
+      "temporary_id": "decl-007297",
+      "new_name": "auxiliaryTransform_eq_iteratedBracket",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the auxiliary transform equals the displayed nested bracket."
+    },
+    {
+      "temporary_id": "decl-007298",
+      "new_name": "auxiliaryBracketIdentityThree",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypothesis, the displayed bracket with the fourth indexed element equals the third iterate of a bracket."
+    },
+    {
+      "temporary_id": "decl-007299",
+      "new_name": "auxiliaryBracketIdentityFour",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypothesis, the displayed bracket is the negation of the fourth iterate of the transformed element."
+    },
+    {
+      "temporary_id": "decl-007300",
+      "new_name": "auxiliaryBracketIdentityFive",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the displayed nested bracket is zero."
+    },
+    {
+      "temporary_id": "decl-007301",
+      "new_name": "auxiliaryBracketIdentitySix",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypothesis, the first indexed element has zero bracket with the transformed element."
+    },
+    {
+      "temporary_id": "decl-007302",
+      "new_name": "auxiliaryBracketIdentitySeven",
+      "docstring": "The owner's condition implies the displayed scalar-weighted bracket identity."
+    },
+    {
+      "temporary_id": "decl-007303",
+      "new_name": "auxiliaryBracketIdentityEight",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the second indexed element has zero bracket with the transformed element."
+    },
+    {
+      "temporary_id": "decl-007304",
+      "new_name": "auxiliaryBracketIdentityNine",
+      "docstring": "The owner's condition implies that the zeroth indexed element has zero bracket with the given element."
+    },
+    {
+      "temporary_id": "decl-007305",
+      "new_name": "auxiliaryBracketIdentityTen",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the displayed bracket with a fourth iterate expands as the stated sum."
+    },
+    {
+      "temporary_id": "decl-007306",
+      "new_name": "auxiliaryBracketIdentityEleven",
+      "docstring": "The owner's condition implies that the displayed bracket with a first iterate equals the auxiliary transformed element."
+    },
+    {
+      "temporary_id": "decl-007307",
+      "new_name": "auxiliaryBracketIdentityTwelve",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the displayed bracket with an iterated transformed element equals the stated negated bracket."
+    },
+    {
+      "temporary_id": "decl-007308",
+      "new_name": "auxiliaryBracketIdentityThirteen",
+      "docstring": "The owner's condition implies the displayed bracket identity involving the auxiliary transform."
+    },
+    {
+      "temporary_id": "decl-007309",
+      "new_name": "auxiliaryBracketIdentityFourteen",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the displayed bracket with a third iterate is the negation of the auxiliary image."
+    },
+    {
+      "temporary_id": "decl-007310",
+      "new_name": "auxiliaryBracketIdentityFifteen",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypothesis, the displayed bracket with a second iterate equals the comparison bracket."
+    },
+    {
+      "temporary_id": "decl-007311",
+      "new_name": "auxiliaryBracketIdentitySixteen",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the displayed bracket with the auxiliary image is zero."
+    },
+    {
+      "temporary_id": "decl-007313",
+      "new_name": "auxiliaryBracketIdentitySeventeen",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the displayed double bracket equals negative twice the comparison bracket."
+    },
+    {
+      "temporary_id": "decl-007314",
+      "new_name": "auxiliaryBracketIdentityEighteen",
+      "docstring": "The owner's condition implies that the zeroth indexed element has zero bracket with the transformed element."
+    },
+    {
+      "temporary_id": "decl-007317",
+      "new_name": "of_auxiliaryPairCondition",
+      "docstring": "Under the stated nonvanishing hypotheses, the displayed auxiliary pair condition implies the owner's condition for its second element."
+    },
+    {
+      "temporary_id": "decl-007320",
+      "new_name": "auxiliaryCondition_auxiliaryImage",
+      "docstring": "Under the stated nonvanishing hypotheses, the owner's condition is preserved by the displayed composite auxiliary map."
+    },
+    {
+      "temporary_id": "decl-007321",
+      "new_name": "auxiliaryBracketIdentityNineteen",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the displayed doubled nested bracket equals the negated auxiliary image."
+    },
+    {
+      "temporary_id": "decl-007322",
+      "new_name": "auxiliaryBracketIdentityTwenty",
+      "docstring": "The owner's condition implies the displayed scalar-weighted bracket identity involving the third indexed element."
+    },
+    {
+      "temporary_id": "decl-007323",
+      "new_name": "auxiliaryBracketIdentityTwentyOne",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypothesis, the displayed doubled bracket equals the negated third iterate."
+    },
+    {
+      "temporary_id": "decl-007324",
+      "new_name": "auxiliaryBracketIdentityTwentyTwo",
+      "docstring": "Under the owner's condition and the stated nonvanishing hypotheses, the displayed scalar-weighted bracket identity for the auxiliary image holds."
+    },
+    {
+      "temporary_id": "decl-007325",
+      "new_name": "auxiliaryBracketIdentityTwentyThree",
+      "docstring": "The owner's condition implies the displayed doubled bracket identity involving the second iterate."
+    },
+    {
+      "temporary_id": "decl-007436",
+      "new_name": "AuxiliaryPairCondition",
+      "docstring": "An inductively generated relation between two elements of the displayed Lie algebra."
+    },
+    {
+      "temporary_id": "decl-007438",
+      "new_name": "pairAuxiliaryIterate_eq_zero_one",
+      "docstring": "The owner's relation implies that the displayed fifth iterate of the first iterate is zero."
+    },
+    {
+      "temporary_id": "decl-007439",
+      "new_name": "pairAuxiliaryIterate_eq_zero_two",
+      "docstring": "The owner's relation implies that the displayed fifth iterate of the first element is zero."
+    },
+    {
+      "temporary_id": "decl-007440",
+      "new_name": "pairAuxiliaryBracketIdentityOne",
+      "docstring": "The owner's relation implies the displayed scalar-weighted bracket identity for its second element."
+    },
+    {
+      "temporary_id": "decl-007441",
+      "new_name": "pairAuxiliaryBracketIdentityTwo",
+      "docstring": "The owner's relation implies that the displayed bracket with its first element is twice the first iterate of its second element."
+    },
+    {
+      "temporary_id": "decl-007442",
+      "new_name": "pairAuxiliaryBracketIdentityThree",
+      "docstring": "The owner's relation implies the displayed bracket identity involving first and second iterates."
+    },
+    {
+      "temporary_id": "decl-007443",
+      "new_name": "pairAuxiliaryBracketIdentityFour",
+      "docstring": "The owner's relation implies that the first indexed element has zero bracket with its first element."
+    },
+    {
+      "temporary_id": "decl-007444",
+      "new_name": "pairAuxiliaryBracketIdentityFive",
+      "docstring": "The owner's relation implies that the first indexed element has zero bracket with the first iterate of its first element."
+    },
+    {
+      "temporary_id": "decl-007445",
+      "new_name": "pairAuxiliaryBracketIdentitySix",
+      "docstring": "The owner's relation identifies the bracket of the third indexed element with its first element as its second element."
+    },
+    {
+      "temporary_id": "decl-007446",
+      "new_name": "pairAuxiliaryBracketIdentitySeven",
+      "docstring": "The owner's relation gives the displayed negated first-iterate bracket identity."
+    },
+    {
+      "temporary_id": "decl-007447",
+      "new_name": "pairAuxiliaryBracketIdentityEight",
+      "docstring": "The owner's relation implies that the second indexed element has zero bracket with its first element."
+    },
+    {
+      "temporary_id": "decl-007448",
+      "new_name": "pairAuxiliaryBracketIdentityNine",
+      "docstring": "The owner's relation identifies the displayed bracket with the negation of its second element."
+    },
+    {
+      "temporary_id": "decl-007449",
+      "new_name": "pairAuxiliaryBracketIdentityTen",
+      "docstring": "The owner's relation gives the displayed bracket identity involving third and second iterates."
+    },
+    {
+      "temporary_id": "decl-007450",
+      "new_name": "pairAuxiliaryBracketIdentityEleven",
+      "docstring": "The owner's relation implies that the zeroth indexed element has zero bracket with its first element."
+    },
+    {
+      "temporary_id": "decl-007451",
+      "new_name": "pairAuxiliaryBracketIdentityTwelve",
+      "docstring": "The owner's relation implies that the zeroth indexed element has zero bracket with the first iterate of its first element."
+    },
+    {
+      "temporary_id": "decl-007452",
+      "new_name": "pairAuxiliaryBracketIdentityThirteen",
+      "docstring": "The owner's relation identifies the displayed bracket with the negation of its second element."
+    },
+    {
+      "temporary_id": "decl-007453",
+      "new_name": "pairAuxiliaryBracketIdentityFourteen",
+      "docstring": "The owner's relation implies that the displayed bracket with the second iterate is zero."
+    },
+    {
+      "temporary_id": "decl-007454",
+      "new_name": "pairAuxiliaryBracketIdentityFifteen",
+      "docstring": "The owner's relation implies that the zeroth indexed element has zero bracket with its second element."
+    },
+    {
+      "temporary_id": "decl-007458",
+      "new_name": "of_auxiliaryCondition_and_transform_eq_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, the auxiliary condition and vanishing of its transform imply the owner's pair relation for the displayed images."
+    },
+    {
+      "temporary_id": "decl-007459",
+      "new_name": "of_auxiliaryCondition_and_trivial_center",
+      "docstring": "Under the stated nonvanishing and trivial-center hypotheses, the auxiliary condition implies the owner's pair relation for the displayed images."
+    },
+    {
+      "temporary_id": "decl-007462",
+      "new_name": "ten_smul_pairAuxiliaryIterate_eq_zero",
+      "docstring": "The owner's relation implies that ten times the displayed third iterate of its second element is zero."
+    },
+    {
+      "temporary_id": "decl-007503",
+      "new_name": "card_degree_two_mul_add_two",
+      "docstring": "There are exactly three displayed indices of degree `2 * m + 2`."
+    },
+    {
+      "temporary_id": "decl-007507",
+      "new_name": "card_degree_two_mul_add_one",
+      "docstring": "There are exactly five displayed indices of degree `2 * m + 1`."
+    },
+    {
+      "temporary_id": "decl-007511",
+      "new_name": "card_degree_zero",
+      "docstring": "There is exactly one displayed index of degree zero."
+    },
+    {
+      "temporary_id": "decl-007514",
+      "new_name": "bracket_auxiliaryCentralFamily_eq_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, every element has zero bracket with every member of the displayed auxiliary family."
+    },
+    {
+      "temporary_id": "decl-007532",
+      "new_name": "iterateBracket",
+      "docstring": "The natural-number iterate of the displayed bracket operator on the auxiliary Lie algebra."
+    },
+    {
+      "temporary_id": "decl-007533",
+      "new_name": "iterateBracket_add",
+      "docstring": "Iteration by `i + j` equals iteration by `i` after iteration by `j`."
+    },
+    {
+      "temporary_id": "decl-007534",
+      "new_name": "iterateBracket_add_apply",
+      "docstring": "The iterated bracket operator preserves addition."
+    },
+    {
+      "temporary_id": "decl-007535",
+      "new_name": "iterateBracket_apply_one",
+      "docstring": "Applying an iterate after one step equals the successor iterate."
+    },
+    {
+      "temporary_id": "decl-007536",
+      "new_name": "iterateBracket_five",
+      "docstring": "The fifth iterate is the displayed fivefold nested bracket."
+    },
+    {
+      "temporary_id": "decl-007537",
+      "new_name": "iterateBracket_five_auxiliaryFamily_eq_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, the fifth iterate of every displayed auxiliary family element is zero."
+    },
+    {
+      "temporary_id": "decl-007538",
+      "new_name": "iterateBracket_four",
+      "docstring": "The fourth iterate is the displayed fourfold nested bracket."
+    },
+    {
+      "temporary_id": "decl-007540",
+      "new_name": "iterateBracket_neg",
+      "docstring": "The iterated bracket operator commutes with negation."
+    },
+    {
+      "temporary_id": "decl-007541",
+      "new_name": "iterateBracket_one",
+      "docstring": "The first iterate is bracket with the displayed distinguished element."
+    },
+    {
+      "temporary_id": "decl-007542",
+      "new_name": "iterateBracket_one_apply",
+      "docstring": "One iteration after `j` iterations equals the successor iterate."
+    },
+    {
+      "temporary_id": "decl-007546",
+      "new_name": "iterateBracket_one_auxiliarySequence_zero",
+      "docstring": "The first iterate of the zeroth auxiliary sequence element is the displayed bracket of indexed elements."
+    },
+    {
+      "temporary_id": "decl-007549",
+      "new_name": "iterateBracket_smul",
+      "docstring": "The iterated bracket operator commutes with scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-007550",
+      "new_name": "iterateBracket_sub",
+      "docstring": "The iterated bracket operator preserves subtraction."
+    },
+    {
+      "temporary_id": "decl-007551",
+      "new_name": "iterateBracket_succ",
+      "docstring": "The successor iterate is bracket with the distinguished element after the preceding iterate."
+    },
+    {
+      "temporary_id": "decl-007552",
+      "new_name": "iterateBracket_succ_apply",
+      "docstring": "The successor iterate is the preceding iterate applied after one bracket with the distinguished element."
+    },
+    {
+      "temporary_id": "decl-007553",
+      "new_name": "iterateBracket_three",
+      "docstring": "The third iterate is the displayed threefold nested bracket."
+    },
+    {
+      "temporary_id": "decl-007554",
+      "new_name": "iterateBracket_three_auxiliarySequence_eq_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, the third iterate of every auxiliary sequence element is zero."
+    },
+    {
+      "temporary_id": "decl-007556",
+      "new_name": "iterateBracket_three_bracket_eq_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, the third iterate of the displayed bracket is zero."
+    },
+    {
+      "temporary_id": "decl-007557",
+      "new_name": "iterateBracket_two",
+      "docstring": "The second iterate is the displayed double bracket."
+    },
+    {
+      "temporary_id": "decl-007559",
+      "new_name": "iterateBracket_initialElement",
+      "docstring": "Iterating the displayed initial element produces the corresponding indexed family element."
+    },
+    {
+      "temporary_id": "decl-007560",
+      "new_name": "iterateBracket_zero_apply",
+      "docstring": "Every iterate sends zero to zero."
+    },
+    {
+      "temporary_id": "decl-007561",
+      "new_name": "iterateBracket_zero",
+      "docstring": "The zeroth iterate is the identity."
+    },
+    {
+      "temporary_id": "decl-007563",
+      "new_name": "auxiliaryTransform_auxiliarySequence_zero_eq_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, the auxiliary transform of the zeroth sequence element is zero."
+    },
+    {
+      "temporary_id": "decl-007600",
+      "new_name": "auxiliaryCondition_compositeElement",
+      "docstring": "Under the stated nonvanishing hypotheses, the displayed composite auxiliary element satisfies the auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-007601",
+      "new_name": "auxiliaryCondition_neg_bracket",
+      "docstring": "Under the stated nonvanishing hypotheses, the negated displayed bracket satisfies the auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-007602",
+      "new_name": "auxiliaryCondition_auxiliarySequence",
+      "docstring": "Under the stated nonvanishing hypotheses, every element of the auxiliary sequence satisfies the auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-007603",
+      "new_name": "bracketWithGeneratorThree",
+      "docstring": "The auxiliary endomorphism given by bracket with the third indexed element."
+    },
+    {
+      "temporary_id": "decl-007605",
+      "new_name": "bracketWithGeneratorThree_apply",
+      "docstring": "The auxiliary endomorphism is bracket with the third indexed element."
+    },
+    {
+      "temporary_id": "decl-007607",
+      "new_name": "auxiliarySequence",
+      "docstring": "A natural-number-indexed family in the displayed auxiliary Lie algebra."
+    },
+    {
+      "temporary_id": "decl-007615",
+      "new_name": "auxiliarySequence_succ",
+      "docstring": "The successor auxiliary sequence element is obtained by the displayed composite of bracket endomorphisms."
+    },
+    {
+      "temporary_id": "decl-007616",
+      "new_name": "auxiliarySequence_zero",
+      "docstring": "The zeroth auxiliary sequence element is the negation of the displayed bracket."
+    },
+    {
+      "temporary_id": "decl-007875",
+      "new_name": "bracket_generatorOne_generatorZero_comm",
+      "docstring": "The bracket operators determined by the first and zeroth indexed elements commute on every element."
+    },
+    {
+      "temporary_id": "decl-007880",
+      "new_name": "bracket_generatorTwo_generatorZero_comm",
+      "docstring": "The bracket operators determined by the second and zeroth indexed elements commute on every element."
+    },
+    {
+      "temporary_id": "decl-007883",
+      "new_name": "bracket_generatorFour_generatorZero",
+      "docstring": "The bracket of the fourth and zeroth indexed elements is twice the bracket of the first and third indexed elements."
+    },
+    {
+      "temporary_id": "decl-007884",
+      "new_name": "bracket_iterateBracket_five",
+      "docstring": "The bracket with a fifth iterate expands as the displayed alternating binomial combination of shifted brackets."
+    },
+    {
+      "temporary_id": "decl-007885",
+      "new_name": "bracket_iterateBracket_four",
+      "docstring": "The bracket with a fourth iterate expands as the displayed alternating binomial combination of shifted brackets."
+    },
+    {
+      "temporary_id": "decl-007886",
+      "new_name": "bracket_iterateBracket_one",
+      "docstring": "The bracket with a first iterate equals the first iterate of the bracket minus the shifted bracket."
+    },
+    {
+      "temporary_id": "decl-007887",
+      "new_name": "bracket_iterateBracket_three",
+      "docstring": "The bracket with a third iterate expands as the displayed alternating binomial combination of shifted brackets."
+    },
+    {
+      "temporary_id": "decl-007888",
+      "new_name": "bracket_iterateBracket_two",
+      "docstring": "The bracket with a second iterate expands as the displayed alternating binomial combination of shifted brackets."
+    },
+    {
+      "temporary_id": "decl-007889",
+      "new_name": "bracket_generatorFive_eq_zero",
+      "docstring": "The fifth indexed element has zero bracket with every element."
+    },
+    {
+      "temporary_id": "decl-007890",
+      "new_name": "bracket_bracket_degree01",
+      "docstring": "The displayed nested bracket satisfies the stated difference identity with the next indexed element."
+    },
+    {
+      "temporary_id": "decl-007893",
+      "new_name": "bracket_bracket_comm_of_bracket_eq_zero",
+      "docstring": "If two elements have zero bracket, their bracket operators commute on every element."
+    },
+    {
+      "temporary_id": "decl-007909",
+      "new_name": "bracket_auxiliarySequence_zero_eq_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, the zeroth auxiliary sequence element has zero bracket with every sequence element."
+    },
+    {
+      "temporary_id": "decl-007946",
+      "new_name": "bracket_generatorOne_eq_neg_auxiliaryTransform",
+      "docstring": "Bracket with the first indexed element is the negation of the displayed auxiliary transform."
+    },
+    {
+      "temporary_id": "decl-007966",
+      "new_name": "auxiliaryRecurrenceIdentityOne",
+      "docstring": "Under the stated nonvanishing hypotheses, the displayed bracket with a fourth iterate satisfies the auxiliary recurrence identity."
+    },
+    {
+      "temporary_id": "decl-007967",
+      "new_name": "auxiliaryRecurrenceIdentityTwo",
+      "docstring": "Under the stated nonvanishing hypotheses, the displayed bracket with a first iterate advances the auxiliary companion family."
+    },
+    {
+      "temporary_id": "decl-007968",
+      "new_name": "auxiliaryRecurrenceIdentityThree",
+      "docstring": "Under the stated nonvanishing hypotheses, the displayed bracket with the first iterate of the companion family is zero."
+    },
+    {
+      "temporary_id": "decl-007969",
+      "new_name": "auxiliaryRecurrenceIdentityFour",
+      "docstring": "Under the stated nonvanishing hypotheses, the displayed bracket with the third iterate of the companion family is the negated auxiliary sequence element."
+    },
+    {
+      "temporary_id": "decl-007970",
+      "new_name": "auxiliaryRecurrenceIdentityFive",
+      "docstring": "Under the stated nonvanishing hypotheses, the displayed bracket with the second iterate of the companion family is zero."
+    },
+    {
+      "temporary_id": "decl-007971",
+      "new_name": "bracket_generatorZero_selfBracket_eq_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, the displayed repeated bracket with the zeroth indexed element is zero."
+    },
+    {
+      "temporary_id": "decl-007972",
+      "new_name": "bracket_generatorZero_auxiliarySequence_eq_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, the zeroth indexed element has zero bracket with every auxiliary sequence element."
+    },
+    {
+      "temporary_id": "decl-007973",
+      "new_name": "bracket_generatorZero_auxiliaryCompanionFamily_eq_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, the zeroth indexed element has zero bracket with every auxiliary companion-family element."
+    },
+    {
+      "temporary_id": "decl-008016",
+      "new_name": "indexedFamily",
+      "docstring": "The displayed Lie algebra element associated with an auxiliary index."
+    },
+    {
+      "temporary_id": "decl-008018",
+      "new_name": "indexedFamily_base",
+      "docstring": "The indexed family at the displayed base index equals the displayed initial element."
+    },
+    {
+      "temporary_id": "decl-008019",
+      "new_name": "indexedFamily_family3",
+      "docstring": "On the displayed three-index family, the indexed element is the corresponding iterate of the auxiliary sequence element."
+    },
+    {
+      "temporary_id": "decl-008021",
+      "new_name": "indexedFamily_mem_auxiliarySet",
+      "docstring": "Every indexed-family element belongs to the displayed auxiliary set."
+    },
+    {
+      "temporary_id": "decl-008022",
+      "new_name": "indexedFamily_family5",
+      "docstring": "On the displayed five-index family, the indexed element is the corresponding iterate of the auxiliary companion-family element."
+    },
+    {
+      "temporary_id": "decl-008044",
+      "new_name": "auxiliarySpanningSet",
+      "docstring": "An auxiliary set of elements in the displayed Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008091",
+      "new_name": "eq_indexedFamily_or_eq_auxiliaryCentralFamily_of_mem",
+      "docstring": "Every element of the auxiliary set is either an indexed-family element or a member of the auxiliary central family."
+    },
+    {
+      "temporary_id": "decl-008107",
+      "new_name": "auxiliaryPairCondition_sequence_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, the displayed transforms of the zeroth auxiliary sequence element satisfy the auxiliary pair condition."
+    },
+    {
+      "temporary_id": "decl-008109",
+      "new_name": "auxiliaryPairCondition_sequence_of_bracket_eq_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, the displayed bracket vanishing implies the auxiliary pair condition for the corresponding sequence transforms."
+    },
+    {
+      "temporary_id": "decl-008110",
+      "new_name": "auxiliaryPairCondition_companion_sequence",
+      "docstring": "If the auxiliary central family vanishes, each companion-family and sequence pair satisfies the auxiliary pair condition."
+    },
+    {
+      "temporary_id": "decl-008113",
+      "new_name": "auxiliaryPairCondition_initialElements",
+      "docstring": "The displayed initial target element and negated bracket satisfy the auxiliary pair condition."
+    },
+    {
+      "temporary_id": "decl-008114",
+      "new_name": "negBracketWithGeneratorOne",
+      "docstring": "The auxiliary endomorphism given by the negation of bracket with the first indexed element."
+    },
+    {
+      "temporary_id": "decl-008116",
+      "new_name": "negBracketWithGeneratorOne_apply",
+      "docstring": "The auxiliary endomorphism is the negation of bracket with the first indexed element."
+    },
+    {
+      "temporary_id": "decl-008171",
+      "new_name": "bracket_generatorZero_iterateBracket_one_twice",
+      "docstring": "The displayed repeated bracket with a first iterate satisfies the stated double-commutator identity."
+    },
+    {
+      "temporary_id": "decl-008172",
+      "new_name": "bracket_generatorZero_iterateBracket_five",
+      "docstring": "The displayed bracket with a fifth iterate expands as the stated alternating binomial combination."
+    },
+    {
+      "temporary_id": "decl-008208",
+      "new_name": "span_auxiliarySpanningSet_eq_top",
+      "docstring": "Under the stated nonvanishing hypotheses, the auxiliary set spans the entire displayed Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008209",
+      "new_name": "span_range_indexedFamily_eq_top_of_auxiliaryCentralFamily_eq_zero",
+      "docstring": "If the auxiliary central family vanishes, the indexed family spans the entire displayed Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008211",
+      "new_name": "span_range_indexedFamily_eq_top_of_trivial_center",
+      "docstring": "Under the stated nonvanishing and trivial-center hypotheses, the indexed family spans the entire displayed Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008219",
+      "new_name": "auxiliaryCentralFamily",
+      "docstring": "A natural-number-indexed auxiliary family in the displayed Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008229",
+      "new_name": "auxiliaryCentralFamily_mem_auxiliarySpanningSet",
+      "docstring": "Every member of the auxiliary central family belongs to the auxiliary spanning set."
+    },
+    {
+      "temporary_id": "decl-008230",
+      "new_name": "auxiliaryCentralFamily_one_eq_zero",
+      "docstring": "Under the stated nonvanishing hypotheses, the auxiliary central family vanishes at one."
+    },
+    {
+      "temporary_id": "decl-008231",
+      "new_name": "auxiliaryCentralFamily_succ",
+      "docstring": "The successor auxiliary central-family element is the auxiliary transform of the corresponding sequence element."
+    },
+    {
+      "temporary_id": "decl-008233",
+      "new_name": "auxiliaryCentralFamily_zero",
+      "docstring": "The auxiliary central family vanishes at zero."
+    },
+    {
+      "temporary_id": "decl-008234",
+      "new_name": "auxiliaryCompanionFamily",
+      "docstring": "A natural-number-indexed auxiliary companion family in the displayed Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008239",
+      "new_name": "auxiliaryCompanionFamily_succ",
+      "docstring": "The successor companion-family element is the negated bracket transform of the corresponding sequence element."
+    },
+    {
+      "temporary_id": "decl-008240",
+      "new_name": "auxiliaryCompanionFamily_zero",
+      "docstring": "The zeroth companion-family element is the displayed initial target element."
+    },
+    {
+      "temporary_id": "decl-008267",
+      "new_name": "two_smul_iterateBracket_one_bracket",
+      "docstring": "Twice the first iterate of the displayed bracket equals the bracket of the zeroth and fourth indexed elements."
+    },
+    {
+      "temporary_id": "decl-008269",
+      "new_name": "two_smul_bracket_sequence_zero_iterateBracket_one",
+      "docstring": "Under the stated nonvanishing hypotheses, twice the displayed bracket with a first iterate is the successor auxiliary sequence element."
+    },
+    {
+      "temporary_id": "decl-008270",
+      "new_name": "two_smul_bracket_generatorZero_iterateBracket_two",
+      "docstring": "Under the stated nonvanishing hypotheses, twice the displayed bracket with a second iterate equals the first iterate of the successor companion-family element."
+    }
+  ]
+}

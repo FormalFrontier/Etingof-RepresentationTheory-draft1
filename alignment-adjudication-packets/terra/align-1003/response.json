@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1003",
+  "associations": [
+    {
+      "association_id": "association:897719bdca6eb746f7e4",
+      "rationale": "The declaration supplies a Module structure of A on the quotient by a regular left ideal, which is exactly the stated quotient representation.",
+      "role": "primary"
+    }
+  ]
+}

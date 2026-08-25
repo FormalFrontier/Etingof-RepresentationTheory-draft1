@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0116",
+  "associations": [
+    {
+      "association_id": "association:ca282d5e01b29be4cb42",
+      "role": "primary",
+      "rationale": "Its conclusion is exactly surjectivity of the free-cover map."
+    }
+  ]
+}

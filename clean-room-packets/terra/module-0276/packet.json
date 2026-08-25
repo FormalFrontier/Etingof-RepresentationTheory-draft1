@@ -1,0 +1,50 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (decl-016224 n) M]\n  [IsSimpleModule.{0, 0} (decl-016224 n) M],\n  Exists.{1} fun la =>\n    And\n      (Nonempty.{1}\n        (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (decl-016224 n)) M\n          (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n la) x)))\n      (And\n        (IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Rat (Equiv.Perm.{1} (Fin n)))\n          (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016118.{0} Rat n la) x))\n        (Exists.{1} fun e =>\n          \u2200 (g : Equiv.Perm.{1} (Fin n)) (z : Complex)\n            (w : Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016118.{0} Rat n la) x),\n            Eq.{1}\n              (Subtype.val.{1}\n                (DFunLike.coe.{1, 1, 1} e\n                  (TensorProduct.tmul.{0, 0, 0} Rat z\n                    (HSMul.hSMul.{0, 0, 0}\n                      (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Rat (Equiv.Perm.{1} (Fin n))) g) w))))\n              (HSMul.hSMul.{0, 0, 0}\n                (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) g)\n                (Subtype.val.{1} (DFunLike.coe.{1, 1, 1} e (TensorProduct.tmul.{0, 0, 0} Rat z w))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016118",
+        "decl-016224"
+      ],
+      "structural_type_hash": "574942655",
+      "temporary_id": "decl-001450"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Exists.{1} fun e =>\n    \u2200 (g : Equiv.Perm.{1} (Fin n)) (z : Complex)\n      (w : Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016118.{0} Rat n la) x),\n      Eq.{1}\n        (Subtype.val.{1}\n          (DFunLike.coe.{1, 1, 1} e\n            (TensorProduct.tmul.{0, 0, 0} Rat z\n              (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Rat (Equiv.Perm.{1} (Fin n))) g)\n                w))))\n        (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) g)\n          (Subtype.val.{1} (DFunLike.coe.{1, 1, 1} e (TensorProduct.tmul.{0, 0, 0} Rat z w))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016118",
+        "decl-016224"
+      ],
+      "structural_type_hash": "4097171799",
+      "temporary_id": "decl-016121"
+    }
+  ],
+  "module_temporary_id": "module-0276",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,6 @@
+{
+  "packet_id": "align-0022",
+  "associations": [
+    {"association_id": "association:bec4e24743dbd0dfbb38", "role": "primary", "rationale": "The proposition directly gives the equivariant isomorphism from the shifted Schur module to its tensor product with detRep."}
+  ]
+}

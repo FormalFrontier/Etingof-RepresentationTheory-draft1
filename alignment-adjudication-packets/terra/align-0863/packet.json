@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0a3d06b9c1ccf0391f1c",
+      "declaration": "Etingof.Problem942.projectiveDimension_succ_of_nonsplit",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/560/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} R)),\n  CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S \u2192\n    CategoryTheory.Projective.{u, u + 1} (CategoryTheory.ShortComplex.X\u2082.{u, u + 1} S) \u2192\n      IsEmpty.{u + 1} (CategoryTheory.ShortComplex.Splitting.{u, u + 1} S) \u2192\n        Eq.{1} (Etingof.projectiveDimension.{u} R (CategoryTheory.ShortComplex.X\u2083.{u, u + 1} S))\n          (HAdd.hAdd.{0, 0, 0} (Etingof.projectiveDimension.{u} R (CategoryTheory.ShortComplex.X\u2081.{u, u + 1} S)) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_2"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.4.2",
+  "packet_id": "align-0863",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0863"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.4.2:part_ii",
+  "source_text": "Part (ii): compute projective dimension across the nonsplit projective-middle short exact sequence."
+}

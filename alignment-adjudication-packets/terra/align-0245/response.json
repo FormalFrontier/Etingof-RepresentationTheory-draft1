@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0245",
+  "associations": [
+    {
+      "association_id": "association:6a5a65ffd40a6542d373",
+      "role": "primary",
+      "rationale": "It directly states both directions of the classification: external tensor products of irreducibles are irreducible, and every irreducible representation of a direct product is equivalent to one."
+    }
+  ]
+}

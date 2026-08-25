@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1027",
+  "associations": [
+    {
+      "association_id": "association:19406f40c85f608851e2",
+      "role": "supporting",
+      "rationale": "The displayed type gives a partition-labeled bimodule decomposition but does not state the full row-bounded indexing claim."
+    },
+    {
+      "association_id": "association:75e7f742364e39e88d51",
+      "role": "supporting",
+      "rationale": "The displayed type gives a Schur-module vanishing condition, not the full tensor-power indexing assertion."
+    }
+  ]
+}

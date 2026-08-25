@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0098",
+  "associations": [
+    {"association_id": "association:f4cf0a56b2c7c60b3b2e", "role": "supporting", "rationale": "The displayed type only presents QuiverArrow as a type-valued declaration; with its defining body elided, it does not directly identify the total edge set."},
+    {"association_id": "association:87d9720a2843d9d2c124", "role": "supporting", "rationale": "This packages an arrow as a hom from its endpoints and is contextual incidence evidence."},
+    {"association_id": "association:0648f6ef5be7c2dff9e6", "role": "primary", "rationale": "The declaration directly assigns every quiver arrow its source vertex."},
+    {"association_id": "association:81d8842feec9095d803a", "role": "primary", "rationale": "The declaration directly assigns every quiver arrow its target vertex."}
+  ]
+}

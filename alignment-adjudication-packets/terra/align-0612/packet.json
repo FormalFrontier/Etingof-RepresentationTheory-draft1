@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6c7e49febd52e95746d7",
+      "declaration": "Etingof.Problem2_7_5.exists_unique_fam_linearEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/60/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex) [inst : NeZero.{0} (orderOf.{0} q)] (V : Type u_1) [inst_1 : AddCommGroup.{u_1} V]\n  [inst_2 : Module.{0, u_1} Complex V]\n  [inst_3 : Module.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x) V]\n  [IsScalarTower.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x)\n      V]\n  [FiniteDimensional.{0, u_1} Complex V]\n  [IsSimpleModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x) V],\n  Exists.{1} fun \u03b1 =>\n    Exists.{1} fun \u03b2 =>\n      And\n        (Nonempty.{max (u_1 + 1) 1}\n          (LinearEquiv.{0, 0, 0, u_1}\n            (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x))\n            (Etingof.Problem2_7_5.Fam q \u03b1 \u03b2) V))\n        (\u2200 (\u03b1' \u03b2' : Units.{0} Complex),\n          Iff\n            (Nonempty.{max (u_1 + 1) 1}\n              (LinearEquiv.{0, 0, 0, u_1}\n                (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x))\n                (Etingof.Problem2_7_5.Fam q \u03b1' \u03b2') V))\n            (And (Eq.{1} \u03b1 \u03b1')\n              (Eq.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} \u03b2) (orderOf.{0} q))\n                (HPow.hPow.{0, 0, 0} (Units.val.{0} \u03b2') (orderOf.{0} q)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive"
+    },
+    {
+      "association_id": "association:adb9f45383f52127d6e6",
+      "declaration": "Etingof.Problem2_7_5.fam_nonempty_linearEquiv_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/60/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q \u03b1 \u03b2 \u03b1' \u03b2' : Units.{0} Complex) [inst : NeZero.{0} (orderOf.{0} q)],\n  Iff\n    (Nonempty.{1}\n      (LinearEquiv.{0, 0, 0, 0}\n        (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x))\n        (Etingof.Problem2_7_5.Fam q \u03b1 \u03b2) (Etingof.Problem2_7_5.Fam q \u03b1' \u03b2')))\n    (And (Eq.{1} \u03b1 \u03b1')\n      (Eq.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} \u03b2) (orderOf.{0} q))\n        (HPow.hPow.{0, 0, 0} (Units.val.{0} \u03b2') (orderOf.{0} q))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Iso"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.7.5",
+  "packet_id": "align-0612",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0612"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.7.5:claim-06",
+  "source_text": "Two family members are isomorphic exactly when alpha agrees and beta^n agrees; hence the central character gives the complete classification."
+}

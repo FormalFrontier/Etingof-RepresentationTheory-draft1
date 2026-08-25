@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0551",
+  "associations": [
+    {
+      "association_id": "association:92da9501d71cf141f137",
+      "rationale": "The type states that the Lie span of the opaque elements xb and yb is top, but it does not itself identify them as the images of x and y from the source claim.",
+      "role": "supporting"
+    }
+  ]
+}

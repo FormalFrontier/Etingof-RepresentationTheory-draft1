@@ -1,0 +1,55 @@
+{
+  "module_name": "CategoryTheory.ShortComplex.Biproduct",
+  "declarations": [
+    {
+      "temporary_id": "decl-023367",
+      "new_name": "biproductShortComplex",
+      "docstring": "The short complex formed by the two canonical maps through a binary biproduct."
+    },
+    {
+      "temporary_id": "decl-023374",
+      "new_name": "biproductShortComplex_shortExact",
+      "docstring": "The binary-biproduct short complex is short exact when a zero object is available."
+    },
+    {
+      "temporary_id": "decl-023375",
+      "new_name": "biproductShortComplexSplitting_inl_comp_r",
+      "docstring": "The retraction in the chosen splitting is a left inverse to the first biproduct inclusion."
+    },
+    {
+      "temporary_id": "decl-023376",
+      "new_name": "biproductShortComplexSplitting_s_comp_snd",
+      "docstring": "The section in the chosen splitting is a right inverse to the second biproduct projection."
+    },
+    {
+      "temporary_id": "decl-023377",
+      "new_name": "biprodSndSplitEpi",
+      "docstring": "The second projection from a binary biproduct is exhibited as a split epimorphism."
+    },
+    {
+      "temporary_id": "decl-023378",
+      "new_name": "biprodInlSplitMono",
+      "docstring": "The first inclusion into a binary biproduct is exhibited as a split monomorphism."
+    },
+    {
+      "temporary_id": "decl-023379",
+      "new_name": "biproductShortComplexSplitting",
+      "docstring": "A splitting of the short complex associated with a binary biproduct."
+    },
+    {
+      "temporary_id": "decl-023380",
+      "new_name": "biproductShortComplexSplitting_r_comp_inl_add_snd_comp_s",
+      "docstring": "The two summand endomorphisms determined by the splitting add to the identity of the biproduct."
+    },
+    {
+      "temporary_id": "decl-023381",
+      "new_name": "biproductShortComplexSplitting_r",
+      "docstring": "The retraction component of this splitting is the first biproduct projection."
+    },
+    {
+      "temporary_id": "decl-023382",
+      "new_name": "biproductShortComplexSplitting_s",
+      "docstring": "The section component of this splitting is the second biproduct inclusion."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f6cc77951d796bdc54cb",
+      "declaration": "Etingof.Remark4_5_3.classFunctions",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/204/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(G : Type u) \u2192 [inst : Group.{u} G] \u2192 Subalgebra.{0, u} Complex (MonoidAlgebra.{0, u} Complex G)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Remark4_5_3"
+    },
+    {
+      "association_id": "association:b1579e2b28e23befc49a",
+      "declaration": "Etingof.Remark4_5_3.convolution_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/204/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [inst_1 : Fintype.{u} G] (f g : Etingof.Remark4_5_3.ConvolutionAlgebra.{u} G)\n  (z : G),\n  Eq.{1} (DFunLike.coe.{u + 1, u + 1, 1} (MonoidAlgebra.coeff.{0, u} (HMul.hMul.{u, u, u} f g)) z)\n    (Finset.sum.{u, 0} Finset.univ.{u} fun x =>\n      HMul.hMul.{0, 0, 0} (DFunLike.coe.{u + 1, u + 1, 1} (MonoidAlgebra.coeff.{0, u} f) x)\n        (DFunLike.coe.{u + 1, u + 1, 1} (MonoidAlgebra.coeff.{0, u} g) (HMul.hMul.{u, u, u} (Inv.inv.{u} x) z)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Remark4_5_3"
+    }
+  ],
+  "canonical_reference": "Chapter4/Remark4.5.3",
+  "packet_id": "align-0066",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0066"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:157ba9b419cff9dab956",
+  "source_text": "Convolution makes F(G,C) an associative unital algebra and class functions a commutative subalgebra."
+}

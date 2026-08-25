@@ -1,0 +1,116 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (p : Nat) [Fact (Nat.Prime p)] [CharP.{u_1} k p],\n  Eq.{u_1 + 1} (Subalgebra.center.{u_1, u_1} k (decl-016893.{u_1} k))\n    (Algebra.adjoin.{u_1, u_1} k\n      (Insert.insert.{u_1, u_1} (HPow.hPow.{u_1, 0, u_1} (decl-016933.{u_1} k) p)\n        (Singleton.singleton.{u_1, u_1} (HPow.hPow.{u_1, 0, u_1} (decl-016935.{u_1} k) p))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016933",
+        "decl-016935",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "3658115324",
+      "temporary_id": "decl-008956"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] (p : Nat) [inst_2 : Fact (Nat.Prime p)] [CharP.{u_1} k p]\n  (V : Type u_2) [inst_4 : AddCommGroup.{u_2} V] [inst_5 : Module.{u_1, u_2} k V]\n  [inst_6 : Module.{u_1, u_2} (decl-016893.{u_1} k) V]\n  [IsScalarTower.{u_1, u_1, u_2} k (decl-016893.{u_1} k) V] [FiniteDimensional.{u_1, u_2} k V]\n  [IsSimpleModule.{u_1, u_2} (decl-016893.{u_1} k) V],\n  Exists.{u_1 + 1} fun \u03b1 =>\n    Exists.{u_1 + 1} fun c =>\n      Exists.{max (u_1 + 1) (u_2 + 1)} fun b =>\n        And\n          (\u2200 (i : Fin p),\n            Eq.{u_2 + 1}\n              (HSMul.hSMul.{u_1, u_2, u_2} (decl-016933.{u_1} k)\n                (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), 1, u_2 + 1} b i))\n              (HSMul.hSMul.{u_1, u_2, u_2} (ite.{u_1 + 1} (Eq.{1} (HAdd.hAdd.{0, 0, 0} i 1) 0) \u03b1 1)\n                (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), 1, u_2 + 1} b (HAdd.hAdd.{0, 0, 0} i 1))))\n          (\u2200 (i : Fin p),\n            Eq.{u_2 + 1}\n              (HSMul.hSMul.{u_1, u_2, u_2} (decl-016935.{u_1} k)\n                (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), 1, u_2 + 1} b (HAdd.hAdd.{0, 0, 0} i 1)))\n              (HAdd.hAdd.{u_2, u_2, u_2}\n                (HSMul.hSMul.{u_1, u_2, u_2} c\n                  (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), 1, u_2 + 1} b (HAdd.hAdd.{0, 0, 0} i 1)))\n                (HSMul.hSMul.{u_1, u_2, u_2} (Nat.cast.{u_1} (HAdd.hAdd.{0, 0, 0} i.val 1))\n                  (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), 1, u_2 + 1} b i))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016933",
+        "decl-016935",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "4239237934",
+      "temporary_id": "decl-008961"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k] (V : Type u_2) [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{u_1, u_2} k V] [inst_4 : Module.{u_1, u_2} (decl-016893.{u_1} k) V]\n  [IsScalarTower.{u_1, u_1, u_2} k (decl-016893.{u_1} k) V] [FiniteDimensional.{u_1, u_2} k V],\n  Eq.{1} (Module.finrank.{u_1, u_2} k V) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "2936835413",
+      "temporary_id": "decl-008989"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] (p : Nat) [Fact (Nat.Prime p)] [CharP.{u_1} k p]\n  (V : Type u_2) [inst_4 : AddCommGroup.{u_2} V] [inst_5 : Module.{u_1, u_2} k V]\n  [inst_6 : Module.{u_1, u_2} (decl-016893.{u_1} k) V]\n  [IsScalarTower.{u_1, u_1, u_2} k (decl-016893.{u_1} k) V] [FiniteDimensional.{u_1, u_2} k V]\n  [IsSimpleModule.{u_1, u_2} (decl-016893.{u_1} k) V], Eq.{1} (Module.finrank.{u_1, u_2} k V) p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "2409746977",
+      "temporary_id": "decl-008991"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k], IsSimpleRing.{u_1} (decl-016893.{u_1} k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "1472020163",
+      "temporary_id": "decl-008993"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (p : Nat) [CharP.{u_1} k p],\n  Membership.mem.{u_1, u_1} (Subalgebra.center.{u_1, u_1} k (decl-016893.{u_1} k))\n    (HPow.hPow.{u_1, 0, u_1} (decl-016933.{u_1} k) p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016933",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "2293742727",
+      "temporary_id": "decl-009012"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (p : Nat) [CharP.{u_1} k p],\n  Membership.mem.{u_1, u_1} (Subalgebra.center.{u_1, u_1} k (decl-016893.{u_1} k))\n    (HPow.hPow.{u_1, 0, u_1} (decl-016935.{u_1} k) p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016935",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "31199887",
+      "temporary_id": "decl-009013"
+    }
+  ],
+  "module_temporary_id": "module-0092",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

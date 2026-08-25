@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0860",
+  "associations": [
+    {
+      "association_id": "association:3c53c1dfe5aa91047bb2",
+      "role": "supporting",
+      "rationale": "This proves uniqueness of an index in the family Pfam for each indecomposable projective, which is a classification component but does not state the projective-cover maps requested by the packet."
+    },
+    {
+      "association_id": "association:f147ca12de1bc772e530",
+      "role": "supporting",
+      "rationale": "This classifies an indecomposable projective as Pplus or Pminus, but it does not also establish either required projective-cover map."
+    },
+    {
+      "association_id": "association:ea6e1affb328265e0f38",
+      "role": "supporting",
+      "rationale": "This establishes projectivity, surjectivity, and the kernel condition for the Pminus map, so it supplies one projective-cover component rather than the full classification-and-maps claim."
+    },
+    {
+      "association_id": "association:461edf865ddb95da8c04",
+      "role": "supporting",
+      "rationale": "This establishes projectivity, surjectivity, and the kernel condition for the Pplus map, so it supplies one projective-cover component rather than the full classification-and-maps claim."
+    }
+  ]
+}

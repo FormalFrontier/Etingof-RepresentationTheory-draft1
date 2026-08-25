@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:988a8a31637c5d3450b3",
+      "declaration": "Etingof.GL2.card_constructedIndex",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/388/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hn : Ne.{1} n 0),\n  Eq.{1} (Nat.card.{0} (Etingof.GL2.ConstructedIndex p n hn))\n    (HAdd.hAdd.{0, 0, 0}\n      (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n            (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n          2))\n      (HDiv.hDiv.{0, 0, 0}\n        (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n          (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n        2))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:f601842dd58b480aaf8d",
+      "declaration": "Etingof.GL2.constructedFamily_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/388/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hp2 : Ne.{1} p 2)\n  (hn : Ne.{1} n 0) (i j : Etingof.GL2.ConstructedIndex p n hn),\n  Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (Etingof.GL2.constructedFamily p n hp2 hn i)\n        (Etingof.GL2.constructedFamily p n hp2 hn j)) \u2192\n    Eq.{1} i j",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:15121b7a54c292600b84",
+      "declaration": "Etingof.GL2.constructedFamily_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/388/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hp2 : Ne.{1} p 2)\n  (hn : Ne.{1} n 0) (i : Etingof.GL2.ConstructedIndex p n hn),\n  CategoryTheory.Simple.{0, 1} (Etingof.GL2.constructedFamily p n hp2 hn i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_complementary_series_summary",
+  "packet_id": "align-0426",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0426"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:89b9a3a8d7fb8a109e3d",
+  "source_text": "The constructed one-dimensional, principal-series, and complementary-series families contain q\u00b2\u22121 pairwise nonisomorphic simple representations."
+}

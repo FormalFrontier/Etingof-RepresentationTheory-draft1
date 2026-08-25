@@ -1,0 +1,1 @@
+{"module_name":"Group.CyclicPrimeRepresentation","declarations":[{"temporary_id":"decl-002374","new_name":"apply_eq_id_of_isSimpleModule","docstring":"Every group element acts as the identity in a finite simple representation of the cyclic group of prime order over a field of that characteristic."}]}

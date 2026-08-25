@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0183",
+  "associations": [
+    {
+      "association_id": "association:ce8f6755b95ea6b3de43",
+      "role": "supporting",
+      "rationale": "The packet supplies no formal type, so the group-homomorphism definition cannot be checked as directly stated."
+    }
+  ]
+}

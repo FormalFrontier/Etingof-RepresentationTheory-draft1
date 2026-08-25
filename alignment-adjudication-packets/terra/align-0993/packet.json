@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c80f75a4962abef96853",
+      "declaration": "Etingof.Example4_1_3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/186/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (p : Nat) [inst : Field.{u_1} k] [hp : Fact (Nat.Prime p)] [CharP.{u_1} k p] (V : Type u_2)\n  [inst_2 : AddCommGroup.{u_2} V] [inst_3 : Module.{u_1, u_2} k V] [Module.Finite.{u_1, u_2} k V]\n  (\u03c1 : Representation.{u_1, 0, u_2} k (Multiplicative.{0} (ZMod p)) V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{u_1, 0} k (Multiplicative.{0} (ZMod p)))\n      (Representation.asModule.{u_1, 0, u_2} \u03c1) \u2192\n    \u2200 (g : Multiplicative.{0} (ZMod p)), Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} \u03c1 g) LinearMap.id.{u_1, u_2}",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_1_3"
+    }
+  ],
+  "canonical_reference": "Chapter4/Example4.1.3",
+  "packet_id": "align-0993",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0993"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:bd672b7f9db8c63e6fb0",
+  "source_text": "Over a field of characteristic p, every irreducible representation of Z/pZ is trivial."
+}

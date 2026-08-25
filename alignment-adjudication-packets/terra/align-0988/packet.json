@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0fe492d736d9598f6c2f",
+      "declaration": "toDualHom_surjective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {r : Nat} {d : Fin r \u2192 Nat} {X : Type u_2} [inst_1 : AddCommGroup.{u_2} X]\n  [inst_2 : Module.{u_1, u_2} k X] [inst_3 : Module.{u_1, u_2} (MatProd.{u_1} k d) X]\n  [inst_4 : IsScalarTower.{u_1, u_1, u_2} k (MatProd.{u_1} k d) X] {n : Nat}\n  (yb : Module.Basis.{0, u_1, max u_2 u_1} (Fin n) k (Module.Dual.{u_1, u_2} k X)),\n  Function.Surjective.{u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)} (toDualHom.{u_1, u_2} yb))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.3.1",
+  "packet_id": "align-0988",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0988"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:bc14c31355b71eaa9b6f",
+  "source_text": "The map \u03c6 is surjective because scalar coefficients embed from k into A."
+}

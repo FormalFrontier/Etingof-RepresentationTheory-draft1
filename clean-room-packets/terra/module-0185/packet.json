@@ -1,0 +1,45 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {G : Type v} [inst : Group.{v} G] [inst_1 : Fintype.{v} G] [inst_2 : DecidableEq.{v + 1} G] {k : Type u}\n  [inst_3 : Field.{u} k] [IsAlgClosed.{u} k] [Invertible.{u} (Nat.cast.{u} (Fintype.card.{v} G))],\n  Exists.{1} fun n =>\n    Exists.{max (u + 2) (v + 1)} fun V =>\n      And (\u2200 (i : Fin n), CategoryTheory.Simple.{u, max (u + 1) v} (V i))\n        (And (\u2200 (i j : Fin n), Nonempty.{u + 1} (CategoryTheory.Iso.{u, max (u + 1) v} (V i) (V j)) \u2192 Eq.{1} i j)\n          (And\n            (\u2200 (W : FDRep.{u, v} k G),\n              CategoryTheory.Simple.{u, max (u + 1) v} W \u2192\n                Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, max (u + 1) v} W (V i)))\n            (Eq.{1} n (Fintype.card.{v} (ConjClasses.{v} G)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3223709550",
+      "temporary_id": "decl-001447"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} {G : Type v} [inst : Field.{u} k] [inst_1 : IsAlgClosed.{u} k] [inst_2 : Group.{v} G]\n  [inst_3 : Fintype.{v} G] [inst_4 : DecidableEq.{v + 1} G] [inst_5 : NeZero.{u} (Nat.cast.{u} (Nat.card.{v} G))]\n  (D : decl-025031.{u, v} k G), Eq.{1} (decl-025117.{u, v} D) (Fintype.card.{v} (ConjClasses.{v} G))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025031",
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025117"
+      ],
+      "structural_type_hash": "3664498516",
+      "temporary_id": "decl-025118"
+    }
+  ],
+  "module_temporary_id": "module-0185",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

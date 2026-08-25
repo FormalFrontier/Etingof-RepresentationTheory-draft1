@@ -1,0 +1,355 @@
+{
+  "module_name": "Algebra.Module.ExtensionCocycles",
+  "declarations": [
+    {
+      "temporary_id": "decl-009545",
+      "new_name": "AuxiliaryData",
+      "docstring": "An auxiliary type parameterized by two modules over an algebra."
+    },
+    {
+      "temporary_id": "decl-009548",
+      "new_name": "ExtensionModule",
+      "docstring": "The module type on a product determined by an extension cocycle valued in linear maps between two modules."
+    },
+    {
+      "temporary_id": "decl-009549",
+      "new_name": "linearEquivOfIsExtensionEquiv",
+      "docstring": "Constructs a linear equivalence of extension modules from a compatible equivalence of their underlying products."
+    },
+    {
+      "temporary_id": "decl-009554",
+      "new_name": "toProd_linearEquivOfIsExtensionEquiv",
+      "docstring": "The equivalence induced by compatible product data agrees with that data after passage to the underlying products."
+    },
+    {
+      "temporary_id": "decl-009555",
+      "new_name": "exact_inclusion_projection",
+      "docstring": "The canonical inclusion and projection of an extension module form an exact pair."
+    },
+    {
+      "temporary_id": "decl-009556",
+      "new_name": "toProd_injective",
+      "docstring": "The map from an extension module to its underlying product is injective."
+    },
+    {
+      "temporary_id": "decl-009557",
+      "new_name": "inclusion",
+      "docstring": "The linear inclusion of the first module into an extension module."
+    },
+    {
+      "temporary_id": "decl-009560",
+      "new_name": "inclusion_apply",
+      "docstring": "The canonical inclusion sends an element to the extension element with zero second component."
+    },
+    {
+      "temporary_id": "decl-009561",
+      "new_name": "inclusion_injective",
+      "docstring": "The canonical inclusion into an extension module is injective."
+    },
+    {
+      "temporary_id": "decl-009562",
+      "new_name": "instAddCommGroup",
+      "docstring": "The additive commutative group structure on an extension module."
+    },
+    {
+      "temporary_id": "decl-009580",
+      "new_name": "instDistribMulAction",
+      "docstring": "The distributive multiplicative action of the algebra on an extension module."
+    },
+    {
+      "temporary_id": "decl-009584",
+      "new_name": "instIsScalarTower",
+      "docstring": "The scalar actions of the field and algebra on an extension module form a scalar tower."
+    },
+    {
+      "temporary_id": "decl-009585",
+      "new_name": "instModuleAlgebra",
+      "docstring": "The algebra-module structure on an extension module."
+    },
+    {
+      "temporary_id": "decl-009589",
+      "new_name": "instModuleField",
+      "docstring": "The field-module structure on an extension module."
+    },
+    {
+      "temporary_id": "decl-009597",
+      "new_name": "instMulAction",
+      "docstring": "The multiplicative action of the algebra on an extension module."
+    },
+    {
+      "temporary_id": "decl-009601",
+      "new_name": "instSMul",
+      "docstring": "The scalar action of the algebra on an extension module."
+    },
+    {
+      "temporary_id": "decl-009602",
+      "new_name": "underlyingLinearEquiv",
+      "docstring": "The linear equivalence of underlying products induced by a linear equivalence of extension modules."
+    },
+    {
+      "temporary_id": "decl-009604",
+      "new_name": "underlyingLinearEquiv_apply",
+      "docstring": "Evaluating the induced equivalence of products amounts to entering the source extension, applying the given equivalence, and returning to the product."
+    },
+    {
+      "temporary_id": "decl-009605",
+      "new_name": "isExtensionEquiv_underlyingLinearEquiv",
+      "docstring": "The equivalence of products induced by a linear equivalence of extension modules is compatible with their extension data."
+    },
+    {
+      "temporary_id": "decl-009606",
+      "new_name": "mk",
+      "docstring": "Constructs an element of an extension module from its two components."
+    },
+    {
+      "temporary_id": "decl-009607",
+      "new_name": "nonempty_linearEquiv_iff_exists_isExtensionEquiv",
+      "docstring": "Two extension modules are linearly equivalent exactly when their underlying products admit a compatible linear equivalence."
+    },
+    {
+      "temporary_id": "decl-009610",
+      "new_name": "nonempty_linearEquiv_iff_exists_sub_smul_mem_coboundaries",
+      "docstring": "For finite-dimensional simple modules over an algebraically closed field, two extension modules are equivalent exactly when the first cocycle minus a nonzero scalar multiple of the second is a coboundary."
+    },
+    {
+      "temporary_id": "decl-009611",
+      "new_name": "nonempty_linearEquiv_of_sub_mem_coboundaries",
+      "docstring": "A coboundary difference between two cocycles yields a linear equivalence of their extension modules."
+    },
+    {
+      "temporary_id": "decl-009612",
+      "new_name": "nonempty_linearEquiv_prod_iff_mem_coboundaries",
+      "docstring": "Under the stated simplicity and finite-dimensionality hypotheses, an extension module is equivalent to the product module exactly when its cocycle is a coboundary."
+    },
+    {
+      "temporary_id": "decl-009613",
+      "new_name": "ofProd",
+      "docstring": "Regards an element of the underlying product as an element of an extension module."
+    },
+    {
+      "temporary_id": "decl-009614",
+      "new_name": "ofProd_toProd",
+      "docstring": "Converting an extension element to the product and back leaves it unchanged."
+    },
+    {
+      "temporary_id": "decl-009615",
+      "new_name": "projection",
+      "docstring": "The linear projection from an extension module to its second module."
+    },
+    {
+      "temporary_id": "decl-009618",
+      "new_name": "projection_apply",
+      "docstring": "The canonical projection is the second component of the underlying product."
+    },
+    {
+      "temporary_id": "decl-009619",
+      "new_name": "projection_comp_inclusion",
+      "docstring": "The composite of the canonical projection with the canonical inclusion is zero."
+    },
+    {
+      "temporary_id": "decl-009620",
+      "new_name": "projection_surjective",
+      "docstring": "The canonical projection from an extension module is surjective."
+    },
+    {
+      "temporary_id": "decl-009621",
+      "new_name": "quotientRangeInclusionEquiv",
+      "docstring": "The quotient of an extension module by the range of its canonical inclusion is linearly equivalent to the second module."
+    },
+    {
+      "temporary_id": "decl-009625",
+      "new_name": "range_inclusion_eq_ker_projection",
+      "docstring": "The range of the canonical inclusion equals the kernel of the canonical projection."
+    },
+    {
+      "temporary_id": "decl-009628",
+      "new_name": "smul_mk",
+      "docstring": "Algebra scalar multiplication on an extension element acts diagonally with the cocycle contribution in the first component."
+    },
+    {
+      "temporary_id": "decl-009629",
+      "new_name": "sub_mem_coboundaries_of_shear_linearEquiv",
+      "docstring": "If an equivalence of extension modules acts on the underlying product by a linear shear, then the difference of the cocycles is a coboundary."
+    },
+    {
+      "temporary_id": "decl-009630",
+      "new_name": "toProd",
+      "docstring": "Returns the underlying pair of an element of an extension module."
+    },
+    {
+      "temporary_id": "decl-009631",
+      "new_name": "linearEquivProd",
+      "docstring": "The extension module is linearly equivalent over the base field to its underlying product."
+    },
+    {
+      "temporary_id": "decl-009636",
+      "new_name": "linearEquivProd_apply",
+      "docstring": "The canonical equivalence with the product evaluates to the underlying-pair map."
+    },
+    {
+      "temporary_id": "decl-009637",
+      "new_name": "linearEquivProd_symm_apply",
+      "docstring": "The inverse of the canonical equivalence with the product evaluates by the product constructor."
+    },
+    {
+      "temporary_id": "decl-009638",
+      "new_name": "toProd_add",
+      "docstring": "The underlying pair of a sum is the sum of the underlying pairs."
+    },
+    {
+      "temporary_id": "decl-009639",
+      "new_name": "toProd_mk",
+      "docstring": "The underlying pair of an extension element constructed from two components is that pair."
+    },
+    {
+      "temporary_id": "decl-009640",
+      "new_name": "toProd_ofProd",
+      "docstring": "Passing from a product element to the extension and back returns the original product."
+    },
+    {
+      "temporary_id": "decl-009641",
+      "new_name": "toProd_smul_algebra",
+      "docstring": "Describes the underlying pair after scalar multiplication by an algebra element."
+    },
+    {
+      "temporary_id": "decl-009642",
+      "new_name": "toProd_smul_field",
+      "docstring": "The underlying-pair map commutes with scalar multiplication by the base field."
+    },
+    {
+      "temporary_id": "decl-009643",
+      "new_name": "toProd_smul_eq_extensionAction",
+      "docstring": "The underlying pair of an algebra multiple is obtained by applying the extension action to the underlying pair."
+    },
+    {
+      "temporary_id": "decl-009644",
+      "new_name": "toProd_zero",
+      "docstring": "The underlying pair of zero is zero."
+    },
+    {
+      "temporary_id": "decl-009645",
+      "new_name": "auxiliaryDefinition",
+      "docstring": "An auxiliary definition whose formal type is partially elided."
+    },
+    {
+      "temporary_id": "decl-009651",
+      "new_name": "IsExtensionEquiv",
+      "docstring": "A compatibility predicate for a linear equivalence of products relative to two extension maps."
+    },
+    {
+      "temporary_id": "decl-009653",
+      "new_name": "IsExtensionCocycle",
+      "docstring": "The predicate on a linear map that makes its associated action on the product multiplicative."
+    },
+    {
+      "temporary_id": "decl-009656",
+      "new_name": "map_one_eq_zero",
+      "docstring": "An extension cocycle vanishes at one."
+    },
+    {
+      "temporary_id": "decl-009657",
+      "new_name": "extensionAction",
+      "docstring": "The linear endomorphism of a product determined by an algebra element and an extension map."
+    },
+    {
+      "temporary_id": "decl-009660",
+      "new_name": "extensionAction_apply_mk",
+      "docstring": "The extension action on a pair is the diagonal module action together with the extension contribution in the first component."
+    },
+    {
+      "temporary_id": "decl-009661",
+      "new_name": "extensionAction_apply",
+      "docstring": "Describes the extension action on an arbitrary element of the product."
+    },
+    {
+      "temporary_id": "decl-009662",
+      "new_name": "extensionAction_mul_iff",
+      "docstring": "The extension action preserves multiplication exactly when the defining linear map is an extension cocycle."
+    },
+    {
+      "temporary_id": "decl-009664",
+      "new_name": "coboundaries",
+      "docstring": "The submodule of extension maps arising as coboundaries of linear maps between the two modules."
+    },
+    {
+      "temporary_id": "decl-009667",
+      "new_name": "coboundaries_eq_range",
+      "docstring": "The submodule of coboundaries is the range of the coboundary linear map."
+    },
+    {
+      "temporary_id": "decl-009668",
+      "new_name": "coboundaries_le_auxiliaryMapSubmodule",
+      "docstring": "Every coboundary belongs to the auxiliary submodule of linear maps."
+    },
+    {
+      "temporary_id": "decl-009669",
+      "new_name": "coboundaryLinearMap",
+      "docstring": "The linear map sending a linear map between modules to its associated coboundary."
+    },
+    {
+      "temporary_id": "decl-009674",
+      "new_name": "coboundaryLinearMap_apply",
+      "docstring": "The coboundary linear map evaluates to the corresponding coboundary."
+    },
+    {
+      "temporary_id": "decl-009675",
+      "new_name": "coboundary",
+      "docstring": "The extension map measuring the difference between applying an algebra element before and after a linear map of modules."
+    },
+    {
+      "temporary_id": "decl-009686",
+      "new_name": "coboundary_apply_apply",
+      "docstring": "Evaluating a coboundary gives the algebra action after the linear map minus the linear map after the algebra action."
+    },
+    {
+      "temporary_id": "decl-009687",
+      "new_name": "coboundary_eq_zero_iff",
+      "docstring": "A coboundary vanishes exactly when the underlying linear map commutes with the algebra action."
+    },
+    {
+      "temporary_id": "decl-009689",
+      "new_name": "isExtensionCocycle_coboundary",
+      "docstring": "Every coboundary satisfies the extension cocycle condition."
+    },
+    {
+      "temporary_id": "decl-009691",
+      "new_name": "auxiliaryMapSubmodule",
+      "docstring": "An auxiliary submodule of linear maps from the algebra to linear maps between the two modules."
+    },
+    {
+      "temporary_id": "decl-009698",
+      "new_name": "sub_mem_coboundaries_of_shear_isExtensionEquiv",
+      "docstring": "A compatible product equivalence given by a linear shear forces the difference of its extension maps to be a coboundary."
+    },
+    {
+      "temporary_id": "decl-009699",
+      "new_name": "exists_isExtensionEquiv_of_sub_smul_mem_coboundaries",
+      "docstring": "If the first extension map minus a nonzero scalar multiple of the second is a coboundary, then a compatible product equivalence exists."
+    },
+    {
+      "temporary_id": "decl-009700",
+      "new_name": "exists_isExtensionEquiv_iff_exists_sub_smul_mem_coboundaries",
+      "docstring": "Over an algebraically closed field, under the stated simplicity and finite-dimensionality hypotheses, a compatible product equivalence exists exactly when the first extension map minus a nonzero scalar multiple of the second is a coboundary."
+    },
+    {
+      "temporary_id": "decl-009702",
+      "new_name": "isExtensionCocycle_zero",
+      "docstring": "The zero extension map satisfies the extension cocycle condition."
+    },
+    {
+      "temporary_id": "decl-009703",
+      "new_name": "exists_isExtensionEquiv_of_sub_mem_coboundaries",
+      "docstring": "A coboundary difference between two extension cocycles yields a compatible equivalence of their products."
+    },
+    {
+      "temporary_id": "decl-009704",
+      "new_name": "mem_coboundaries_iff",
+      "docstring": "An extension map belongs to the coboundary submodule exactly when it is the coboundary of some linear map."
+    },
+    {
+      "temporary_id": "decl-009705",
+      "new_name": "algebraEndomorphismFamily",
+      "docstring": "A family of base-field-linear endomorphisms of a module indexed by elements of the algebra."
+    }
+  ]
+}

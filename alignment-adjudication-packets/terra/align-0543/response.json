@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0543",
+  "associations": [
+    {
+      "association_id": "association:059b978eaaf224bc6a36",
+      "rationale": "For a finite-dimensional nontrivial module of a solvable complex Lie algebra, the type directly concludes finrank one under IsSimpleOrder of the Lie-submodule lattice, the displayed formal condition for irreducibility.",
+      "role": "primary"
+    }
+  ]
+}

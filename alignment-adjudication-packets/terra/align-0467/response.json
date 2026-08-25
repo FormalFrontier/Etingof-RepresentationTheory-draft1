@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0467",
+  "associations": [
+    {
+      "association_id": "association:3fe127d7620a25402c2e",
+      "role": "supporting",
+      "rationale": "The type visibly assumes joint irreducibility and existentially produces V, W, and an equivalence, but its displayed conclusion is elided, so it does not directly expose the required finite-dimensionality, irreducibility, and tensor-product equivalence claims."
+    }
+  ]
+}

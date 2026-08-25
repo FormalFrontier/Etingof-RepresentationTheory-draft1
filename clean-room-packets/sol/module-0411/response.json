@@ -1,0 +1,150 @@
+{
+  "module_name": "Combinatorics.Partition.RootOrderMatrices",
+  "declarations": [
+    {
+      "temporary_id": "decl-018429",
+      "new_name": "Partition.auxiliaryNatStatistic",
+      "docstring": "An auxiliary natural-valued statistic on partitions."
+    },
+    {
+      "temporary_id": "decl-020755",
+      "new_name": "Partition.auxiliaryInverseMatrix",
+      "docstring": "An auxiliary complex matrix indexed by partitions."
+    },
+    {
+      "temporary_id": "decl-020757",
+      "new_name": "Partition.auxiliaryInverseMatrix_apply_eq_zero_of_not_rootLe",
+      "docstring": "An entry of the auxiliary inverse matrix vanishes unless the column partition is root-below the row partition."
+    },
+    {
+      "temporary_id": "decl-020758",
+      "new_name": "Partition.auxiliaryInverseMatrix_mul_auxiliaryNatMatrix",
+      "docstring": "The auxiliary inverse matrix is a left inverse of the auxiliary natural-entry matrix."
+    },
+    {
+      "temporary_id": "decl-020927",
+      "new_name": "Partition.isUnit_auxiliaryNatMatrix",
+      "docstring": "The auxiliary natural-entry matrix is a unit."
+    },
+    {
+      "temporary_id": "decl-021025",
+      "new_name": "Partition.auxiliaryNatMatrix",
+      "docstring": "An auxiliary complex matrix indexed by partitions with natural-number entries."
+    },
+    {
+      "temporary_id": "decl-021026",
+      "new_name": "Partition.auxiliaryNatMatrix_apply",
+      "docstring": "An entry of the auxiliary natural-entry matrix is the cast of the corresponding auxiliary count."
+    },
+    {
+      "temporary_id": "decl-021027",
+      "new_name": "Partition.auxiliaryNatMatrix_apply_self",
+      "docstring": "Every diagonal entry of the auxiliary natural-entry matrix is one."
+    },
+    {
+      "temporary_id": "decl-021028",
+      "new_name": "Partition.auxiliaryNatMatrix_apply_eq_zero_of_not_rootLe",
+      "docstring": "An entry of the auxiliary natural-entry matrix vanishes unless its column is root-below its row."
+    },
+    {
+      "temporary_id": "decl-021687",
+      "new_name": "Partition.auxiliaryNatMatrix_mul_auxiliaryInverseMatrix",
+      "docstring": "The auxiliary inverse matrix is a right inverse of the auxiliary natural-entry matrix."
+    },
+    {
+      "temporary_id": "decl-022845",
+      "new_name": "Partition.rootOrder_isPartialOrder",
+      "docstring": "The root relation on partitions defines a partial order."
+    },
+    {
+      "temporary_id": "decl-022859",
+      "new_name": "auxiliaryIntegerFunction",
+      "docstring": "An auxiliary integer-valued function of three natural numbers."
+    },
+    {
+      "temporary_id": "decl-023281",
+      "new_name": "Partition.auxiliaryValue_eq_matrix_sum",
+      "docstring": "The auxiliary value of a partition and permutation is a sum over partitions weighted by matrix entries."
+    },
+    {
+      "temporary_id": "decl-023282",
+      "new_name": "Partition.auxiliaryValue_eq_rootLe_matrix_sum",
+      "docstring": "The auxiliary matrix sum may be restricted to partitions above the given partition in the root relation."
+    },
+    {
+      "temporary_id": "decl-023353",
+      "new_name": "Partition.auxiliaryCount_eq_zero_of_not_rootLe",
+      "docstring": "The auxiliary count vanishes when the first partition is not root-below the second."
+    },
+    {
+      "temporary_id": "decl-025188",
+      "new_name": "refl",
+      "docstring": "The auxiliary relation on partitions is reflexive."
+    },
+    {
+      "temporary_id": "decl-025189",
+      "new_name": "rootLe_of_auxiliaryRelation",
+      "docstring": "The auxiliary relation implies the reversed root relation."
+    },
+    {
+      "temporary_id": "decl-025191",
+      "new_name": "trans",
+      "docstring": "The auxiliary relation on partitions is transitive."
+    },
+    {
+      "temporary_id": "decl-025197",
+      "new_name": "Partition.rootOrder",
+      "docstring": "An auxiliary root-order relation on partitions."
+    },
+    {
+      "temporary_id": "decl-025198",
+      "new_name": "antisymm",
+      "docstring": "The root-order relation on partitions is antisymmetric."
+    },
+    {
+      "temporary_id": "decl-025199",
+      "new_name": "auxiliaryRelation_of_le",
+      "docstring": "The root-order relation implies the reversed auxiliary relation."
+    },
+    {
+      "temporary_id": "decl-025204",
+      "new_name": "refl",
+      "docstring": "Every partition is root-below itself."
+    },
+    {
+      "temporary_id": "decl-025205",
+      "new_name": "trans",
+      "docstring": "The root-order relation on partitions is transitive."
+    },
+    {
+      "temporary_id": "decl-025210",
+      "new_name": "Partition.auxiliaryIndexedNatValue",
+      "docstring": "An auxiliary natural-valued function of a partition and a natural-number index."
+    },
+    {
+      "temporary_id": "decl-025212",
+      "new_name": "Partition.partAt_eq_zero_of_length_le",
+      "docstring": "A partition's indexed part is zero at indices at least its size."
+    },
+    {
+      "temporary_id": "decl-025219",
+      "new_name": "Partition.rootOrder_iff_auxiliaryRelation",
+      "docstring": "The root-order relation is equivalent to the reversed auxiliary relation."
+    },
+    {
+      "temporary_id": "decl-025222",
+      "new_name": "Partition.sortedParts_length_le",
+      "docstring": "The list of sorted parts has length at most the size of the partition."
+    },
+    {
+      "temporary_id": "decl-025223",
+      "new_name": "Partition.sum_take_sortedParts",
+      "docstring": "The sum of an initial segment of the sorted parts equals the sum of the indexed parts over the same range."
+    },
+    {
+      "temporary_id": "decl-025224",
+      "new_name": "Partition.sum_take_sortedParts_eq_size",
+      "docstring": "Taking at least the partition size from the sorted parts gives a sum equal to that size."
+    }
+  ]
+}

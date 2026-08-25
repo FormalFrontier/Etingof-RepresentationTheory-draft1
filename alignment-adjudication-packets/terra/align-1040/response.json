@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1040",
+  "associations": [
+    {
+      "association_id": "association:1ea5276837ac872e1fb7",
+      "rationale": "The formal type is null, so the displayed evidence does not directly state the characterization by a shared minimal polynomial.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:edbec5edc91426170737",
+      "rationale": "The formal type is null, so it cannot directly establish that conjugates annihilate every rational polynomial annihilating the original element.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:57ad0f5e741d1d2cb036",
+      "rationale": "The formal type is null; the declaration name suggests a divisibility helper but does not display the source claim.",
+      "role": "supporting"
+    }
+  ]
+}

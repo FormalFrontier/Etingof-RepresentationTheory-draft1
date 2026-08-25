@@ -1,0 +1,15 @@
+{
+  "module_name": "Quiver.VertexOrder",
+  "declarations": [
+    {
+      "temporary_id": "decl-013176",
+      "new_name": "Quiver.exists_witness_with_prescribed_values",
+      "docstring": "Under the stated compatibility and thinness assumptions, there is a witness whose associated natural-number values agree with the supplied integer vector, as do those of a further witness."
+    },
+    {
+      "temporary_id": "decl-013180",
+      "new_name": "Quiver.exists_order_target_lt_source",
+      "docstring": "A compatible finite quiver admits an ordering in which the target of every arrow precedes its source."
+    }
+  ]
+}

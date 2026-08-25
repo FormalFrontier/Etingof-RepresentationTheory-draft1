@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1222",
+  "associations": [
+    {
+      "association_id": "association:501b5c81745bb115423e",
+      "rationale": "The type directly states that IsSimpleModule A V implies Etingof.IsIndecomposable A V, exactly matching the source claim.",
+      "role": "primary"
+    }
+  ]
+}

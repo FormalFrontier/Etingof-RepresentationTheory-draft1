@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0744",
+  "associations": [
+    {
+      "association_id": "association:b24b31c59ce999509c1a",
+      "role": "supporting",
+      "rationale": "The displayed formal type is an opaque pretty-print failure, so it does not directly expose the claimed irreducibility deduction."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0115",
+  "associations": [
+    {
+      "association_id": "association:f7ebb1be766d44e28951",
+      "role": "supporting",
+      "rationale": "The type only supplies an additive map to functions; it does not state that its values are the corresponding integer combinations of irreducible characters."
+    },
+    {
+      "association_id": "association:d75ae96970bf751b19a9",
+      "role": "primary",
+      "rationale": "Its evaluation formula directly gives the integer linear combination of irreducible characters."
+    },
+    {
+      "association_id": "association:9fd6d0466abbc5a557dd",
+      "role": "supporting",
+      "rationale": "This is the single-basis-vector specialization of the general character linear-combination formula."
+    }
+  ]
+}

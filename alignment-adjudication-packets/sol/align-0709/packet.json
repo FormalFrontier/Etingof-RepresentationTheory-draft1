@@ -1,0 +1,124 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:557238df86d3fbc22695",
+      "declaration": "Etingof.Problem4_12_2.Heisenberg.card_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [inst : NeZero.{0} p],\n  Eq.{1} (Fintype.card.{0} (Etingof.Problem4_12_2.Heisenberg p)) (HPow.hPow.{0, 0, 0} p 3)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:2f643c83ea9499e15829",
+      "declaration": "Etingof.Problem4_12_2.Heisenberg.closure_gens_eq_top",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [Fact (Nat.Prime p)],\n  Eq.{1}\n    (Submonoid.closure.{0}\n      (Insert.insert.{0, 0} (Etingof.Problem4_12_2.Heisenberg.xGen p)\n        (Singleton.singleton.{0, 0} (Etingof.Problem4_12_2.Heisenberg.yGen p))))\n    Top.top.{0}",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:161fe12279c9268e0860",
+      "declaration": "Etingof.Problem4_12_2.Heisenberg.eq_gen_prod",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [NeZero.{0} p] (g : Etingof.Problem4_12_2.Heisenberg p),\n  Eq.{1} g\n    (HMul.hMul.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Etingof.Problem4_12_2.Heisenberg.xGen p) g.a.val)\n        (HPow.hPow.{0, 0, 0} (Etingof.Problem4_12_2.Heisenberg.yGen p) g.b.val))\n      (HPow.hPow.{0, 0, 0} { a := 0, b := 0, c := 1 } (HSub.hSub.{0, 0, 0} g.c (HMul.hMul.{0, 0, 0} g.a g.b)).val))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:b7ee67ba9ab84f6f5407",
+      "declaration": "Etingof.Problem4_12_2.exists_unique_rep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (z : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    ExistsUnique.{1} fun \u03c1 =>\n      And\n        (\u2200 (f : ZMod p \u2192 Complex) (t : ZMod p),\n          Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} \u03c1 (Etingof.Problem4_12_2.Heisenberg.xGen p)) f t)\n            (f (HSub.hSub.{0, 0, 0} t 1)))\n        (\u2200 (f : ZMod p \u2192 Complex) (t : ZMod p),\n          Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} \u03c1 (Etingof.Problem4_12_2.Heisenberg.yGen p)) f t)\n            (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} z t.val) (f t)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:3b0194a5730c7ac06607",
+      "declaration": "Etingof.Problem4_12_2.rhoHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{p : Nat} \u2192\n  [NeZero.{0} p] \u2192\n    (z : Complex) \u2192\n      Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n        Representation.{0, 0, 0} Complex (Etingof.Problem4_12_2.Heisenberg p) (ZMod p \u2192 Complex)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:611bb9c4cba1af66a1d2",
+      "declaration": "Etingof.Problem4_12_2.rhoHom_xGen",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [inst : NeZero.{0} p] (z : Complex) (hz : Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1) (f : ZMod p \u2192 Complex)\n  (t : ZMod p),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1}\n      (DFunLike.coe.{1, 1, 1} (Etingof.Problem4_12_2.rhoHom z hz) (Etingof.Problem4_12_2.Heisenberg.xGen p)) f t)\n    (f (HSub.hSub.{0, 0, 0} t 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:1fb53ee288598b8b4368",
+      "declaration": "Etingof.Problem4_12_2.rhoHom_yGen",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [inst : NeZero.{0} p] (z : Complex) (hz : Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1) (f : ZMod p \u2192 Complex)\n  (t : ZMod p),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1}\n      (DFunLike.coe.{1, 1, 1} (Etingof.Problem4_12_2.rhoHom z hz) (Etingof.Problem4_12_2.Heisenberg.yGen p)) f t)\n    (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} z t.val) (f t))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:7b612adc61fbc501d4db",
+      "declaration": "Etingof.Problem4_12_2.rhoLin_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} (z : Complex) (g : Etingof.Problem4_12_2.Heisenberg p) (f : ZMod p \u2192 Complex) (t : ZMod p),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (Etingof.Problem4_12_2.rhoLin z g) f t)\n    (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (HMul.hMul.{0, 0, 0} g.b t) g.c).val)\n      (f (HSub.hSub.{0, 0, 0} t g.a)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.2",
+  "packet_id": "align-0709",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0709"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.2:part_a",
+  "source_text": "Part (a): construct the Heisenberg representation Rz, prove uniqueness, and compute every group element's action."
+}

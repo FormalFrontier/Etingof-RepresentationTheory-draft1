@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0618",
+  "associations": [
+    {
+      "association_id": "association:6de49e0b529212990dce",
+      "rationale": "The type is an intermediate counting identity equating length-n path cardinalities with entries of the nth adjacency-matrix power; it does not state the basis or Hilbert-series claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:55158646fed13906a57c",
+      "rationale": "The type gives the resulting finrank as the total number of length-n paths, but does not directly exhibit those paths as a basis or state the resolvent Hilbert series.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e2a17d394229d21f56e2",
+      "rationale": "The type states the resolvent Hilbert-series formula, but it does not itself exhibit length-n paths as a basis of the degree-n piece, so it covers only one component of the complete claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e4482f62d861a121cdb4",
+      "rationale": "The type identifies the matrix inverse with an auxiliary resolvent, an intermediate identity used for the Hilbert-series calculation rather than the source claim itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8e5930f644b18af0e72a",
+      "rationale": "The displayed type only constructs the path-algebra degree piece as a submodule and does not state its basis or Hilbert series.",
+      "role": "supporting"
+    }
+  ]
+}

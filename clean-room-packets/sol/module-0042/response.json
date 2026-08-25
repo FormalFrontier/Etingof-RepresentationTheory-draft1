@@ -1,0 +1,200 @@
+{
+  "module_name": "RingTheory.Polynomial.JordanBlockModule",
+  "declarations": [
+    {
+      "temporary_id": "decl-003609",
+      "new_name": "isIndecomposableModule_of_linearEquiv",
+      "docstring": "Module indecomposability is transported across a linear equivalence."
+    },
+    {
+      "temporary_id": "decl-003610",
+      "new_name": "pow_sub_smul_jordanBlock_eq_zero",
+      "docstring": "The defining power of the shifted polynomial variable annihilates every vector in the corresponding Jordan-block module."
+    },
+    {
+      "temporary_id": "decl-003611",
+      "new_name": "aeval_jordanOperator_sub_self",
+      "docstring": "Evaluating the polynomial variable shifted by the Jordan parameter at the Jordan operator gives its nilpotent part."
+    },
+    {
+      "temporary_id": "decl-003612",
+      "new_name": "aeval_jordanOperator_sub",
+      "docstring": "Evaluating a shifted polynomial variable at a Jordan operator splits into a scalar map and the nilpotent part."
+    },
+    {
+      "temporary_id": "decl-003613",
+      "new_name": "polynomialToJordanBlock",
+      "docstring": "The polynomial-linear map obtained by evaluating at a Jordan operator and applying the result to its cyclic vector."
+    },
+    {
+      "temporary_id": "decl-003619",
+      "new_name": "polynomialToJordanBlock_pow_sub",
+      "docstring": "The generator map sends a power of the shifted variable to the same power of the nilpotent part applied to the cyclic vector."
+    },
+    {
+      "temporary_id": "decl-003620",
+      "new_name": "polynomialToJordanBlock_pow_sub_eq_zero",
+      "docstring": "The generator map sends the defining power of the shifted variable to zero."
+    },
+    {
+      "temporary_id": "decl-003621",
+      "new_name": "polynomialToJordanBlock_apply",
+      "docstring": "The generator map evaluates a polynomial at the Jordan operator and applies it to the cyclic vector."
+    },
+    {
+      "temporary_id": "decl-003622",
+      "new_name": "polynomialToJordanBlock_surjective",
+      "docstring": "The polynomial generator map onto a nonempty Jordan block is surjective."
+    },
+    {
+      "temporary_id": "decl-003626",
+      "new_name": "jordanEigenvector",
+      "docstring": "A distinguished eigenvector in a nonempty finite coordinate space."
+    },
+    {
+      "temporary_id": "decl-003629",
+      "new_name": "jordanEigenvector_mem_of_invariant",
+      "docstring": "Every nonzero subspace invariant under a Jordan operator contains its distinguished eigenvector."
+    },
+    {
+      "temporary_id": "decl-003631",
+      "new_name": "jordanEigenvector_ne_zero",
+      "docstring": "The distinguished eigenvector of a nonempty Jordan block is nonzero."
+    },
+    {
+      "temporary_id": "decl-003632",
+      "new_name": "jordanCyclicVector",
+      "docstring": "A distinguished cyclic vector in a nonempty finite coordinate space."
+    },
+    {
+      "temporary_id": "decl-003636",
+      "new_name": "equiv_jordanBlock_of_isIndecomposableModule",
+      "docstring": "A finite-dimensional indecomposable polynomial module over an algebraically closed field is linearly equivalent to a nonempty Jordan block."
+    },
+    {
+      "temporary_id": "decl-003638",
+      "new_name": "equiv_component_of_isIndecomposableModule",
+      "docstring": "An indecomposable module equivalent to a finite dependent product is equivalent to one of its components."
+    },
+    {
+      "temporary_id": "decl-003639",
+      "new_name": "exists_equiv_pi_jordanBlock",
+      "docstring": "A finite-dimensional polynomial module over an algebraically closed field is equivalent to a finite product of nonempty Jordan blocks."
+    },
+    {
+      "temporary_id": "decl-003640",
+      "new_name": "isIndecomposableModule_and_not_isSimpleModule_jordanBlock_two",
+      "docstring": "The size-two Jordan block with parameter zero is indecomposable but not simple."
+    },
+    {
+      "temporary_id": "decl-003641",
+      "new_name": "exists_ne_zero_mem_ker_of_isNilpotent",
+      "docstring": "A nilpotent endomorphism of a nontrivial vector space has a nonzero vector in its kernel."
+    },
+    {
+      "temporary_id": "decl-003643",
+      "new_name": "finrank_jordanBlock",
+      "docstring": "The dimension of a Jordan-block module is its size."
+    },
+    {
+      "temporary_id": "decl-003644",
+      "new_name": "polynomialModule_isTorsion",
+      "docstring": "Every finite-dimensional vector space carrying a compatible polynomial-module structure is torsion as a polynomial module."
+    },
+    {
+      "temporary_id": "decl-003645",
+      "new_name": "jordanOperator",
+      "docstring": "The linear endomorphism on finite coordinate space with a specified eigenvalue and nilpotent shift."
+    },
+    {
+      "temporary_id": "decl-003648",
+      "new_name": "auxiliaryFact",
+      "docstring": "An auxiliary theorem whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-003649",
+      "new_name": "jordanOperator_jordanEigenvector",
+      "docstring": "The distinguished eigenvector has the specified eigenvalue under the Jordan operator."
+    },
+    {
+      "temporary_id": "decl-003650",
+      "new_name": "quotientSpanPowSubEquivJordanBlock",
+      "docstring": "The quotient of the polynomial ring by the ideal generated by a power of a shifted variable is linearly equivalent to the associated Jordan-block module."
+    },
+    {
+      "temporary_id": "decl-003654",
+      "new_name": "JordanBlockModule",
+      "docstring": "The polynomial module associated to a scalar parameter and a natural-number block size."
+    },
+    {
+      "temporary_id": "decl-003655",
+      "new_name": "jordanBlockModule_equiv_iff",
+      "docstring": "Two nonempty Jordan-block modules are linearly equivalent exactly when their parameters and sizes agree."
+    },
+    {
+      "temporary_id": "decl-003659",
+      "new_name": "jordanBlockModule_isIndecomposable",
+      "docstring": "Every nonempty Jordan-block module is indecomposable."
+    },
+    {
+      "temporary_id": "decl-003660",
+      "new_name": "jordanBlockModule_nontrivial",
+      "docstring": "A Jordan-block module of nonzero size is nontrivial."
+    },
+    {
+      "temporary_id": "decl-003661",
+      "new_name": "jordanBlockModule_not_isSimpleModule",
+      "docstring": "A Jordan-block module of size at least two is not simple."
+    },
+    {
+      "temporary_id": "decl-003663",
+      "new_name": "ker_jordanNilpotent_le_span_eigenvector",
+      "docstring": "The kernel of the nilpotent Jordan shift is contained in the span of the distinguished eigenvector."
+    },
+    {
+      "temporary_id": "decl-003667",
+      "new_name": "jordanNilpotent",
+      "docstring": "The nilpotent shift endomorphism on a finite coordinate space."
+    },
+    {
+      "temporary_id": "decl-003671",
+      "new_name": "auxiliaryFact_aux1",
+      "docstring": "An auxiliary theorem whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-003672",
+      "new_name": "jordanNilpotent_isNilpotent",
+      "docstring": "The finite Jordan shift is nilpotent."
+    },
+    {
+      "temporary_id": "decl-003674",
+      "new_name": "auxiliaryFact_aux2",
+      "docstring": "An auxiliary theorem whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-003677",
+      "new_name": "jordanNilpotent_pow_jordanCyclicVector",
+      "docstring": "A power of the nilpotent Jordan shift sends the cyclic vector to the corresponding standard basis vector."
+    },
+    {
+      "temporary_id": "decl-003682",
+      "new_name": "jordanNilpotent_pow_eq_zero",
+      "docstring": "The nilpotent Jordan shift raised to the dimension of its coordinate space is zero."
+    },
+    {
+      "temporary_id": "decl-003696",
+      "new_name": "equiv_field_of_isIndecomposableModule",
+      "docstring": "An indecomposable vector space over a field is linearly equivalent to the field itself."
+    },
+    {
+      "temporary_id": "decl-003697",
+      "new_name": "equiv_field_of_isSimpleModule",
+      "docstring": "A simple vector space over its scalar field is linearly equivalent to that field."
+    },
+    {
+      "temporary_id": "decl-003698",
+      "new_name": "finrank_quotient_maximalIdeal",
+      "docstring": "Over an algebraically closed field, the quotient of the polynomial ring by a maximal ideal has dimension one."
+    }
+  ]
+}

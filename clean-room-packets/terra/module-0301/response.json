@@ -1,0 +1,10 @@
+{
+  "module_name": "LinearAlgebra.GeneralLinearGroup.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-019874",
+      "new_name": "exists_eq_conjugate_auxiliary_of_card_roots_eq",
+      "docstring": "If the set of roots of the characteristic polynomial has cardinality equal to the matrix size, the element is conjugate to an element from the auxiliary family."
+    }
+  ]
+}

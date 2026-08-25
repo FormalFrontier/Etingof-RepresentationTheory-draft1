@@ -1,0 +1,30 @@
+{
+  "module_name": "AuxiliaryEndomorphismActions",
+  "declarations": [
+    {
+      "temporary_id": "decl-016545",
+      "new_name": "auxiliarySpace",
+      "docstring": "A type family associated to a field, a module, and a natural-number parameter."
+    },
+    {
+      "temporary_id": "decl-016546",
+      "new_name": "centralizer_auxiliarySubalgebra_eq_range_universalEnvelopingAlgebraHom",
+      "docstring": "Over a characteristic-zero field, the centralizer of the auxiliary subalgebra equals the range of the universal-enveloping-algebra homomorphism."
+    },
+    {
+      "temporary_id": "decl-016547",
+      "new_name": "endomorphismLieHom",
+      "docstring": "A Lie algebra homomorphism from module endomorphisms to endomorphisms of the associated auxiliary type."
+    },
+    {
+      "temporary_id": "decl-016559",
+      "new_name": "auxiliarySubalgebra",
+      "docstring": "A subalgebra of the endomorphism algebra of the associated auxiliary type."
+    },
+    {
+      "temporary_id": "decl-016561",
+      "new_name": "universalEnvelopingAlgebraHom",
+      "docstring": "An algebra homomorphism from the universal enveloping algebra of module endomorphisms to endomorphisms of the associated auxiliary type."
+    }
+  ]
+}

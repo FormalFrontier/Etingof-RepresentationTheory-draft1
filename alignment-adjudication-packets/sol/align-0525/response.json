@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0525",
+  "associations": [
+      {
+        "association_id": "association:86a3d582582322cb38c9",
+        "rationale": "The type constructs a Lie homomorphism to End(V) from an operator triple satisfying the three commutator relations, but it displays only this direction and not the claimed equivalence.",
+        "role": "supporting"
+      },
+    {
+      "association_id": "association:b4ee58ef0ad4ccaad744",
+      "rationale": "This verifies that the constructed Lie homomorphism sends the standard e generator to E, a supporting property of the construction.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:96773025abe79140606f",
+      "rationale": "This verifies that the constructed Lie homomorphism sends the standard f generator to F, a supporting property of the construction.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:99ec2a7e386cca2a43f5",
+      "rationale": "This verifies that the constructed Lie homomorphism sends the standard h generator to H, a supporting property of the construction.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9a6d112180e052b1b391",
+      "rationale": "The displayed decomposition of an sl(2) element into h, e, and f components is a helper fact rather than the representation/operator-triple equivalence itself.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0323",
+  "associations": [
+    {
+      "association_id": "association:96b9d50184eb014812d1",
+      "role": "supporting",
+      "rationale": "The formal type exposes only a proposition on finite-dimensional complex representations; its body does not display the claimed bilinear-form condition."
+    }
+  ]
+}

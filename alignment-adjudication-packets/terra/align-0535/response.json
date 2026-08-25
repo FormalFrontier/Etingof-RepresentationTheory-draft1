@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0535",
+  "associations": [
+    {
+      "association_id": "association:38af20bcc4c585f63fa6",
+      "rationale": "A complement-existence theorem is supporting structure and does not directly state the lambda-eigenspace dimension or F-ladder basis.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c9782ea557ba329cb2cc",
+      "rationale": "The displayed general decomposition gives neither the specified eigenspace dimension nor the indicated F-ladder basis.",
+      "role": "supporting"
+    }
+  ]
+}

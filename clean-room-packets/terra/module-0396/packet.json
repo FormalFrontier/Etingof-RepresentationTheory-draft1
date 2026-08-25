@@ -1,0 +1,61 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{0, u_2} Complex V] \u2192\n          (H K : Subgroup.{u_1} G) \u2192\n            LE.le.{u_1} K H \u2192\n              Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} K x) V \u2192\n                Representation.{0, u_1, u_2} Complex\n                  (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Subgroup.subgroupOf.{u_1} K H) x) V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "374284365",
+      "temporary_id": "decl-020516"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V] {K : Type u_3} {S : Type u_4} [inst_3 : Group.{u_3} K] [inst_4 : Group.{u_4} S]\n  (f\u03c6 : MonoidHom.{u_4, u_1} S G) (\u03c4' : Representation.{0, u_4, u_2} Complex S V) (f : MonoidHom.{u_3, u_1} K G)\n  (\u03c3 : MonoidHom.{u_4, u_3} S K) (\u03c4 : Representation.{0, u_3, u_2} Complex K V),\n  Eq.{max (u_1 + 1) (u_4 + 1)} f\u03c6 (MonoidHom.comp.{u_4, u_3, u_1} f \u03c3) \u2192\n    Eq.{max (u_2 + 1) (u_4 + 1)} \u03c4' (MonoidHom.comp.{u_4, u_3, u_2} \u03c4 \u03c3) \u2192\n      Function.Bijective.{u_4 + 1, u_3 + 1} (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_4 + 1, u_3 + 1} \u03c3) \u2192\n        Eq.{max (u_1 + 1) (u_2 + 1)}\n          (Representation.Coinvariants.ker.{0, u_4, max u_1 u_2}\n            (Representation.tprod.{0, u_4, u_1, u_2}\n              (MonoidHom.comp.{u_4, u_1, u_1} (Representation.leftRegular.{0, u_1} Complex G) f\u03c6) \u03c4'))\n          (Representation.Coinvariants.ker.{0, u_3, max u_1 u_2}\n            (Representation.tprod.{0, u_3, u_1, u_2}\n              (MonoidHom.comp.{u_3, u_1, u_1} (Representation.leftRegular.{0, u_1} Complex G) f) \u03c4))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3480312755",
+      "temporary_id": "decl-020517"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V] (H K : Subgroup.{u_1} G) (hKH : LE.le.{u_1} K H)\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} K x) V),\n  Exists.{max (u_1 + 1) (u_2 + 1)} fun e =>\n    \u2200 (g : G)\n      (x :\n        Representation.IndV.{0, u_1, u_1, max u_1 u_2} (Subgroup.subtype.{u_1} H)\n          (decl-020560.{u_1, u_2} (Subgroup.subgroupOf.{u_1} K H)\n            (decl-020516.{u_1, u_2} H K hKH \u03c1))),\n      Eq.{max (u_1 + 1) (u_2 + 1)}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)} e\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n            (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n              (decl-020560.{u_1, max u_1 u_2} H\n                (decl-020560.{u_1, u_2} (Subgroup.subgroupOf.{u_1} K H)\n                  (decl-020516.{u_1, u_2} H K hKH \u03c1)))\n              g)\n            x))\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n            (decl-020560.{u_1, u_2} K \u03c1) g)\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)} e x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020516",
+        "decl-020560"
+      ],
+      "structural_type_hash": "853592404",
+      "temporary_id": "decl-020524"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V] {S : Type u_3} {H : Type u_4} [inst_3 : Group.{u_3} S] [inst_4 : Group.{u_4} H]\n  (\u03c6 : MonoidHom.{u_3, u_4} S H) (\u03c8 : MonoidHom.{u_4, u_1} H G) (\u03c4 : Representation.{0, u_3, u_2} Complex S V),\n  Exists.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1)} fun e =>\n    \u2200 (g : G) (x : Representation.IndV.{0, u_4, u_1, max u_2 u_4} \u03c8 (Representation.ind.{0, u_3, u_4, u_2} \u03c6 \u03c4)),\n      Eq.{max (u_1 + 1) (u_2 + 1)}\n        (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1),\n            max (u_1 + 1) (u_2 + 1)}\n          e\n          (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1),\n              max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1)}\n            (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), u_1 + 1, max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1)}\n              (Representation.ind.{0, u_4, u_1, max u_2 u_4} \u03c8 (Representation.ind.{0, u_3, u_4, u_2} \u03c6 \u03c4)) g)\n            x))\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n            (Representation.ind.{0, u_3, u_1, u_2} (MonoidHom.comp.{u_3, u_4, u_1} \u03c8 \u03c6) \u03c4) g)\n          (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1),\n              max (u_1 + 1) (u_2 + 1)}\n            e x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "40184100",
+      "temporary_id": "decl-020528"
+    }
+  ],
+  "module_temporary_id": "module-0396",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

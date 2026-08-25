@@ -1,0 +1,85 @@
+{
+  "module_name": "Algebra.Homology.TensorProduct",
+  "declarations": [
+    {
+      "temporary_id": "decl-019082",
+      "new_name": "zeroComponentToTarget",
+      "docstring": "The morphism from the degree-zero term of the displayed complex to the target object."
+    },
+    {
+      "temporary_id": "decl-019092",
+      "new_name": "dOneZero_comp_zeroComponentToTarget",
+      "docstring": "The differential from degree one to degree zero composed with the displayed degree-zero morphism is zero."
+    },
+    {
+      "temporary_id": "decl-019094",
+      "new_name": "tensorProductComplex",
+      "docstring": "Constructs a chain complex of modules over the opposite tensor product from the two given inputs."
+    },
+    {
+      "temporary_id": "decl-019111",
+      "new_name": "finite_preimage_down",
+      "docstring": "Each fibre of the downward complex shape over a natural-number index is finite."
+    },
+    {
+      "temporary_id": "decl-019163",
+      "new_name": "bimapZeroLeft",
+      "docstring": "Mapping a zero morphism in the first argument and any morphism in the second argument gives zero."
+    },
+    {
+      "temporary_id": "decl-019164",
+      "new_name": "bimapZeroRight",
+      "docstring": "Mapping any morphism in the first argument and a zero morphism in the second argument gives zero."
+    },
+    {
+      "temporary_id": "decl-019168",
+      "new_name": "bimapToZeroLeft",
+      "docstring": "The displayed binary morphism construction sends a zero first argument to zero."
+    },
+    {
+      "temporary_id": "decl-019169",
+      "new_name": "bimapToZeroRight",
+      "docstring": "The displayed binary morphism construction sends a zero second argument to zero."
+    },
+    {
+      "temporary_id": "decl-019230",
+      "new_name": "complexToSingleZero",
+      "docstring": "Defines a morphism from the displayed chain complex to the complex concentrated in degree zero."
+    },
+    {
+      "temporary_id": "decl-020624",
+      "new_name": "leftFactor_isScalarTower",
+      "docstring": "The carrier of the first right-module object forms a scalar tower over the base ring and opposite algebra."
+    },
+    {
+      "temporary_id": "decl-020625",
+      "new_name": "rightFactor_isScalarTower",
+      "docstring": "The carrier of the second right-module object forms a scalar tower over the base ring and opposite algebra."
+    },
+    {
+      "temporary_id": "decl-020628",
+      "new_name": "leftFactorCarrierModule",
+      "docstring": "Provides the base-ring module structure on the carrier of the first right-module object."
+    },
+    {
+      "temporary_id": "decl-020629",
+      "new_name": "rightFactorCarrierModule",
+      "docstring": "Provides the base-ring module structure on the carrier of the second right-module object."
+    },
+    {
+      "temporary_id": "decl-020642",
+      "new_name": "tensorProductModule",
+      "docstring": "Provides a module structure over the opposite tensor product on the tensor product of the two carriers."
+    },
+    {
+      "temporary_id": "decl-020658",
+      "new_name": "tensorProductFunctor_preservesZeroMorphisms",
+      "docstring": "The displayed tensor-product functor preserves zero morphisms."
+    },
+    {
+      "temporary_id": "decl-020659",
+      "new_name": "tensorProductFunctor_obj_preservesZeroMorphisms",
+      "docstring": "For every first input object, the resulting functor preserves zero morphisms."
+    }
+  ]
+}

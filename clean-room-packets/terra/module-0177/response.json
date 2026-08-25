@@ -1,0 +1,4 @@
+{"module_name":"Algebra.Module.SimpleScalarSurjectivity","declarations":[
+{"temporary_id":"decl-018318","new_name":"algebra_smul_surjective","docstring":"For a finite-dimensional simple module over an algebraically closed field, the algebra action is surjective."},
+{"temporary_id":"decl-018319","new_name":"family_algebra_smul_surjective","docstring":"For a finite family of pairwise inequivalent finite-dimensional simple modules, the displayed family of algebra actions is surjective."}
+]}

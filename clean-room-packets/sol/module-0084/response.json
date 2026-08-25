@@ -1,0 +1,485 @@
+{
+  "module_name": "Algebra.ParameterizedComplexRelations",
+  "declarations": [
+    {
+      "temporary_id": "decl-008693",
+      "new_name": "Generator",
+      "docstring": "An auxiliary type indexing the generators of the free algebra used in the presentation."
+    },
+    {
+      "temporary_id": "decl-008694",
+      "new_name": "weightElement",
+      "docstring": "The weight element of the parameterized algebra."
+    },
+    {
+      "temporary_id": "decl-008695",
+      "new_name": "weightElement_mul_inverseWeightElement",
+      "docstring": "The weight element multiplied by its inverse element is one."
+    },
+    {
+      "temporary_id": "decl-008696",
+      "new_name": "weightElement_smul_raisingIterate",
+      "docstring": "The weight element acts on each raising iterate with the corresponding shifted eigenvalue."
+    },
+    {
+      "temporary_id": "decl-008697",
+      "new_name": "weightElement_smul_loweringIterate",
+      "docstring": "The weight element acts on each lowering iterate with the corresponding shifted eigenvalue."
+    },
+    {
+      "temporary_id": "decl-008698",
+      "new_name": "weightElement_mul_raisingElement_pow",
+      "docstring": "Moving the weight element past a power of the raising element introduces the indicated even power of the parameter."
+    },
+    {
+      "temporary_id": "decl-008699",
+      "new_name": "weightElement_mul_loweringElement_pow",
+      "docstring": "Moving the weight element past a power of the lowering element introduces the inverse of the indicated even power of the parameter."
+    },
+    {
+      "temporary_id": "decl-008700",
+      "new_name": "weightElement_mul_raisingElement",
+      "docstring": "Moving the weight element past the raising element introduces the square of the parameter."
+    },
+    {
+      "temporary_id": "decl-008701",
+      "new_name": "weightElement_mul_loweringElement",
+      "docstring": "Moving the weight element past the lowering element introduces the inverse square of the parameter."
+    },
+    {
+      "temporary_id": "decl-008702",
+      "new_name": "weightActionEnd",
+      "docstring": "The complex-linear endomorphism induced by the action of the weight element."
+    },
+    {
+      "temporary_id": "decl-008706",
+      "new_name": "weightActionEnd_apply",
+      "docstring": "The weight-action endomorphism evaluates as scalar action by the weight element."
+    },
+    {
+      "temporary_id": "decl-008707",
+      "new_name": "weightActionEnd_structure_of_finiteOrder",
+      "docstring": "On a finite-dimensional simple module at a finite-order parameter, the weight-action endomorphism is semisimple, its eigenspaces span, and a common positive power of its eigenvalues is fixed."
+    },
+    {
+      "temporary_id": "decl-008708",
+      "new_name": "weightActionEnd_pow_apply",
+      "docstring": "A power of the weight-action endomorphism acts by the corresponding power of the weight element."
+    },
+    {
+      "temporary_id": "decl-008709",
+      "new_name": "weightElement_pow_mul_raisingElement",
+      "docstring": "Moving a power of the weight element past the raising element introduces the corresponding power of the squared parameter."
+    },
+    {
+      "temporary_id": "decl-008710",
+      "new_name": "weightElement_pow_mul_loweringElement",
+      "docstring": "Moving a power of the weight element past the lowering element introduces the corresponding power of the inverse squared parameter."
+    },
+    {
+      "temporary_id": "decl-008711",
+      "new_name": "weightElement_order_pow_commutes",
+      "docstring": "The order-th power of the weight element commutes with every algebra element."
+    },
+    {
+      "temporary_id": "decl-008712",
+      "new_name": "weightElement_order_pow_smul_eq_scalar",
+      "docstring": "On a finite-dimensional simple module at a finite-order parameter, the order-th power of the weight element acts by a nonzero scalar."
+    },
+    {
+      "temporary_id": "decl-008713",
+      "new_name": "weightElement_order_pow_commutes_raisingElement",
+      "docstring": "The order-th power of the weight element commutes with the raising element."
+    },
+    {
+      "temporary_id": "decl-008714",
+      "new_name": "weightElement_order_pow_commutes_loweringElement",
+      "docstring": "The order-th power of the weight element commutes with the lowering element."
+    },
+    {
+      "temporary_id": "decl-008715",
+      "new_name": "inverseWeightElement",
+      "docstring": "The inverse weight element of the parameterized algebra."
+    },
+    {
+      "temporary_id": "decl-008716",
+      "new_name": "inverseWeightElement_mul_weightElement",
+      "docstring": "The inverse weight element multiplied by the weight element is one."
+    },
+    {
+      "temporary_id": "decl-008717",
+      "new_name": "inverseWeightElement_smul_raisingIterate",
+      "docstring": "The inverse weight element acts on each raising iterate by the inverse shifted eigenvalue."
+    },
+    {
+      "temporary_id": "decl-008718",
+      "new_name": "inverseWeightElement_smul_loweringIterate",
+      "docstring": "The inverse weight element acts on each lowering iterate by the inverse shifted eigenvalue."
+    },
+    {
+      "temporary_id": "decl-008719",
+      "new_name": "inverseWeightElement_mul_raisingElement_pow",
+      "docstring": "Moving the inverse weight element past a power of the raising element introduces the corresponding power of the inverse squared parameter."
+    },
+    {
+      "temporary_id": "decl-008720",
+      "new_name": "inverseWeightElement_mul_loweringElement_pow",
+      "docstring": "Moving the inverse weight element past a power of the lowering element introduces the corresponding power of the squared parameter."
+    },
+    {
+      "temporary_id": "decl-008721",
+      "new_name": "inverseWeightElement_mul_raisingElement",
+      "docstring": "Moving the inverse weight element past the raising element introduces the inverse square of the parameter."
+    },
+    {
+      "temporary_id": "decl-008722",
+      "new_name": "inverseWeightElement_mul_loweringElement",
+      "docstring": "Moving the inverse weight element past the lowering element introduces the square of the parameter."
+    },
+    {
+      "temporary_id": "decl-008723",
+      "new_name": "Relations",
+      "docstring": "The parameter-dependent relations on pairs of elements of the free algebra."
+    },
+    {
+      "temporary_id": "decl-008732",
+      "new_name": "ParameterizedAlgebra",
+      "docstring": "The complex algebra determined by the displayed parameter-dependent relations."
+    },
+    {
+      "temporary_id": "decl-008733",
+      "new_name": "complexCharacter",
+      "docstring": "A complex algebra homomorphism from the parameterized algebra to the complex numbers."
+    },
+    {
+      "temporary_id": "decl-008734",
+      "new_name": "complexCharacter_surjective",
+      "docstring": "The distinguished complex-valued algebra homomorphism is surjective."
+    },
+    {
+      "temporary_id": "decl-008735",
+      "new_name": "exists_scalar_smul_eq_of_central",
+      "docstring": "A central element acts by a scalar on every finite-dimensional simple module."
+    },
+    {
+      "temporary_id": "decl-008736",
+      "new_name": "injective_evenPower_mul_of_infiniteOrder",
+      "docstring": "For a parameter of infinite order and a nonzero scalar, multiplication by successive even powers of the parameter is injective in the exponent."
+    },
+    {
+      "temporary_id": "decl-008738",
+      "new_name": "raisingOnLoweringPowerCoeff",
+      "docstring": "The scalar coefficient governing the raising action on successive lowering iterates."
+    },
+    {
+      "temporary_id": "decl-008740",
+      "new_name": "sq_eq_evenPower_of_raisingOnLoweringPowerCoeff_eq_zero",
+      "docstring": "At an infinite-order parameter, vanishing of the raising-on-lowering coefficient forces the square of the eigenvalue to equal the indicated even power of the parameter."
+    },
+    {
+      "temporary_id": "decl-008744",
+      "new_name": "raisingElement",
+      "docstring": "The raising element of the parameterized algebra."
+    },
+    {
+      "temporary_id": "decl-008745",
+      "new_name": "weightActionEnd_smul_raisingElement",
+      "docstring": "Applying the raising element to a weight eigenvector multiplies its eigenvalue by the square of the parameter."
+    },
+    {
+      "temporary_id": "decl-008746",
+      "new_name": "raisingElement_smul_loweringIterate_succ",
+      "docstring": "On a vector killed by the raising element, raising the next lowering iterate yields the specified coefficient times the preceding iterate."
+    },
+    {
+      "temporary_id": "decl-008747",
+      "new_name": "raisingElement_succ_pow_mul_loweringElement",
+      "docstring": "A successor power of the raising element multiplied by the lowering element satisfies the displayed commutation expansion."
+    },
+    {
+      "temporary_id": "decl-008750",
+      "new_name": "raisingElement_smul_loweringElement_smul",
+      "docstring": "On a simultaneous weight and inverse-weight eigenvector, raising after lowering equals lowering after raising plus the indicated scalar action."
+    },
+    {
+      "temporary_id": "decl-008752",
+      "new_name": "raisingElement_mul_loweringElement",
+      "docstring": "The product of the raising and lowering elements is their reverse product plus the normalized difference of the weight elements."
+    },
+    {
+      "temporary_id": "decl-008754",
+      "new_name": "parameterDifference_smul_commutator",
+      "docstring": "Scaling the raising-lowering commutator by the difference of the parameter and its inverse gives the difference of the weight elements."
+    },
+    {
+      "temporary_id": "decl-008755",
+      "new_name": "weightActionEnd_eigenvalue_ne_zero",
+      "docstring": "Every eigenvalue of the weight-action endomorphism is nonzero."
+    },
+    {
+      "temporary_id": "decl-008756",
+      "new_name": "raisingIterate",
+      "docstring": "The sequence obtained by iterating the action of the raising element on a vector."
+    },
+    {
+      "temporary_id": "decl-008758",
+      "new_name": "raisingIterate_succ",
+      "docstring": "The next raising iterate is obtained by applying the raising element."
+    },
+    {
+      "temporary_id": "decl-008759",
+      "new_name": "raisingIterate_zero",
+      "docstring": "The zeroth raising iterate is the original vector."
+    },
+    {
+      "temporary_id": "decl-008760",
+      "new_name": "raisingElement_order_pow_commutes",
+      "docstring": "If the squared parameter is not one, the order-th power of the raising element commutes with every algebra element."
+    },
+    {
+      "temporary_id": "decl-008761",
+      "new_name": "raisingElement_order_pow_smul_eq_scalar",
+      "docstring": "On a finite-dimensional simple module, the order-th power of the raising element acts by a scalar when the squared parameter is not one."
+    },
+    {
+      "temporary_id": "decl-008762",
+      "new_name": "raisingElement_order_pow_commutes_weightElement",
+      "docstring": "The order-th power of the raising element commutes with the weight element."
+    },
+    {
+      "temporary_id": "decl-008763",
+      "new_name": "raisingElement_order_pow_commutes_inverseWeightElement",
+      "docstring": "The order-th power of the raising element commutes with the inverse weight element."
+    },
+    {
+      "temporary_id": "decl-008764",
+      "new_name": "raisingElement_order_pow_commutes_raisingElement",
+      "docstring": "The order-th power of the raising element commutes with the raising element."
+    },
+    {
+      "temporary_id": "decl-008765",
+      "new_name": "raisingElement_order_pow_commutes_loweringElement",
+      "docstring": "If the squared parameter is not one, the order-th power of the raising element commutes with the lowering element."
+    },
+    {
+      "temporary_id": "decl-008766",
+      "new_name": "exists_weightEigenvalue_not_shifted_of_infiniteOrder",
+      "docstring": "A nontrivial finite-dimensional module at an infinite-order parameter has a weight eigenvalue whose shift by the squared parameter is not an eigenvalue."
+    },
+    {
+      "temporary_id": "decl-008767",
+      "new_name": "exists_ne_zero_raising_annihilated_weightEigenvector",
+      "docstring": "A nontrivial finite-dimensional module at an infinite-order parameter has a nonzero weight eigenvector annihilated by the raising element."
+    },
+    {
+      "temporary_id": "decl-008768",
+      "new_name": "loweringElement",
+      "docstring": "The lowering element of the parameterized algebra."
+    },
+    {
+      "temporary_id": "decl-008769",
+      "new_name": "auxiliaryFreeAlgebraElementOne",
+      "docstring": "An auxiliary element of the free algebra on the generator type."
+    },
+    {
+      "temporary_id": "decl-008770",
+      "new_name": "auxiliaryFreeAlgebraElementTwo",
+      "docstring": "A second auxiliary element of the free algebra on the generator type."
+    },
+    {
+      "temporary_id": "decl-008771",
+      "new_name": "weightActionEnd_smul_loweringElement",
+      "docstring": "Applying the lowering element to a weight eigenvector multiplies its eigenvalue by the inverse square of the parameter."
+    },
+    {
+      "temporary_id": "decl-008772",
+      "new_name": "loweringElement_smul_raisingIterate_succ",
+      "docstring": "On a vector killed by the lowering element, lowering the next raising iterate yields the specified coefficient times the preceding iterate."
+    },
+    {
+      "temporary_id": "decl-008773",
+      "new_name": "loweringElement_succ_pow_mul_raisingElement",
+      "docstring": "A successor power of the lowering element multiplied by the raising element satisfies the displayed commutation expansion."
+    },
+    {
+      "temporary_id": "decl-008776",
+      "new_name": "loweringOnRaisingPowerCoeff",
+      "docstring": "The scalar coefficient governing the lowering action on successive raising iterates."
+    },
+    {
+      "temporary_id": "decl-008778",
+      "new_name": "auxiliaryFreeAlgebraElementThree",
+      "docstring": "A third auxiliary element of the free algebra on the generator type."
+    },
+    {
+      "temporary_id": "decl-008779",
+      "new_name": "loweringElement_smul_raisingElement_smul",
+      "docstring": "On a simultaneous weight and inverse-weight eigenvector, lowering after raising equals raising after lowering minus the indicated scalar action."
+    },
+    {
+      "temporary_id": "decl-008781",
+      "new_name": "loweringElement_mul_raisingElement",
+      "docstring": "The product of the lowering and raising elements is their reverse product minus the normalized difference of the weight elements."
+    },
+    {
+      "temporary_id": "decl-008783",
+      "new_name": "auxiliaryFreeAlgebraElementFour",
+      "docstring": "A fourth auxiliary element of the free algebra on the generator type."
+    },
+    {
+      "temporary_id": "decl-008784",
+      "new_name": "finrank_le_orderOf",
+      "docstring": "A finite-dimensional simple module at a finite-order parameter has finrank at most the parameter order when its square is not one."
+    },
+    {
+      "temporary_id": "decl-008785",
+      "new_name": "finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero",
+      "docstring": "If the order-th powers of the raising and lowering elements act by nonzero scalars, then the finrank of the simple module is at most the parameter order."
+    },
+    {
+      "temporary_id": "decl-008788",
+      "new_name": "finrank_le_orderOf_of_raising_pow_smul_eq_zero",
+      "docstring": "If the order-th power of the raising element annihilates a finite-dimensional simple module, then its finrank is at most the parameter order."
+    },
+    {
+      "temporary_id": "decl-008793",
+      "new_name": "finrank_le_orderOf_of_lowering_pow_smul_eq_zero",
+      "docstring": "If the order-th power of the lowering element annihilates a finite-dimensional simple module, then its finrank is at most the parameter order."
+    },
+    {
+      "temporary_id": "decl-008798",
+      "new_name": "loweringElement_order_pow_commutes",
+      "docstring": "If the squared parameter is not one, the order-th power of the lowering element commutes with every algebra element."
+    },
+    {
+      "temporary_id": "decl-008799",
+      "new_name": "loweringElement_order_pow_smul_eq_scalar",
+      "docstring": "On a finite-dimensional simple module, the order-th power of the lowering element acts by a scalar when the squared parameter is not one."
+    },
+    {
+      "temporary_id": "decl-008800",
+      "new_name": "loweringElement_order_pow_commutes_weightElement",
+      "docstring": "The order-th power of the lowering element commutes with the weight element."
+    },
+    {
+      "temporary_id": "decl-008801",
+      "new_name": "loweringElement_order_pow_commutes_inverseWeightElement",
+      "docstring": "The order-th power of the lowering element commutes with the inverse weight element."
+    },
+    {
+      "temporary_id": "decl-008802",
+      "new_name": "loweringElement_order_pow_commutes_raisingElement",
+      "docstring": "If the squared parameter is not one, the order-th power of the lowering element commutes with the raising element."
+    },
+    {
+      "temporary_id": "decl-008803",
+      "new_name": "loweringElement_order_pow_commutes_loweringElement",
+      "docstring": "The order-th power of the lowering element commutes with the lowering element."
+    },
+    {
+      "temporary_id": "decl-008804",
+      "new_name": "exists_highestWeightVector_eigenvalue_eq_sign_mul_pow",
+      "docstring": "A finite-dimensional simple module at an infinite-order parameter has a nonzero vector killed by the raising element whose weight eigenvalue is a sign times the indicated parameter power."
+    },
+    {
+      "temporary_id": "decl-008811",
+      "new_name": "parameterizedAlgebra_nontrivial",
+      "docstring": "The parameterized algebra is nontrivial."
+    },
+    {
+      "temporary_id": "decl-008812",
+      "new_name": "loweringIterate",
+      "docstring": "The sequence obtained by iterating the action of the lowering element on a vector."
+    },
+    {
+      "temporary_id": "decl-008814",
+      "new_name": "loweringIterate_succ",
+      "docstring": "The next lowering iterate is obtained by applying the lowering element."
+    },
+    {
+      "temporary_id": "decl-008815",
+      "new_name": "loweringIterate_zero",
+      "docstring": "The zeroth lowering iterate is the original vector."
+    },
+    {
+      "temporary_id": "decl-008816",
+      "new_name": "freeAlgebraMap",
+      "docstring": "A complex algebra homomorphism from the free algebra to the parameterized algebra."
+    },
+    {
+      "temporary_id": "decl-008817",
+      "new_name": "loweringWeight",
+      "docstring": "The sequence of weight eigenvalues associated with successive lowering iterates."
+    },
+    {
+      "temporary_id": "decl-008819",
+      "new_name": "loweringWeight_injective_of_infiniteOrder",
+      "docstring": "For a nonzero initial scalar and an infinite-order parameter, the lowering-weight sequence is injective."
+    },
+    {
+      "temporary_id": "decl-008821",
+      "new_name": "loweringWeight_ne_zero",
+      "docstring": "Every term of the lowering-weight sequence from a nonzero initial scalar is nonzero."
+    },
+    {
+      "temporary_id": "decl-008822",
+      "new_name": "loweringWeight_zero",
+      "docstring": "The zeroth lowering weight is the initial scalar."
+    },
+    {
+      "temporary_id": "decl-008823",
+      "new_name": "raisingWeight",
+      "docstring": "The sequence of weight eigenvalues associated with successive raising iterates."
+    },
+    {
+      "temporary_id": "decl-008825",
+      "new_name": "raisingWeight_ne_zero",
+      "docstring": "Every term of the raising-weight sequence from a nonzero initial scalar is nonzero."
+    },
+    {
+      "temporary_id": "decl-008826",
+      "new_name": "raisingWeight_zero",
+      "docstring": "The zeroth raising weight is the initial scalar."
+    },
+    {
+      "temporary_id": "decl-008827",
+      "new_name": "sq_ne_one_of_infiniteOrder",
+      "docstring": "The square of an infinite-order complex unit is not one."
+    },
+    {
+      "temporary_id": "decl-008828",
+      "new_name": "sub_inv_ne_zero_of_infiniteOrder",
+      "docstring": "An infinite-order complex unit differs from its inverse."
+    },
+    {
+      "temporary_id": "decl-008829",
+      "new_name": "sub_inv_ne_zero_of_sq_ne_one",
+      "docstring": "A complex unit whose square is not one differs from its inverse."
+    },
+    {
+      "temporary_id": "decl-008830",
+      "new_name": "pow_ne_one_of_infiniteOrder",
+      "docstring": "No positive power of an infinite-order complex unit is one."
+    },
+    {
+      "temporary_id": "decl-008831",
+      "new_name": "algebraActionEnd",
+      "docstring": "The complex-linear endomorphism induced by the action of an algebra element."
+    },
+    {
+      "temporary_id": "decl-008835",
+      "new_name": "algebraActionEnd_apply",
+      "docstring": "The algebra-action endomorphism evaluates as scalar action by its algebra element."
+    },
+    {
+      "temporary_id": "decl-008836",
+      "new_name": "smul_mem_of_stable_generators",
+      "docstring": "A complex submodule stable under the raising, lowering, weight, and inverse-weight elements is stable under every algebra element."
+    },
+    {
+      "temporary_id": "decl-008837",
+      "new_name": "sq_pow_orderOf",
+      "docstring": "The parameter square raised to the order of the parameter is one."
+    }
+  ]
+}

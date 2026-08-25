@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Introduction_4.10",
+    "kind": "introduction",
+    "title": "Section 4.10: Frobenius determinant \u2014 group determinant setup",
+    "node_id": "chapter-04/section-4-10",
+    "order": 222,
+    "slug": "introduction-4-10",
+    "span": {
+      "start": {
+        "page": "78",
+        "line": 1
+      },
+      "end": {
+        "page": "78",
+        "line": 6
+      }
+    },
+    "source_sha256": "30b77eb3adef6c2822f82c5fa44f6ef2ae51ef2d8c8a0ae1a855f625dada8f5c",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Introduction410",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

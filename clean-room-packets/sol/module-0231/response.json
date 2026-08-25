@@ -1,0 +1,520 @@
+{
+  "module_name": "AffineGroupRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-011199",
+      "new_name": "AffineGroup",
+      "docstring": "The type of transformations over a field specified by the displayed signature."
+    },
+    {
+      "temporary_id": "decl-011202",
+      "new_name": "linearPart",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011203",
+      "new_name": "act",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011205",
+      "new_name": "actionEquiv",
+      "docstring": "The equivalence specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011206",
+      "new_name": "act_inv",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011207",
+      "new_name": "inv_act",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011208",
+      "new_name": "inv_act_eq_iff",
+      "docstring": "The equivalence of the two propositions displayed in the formal type."
+    },
+    {
+      "temporary_id": "decl-011209",
+      "new_name": "mul_act",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011210",
+      "new_name": "one_act",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011211",
+      "new_name": "translationPart",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011212",
+      "new_name": "card",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011215",
+      "new_name": "equivUnitsProd",
+      "docstring": "The equivalence specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011222",
+      "new_name": "instFintype",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011223",
+      "new_name": "instGroup",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011234",
+      "new_name": "instInv",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011235",
+      "new_name": "instMul",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011236",
+      "new_name": "instOne",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011237",
+      "new_name": "linearPart_inv",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011238",
+      "new_name": "translationPart_inv",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011245",
+      "new_name": "linearPart_mul",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011246",
+      "new_name": "translationPart_mul",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011249",
+      "new_name": "linearPart_one",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011250",
+      "new_name": "translationPart_one",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011253",
+      "new_name": "mul_self_eq_one_of_card_eq_two",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011254",
+      "new_name": "representationEquivalence_011254",
+      "docstring": "An equivalence statement for the displayed representations."
+    },
+    {
+      "temporary_id": "decl-011255",
+      "new_name": "reducedRegularRepresentation",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011257",
+      "new_name": "characterFormula_011257",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011263",
+      "new_name": "characterFormula_011263",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011264",
+      "new_name": "characterFormula_011264",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011265",
+      "new_name": "Auxiliary011265",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011266",
+      "new_name": "simpleRepresentation_011266",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011268",
+      "new_name": "characterFormula_011268",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011269",
+      "new_name": "characterFormula_011269",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011270",
+      "new_name": "cardinalityFormula_011270",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011271",
+      "new_name": "simpleRepresentation_011271",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011274",
+      "new_name": "augmentationSubrepresentation",
+      "docstring": "The subrepresentation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011276",
+      "new_name": "fixedPointCount",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011278",
+      "new_name": "cardinalityFormula_011278",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011280",
+      "new_name": "valueFormula_011280",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011291",
+      "new_name": "cardinalityFormula_011291",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011292",
+      "new_name": "valueFormula_011292",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011293",
+      "new_name": "characterRepresentation",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011297",
+      "new_name": "valueFormula_011297",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011298",
+      "new_name": "simpleRepresentation_011298",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011299",
+      "new_name": "characterFormula_011299",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011300",
+      "new_name": "characterFormula_011300",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011301",
+      "new_name": "simpleRepresentation_011301",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011302",
+      "new_name": "characterFormula_011302",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011303",
+      "new_name": "simpleRepresentation_011303",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011304",
+      "new_name": "characterFormula_011304",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011305",
+      "new_name": "characterFormula_011305",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011306",
+      "new_name": "cardinalityFormula_011306",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011308",
+      "new_name": "characterFormula_011308",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011309",
+      "new_name": "sumOfLinearCharacters",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011311",
+      "new_name": "characterFormula_011311",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011312",
+      "new_name": "characterFormula_011312",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011313",
+      "new_name": "cardinalityFormula_011313",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011330",
+      "new_name": "characterFormula_011330",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011332",
+      "new_name": "characterFormula_011332",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011333",
+      "new_name": "cardinalityFormula_011333",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011334",
+      "new_name": "simpleRepresentation_011334",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011335",
+      "new_name": "simpleRepresentation_011335",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011340",
+      "new_name": "simpleRepresentation_011340",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011341",
+      "new_name": "simpleRepresentation_011341",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011343",
+      "new_name": "simpleRepresentation_011343",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011353",
+      "new_name": "membershipCharacterization_011353",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011354",
+      "new_name": "cardinalityFormula_011354",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011371",
+      "new_name": "functionRepresentation",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011374",
+      "new_name": "valueFormula_011374",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011375",
+      "new_name": "valueFormula_011375",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011376",
+      "new_name": "linearPartHom",
+      "docstring": "The monoid homomorphism specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011379",
+      "new_name": "valueFormula_011379",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011380",
+      "new_name": "cardinalityFormula_011380",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011381",
+      "new_name": "cardinalityFormula_011381",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011382",
+      "new_name": "cardinalityFormula_011382",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011383",
+      "new_name": "Auxiliary011383",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011384",
+      "new_name": "simpleRepresentation_011384",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011385",
+      "new_name": "tensorHomEquiv",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011386",
+      "new_name": "valueFormula_011386",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011387",
+      "new_name": "valueFormula_011387",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011389",
+      "new_name": "valueFormula_011389",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011390",
+      "new_name": "characterSumProductRepresentation",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011392",
+      "new_name": "characterFormula_011392",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011394",
+      "new_name": "simpleRepresentation_011394",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011396",
+      "new_name": "simpleRepresentation_011396",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011399",
+      "new_name": "simpleRepresentation_011399",
+      "docstring": "A simplicity statement for the displayed representation or module."
+    },
+    {
+      "temporary_id": "decl-011407",
+      "new_name": "twistRepresentation",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011411",
+      "new_name": "valueFormula_011411",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011412",
+      "new_name": "valueFormula_011412",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011413",
+      "new_name": "formalResult_011413",
+      "docstring": "The proposition given by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011414",
+      "new_name": "deltaKernel",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011417",
+      "new_name": "twistedTensorEquiv",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011425",
+      "new_name": "sumLinearMap",
+      "docstring": "The linear map specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011428",
+      "new_name": "valueFormula_011428",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011429",
+      "new_name": "cardinalityFormula_011429",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011431",
+      "new_name": "valueFormula_011431",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011433",
+      "new_name": "characterTensorEquiv",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011434",
+      "new_name": "twistTensorEquiv",
+      "docstring": "The representation specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011438",
+      "new_name": "characterFormula_011438",
+      "docstring": "A formula for the character or trace of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-011439",
+      "new_name": "zeroSumSubmodule",
+      "docstring": "The submodule specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011444",
+      "new_name": "cardinalityFormula_011444",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011450",
+      "new_name": "membershipCharacterization_011450",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011454",
+      "new_name": "membershipCharacterization_011454",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    }
+  ]
+}

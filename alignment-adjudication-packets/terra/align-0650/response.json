@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0650",
+  "associations": [
+    {
+      "association_id": "association:459d05dfa2f7567e0699",
+      "rationale": "The formal type directly asserts IsIndecomposable for periodicSubalg acting on itself, which is exactly indecomposability of A as an A-module.",
+      "role": "primary"
+    }
+  ]
+}

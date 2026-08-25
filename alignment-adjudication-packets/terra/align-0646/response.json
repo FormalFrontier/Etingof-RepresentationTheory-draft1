@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0646",
+  "associations": [
+    {
+      "association_id": "association:460179cd733a63fcfb41",
+      "rationale": "The formal type identifies the scalar extension of V along a finite extension with a power of V indexed by the extension degree, supplying the restriction-of-scalars step of the stated argument.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bffbc27571dc03bff82f",
+      "rationale": "The formal type packages the finite-extension consequence that an equivalence after base change implies V and W are A-linearly equivalent, without itself stating the power-identification and cancellation argument.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f8c13afaaa9da925c6e4",
+      "rationale": "The formal type states cancellation from an A-linear equivalence between positive finite powers of V and W to an A-linear equivalence V ≃ W, providing the cancellation step.",
+      "role": "supporting"
+    }
+  ]
+}

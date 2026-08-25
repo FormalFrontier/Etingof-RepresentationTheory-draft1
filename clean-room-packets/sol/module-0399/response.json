@@ -1,0 +1,150 @@
+{
+  "module_name": "SymmetricPolynomials.Alternant",
+  "declarations": [
+    {
+      "temporary_id": "decl-001040",
+      "new_name": "FinPartition",
+      "docstring": "Antitone tuples of natural numbers indexed by `Fin N` with prescribed total `n`."
+    },
+    {
+      "temporary_id": "decl-001045",
+      "new_name": "parts_antitone",
+      "docstring": "The entries of a finite partition tuple are antitone."
+    },
+    {
+      "temporary_id": "decl-001055",
+      "new_name": "parts",
+      "docstring": "Returns the entry of a finite partition tuple at a given finite index."
+    },
+    {
+      "temporary_id": "decl-001058",
+      "new_name": "sum_parts",
+      "docstring": "The sum of all entries of a finite partition tuple is its prescribed total."
+    },
+    {
+      "temporary_id": "decl-014642",
+      "new_name": "psumPart_eq_sum_partitionPolynomial",
+      "docstring": "Expresses a partition power-sum polynomial as a finite sum of partition polynomials weighted by expansion coefficients."
+    },
+    {
+      "temporary_id": "decl-014645",
+      "new_name": "psumPart_expansion",
+      "docstring": "Gives the expansion of a partition power sum in the finite partition-polynomial family."
+    },
+    {
+      "temporary_id": "decl-017206",
+      "new_name": "alternantMatrix",
+      "docstring": "The multivariate-polynomial matrix associated with a finite exponent tuple."
+    },
+    {
+      "temporary_id": "decl-017209",
+      "new_name": "coeff_det_alternantMatrix_of_strictAnti",
+      "docstring": "For strictly antitone exponent tuples, the indicated coefficient of an alternant determinant is one exactly when the tuples agree and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-017211",
+      "new_name": "det_alternantMatrix_isHomogeneous",
+      "docstring": "The determinant of an alternant matrix is homogeneous of degree equal to the sum of its exponents."
+    },
+    {
+      "temporary_id": "decl-017217",
+      "new_name": "eq_zero_of_alternating_coeff_strictAnti_eq_zero",
+      "docstring": "An alternating multivariate polynomial is zero when every coefficient at a strictly antitone exponent tuple vanishes."
+    },
+    {
+      "temporary_id": "decl-017502",
+      "new_name": "instDecidableEqFinPartition",
+      "docstring": "Provides decidable equality for finite partition tuples."
+    },
+    {
+      "temporary_id": "decl-017504",
+      "new_name": "instFintypeFinPartition",
+      "docstring": "Provides a finite type structure on finite partition tuples with fixed bounds and total."
+    },
+    {
+      "temporary_id": "decl-017870",
+      "new_name": "partitionExpansionCoeff",
+      "docstring": "The rational coefficient assigned to a finite partition tuple and a natural-number partition."
+    },
+    {
+      "temporary_id": "decl-018035",
+      "new_name": "coeff_eq_zero_of_alternating_of_eq",
+      "docstring": "A coefficient of an alternating polynomial vanishes when its exponent assigns the same value to two distinct variables."
+    },
+    {
+      "temporary_id": "decl-018314",
+      "new_name": "toDegLex_comp_perm_symm_le",
+      "docstring": "Permuting a strictly antitone exponent tuple by an inverse permutation does not increase its degree-lexicographic encoding."
+    },
+    {
+      "temporary_id": "decl-018317",
+      "new_name": "degLex_degree_det_alternantMatrix",
+      "docstring": "For strictly antitone exponents, the degree-lexicographic degree of the alternant determinant is the corresponding finitely supported exponent."
+    },
+    {
+      "temporary_id": "decl-018770",
+      "new_name": "exists_finPartition_addStaircase_eq",
+      "docstring": "A strictly antitone exponent tuple with the required total is obtained by adding the staircase exponents to the entries of a finite partition tuple."
+    },
+    {
+      "temporary_id": "decl-021999",
+      "new_name": "perm_eq_one_of_strictMono",
+      "docstring": "A strictly monotone permutation of a finite ordered type is the identity permutation."
+    },
+    {
+      "temporary_id": "decl-022175",
+      "new_name": "prod_X_pow_eq_monomial",
+      "docstring": "The product of the variables raised to a finite exponent tuple equals the corresponding monomial with coefficient one."
+    },
+    {
+      "temporary_id": "decl-022212",
+      "new_name": "psumPart_isHomogeneous",
+      "docstring": "The partition power-sum polynomial is homogeneous of degree equal to the partitioned natural number."
+    },
+    {
+      "temporary_id": "decl-022213",
+      "new_name": "psumPart_isSymmetric",
+      "docstring": "A partition power-sum polynomial is invariant under permutations of its variables."
+    },
+    {
+      "temporary_id": "decl-022570",
+      "new_name": "rename_det_alternantMatrix",
+      "docstring": "Renaming the variables of an alternant determinant by a permutation multiplies it by the permutation sign."
+    },
+    {
+      "temporary_id": "decl-023030",
+      "new_name": "partitionPolynomial",
+      "docstring": "The multivariate rational polynomial associated with a finite tuple of natural numbers."
+    },
+    {
+      "temporary_id": "decl-023034",
+      "new_name": "coeff_partitionPolynomial_ne_zero",
+      "docstring": "For an antitone tuple, the coefficient of its own exponent in the associated partition polynomial is nonzero."
+    },
+    {
+      "temporary_id": "decl-023050",
+      "new_name": "partitionPolynomial_mul_det_staircase",
+      "docstring": "Multiplying a partition polynomial by the staircase alternant determinant gives the alternant determinant for the staircase-shifted exponents."
+    },
+    {
+      "temporary_id": "decl-023121",
+      "new_name": "addStaircase",
+      "docstring": "Associates a finite exponent tuple with another tuple indexed by the same finite type."
+    },
+    {
+      "temporary_id": "decl-023123",
+      "new_name": "addStaircase_strictAnti",
+      "docstring": "Adding staircase exponents to the entries of a finite partition tuple produces a strictly antitone tuple."
+    },
+    {
+      "temporary_id": "decl-023427",
+      "new_name": "staircase_le_of_strictAnti",
+      "docstring": "Every strictly antitone natural-valued tuple is bounded below pointwise by the descending staircase tuple."
+    },
+    {
+      "temporary_id": "decl-024471",
+      "new_name": "staircaseExponents",
+      "docstring": "The natural-number exponent tuple indexed by a finite ordered type that supplies the staircase shift."
+    }
+  ]
+}

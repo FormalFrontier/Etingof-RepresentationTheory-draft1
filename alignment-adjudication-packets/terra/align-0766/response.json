@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:3935006d8c19d9a6671e",
+      "rationale": "The formal type directly asserts one finite-dimensional Galois extension of the rationals over which every finite-dimensional complex representation is matrix-defined.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0766"
+}

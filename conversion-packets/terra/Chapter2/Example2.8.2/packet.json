@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Example2.8.2",
+    "kind": "example",
+    "title": "Example of a quiver",
+    "node_id": "chapter-02/section-2-8",
+    "order": 63,
+    "slug": "example2-8-2",
+    "span": {
+      "start": {
+        "page": "19",
+        "line": 25
+      },
+      "end": {
+        "page": "19",
+        "line": 30
+      }
+    },
+    "source_sha256": "464e6ae44b2d06c3151b2f68885efe4b83fbed903b86334bfdaadb488b284650",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 6,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example282",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

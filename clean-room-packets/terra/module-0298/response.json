@@ -1,0 +1,60 @@
+{
+  "module_name": "Auxiliary.AuxiliaryPolynomialSubrepresentation",
+  "declarations": [
+    {
+      "temporary_id": "decl-001602",
+      "new_name": "polynomial_equiv_auxiliary_submodule",
+      "docstring": "The matrix-entry polynomial ring is linearly equivalent to the subtype of the displayed submodule."
+    },
+    {
+      "temporary_id": "decl-001607",
+      "new_name": "coe_polynomial_equiv_auxiliary_submodule",
+      "docstring": "The underlying polynomial of the submodule equivalence is the auxiliary matrix polynomial multiplied by the input polynomial."
+    },
+    {
+      "temporary_id": "decl-001608",
+      "new_name": "polynomial_equiv_auxiliary_submodule_equivariant",
+      "docstring": "The polynomial equivalence with the auxiliary submodule intertwines the displayed general linear group representations."
+    },
+    {
+      "temporary_id": "decl-001609",
+      "new_name": "auxiliary_polynomial_subrepresentation",
+      "docstring": "A subrepresentation of the displayed representation on matrix-entry polynomials."
+    },
+    {
+      "temporary_id": "decl-001611",
+      "new_name": "auxiliary_polynomial_subrepresentation_toSubmodule",
+      "docstring": "The underlying submodule of the auxiliary polynomial subrepresentation is the displayed polynomial submodule."
+    },
+    {
+      "temporary_id": "decl-001612",
+      "new_name": "mul_auxiliary_polynomial_linearMap",
+      "docstring": "A linear endomorphism of the matrix-entry polynomial ring associated with the auxiliary polynomial."
+    },
+    {
+      "temporary_id": "decl-001614",
+      "new_name": "mul_auxiliary_polynomial_linearMap_apply",
+      "docstring": "The auxiliary linear endomorphism sends a polynomial to the auxiliary matrix polynomial multiplied by that polynomial."
+    },
+    {
+      "temporary_id": "decl-001615",
+      "new_name": "mul_auxiliary_polynomial_linearMap_injective",
+      "docstring": "Multiplication by the auxiliary matrix polynomial is injective on the matrix-entry polynomial ring."
+    },
+    {
+      "temporary_id": "decl-001616",
+      "new_name": "mul_auxiliary_polynomial_linearMap_equivariant",
+      "docstring": "Multiplication by the auxiliary polynomial intertwines the two displayed general linear group actions."
+    },
+    {
+      "temporary_id": "decl-001617",
+      "new_name": "matrix_substitution_auxiliary_polynomial",
+      "docstring": "Substituting a matrix into the variables of the auxiliary polynomial scales that polynomial by the constant determinant of the matrix."
+    },
+    {
+      "temporary_id": "decl-001618",
+      "new_name": "range_mul_auxiliary_polynomial_linearMap",
+      "docstring": "The range of multiplication by the auxiliary matrix polynomial is the displayed polynomial submodule."
+    }
+  ]
+}

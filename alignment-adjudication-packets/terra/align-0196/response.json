@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0196",
+  "associations": [
+    {
+      "association_id": "association:bf2f14388e43497524e7",
+      "role": "primary",
+      "rationale": "The iff directly equates commutativity of the monoid algebra with commutativity of the underlying monoid, hence of a group."
+    }
+  ]
+}

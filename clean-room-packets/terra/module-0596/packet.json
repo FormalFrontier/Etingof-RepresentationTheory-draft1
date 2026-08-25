@@ -1,0 +1,54 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (R : Type u_1) [inst : Ring.{u_1} R] [IsSemisimpleRing.{u_1} R],\n  decl-005288.{max u_1 (u_2 + 1), u_2} (ModuleCat.{u_2, u_1} R)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005288"
+      ],
+      "structural_type_hash": "3370601800",
+      "temporary_id": "decl-020890"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (G : Type u_2) [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [inst_2 : Fintype.{u_2} G],\n  IsUnit.{u_1} (Nat.cast.{u_1} (Fintype.card.{u_2} G)) \u2192\n    decl-005288.{max (max u_2 u_1) (u_3 + 1), u_3}\n      (ModuleCat.{u_3, max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005288"
+      ],
+      "structural_type_hash": "4121187304",
+      "temporary_id": "decl-021549"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (G : Type u_2) [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [inst_2 : Fintype.{u_2} G],\n  IsUnit.{u_1} (Nat.cast.{u_1} (Fintype.card.{u_2} G)) \u2192 IsSemisimpleRing.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "268759795",
+      "temporary_id": "decl-021550"
+    }
+  ],
+  "module_temporary_id": "module-0596",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

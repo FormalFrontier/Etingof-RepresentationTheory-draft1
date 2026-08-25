@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f34752a02977780e740d",
+      "declaration": "Etingof.Problem6_9_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/460/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (\u03c1 : Q\u2082Rep.{0, u_1, u_2} Complex), Q\u2082Rep.Indecomposable.{0, u_1, u_2} \u03c1 \u2192 Etingof.Q\u2082Rep.IsClassified.{u_1, u_2} \u03c1",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_1_Classification"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.9.1",
+  "packet_id": "align-0801",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0801"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.9.1:part_c_exhaustive",
+  "source_text": "Part (c): prove the four-family isomorphism-level classification exhaustive."
+}

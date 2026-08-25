@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:77a16f86ca7a291c83fe",
+      "rationale": "The displayed iff has several existential witnesses with elided types and shows only Nontrivial V and finite dimensionality explicitly, so it does not directly expose the claimed representation structure.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:63a9be318192047922c6",
+      "rationale": "For every finite-dimensional q-Weyl module, the formal type states q raised to finrank V equals one, but it gives only the determinant obstruction and not the complete existence equivalence.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0609"
+}

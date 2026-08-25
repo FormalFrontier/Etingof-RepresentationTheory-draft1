@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0246",
+  "associations": [
+    {
+      "association_id": "association:fd008f029ffa3fae6b48",
+      "role": "primary",
+      "rationale": "It directly states that the symmetric-group image and diagonal-action image are each the centralizer of the other."
+    },
+    {
+      "association_id": "association:511a35758b847eb6f32a",
+      "role": "supporting",
+      "rationale": "It states that the two image algebras are semisimple rings; this supports, but does not itself state, semisimplicity of the tensor power as a module for both actions."
+    }
+  ]
+}

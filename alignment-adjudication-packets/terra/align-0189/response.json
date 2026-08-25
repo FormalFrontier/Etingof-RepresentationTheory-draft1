@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0189",
+  "associations": [
+    {
+      "association_id": "association:25bf36c474849414f034",
+      "role": "primary",
+      "rationale": "The iff directly identifies coverage by the subgroup family with rational spanning of simple characters by the displayed induced characters."
+    }
+  ]
+}

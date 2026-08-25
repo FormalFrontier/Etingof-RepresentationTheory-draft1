@@ -1,0 +1,240 @@
+{
+  "module_name": "HomologicalComplex.TensorExtension",
+  "declarations": [
+    {
+      "temporary_id": "decl-016377",
+      "new_name": "natToIntEmbedding",
+      "docstring": "The embedding of the upward natural-number complex shape into the upward integer complex shape."
+    },
+    {
+      "temporary_id": "decl-016378",
+      "new_name": "natToIntEmbedding_apply",
+      "docstring": "The degree map of the natural-to-integer embedding sends a natural number to its integer cast."
+    },
+    {
+      "temporary_id": "decl-016379",
+      "new_name": "extendNatToIntFunctor",
+      "docstring": "The functor from natural-graded cochain complexes of modules to integer-graded cochain complexes."
+    },
+    {
+      "temporary_id": "decl-016380",
+      "new_name": "Auxiliary.statement016380",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-016381",
+      "new_name": "extendedTensorToTensorComponent",
+      "docstring": "The component map from the tensor of two integer extensions to the tensor of the original complexes at a natural degree."
+    },
+    {
+      "temporary_id": "decl-016383",
+      "new_name": "extendedTensorToTensorComponent_d",
+      "docstring": "The component map from the tensor of extensions commutes with the differentials in consecutive natural degrees."
+    },
+    {
+      "temporary_id": "decl-016394",
+      "new_name": "extendedTensorToTensorComponent_d_assoc",
+      "docstring": "The differential compatibility of the component map remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-016395",
+      "new_name": "extendedTensorToTensorComponent_naturality",
+      "docstring": "The component map from the tensor of extensions is natural in maps of both cochain complexes."
+    },
+    {
+      "temporary_id": "decl-016399",
+      "new_name": "tensorToExtendedTensorComponent",
+      "docstring": "The component map from the tensor of the original complexes to the tensor of their integer extensions."
+    },
+    {
+      "temporary_id": "decl-016401",
+      "new_name": "isZero_extendedTensor_X_of_neg",
+      "docstring": "A negative component of the tensor of two natural complexes extended to integer degrees is zero."
+    },
+    {
+      "temporary_id": "decl-016405",
+      "new_name": "isZero_tensorObj_of_left",
+      "docstring": "Tensoring a zero object on the left in a monoidal preadditive category produces a zero object."
+    },
+    {
+      "temporary_id": "decl-016406",
+      "new_name": "isZero_tensorObj_of_right",
+      "docstring": "Tensoring a zero object on the right in a monoidal preadditive category produces a zero object."
+    },
+    {
+      "temporary_id": "decl-016407",
+      "new_name": "extendedTensorXIso",
+      "docstring": "At a natural degree, the tensor of the integer extensions is isomorphic to the tensor of the original complexes."
+    },
+    {
+      "temporary_id": "decl-016411",
+      "new_name": "extendTensorXIsoAtNat",
+      "docstring": "At a cast natural degree, tensoring after extension is isomorphic to extending the tensor product."
+    },
+    {
+      "temporary_id": "decl-016413",
+      "new_name": "Auxiliary.statement016413",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-016414",
+      "new_name": "extendedTensorSummandToTensorComponent",
+      "docstring": "A summand in complementary integer degrees maps from the tensor of extensions to the corresponding natural tensor component."
+    },
+    {
+      "temporary_id": "decl-016425",
+      "new_name": "extendedTensorSummandToTensorComponent_toExtended",
+      "docstring": "After identifying integer degrees with natural degrees, the summand map followed by the reverse component comparison is the integer-graded tensor summand map."
+    },
+    {
+      "temporary_id": "decl-016426",
+      "new_name": "Auxiliary.statement016426",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-016427",
+      "new_name": "tensorSummandToExtendedTensorComponent",
+      "docstring": "A tensor of components in two natural degrees maps to the cast degree of the tensor of their integer extensions."
+    },
+    {
+      "temporary_id": "decl-016432",
+      "new_name": "tensorSummandToExtendedTensorComponent_toTensor",
+      "docstring": "The map into the tensor of extensions followed by the component comparison is the ordinary tensor summand map."
+    },
+    {
+      "temporary_id": "decl-016433",
+      "new_name": "natToIntEmbedding_reverse_apply",
+      "docstring": "The reverse degree map of the natural-to-integer embedding recovers a natural number from its integer cast."
+    },
+    {
+      "temporary_id": "decl-016434",
+      "new_name": "tensorProductFunctor",
+      "docstring": "The curried tensor-product functor on natural-graded cochain complexes of modules."
+    },
+    {
+      "temporary_id": "decl-016436",
+      "new_name": "extendThenTensorFunctor",
+      "docstring": "The bifunctor from natural-graded complexes to an integer-graded complex obtained by extending both inputs before tensoring."
+    },
+    {
+      "temporary_id": "decl-016437",
+      "new_name": "tensorThenExtendFunctor",
+      "docstring": "The bifunctor from natural-graded complexes to an integer-graded complex obtained by extending their tensor product."
+    },
+    {
+      "temporary_id": "decl-016438",
+      "new_name": "extendTensorXIso",
+      "docstring": "In every integer degree, tensoring two extensions is isomorphic to extending their tensor product."
+    },
+    {
+      "temporary_id": "decl-016447",
+      "new_name": "Auxiliary.statement016447",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-016448",
+      "new_name": "Auxiliary.statement016448",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-016449",
+      "new_name": "extendTensorXIso_natCast",
+      "docstring": "The degreewise tensor-extension isomorphism at a cast natural degree is the specialized natural-degree isomorphism."
+    },
+    {
+      "temporary_id": "decl-016450",
+      "new_name": "extendTensorIso",
+      "docstring": "Tensoring two integer extensions is isomorphic to extending the tensor product of the original complexes."
+    },
+    {
+      "temporary_id": "decl-016454",
+      "new_name": "extendTensorIso_naturality",
+      "docstring": "The tensor-extension isomorphism is natural in simultaneous maps of both complexes."
+    },
+    {
+      "temporary_id": "decl-016456",
+      "new_name": "extendTensorIso_naturality_left",
+      "docstring": "The tensor-extension isomorphism is natural in a map of the left complex."
+    },
+    {
+      "temporary_id": "decl-016457",
+      "new_name": "extendTensorIso_naturality_right",
+      "docstring": "The tensor-extension isomorphism is natural in a map of the right complex."
+    },
+    {
+      "temporary_id": "decl-016458",
+      "new_name": "extendTensorFunctorIso",
+      "docstring": "The bifunctor that extends before tensoring is naturally isomorphic to the bifunctor that tensors before extending."
+    },
+    {
+      "temporary_id": "decl-016461",
+      "new_name": "extendTensorFunctorIso_app",
+      "docstring": "The component of the bifunctor isomorphism at two complexes is the tensor-extension isomorphism."
+    },
+    {
+      "temporary_id": "decl-016462",
+      "new_name": "tensorSummandToTensorComponent",
+      "docstring": "The tensor of two natural-degree components maps to the component of their tensor complex in the summed degree."
+    },
+    {
+      "temporary_id": "decl-016467",
+      "new_name": "tensorSummandToTensorComponent_toExtended",
+      "docstring": "The natural tensor summand map followed by the reverse component comparison is the map into the tensor of extensions."
+    },
+    {
+      "temporary_id": "decl-016468",
+      "new_name": "extendedTensorSummandMap",
+      "docstring": "The tensor of two components of extended complexes maps to the component of their integer-graded tensor product in the summed degree."
+    },
+    {
+      "temporary_id": "decl-016472",
+      "new_name": "extendedTensorSummandMap_toTensor",
+      "docstring": "At a cast natural degree, the integer tensor summand map followed by the component comparison is the corresponding map to the natural tensor component."
+    },
+    {
+      "temporary_id": "decl-020261",
+      "new_name": "isZero_homology_extend_of_neg",
+      "docstring": "The homology of a natural-graded cochain complex extended to a negative integer degree is zero."
+    },
+    {
+      "temporary_id": "decl-020272",
+      "new_name": "homologyExtendIso",
+      "docstring": "Homology after extension at a cast natural degree is isomorphic to homology of the original complex."
+    },
+    {
+      "temporary_id": "decl-020279",
+      "new_name": "homologyExtendIso_naturality",
+      "docstring": "The homology extension isomorphism is natural with respect to a cochain map."
+    },
+    {
+      "temporary_id": "decl-020280",
+      "new_name": "homologyExtendIso_naturality_assoc",
+      "docstring": "Naturality of the homology extension isomorphism remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-020670",
+      "new_name": "natTensorSigns",
+      "docstring": "The tensor sign convention for the upward complex shape indexed by natural numbers."
+    },
+    {
+      "temporary_id": "decl-021353",
+      "new_name": "nonempty_homologyTensorIsoSigma",
+      "docstring": "The homology of a tensor complex admits an isomorphism to the sigma object of tensor products of the input homologies in paired degrees."
+    },
+    {
+      "temporary_id": "decl-021354",
+      "new_name": "homologyTensorIsoSigma",
+      "docstring": "An isomorphism from the homology of a tensor complex to the sigma object of tensor products of the input homologies in paired degrees."
+    },
+    {
+      "temporary_id": "decl-021736",
+      "new_name": "nonempty_extendTensorIso",
+      "docstring": "There exists an isomorphism between tensoring two integer extensions and extending their natural-graded tensor product."
+    },
+    {
+      "temporary_id": "decl-024725",
+      "new_name": "Auxiliary.statement024725",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    }
+  ]
+}

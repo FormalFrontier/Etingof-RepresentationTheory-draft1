@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0915",
+  "associations": [
+    {
+      "association_id": "association:eab2761031da82d4b8be",
+      "role": "primary",
+      "rationale": "classification says every indecomposable D4 representation has a unique index with an isomorphism to its canonical representation."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.AuxiliaryAlgebraPairType",
+  "declarations": [
+    {
+      "temporary_id": "decl-000529",
+      "new_name": "AuxiliaryAlgebraPairType",
+      "docstring": "An auxiliary type depending on two algebras over a commutative ring."
+    }
+  ]
+}

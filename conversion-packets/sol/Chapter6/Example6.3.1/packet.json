@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Example6.3.1",
+    "kind": "example",
+    "title": "Example 6.3.1: Indecomposable representations of D4",
+    "node_id": "chapter-06/section-6-3",
+    "order": 420,
+    "slug": "example6-3-1",
+    "span": {
+      "start": {
+        "page": "158",
+        "line": 15
+      },
+      "end": {
+        "page": "163",
+        "line": 74
+      }
+    },
+    "source_sha256": "628d47800669a9c0d27809f33ce86cf71c06e11dbdfba2232e08482ba8aede30",
+    "features": {
+      "line_count": 348,
+      "crosses_page": true,
+      "display_math_delimiters": 62,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Example631",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

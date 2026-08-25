@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1067",
+  "associations": [
+    {
+      "association_id": "association:09899fa6447717c2de87",
+      "rationale": "The type makes every standard module simple and classifies each finite-dimensional simple module by some standard module, but it does not state uniqueness of the index or pairwise inequivalence needed for exactly r classes.",
+      "role": "supporting"
+    }
+  ]
+}

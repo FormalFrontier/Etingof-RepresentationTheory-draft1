@@ -1,0 +1,40 @@
+{
+  "module_name": "AuxiliaryWeightSpaces.Duality",
+  "declarations": [
+    {
+      "temporary_id": "decl-018383",
+      "new_name": "auxiliaryCoordinateElement_inv",
+      "docstring": "Taking inverses of the unit parameter gives the inverse auxiliary coordinate element."
+    },
+    {
+      "temporary_id": "decl-018472",
+      "new_name": "dualBasis_hasNegatedAuxiliaryWeight",
+      "docstring": "A dual basis vector has the negation of the displayed auxiliary weight."
+    },
+    {
+      "temporary_id": "decl-018970",
+      "new_name": "exists_unit_pow_ne_of_ne",
+      "docstring": "Distinct integer exponents can be separated by powers of a unit in a characteristic-zero field."
+    },
+    {
+      "temporary_id": "decl-019433",
+      "new_name": "finrank_dualAuxiliaryWeightSpace",
+      "docstring": "The dual auxiliary weight space has the dimension of the space indexed by the negated weight."
+    },
+    {
+      "temporary_id": "decl-019438",
+      "new_name": "finrank_auxiliaryWeightSpace_eq_card",
+      "docstring": "The dimension of an auxiliary weight space is counted by basis vectors with that weight."
+    },
+    {
+      "temporary_id": "decl-019526",
+      "new_name": "dualAuxiliaryPolynomial_coeff_eq_finrank_negWeightSpace",
+      "docstring": "Under the stated spanning condition, a dual auxiliary-polynomial coefficient is the dimension at the opposite weight."
+    },
+    {
+      "temporary_id": "decl-019860",
+      "new_name": "natAuxiliaryWeightSpace_eq_intAuxiliaryWeightSpace",
+      "docstring": "The auxiliary space indexed by natural weights agrees with its integer-indexed counterpart."
+    }
+  ]
+}

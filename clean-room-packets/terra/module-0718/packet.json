@@ -1,0 +1,273 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : Ring.{u} R] \u2192\n    [IsNoetherianRing.{u} R] \u2192\n      (M : ModuleCat.{u, u} R) \u2192 [Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] \u2192 Nat \u2192 ModuleCat.{u, u} R",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2736362261",
+      "temporary_id": "decl-004267"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : Ring.{u} R] \u2192 (M : ModuleCat.{u, u} R) \u2192 [Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "381784410",
+      "temporary_id": "decl-004268"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : Ring.{u} R] \u2192\n    [IsNoetherianRing.{u} R] \u2192\n      (M : ModuleCat.{u, u} R) \u2192\n        [Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] \u2192 ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} R) Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3777111670",
+      "temporary_id": "decl-004270"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_2 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] (n : Nat),\n  Eq.{u + 1}\n    (HomologicalComplex.d.{u, u + 1, 0} (decl-004270.{u} M) (HAdd.hAdd.{0, 0, 0} n 1) n)\n    (decl-004274.{u} M n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004270",
+        "decl-004274"
+      ],
+      "structural_type_hash": "1498680405",
+      "temporary_id": "decl-004272"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_2 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] (n : Nat),\n  HomologicalComplex.ExactAt.{u, u + 1, 0} (decl-004270.{u} M) (HAdd.hAdd.{0, 0, 0} n 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004270"
+      ],
+      "structural_type_hash": "687539423",
+      "temporary_id": "decl-004273"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : Ring.{u} R] \u2192\n    [inst_1 : IsNoetherianRing.{u} R] \u2192\n      (M : ModuleCat.{u, u} R) \u2192\n        [inst_2 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] \u2192\n          (n : Nat) \u2192\n            Quiver.Hom.{u, u + 1} (decl-004267.{u} M (HAdd.hAdd.{0, 0, 0} n 1))\n              (decl-004267.{u} M n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004267"
+      ],
+      "structural_type_hash": "1007221087",
+      "temporary_id": "decl-004274"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_2 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] (n : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1} (decl-004274.{u} M n)\n      (decl-004292.{u} M n))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004267",
+        "decl-004274",
+        "decl-004292",
+        "decl-004307"
+      ],
+      "structural_type_hash": "1291233797",
+      "temporary_id": "decl-004277"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_2 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] (n : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (decl-004274.{u} M (HAdd.hAdd.{0, 0, 0} n 1))\n      (decl-004274.{u} M n))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004267",
+        "decl-004274"
+      ],
+      "structural_type_hash": "1195906903",
+      "temporary_id": "decl-004278"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_2 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] (n : Nat),\n  CategoryTheory.ShortComplex.Exact.{u, u + 1}\n    (CategoryTheory.ShortComplex.mk.{u, u + 1} (decl-004274.{u} M (HAdd.hAdd.{0, 0, 0} n 1))\n      (decl-004274.{u} M n) \u22ef)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004267",
+        "decl-004274",
+        "decl-004278"
+      ],
+      "structural_type_hash": "1215524832",
+      "temporary_id": "decl-004279"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  [Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)],\n  Exists.{u + 2} fun P =>\n    \u2200 (n : Nat),\n      Module.Finite.{u, u} R\n        (ModuleCat.carrier.{u, u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3925119064",
+      "temporary_id": "decl-004280"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [IsNoetherianRing.{u} R] {A B : ModuleCat.{u, u} R} (f : Quiver.Hom.{u, u + 1} A B)\n  [Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} A)],\n  Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} (CategoryTheory.Limits.kernel.{u, u + 1} f))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "769771837",
+      "temporary_id": "decl-004281"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : Ring.{u} R] \u2192\n    (M : ModuleCat.{u, u} R) \u2192 [Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] \u2192 ModuleCat.{u, u} R",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2180139927",
+      "temporary_id": "decl-004282"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : Ring.{u} R] \u2192\n    (M : ModuleCat.{u, u} R) \u2192\n      [inst_1 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] \u2192\n        Quiver.Hom.{u, u + 1} (decl-004282.{u} M) M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004282"
+      ],
+      "structural_type_hash": "4047371411",
+      "temporary_id": "decl-004283"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_1 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)],\n  CategoryTheory.Epi.{u, u + 1} (decl-004283.{u} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004282",
+        "decl-004283"
+      ],
+      "structural_type_hash": "874751027",
+      "temporary_id": "decl-004285"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_1 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)],\n  Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} (decl-004282.{u} M))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004282"
+      ],
+      "structural_type_hash": "88224437",
+      "temporary_id": "decl-004286"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_2 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] (n : Nat),\n  Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} (decl-004307.{u} M n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004307"
+      ],
+      "structural_type_hash": "41395085",
+      "temporary_id": "decl-004287"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_1 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)],\n  CategoryTheory.Projective.{u, u + 1} (decl-004282.{u} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004282"
+      ],
+      "structural_type_hash": "1101796195",
+      "temporary_id": "decl-004288"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_2 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] (n : Nat),\n  CategoryTheory.Projective.{u, u + 1}\n    (HomologicalComplex.X.{u, u + 1, 0} (decl-004270.{u} M) n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004270"
+      ],
+      "structural_type_hash": "1579940145",
+      "temporary_id": "decl-004289"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_2 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] (n : Nat),\n  CategoryTheory.ShortComplex.Exact.{u, u + 1}\n    (CategoryTheory.ShortComplex.mk.{u, u + 1} (decl-004274.{u} M n)\n      (decl-004292.{u} M n) \u22ef)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004267",
+        "decl-004274",
+        "decl-004277",
+        "decl-004292",
+        "decl-004307"
+      ],
+      "structural_type_hash": "3607152313",
+      "temporary_id": "decl-004291"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : Ring.{u} R] \u2192\n    [inst_1 : IsNoetherianRing.{u} R] \u2192\n      (M : ModuleCat.{u, u} R) \u2192\n        [inst_2 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] \u2192\n          (n : Nat) \u2192\n            Quiver.Hom.{u, u + 1} (decl-004267.{u} M n)\n              (decl-004307.{u} M n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004267",
+        "decl-004307"
+      ],
+      "structural_type_hash": "2756179210",
+      "temporary_id": "decl-004292"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : Ring.{u} R] \u2192\n    [IsNoetherianRing.{u} R] \u2192\n      (M : ModuleCat.{u, u} R) \u2192\n        [Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] \u2192 CategoryTheory.ProjectiveResolution.{u, u + 1} M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "565603039",
+      "temporary_id": "decl-004293"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2504729305",
+      "temporary_id": "decl-004300"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : Ring.{u} R] \u2192\n    [IsNoetherianRing.{u} R] \u2192\n      (M : ModuleCat.{u, u} R) \u2192 [Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] \u2192 Nat \u2192 ModuleCat.{u, u} R",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2736362261",
+      "temporary_id": "decl-004307"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_2 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)] (n : Nat),\n  Eq.{u + 2} (decl-004307.{u} M (HAdd.hAdd.{0, 0, 0} n 1))\n    (CategoryTheory.Limits.kernel.{u, u + 1} (decl-004292.{u} M n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004267",
+        "decl-004292",
+        "decl-004307"
+      ],
+      "structural_type_hash": "2205065523",
+      "temporary_id": "decl-004308"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  [inst_2 : Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)],\n  Eq.{u + 2} (decl-004307.{u} M 0) M",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004307"
+      ],
+      "structural_type_hash": "220464073",
+      "temporary_id": "decl-004309"
+    }
+  ],
+  "module_temporary_id": "module-0718",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0775",
+  "associations": [
+    {
+      "association_id": "association:b2a791f90fe9a4d89bb8",
+      "role": "primary",
+      "rationale": "Under finiteness of the orbit quotient, it directly asserts existence of an orbit whose algebraic closure notion is dense."
+    }
+  ]
+}

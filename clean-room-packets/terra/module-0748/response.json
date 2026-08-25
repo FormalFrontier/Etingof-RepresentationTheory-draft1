@@ -1,0 +1,95 @@
+{
+  "module_name": "Algebra.Category.ModuleCat.RingElementActions",
+  "declarations": [
+    {
+      "temporary_id": "decl-013991",
+      "new_name": "ringAuxiliaryType",
+      "docstring": "An auxiliary type associated with a ring."
+    },
+    {
+      "temporary_id": "decl-014087",
+      "new_name": "auxiliaryElement_actsAsIdentity_iff_of_condition",
+      "docstring": "The identity-action property agrees across objects under the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014088",
+      "new_name": "auxiliaryElement_actsAsIdentity_iff_of_condition_of_simpleModules",
+      "docstring": "For simple modules, the identity-action property agrees under the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014089",
+      "new_name": "auxiliaryElement_actsAsIdentity_iff_of_auxiliaryCondition",
+      "docstring": "The identity-action property agrees across objects under an additional displayed condition."
+    },
+    {
+      "temporary_id": "decl-014090",
+      "new_name": "auxiliaryElement_actsAsIdentity_iff_of_iso",
+      "docstring": "An isomorphism preserves whether the underlying scalar acts as the identity."
+    },
+    {
+      "temporary_id": "decl-014091",
+      "new_name": "scalar_actsAsIdentity_of_condition",
+      "docstring": "A scalar fixing one module fixes another module under the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014093",
+      "new_name": "simpleModules_satisfyCondition_of_scalarActsAsIdentity",
+      "docstring": "Under the displayed hypotheses, identity scalar actions on two simple modules imply the stated condition."
+    },
+    {
+      "temporary_id": "decl-014114",
+      "new_name": "simpleModuleAuxiliaryBool",
+      "docstring": "A Boolean value associated with a simple module and an element of the auxiliary ring-indexed type."
+    },
+    {
+      "temporary_id": "decl-014115",
+      "new_name": "simpleModuleAuxiliaryBool_eq_false_iff_actsAsZero",
+      "docstring": "The Boolean value is false exactly when the underlying scalar annihilates the simple module."
+    },
+    {
+      "temporary_id": "decl-014116",
+      "new_name": "simpleModuleAuxiliaryBool_eq_of_condition",
+      "docstring": "The Boolean value is unchanged between simple modules under the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014117",
+      "new_name": "simpleModuleAuxiliaryBool_eq_true_iff_actsAsIdentity",
+      "docstring": "The Boolean value is true exactly when the underlying scalar fixes every vector in the simple module."
+    },
+    {
+      "temporary_id": "decl-014118",
+      "new_name": "centralIdempotent_actsAsZero_or_identity",
+      "docstring": "A central idempotent acts either as zero or as the identity on a simple module."
+    },
+    {
+      "temporary_id": "decl-014119",
+      "new_name": "condition_of_indecomposable_of_auxiliaryConditions",
+      "docstring": "For an indecomposable finite-length module, two displayed auxiliary conditions imply another displayed condition."
+    },
+    {
+      "temporary_id": "decl-014146",
+      "new_name": "existsUnique_index_actsAsIdentity",
+      "docstring": "A finite family of central orthogonal idempotents has a unique member fixing a given simple module."
+    },
+    {
+      "temporary_id": "decl-014148",
+      "new_name": "exists_simpleModule_with_condition_of_indecomposable",
+      "docstring": "An indecomposable finite-length module admits a simple module satisfying the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014151",
+      "new_name": "exists_simpleModule_scalarActsAsIdentity",
+      "docstring": "A nonzero central idempotent fixes every element of some simple module."
+    },
+    {
+      "temporary_id": "decl-014153",
+      "new_name": "hom_subsingleton_of_simpleModule_conditions",
+      "docstring": "Morphisms between modules are subsingleton under the displayed simple-module conditions."
+    },
+    {
+      "temporary_id": "decl-014176",
+      "new_name": "Auxiliary.statement014176",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    }
+  ]
+}

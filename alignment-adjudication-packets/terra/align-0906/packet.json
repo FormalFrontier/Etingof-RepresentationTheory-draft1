@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a042ed5dd87b3dbab95e",
+      "declaration": "Etingof.youngProjector_ne_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/308/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition), Ne.{1} (Etingof.youngProjector n la) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_SourceIdeal"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_Young_projectors",
+  "packet_id": "align-0906",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0906"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a435fb9080ca1a99b3a9",
+  "source_text": "The Young projector c_\u03bb is nonzero."
+}

@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.Module.AuxiliaryPredicates",
+  "declarations": [
+    {
+      "temporary_id": "decl-005197",
+      "new_name": "of_isSimpleModule",
+      "docstring": "The enclosing auxiliary predicate holds for every simple module."
+    },
+    {
+      "temporary_id": "decl-005290",
+      "new_name": "Module.isSimpleModule_of_auxiliaryPredicate",
+      "docstring": "A semisimple module satisfying the auxiliary predicate is simple."
+    }
+  ]
+}

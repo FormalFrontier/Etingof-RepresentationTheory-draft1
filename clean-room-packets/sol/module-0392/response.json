@@ -1,0 +1,135 @@
+{
+  "module_name": "TensorPolynomial.Contraction",
+  "declarations": [
+    {
+      "temporary_id": "decl-001059",
+      "new_name": "TensorPolynomial.AuxiliaryIndexType",
+      "docstring": "An auxiliary type family indexed by natural numbers."
+    },
+    {
+      "temporary_id": "decl-017491",
+      "new_name": "TensorPolynomial.slotPermutations",
+      "docstring": "The finite set of permutations associated with an assignment between finite index types."
+    },
+    {
+      "temporary_id": "decl-017493",
+      "new_name": "TensorPolynomial.slotPermutations_card_ne_zero",
+      "docstring": "The finite set of permutations associated with any slot assignment has nonzero cardinality."
+    },
+    {
+      "temporary_id": "decl-018151",
+      "new_name": "TensorPolynomial.matrixVariable_action_apply",
+      "docstring": "The action on a matrix coordinate is the sum obtained by multiplying the variable matrix on the left by the given invertible matrix and on the right by its inverse."
+    },
+    {
+      "temporary_id": "decl-018152",
+      "new_name": "TensorPolynomial.IsWeightedHomogeneous.map_matrixAction",
+      "docstring": "The matrix action preserves weighted homogeneity and its multidegree."
+    },
+    {
+      "temporary_id": "decl-018588",
+      "new_name": "TensorPolynomial.endomorphismToPolynomial",
+      "docstring": "The complex-linear map from endomorphisms of an indexed tensor power to matrix-entry polynomials determined by a slot assignment."
+    },
+    {
+      "temporary_id": "decl-018595",
+      "new_name": "TensorPolynomial.endomorphismToPolynomial_apply",
+      "docstring": "The polynomial attached to an endomorphism is the sum of its matrix coefficients multiplied by the corresponding entries of the polynomial-valued matrix."
+    },
+    {
+      "temporary_id": "decl-018596",
+      "new_name": "TensorPolynomial.endomorphismToPolynomial_conjugate",
+      "docstring": "Applying the contraction map after conjugating an endomorphism by tensor powers agrees with the induced matrix action on its polynomial."
+    },
+    {
+      "temporary_id": "decl-018597",
+      "new_name": "TensorPolynomial.endomorphismToPolynomial_eq_matrixToPolynomial",
+      "docstring": "The contraction of an endomorphism equals the matrix contraction applied to its matrix in the indexed tensor-product basis."
+    },
+    {
+      "temporary_id": "decl-018598",
+      "new_name": "TensorPolynomial.endomorphismToPolynomial_symmetrize",
+      "docstring": "Slot symmetrization does not change the polynomial obtained from an endomorphism."
+    },
+    {
+      "temporary_id": "decl-018600",
+      "new_name": "TensorPolynomial.endomorphismToPolynomial_perm_conjugate",
+      "docstring": "Conjugation by the tensor-factor maps of an admissible permutation leaves the associated polynomial unchanged."
+    },
+    {
+      "temporary_id": "decl-018708",
+      "new_name": "TensorPolynomial.matrixToPolynomial",
+      "docstring": "The complex-linear contraction map from matrices indexed by tensor coordinates to matrix-entry polynomials."
+    },
+    {
+      "temporary_id": "decl-018711",
+      "new_name": "TensorPolynomial.matrixToPolynomial_apply",
+      "docstring": "Matrix contraction is the trace of the scalar-extended input matrix multiplied by the polynomial-valued contraction matrix."
+    },
+    {
+      "temporary_id": "decl-018827",
+      "new_name": "TensorPolynomial.exists_equivariant_weightedHomogeneous_rightInverse",
+      "docstring": "When slot multiplicities realize a multidegree, there is a right inverse to the endomorphism contraction map on weighted-homogeneous polynomials that intertwines the matrix actions."
+    },
+    {
+      "temporary_id": "decl-019800",
+      "new_name": "TensorPolynomial.contractionMatrix",
+      "docstring": "The polynomial-valued matrix indexed by pairs of tensor coordinates and determined by a slot assignment."
+    },
+    {
+      "temporary_id": "decl-019802",
+      "new_name": "TensorPolynomial.contractionMatrix_map_matrixAction",
+      "docstring": "Acting on every entry of the contraction matrix agrees with multiplication by the scalar-extended tensor-power matrices on the left and right."
+    },
+    {
+      "temporary_id": "decl-019803",
+      "new_name": "TensorPolynomial.permutationMatrix_mul_contractionMatrix_mul",
+      "docstring": "A permutation preserving the slot assignment leaves the contraction matrix fixed under multiplication by the associated inverse and forward permutation matrices."
+    },
+    {
+      "temporary_id": "decl-021815",
+      "new_name": "TensorPolynomial.one_mem_slotPermutations",
+      "docstring": "The identity permutation belongs to the finite set associated with every slot assignment."
+    },
+    {
+      "temporary_id": "decl-022768",
+      "new_name": "TensorPolynomial.symmetrizeEndomorphism",
+      "docstring": "An endomorphism-valued symmetrization operation determined by a slot assignment."
+    },
+    {
+      "temporary_id": "decl-022772",
+      "new_name": "TensorPolynomial.symmetrizeEndomorphism_conjugate",
+      "docstring": "Slot symmetrization commutes with conjugation by tensor powers of an invertible matrix."
+    },
+    {
+      "temporary_id": "decl-022773",
+      "new_name": "TensorPolynomial.symmetrizeEndomorphism_eq_of_contraction_eq",
+      "docstring": "Two symmetrized endomorphisms are equal whenever their contracted polynomials are equal."
+    },
+    {
+      "temporary_id": "decl-023853",
+      "new_name": "TensorPolynomial.piTensorProductBasis",
+      "docstring": "A basis of the indexed tensor power whose vectors are indexed by functions between finite types."
+    },
+    {
+      "temporary_id": "decl-024146",
+      "new_name": "TensorPolynomial.toMatrix_piTensorProduct_map_apply",
+      "docstring": "A matrix entry of the tensor-power map is the product of the corresponding entries of the original matrix over all tensor positions."
+    },
+    {
+      "temporary_id": "decl-024147",
+      "new_name": "TensorPolynomial.toMatrix_tensorPermutation_apply",
+      "docstring": "The matrix entry of a tensor-factor permutation is one exactly when the row index is the inverse-permuted column index, and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-024513",
+      "new_name": "TensorPolynomial.exists_auxiliaryEndomorphism_preimage",
+      "docstring": "A weighted-homogeneous polynomial in the specified polynomial set has a contraction preimage belonging to the specified endomorphism set."
+    },
+    {
+      "temporary_id": "decl-024514",
+      "new_name": "TensorPolynomial.weightedHomogeneous_mem_range_endomorphismToPolynomial",
+      "docstring": "Every weighted-homogeneous polynomial whose multidegree records the slot multiplicities lies in the range of the endomorphism contraction map."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0108",
+  "associations": [
+    {
+      "association_id": "association:d217b9fedb1ef678e05b",
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so packaging invertible components as a natural isomorphism is not directly evidenced."
+    },
+    {
+      "association_id": "association:89de4bd30b6c60a7e5b9",
+      "role": "supporting",
+      "rationale": "The displayed type only assigns a Type to a pair of functors; it does not expose component morphisms or the naturality condition."
+    }
+  ]
+}

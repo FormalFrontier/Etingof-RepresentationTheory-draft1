@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0817",
+  "associations": [
+    {
+      "association_id": "association:ff997c7e9b436fe19389",
+      "role": "supporting",
+      "rationale": "The formal type gives only the connecting-morphism component; it does not itself state representative construction together with independence of both choices required by the complete source claim."
+    },
+    {
+      "association_id": "association:6708e0b278526d08463c",
+      "role": "supporting",
+      "rationale": "The formal type identifies the concrete connecting map with a categorical connecting morphism; this comparison supports the construction but is not the requested representative-independence statement."
+    },
+    {
+      "association_id": "association:4571c41c00e5808b092c",
+      "role": "supporting",
+      "rationale": "The formal type gives only one lift-independence component; it does not itself state the connecting-map construction and independence of both choices required by the complete source claim."
+    },
+    {
+      "association_id": "association:57cd261f64826afbe39e",
+      "role": "supporting",
+      "rationale": "The formal type gives only one well-definedness component; it does not itself state the connecting-map construction and independence of both choices required by the complete source claim."
+    }
+  ]
+}

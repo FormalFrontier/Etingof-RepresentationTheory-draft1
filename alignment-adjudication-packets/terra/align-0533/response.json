@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0533",
+  "associations": [
+    {
+      "association_id": "association:20fbde644eb058fc34b1",
+      "rationale": "Internality of a family of opaque Casimir generalized eigenspaces is supporting decomposition evidence, not a direct statement about the chosen indecomposable counterexample's sole eigenvalue.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:da50a6d46df7213d6dd2",
+      "rationale": "For every finite-dimensional indecomposable module, the theorem directly gives a natural lambda whose Casimir generalized eigenspace at lambda(lambda+2)/2 is the whole module, expressing that this is its only Casimir eigenvalue.",
+      "role": "primary"
+    }
+  ]
+}

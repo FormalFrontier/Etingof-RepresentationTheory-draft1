@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0167",
+  "associations": [
+    {
+      "association_id": "association:6ce3a64a0feac31e9355",
+      "role": "primary",
+      "rationale": "It directly states that the algebra adjoined by the range of the generator map is top."
+    },
+    {
+      "association_id": "association:fb07cad9f69bc41908d1",
+      "role": "supporting",
+      "rationale": "It only defines the generator map whose range appears in the generation statement."
+    }
+  ]
+}

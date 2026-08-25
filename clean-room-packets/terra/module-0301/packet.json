@@ -1,0 +1,36 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : DecidableEq.{u_1 + 1} k] (N : Nat)\n  (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k),\n  Eq.{1}\n      (Finset.card.{u_1}\n        (Multiset.toFinset.{u_1} (Polynomial.roots.{u_1} (Matrix.charpoly.{u_1, 0} (Units.val.{u_1} g)))))\n      N \u2192\n    Exists.{u_1 + 1} fun t =>\n      Exists.{u_1 + 1} fun h =>\n        Eq.{u_1 + 1} g\n          (HMul.hMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} h (decl-018364.{u_1} k N t)) (Inv.inv.{u_1} h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018364"
+      ],
+      "structural_type_hash": "3772143369",
+      "temporary_id": "decl-019874"
+    }
+  ],
+  "module_temporary_id": "module-0301",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

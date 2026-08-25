@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0683",
+  "associations": [
+    {
+      "association_id": "association:573be65c58b132b45e08",
+      "rationale": "The displayed type constructs an opaque FormalDeformation from the ambient representation data, but it does not expose its coefficients or state that all positive-degree terms vanish, so constancy is not directly displayed.",
+      "role": "supporting"
+    }
+  ]
+}

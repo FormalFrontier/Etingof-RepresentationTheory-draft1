@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0385",
+  "associations": [
+    {
+      "association_id": "association:89f7142719d9d9e69910",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so packet-only evidence cannot verify that this result directly states canonical uniqueness of left adjoints."
+    },
+    {
+      "association_id": "association:d9ea0ed0b727f1cf1cfd",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so packet-only evidence cannot verify that this result directly states canonical uniqueness of right adjoints."
+    }
+  ]
+}

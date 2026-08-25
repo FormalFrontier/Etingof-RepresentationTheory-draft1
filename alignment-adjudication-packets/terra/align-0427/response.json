@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0427",
+  "associations": [
+    {
+      "association_id": "association:7d54f5f3370cbeebb274",
+      "role": "primary",
+      "rationale": "The theorem directly states the displayed scalar-multiple formula for the square of the Young projector, with the factorial, subgroup-cardinality, and dimension denominator."
+    }
+  ]
+}

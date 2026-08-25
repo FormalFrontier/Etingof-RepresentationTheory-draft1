@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0495",
+  "associations": [
+    {
+      "association_id": "association:61f8b4aaa03fe3e19d3a",
+      "rationale": "The formal type obtains a subfamily on which the restricted map is bijective, an intermediate form used to construct the requested isomorphism.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6d3f056fa9eb3191aed0",
+      "rationale": "The formal type constructs a linear equivalence on a selected spanning subfamily, but it uses the ambient supremum formulation rather than the source claim's internal direct-sum hypothesis.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:059126ea812b105a1111",
+      "rationale": "The type displays the internal-direct-sum, simplicity, and surjectivity hypotheses and an agreeing existential map, but the existential map's equivalence type is elided, so it does not directly display the claimed isomorphism.",
+      "role": "supporting"
+    }
+  ]
+}

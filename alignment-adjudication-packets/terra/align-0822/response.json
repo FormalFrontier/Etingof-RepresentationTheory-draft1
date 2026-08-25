@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0822",
+  "associations": [
+    {
+      "association_id": "association:cece21020a8c82136b3e",
+      "role": "supporting",
+      "rationale": "The type directly gives the pointwise Künneth isomorphism, but contains no naturality statement, so it does not fully state the two-part source claim."
+    },
+    {
+      "association_id": "association:ec8d51d6fb5665322d07",
+      "role": "supporting",
+      "rationale": "It is an isomorphism between opaque kunnethSource and kunnethTarget wrappers, so the displayed type does not itself show the Künneth formula or its naturality."
+    }
+  ]
+}

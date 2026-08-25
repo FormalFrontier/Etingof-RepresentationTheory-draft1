@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:37e22b3e9cae1e0b64d2",
+      "declaration": "Etingof.Example4_3_Q8.chiHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/196/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(\u03b1 \u03b2 : Complex) \u2192\n  Eq.{1} (HPow.hPow.{0, 0, 0} \u03b1 2) 1 \u2192 Eq.{1} (HPow.hPow.{0, 0, 0} \u03b2 2) 1 \u2192 MonoidHom.{0, 0} (QuaternionGroup 2) Complex",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
+    },
+    {
+      "association_id": "association:6e307e51b05a364021c2",
+      "declaration": "Etingof.Example4_3_Q8.oneDimRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/196/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "MonoidHom.{0, 0} (QuaternionGroup 2) Complex \u2192 Representation.{0, 0, 0} Complex (QuaternionGroup 2) Complex",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
+    }
+  ],
+  "canonical_reference": "Chapter4/Example4.3_Q8",
+  "packet_id": "align-0300",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0300"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:592d1038bd0ed3f4d01d",
+  "source_text": "Four one-dimensional representations arise from the quotient by the center."
+}

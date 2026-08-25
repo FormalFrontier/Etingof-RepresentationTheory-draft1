@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0bdeae74d1989c320d12",
+      "declaration": "Etingof.Proposition5_3_2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/263/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type u_1) [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [inst_2 : DecidableEq.{u_1 + 1} G]\n  (V : FDRep.{0, u_1} Complex G) [CategoryTheory.Simple.{0, max 1 u_1} V] (g : G),\n  LT.lt.{0} 0 (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, u_1} V))) \u2192\n    IsIntegral.{0, 0} Int\n      (HDiv.hDiv.{0, 0, 0}\n        (HMul.hMul.{0, 0, 0} (Nat.cast.{0} (Fintype.card.{u_1} (Subtype.{u_1 + 1} fun h => IsConj.{u_1} g h)))\n          (FDRep.character.{0, u_1} V g))\n        (Nat.cast.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, u_1} V)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_3_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.3.1",
+  "packet_id": "align-0244",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0244"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:491c9e375467bd183eaa",
+  "source_text": "The proof introduces the class-sum scalars lambda_C = |C| chi(g_C) / dim(V)."
+}

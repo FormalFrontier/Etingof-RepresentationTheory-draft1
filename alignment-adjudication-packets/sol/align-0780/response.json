@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0780",
+  "associations": [
+    {
+      "association_id": "association:779ba78be641622ec117",
+      "rationale": "The formal type computes only the E6 determinant; it does not itself state the E7, E8, and positivity components of the complete source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:952962e4044c1960fde7",
+      "rationale": "The formal type computes only the E7 determinant; it does not itself state the E6, E8, and positivity components of the complete source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:74a23e62c391ccf343c1",
+      "rationale": "The formal type computes only the E8 determinant; it does not itself state the E6, E7, and positivity components of the complete source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:65be61baf6fec468ddbd",
+      "rationale": "The formal type establishes the Dynkin-diagram properties of E6, E7, and E8 but does not state their determinant computations or positivity.",
+      "role": "supporting"
+    }
+  ]
+}

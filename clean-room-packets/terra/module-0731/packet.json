@@ -1,0 +1,265 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(Q : Type u) \u2192 [Quiver.{u + 1, u} Q] \u2192 Type (u + 1)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [],
+      "structural_type_hash": "4190509841",
+      "temporary_id": "decl-005821"
+    },
+    {
+      "formal_type": "{Q : Type u} \u2192 [inst : Quiver.{u + 1, u} Q] \u2192 decl-005821.{u} Q \u2192 Q",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005821",
+      "project_type_dependencies": [
+        "decl-005821"
+      ],
+      "structural_type_hash": "3029782639",
+      "temporary_id": "decl-005822"
+    },
+    {
+      "formal_type": "\u2200 {Q : Type u} [inst : Quiver.{u + 1, u} Q] (a b : Q) (e : Quiver.Hom.{u + 1, u} a b),\n  Eq.{u + 1} (decl-005822.{u} (Sigma.mk.{u, u + 1} a (Sigma.mk.{u, u + 1} b e))) a",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005821",
+      "project_type_dependencies": [
+        "decl-005822"
+      ],
+      "structural_type_hash": "1514453456",
+      "temporary_id": "decl-005824"
+    },
+    {
+      "formal_type": "{Q : Type u} \u2192 [inst : Quiver.{u + 1, u} Q] \u2192 decl-005821.{u} Q \u2192 Q",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005821",
+      "project_type_dependencies": [
+        "decl-005821"
+      ],
+      "structural_type_hash": "3029782639",
+      "temporary_id": "decl-005825"
+    },
+    {
+      "formal_type": "\u2200 {Q : Type u} [inst : Quiver.{u + 1, u} Q] (a b : Q) (e : Quiver.Hom.{u + 1, u} a b),\n  Eq.{u + 1} (decl-005825.{u} (Sigma.mk.{u, u + 1} a (Sigma.mk.{u, u + 1} b e))) b",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005821",
+      "project_type_dependencies": [
+        "decl-005825"
+      ],
+      "structural_type_hash": "3955948584",
+      "temporary_id": "decl-005827"
+    },
+    {
+      "formal_type": "{Q : Type u} \u2192\n  [inst : Quiver.{u + 1, u} Q] \u2192 decl-005821.{u} Q \u2192 decl-014880.{u, u + 1} Q",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005821",
+      "project_type_dependencies": [
+        "decl-005821",
+        "decl-014880"
+      ],
+      "structural_type_hash": "2813805391",
+      "temporary_id": "decl-005828"
+    },
+    {
+      "formal_type": "{k Q : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Quiver.{u + 1, u} Q] \u2192\n      [inst_2 : DecidableEq.{u + 1} Q] \u2192 decl-005821.{u} Q \u2192 decl-005820.{u, u, u + 1} k Q",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005820",
+        "decl-005821"
+      ],
+      "structural_type_hash": "104172535",
+      "temporary_id": "decl-005865"
+    },
+    {
+      "formal_type": "\u2200 {k Q : Type u} [inst : Field.{u} k] [inst_1 : Quiver.{u + 1, u} Q] [inst_2 : DecidableEq.{u + 1} Q]\n  [inst_3 : Fintype.{u} Q] (s : Q \u2192 k) (x : decl-005821.{u} Q),\n  Eq.{u + 2}\n    (HMul.hMul.{u + 1, u + 1, u + 1} (decl-005865.{u} x)\n      (DFunLike.coe.{u + 2, u + 1, u + 2} (decl-006528.{u, u, u + 1} k Q) s))\n    (HSMul.hSMul.{u, u + 1, u + 1} (s (decl-005825.{u} x)) (decl-005865.{u} x))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005820",
+        "decl-005821",
+        "decl-005825",
+        "decl-005865",
+        "decl-006148",
+        "decl-006195",
+        "decl-006528"
+      ],
+      "structural_type_hash": "699100040",
+      "temporary_id": "decl-005867"
+    },
+    {
+      "formal_type": "\u2200 {k Q : Type u} [inst : Field.{u} k] [inst_1 : Quiver.{u + 1, u} Q] [inst_2 : DecidableEq.{u + 1} Q] (i : Q)\n  (x : decl-005821.{u} Q),\n  Eq.{u + 2}\n    (HMul.hMul.{u + 1, u + 1, u + 1} (decl-005865.{u} x)\n      (decl-006286.{u, u, u + 1}\n        (Sigma.mk.{u, u + 1} i (Sigma.mk.{u, u + 1} i Quiver.Path.nil.{u + 1, u}))))\n    (ite.{u + 2} (Eq.{u + 1} (decl-005825.{u} x) i) (decl-005865.{u} x) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005820",
+        "decl-005821",
+        "decl-005825",
+        "decl-005865",
+        "decl-006185",
+        "decl-006286"
+      ],
+      "structural_type_hash": "3333336077",
+      "temporary_id": "decl-005868"
+    },
+    {
+      "formal_type": "{k Q : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Quiver.{u + 1, u} Q] \u2192\n      [inst_2 : DecidableEq.{u + 1} Q] \u2192\n        LinearMap.{u, u, u + 1, u + 1} (RingHom.id.{u} k) (Finsupp.{u + 1, u} (decl-005821.{u} Q) k)\n          (decl-005820.{u, u, u + 1} k Q)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005820",
+        "decl-005821",
+        "decl-006151",
+        "decl-006185"
+      ],
+      "structural_type_hash": "3540435415",
+      "temporary_id": "decl-005869"
+    },
+    {
+      "formal_type": "\u2200 {k Q : Type u} [inst : Field.{u} k] [inst_1 : Quiver.{u + 1, u} Q] [inst_2 : DecidableEq.{u + 1} Q]\n  (x : decl-005821.{u} Q) (c : k),\n  Eq.{u + 2} (DFunLike.coe.{u + 2, u + 2, u + 2} decl-005869.{u} (Finsupp.single.{u + 1, u} x c))\n    (HSMul.hSMul.{u, u + 1, u + 1} c (decl-005865.{u} x))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005820",
+        "decl-005821",
+        "decl-005865",
+        "decl-005869",
+        "decl-006076",
+        "decl-006151",
+        "decl-006185"
+      ],
+      "structural_type_hash": "2775921566",
+      "temporary_id": "decl-005871"
+    },
+    {
+      "formal_type": "(k Q : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Quiver.{u + 1, u} Q] \u2192\n      Module.{u, u + 1} (Q \u2192 k) (Finsupp.{u + 1, u} (decl-005821.{u} Q) k)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005821"
+      ],
+      "structural_type_hash": "2390591108",
+      "temporary_id": "decl-005876"
+    },
+    {
+      "formal_type": "(k Q : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Quiver.{u + 1, u} Q] \u2192\n      Module.{u, u + 1} (Q \u2192 k) (Finsupp.{u + 1, u} (decl-005821.{u} Q) k)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005821"
+      ],
+      "structural_type_hash": "2390591108",
+      "temporary_id": "decl-005877"
+    },
+    {
+      "formal_type": "\u2200 {k Q : Type u} [inst : Field.{u} k] [inst_1 : Quiver.{u + 1, u} Q] [inst_2 : DecidableEq.{u + 1} Q]\n  (p q : decl-014880.{u, u + 1} Q),\n  Eq.{u + 2}\n    (HMul.hMul.{u + 1, u + 1, u + 1} (decl-006286.{u, u, u + 1} p)\n      (decl-006286.{u, u, u + 1} q))\n    (decl-005914.{u, u, u + 1} p q)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005820",
+        "decl-005914",
+        "decl-006185",
+        "decl-006286",
+        "decl-014880"
+      ],
+      "structural_type_hash": "73281576",
+      "temporary_id": "decl-006293"
+    },
+    {
+      "formal_type": "\u2200 {k Q : Type u} [inst : Field.{u} k] [inst_1 : Quiver.{u + 1, u} Q] [inst_2 : DecidableEq.{u + 1} Q]\n  [inst_3 : Fintype.{u} Q] (s : Q \u2192 k) (x : decl-005821.{u} Q),\n  Eq.{u + 2}\n    (HMul.hMul.{u + 1, u + 1, u + 1}\n      (DFunLike.coe.{u + 2, u + 1, u + 2} (decl-006528.{u, u, u + 1} k Q) s)\n      (decl-005865.{u} x))\n    (HSMul.hSMul.{u, u + 1, u + 1} (s (decl-005822.{u} x)) (decl-005865.{u} x))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005820",
+        "decl-005821",
+        "decl-005822",
+        "decl-005865",
+        "decl-006148",
+        "decl-006195",
+        "decl-006528"
+      ],
+      "structural_type_hash": "1222947722",
+      "temporary_id": "decl-006536"
+    },
+    {
+      "formal_type": "\u2200 {k Q : Type u} [inst : Field.{u} k] [inst_1 : Quiver.{u + 1, u} Q] [inst_2 : DecidableEq.{u + 1} Q] (i : Q)\n  (x : decl-005821.{u} Q),\n  Eq.{u + 2}\n    (HMul.hMul.{u + 1, u + 1, u + 1}\n      (decl-006286.{u, u, u + 1}\n        (Sigma.mk.{u, u + 1} i (Sigma.mk.{u, u + 1} i Quiver.Path.nil.{u + 1, u})))\n      (decl-005865.{u} x))\n    (ite.{u + 2} (Eq.{u + 1} i (decl-005822.{u} x)) (decl-005865.{u} x) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005820",
+        "decl-005821",
+        "decl-005822",
+        "decl-005865",
+        "decl-006185",
+        "decl-006286"
+      ],
+      "structural_type_hash": "4172511145",
+      "temporary_id": "decl-006537"
+    },
+    {
+      "formal_type": "(k Q : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Quiver.{u + 1, u} Q] \u2192\n      (decl-005821.{u} Q \u2192 Q) \u2192\n        Module.{u, u + 1} (Q \u2192 k) (Finsupp.{u + 1, u} (decl-005821.{u} Q) k)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005821"
+      ],
+      "structural_type_hash": "1715622652",
+      "temporary_id": "decl-006553"
+    },
+    {
+      "formal_type": "(k Q : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Quiver.{u + 1, u} Q] \u2192\n      (decl-005821.{u} Q \u2192 Q) \u2192\n        (Q \u2192 k) \u2192\n          Finsupp.{u + 1, u} (decl-005821.{u} Q) k \u2192\n            Finsupp.{u + 1, u} (decl-005821.{u} Q) k",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005821"
+      ],
+      "structural_type_hash": "4023452294",
+      "temporary_id": "decl-006560"
+    },
+    {
+      "formal_type": "\u2200 {k Q : Type u} [inst : Field.{u} k] [inst_1 : Quiver.{u + 1, u} Q] (wt : decl-005821.{u} Q \u2192 Q)\n  (s : Q \u2192 k) (v : Finsupp.{u + 1, u} (decl-005821.{u} Q) k)\n  (i : decl-005821.{u} Q),\n  Eq.{u + 1} (DFunLike.coe.{u + 2, u + 2, u + 1} (decl-006560.{u} k Q wt s v) i)\n    (HMul.hMul.{u, u, u} (s (wt i)) (DFunLike.coe.{u + 2, u + 2, u + 1} v i))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005821",
+        "decl-006560"
+      ],
+      "structural_type_hash": "3041488429",
+      "temporary_id": "decl-006568"
+    },
+    {
+      "formal_type": "\u2200 {k Q : Type u} [inst : Field.{u} k] [inst_1 : Quiver.{u + 1, u} Q] (s t : Q \u2192 k)\n  (v : Finsupp.{u + 1, u} (decl-005821.{u} Q) k),\n  Eq.{u + 2}\n    (decl-006560.{u} k Q decl-005822.{u} s\n      (decl-006560.{u} k Q decl-005825.{u} t v))\n    (decl-006560.{u} k Q decl-005825.{u} t\n      (decl-006560.{u} k Q decl-005822.{u} s v))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005821",
+        "decl-005822",
+        "decl-005825",
+        "decl-006560"
+      ],
+      "structural_type_hash": "58706407",
+      "temporary_id": "decl-006569"
+    }
+  ],
+  "module_temporary_id": "module-0731",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,40 @@
+{
+  "module_name": "Auxiliary.PartitionIndexedAlgebra",
+  "declarations": [
+    {
+      "temporary_id": "decl-018186",
+      "new_name": "partitionAuxiliaryInt",
+      "docstring": "Associates an auxiliary integer to each partition."
+    },
+    {
+      "temporary_id": "decl-022163",
+      "new_name": "monoidAlgebraCoeFun",
+      "docstring": "Provides a coercion from a monoid algebra over a semiring to functions from its indexing type to the semiring."
+    },
+    {
+      "temporary_id": "decl-023496",
+      "new_name": "auxiliaryElement",
+      "docstring": "Returns an auxiliary element indexed by a natural number."
+    },
+    {
+      "temporary_id": "decl-023525",
+      "new_name": "auxiliaryElement_commutes",
+      "docstring": "The auxiliary element commutes with every element of the indexed family."
+    },
+    {
+      "temporary_id": "decl-023527",
+      "new_name": "auxiliaryElement_mul_eq_smul_of_mem",
+      "docstring": "If an element belongs to an auxiliary collection indexed by a partition, left multiplication by the auxiliary element equals scalar multiplication by the cast of the partition’s auxiliary integer."
+    },
+    {
+      "temporary_id": "decl-023528",
+      "new_name": "auxiliaryElement_mul_eq_smul_at_partition",
+      "docstring": "On the auxiliary element indexed by the partition, left multiplication by the natural-number-indexed auxiliary element equals scalar multiplication by the cast of the partition’s auxiliary integer."
+    },
+    {
+      "temporary_id": "decl-024705",
+      "new_name": "coeff_auxiliaryPartitionElement_swap_eq_indicator_sub",
+      "docstring": "For distinct finite indices, the coefficient of an auxiliary partition-indexed element at their swap equals the first equality indicator minus the second, where the indicators compare the values of two auxiliary maps on the corresponding sorted parts."
+    }
+  ]
+}

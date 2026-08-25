@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0243",
+  "associations": [
+    {
+      "association_id": "association:ffedb5b6a180d84c1cbc",
+      "role": "supporting",
+      "rationale": "Its displayed type only introduces the quotient type and does not itself state either the relation c = 1 or equivalence with the Weyl algebra."
+    },
+    {
+      "association_id": "association:c3f42d566516d6c3118d",
+      "role": "supporting",
+      "rationale": "It gives an algebra equivalence from the opaquely named HeisenbergWeylQuot to the Weyl algebra, but the displayed type does not expose that this quotient is obtained by imposing c = 1."
+    },
+    {
+      "association_id": "association:14e5f4ce7a31d9df530d",
+      "role": "supporting",
+      "rationale": "It states that c equals one after passage to the quotient, a consequence of the imposed relation, but does not state that this quotient yields the Weyl algebra."
+    }
+  ]
+}

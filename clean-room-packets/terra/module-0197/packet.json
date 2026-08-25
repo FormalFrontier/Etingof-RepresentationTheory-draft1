@@ -1,0 +1,164 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Eq.{1} (Fintype.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x)) 60",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3916016443",
+      "temporary_id": "decl-003211"
+    },
+    {
+      "formal_type": "Eq.{1}\n  (Fintype.card.{0} (ConjClasses.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x))) 5",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1567964530",
+      "temporary_id": "decl-003212"
+    },
+    {
+      "formal_type": "Fin 5 \u2192 FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3414556298",
+      "temporary_id": "decl-003213"
+    },
+    {
+      "formal_type": "Eq.{1} (Fintype.card.{0} (QuaternionGroup 2)) 8",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2020750065",
+      "temporary_id": "decl-003214"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 5),\n  Eq.{1} (FDRep.character.{0, 0} (decl-003217 i) (decl-003059 j))\n    (decl-003006 (decl-003197 i j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003006",
+        "decl-003059",
+        "decl-003197",
+        "decl-003217"
+      ],
+      "structural_type_hash": "1784673335",
+      "temporary_id": "decl-003215"
+    },
+    {
+      "formal_type": "Eq.{1} (Fintype.card.{0} (ConjClasses.{0} (QuaternionGroup 2))) 5",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3038232048",
+      "temporary_id": "decl-003216"
+    },
+    {
+      "formal_type": "Fin 5 \u2192 FDRep.{0, 0} Complex (QuaternionGroup 2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "640007635",
+      "temporary_id": "decl-003217"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 5),\n  Ne.{1} i j \u2192\n    Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (decl-003217 i) (decl-003217 j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003217"
+      ],
+      "structural_type_hash": "2891913946",
+      "temporary_id": "decl-003218"
+    },
+    {
+      "formal_type": "\u2200 (i : Fin 5), CategoryTheory.Simple.{0, 1} (decl-003217 i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003217"
+      ],
+      "structural_type_hash": "3572537970",
+      "temporary_id": "decl-003219"
+    },
+    {
+      "formal_type": "Eq.{1} (Fintype.card.{0} (Equiv.Perm.{1} (Fin 4))) 24",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2835681986",
+      "temporary_id": "decl-003220"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 5),\n  Eq.{1} (FDRep.character.{0, 0} (decl-003223 i) (decl-003096 j))\n    (decl-003006 (decl-003198 i j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003006",
+        "decl-003096",
+        "decl-003198",
+        "decl-003223"
+      ],
+      "structural_type_hash": "4025342626",
+      "temporary_id": "decl-003221"
+    },
+    {
+      "formal_type": "Eq.{1} (Fintype.card.{0} (ConjClasses.{0} (Equiv.Perm.{1} (Fin 4)))) 5",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2408705499",
+      "temporary_id": "decl-003222"
+    },
+    {
+      "formal_type": "Fin 5 \u2192 FDRep.{0, 0} Complex (Equiv.Perm.{1} (Fin 4))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3658899464",
+      "temporary_id": "decl-003223"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 5),\n  Ne.{1} i j \u2192\n    Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (decl-003223 i) (decl-003223 j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003223"
+      ],
+      "structural_type_hash": "3606940341",
+      "temporary_id": "decl-003224"
+    },
+    {
+      "formal_type": "\u2200 (i : Fin 5), CategoryTheory.Simple.{0, 1} (decl-003223 i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003223"
+      ],
+      "structural_type_hash": "4001108038",
+      "temporary_id": "decl-003225"
+    }
+  ],
+  "module_temporary_id": "module-0197",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

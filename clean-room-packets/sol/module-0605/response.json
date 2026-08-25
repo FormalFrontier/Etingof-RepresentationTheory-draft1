@@ -1,0 +1,135 @@
+{
+  "module_name": "HomologicalComplex.TensorHomology",
+  "declarations": [
+    {
+      "temporary_id": "decl-013263",
+      "new_name": "homologyTensorToSigmaIso",
+      "docstring": "Identifies the homology of the displayed tensor complex with the corresponding graded sigma object."
+    },
+    {
+      "temporary_id": "decl-020243",
+      "new_name": "homologyComparison_eq",
+      "docstring": "Relates the displayed homology comparison isomorphism to the comparison obtained after transforming both complexes."
+    },
+    {
+      "temporary_id": "decl-020249",
+      "new_name": "transformedHomologyIso",
+      "docstring": "Provides the homology isomorphism from the displayed transformed complex to the original complex."
+    },
+    {
+      "temporary_id": "decl-020286",
+      "new_name": "homologyPi_comp_transformedHomologyIso_hom",
+      "docstring": "Computes the homology projection after the transformed-homology isomorphism."
+    },
+    {
+      "temporary_id": "decl-020287",
+      "new_name": "homologyPi_comp_transformedHomologyIso_hom_assoc",
+      "docstring": "Reassociates the projection formula for the transformed-homology isomorphism with a following morphism."
+    },
+    {
+      "temporary_id": "decl-020847",
+      "new_name": "isIso_homologyTensorMap",
+      "docstring": "Shows that the displayed map relating tensor-product homology is an isomorphism."
+    },
+    {
+      "temporary_id": "decl-020848",
+      "new_name": "isIso_transformedHomologyTensorMap",
+      "docstring": "Shows that the tensor-product homology map is invertible after transforming both input complexes."
+    },
+    {
+      "temporary_id": "decl-020849",
+      "new_name": "isIso_tensorHomologyComparison",
+      "docstring": "Establishes invertibility of the natural comparison between the two tensor-homology functors."
+    },
+    {
+      "temporary_id": "decl-020850",
+      "new_name": "isIso_tensorHomologyComparison_app",
+      "docstring": "Establishes invertibility at every pair of complexes for the tensor-homology comparison."
+    },
+    {
+      "temporary_id": "decl-020851",
+      "new_name": "isIso_map_of_homotopyEquiv",
+      "docstring": "A functor that maps homotopy-trivial endomorphisms to identities maps pairs of homotopy equivalences to isomorphisms."
+    },
+    {
+      "temporary_id": "decl-020930",
+      "new_name": "isZero_sigmaHomologyTensorFunctor_of_left_acyclic",
+      "docstring": "The sigma homology-tensor value is zero when its left complex is acyclic."
+    },
+    {
+      "temporary_id": "decl-020931",
+      "new_name": "isZero_sigmaHomologyTensorFunctor_of_right_acyclic",
+      "docstring": "The sigma homology-tensor value is zero when its right complex is acyclic."
+    },
+    {
+      "temporary_id": "decl-020932",
+      "new_name": "isZero_homologyTensorFunctor_of_acyclic",
+      "docstring": "The tensor-homology value is zero if either input complex is acyclic."
+    },
+    {
+      "temporary_id": "decl-021386",
+      "new_name": "sigmaHomologyTensorIso",
+      "docstring": "Identifies the graded sigma object of tensor products of homology with the homology of the tensor complex."
+    },
+    {
+      "temporary_id": "decl-021391",
+      "new_name": "sigmaHomologyTensorIso_hom",
+      "docstring": "Describes the forward morphism of the sigma-to-tensor-homology isomorphism."
+    },
+    {
+      "temporary_id": "decl-021399",
+      "new_name": "transformedHomologyTensorMap_eq",
+      "docstring": "Expresses the tensor-homology map on transformed complexes through the displayed componentwise comparison."
+    },
+    {
+      "temporary_id": "decl-021401",
+      "new_name": "tensorHomologyFunctorIso",
+      "docstring": "Gives an isomorphism between the two displayed functors of pairs of cochain complexes."
+    },
+    {
+      "temporary_id": "decl-021402",
+      "new_name": "tensorHomologyFunctorIso_hom",
+      "docstring": "Identifies the forward natural transformation of the tensor-homology functor isomorphism."
+    },
+    {
+      "temporary_id": "decl-021403",
+      "new_name": "tensorHomologyFunctorIso_hom_app",
+      "docstring": "Computes a component of the forward tensor-homology functor isomorphism."
+    },
+    {
+      "temporary_id": "decl-021413",
+      "new_name": "sigmaHomologyTensorFunctor_map_eq_id_of_homotopy",
+      "docstring": "Maps a pair of endomorphisms homotopic to identities to the identity under the sigma homology-tensor functor."
+    },
+    {
+      "temporary_id": "decl-021417",
+      "new_name": "Auxiliary.statement021417",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-021430",
+      "new_name": "homologyTensorFunctor_map_eq_id_of_homotopy",
+      "docstring": "Maps a pair of endomorphisms homotopic to identities to the identity under the homology-tensor functor."
+    },
+    {
+      "temporary_id": "decl-021729",
+      "new_name": "nonempty_homotopyEquiv_transformed",
+      "docstring": "Provides existence of a homotopy equivalence from the displayed transformed complex to the original complex."
+    },
+    {
+      "temporary_id": "decl-023903",
+      "new_name": "tensorHom_eq_mapBifunctorMap",
+      "docstring": "Identifies the tensor product of two complex morphisms with the associated bifunctorial map."
+    },
+    {
+      "temporary_id": "decl-023905",
+      "new_name": "homotopy_tensorHom",
+      "docstring": "Tensors homotopies between two pairs of complex morphisms."
+    },
+    {
+      "temporary_id": "decl-024097",
+      "new_name": "tensorTransformedXHomologyIso",
+      "docstring": "At each integer degree, the tensor product component of the transformed complexes is isomorphic to its homology in that degree."
+    }
+  ]
+}

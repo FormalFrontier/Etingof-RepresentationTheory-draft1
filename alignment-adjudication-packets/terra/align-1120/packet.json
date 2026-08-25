@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ce1c0cd5fd3324136600",
+      "declaration": "twistedDualModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {A : Type u_2} \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          RingEquiv.{u_2, u_2} A (MulOpposite.{u_2} A) \u2192\n            (X : Type u_3) \u2192\n              [inst_3 : AddCommGroup.{u_3} X] \u2192\n                [inst_4 : Module.{u_1, u_3} k X] \u2192\n                  [inst_5 : Module.{u_2, u_3} A X] \u2192\n                    [IsScalarTower.{u_1, u_2, u_3} k A X] \u2192 Module.{u_2, max u_3 u_1} A (Module.Dual.{u_1, u_3} k X)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    },
+    {
+      "association_id": "association:f292b0c4c3c230952688",
+      "declaration": "twistedDual_isScalarTower",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (e : RingEquiv.{u_2, u_2} A (MulOpposite.{u_2} A)) (X : Type u_3) [inst_3 : AddCommGroup.{u_3} X]\n  [inst_4 : Module.{u_1, u_3} k X] [inst_5 : Module.{u_2, u_3} A X] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A X],\n  (\u2200 (c : k) (a : A),\n      Eq.{u_2 + 1}\n        (MulOpposite.unop.{u_2} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} e (HSMul.hSMul.{u_1, u_2, u_2} c a)))\n        (HSMul.hSMul.{u_1, u_2, u_2} c (MulOpposite.unop.{u_2} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} e a)))) \u2192\n    IsScalarTower.{u_1, u_2, max u_3 u_1} k A (Module.Dual.{u_1, u_3} k X)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.3.1",
+  "packet_id": "align-1120",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1120"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e0e01dc5eacce0796553",
+  "source_text": "Using the transpose anti-automorphism, X* is again an A-representation."
+}

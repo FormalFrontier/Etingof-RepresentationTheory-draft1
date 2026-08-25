@@ -1,0 +1,105 @@
+{
+  "module_name": "Algebra.Lie.Constructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-002287",
+      "new_name": "AbelianLieAlgebra",
+      "docstring": "The type obtained from a module when equipped with the zero Lie bracket."
+    },
+    {
+      "temporary_id": "decl-002288",
+      "new_name": "bracket_eq_zero",
+      "docstring": "The bracket of any two elements of the zero-bracket Lie algebra is zero."
+    },
+    {
+      "temporary_id": "decl-002289",
+      "new_name": "instAddCommGroup",
+      "docstring": "The inherited additive commutative group structure."
+    },
+    {
+      "temporary_id": "decl-002307",
+      "new_name": "instBracket",
+      "docstring": "The zero bracket on the underlying module."
+    },
+    {
+      "temporary_id": "decl-002308",
+      "new_name": "isLieAbelian",
+      "docstring": "The zero-bracket Lie algebra is Lie-abelian."
+    },
+    {
+      "temporary_id": "decl-002309",
+      "new_name": "instLieAlgebra",
+      "docstring": "The Lie algebra structure on a module with zero bracket."
+    },
+    {
+      "temporary_id": "decl-002311",
+      "new_name": "instLieRing",
+      "docstring": "The Lie ring structure on a module with zero bracket."
+    },
+    {
+      "temporary_id": "decl-002316",
+      "new_name": "instModule",
+      "docstring": "The module structure inherited by the zero-bracket Lie algebra."
+    },
+    {
+      "temporary_id": "decl-002324",
+      "new_name": "derivationLieSubalgebra",
+      "docstring": "A Lie subalgebra of the linear endomorphisms of an algebra."
+    },
+    {
+      "temporary_id": "decl-002333",
+      "new_name": "bracket_apply",
+      "docstring": "The bracket of two derivation-subalgebra elements is the difference of their composites."
+    },
+    {
+      "temporary_id": "decl-002334",
+      "new_name": "innerDerivation",
+      "docstring": "A map from an algebra to a subalgebra of its endomorphisms."
+    },
+    {
+      "temporary_id": "decl-002339",
+      "new_name": "innerDerivation_apply",
+      "docstring": "An inner derivation evaluates to the difference of left and right products."
+    },
+    {
+      "temporary_id": "decl-002340",
+      "new_name": "leibniz",
+      "docstring": "Every element of the derivation subalgebra satisfies the product rule."
+    },
+    {
+      "temporary_id": "decl-002341",
+      "new_name": "IsDerivation",
+      "docstring": "A predicate on linear endomorphisms of an algebra."
+    },
+    {
+      "temporary_id": "decl-002342",
+      "new_name": "commutatorLieRing",
+      "docstring": "A Lie ring structure on an algebra."
+    },
+    {
+      "temporary_id": "decl-002343",
+      "new_name": "derivationLieEquiv",
+      "docstring": "A Lie equivalence from derivations to a subalgebra of endomorphisms."
+    },
+    {
+      "temporary_id": "decl-002357",
+      "new_name": "endomorphismLieAlgebra",
+      "docstring": "The Lie algebra structure on module endomorphisms."
+    },
+    {
+      "temporary_id": "decl-002360",
+      "new_name": "derivation_isDerivation",
+      "docstring": "The linear map underlying a derivation satisfies the designated predicate."
+    },
+    {
+      "temporary_id": "decl-002361",
+      "new_name": "subalgebraLieAlgebra",
+      "docstring": "The induced Lie algebra structure on the carrier of a Lie subalgebra."
+    },
+    {
+      "temporary_id": "decl-002363",
+      "new_name": "mem_derivationLieSubalgebra_iff",
+      "docstring": "Characterization of membership in the derivation subalgebra by the product rule."
+    }
+  ]
+}

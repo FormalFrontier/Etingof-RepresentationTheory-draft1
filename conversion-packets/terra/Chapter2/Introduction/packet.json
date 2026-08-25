@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Introduction",
+    "kind": "introduction",
+    "title": "Chapter 2 and Section 2.1 structural headings",
+    "node_id": "chapter-02/section-2-1",
+    "order": 8,
+    "slug": "introduction",
+    "span": {
+      "start": {
+        "page": "5",
+        "line": 1
+      },
+      "end": {
+        "page": "5",
+        "line": 4
+      }
+    },
+    "source_sha256": "a3a8d9f3a98d6660576969f81af84fcbfc12159438e449b85730cd9a1e70e8b3",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Introduction",
+    "verso_declaration": "content",
+    "verso_projection": {
+      "body_region": "none",
+      "structure_only": true,
+      "structural_headings": [
+        {
+          "node_id": "chapter-02",
+          "source": "Chapter 2: Basic notions of representation theory"
+        },
+        {
+          "node_id": "chapter-02/section-2-1",
+          "source": "2.1. What is representation theory?"
+        }
+      ]
+    }
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

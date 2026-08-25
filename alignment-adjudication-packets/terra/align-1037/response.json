@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1037",
+  "associations": [
+    {
+      "association_id": "association:9ee09a53076fe71d9efe",
+      "rationale": "This states the final uniqueness result for two indecomposable decompositions, not the proof-level construction of endomorphisms theta_s whose sum is the identity.",
+      "role": "supporting"
+    }
+  ]
+}

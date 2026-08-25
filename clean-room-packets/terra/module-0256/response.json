@@ -1,0 +1,15 @@
+{
+  "module_name": "GeneralLinear.HomogeneousPolynomialsAndAuxiliaryRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-001064",
+      "new_name": "finiteDimensional_homogeneousSubmodule",
+      "docstring": "The degree-`d` homogeneous submodule of multivariable polynomials in pairs of finite indices is finite-dimensional over the coefficient field."
+    },
+    {
+      "temporary_id": "decl-001065",
+      "new_name": "auxiliaryIndexedGeneralLinearFDRep",
+      "docstring": "Assigns an auxiliary finite-dimensional general linear group representation to a natural-number index."
+    }
+  ]
+}

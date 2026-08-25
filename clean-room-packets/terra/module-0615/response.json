@@ -1,0 +1,25 @@
+{
+  "module_name": "Mathlib.Algebra.Homology.CochainComplex.Monoidal",
+  "declarations": [
+    {
+      "temporary_id": "decl-020652",
+      "new_name": "CochainComplex.monoidalPreadditive",
+      "docstring": "Cochain complexes of modules over a field form a monoidal preadditive category."
+    },
+    {
+      "temporary_id": "decl-023869",
+      "new_name": "CochainComplex.binaryOperation",
+      "docstring": "A binary construction on cochain complexes of modules over a field."
+    },
+    {
+      "temporary_id": "decl-023876",
+      "new_name": "CochainComplex.binaryOperation_biprod_left",
+      "docstring": "The binary construction preserves a binary biproduct in its left argument."
+    },
+    {
+      "temporary_id": "decl-023887",
+      "new_name": "CochainComplex.binaryOperation_biprod_right",
+      "docstring": "The binary construction preserves a binary biproduct in its right argument."
+    }
+  ]
+}

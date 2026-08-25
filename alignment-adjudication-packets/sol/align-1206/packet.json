@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:44d9062cf48a9f1b1c6e",
+      "declaration": "Etingof.HasAbelianSeries",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/268/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(G : Type u_1) \u2192 [Group.{u_1} G] \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_4_1"
+    },
+    {
+      "association_id": "association:2280b520ae3fc39b613e",
+      "declaration": "Etingof.abelianSeries_step_normal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/268/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Nat \u2192 Subgroup.{u_1} G) (i : Nat),\n  LE.le.{u_1} (Bracket.bracket.{u_1, u_1} (H i) (H i)) (H (HAdd.hAdd.{0, 0, 0} i 1)) \u2192\n    Subgroup.Normal.{u_1} (Subgroup.comap.{u_1, u_1} (Subgroup.subtype.{u_1} (H i)) (H (HAdd.hAdd.{0, 0, 0} i 1)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_4_1"
+    },
+    {
+      "association_id": "association:f0f29bb5dd51ed03f9f2",
+      "declaration": "Etingof.abelianSeries_step_quotient_commutative_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/268/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Nat \u2192 Subgroup.{u_1} G) (i : Nat)\n  [inst_1 :\n    Subgroup.Normal.{u_1} (Subgroup.comap.{u_1, u_1} (Subgroup.subtype.{u_1} (H i)) (H (HAdd.hAdd.{0, 0, 0} i 1)))],\n  Iff\n    (IsMulCommutative.{u_1}\n      (HasQuotient.Quotient.{u_1, u_1} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (H i) x)\n        (Subgroup.comap.{u_1, u_1} (Subgroup.subtype.{u_1} (H i)) (H (HAdd.hAdd.{0, 0, 0} i 1)))))\n    (LE.le.{u_1} (Bracket.bracket.{u_1, u_1} (H i) (H i)) (H (HAdd.hAdd.{0, 0, 0} i 1)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_4_1"
+    },
+    {
+      "association_id": "association:9ce0cc86962c586eb92c",
+      "declaration": "Etingof.hasAbelianSeries_iff_isSolvable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/268/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G], Iff (Etingof.HasAbelianSeries.{u_1} G) (IsSolvable.{u_1} G)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_4_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Definition5.4.1",
+  "packet_id": "align-1206",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1206"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:fe84ada9ebc468730007",
+  "source_text": "A solvable group is one admitting a finite normal series with abelian successive quotients, equivalently one whose derived series terminates."
+}

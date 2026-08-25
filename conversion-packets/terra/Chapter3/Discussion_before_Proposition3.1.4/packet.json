@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Discussion_before_Proposition3.1.4",
+    "kind": "discussion",
+    "title": "Transition to classification of subrepresentations",
+    "node_id": "chapter-03/section-3-1",
+    "order": 129,
+    "slug": "discussion-before-proposition3-1-4",
+    "span": {
+      "start": {
+        "page": "44",
+        "line": 1
+      },
+      "end": {
+        "page": "44",
+        "line": 2
+      }
+    },
+    "source_sha256": "63df7856bf3c0f45c3aaed46cf97a8ea052a470d93eddb4f159c0697423e2864",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.DiscussionBeforeProposition314",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

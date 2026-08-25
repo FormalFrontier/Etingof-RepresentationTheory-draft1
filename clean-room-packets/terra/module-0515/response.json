@@ -1,0 +1,10 @@
+{
+  "module_name": "OneDimensionalSubmoduleComplements",
+  "declarations": [
+    {
+      "temporary_id": "decl-003707",
+      "new_name": "nontrivial_and_isCompl_eq_bot_iff_finrank_eq_one",
+      "docstring": "A finite-dimensional vector space is nontrivial and every pair of complementary submodules has one member equal to the zero submodule if and only if its dimension is one."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0975",
+  "associations": [
+    {
+      "association_id": "association:c73e85e5e1724c05dcca",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable and does not display an induction-on-dimension proof."
+    }
+  ]
+}

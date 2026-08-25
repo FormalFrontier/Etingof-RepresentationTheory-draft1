@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cfea55d7f8cd88cce81d",
+      "declaration": "Etingof.IsNegativeRoot",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/428/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 (Fin n \u2192 Int) \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Definition6_4_7"
+    },
+    {
+      "association_id": "association:16f4e194afb990179e4b",
+      "declaration": "Etingof.IsPositiveRoot",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/428/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 (Fin n \u2192 Int) \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Definition6_4_7"
+    }
+  ],
+  "canonical_reference": "Chapter6/Definition6.4.7",
+  "packet_id": "align-1149",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1149"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ebfa3b952f9f25892409",
+  "source_text": "Positive and negative roots are defined by their coordinate signs."
+}

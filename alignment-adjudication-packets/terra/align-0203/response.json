@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0203",
+  "associations": [
+    {
+      "association_id": "association:971bcf66327c370dda86",
+      "role": "primary",
+      "rationale": "The TFAE directly includes semisimplicity, the squared-dimension formula, matrix-product algebra decomposition, and semisimplicity consequences for finite modules."
+    },
+    {
+      "association_id": "association:c78029024d4c1138d945",
+      "role": "supporting",
+      "rationale": "The packet supplies no formal type for this auxiliary decomposition result."
+    }
+  ]
+}

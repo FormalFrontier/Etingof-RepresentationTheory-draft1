@@ -1,0 +1,35 @@
+{
+  "module_name": "SymmetricPower.LinearAction",
+  "declarations": [
+    {
+      "temporary_id": "decl-003419",
+      "new_name": "symmetricPower_submodule_eq_bot_or_eq_top_of_forall_linearEquiv_map_mem",
+      "docstring": "A symmetric-power submodule containing the displayed image of each of its elements under every linear equivalence is equal to bottom or top."
+    },
+    {
+      "temporary_id": "decl-021628",
+      "new_name": "finFunctionWeight",
+      "docstring": "Assigns a scalar to a value of the displayed indexed type from a function on a finite type."
+    },
+    {
+      "temporary_id": "decl-021630",
+      "new_name": "finFunctionWeight_apply_indexMap",
+      "docstring": "On the displayed value built from a finite index map, the weight is the product of the selected scalars."
+    },
+    {
+      "temporary_id": "decl-023729",
+      "new_name": "symmetricPower_map_apply_constructedElement_of_smul_basis",
+      "docstring": "If a linear map scales every basis vector by its assigned scalar, the displayed symmetric-power element is scaled by the product indexed by the given map."
+    },
+    {
+      "temporary_id": "decl-023731",
+      "new_name": "symmetricPower_submodule_bot_or_top_of_forall_linearEquiv_map_mem",
+      "docstring": "Membership preservation under all displayed maps arising from linear equivalences forces a symmetric-power submodule to be either bottom or top."
+    },
+    {
+      "temporary_id": "decl-024148",
+      "new_name": "indexMapValue_eq_of_list_perm",
+      "docstring": "The displayed values constructed from two finite index maps agree when the associated lists are permutations."
+    }
+  ]
+}

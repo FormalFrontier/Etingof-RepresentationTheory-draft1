@@ -1,0 +1,96 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 Nat \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "437031875",
+      "temporary_id": "decl-004746"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 Nat \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "437031875",
+      "temporary_id": "decl-004747"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 Nat \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "437031875",
+      "temporary_id": "decl-004748"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (d : Nat),\n  Iff (decl-004748.{u} R d) (decl-004747.{u} (MulOpposite.{u} R) d)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004747",
+        "decl-004748"
+      ],
+      "structural_type_hash": "74209340",
+      "temporary_id": "decl-019922"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 ENat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1148735836",
+      "temporary_id": "decl-020179"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 ENat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1148735836",
+      "temporary_id": "decl-021435"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 ENat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1148735836",
+      "temporary_id": "decl-022787"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R],\n  Eq.{1} (decl-022787.{u} R) (decl-021435.{u} (MulOpposite.{u} R))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021435",
+        "decl-022787"
+      ],
+      "structural_type_hash": "1568429086",
+      "temporary_id": "decl-022789"
+    }
+  ],
+  "module_temporary_id": "module-0703",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

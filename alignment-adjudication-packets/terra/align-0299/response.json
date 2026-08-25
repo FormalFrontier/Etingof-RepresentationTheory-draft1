@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0299",
+  "associations": [
+    {
+      "association_id": "association:cb089f02dd603a228f14",
+      "role": "supporting",
+      "rationale": "The formal theorem derives semisimplicity only from the explicit hypothesis that the group cardinality is a unit in the field, whereas the displayed source claim states semisimplicity without that condition. Packet-only evidence therefore does not directly state the displayed claim."
+    }
+  ]
+}

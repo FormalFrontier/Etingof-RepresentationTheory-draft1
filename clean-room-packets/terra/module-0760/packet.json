@@ -1,0 +1,42 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] (I : Ideal.{u_1} A) [inst_1 : Ideal.IsTwoSided.{u_1} I],\n  IsNilpotent.{u_1} I \u2192\n    \u2200 (e\u2081 e\u2082 : A),\n      IsIdempotentElem.{u_1} e\u2081 \u2192\n        IsIdempotentElem.{u_1} e\u2082 \u2192\n          Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Ideal.Quotient.mk.{u_1} I) e\u2081)\n              (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Ideal.Quotient.mk.{u_1} I) e\u2082) \u2192\n            Exists.{u_1 + 1} fun u =>\n              And (Membership.mem.{u_1, u_1} I (HSub.hSub.{u_1, u_1, u_1} (Units.val.{u_1} u) 1))\n                (Eq.{u_1 + 1}\n                  (HMul.hMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (Units.val.{u_1} u) e\u2081)\n                    (Units.val.{u_1} (Inv.inv.{u_1} u)))\n                  e\u2082)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2357043212",
+      "temporary_id": "decl-020499"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] (I : Ideal.{u_1} A) [inst_1 : Ideal.IsTwoSided.{u_1} I],\n  IsNilpotent.{u_1} I \u2192\n    \u2200 (ebar : HasQuotient.Quotient.{u_1, u_1} A I),\n      IsIdempotentElem.{u_1} ebar \u2192\n        Exists.{u_1 + 1} fun e =>\n          And (IsIdempotentElem.{u_1} e)\n            (Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Ideal.Quotient.mk.{u_1} I) e) ebar)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4002920909",
+      "temporary_id": "decl-020504"
+    }
+  ],
+  "module_temporary_id": "module-0760",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

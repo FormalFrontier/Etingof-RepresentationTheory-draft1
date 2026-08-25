@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0781",
+  "associations": [
+    {
+      "association_id": "association:723bf5c4e8aeef925862",
+      "role": "supporting",
+      "rationale": "The type proves a cycle Cartan determinant is zero, whereas the source claim is exclusion of cycles from positive-definite diagrams."
+    },
+    {
+      "association_id": "association:b88b0c3680f6a7bde317",
+      "role": "supporting",
+      "rationale": "The type gives an edge-count identity for an IsDynkinDiagram, not the source's cycle-exclusion statement."
+    }
+  ]
+}

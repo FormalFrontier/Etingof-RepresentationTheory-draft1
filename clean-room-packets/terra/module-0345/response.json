@@ -1,0 +1,65 @@
+{
+  "module_name": "GeneralLinearGroup.PolynomialQuotientRepresentation",
+  "declarations": [
+    {
+      "temporary_id": "decl-005327",
+      "new_name": "twistByCharacter",
+      "docstring": "Twists a monoid representation by a character with values in the units of the coefficient ring."
+    },
+    {
+      "temporary_id": "decl-005331",
+      "new_name": "twistByCharacter_apply",
+      "docstring": "In a character-twisted representation, the action is the original action scaled by the character value."
+    },
+    {
+      "temporary_id": "decl-005332",
+      "new_name": "twistByCharacter_mul",
+      "docstring": "Twisting successively by two characters agrees with twisting by their product."
+    },
+    {
+      "temporary_id": "decl-005333",
+      "new_name": "generalLinearGroupToUnits",
+      "docstring": "Provides a monoid homomorphism from a general linear group to the units of its coefficient ring."
+    },
+    {
+      "temporary_id": "decl-005335",
+      "new_name": "matrixIndexedPolynomialSubmodule",
+      "docstring": "Defines a submodule of multivariate polynomials whose variables are indexed by pairs of elements of `Fin N`."
+    },
+    {
+      "temporary_id": "decl-005339",
+      "new_name": "integerTupleSubmodule",
+      "docstring": "Associates an integer-valued tuple with a submodule for a representation of a general linear group."
+    },
+    {
+      "temporary_id": "decl-005342",
+      "new_name": "integerTupleSubmodule_not_mem_iSup_natCast_of_exists_neg",
+      "docstring": "A nonzero member attached to a tuple with a negative entry is not contained in the supremum indexed by naturally cast tuples."
+    },
+    {
+      "temporary_id": "decl-005344",
+      "new_name": "integerTupleSubmodule_naturalIndexedRepresentation",
+      "docstring": "Identifies the submodule for the natural-number-indexed representation with a coordinatewise shifted submodule for the quotient representation."
+    },
+    {
+      "temporary_id": "decl-005347",
+      "new_name": "matrixIndexedPolynomialSubmodule_stable",
+      "docstring": "The displayed general linear group action preserves the specified polynomial submodule."
+    },
+    {
+      "temporary_id": "decl-005351",
+      "new_name": "matrixPolynomialQuotientRepresentation",
+      "docstring": "Provides a representation on the quotient of a matrix-indexed polynomial space by the given submodule."
+    },
+    {
+      "temporary_id": "decl-005357",
+      "new_name": "matrixPolynomialQuotientRepresentation_apply_mk",
+      "docstring": "The quotient representation sends the class of a polynomial to the class of its image under the displayed action."
+    },
+    {
+      "temporary_id": "decl-005358",
+      "new_name": "naturalIndexedQuotientRepresentation",
+      "docstring": "Provides a natural-number-indexed family of representations on the specified polynomial quotient."
+    }
+  ]
+}

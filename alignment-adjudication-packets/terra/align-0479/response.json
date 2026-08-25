@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0479",
+  "associations": [
+    {
+      "association_id": "association:27eee85672287e53042d",
+      "role": "supporting",
+      "rationale": "For roots of unity satisfying the integrality hypothesis, the lemma gives the equal-eigenvalues-or-zero-sum step, but it does not state the subsequent passage from equal eigenvalues to scalar action."
+    },
+    {
+      "association_id": "association:feae89ef90b6cd59f72b",
+      "role": "supporting",
+      "rationale": "The theorem states the resulting zero-character-or-scalar-action disjunction, but its type does not directly state the intermediate implication from equal eigenvalues using finite-order semisimplicity."
+    }
+  ]
+}

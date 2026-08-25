@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Section6.5_heading",
+    "kind": "discussion",
+    "title": "Section 6.5 heading: Gabriel's theorem",
+    "node_id": "chapter-06/section-6-5",
+    "order": 434,
+    "slug": "section6-5-heading",
+    "span": {
+      "start": {
+        "page": "167",
+        "line": 38
+      },
+      "end": {
+        "page": "167",
+        "line": 39
+      }
+    },
+    "source_sha256": "7ba187b9a0b3bba4af0e7f7caa5294a33034237a5719785379d9e60043f0b2d2",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section65Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,269 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {A\u2081 A\u2082 : Type u} \u2192\n      [inst_1 : Ring.{u} A\u2081] \u2192\n        [inst_2 : Ring.{u} A\u2082] \u2192\n          [inst_3 : Algebra.{u, u} k A\u2081] \u2192\n            [inst_4 : Algebra.{u, u} k A\u2082] \u2192\n              {M\u2081 : ModuleCat.{u, u} A\u2081} \u2192\n                {M\u2082 : ModuleCat.{u, u} A\u2082} \u2192\n                  CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2081 \u2192\n                    CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2082 \u2192\n                      HomologicalComplex\u2082.{u, u + 1, 0, 0} (ModuleCat.{u, u} (TensorProduct.{u, u, u} k A\u2081 A\u2082))\n                        (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2564821365",
+      "temporary_id": "decl-019010"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {A\u2081 A\u2082 : Type u} [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] (X : ModuleCat.{u, u} A\u2081) (Y : ModuleCat.{u, u} A\u2082)\n  (c : k) (z : TensorProduct.{u, u, u} k (ModuleCat.carrier.{u, u} X) (ModuleCat.carrier.{u, u} Y)),\n  Eq.{u + 1}\n    (HSMul.hSMul.{u, u, u}\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (Algebra.algebraMap.{u, u} k (TensorProduct.{u, u, u} k A\u2081 A\u2082)) c) z)\n    (HSMul.hSMul.{u, u, u} c z)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019026",
+        "decl-022689"
+      ],
+      "structural_type_hash": "848540840",
+      "temporary_id": "decl-019027"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {A\u2081 A\u2082 : Type u} \u2192\n      [inst_1 : Ring.{u} A\u2081] \u2192\n        [inst_2 : Ring.{u} A\u2082] \u2192\n          [inst_3 : Algebra.{u, u} k A\u2081] \u2192\n            [inst_4 : Algebra.{u, u} k A\u2082] \u2192\n              {M\u2081 : ModuleCat.{u, u} A\u2081} \u2192\n                {M\u2082 : ModuleCat.{u, u} A\u2082} \u2192\n                  (P\u2081 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2081) \u2192\n                    (P\u2082 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2082) \u2192\n                      (n : Nat) \u2192\n                        CategoryTheory.Iso.{u, u + 1}\n                          (HomologicalComplex.X.{u, u + 1, 0}\n                            (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                              (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1}\n                                (decl-022638.{u} k A\u2081 A\u2082) (ComplexShape.down.{0} Nat))\n                              (decl-019099.{u} P\u2081 P\u2082))\n                            n)\n                          (HomologicalComplex.X.{u, u + 1, 0}\n                            (HomologicalComplex.tensorObj.{u, u + 1, 0} (decl-022710.{u} P\u2081)\n                              (decl-022717.{u} P\u2082))\n                            n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019099",
+        "decl-022638",
+        "decl-022710",
+        "decl-022717"
+      ],
+      "structural_type_hash": "364143429",
+      "temporary_id": "decl-019052"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {A\u2081 A\u2082 : Type u} \u2192\n      [inst_1 : Ring.{u} A\u2081] \u2192\n        [inst_2 : Ring.{u} A\u2082] \u2192\n          [inst_3 : Algebra.{u, u} k A\u2081] \u2192\n            [inst_4 : Algebra.{u, u} k A\u2082] \u2192\n              (X : ModuleCat.{u, u} A\u2081) \u2192\n                (Y : ModuleCat.{u, u} A\u2082) \u2192\n                  LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n                    (ModuleCat.carrier.{u, u}\n                      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022638.{u} k A\u2081 A\u2082)\n                        (decl-019150.{u} k A\u2081 A\u2082 X Y)))\n                    (TensorProduct.{u, u, u} k\n                      (ModuleCat.carrier.{u, u}\n                        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022713.{u} k A\u2081) X))\n                      (ModuleCat.carrier.{u, u}\n                        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022719.{u} k A\u2082) Y)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019150",
+        "decl-022638",
+        "decl-022713",
+        "decl-022719"
+      ],
+      "structural_type_hash": "571450540",
+      "temporary_id": "decl-019070"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {A\u2081 A\u2082 : Type u} \u2192\n      [inst_1 : Ring.{u} A\u2081] \u2192\n        [inst_2 : Ring.{u} A\u2082] \u2192\n          [inst_3 : Algebra.{u, u} k A\u2081] \u2192\n            [inst_4 : Algebra.{u, u} k A\u2082] \u2192\n              (X : ModuleCat.{u, u} A\u2081) \u2192\n                (Y : ModuleCat.{u, u} A\u2082) \u2192\n                  CategoryTheory.Iso.{u, u + 1}\n                    (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022638.{u} k A\u2081 A\u2082)\n                      (decl-019150.{u} k A\u2081 A\u2082 X Y))\n                    (CategoryTheory.MonoidalCategoryStruct.tensorObj.{u, u + 1}\n                      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022713.{u} k A\u2081) X)\n                      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022719.{u} k A\u2082) Y))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019150",
+        "decl-022638",
+        "decl-022713",
+        "decl-022719"
+      ],
+      "structural_type_hash": "4282689010",
+      "temporary_id": "decl-019076"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {A\u2081 A\u2082 : Type u} [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] (X : ModuleCat.{u, u} A\u2081) (Y : ModuleCat.{u, u} A\u2082)\n  (x : ModuleCat.carrier.{u, u} X) (y : ModuleCat.carrier.{u, u} Y),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (CategoryTheory.ConcreteCategory.hom.{u, u, u + 1, u}\n        (CategoryTheory.Iso.hom.{u, u + 1} (decl-019076.{u} X Y)))\n      (TensorProduct.tmul.{u, u, u} k x y))\n    (TensorProduct.tmul.{u, u, u} k x y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019076",
+        "decl-019150",
+        "decl-022638",
+        "decl-022689",
+        "decl-022713",
+        "decl-022719"
+      ],
+      "structural_type_hash": "1734394664",
+      "temporary_id": "decl-019077"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {A\u2081 A\u2082 : Type u} [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] {X X' : ModuleCat.{u, u} A\u2081}\n  {Y Y' : ModuleCat.{u, u} A\u2082} (f : Quiver.Hom.{u, u + 1} X X') (g : Quiver.Hom.{u, u + 1} Y Y'),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-022638.{u} k A\u2081 A\u2082)\n        (decl-019133.{u} k f g))\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-019076.{u} X' Y')))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-019076.{u} X Y))\n      (CategoryTheory.MonoidalCategoryStruct.tensorHom.{u, u + 1}\n        (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-022713.{u} k A\u2081) f)\n        (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-022719.{u} k A\u2082) g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019076",
+        "decl-019133",
+        "decl-019150",
+        "decl-022638",
+        "decl-022713",
+        "decl-022719"
+      ],
+      "structural_type_hash": "126829886",
+      "temporary_id": "decl-019078"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {A\u2081 A\u2082 : Type u} \u2192\n      [inst_1 : Ring.{u} A\u2081] \u2192\n        [inst_2 : Ring.{u} A\u2082] \u2192\n          [inst_3 : Algebra.{u, u} k A\u2081] \u2192\n            [inst_4 : Algebra.{u, u} k A\u2082] \u2192\n              {M\u2081 : ModuleCat.{u, u} A\u2081} \u2192\n                {M\u2082 : ModuleCat.{u, u} A\u2082} \u2192\n                  (P\u2081 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2081) \u2192\n                    (P\u2082 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2082) \u2192\n                      CategoryTheory.Iso.{u, u + 1}\n                        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                          (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1}\n                            (decl-022638.{u} k A\u2081 A\u2082) (ComplexShape.down.{0} Nat))\n                          (decl-019099.{u} P\u2081 P\u2082))\n                        (HomologicalComplex.tensorObj.{u, u + 1, 0} (decl-022710.{u} P\u2081)\n                          (decl-022717.{u} P\u2082))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019099",
+        "decl-022638",
+        "decl-022710",
+        "decl-022717"
+      ],
+      "structural_type_hash": "1399330087",
+      "temporary_id": "decl-019108"
+    },
+    {
+      "formal_type": "(k A\u2081 A\u2082 : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    [inst_1 : Ring.{u} A\u2081] \u2192\n      [inst_2 : Ring.{u} A\u2082] \u2192\n        [inst_3 : Algebra.{u, u} k A\u2081] \u2192\n          [inst_4 : Algebra.{u, u} k A\u2082] \u2192\n            CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} (TensorProduct.{u, u, u} k A\u2081 A\u2082))\n              (ModuleCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "582274956",
+      "temporary_id": "decl-022638"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {A\u2081 A\u2082 : Type u} [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] {M\u2081 : ModuleCat.{u, u} A\u2081} {M\u2082 : ModuleCat.{u, u} A\u2082}\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2081) (P\u2082 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2082)\n  (i\u2081 i\u2082 m : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-022638.{u} k A\u2081 A\u2082)\n        (HomologicalComplex.mapBifunctor.d\u2081.{u, u + 1, u, u + 1, u, u + 1, 0, 0, 0}\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081)\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) (decl-019126.{u} k A\u2081 A\u2082)\n          (ComplexShape.down.{0} Nat) i\u2081 i\u2082 m))\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-019052.{u} P\u2081 P\u2082 m)))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1}\n        (decl-019076.{u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081) i\u2081)\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) i\u2082)))\n      (HomologicalComplex.mapBifunctor.d\u2081.{u, u + 1, u, u + 1, u, u + 1, 0, 0, 0} (decl-022710.{u} P\u2081)\n        (decl-022717.{u} P\u2082) (CategoryTheory.MonoidalCategory.curriedTensor.{u, u + 1} (ModuleCat.{u, u} k))\n        (ComplexShape.down.{0} Nat) i\u2081 i\u2082 m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019052",
+        "decl-019076",
+        "decl-019099",
+        "decl-019126",
+        "decl-019150",
+        "decl-020657",
+        "decl-020660",
+        "decl-022638",
+        "decl-022710",
+        "decl-022713",
+        "decl-022717",
+        "decl-022719"
+      ],
+      "structural_type_hash": "3299524870",
+      "temporary_id": "decl-022639"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {A\u2081 A\u2082 : Type u} [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] {M\u2081 : ModuleCat.{u, u} A\u2081} {M\u2082 : ModuleCat.{u, u} A\u2082}\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2081) (P\u2082 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2082)\n  (i\u2081 i\u2082 m : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-022638.{u} k A\u2081 A\u2082)\n        (HomologicalComplex.mapBifunctor.d\u2082.{u, u + 1, u, u + 1, u, u + 1, 0, 0, 0}\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081)\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) (decl-019126.{u} k A\u2081 A\u2082)\n          (ComplexShape.down.{0} Nat) i\u2081 i\u2082 m))\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-019052.{u} P\u2081 P\u2082 m)))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1}\n        (decl-019076.{u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081) i\u2081)\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) i\u2082)))\n      (HomologicalComplex.mapBifunctor.d\u2082.{u, u + 1, u, u + 1, u, u + 1, 0, 0, 0} (decl-022710.{u} P\u2081)\n        (decl-022717.{u} P\u2082) (CategoryTheory.MonoidalCategory.curriedTensor.{u, u + 1} (ModuleCat.{u, u} k))\n        (ComplexShape.down.{0} Nat) i\u2081 i\u2082 m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019052",
+        "decl-019076",
+        "decl-019099",
+        "decl-019126",
+        "decl-019150",
+        "decl-020657",
+        "decl-020660",
+        "decl-022638",
+        "decl-022710",
+        "decl-022713",
+        "decl-022717",
+        "decl-022719"
+      ],
+      "structural_type_hash": "1449279953",
+      "temporary_id": "decl-022640"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {A\u2081 : Type u} \u2192\n      [inst_1 : Ring.{u} A\u2081] \u2192\n        [Algebra.{u, u} k A\u2081] \u2192\n          {M\u2081 : ModuleCat.{u, u} A\u2081} \u2192\n            CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2081 \u2192 ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "723433166",
+      "temporary_id": "decl-022710"
+    },
+    {
+      "formal_type": "(k A\u2081 : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    [inst_1 : Ring.{u} A\u2081] \u2192\n      [Algebra.{u, u} k A\u2081] \u2192 CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} A\u2081) (ModuleCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "386441199",
+      "temporary_id": "decl-022713"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {A\u2082 : Type u} \u2192\n      [inst_1 : Ring.{u} A\u2082] \u2192\n        [Algebra.{u, u} k A\u2082] \u2192\n          {M\u2082 : ModuleCat.{u, u} A\u2082} \u2192\n            CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2082 \u2192 ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "723433166",
+      "temporary_id": "decl-022717"
+    },
+    {
+      "formal_type": "(k A\u2082 : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    [inst_1 : Ring.{u} A\u2082] \u2192\n      [Algebra.{u, u} k A\u2082] \u2192 CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} A\u2082) (ModuleCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "386441199",
+      "temporary_id": "decl-022719"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {A\u2081 A\u2082 : Type u} [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] {M\u2081 : ModuleCat.{u, u} A\u2081} {M\u2082 : ModuleCat.{u, u} A\u2082}\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2081) (P\u2082 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2082)\n  (h\u2080 :\n    Eq.{1}\n      (ComplexShape.\u03c0.{0, 0, 0} (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat)\n        (Prod.mk.{0, 0} 0 0))\n      0),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-022638.{u} k A\u2081 A\u2082)\n        (HomologicalComplex.\u03b9MapBifunctor.{u, u + 1, u, u + 1, u, u + 1, 0, 0, 0}\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081)\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) (decl-019126.{u} k A\u2081 A\u2082)\n          (ComplexShape.down.{0} Nat) 0 0 0 h\u2080))\n      (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n        (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-022638.{u} k A\u2081 A\u2082)\n          (decl-019086.{u} P\u2081 P\u2082))\n        (CategoryTheory.Iso.hom.{u, u + 1} (decl-019076.{u} M\u2081 M\u2082))))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1}\n        (decl-019076.{u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081) 0)\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) 0)))\n      (CategoryTheory.MonoidalCategoryStruct.tensorHom.{u, u + 1}\n        (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-022713.{u} k A\u2081)\n          (Subtype.val.{u + 1}\n            (DFunLike.coe.{u + 1, u + 1, u + 1}\n              (ChainComplex.toSingle\u2080Equiv.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081) M\u2081)\n              (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P\u2081))))\n        (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-022719.{u} k A\u2082)\n          (Subtype.val.{u + 1}\n            (DFunLike.coe.{u + 1, u + 1, u + 1}\n              (ChainComplex.toSingle\u2080Equiv.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) M\u2082)\n              (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P\u2082))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019076",
+        "decl-019086",
+        "decl-019126",
+        "decl-019150",
+        "decl-020657",
+        "decl-020660",
+        "decl-022638",
+        "decl-022713",
+        "decl-022719"
+      ],
+      "structural_type_hash": "2579587515",
+      "temporary_id": "decl-024734"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {A\u2081 A\u2082 : Type u} [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] {M\u2081 : ModuleCat.{u, u} A\u2081} {M\u2082 : ModuleCat.{u, u} A\u2082}\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2081) (P\u2082 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2082)\n  (i\u2081 i\u2082 n : Nat)\n  (h :\n    Eq.{1}\n      (ComplexShape.\u03c0.{0, 0, 0} (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat)\n        (Prod.mk.{0, 0} i\u2081 i\u2082))\n      n),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-022638.{u} k A\u2081 A\u2082)\n        (HomologicalComplex.\u03b9MapBifunctor.{u, u + 1, u, u + 1, u, u + 1, 0, 0, 0}\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081)\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) (decl-019126.{u} k A\u2081 A\u2082)\n          (ComplexShape.down.{0} Nat) i\u2081 i\u2082 n h))\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-019052.{u} P\u2081 P\u2082 n)))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1}\n        (decl-019076.{u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081) i\u2081)\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) i\u2082)))\n      (HomologicalComplex.\u03b9MapBifunctor.{u, u + 1, u, u + 1, u, u + 1, 0, 0, 0} (decl-022710.{u} P\u2081)\n        (decl-022717.{u} P\u2082) (CategoryTheory.MonoidalCategory.curriedTensor.{u, u + 1} (ModuleCat.{u, u} k))\n        (ComplexShape.down.{0} Nat) i\u2081 i\u2082 n h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019052",
+        "decl-019076",
+        "decl-019099",
+        "decl-019126",
+        "decl-019150",
+        "decl-020657",
+        "decl-020660",
+        "decl-022638",
+        "decl-022710",
+        "decl-022713",
+        "decl-022717",
+        "decl-022719"
+      ],
+      "structural_type_hash": "896482368",
+      "temporary_id": "decl-024735"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {A\u2081 A\u2082 : Type u} [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] {M\u2081 : ModuleCat.{u, u} A\u2081} {M\u2082 : ModuleCat.{u, u} A\u2082}\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2081) (P\u2082 : CategoryTheory.ProjectiveResolution.{u, u + 1} M\u2082)\n  (i\u2081 i\u2082 n : Nat)\n  (h :\n    Eq.{1}\n      (ComplexShape.\u03c0.{0, 0, 0} (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat)\n        (Prod.mk.{0, 0} i\u2081 i\u2082))\n      n),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (HomologicalComplex.\u03b9MapBifunctor.{u, u + 1, u, u + 1, u, u + 1, 0, 0, 0} (decl-022710.{u} P\u2081)\n        (decl-022717.{u} P\u2082) (CategoryTheory.MonoidalCategory.curriedTensor.{u, u + 1} (ModuleCat.{u, u} k))\n        (ComplexShape.down.{0} Nat) i\u2081 i\u2082 n h)\n      (CategoryTheory.Iso.inv.{u, u + 1} (decl-019052.{u} P\u2081 P\u2082 n)))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.inv.{u, u + 1}\n        (decl-019076.{u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081) i\u2081)\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) i\u2082)))\n      (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-022638.{u} k A\u2081 A\u2082)\n        (HomologicalComplex.\u03b9MapBifunctor.{u, u + 1, u, u + 1, u, u + 1, 0, 0, 0}\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081)\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) (decl-019126.{u} k A\u2081 A\u2082)\n          (ComplexShape.down.{0} Nat) i\u2081 i\u2082 n h)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019052",
+        "decl-019076",
+        "decl-019099",
+        "decl-019126",
+        "decl-019150",
+        "decl-020657",
+        "decl-020660",
+        "decl-022638",
+        "decl-022710",
+        "decl-022713",
+        "decl-022717",
+        "decl-022719"
+      ],
+      "structural_type_hash": "1069655936",
+      "temporary_id": "decl-024736"
+    }
+  ],
+  "module_temporary_id": "module-0643",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

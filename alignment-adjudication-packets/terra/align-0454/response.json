@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0454",
+  "associations": [
+    {
+      "association_id": "association:0a4eab0c7305f7954238",
+      "role": "supporting",
+      "rationale": "This constructor upgrades an already supplied evaluation-compatible linear equivalence to the bimodule decomposition equivalence, so it is a construction used by the claim rather than the decomposition theorem itself."
+    },
+    {
+      "association_id": "association:92ce929c2fe231f5105d",
+      "role": "supporting",
+      "rationale": "The theorem exposes the indexed tensor-Hom evaluation formula, but the claimed equivariance for both algebra actions is hidden in the opaque BimoduleDecompositionEquiv type rather than stated by the displayed formal type."
+    },
+    {
+      "association_id": "association:6260a733b853ebb3dedd",
+      "role": "supporting",
+      "rationale": "This theorem supplies the explicit underlying linear decomposition and evaluation formula, but does not itself package equivariance for both algebra actions."
+    }
+  ]
+}

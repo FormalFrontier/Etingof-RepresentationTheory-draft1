@@ -1,0 +1,30 @@
+{
+  "module_name": "InductionCoinduction.FiniteIndex",
+  "declarations": [
+    {
+      "temporary_id": "decl-015427",
+      "new_name": "indCoindIsoOfFiniteIndex",
+      "docstring": "The isomorphism from induction to coinduction for a finite-index subgroup."
+    },
+    {
+      "temporary_id": "decl-015428",
+      "new_name": "indFunctorIsoCoindFunctorOfFiniteIndex",
+      "docstring": "The natural isomorphism between induction and coinduction functors for a finite-index subgroup."
+    },
+    {
+      "temporary_id": "decl-015429",
+      "new_name": "indFunctorIsoCoindFunctorOfFiniteIndex_app",
+      "docstring": "The component of the induction--coinduction functor isomorphism is the representation isomorphism."
+    },
+    {
+      "temporary_id": "decl-015430",
+      "new_name": "indFunctorIsoCoindFunctorOfFiniteIndex_hom_apply",
+      "docstring": "Evaluating the forward component on a regular-representation vector is a linear combination."
+    },
+    {
+      "temporary_id": "decl-015431",
+      "new_name": "indFunctorIsoCoindFunctorOfFiniteIndex_inv_apply",
+      "docstring": "The inverse component agrees with the inverse representation isomorphism after the coinduction comparison."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1e617bdf156a1d707d14",
+      "declaration": "regularDecomp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/143/claim_coverage/claims/5/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {r : Nat} \u2192\n      {d : Fin r \u2192 Nat} \u2192\n        LinearEquiv.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} (MatProd.{u_1} k d)) (MatProd.{u_1} k d)\n          (DirectSum.{0, u_1} (Fin r) fun i => Fin (d i) \u2192 Fin (d i) \u2192 k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Remark3.3.4",
+  "packet_id": "align-0088",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0088"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:1bf472bad87002ad38ce",
+  "source_text": "The regular representation decomposes as A \u2243 \u2295_i d_i V_i."
+}

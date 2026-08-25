@@ -1,0 +1,60 @@
+{
+  "module_name": "GeneralLinearRepresentation.SubrepresentationQuotient",
+  "declarations": [
+    {
+      "temporary_id": "decl-001188",
+      "new_name": "GeneralLinearRepresentation.weightPolynomial_eq_subrepresentation_add_quotient",
+      "docstring": "When the relevant weight spaces span, the ambient polynomial invariant is the sum of the invariants of a subrepresentation and its quotient."
+    },
+    {
+      "temporary_id": "decl-001203",
+      "new_name": "GeneralLinearRepresentation.quotientBySubrepresentation",
+      "docstring": "The finite-dimensional representation on the quotient by a subrepresentation."
+    },
+    {
+      "temporary_id": "decl-001206",
+      "new_name": "GeneralLinearRepresentation.iSup_weightSpaces_quotient_eq_top",
+      "docstring": "Weight spaces span the quotient representation whenever they span the original representation."
+    },
+    {
+      "temporary_id": "decl-001207",
+      "new_name": "GeneralLinearRepresentation.auxiliaryCondition_quotient",
+      "docstring": "The stated auxiliary condition on a general linear group action passes to the quotient representation."
+    },
+    {
+      "temporary_id": "decl-001208",
+      "new_name": "GeneralLinearRepresentation.quotientMap_equivariant",
+      "docstring": "The canonical quotient map intertwines the original action with the quotient representation action."
+    },
+    {
+      "temporary_id": "decl-001209",
+      "new_name": "GeneralLinearRepresentation.quotientMap_surjective",
+      "docstring": "The canonical linear map to the quotient by a subrepresentation is surjective."
+    },
+    {
+      "temporary_id": "decl-001210",
+      "new_name": "GeneralLinearRepresentation.ofSubrepresentation",
+      "docstring": "The finite-dimensional representation carried by a subrepresentation."
+    },
+    {
+      "temporary_id": "decl-001213",
+      "new_name": "GeneralLinearRepresentation.range_subtype_eq_ker_quotientMap",
+      "docstring": "The range of the subrepresentation inclusion equals the kernel of the canonical quotient map."
+    },
+    {
+      "temporary_id": "decl-001214",
+      "new_name": "GeneralLinearRepresentation.subrepresentationSubtype_equivariant",
+      "docstring": "The canonical inclusion of a subrepresentation intertwines its action with the ambient action."
+    },
+    {
+      "temporary_id": "decl-001215",
+      "new_name": "GeneralLinearRepresentation.subrepresentationSubtype_injective",
+      "docstring": "The canonical linear inclusion of a subrepresentation is injective."
+    },
+    {
+      "temporary_id": "decl-005115",
+      "new_name": "auxiliaryElidedStatement005115",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    }
+  ]
+}

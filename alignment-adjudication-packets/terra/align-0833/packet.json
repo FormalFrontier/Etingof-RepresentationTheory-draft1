@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3a8f46fcf1430f863245",
+      "declaration": "Etingof.Problem_8_2_10_i",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/545/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {V : Type v} \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          {\u03ba : Type w} \u2192\n            [LinearOrder.{w} \u03ba] \u2192\n              [Fintype.{w} \u03ba] \u2192\n                Module.Basis.{w, u, v} \u03ba k V \u2192\n                  CategoryTheory.ProjectiveResolution.{max u v, max (max u v) ((max v u) + 1)}\n                    (ModuleCat.of.{max v u, max v u} (SymmetricAlgebra.{u, v} k V) (Etingof.KoszulAugModule.{u, v} k V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10"
+    },
+    {
+      "association_id": "association:54675cd8193caef05df7",
+      "declaration": "Etingof.Problem_8_2_10_i_free",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/545/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [inst_3 : LinearOrder.{w} \u03ba] [inst_4 : Fintype.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V) (i : Nat),\n  Module.Free.{max v u, max u v} (SymmetricAlgebra.{u, v} k V)\n    (ModuleCat.carrier.{max u v, max u v}\n      (HomologicalComplex.X.{max u v, max (u + 1) (v + 1), 0}\n        (CategoryTheory.ProjectiveResolution.complex.{max u v, max (u + 1) (v + 1)}\n          (Etingof.Problem_8_2_10_i.{u, v, w} b))\n        i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.10",
+  "packet_id": "align-0833",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0833"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.10:part_i",
+  "source_text": "Part (i): construct the free Koszul resolution of k over SV."
+}

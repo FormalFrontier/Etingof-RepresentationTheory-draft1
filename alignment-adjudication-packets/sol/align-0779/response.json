@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0779",
+  "associations": [
+    {
+      "association_id": "association:e87a7a1b9e8c288bd909",
+      "rationale": "The formal type computes only the A_n determinant; it does not itself state the D_n determinant and positivity components of the complete source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b879d619104bc3bf444a",
+      "rationale": "The formal type computes only the D_n determinant; it does not itself state the A_n determinant and positivity components of the complete source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:32ea4b426128190e0ed2",
+      "rationale": "The formal type establishes that A_n is a Dynkin diagram but does not state its determinant computation or positivity.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1ad967985f3f1aa0ca22",
+      "rationale": "The formal type establishes that D_n is a Dynkin diagram but does not state its determinant computation or positivity.",
+      "role": "supporting"
+    }
+  ]
+}

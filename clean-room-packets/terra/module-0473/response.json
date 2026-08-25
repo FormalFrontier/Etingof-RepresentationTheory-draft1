@@ -1,0 +1,15 @@
+{
+  "module_name": "AuxiliaryRepresentationIsomorphisms",
+  "declarations": [
+    {
+      "temporary_id": "decl-016609",
+      "new_name": "auxiliary_theorem",
+      "docstring": "An auxiliary result whose formal statement is unavailable."
+    },
+    {
+      "temporary_id": "decl-020559",
+      "new_name": "auxiliary_nonempty_iso_of_eq",
+      "docstring": "Under the displayed equality, the two auxiliary representations are isomorphic."
+    }
+  ]
+}

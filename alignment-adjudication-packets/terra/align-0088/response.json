@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0088",
+  "associations": [
+    {
+      "association_id": "association:1e617bdf156a1d707d14",
+      "role": "supporting",
+      "rationale": "The type decomposes the regular module of the specific matrix-product algebra into function spaces; it does not identify a general A or those summands as d_i copies of V_i."
+    }
+  ]
+}

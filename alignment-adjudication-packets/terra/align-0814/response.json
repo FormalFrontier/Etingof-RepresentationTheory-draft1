@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0814",
+  "associations": [
+    {
+      "association_id": "association:770dfbe713db66ced6e6",
+      "role": "primary",
+      "rationale": "The formal type is an adjunction whose two displayed functors are the reflection functors, directly stating the requested packaged adjunction."
+    }
+  ]
+}

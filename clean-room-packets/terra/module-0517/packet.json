@@ -1,0 +1,252 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192 [Field.{u_1} k] \u2192 Type (max (max (max u_1 (u_2 + 1)) (u_3 + 1)) (u_4 + 1))",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1921239268",
+      "temporary_id": "decl-000081"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : Field.{u_1} k] \u2192 decl-000081.{u_1, u_2, u_3, u_4} k \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081"
+      ],
+      "structural_type_hash": "254702790",
+      "temporary_id": "decl-000082"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : Field.{u_1} k] \u2192 decl-000081.{u_1, u_2, u_3, u_4} k \u2192 Type u_2",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081"
+      ],
+      "structural_type_hash": "2428967308",
+      "temporary_id": "decl-000116"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : Field.{u_1} k] \u2192 decl-000081.{u_1, u_2, u_3, u_4} k \u2192 Type u_3",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081"
+      ],
+      "structural_type_hash": "1545241729",
+      "temporary_id": "decl-000117"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : Field.{u_1} k] \u2192 decl-000081.{u_1, u_2, u_3, u_4} k \u2192 Type u_4",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081"
+      ],
+      "structural_type_hash": "2584010854",
+      "temporary_id": "decl-000118"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (self : decl-000081.{u_1, u_2, u_3, u_4} k) \u2192 AddCommGroup.{u_2} (decl-000116.{u_1, u_2, u_3, u_4} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081",
+        "decl-000116"
+      ],
+      "structural_type_hash": "1541998913",
+      "temporary_id": "decl-000121"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (self : decl-000081.{u_1, u_2, u_3, u_4} k) \u2192 AddCommGroup.{u_3} (decl-000117.{u_1, u_2, u_3, u_4} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081",
+        "decl-000117"
+      ],
+      "structural_type_hash": "532431703",
+      "temporary_id": "decl-000122"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (self : decl-000081.{u_1, u_2, u_3, u_4} k) \u2192 AddCommGroup.{u_4} (decl-000118.{u_1, u_2, u_3, u_4} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081",
+        "decl-000118"
+      ],
+      "structural_type_hash": "2541111324",
+      "temporary_id": "decl-000123"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (self : decl-000081.{u_1, u_2, u_3, u_4} k) \u2192\n      LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) (decl-000116.{u_1, u_2, u_3, u_4} self)\n        (decl-000117.{u_1, u_2, u_3, u_4} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081",
+        "decl-000116",
+        "decl-000117",
+        "decl-000121",
+        "decl-000122",
+        "decl-000146",
+        "decl-000147"
+      ],
+      "structural_type_hash": "746997011",
+      "temporary_id": "decl-000135"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (self : decl-000081.{u_1, u_2, u_3, u_4} k),\n  FiniteDimensional.{u_1, u_2} k (decl-000116.{u_1, u_2, u_3, u_4} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081",
+        "decl-000116",
+        "decl-000121",
+        "decl-000146"
+      ],
+      "structural_type_hash": "708847664",
+      "temporary_id": "decl-000136"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (self : decl-000081.{u_1, u_2, u_3, u_4} k),\n  FiniteDimensional.{u_1, u_3} k (decl-000117.{u_1, u_2, u_3, u_4} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081",
+        "decl-000117",
+        "decl-000122",
+        "decl-000147"
+      ],
+      "structural_type_hash": "1585776475",
+      "temporary_id": "decl-000137"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (self : decl-000081.{u_1, u_2, u_3, u_4} k),\n  FiniteDimensional.{u_1, u_4} k (decl-000118.{u_1, u_2, u_3, u_4} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081",
+        "decl-000118",
+        "decl-000123",
+        "decl-000148"
+      ],
+      "structural_type_hash": "1746360176",
+      "temporary_id": "decl-000138"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (self : decl-000081.{u_1, u_2, u_3, u_4} k) \u2192\n      LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} k) (decl-000117.{u_1, u_2, u_3, u_4} self)\n        (decl-000118.{u_1, u_2, u_3, u_4} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081",
+        "decl-000117",
+        "decl-000118",
+        "decl-000122",
+        "decl-000123",
+        "decl-000147",
+        "decl-000148"
+      ],
+      "structural_type_hash": "1779464323",
+      "temporary_id": "decl-000139"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (self : decl-000081.{u_1, u_2, u_3, u_4} k) \u2192 Module.{u_1, u_2} k (decl-000116.{u_1, u_2, u_3, u_4} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081",
+        "decl-000116",
+        "decl-000121"
+      ],
+      "structural_type_hash": "3054101408",
+      "temporary_id": "decl-000146"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (self : decl-000081.{u_1, u_2, u_3, u_4} k) \u2192 Module.{u_1, u_3} k (decl-000117.{u_1, u_2, u_3, u_4} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081",
+        "decl-000117",
+        "decl-000122"
+      ],
+      "structural_type_hash": "3421798369",
+      "temporary_id": "decl-000147"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (self : decl-000081.{u_1, u_2, u_3, u_4} k) \u2192 Module.{u_1, u_4} k (decl-000118.{u_1, u_2, u_3, u_4} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000081",
+      "project_type_dependencies": [
+        "decl-000081",
+        "decl-000118",
+        "decl-000123"
+      ],
+      "structural_type_hash": "1500849217",
+      "temporary_id": "decl-000148"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03c1 : decl-000081.{u_1, u_2, u_3, u_4} k),\n  decl-000082.{u_1, u_2, u_3, u_4} \u03c1 \u2192\n    Or\n      (And (Eq.{1} (Module.finrank.{u_1, u_2} k (decl-000116.{u_1, u_2, u_3, u_4} \u03c1)) 1)\n        (And (Eq.{1} (Module.finrank.{u_1, u_3} k (decl-000117.{u_1, u_2, u_3, u_4} \u03c1)) 0)\n          (Eq.{1} (Module.finrank.{u_1, u_4} k (decl-000118.{u_1, u_2, u_3, u_4} \u03c1)) 0)))\n      (Or\n        (And (Eq.{1} (Module.finrank.{u_1, u_2} k (decl-000116.{u_1, u_2, u_3, u_4} \u03c1)) 0)\n          (And (Eq.{1} (Module.finrank.{u_1, u_3} k (decl-000117.{u_1, u_2, u_3, u_4} \u03c1)) 1)\n            (Eq.{1} (Module.finrank.{u_1, u_4} k (decl-000118.{u_1, u_2, u_3, u_4} \u03c1)) 0)))\n        (Or\n          (And (Eq.{1} (Module.finrank.{u_1, u_2} k (decl-000116.{u_1, u_2, u_3, u_4} \u03c1)) 0)\n            (And (Eq.{1} (Module.finrank.{u_1, u_3} k (decl-000117.{u_1, u_2, u_3, u_4} \u03c1)) 0)\n              (Eq.{1} (Module.finrank.{u_1, u_4} k (decl-000118.{u_1, u_2, u_3, u_4} \u03c1)) 1)))\n          (Or\n            (And (Eq.{1} (Module.finrank.{u_1, u_2} k (decl-000116.{u_1, u_2, u_3, u_4} \u03c1)) 1)\n              (And (Eq.{1} (Module.finrank.{u_1, u_3} k (decl-000117.{u_1, u_2, u_3, u_4} \u03c1)) 1)\n                (And (Eq.{1} (Module.finrank.{u_1, u_4} k (decl-000118.{u_1, u_2, u_3, u_4} \u03c1)) 0)\n                  (Function.Injective.{u_2 + 1, u_3 + 1}\n                    (DFunLike.coe.{max (u_3 + 1) (u_2 + 1), u_2 + 1, u_3 + 1} (decl-000135.{u_1, u_2, u_3, u_4} \u03c1))))))\n            (Or\n              (And (Eq.{1} (Module.finrank.{u_1, u_2} k (decl-000116.{u_1, u_2, u_3, u_4} \u03c1)) 0)\n                (And (Eq.{1} (Module.finrank.{u_1, u_3} k (decl-000117.{u_1, u_2, u_3, u_4} \u03c1)) 1)\n                  (And (Eq.{1} (Module.finrank.{u_1, u_4} k (decl-000118.{u_1, u_2, u_3, u_4} \u03c1)) 1)\n                    (Function.Injective.{u_3 + 1, u_4 + 1}\n                      (DFunLike.coe.{max (u_4 + 1) (u_3 + 1), u_3 + 1, u_4 + 1} (decl-000139.{u_1, u_2, u_3, u_4} \u03c1))))))\n              (And (Eq.{1} (Module.finrank.{u_1, u_2} k (decl-000116.{u_1, u_2, u_3, u_4} \u03c1)) 1)\n                (And (Eq.{1} (Module.finrank.{u_1, u_3} k (decl-000117.{u_1, u_2, u_3, u_4} \u03c1)) 1)\n                  (And (Eq.{1} (Module.finrank.{u_1, u_4} k (decl-000118.{u_1, u_2, u_3, u_4} \u03c1)) 1)\n                    (And\n                      (Function.Injective.{u_2 + 1, u_3 + 1}\n                        (DFunLike.coe.{max (u_3 + 1) (u_2 + 1), u_2 + 1, u_3 + 1} (decl-000135.{u_1, u_2, u_3, u_4} \u03c1)))\n                      (Function.Injective.{u_3 + 1, u_4 + 1}\n                        (DFunLike.coe.{max (u_4 + 1) (u_3 + 1), u_3 + 1, u_4 + 1}\n                          (decl-000139.{u_1, u_2, u_3, u_4} \u03c1)))))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000081",
+        "decl-000082",
+        "decl-000116",
+        "decl-000117",
+        "decl-000118",
+        "decl-000121",
+        "decl-000122",
+        "decl-000123",
+        "decl-000135",
+        "decl-000139",
+        "decl-000146",
+        "decl-000147",
+        "decl-000148"
+      ],
+      "structural_type_hash": "362772350",
+      "temporary_id": "decl-003720"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (V : Type u_2) [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  [FiniteDimensional.{u_1, u_2} k V], Eq.{1} (Module.finrank.{u_1, u_2} k V) 0 \u2192 \u2200 (x : V), Eq.{u_2 + 1} x 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1542836883",
+      "temporary_id": "decl-032677"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} {W : Type u_3} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W]\n  (g : LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) V W),\n  Function.Bijective.{u_2 + 1, u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} g) \u2192\n    \u2200 (p q : Submodule.{u_1, u_2} k V),\n      IsCompl.{u_2} p q \u2192\n        IsCompl.{u_3} (Submodule.map.{u_1, u_1, u_2, u_3} g p) (Submodule.map.{u_1, u_1, u_2, u_3} g q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3639728891",
+      "temporary_id": "decl-032905"
+    }
+  ],
+  "module_temporary_id": "module-0517",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

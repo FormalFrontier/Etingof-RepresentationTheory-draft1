@@ -1,0 +1,215 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3481230215",
+      "temporary_id": "decl-001304"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 Subgroup.{0} (Equiv.Perm.{1} (Fin n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3365013900",
+      "temporary_id": "decl-001310"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 Subgroup.{0} (Equiv.Perm.{1} (Fin n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3365013900",
+      "temporary_id": "decl-015532"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3481230215",
+      "temporary_id": "decl-015539"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3458402436",
+      "temporary_id": "decl-016206"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 {la : n.Partition} \u2192 decl-016206 n la \u2192 decl-017067 n la",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016206",
+      "project_type_dependencies": [
+        "decl-016206",
+        "decl-017067"
+      ],
+      "structural_type_hash": "8705217",
+      "temporary_id": "decl-016221"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3481230215",
+      "temporary_id": "decl-017048"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3458402436",
+      "temporary_id": "decl-017067"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 (la : n.Partition) \u2192 decl-016206 n la",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016206"
+      ],
+      "structural_type_hash": "3254631081",
+      "temporary_id": "decl-017721"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1} (decl-017721 n la).toYoungTableau (decl-017724 n la)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016221",
+        "decl-017067",
+        "decl-017721",
+        "decl-017724"
+      ],
+      "structural_type_hash": "3100764834",
+      "temporary_id": "decl-017723"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 (la : n.Partition) \u2192 decl-017067 n la",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017067"
+      ],
+      "structural_type_hash": "3674933227",
+      "temporary_id": "decl-017724"
+    },
+    {
+      "formal_type": "List.{0} Nat \u2192 Nat \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2605746365",
+      "temporary_id": "decl-018063"
+    },
+    {
+      "formal_type": "\u2200 (parts : List.{0} Nat) (k : Nat),\n  LT.lt.{0} k (List.sum.{0} parts) \u2192\n    LT.lt.{0} (decl-018063 parts k) (List.getD.{0} parts (decl-022870 parts k) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018063",
+        "decl-022870"
+      ],
+      "structural_type_hash": "3015175206",
+      "temporary_id": "decl-018070"
+    },
+    {
+      "formal_type": "\u2200 (parts : List.{0} Nat) (r c : Nat),\n  LT.lt.{0} c (List.getD.{0} parts r 0) \u2192\n    Exists.{1} fun k =>\n      And (LT.lt.{0} k (List.sum.{0} parts))\n        (And (Eq.{1} (decl-022870 parts k) r) (Eq.{1} (decl-018063 parts k) c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018063",
+        "decl-022870"
+      ],
+      "structural_type_hash": "2846826718",
+      "temporary_id": "decl-018914"
+    },
+    {
+      "formal_type": "List.{0} Nat \u2192 Prod.{0, 0} Nat Nat \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1871972944",
+      "temporary_id": "decl-022103"
+    },
+    {
+      "formal_type": "List.{0} Nat \u2192 Nat \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2605746365",
+      "temporary_id": "decl-022870"
+    },
+    {
+      "formal_type": "\u2200 (parts : List.{0} Nat) (k\u2081 k\u2082 : Nat),\n  LT.lt.{0} k\u2081 (List.sum.{0} parts) \u2192\n    LT.lt.{0} k\u2082 (List.sum.{0} parts) \u2192\n      Eq.{1} (decl-022870 parts k\u2081) (decl-022870 parts k\u2082) \u2192\n        Eq.{1} (decl-018063 parts k\u2081) (decl-018063 parts k\u2082) \u2192 Eq.{1} k\u2081 k\u2082",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018063",
+        "decl-022870"
+      ],
+      "structural_type_hash": "4184819780",
+      "temporary_id": "decl-022879"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3481230215",
+      "temporary_id": "decl-024561"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3481230215",
+      "temporary_id": "decl-024563"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3481230215",
+      "temporary_id": "decl-024571"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 List.{0} Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4019980490",
+      "temporary_id": "decl-025220"
+    }
+  ],
+  "module_temporary_id": "module-0282",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

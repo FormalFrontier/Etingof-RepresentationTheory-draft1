@@ -1,0 +1,50 @@
+{
+  "declarations": [
+    {
+      "docstring": "An auxiliary family assigning each partition of `n` a finite-dimensional complex representation of `Perm (Fin (n + 1))`.",
+      "new_name": "auxiliaryFDRepOfPartition",
+      "temporary_id": "decl-017129"
+    },
+    {
+      "docstring": "An auxiliary family assigning each partition of `n` a finite-dimensional complex representation of `Perm (Fin (n + 1))`.",
+      "new_name": "auxiliaryFDRepOfPartitionPrime",
+      "temporary_id": "decl-020562"
+    },
+    {
+      "docstring": "For each partition of `n`, the two auxiliary finite-dimensional complex representations of `Perm (Fin (n + 1))` have a nonempty type of isomorphisms.",
+      "new_name": "auxiliaryFDRepOfPartitionIso",
+      "temporary_id": "decl-020564"
+    },
+    {
+      "docstring": "An auxiliary family assigning each partition of `n + 1` a finite-dimensional complex representation of `Perm (Fin n)`.",
+      "new_name": "auxiliaryFDRepOfSuccessorPartition",
+      "temporary_id": "decl-022569"
+    },
+    {
+      "docstring": "An auxiliary operation sending a finite-dimensional complex representation of `Perm (Fin (n + 1))` to one of `Perm (Fin n)`.",
+      "new_name": "auxiliaryFDRepMapToPredecessor",
+      "temporary_id": "decl-022679"
+    },
+    {
+      "docstring": "An auxiliary family assigning each partition of `n + 1` a finite-dimensional complex representation of `Perm (Fin n)`.",
+      "new_name": "auxiliaryFDRepOfSuccessorPartitionPrime",
+      "temporary_id": "decl-022702"
+    },
+    {
+      "docstring": "For each partition of `n + 1`, the two auxiliary finite-dimensional complex representations of `Perm (Fin n)` have a nonempty type of isomorphisms.",
+      "new_name": "auxiliaryFDRepOfSuccessorPartitionIso",
+      "temporary_id": "decl-022704"
+    },
+    {
+      "docstring": "Every simple finite-dimensional complex representation of `Perm (Fin n)` is isomorphic to an auxiliary representation indexed by some value.",
+      "new_name": "exists_auxiliaryFDRepOfSimple",
+      "temporary_id": "decl-023214"
+    },
+    {
+      "docstring": "For each natural number `n` and partition `la` of `n`, an auxiliary linear equivalence over the identity homomorphism of an auxiliary scalar ring, from an auxiliary representation’s underlying module to the subtype defined by the displayed auxiliary membership predicate.",
+      "new_name": "auxiliaryRepresentationModuleLinearEquivSubtype",
+      "temporary_id": "decl-023305"
+    }
+  ],
+  "module_name": "Auxiliary.FDRepPartitions"
+}

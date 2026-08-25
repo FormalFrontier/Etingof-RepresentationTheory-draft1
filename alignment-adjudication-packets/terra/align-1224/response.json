@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1224",
+  "associations": [
+    {
+      "association_id": "association:609e1f32205428cf0258",
+      "rationale": "The type directly gives a linear equivalence between the stated Lie-module Hom spaces, with the second involving U tensor the dual of W.",
+      "role": "primary"
+    }
+  ]
+}

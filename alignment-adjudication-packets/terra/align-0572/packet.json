@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4985077a26c2a072cd8c",
+      "declaration": "Etingof.centralCharacter_smul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/44/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  {V : Type u_3} [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V] [inst_5 : Module.{u_2, u_3} A V]\n  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : IsAlgClosed.{u_1} k] [inst_8 : IsSimpleModule.{u_2, u_3} A V]\n  [inst_9 : FiniteDimensional.{u_1, u_3} k V]\n  (z : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Subalgebra.center.{u_1, u_2} k A) x) (v : V),\n  Eq.{u_3 + 1} (HSMul.hSMul.{u_2, u_3, u_3} (Subtype.val.{u_2 + 1} z) v)\n    (HSMul.hSMul.{u_1, u_3, u_3}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} Etingof.centralCharacter.{u_1, u_2, u_3} z) v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_16"
+    },
+    {
+      "association_id": "association:769964d6a327cd61a167",
+      "declaration": "Etingof.exists_central_scalar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/44/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  {V : Type u_3} [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V] [inst_5 : Module.{u_2, u_3} A V]\n  [IsScalarTower.{u_1, u_2, u_3} k A V] [IsAlgClosed.{u_1} k] [IsSimpleModule.{u_2, u_3} A V]\n  [FiniteDimensional.{u_1, u_3} k V]\n  (z : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Subalgebra.center.{u_1, u_2} k A) x),\n  Exists.{u_1 + 1} fun c =>\n    \u2200 (v : V), Eq.{u_3 + 1} (HSMul.hSMul.{u_2, u_3, u_3} (Subtype.val.{u_2 + 1} z) v) (HSMul.hSMul.{u_1, u_3, u_3} c v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_16"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.3.16",
+  "packet_id": "align-0572",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0572"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.3.16:claim-03",
+  "source_text": "On an irreducible finite-dimensional representation, every central element acts by a scalar."
+}

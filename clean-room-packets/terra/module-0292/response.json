@@ -1,0 +1,50 @@
+{
+  "module_name": "InductionAndCoinduction",
+  "declarations": [
+    {
+      "temporary_id": "decl-001497",
+      "new_name": "finiteIndexInduced",
+      "docstring": "The representation of a group induced from a representation of a finite-index subgroup."
+    },
+    {
+      "temporary_id": "decl-001499",
+      "new_name": "coinduced",
+      "docstring": "The coinduced representation of a group on the corresponding equivariant function space."
+    },
+    {
+      "temporary_id": "decl-001500",
+      "new_name": "coinduced_apply",
+      "docstring": "The coinduced action by a group element evaluates an equivariant function after right multiplication by that element."
+    },
+    {
+      "temporary_id": "decl-001501",
+      "new_name": "coinduced_equivariance",
+      "docstring": "A function in the coinduced space intertwines left multiplication by a subgroup element with the subgroup action."
+    },
+    {
+      "temporary_id": "decl-001502",
+      "new_name": "coinduced_mul",
+      "docstring": "The coinduced action of a product is the composite of the two coinduced actions."
+    },
+    {
+      "temporary_id": "decl-001503",
+      "new_name": "coinduced_one",
+      "docstring": "The identity element acts trivially in the coinduced representation."
+    },
+    {
+      "temporary_id": "decl-001504",
+      "new_name": "finiteIndexInducedIsoCoinduced",
+      "docstring": "For a finite-index subgroup, the induced and coinduced representations are isomorphic."
+    },
+    {
+      "temporary_id": "decl-020560",
+      "new_name": "induced",
+      "docstring": "The representation of a group induced from a representation of a subgroup."
+    },
+    {
+      "temporary_id": "decl-021573",
+      "new_name": "mem_coinducedSpace_iff",
+      "docstring": "A function belongs to the coinduced space exactly when it satisfies the subgroup equivariance relation."
+    }
+  ]
+}

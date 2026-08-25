@@ -1,0 +1,60 @@
+{
+  "module_name": "Polynomial.AdjoinRoot.Matrix",
+  "declarations": [
+    {
+      "temporary_id": "decl-014677",
+      "new_name": "Polynomial.charpoly_auxiliaryMatrix_eq_of_monic",
+      "docstring": "The characteristic polynomial of the auxiliary matrix of a monic polynomial is that polynomial."
+    },
+    {
+      "temporary_id": "decl-014678",
+      "new_name": "Polynomial.isRoot_charpoly_map_auxiliaryMatrix_of_monic",
+      "docstring": "A root of a monic polynomial remains a root of the characteristic polynomial after mapping its auxiliary matrix."
+    },
+    {
+      "temporary_id": "decl-014679",
+      "new_name": "Polynomial.auxiliaryMatrix",
+      "docstring": "An auxiliary square matrix indexed by the natural degree of a polynomial."
+    },
+    {
+      "temporary_id": "decl-014681",
+      "new_name": "Polynomial.auxiliaryMatrix_eq_leftMulMatrix",
+      "docstring": "For a monic polynomial, the auxiliary matrix is the matrix of multiplication by the distinguished root."
+    },
+    {
+      "temporary_id": "decl-014686",
+      "new_name": "AdjoinRoot.minpoly_root_eq_of_monic",
+      "docstring": "The distinguished root of a monic polynomial has the original polynomial as its minimal polynomial."
+    },
+    {
+      "temporary_id": "decl-014688",
+      "new_name": "AdjoinRoot.powerBasis_repr_root_pow",
+      "docstring": "The coordinate vector of a root power below the degree is the corresponding standard basis vector."
+    },
+    {
+      "temporary_id": "decl-014690",
+      "new_name": "AdjoinRoot.root_pow_natDegree_eq_sum",
+      "docstring": "A monic polynomial gives an expression for the degree-th power of its distinguished root using lower powers."
+    },
+    {
+      "temporary_id": "decl-014691",
+      "new_name": "Complex.isAlgebraic_iff_isRoot_rat_matrix_charpoly",
+      "docstring": "A complex number is algebraic over the rationals exactly when it is a root of a characteristic polynomial of a rational matrix."
+    },
+    {
+      "temporary_id": "decl-014693",
+      "new_name": "Complex.isRoot_rat_matrix_charpoly_of_rat_monic",
+      "docstring": "Mapping the auxiliary matrix of a monic rational polynomial to the complex numbers produces a characteristic polynomial vanishing at each complex zero of the original polynomial."
+    },
+    {
+      "temporary_id": "decl-014694",
+      "new_name": "Complex.isRoot_int_matrix_charpoly_of_int_monic",
+      "docstring": "Mapping the auxiliary matrix of a monic integer polynomial to the complex numbers produces a characteristic polynomial vanishing at each complex zero of the original polynomial."
+    },
+    {
+      "temporary_id": "decl-014695",
+      "new_name": "Complex.exists_int_monic_root_iff_exists_int_matrix_charpoly_root",
+      "docstring": "A complex number is a root of some monic integer polynomial exactly when it is a root of a characteristic polynomial from an integer matrix."
+    }
+  ]
+}

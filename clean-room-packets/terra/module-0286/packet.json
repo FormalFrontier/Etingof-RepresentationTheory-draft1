@@ -1,0 +1,92 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Nat \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3972626760",
+      "temporary_id": "decl-004708"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (n : Nat) \u2192\n      {Y : Type u_2} \u2192\n        [inst_1 : AddCommGroup.{u_2} Y] \u2192\n          [inst_2 : Module.{u_1, u_2} k Y] \u2192\n            [Module.Finite.{u_1, u_2} k Y] \u2192\n              (Matrix.GeneralLinearGroup.{0, u_1} (Fin n) k \u2192 LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} k) Y Y) \u2192\n                Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2837316648",
+      "temporary_id": "decl-005106"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (n : Nat) {Y : Type u_2} [inst_1 : AddCommGroup.{u_2} Y]\n  [inst_2 : Module.{u_1, u_2} k Y] [inst_3 : Module.Finite.{u_1, u_2} k Y]\n  {\u03c1 : Representation.{u_1, u_1, u_2} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin n) k) Y},\n  (decl-005106.{u_1, u_2} n fun g =>\n      DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g) \u2192\n    decl-005119.{u_1, u_2} n \u03c1",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005106",
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-005119"
+      ],
+      "structural_type_hash": "3970387660",
+      "temporary_id": "decl-005118"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (n : Nat) \u2192\n      {Y : Type u_2} \u2192\n        [inst_1 : AddCommGroup.{u_2} Y] \u2192\n          [inst_2 : Module.{u_1, u_2} k Y] \u2192\n            [Module.Finite.{u_1, u_2} k Y] \u2192\n              Representation.{u_1, u_1, u_2} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin n) k) Y \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2703092478",
+      "temporary_id": "decl-005119"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {n : Nat} \u2192 Matrix.GeneralLinearGroup.{0, u_1} (Fin n) k \u2192 MvPolynomial.{0, u_1} (decl-004708 n) k \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004708"
+      ],
+      "structural_type_hash": "3995034803",
+      "temporary_id": "decl-018652"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (n : Nat) {Y : Type u_2} [inst_1 : AddCommGroup.{u_2} Y]\n  [inst_2 : Module.{u_1, u_2} k Y] [inst_3 : Module.Finite.{u_1, u_2} k Y] [Nontrivial.{u_2} Y],\n  Exists.{max (u_1 + 1) (u_2 + 1)} fun \u03c1 =>\n    And (decl-005106.{u_1, u_2} n \u03c1) (Ne.{u_2 + 1} (\u03c1 1) LinearMap.id.{u_1, u_2})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106"
+      ],
+      "structural_type_hash": "3775532432",
+      "temporary_id": "decl-018757"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (n : Nat) {Y : Type u_2} [inst_1 : AddCommGroup.{u_2} Y]\n  [inst_2 : Module.{u_1, u_2} k Y] [inst_3 : Module.Finite.{u_1, u_2} k Y]\n  (\u03c1 : Representation.{u_1, u_1, u_2} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin n) k) Y),\n  Iff (decl-005119.{u_1, u_2} n \u03c1)\n    (decl-005106.{u_1, u_2} n fun g =>\n      DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-005119"
+      ],
+      "structural_type_hash": "3881846145",
+      "temporary_id": "decl-020773"
+    }
+  ],
+  "module_temporary_id": "module-0286",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

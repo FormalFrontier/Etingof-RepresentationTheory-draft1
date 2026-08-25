@@ -1,0 +1,144 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : Type u) [inst_1 : AddCommGroup.{u} M] [inst_2 : Module.{u, u} R M],\n  decl-005194.{u, u} R M \u2192 CategoryTheory.Indecomposable.{u, u + 1} (ModuleCat.of.{u, u} R M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "1202437894",
+      "temporary_id": "decl-017759"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : CategoryTheory.Preadditive.{v, u} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            {D : Type u'} \u2192\n              [inst_4 : CategoryTheory.Category.{v', u'} D] \u2192\n                [inst_5 : CategoryTheory.Preadditive.{v', u'} D] \u2192\n                  [inst_6 : CategoryTheory.Linear.{w, v', u'} k D] \u2192\n                    (E : CategoryTheory.Equivalence.{v, v', u, u'} C D) \u2192\n                      [CategoryTheory.Functor.Additive.{v, u, v', u'}\n                            (CategoryTheory.Equivalence.functor.{v, v', u, u'} E)] \u2192\n                        [CategoryTheory.Functor.Linear.{w, v, u, v', u'} k\n                              (CategoryTheory.Equivalence.functor.{v, v', u, u'} E)] \u2192\n                          (X Y : C) \u2192\n                            LinearEquiv.{w, w, v, v'} (RingHom.id.{w} k) (Quiver.Hom.{v, u} X Y)\n                              (Quiver.Hom.{v', u'}\n                                (CategoryTheory.Functor.obj.{v, v', u, u'}\n                                  (CategoryTheory.Equivalence.functor.{v, v', u, u'} E) X)\n                                (CategoryTheory.Functor.obj.{v, v', u, u'}\n                                  (CategoryTheory.Equivalence.functor.{v, v', u, u'} E) Y))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3771509180",
+      "temporary_id": "decl-018629"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C],\n  Exists.{2} fun \u03ba =>\n    Exists.{1} fun x =>\n      Exists.{u + 1} fun S =>\n        And (\u2200 (i : \u03ba), CategoryTheory.Simple.{v, u} (S i))\n          (And (\u2200 (i j : \u03ba), Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} (S i) (S j)) \u2192 Eq.{1} i j)\n            (\u2200 (X : C),\n              CategoryTheory.Simple.{v, u} X \u2192\n                Exists.{1} fun i => Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} X (S i))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "769924593",
+      "temporary_id": "decl-018872"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] [IsAlgClosed.{w} k] {C : Type u} [inst_2 : CategoryTheory.Category.{v, u} C]\n  [inst_3 : decl-005147.{u, v} C] [inst_4 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] {\u03b9 : Type v} [inst_6 : Finite.{v + 1} \u03b9]\n  [inst_7 : DecidableEq.{v + 1} \u03b9] (P : \u03b9 \u2192 C),\n  (\u2200 (i : \u03b9), CategoryTheory.Projective.{v, u} (P i)) \u2192\n    (\u2200 (i : \u03b9), CategoryTheory.Indecomposable.{v, u} (P i)) \u2192\n      (\u2200 (i j : \u03b9), Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} (P i) (P j)) \u2192 Eq.{v + 1} i j) \u2192\n        \u2200 [decl-005213.{u, v} (CategoryTheory.Limits.biproduct.{v, v, u} P)],\n          Exists.{max (u + 1) (v + 1)} fun S =>\n            And (\u2200 (i : \u03b9), CategoryTheory.Simple.{v, u} (S i))\n              (And (\u2200 (i j : \u03b9), Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} (S i) (S j)) \u2192 Eq.{v + 1} i j)\n                (And\n                  (\u2200 (X : C),\n                    CategoryTheory.Simple.{v, u} X \u2192\n                      Exists.{v + 1} fun i => Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} X (S i)))\n                  (\u2200 (i j : \u03b9),\n                    Eq.{1} (Module.finrank.{w, v} k (Quiver.Hom.{v, u} (P i) (S j))) (ite.{1} (Eq.{v + 1} i j) 1 0))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213"
+      ],
+      "structural_type_hash": "1100189291",
+      "temporary_id": "decl-018929"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : CategoryTheory.Preadditive.{v, u} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] {D : Type u'}\n  [inst_4 : CategoryTheory.Category.{v', u'} D] [inst_5 : CategoryTheory.Preadditive.{v', u'} D]\n  [inst_6 : CategoryTheory.Linear.{w, v', u'} k D] (E : CategoryTheory.Equivalence.{v, v', u, u'} C D)\n  [CategoryTheory.Functor.Additive.{v, u, v', u'} (CategoryTheory.Equivalence.functor.{v, v', u, u'} E)]\n  [CategoryTheory.Functor.Linear.{w, v, u, v', u'} k (CategoryTheory.Equivalence.functor.{v, v', u, u'} E)] (X Y : C),\n  Eq.{1} (Module.finrank.{w, v} k (Quiver.Hom.{v, u} X Y))\n    (Module.finrank.{w, v'} k\n      (Quiver.Hom.{v', u'}\n        (CategoryTheory.Functor.obj.{v, v', u, u'} (CategoryTheory.Equivalence.functor.{v, v', u, u'} E) X)\n        (CategoryTheory.Functor.obj.{v, v', u, u'} (CategoryTheory.Equivalence.functor.{v, v', u, u'} E) Y)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1251507963",
+      "temporary_id": "decl-019449"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C]\n  {D : Type u'} [inst_2 : CategoryTheory.Category.{v', u'} D] [inst_3 : decl-005147.{u', v'} D]\n  (E : CategoryTheory.Equivalence.{v, v', u, u'} C D) {X : C},\n  CategoryTheory.Indecomposable.{v, u} X \u2192\n    CategoryTheory.Indecomposable.{v', u'}\n      (CategoryTheory.Functor.obj.{v, v', u, u'} (CategoryTheory.Equivalence.functor.{v, v', u, u'} E) X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "3261632562",
+      "temporary_id": "decl-020533"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : CategoryTheory.Category.{v, u} A] [inst_1 : CategoryTheory.Preadditive.{v, u} A]\n  [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{v, u} A] {D : Type u'}\n  [inst_3 : CategoryTheory.Category.{v', u'} D] [inst_4 : CategoryTheory.Preadditive.{v', u'} D]\n  [inst_5 : CategoryTheory.Limits.HasBinaryBiproducts.{v', u'} D] (E : CategoryTheory.Equivalence.{v, v', u, u'} A D)\n  {X : A},\n  CategoryTheory.Indecomposable.{v, u} X \u2192\n    CategoryTheory.Indecomposable.{v', u'}\n      (CategoryTheory.Functor.obj.{v, v', u, u'} (CategoryTheory.Equivalence.functor.{v, v', u, u'} E) X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3874010085",
+      "temporary_id": "decl-020534"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Preadditive.{v, u} C]\n  [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{v, u} C] {D : Type u'}\n  [inst_3 : CategoryTheory.Category.{v', u'} D] [inst_4 : CategoryTheory.Preadditive.{v', u'} D]\n  [inst_5 : CategoryTheory.Limits.HasBinaryBiproducts.{v', u'} D] (F : CategoryTheory.Functor.{v, v', u, u'} C D)\n  [CategoryTheory.Functor.Full.{v, v', u, u'} F] [CategoryTheory.Functor.Faithful.{v, v', u, u'} F]\n  [inst_8 : CategoryTheory.Functor.PreservesZeroMorphisms.{v, v', u, u'} F]\n  [CategoryTheory.Limits.PreservesBinaryBiproducts.{v, v', u, u'} F] {X : C},\n  CategoryTheory.Indecomposable.{v', u'} (CategoryTheory.Functor.obj.{v, v', u, u'} F X) \u2192\n    CategoryTheory.Indecomposable.{v, u} X",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3128632445",
+      "temporary_id": "decl-020535"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C]\n  {\u03b9 : Type v} [inst_2 : Finite.{v + 1} \u03b9] (P : \u03b9 \u2192 C),\n  (\u2200 (i : \u03b9), CategoryTheory.Indecomposable.{v, u} (P i)) \u2192\n    \u2200 [decl-005213.{u, v} (CategoryTheory.Limits.biproduct.{v, v, u} P)] (R : C),\n      CategoryTheory.Projective.{v, u} R \u2192\n        CategoryTheory.Indecomposable.{v, u} R \u2192\n          Exists.{v + 1} fun i => Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} R (P i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005213"
+      ],
+      "structural_type_hash": "1027187089",
+      "temporary_id": "decl-020536"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : Type u) [inst_1 : AddCommGroup.{u} M] [inst_2 : Module.{u, u} R M],\n  CategoryTheory.Indecomposable.{u, u + 1} (ModuleCat.of.{u, u} R M) \u2192 decl-005194.{u, u} R M",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "3262556644",
+      "temporary_id": "decl-020844"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C]\n  {P P' S : C},\n  CategoryTheory.Indecomposable.{v, u} P \u2192\n    CategoryTheory.Indecomposable.{v, u} P' \u2192\n      CategoryTheory.Projective.{v, u} P \u2192\n        CategoryTheory.Projective.{v, u} P' \u2192\n          \u2200 [CategoryTheory.Simple.{v, u} S] (\u03c6 : Quiver.Hom.{v, u} P S),\n            Ne.{v + 1} \u03c6 0 \u2192\n              \u2200 (\u03c8 : Quiver.Hom.{v, u} P' S), Ne.{v + 1} \u03c8 0 \u2192 Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} P P')",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "2703717867",
+      "temporary_id": "decl-022197"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : CategoryTheory.Category.{v, u} A] [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{v, u} A]\n  {D : Type u'} [inst_2 : CategoryTheory.Category.{v', u'} D]\n  [inst_3 : CategoryTheory.Limits.HasZeroMorphisms.{v', u'} D] (E : CategoryTheory.Equivalence.{v, v', u, u'} A D)\n  (X : A) [CategoryTheory.Simple.{v, u} X],\n  CategoryTheory.Simple.{v', u'}\n    (CategoryTheory.Functor.obj.{v, v', u, u'} (CategoryTheory.Equivalence.functor.{v, v', u, u'} E) X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4186352683",
+      "temporary_id": "decl-023215"
+    }
+  ],
+  "module_temporary_id": "module-0758",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

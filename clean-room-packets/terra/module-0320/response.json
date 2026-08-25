@@ -1,0 +1,40 @@
+{
+  "module_name": "FiniteDimensional.Equivalences",
+  "declarations": [
+    {
+      "temporary_id": "decl-003886",
+      "new_name": "exists_iso_to_representation_of_finrank_eq_one",
+      "docstring": "A finite-dimensional representation of rank one is isomorphic to a representation of the displayed form."
+    },
+    {
+      "temporary_id": "decl-003887",
+      "new_name": "filter_univ_finrank_eq_of_forall_eq",
+      "docstring": "Pointwise equality of finite dimensions gives equal index filters at every dimension."
+    },
+    {
+      "temporary_id": "decl-003889",
+      "new_name": "finrank_map_group_equiv",
+      "docstring": "The functor induced by a group equivalence preserves the finite dimension of a representation."
+    },
+    {
+      "temporary_id": "decl-003947",
+      "new_name": "fdRepEquivalenceOfMulEquiv",
+      "docstring": "Builds an equivalence of finite-dimensional complex representation categories from a group equivalence."
+    },
+    {
+      "temporary_id": "decl-003951",
+      "new_name": "simple_map_of_equivalence",
+      "docstring": "An equivalence functor sends a simple object to a simple object."
+    },
+    {
+      "temporary_id": "decl-003953",
+      "new_name": "simple_of_map",
+      "docstring": "A full faithful functor preserving monomorphisms reflects simplicity of an object."
+    },
+    {
+      "temporary_id": "decl-003954",
+      "new_name": "exists_simple_representatives_preserving_finrank",
+      "docstring": "A complete pairwise distinct family of simple representations transfers across a group equivalence while preserving dimensions."
+    }
+  ]
+}

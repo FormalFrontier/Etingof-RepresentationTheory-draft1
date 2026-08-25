@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:506de0625c957748097d",
+      "declaration": "Etingof.Problem953.blockEquivalence",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/568/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    [inst_1 : Small.{v, u} R] \u2192\n      (k : Type u_1) \u2192\n        [inst_2 : Field.{u_1} k] \u2192\n          [inst_3 : Algebra.{u_1, u} k R] \u2192\n            [inst_4 : FiniteDimensional.{u_1, u} k R] \u2192\n              {S : ModuleCat.{v, u} R} \u2192\n                (hS : IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S)) \u2192\n                  CategoryTheory.Equivalence.{v, v, max (v + 1) u, max u (v + 1)}\n                    (ModuleCat.{v, u}\n                      (Etingof.Problem953.CornerAlgebra.{u} R\n                        (Etingof.Problem953.blockCentralIdempotent.{v, u, u_1} R k hS)))\n                    (Etingof.Problem953.BlockCat.{v, u} R S)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_BlockCategory"
+    },
+    {
+      "association_id": "association:36c406dffa570233d1f6",
+      "declaration": "Etingof.Problem953.blockEquivalenceFin",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/568/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    [inst_1 : Small.{v, u} R] \u2192\n      (k : Type u_1) \u2192\n        [inst_2 : Field.{u_1} k] \u2192\n          [inst_3 : Algebra.{u_1, u} k R] \u2192\n            [inst_4 : FiniteDimensional.{u_1, u} k R] \u2192\n              {S : ModuleCat.{v, u} R} \u2192\n                (hS : IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S)) \u2192\n                  CategoryTheory.Equivalence.{v, v, max u (v + 1), max u (v + 1)}\n                    (CategoryTheory.ObjectProperty.FullSubcategory.{v, max u (v + 1)} fun N =>\n                      IsFiniteLength.{u, v}\n                        (Etingof.Problem953.CornerAlgebra.{u} R\n                          (Etingof.Problem953.blockCentralIdempotent.{v, u, u_1} R k hS))\n                        (ModuleCat.carrier.{v, u} N))\n                    (CategoryTheory.ObjectProperty.FullSubcategory.{v, max u (v + 1)} fun M =>\n                      And (Etingof.InBlock.{v, u} R S M) (IsFiniteLength.{u, v} R (ModuleCat.carrier.{v, u} M)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_BlockCategory"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.5.3",
+  "packet_id": "align-0874",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0874"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.5.3:part_i_category",
+  "source_text": "Part (i): identify each block with finite-dimensional modules over the corresponding corner algebra."
+}

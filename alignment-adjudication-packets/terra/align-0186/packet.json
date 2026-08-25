@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:93233830db8f2936f812",
+      "declaration": "Nat.Partition.Dominates.lexLe",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/316/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {la mu : n.Partition}, la.Dominates mu \u2192 mu.LexLe la",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    },
+    {
+      "association_id": "association:a7202efef3d06f808b96",
+      "declaration": "Nat.Partition.LexLt.not_dominates",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/316/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {la mu : n.Partition}, mu.LexLt la \u2192 Not (mu.Dominates la)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_lexicographic_ordering",
+  "packet_id": "align-0186",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0186"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3907db857f3f6917e832",
+  "source_text": "Dominance implies the corresponding lexicographic inequality, so a strict reverse lexicographic inequality rules out dominance."
+}

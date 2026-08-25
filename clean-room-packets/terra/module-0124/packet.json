@@ -1,0 +1,128 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] [Nontrivial.{u_1} k] [NoZeroDivisors.{u_1} k]\n  {a b : decl-016893.{u_1} k},\n  Ne.{u_1 + 1} a 0 \u2192 Ne.{u_1 + 1} b 0 \u2192 Ne.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} a b) 0",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "1613120628",
+      "temporary_id": "decl-016907"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    [Nontrivial.{u_1} k] \u2192 Module.Basis.{0, u_1, u_1} (Lex.{0} (Prod.{0, 0} Nat Nat)) k (decl-016893.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "4233346388",
+      "temporary_id": "decl-016908"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] [inst_1 : Nontrivial.{u_1} k] (p : Lex.{0} (Prod.{0, 0} Nat Nat)),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (decl-016908.{u_1} k) p)\n    (decl-016902.{u_1} k (Prod.fst.{0, 0} (DFunLike.coe.{1, 1, 1} ofLex.{0} p))\n      (Prod.snd.{0, 0} (DFunLike.coe.{1, 1, 1} ofLex.{0} p)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016902",
+        "decl-016908",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "3842298196",
+      "temporary_id": "decl-016913"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    [Nontrivial.{u_1} k] \u2192\n      Lex.{0} (Prod.{0, 0} Nat Nat) \u2192\n        LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k) (decl-016893.{u_1} k) k",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "2345022831",
+      "temporary_id": "decl-016914"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] [inst_1 : Nontrivial.{u_1} k] (p q : Lex.{0} (Prod.{0, 0} Nat Nat)),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-016914.{u_1} k p)\n      (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (decl-016908.{u_1} k) q))\n    (ite.{u_1 + 1} (Eq.{1} q p) 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016908",
+        "decl-016914",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "962387321",
+      "temporary_id": "decl-016918"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] [inst_1 : Nontrivial.{u_1} k] {a b : decl-016893.{u_1} k}\n  {p q : Lex.{0} (Prod.{0, 0} Nat Nat)},\n  Membership.mem.{u_1, u_1} (decl-016921.{u_1} k p) a \u2192\n    Membership.mem.{u_1, u_1} (decl-016921.{u_1} k q) b \u2192\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-016914.{u_1} k (HAdd.hAdd.{0, 0, 0} p q))\n          (HMul.hMul.{u_1, u_1, u_1} a b))\n        (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-016914.{u_1} k p) a)\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-016914.{u_1} k q) b))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016914",
+        "decl-016921",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "4026829626",
+      "temporary_id": "decl-016920"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    [Nontrivial.{u_1} k] \u2192 Lex.{0} (Prod.{0, 0} Nat Nat) \u2192 Submodule.{u_1, u_1} k (decl-016893.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "112794362",
+      "temporary_id": "decl-016921"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] [Nontrivial.{u_1} k] [NoZeroDivisors.{u_1} k],\n  NoZeroDivisors.{u_1} (decl-016893.{u_1} k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "3828817550",
+      "temporary_id": "decl-020653"
+    }
+  ],
+  "module_temporary_id": "module-0124",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

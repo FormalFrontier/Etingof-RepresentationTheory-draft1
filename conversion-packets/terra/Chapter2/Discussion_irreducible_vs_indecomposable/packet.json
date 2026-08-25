@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_irreducible_vs_indecomposable",
+    "kind": "discussion",
+    "title": "Irreducible implies indecomposable; main problems of representation theory",
+    "node_id": "chapter-02/section-2-3",
+    "order": 33,
+    "slug": "discussion-irreducible-vs-indecomposable",
+    "span": {
+      "start": {
+        "page": "11",
+        "line": 12
+      },
+      "end": {
+        "page": "11",
+        "line": 15
+      }
+    },
+    "source_sha256": "8b0e0ef06e5d9962a0e67aa72f18fdc07f978137455a42d09e4d07a4775e6a26",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionIrreducibleVsIndecomposable",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

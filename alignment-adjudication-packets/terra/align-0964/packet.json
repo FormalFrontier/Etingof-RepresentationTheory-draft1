@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:145a2168d139a17bc894",
+      "declaration": "Etingof.self_dual_iff_char_real",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/199/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Finite.{1} G] (V : FDRep.{0, 0} Complex G),\n  Iff (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (FDRep.of.{0, 0} (Representation.dual.{0, 0, 0} (FDRep.\u03c1.{0, 0} V))) V))\n    (\u2200 (g : G),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex) (FDRep.character.{0, 0} V g))\n        (FDRep.character.{0, 0} V g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Discussion_4_4"
+    }
+  ],
+  "canonical_reference": "Chapter4/Discussion_4.4",
+  "packet_id": "align-0964",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0964"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b365e2a1eca9072a7f96",
+  "source_text": "V is self-dual iff its character is real-valued."
+}

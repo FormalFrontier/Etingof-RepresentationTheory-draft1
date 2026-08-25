@@ -1,0 +1,45 @@
+{
+  "declarations": [
+    {
+      "docstring": "Data in a category equipped with zero morphisms, indexed by two objects.",
+      "new_name": "ZeroMorphismsData",
+      "temporary_id": "decl-004114"
+    },
+    {
+      "docstring": "An isomorphism from the first endpoint of the associated short complex to `X`.",
+      "new_name": "leftIso",
+      "temporary_id": "decl-004119"
+    },
+    {
+      "docstring": "An isomorphism from the third endpoint of the associated short complex to `Z`.",
+      "new_name": "rightIso",
+      "temporary_id": "decl-004130"
+    },
+    {
+      "docstring": "Converts this data to auxiliary categorical data.",
+      "new_name": "toData",
+      "temporary_id": "decl-004131"
+    },
+    {
+      "docstring": "A second conversion of this data to auxiliary categorical data.",
+      "new_name": "toData'",
+      "temporary_id": "decl-004132"
+    },
+    {
+      "docstring": "Auxiliary data in a category equipped with zero morphisms.",
+      "new_name": "Data",
+      "temporary_id": "decl-015608"
+    },
+    {
+      "docstring": "Converts auxiliary categorical data to zero-morphism data indexed by the endpoints of a short complex.",
+      "new_name": "toZeroMorphismsData",
+      "temporary_id": "decl-015609"
+    },
+    {
+      "docstring": "A short complex in an abelian category is short exact exactly when its first map is mono, its second map is epi, and the induced cokernel morphism is an isomorphism.",
+      "new_name": "shortExact_iff_mono_epi_isIso_cokernelDesc",
+      "temporary_id": "decl-023126"
+    }
+  ],
+  "module_name": "CategoryTheory.ShortComplex.Auxiliary"
+}

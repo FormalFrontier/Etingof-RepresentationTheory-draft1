@@ -1,0 +1,110 @@
+{
+  "module_name": "SymmetricGroup.PartitionAuxiliaryConstructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-001304",
+      "new_name": "auxiliaryPartitionGroupAlgebraElementA",
+      "docstring": "An auxiliary element of the complex group algebra of permutations of a finite type, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-001310",
+      "new_name": "auxiliaryPartitionPermutationSubgroupA",
+      "docstring": "An auxiliary subgroup of the permutations of a finite type, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-015532",
+      "new_name": "auxiliaryPartitionPermutationSubgroupB",
+      "docstring": "A second auxiliary subgroup of the permutations of a finite type, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-015539",
+      "new_name": "auxiliaryPartitionGroupAlgebraElementB",
+      "docstring": "A second auxiliary element of the complex group algebra of permutations, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-016206",
+      "new_name": "AuxiliaryPartitionSource",
+      "docstring": "An auxiliary type indexed by a natural number and a partition of it."
+    },
+    {
+      "temporary_id": "decl-016221",
+      "new_name": "toAuxiliaryPartitionTarget",
+      "docstring": "Maps an auxiliary source object to the auxiliary target type at the same partition."
+    },
+    {
+      "temporary_id": "decl-017048",
+      "new_name": "auxiliaryPartitionGroupAlgebraElementC",
+      "docstring": "An auxiliary element of the complex permutation group algebra, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-017067",
+      "new_name": "AuxiliaryPartitionTarget",
+      "docstring": "A second auxiliary type indexed by a natural number and a partition of it."
+    },
+    {
+      "temporary_id": "decl-017721",
+      "new_name": "chosenAuxiliaryPartitionSource",
+      "docstring": "Selects an object of the auxiliary source type for each partition."
+    },
+    {
+      "temporary_id": "decl-017723",
+      "new_name": "chosenAuxiliaryPartitionObjects_compatible",
+      "docstring": "The displayed conversion sends the selected auxiliary source object to the selected auxiliary target object."
+    },
+    {
+      "temporary_id": "decl-017724",
+      "new_name": "chosenAuxiliaryPartitionTarget",
+      "docstring": "Selects an object of the auxiliary target type for each partition."
+    },
+    {
+      "temporary_id": "decl-018063",
+      "new_name": "flatIndexColumn",
+      "docstring": "Returns the column coordinate of a natural index relative to a list of row lengths."
+    },
+    {
+      "temporary_id": "decl-018070",
+      "new_name": "flatIndexColumn_lt_rowLength",
+      "docstring": "For an index below the sum of the row lengths, its column coordinate is below the length of its row."
+    },
+    {
+      "temporary_id": "decl-018914",
+      "new_name": "exists_flatIndex_of_column_lt_rowLength",
+      "docstring": "Every column below a specified row length is represented by an index below the sum whose row and column coordinates are the specified values."
+    },
+    {
+      "temporary_id": "decl-022103",
+      "new_name": "auxiliaryListPairIndex",
+      "docstring": "An auxiliary operation assigning a natural number to a list of naturals and a pair of naturals."
+    },
+    {
+      "temporary_id": "decl-022870",
+      "new_name": "flatIndexRow",
+      "docstring": "Returns the row coordinate of a natural index relative to a list of row lengths."
+    },
+    {
+      "temporary_id": "decl-022879",
+      "new_name": "eq_of_flatIndexRow_eq_and_column_eq",
+      "docstring": "Two indices below the sum of the row lengths are equal when both their row and column coordinates agree."
+    },
+    {
+      "temporary_id": "decl-024561",
+      "new_name": "auxiliaryPartitionGroupAlgebraElementD",
+      "docstring": "An auxiliary complex permutation group algebra element indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-024563",
+      "new_name": "auxiliaryPartitionGroupAlgebraElementE",
+      "docstring": "An additional auxiliary complex permutation group algebra element indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-024571",
+      "new_name": "auxiliaryPartitionGroupAlgebraElementF",
+      "docstring": "Another auxiliary complex permutation group algebra element indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-025220",
+      "new_name": "auxiliaryPartitionNatList",
+      "docstring": "Associates an auxiliary list of natural numbers with a partition."
+    }
+  ]
+}

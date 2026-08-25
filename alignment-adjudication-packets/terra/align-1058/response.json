@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1058",
+  "associations": [
+    {
+      "association_id": "association:3ecfa87217faa288d743",
+      "rationale": "It establishes the division-ring clause, one component of the combined matrix-entry and Schur-lemma claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:970f65214891ca60a263",
+      "rationale": "It establishes the matrix-entry identification, one component of the combined claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:dc5bb65a829ba09ae029",
+      "rationale": "This is the pointwise evaluation formula for the matrix equivalence, a helper characterization rather than the claim that the entries form the endomorphism division ring.",
+      "role": "supporting"
+    }
+  ]
+}

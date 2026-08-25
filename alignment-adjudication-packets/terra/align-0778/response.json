@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0778",
+  "associations": [
+    {
+      "association_id": "association:e1548e6f80f244f5ac7b",
+      "role": "supporting",
+      "rationale": "The displayed type only exposes a matrix-to-matrix construction and does not state the adjacency-matrix or A = 2I - R setup."
+    }
+  ]
+}

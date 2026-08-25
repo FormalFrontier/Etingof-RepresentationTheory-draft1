@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:aa959c4a1b6d9380b774",
+      "declaration": "Etingof.Discussion2_9.bracket_self",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/76/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {L : Type u_2} [inst : LieRing.{u_2} L] (x : L), Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} x x) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_9_heading"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.9_heading",
+  "packet_id": "align-0486",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0486"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:98b9346facf60699f404",
+  "source_text": "The bracket is alternating: [a,a] = 0."
+}

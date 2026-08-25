@@ -1,0 +1,90 @@
+{
+  "module_name": "AuxiliaryCharacter",
+  "declarations": [
+    {
+      "temporary_id": "decl-019427",
+      "new_name": "finrank_eq_of_auxiliaryPolynomial_eq",
+      "docstring": "Equal auxiliary polynomials give equal dimensions when both displayed weight families are exhaustive."
+    },
+    {
+      "temporary_id": "decl-019429",
+      "new_name": "auxiliaryElidedStatement019429",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-019525",
+      "new_name": "auxiliaryPolynomial_directSum",
+      "docstring": "The auxiliary polynomial of a finite direct sum is the sum of the individual polynomials."
+    },
+    {
+      "temporary_id": "decl-019529",
+      "new_name": "auxiliaryPolynomial_eq_of_linearEquiv",
+      "docstring": "An intertwining linear equivalence preserves the auxiliary polynomial."
+    },
+    {
+      "temporary_id": "decl-019533",
+      "new_name": "auxiliaryRepresentation_polynomial_eq_sum_X_pow",
+      "docstring": "The polynomial attached to the auxiliary representation is a power of the sum of the variables."
+    },
+    {
+      "temporary_id": "decl-019534",
+      "new_name": "auxiliaryElidedStatement019534",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-019540",
+      "new_name": "auxiliaryPolynomial_eq_product_X_mul_of_weightSpaceShift",
+      "docstring": "The stated shift and boundary conditions multiply the auxiliary polynomial by the product of all variables."
+    },
+    {
+      "temporary_id": "decl-019542",
+      "new_name": "exists_auxiliaryPolynomialDecomposition",
+      "docstring": "Provides a finite auxiliary decomposition whose weighted polynomial sum has the specified value."
+    },
+    {
+      "temporary_id": "decl-019543",
+      "new_name": "auxiliaryPolynomial_trivialTensor",
+      "docstring": "Tensoring with a trivial finite module scales the auxiliary polynomial by its dimension."
+    },
+    {
+      "temporary_id": "decl-019835",
+      "new_name": "exists_auxiliaryRepresentationDecomposition",
+      "docstring": "Provides a finite auxiliary decomposition together with an equivariant linear equivalence."
+    },
+    {
+      "temporary_id": "decl-019836",
+      "new_name": "auxiliaryRepresentation_iSupWeightSpace_eq_top",
+      "docstring": "The auxiliary weight spaces of the displayed representation jointly span the whole module."
+    },
+    {
+      "temporary_id": "decl-019852",
+      "new_name": "directSumAuxiliaryWeightSpaceEquiv",
+      "docstring": "Constructs the linear equivalence from a direct sum of auxiliary weight spaces to the corresponding combined space."
+    },
+    {
+      "temporary_id": "decl-019864",
+      "new_name": "iSupIndep_auxiliaryWeightSpace",
+      "docstring": "The family of auxiliary weight spaces is independent under suprema."
+    },
+    {
+      "temporary_id": "decl-023045",
+      "new_name": "antitone_eq_of_auxiliaryPolynomial_eq",
+      "docstring": "Two antitone functions coincide when their associated auxiliary polynomials agree."
+    },
+    {
+      "temporary_id": "decl-023047",
+      "new_name": "auxiliaryPolynomial_isHomogeneous",
+      "docstring": "The auxiliary polynomial is homogeneous in the total degree of its index function."
+    },
+    {
+      "temporary_id": "decl-023049",
+      "new_name": "auxiliaryPolynomial_linearIndependent",
+      "docstring": "The indexed family of auxiliary polynomials is linearly independent over the rationals."
+    },
+    {
+      "temporary_id": "decl-024509",
+      "new_name": "auxiliaryWeight_degree_eq_of_polynomial_eq",
+      "docstring": "Every nonzero auxiliary weight space has the total degree forced by the equal auxiliary polynomial."
+    }
+  ]
+}

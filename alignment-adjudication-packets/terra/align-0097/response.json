@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0097",
+  "associations": [
+    {
+      "association_id": "association:89d6c01107f84349fa62",
+      "role": "primary",
+      "rationale": "This adjunction directly expresses Frobenius reciprocity between induction and restriction."
+    },
+    {
+      "association_id": "association:c4127c9fd1ffed45a8a7",
+      "role": "primary",
+      "rationale": "This finite-index subgroup adjunction gives the converse restriction-induction form of Frobenius reciprocity."
+    }
+  ]
+}

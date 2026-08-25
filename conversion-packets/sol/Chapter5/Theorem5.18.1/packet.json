@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.18.1",
+    "kind": "theorem",
+    "title": "Double Centralizer Theorem",
+    "node_id": "chapter-05/section-5-18",
+    "order": 347,
+    "slug": "theorem5-18-1",
+    "span": {
+      "start": {
+        "page": "122",
+        "line": 21
+      },
+      "end": {
+        "page": "123",
+        "line": 2
+      }
+    },
+    "source_sha256": "7dc01059f55af4a396b10266efb89ab621e1da8fb3205133eabc01848b82f558",
+    "features": {
+      "line_count": 17,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5181",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

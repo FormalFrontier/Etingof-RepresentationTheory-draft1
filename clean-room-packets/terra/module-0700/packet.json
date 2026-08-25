@@ -1,0 +1,135 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(R : Type u_1) \u2192\n  [inst : Ring.{u_1} R] \u2192\n    (M : Type u_2) \u2192 [inst_1 : AddCommGroup.{u_2} M] \u2192 [Module.{u_1, u_2} R M] \u2192 Type (max (max u_1 u_2) (u_3 + 1))",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1647090386",
+      "temporary_id": "decl-014560"
+    },
+    {
+      "formal_type": "{R : Type u_1} \u2192\n  [inst : Ring.{u_1} R] \u2192\n    {M : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} M] \u2192\n        [inst_2 : Module.{u_1, u_2} R M] \u2192 decl-014560.{u_1, u_2, u_3} R M \u2192 Type u_3",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014560",
+      "project_type_dependencies": [
+        "decl-014560"
+      ],
+      "structural_type_hash": "324828815",
+      "temporary_id": "decl-014561"
+    },
+    {
+      "formal_type": "{R : Type u_1} \u2192\n  [inst : Ring.{u_1} R] \u2192\n    {M : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} M] \u2192\n        [inst_2 : Module.{u_1, u_2} R M] \u2192\n          (self : decl-014560.{u_1, u_2, u_3} R M) \u2192\n            AddCommGroup.{u_3} (decl-014561.{u_1, u_2, u_3} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014560",
+      "project_type_dependencies": [
+        "decl-014560",
+        "decl-014561"
+      ],
+      "structural_type_hash": "3539923144",
+      "temporary_id": "decl-014564"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {M : Type u_2} [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} R M]\n  (self : decl-014560.{u_1, u_2, u_3} R M),\n  decl-005194.{u_1, u_3} R (decl-014561.{u_1, u_2, u_3} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-014560",
+      "project_type_dependencies": [
+        "decl-005194",
+        "decl-014560",
+        "decl-014561",
+        "decl-014564",
+        "decl-014574"
+      ],
+      "structural_type_hash": "2932029529",
+      "temporary_id": "decl-014567"
+    },
+    {
+      "formal_type": "{R : Type u_1} \u2192\n  [inst : Ring.{u_1} R] \u2192\n    {M : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} M] \u2192\n        [inst_2 : Module.{u_1, u_2} R M] \u2192\n          (self : decl-014560.{u_1, u_2, u_3} R M) \u2192\n            Module.{u_1, u_3} R (decl-014561.{u_1, u_2, u_3} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014560",
+      "project_type_dependencies": [
+        "decl-014560",
+        "decl-014561",
+        "decl-014564"
+      ],
+      "structural_type_hash": "1913778910",
+      "temporary_id": "decl-014574"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {M : Type u_2} [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} R M]\n  (self : decl-014560.{u_1, u_2, u_3} R M),\n  Module.Projective.{u_1, u_3} R (decl-014561.{u_1, u_2, u_3} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-014560",
+      "project_type_dependencies": [
+        "decl-014560",
+        "decl-014561",
+        "decl-014564",
+        "decl-014574"
+      ],
+      "structural_type_hash": "2263221120",
+      "temporary_id": "decl-014577"
+    },
+    {
+      "formal_type": "{R : Type u_1} \u2192\n  [inst : Ring.{u_1} R] \u2192\n    {M : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} M] \u2192\n        [inst_2 : Module.{u_1, u_2} R M] \u2192\n          (self : decl-014560.{u_1, u_2, u_3} R M) \u2192\n            LinearMap.{u_1, u_1, u_3, u_2} (RingHom.id.{u_1} R) (decl-014561.{u_1, u_2, u_3} self) M",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014560",
+      "project_type_dependencies": [
+        "decl-014560",
+        "decl-014561",
+        "decl-014564",
+        "decl-014574"
+      ],
+      "structural_type_hash": "1596874823",
+      "temporary_id": "decl-014580"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {M : Type u_2} [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} R M]\n  (self : decl-014560.{u_1, u_2, u_3} R M)\n  (N : Submodule.{u_1, u_3} R (decl-014561.{u_1, u_2, u_3} self)),\n  Eq.{u_3 + 1}\n      (Max.max.{u_3} N (LinearMap.ker.{u_1, u_1, u_3, u_2} (decl-014580.{u_1, u_2, u_3} self)))\n      Top.top.{u_3} \u2192\n    Eq.{u_3 + 1} N Top.top.{u_3}",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-014560",
+      "project_type_dependencies": [
+        "decl-014560",
+        "decl-014561",
+        "decl-014564",
+        "decl-014574",
+        "decl-014580"
+      ],
+      "structural_type_hash": "4091649643",
+      "temporary_id": "decl-014581"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {M : Type u_2} [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} R M]\n  (self : decl-014560.{u_1, u_2, u_3} R M),\n  Function.Surjective.{u_3 + 1, u_2 + 1}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_3 + 1, u_2 + 1} (decl-014580.{u_1, u_2, u_3} self))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-014560",
+      "project_type_dependencies": [
+        "decl-014560",
+        "decl-014561",
+        "decl-014564",
+        "decl-014574",
+        "decl-014580"
+      ],
+      "structural_type_hash": "958546855",
+      "temporary_id": "decl-014582"
+    }
+  ],
+  "module_temporary_id": "module-0700",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

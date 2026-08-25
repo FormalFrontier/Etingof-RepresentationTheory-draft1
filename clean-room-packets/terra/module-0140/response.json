@@ -1,0 +1,20 @@
+{
+  "module_name": "Module.SubmoduleQuotientAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-017944",
+      "new_name": "auxiliaryFunction_eq_submodule_add_quotient",
+      "docstring": "The auxiliary function for a finite-dimensional module is the sum of those for an invariant submodule and the corresponding quotient."
+    },
+    {
+      "temporary_id": "decl-020610",
+      "new_name": "quotient_moduleFinite",
+      "docstring": "The quotient by an invariant submodule of a finite-dimensional module is finite over the base field."
+    },
+    {
+      "temporary_id": "decl-020611",
+      "new_name": "submodule_moduleFinite",
+      "docstring": "An invariant submodule of a finite-dimensional module is finite over the base field."
+    }
+  ]
+}

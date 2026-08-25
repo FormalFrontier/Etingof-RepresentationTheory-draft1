@@ -1,0 +1,155 @@
+{
+  "declarations": [
+    {
+      "docstring": "Embeds complex scalars as real-linear endomorphisms lying in the centralizer of a complex representation.",
+      "new_name": "Representation.complexScalarAlgHomRealCentralizer",
+      "temporary_id": "decl-018135"
+    },
+    {
+      "docstring": "The real-centralizer endomorphism associated with a complex scalar acts on a vector by scalar multiplication.",
+      "new_name": "Representation.complexScalarAlgHomRealCentralizer_apply",
+      "temporary_id": "decl-018139"
+    },
+    {
+      "docstring": "When the acting group is finite and the representation space has finite complex dimension, a complex number maps into the centralizer as its real part times the identity plus its imaginary part times the centralizer complex structure.",
+      "new_name": "Representation.complexScalarAlgHomRealCentralizer_eq_re_smul_one_add_im_smul_complexStructure",
+      "temporary_id": "decl-018140"
+    },
+    {
+      "docstring": "The complex-scalar homomorphism into the real endomorphism centralizer is injective when the representation space is nontrivial.",
+      "new_name": "Representation.complexScalarAlgHomRealCentralizer_injective",
+      "temporary_id": "decl-018141"
+    },
+    {
+      "docstring": "For a finite-dimensional simple complex representation of a finite group, a nondegenerate invariant bilinear form satisfying `B w v = s • B v w` yields an equivariant map `j` and a real scalar `lam` such that `j (j v) = (lam : Complex) • v` and `0 < s * lam`.",
+      "new_name": "Representation.exists_equivariantMap_sq_of_invariant_bilinearForm_swap",
+      "temporary_id": "decl-018758"
+    },
+    {
+      "docstring": "Every finite-dimensional complex representation of a finite group admits an invariant form whose diagonal has positive real part on nonzero vectors and whose transposed values are complex conjugates.",
+      "new_name": "Representation.exists_invariant_positive_conjSymmForm",
+      "temporary_id": "decl-018867"
+    },
+    {
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable.",
+      "new_name": "Auxiliary.statement018896",
+      "temporary_id": "decl-018896"
+    },
+    {
+      "docstring": "A finite-dimensional simple complex representation satisfying the stated auxiliary condition has a real-centralizer element whose square is one and which anticommutes with the centralizer complex structure.",
+      "new_name": "Representation.exists_realCentralizer_involution_anticommutes_complexStructure",
+      "temporary_id": "decl-018897"
+    },
+    {
+      "docstring": "Under the stated auxiliary condition, a finite-dimensional simple complex representation has an invariant real submodule whose complex span is all of the space and whose real finrank equals the complex finrank of the space.",
+      "new_name": "Representation.exists_invariantRealSubmodule_of_auxiliaryCondition",
+      "temporary_id": "decl-018923"
+    },
+    {
+      "docstring": "Flips a map that is complex-linear in its first argument and conjugate-linear in its second into a conjugate-linear map from the space to its complex dual.",
+      "new_name": "LinearMap.flipToConjLinearDual",
+      "temporary_id": "decl-019928"
+    },
+    {
+      "docstring": "Evaluating the flipped conjugate-linear dual map at `w` and then `v` gives the original form evaluated at `v` and then `w`.",
+      "new_name": "LinearMap.flipToConjLinearDual_apply",
+      "temporary_id": "decl-019938"
+    },
+    {
+      "docstring": "If the form is invariant under a finite-group representation, its flipped conjugate-linear dual map intertwines that representation with the dual representation.",
+      "new_name": "LinearMap.flipToConjLinearDual_intertwines",
+      "temporary_id": "decl-019939"
+    },
+    {
+      "docstring": "If the real part of the form on every nonzero diagonal input is positive, the flipped conjugate-linear dual map is injective.",
+      "new_name": "LinearMap.flipToConjLinearDual_injective",
+      "temporary_id": "decl-019940"
+    },
+    {
+      "docstring": "For a finite-dimensional simple complex representation of a finite group, the stated auxiliary condition is equivalent to the existence of an invariant real submodule whose complex span is the whole space and whose real finrank is the complex finrank of the space.",
+      "new_name": "Representation.auxiliaryCondition_iff_exists_invariantRealSubmodule",
+      "temporary_id": "decl-020873"
+    },
+    {
+      "docstring": "For a finite-dimensional simple complex representation of a finite group, an invariant real submodule with full complex span and real finrank equal to the ambient complex finrank implies the stated auxiliary condition.",
+      "new_name": "Representation.auxiliaryCondition_of_exists_invariantRealSubmodule",
+      "temporary_id": "decl-020876"
+    },
+    {
+      "docstring": "An auxiliary definition whose displayed formal type is unavailable.",
+      "new_name": "Auxiliary.definition021558",
+      "temporary_id": "decl-021558"
+    },
+    {
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable.",
+      "new_name": "Auxiliary.statement021564",
+      "temporary_id": "decl-021564"
+    },
+    {
+      "docstring": "The real subalgebra of real-linear endomorphisms that centralize a complex representation.",
+      "new_name": "Representation.realEndomorphismCentralizer",
+      "temporary_id": "decl-022299"
+    },
+    {
+      "docstring": "For a finite-dimensional simple complex representation satisfying the stated auxiliary condition, its real endomorphism centralizer admits a real-algebra equivalence with the complex numbers.",
+      "new_name": "Representation.nonempty_realEndomorphismCentralizer_algEquiv_complex",
+      "temporary_id": "decl-022304"
+    },
+    {
+      "docstring": "For a finite-dimensional simple complex representation satisfying the stated auxiliary condition, its real endomorphism centralizer admits a real-algebra equivalence with matrices indexed by `Fin 2` over the reals.",
+      "new_name": "Representation.nonempty_realEndomorphismCentralizer_algEquiv_matrixFinTwo",
+      "temporary_id": "decl-022305"
+    },
+    {
+      "docstring": "For a finite-dimensional simple complex representation satisfying the stated auxiliary condition, its real endomorphism centralizer admits a real-algebra equivalence with the real quaternions.",
+      "new_name": "Representation.nonempty_realEndomorphismCentralizer_algEquiv_quaternion",
+      "temporary_id": "decl-022306"
+    },
+    {
+      "docstring": "Every member of the real endomorphism centralizer commutes pointwise with the action of each group element.",
+      "new_name": "Representation.realEndomorphismCentralizer_apply_comm",
+      "temporary_id": "decl-022307"
+    },
+    {
+      "docstring": "The element of the real endomorphism centralizer that realizes the complex structure of the representation space.",
+      "new_name": "Representation.realCentralizerComplexStructure",
+      "temporary_id": "decl-022308"
+    },
+    {
+      "docstring": "The complex-structure element multiplied by the anticommuting component of a centralizer element is the negative of the product in the opposite order.",
+      "new_name": "Representation.realCentralizerComplexStructure_mul_anticommutingComponent",
+      "temporary_id": "decl-022310"
+    },
+    {
+      "docstring": "The complex-structure element commutes with the commuting component of every real-centralizer element.",
+      "new_name": "Representation.realCentralizerComplexStructure_mul_commutingComponent",
+      "temporary_id": "decl-022311"
+    },
+    {
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable.",
+      "new_name": "Auxiliary.statement022312",
+      "temporary_id": "decl-022312"
+    },
+    {
+      "docstring": "Extracts from a real-centralizer element the component that anticommutes with the centralizer complex structure.",
+      "new_name": "Representation.realCentralizerAnticommutingComponent",
+      "temporary_id": "decl-022313"
+    },
+    {
+      "docstring": "Extracts from a real-centralizer element the component that commutes with the centralizer complex structure.",
+      "new_name": "Representation.realCentralizerCommutingComponent",
+      "temporary_id": "decl-022315"
+    },
+    {
+      "docstring": "The sum of the commuting and anticommuting components of a real-centralizer element is the original element.",
+      "new_name": "Representation.realCentralizerCommutingComponent_add_anticommutingComponent",
+      "temporary_id": "decl-022319"
+    },
+    {
+      "docstring": "For a finite-dimensional simple complex representation of a finite group, the commuting component of every real-centralizer element is the image of some complex scalar.",
+      "new_name": "Representation.realCentralizerCommutingComponent_eq_complexScalar_of_isSimpleModule",
+      "temporary_id": "decl-022321"
+    }
+  ],
+  "module_name": "Complex.RealEndomorphismCentralizer"
+}

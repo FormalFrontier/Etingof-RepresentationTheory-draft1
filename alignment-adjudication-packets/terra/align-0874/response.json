@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:506de0625c957748097d",
+      "rationale": "This is an unrestricted module-category equivalence, while the source specifically identifies the finite-dimensional block category.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:36c406dffa570233d1f6",
+      "rationale": "The type gives an equivalence of finite-length subcategories, but it does not directly display the finite-dimensional module categories specified by the source claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0874"
+}

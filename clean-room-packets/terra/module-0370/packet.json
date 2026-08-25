@@ -1,0 +1,74 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type) \u2192 [Field.{0} k] \u2192 Nat \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2038582257",
+      "temporary_id": "decl-006687"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N : Nat) [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (n : Nat)\n  (M : FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)),\n  decl-005106.{0, 0} N (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} M)) \u2192\n    Eq.{1} (iSup.{0, 1} fun \u03bc => decl-019844.{0} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i) Top.top.{0} \u2192\n      (\u2200 (\u03bc : Fin N \u2192 Nat),\n          Ne.{1} (decl-019844.{0} k N M \u03bc) Bot.bot.{0} \u2192\n            Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun i => \u03bc i) n) \u2192\n        Exists.{2} fun \u03b9 =>\n          Exists.{1} fun x =>\n            Exists.{1} fun x =>\n              Exists.{2} fun S =>\n                Exists.{1} fun x =>\n                  Exists.{1} fun x_1 =>\n                    Exists.{0} fun x_2 =>\n                      Exists.{2} fun L =>\n                        Exists.{0} fun x_3 =>\n                          Exists.{0} fun x_4 =>\n                            Exists.{0} fun x_5 =>\n                              Exists.{1} fun e =>\n                                Exists.{0} fun x =>\n                                  Exists.{1} fun p =>\n                                    Exists.{1} fun f =>\n                                      Nonempty.{1}\n                                        (LinearEquiv.{0, 0, 0, 0}\n                                          (RingHom.id.{0} (decl-006687 k N))\n                                          (Representation.asModule.{0, 0, 0} (FDRep.\u03c1.{0, 0} M))\n                                          (DirectSum.{0, 0} (Fin p) fun j =>\n                                            Representation.asModule.{0, 0, 0} (FDRep.\u03c1.{0, 0} (L (f j)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-006687",
+        "decl-016473",
+        "decl-019829",
+        "decl-019844"
+      ],
+      "structural_type_hash": "4230393601",
+      "temporary_id": "decl-006688"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N : Nat) [IsAlgClosed.{0} k] [CharZero.{0} k] (n : Nat),\n  Exists.{2} fun \u03b9 =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{2} fun S =>\n          Exists.{1} fun x =>\n            Exists.{1} fun x_1 =>\n              Exists.{0} fun x_2 =>\n                Exists.{2} fun L =>\n                  Exists.{0} fun x_3 =>\n                    Exists.{0} fun x_4 =>\n                      Exists.{0} fun x_5 =>\n                        Exists.{1} fun e =>\n                          \u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)\n                            (v : decl-016473.{0, 0} k (Fin N \u2192 k) n),\n                            Eq.{1}\n                              (DFunLike.coe.{1, 1, 1} e\n                                (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-019829.{0} k N n) g) v))\n                              (DFunLike.coe.{1, 1, 1}\n                                (DFunLike.coe.{1, 1, 1}\n                                  (Representation.directSum.{0, 0, 0, 0} fun i =>\n                                    Representation.tprod.{0, 0, 0, 0}\n                                      (Representation.trivial.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)\n                                        (S i))\n                                      (FDRep.\u03c1.{0, 0} (L i)))\n                                  g)\n                                (DFunLike.coe.{1, 1, 1} e v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006687",
+        "decl-016473",
+        "decl-019829"
+      ],
+      "structural_type_hash": "298042643",
+      "temporary_id": "decl-006689"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N : Nat) [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (n : Nat)\n  (M : FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)),\n  decl-005106.{0, 0} N (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} M)) \u2192\n    Eq.{1} (iSup.{0, 1} fun \u03bc => decl-019844.{0} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i) Top.top.{0} \u2192\n      (\u2200 (\u03bc : Fin N \u2192 Nat),\n          Ne.{1} (decl-019844.{0} k N M \u03bc) Bot.bot.{0} \u2192\n            Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun i => \u03bc i) n) \u2192\n        Exists.{2} fun \u03b9 =>\n          Exists.{1} fun x =>\n            Exists.{1} fun x =>\n              Exists.{2} fun S =>\n                Exists.{1} fun x =>\n                  Exists.{1} fun x_1 =>\n                    Exists.{0} fun x_2 =>\n                      Exists.{2} fun L =>\n                        Exists.{0} fun x_3 =>\n                          Exists.{0} fun x_4 =>\n                            Exists.{0} fun x_5 =>\n                              Exists.{1} fun e =>\n                                Exists.{0} fun x =>\n                                  Exists.{2} fun \u03ba =>\n                                    Exists.{0} fun x =>\n                                      Exists.{1} fun g\u03ba =>\n                                        Exists.{2} fun W =>\n                                          Exists.{1} fun x => Exists.{1} fun x_6 => Exists.{1} fun x_7 => Exists.{1} \u22ef",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-006687",
+        "decl-016473",
+        "decl-019829",
+        "decl-019844"
+      ],
+      "structural_type_hash": "1087007032",
+      "temporary_id": "decl-006690"
+    }
+  ],
+  "module_temporary_id": "module-0370",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Introduction_7.3",
+    "kind": "introduction",
+    "title": "Section 7.3: Morphisms of functors",
+    "node_id": "chapter-07/section-7-3",
+    "order": 478,
+    "slug": "introduction-7-3",
+    "span": {
+      "start": {
+        "page": "185",
+        "line": 1
+      },
+      "end": {
+        "page": "185",
+        "line": 4
+      }
+    },
+    "source_sha256": "586e5d0625f0b2fed69a290229f9570bdba634a57bda07b8fe918488f49f918d",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction73",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

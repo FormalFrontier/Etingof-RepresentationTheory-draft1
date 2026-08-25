@@ -1,0 +1,115 @@
+{
+  "module_name": "QuiverRepresentationQuotientTransform",
+  "declarations": [
+    {
+      "temporary_id": "decl-000623",
+      "new_name": "OutgoingArrow",
+      "docstring": "The type indexing arrows whose source is a specified vertex of a quiver."
+    },
+    {
+      "temporary_id": "decl-015008",
+      "new_name": "outgoingDirectSumMap",
+      "docstring": "The linear map from the module at a vertex to the direct sum of the modules reached by its outgoing arrows."
+    },
+    {
+      "temporary_id": "decl-017126",
+      "new_name": "moduleAddCommGroupOfCommRing",
+      "docstring": "A module over a commutative ring carries an additive commutative group structure."
+    },
+    {
+      "temporary_id": "decl-017237",
+      "new_name": "incomingArrow_source_ne",
+      "docstring": "Under the distinguished-vertex hypothesis, the source of an indexed incoming arrow differs from that vertex."
+    },
+    {
+      "temporary_id": "decl-017238",
+      "new_name": "reverseIndexedIncomingArrow",
+      "docstring": "Constructs an arrow from the distinguished vertex to the source of an indexed incoming arrow."
+    },
+    {
+      "temporary_id": "decl-022424",
+      "new_name": "auxiliaryVertexAddCommMonoid",
+      "docstring": "The auxiliary vertex space has a canonical additive commutative monoid structure."
+    },
+    {
+      "temporary_id": "decl-022434",
+      "new_name": "auxiliaryVertexEquivQuotient",
+      "docstring": "At the distinguished vertex, the auxiliary vertex space is linearly equivalent to the outgoing direct sum modulo the range of its structural map."
+    },
+    {
+      "temporary_id": "decl-022435",
+      "new_name": "auxiliaryVertexEquivOfNe",
+      "docstring": "Away from the distinguished vertex, the auxiliary vertex space is linearly equivalent to the original representation space."
+    },
+    {
+      "temporary_id": "decl-022437",
+      "new_name": "transformedVertexEquivQuotient",
+      "docstring": "The transformed representation at the distinguished vertex is linearly equivalent to the quotient of the outgoing direct sum by the structural range."
+    },
+    {
+      "temporary_id": "decl-022438",
+      "new_name": "transformedVertexEquivOfNe",
+      "docstring": "At every other vertex, the transformed representation is linearly equivalent to the original representation."
+    },
+    {
+      "temporary_id": "decl-022446",
+      "new_name": "auxiliaryVertexTransition",
+      "docstring": "A comparison datum between vertex cases induces a linear map between the corresponding auxiliary vertex spaces."
+    },
+    {
+      "temporary_id": "decl-022450",
+      "new_name": "transformedMap_to_distinguished",
+      "docstring": "The transformed action of an arrow ending at the distinguished vertex is the quotient map applied to the summand determined by the reversed arrow."
+    },
+    {
+      "temporary_id": "decl-022451",
+      "new_name": "transformedMap_of_ne",
+      "docstring": "For an arrow between vertices distinct from the distinguished one, the transformed action agrees with the original action through the comparison equivalences."
+    },
+    {
+      "temporary_id": "decl-022452",
+      "new_name": "transformedQuotientMap",
+      "docstring": "The linear map from the outgoing direct sum to the transformed space at the distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-022453",
+      "new_name": "transformedQuotientMap_sum_eq_zero",
+      "docstring": "The transformed quotient map annihilates the sum of the outgoing-arrow images of an element at the distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-022455",
+      "new_name": "auxiliaryVertexModule",
+      "docstring": "The auxiliary vertex space has a canonical module structure over the coefficient ring."
+    },
+    {
+      "temporary_id": "decl-022456",
+      "new_name": "AuxiliaryVertex",
+      "docstring": "The vertex space used by the quotient-based auxiliary construction, selected according to equality with a distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-022458",
+      "new_name": "transformedVertex_self_eq_quotient",
+      "docstring": "The transformed space at the distinguished vertex is the outgoing direct sum modulo the range of the outgoing structural map."
+    },
+    {
+      "temporary_id": "decl-022460",
+      "new_name": "transformedVertex_of_ne_eq",
+      "docstring": "The transformed space at a vertex distinct from the distinguished one is the original representation space there."
+    },
+    {
+      "temporary_id": "decl-022514",
+      "new_name": "quotientTransformedRepresentation",
+      "docstring": "The quiver representation obtained by replacing the distinguished vertex space with a quotient of the outgoing direct sum."
+    },
+    {
+      "temporary_id": "decl-022751",
+      "new_name": "reverseArrowAtVertex",
+      "docstring": "Turns an arrow into a distinguished vertex into an arrow from that vertex to the original source."
+    },
+    {
+      "temporary_id": "decl-022754",
+      "new_name": "reverseArrowAtVertex_eq_cast",
+      "docstring": "The reversed arrow at a distinct vertex is the original arrow transported to the corresponding hom type."
+    }
+  ]
+}

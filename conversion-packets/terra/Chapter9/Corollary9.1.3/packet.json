@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Corollary9.1.3",
+    "kind": "corollary",
+    "title": "Lifting complete systems of orthogonal idempotents",
+    "node_id": "chapter-09/section-9-1",
+    "order": 551,
+    "slug": "corollary9-1-3",
+    "span": {
+      "start": {
+        "page": "214",
+        "line": 7
+      },
+      "end": {
+        "page": "214",
+        "line": 10
+      }
+    },
+    "source_sha256": "8f4d918fa40d1a070a417230b6c2075c2ba63a76da6cd23158a639f0a2b13e62",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Corollary913",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1071",
+  "associations": [
+    {
+      "association_id": "association:50d7df23075382350742",
+      "rationale": "For finite-dimensional simple V and W, the type states that every submodule invariant under the tensor-product action is either bottom or top, which is irreducibility.",
+      "role": "primary"
+    }
+  ]
+}

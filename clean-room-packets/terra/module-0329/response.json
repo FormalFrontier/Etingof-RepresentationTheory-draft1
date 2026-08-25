@@ -1,0 +1,65 @@
+{
+  "module_name": "Representation.Character.InversionAndInvariantForms",
+  "declarations": [
+    {
+      "temporary_id": "decl-017948",
+      "new_name": "character_im_eq_zero_of_isConj_inv",
+      "docstring": "The character of a complex representation is real-valued when every group element is conjugate to its inverse."
+    },
+    {
+      "temporary_id": "decl-017949",
+      "new_name": "character_inv_eq_conj",
+      "docstring": "The character of a complex representation at an inverse is the complex conjugate of its value."
+    },
+    {
+      "temporary_id": "decl-018737",
+      "new_name": "even_finrank_of_auxiliary",
+      "docstring": "Under an auxiliary condition on a complex representation, its dimension is even."
+    },
+    {
+      "temporary_id": "decl-018891",
+      "new_name": "exists_ne_zero_invariant_bilinear_form_of_character_inv_eq",
+      "docstring": "An irreducible complex representation whose character agrees at inverses admits a nonzero invariant bilinear form."
+    },
+    {
+      "temporary_id": "decl-018893",
+      "new_name": "exists_symmetric_ne_zero_invariant_bilinear_form_of_auxiliary_eq_one",
+      "docstring": "An irreducible complex representation for which an auxiliary value equals one admits a symmetric nonzero invariant bilinear form."
+    },
+    {
+      "temporary_id": "decl-019680",
+      "new_name": "auxiliary_eq_one_of_auxiliary_property",
+      "docstring": "For an irreducible complex representation, an auxiliary property forces an auxiliary value to equal one."
+    },
+    {
+      "temporary_id": "decl-020877",
+      "new_name": "auxiliary_property_of_auxiliary_eq_one",
+      "docstring": "For an irreducible complex representation, an auxiliary value equal to one gives an auxiliary property."
+    },
+    {
+      "temporary_id": "decl-020879",
+      "new_name": "auxiliary_property_of_rational_matrix_entries",
+      "docstring": "An irreducible complex representation with rational matrix entries in a finite basis has an auxiliary property."
+    },
+    {
+      "temporary_id": "decl-020880",
+      "new_name": "auxiliary_property_of_real_matrix_entries",
+      "docstring": "An irreducible complex representation with real matrix entries in a finite basis has an auxiliary property."
+    },
+    {
+      "temporary_id": "decl-020882",
+      "new_name": "auxiliary_property_of_odd_finrank_and_character_inv_eq",
+      "docstring": "An odd-dimensional irreducible complex representation whose character agrees at inverses has an auxiliary property."
+    },
+    {
+      "temporary_id": "decl-020884",
+      "new_name": "auxiliary_property_or_auxiliary_condition_of_character_inv_eq",
+      "docstring": "For an irreducible complex representation whose character agrees at inverses, one of two auxiliary alternatives holds."
+    },
+    {
+      "temporary_id": "decl-021722",
+      "new_name": "invariant_bilinear_form_left_nondegenerate",
+      "docstring": "A nonzero invariant bilinear form on an irreducible complex representation is left nondegenerate."
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (n : Nat) (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n      (\u2200 (i j : Fin n),\n          Exists.{1} fun path =>\n            And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n              (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n                (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n                  Eq.{1} (adj (List.get.{0} path \u27e8k, \u22ef\u27e9) (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) 1))) \u2192\n        Iff (decl-005177 n adj) (decl-005140 n adj)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-005177",
+        "decl-016734"
+      ],
+      "structural_type_hash": "3326934365",
+      "temporary_id": "decl-016733"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    Matrix.IsSymm.{0, 0} adj \u2192\n      (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n        (\u2200 (i j : Fin n),\n            Exists.{1} fun path =>\n              And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n                (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n                  (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n                    Eq.{1} (adj (List.get.{0} path \u27e8k, \u22ef\u27e9) (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) 1))) \u2192\n          Not\n              (Exists.{1} fun t =>\n                Exists.{1} fun \u03c3 =>\n                  \u2200 (i j : Fin t.rank),\n                    Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) (t.adj i j)) \u2192\n            Not (decl-005177 n adj)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001861",
+        "decl-001887",
+        "decl-001899",
+        "decl-005177",
+        "decl-016734"
+      ],
+      "structural_type_hash": "749577739",
+      "temporary_id": "decl-021720"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n      (\u2200 (i j : Fin n),\n          Exists.{1} fun path =>\n            And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n              (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n                (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n                  Eq.{1} (adj (List.get.{0} path \u27e8k, \u22ef\u27e9) (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) 1))) \u2192\n        Not (decl-005140 n adj) \u2192 Not (decl-005177 n adj)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-005177",
+        "decl-016734"
+      ],
+      "structural_type_hash": "946308907",
+      "temporary_id": "decl-021721"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n      (\u2200 (i j : Fin n),\n          Exists.{1} fun path =>\n            And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n              (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n                (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n                  Eq.{1} (adj (List.get.{0} path \u27e8k, \u22ef\u27e9) (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) 1))) \u2192\n        decl-005177 n adj \u2192\n          \u2200 (x : Fin n \u2192 Rat),\n            Ne.{1} x 0 \u2192\n              LT.lt.{0} 0\n                (dotProduct.{0, 0} x\n                  (Matrix.mulVec.{0, 0, 0}\n                    (Matrix.map.{0, 0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj)\n                      (DFunLike.coe.{1, 1, 1} (Int.castRingHom.{0} Rat)))\n                    x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005177",
+        "decl-016734"
+      ],
+      "structural_type_hash": "2363172652",
+      "temporary_id": "decl-024130"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n      (\u2200 (i j : Fin n),\n          Exists.{1} fun path =>\n            And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n              (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n                (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n                  Eq.{1} (adj (List.get.{0} path \u27e8k, \u22ef\u27e9) (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) 1))) \u2192\n        decl-005177 n adj \u2192\n          Matrix.PosDef.{0, 0}\n            (Matrix.map.{0, 0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj)\n              (DFunLike.coe.{1, 1, 1} (Int.castRingHom.{0} Real)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005177",
+        "decl-016734"
+      ],
+      "structural_type_hash": "1451179946",
+      "temporary_id": "decl-024139"
+    }
+  ],
+  "module_temporary_id": "module-0552",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,20 @@
+{
+  "module_name": "Semisimplicity",
+  "declarations": [
+    {
+      "temporary_id": "decl-020890",
+      "new_name": "moduleCat_auxiliaryProperty_of_isSemisimpleRing",
+      "docstring": "The module category of a semisimple ring satisfies the displayed auxiliary category property."
+    },
+    {
+      "temporary_id": "decl-021549",
+      "new_name": "monoidAlgebra_moduleCat_auxiliaryProperty_of_isUnit_card",
+      "docstring": "When a finite group's cardinality is invertible in the field, the module category over its monoid algebra satisfies the displayed auxiliary category property."
+    },
+    {
+      "temporary_id": "decl-021550",
+      "new_name": "monoidAlgebra_isSemisimpleRing_of_isUnit_card",
+      "docstring": "The monoid algebra of a finite group over a field is a semisimple ring when the group cardinality is invertible in the field."
+    }
+  ]
+}

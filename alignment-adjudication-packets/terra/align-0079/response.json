@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0079",
+  "associations": [
+    {
+      "association_id": "association:02b169a724d36b60799b",
+      "role": "supporting",
+      "rationale": "The displayed type is only an opaque Prop-valued predicate and does not expose the Hom-exactness definition or an abelian-category hypothesis."
+    },
+    {
+      "association_id": "association:e62f03ac8210d8ffd4b8",
+      "role": "supporting",
+      "rationale": "The displayed type is only an opaque Prop-valued predicate and does not expose the Hom-exactness definition or an abelian-category hypothesis."
+    }
+  ]
+}

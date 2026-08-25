@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3b5bd33fe48a55691df9",
+      "declaration": "Etingof.psi",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/203/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192 [Fintype.{u_1} G] \u2192 FDRep.{0, u_1} Complex G \u2192 MonoidAlgebra.{0, u_1} Complex G",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_5_2"
+    },
+    {
+      "association_id": "association:c45550ae752e51e39ae4",
+      "declaration": "Etingof.psi_idempotent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/203/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (V : FDRep.{0, u_1} Complex G)\n  [CategoryTheory.Simple.{0, max 1 u_1} V],\n  Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (Etingof.psi.{u_1} V) (Etingof.psi.{u_1} V)) (Etingof.psi.{u_1} V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_5_2"
+    },
+    {
+      "association_id": "association:59b7e005db4dc4d599cf",
+      "declaration": "Etingof.psi_orthogonal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/203/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (V W : FDRep.{0, u_1} Complex G)\n  [CategoryTheory.Simple.{0, max 1 u_1} V] [CategoryTheory.Simple.{0, max 1 u_1} W],\n  IsEmpty.{1} (CategoryTheory.Iso.{0, max 1 u_1} W V) \u2192\n    Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (Etingof.psi.{u_1} W) (Etingof.psi.{u_1} V)) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_5_2"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.5.2",
+  "packet_id": "align-0733",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0733"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.5.2:part_ii",
+  "source_text": "Part (ii): the displayed elements are pairwise orthogonal idempotents."
+}

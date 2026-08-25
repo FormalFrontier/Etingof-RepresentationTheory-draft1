@@ -1,0 +1,50 @@
+{
+  "packet_id": "align-0712",
+  "associations": [
+    {
+      "association_id": "association:a23ca856547ebfd8a33c",
+      "rationale": "The total number of irreducible classes is a consequence and consistency check for the classification, not an exhaustive identification of the classes.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6d86718540d6c9e2682c",
+      "rationale": "This counts the nontrivial p-th-root parameters used by one classified family and is only a supporting enumeration.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2b8ddad290eb694c4414",
+      "rationale": "The iff gives only irredundancy within the character-representation family; it does not state the complete exhaustive, irredundant classification of all irreducibles.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4368c5413a2fa63d37e3",
+      "rationale": "The non-isomorphism gives only the non-overlap component between two families; it does not state the complete exhaustive, irredundant classification of all irreducibles.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0810afe7378f144f01b5",
+      "rationale": "Restricting irreducible dimensions to 1 or p is a consequence useful in proving exhaustion, but does not identify all irreducibles.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8ca3497678de9121df96",
+      "rationale": "The displayed equivalence targets an opaque IrrepIndex type, so it does not visibly state which representations form the classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1b392233f5b25981f38a",
+      "rationale": "The iff gives only irredundancy within the rhoHom family; it does not state the complete exhaustive, irredundant classification of all irreducibles.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:80138a25744349684510",
+      "rationale": "This directly gives the exhaustion component, but it does not state the required irredundancy within and between the two families, so it is not the complete classification claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0f9fb8159908d3ee043d",
+      "rationale": "The sum-of-squared-dimensions identity is a completeness check used by the classification argument, not the classification itself.",
+      "role": "supporting"
+    }
+  ]
+}

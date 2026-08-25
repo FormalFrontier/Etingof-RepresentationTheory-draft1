@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1011",
+  "associations": [
+    {
+      "association_id": "association:9321bbe48feeddf3183b",
+      "rationale": "The declaration directly constructs the category-theoretic adjunction from restriction to induction for the subgroup H.",
+      "role": "primary"
+    }
+  ]
+}

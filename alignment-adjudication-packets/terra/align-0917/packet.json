@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a87480f760362b9e083e",
+      "declaration": "CompositionSeries.jordan_holder",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/160/claim_coverage/claims/19/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Order.JordanHolder"
+    },
+    {
+      "association_id": "association:a99b6164142f3c8082ff",
+      "declaration": "Submodule.comap",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/160/claim_coverage/claims/19/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Module.Submodule.Map"
+    },
+    {
+      "association_id": "association:39aeaf4df505c19f4236",
+      "declaration": "Submodule.map",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/160/claim_coverage/claims/19/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Module.Submodule.Map"
+    }
+  ],
+  "canonical_reference": "Chapter3/Theorem3.7.1",
+  "packet_id": "align-0917",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0917"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a6965328cbfa11e2898a",
+  "source_text": "V/W'_1 has a filtration with factors W_1, Z_1, ..., Z_p."
+}

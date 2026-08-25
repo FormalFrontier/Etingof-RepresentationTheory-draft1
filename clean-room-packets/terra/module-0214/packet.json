@@ -1,0 +1,96 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k K : Type u) {A : Type u} [inst : Field.{u} k] [inst_1 : Field.{u} K] [inst_2 : Algebra.{u, u} k K]\n  [inst_3 : Ring.{u} A] [inst_4 : Algebra.{u, u} k A] [Module.Finite.{u, u} k A] [IsSemisimpleRing.{u} A],\n  LE.le.{0} (Nat.card.{u + 1} (decl-015611.{u, u} A))\n    (Nat.card.{u + 1} (decl-015611.{u, u} (TensorProduct.{u, u, u} k K A)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015611"
+      ],
+      "structural_type_hash": "2853810869",
+      "temporary_id": "decl-021703"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (R : Fin n \u2192 Type u) [inst : (i : Fin n) \u2192 Ring.{u} (R i)]\n  [\u2200 (i : Fin n), Finite.{u + 2} (decl-015611.{u, u} (R i))],\n  Eq.{1} (Nat.card.{u + 1} (decl-015611.{u, u} ((i : Fin n) \u2192 R i)))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun i => Nat.card.{u + 1} (decl-015611.{u, u} (R i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015611"
+      ],
+      "structural_type_hash": "3003682625",
+      "temporary_id": "decl-021705"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) {B : Type u} [inst : Field.{u} k] [inst_1 : Ring.{u} B] [Nontrivial.{u} B] [inst_3 : Algebra.{u, u} k B]\n  [Module.Finite.{u, u} k B], Nonempty.{u + 2} (decl-015611.{u, u} B)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015611"
+      ],
+      "structural_type_hash": "2278364525",
+      "temporary_id": "decl-021733"
+    },
+    {
+      "formal_type": "{R S : Type u} \u2192\n  [inst : Ring.{u} R] \u2192\n    [inst_1 : Ring.{u} S] \u2192\n      CategoryTheory.Equivalence.{u, u, u + 1, u + 1} (ModuleCat.{u, u} R) (ModuleCat.{u, u} S) \u2192\n        Equiv.{u + 2, u + 2} (decl-015611.{u, u} R) (decl-015611.{u, u} S)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015611"
+      ],
+      "structural_type_hash": "4027031017",
+      "temporary_id": "decl-023151"
+    },
+    {
+      "formal_type": "{R S : Type u} \u2192\n  [inst : Ring.{u} R] \u2192\n    [inst_1 : Ring.{u} S] \u2192\n      RingEquiv.{u, u} R S \u2192\n        Equiv.{u + 2, u + 2} (decl-015611.{u, u} R) (decl-015611.{u, u} S)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015611"
+      ],
+      "structural_type_hash": "848572854",
+      "temporary_id": "decl-023154"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : Ring.{u} R] \u2192\n    (m : Nat) \u2192\n      [NeZero.{0} m] \u2192\n        Equiv.{u + 2, u + 2} (decl-015611.{u, u} (Matrix.{0, 0, u} (Fin m) (Fin m) R))\n          (decl-015611.{u, u} R)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015611"
+      ],
+      "structural_type_hash": "417830299",
+      "temporary_id": "decl-023155"
+    },
+    {
+      "formal_type": "\u2200 (D : Type u) [inst : DivisionRing.{u} D], Subsingleton.{u + 2} (decl-015611.{u, u} D)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015611"
+      ],
+      "structural_type_hash": "2314204922",
+      "temporary_id": "decl-023494"
+    }
+  ],
+  "module_temporary_id": "module-0214",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

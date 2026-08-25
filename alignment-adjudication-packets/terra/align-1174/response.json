@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1174",
+  "associations": [
+    {
+      "association_id": "association:65829eb003a18c1ecbf5",
+      "rationale": "The equality of the span of simple characters with the class-function submodule supplies the spanning portion of the basis claim, but does not itself state orthonormality.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c7a09cc94d6870d838a5",
+      "rationale": "The normalized character sum equals 1 for isomorphic simples and 0 otherwise, giving the orthonormality portion, but it does not itself state that the characters form a basis.",
+      "role": "supporting"
+    }
+  ]
+}

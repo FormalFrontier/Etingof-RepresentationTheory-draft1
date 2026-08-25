@@ -1,0 +1,62 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {A : Type u_1} {V : Type u_2} {W : Type u_3} [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} A V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} A W]\n  (e : LinearEquiv.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} A) V W),\n  decl-005194.{u_1, u_2} A V \u2192 decl-005194.{u_1, u_3} A W",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005194",
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "2491738236",
+      "temporary_id": "decl-005198"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) (W : Type u_4) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : AddCommGroup.{u_4} W]\n  [inst_8 : Module.{u_1, u_4} k W] [inst_9 : Module.{u_2, u_4} A W] [IsScalarTower.{u_1, u_2, u_4} k A W]\n  [FiniteDimensional.{u_1, u_3} k V] [FiniteDimensional.{u_1, u_4} k W] {n : Nat},\n  LT.lt.{0} 0 n \u2192\n    (Exists.{max (u_3 + 1) (u_4 + 1)} fun i =>\n        Exists.{max (u_3 + 1) (u_4 + 1)} fun p =>\n          Eq.{u_3 + 1} (LinearMap.comp.{u_2, u_2, u_2, u_3, u_4, u_3} p i) LinearMap.id.{u_2, u_3}) \u2192\n      Exists.{max (u_3 + 1) (u_4 + 1)} fun i =>\n        Exists.{max (u_3 + 1) (u_4 + 1)} fun p =>\n          Eq.{u_3 + 1} (LinearMap.comp.{u_2, u_2, u_2, u_3, u_4, u_3} p i) LinearMap.id.{u_2, u_3}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3253349254",
+      "temporary_id": "decl-009452"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} {V : Type u_2} {V' : Type u_3} [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} A V] [inst_3 : AddCommGroup.{u_3} V'] [inst_4 : Module.{u_1, u_3} A V']\n  (e : LinearEquiv.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} A) V V') {p : Nat} (D : Fin p \u2192 Submodule.{u_1, u_2} A V),\n  (\u2200 (i : Fin p),\n      decl-005194.{u_1, u_2} A (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (D i) x)) \u2192\n    (\u2200 (i : Fin p), Ne.{u_2 + 1} (D i) Bot.bot.{u_2}) \u2192\n      Eq.{u_2 + 1} (iSup.{u_2, 1} D) Top.top.{u_2} \u2192\n        iSupIndep.{1, u_2} D \u2192\n          And\n            (\u2200 (i : Fin p),\n              decl-005194.{u_1, u_3} A\n                (Subtype.{u_3 + 1} fun x =>\n                  Membership.mem.{u_3, u_3}\n                    (Submodule.map.{u_1, u_1, u_2, u_3} (LinearEquiv.toLinearMap.{u_1, u_1, u_2, u_3} e) (D i)) x))\n            (And\n              (\u2200 (i : Fin p),\n                Ne.{u_3 + 1} (Submodule.map.{u_1, u_1, u_2, u_3} (LinearEquiv.toLinearMap.{u_1, u_1, u_2, u_3} e) (D i))\n                  Bot.bot.{u_3})\n              (And\n                (Eq.{u_3 + 1}\n                  (iSup.{u_3, 1} fun i =>\n                    Submodule.map.{u_1, u_1, u_2, u_3} (LinearEquiv.toLinearMap.{u_1, u_1, u_2, u_3} e) (D i))\n                  Top.top.{u_3})\n                (iSupIndep.{1, u_3} fun i =>\n                  Submodule.map.{u_1, u_1, u_2, u_3} (LinearEquiv.toLinearMap.{u_1, u_1, u_2, u_3} e) (D i))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "42798721",
+      "temporary_id": "decl-009454"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) (W : Type u_4) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : AddCommGroup.{u_4} W]\n  [inst_8 : Module.{u_1, u_4} k W] [inst_9 : Module.{u_2, u_4} A W] [IsScalarTower.{u_1, u_2, u_4} k A W]\n  [FiniteDimensional.{u_1, u_3} k V] [FiniteDimensional.{u_1, u_4} k W] {n : Nat},\n  LT.lt.{0} 0 n \u2192\n    Nonempty.{max (u_4 + 1) (u_3 + 1)} (LinearEquiv.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} A) (Fin n \u2192 V) (Fin n \u2192 W)) \u2192\n      Nonempty.{max (u_4 + 1) (u_3 + 1)} (LinearEquiv.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} A) V W)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "83717623",
+      "temporary_id": "decl-009457"
+    }
+  ],
+  "module_temporary_id": "module-0148",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

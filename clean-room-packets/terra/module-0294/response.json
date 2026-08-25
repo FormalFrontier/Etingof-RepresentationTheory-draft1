@@ -1,0 +1,30 @@
+{
+  "module_name": "Auxiliary.GeneralLinearPolynomialRealization",
+  "declarations": [
+    {
+      "temporary_id": "decl-001505",
+      "new_name": "exists_basis_with_polynomial_matrix_coefficients",
+      "docstring": "Under the stated spanning and representation hypotheses, there is a finite basis whose matrix coefficients are evaluations of multivariable polynomials in the entries of a general linear matrix."
+    },
+    {
+      "temporary_id": "decl-001506",
+      "new_name": "localization_evaluation_action_apply",
+      "docstring": "Evaluating the action of one general linear matrix on a localized element at another matrix agrees with evaluation at their product in the displayed order."
+    },
+    {
+      "temporary_id": "decl-001508",
+      "new_name": "localization_evaluation_smul",
+      "docstring": "Evaluation of a scalar multiple in the localization is the corresponding scalar multiple of its evaluation function."
+    },
+    {
+      "temporary_id": "decl-001509",
+      "new_name": "eval_matrix_substitution",
+      "docstring": "Evaluating a polynomial after the matrix substitution associated with a matrix equals evaluating the original polynomial on the matrix product."
+    },
+    {
+      "temporary_id": "decl-001510",
+      "new_name": "exists_auxiliary_weight_vector_data",
+      "docstring": "Under the displayed supremum hypothesis, there are finitely indexed vectors and auxiliary weights such that each displayed general linear element scales each vector by the corresponding power of the chosen unit."
+    }
+  ]
+}

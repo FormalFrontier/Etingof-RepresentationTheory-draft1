@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0195",
+  "associations": [
+    {
+      "association_id": "association:d221d7dd71894c52c12f",
+      "role": "primary",
+      "rationale": "It directly states that the character of the Fin p indexed direct sum of V is zero in characteristic p."
+    }
+  ]
+}

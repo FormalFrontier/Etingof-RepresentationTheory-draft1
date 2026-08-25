@@ -1,0 +1,25 @@
+{
+  "associations": [
+    {
+      "association_id": "association:4247f65902ed1c603597",
+      "rationale": "This only defines the Jucys-Murphy element and states no eigenvalue property.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:540d45c84f43fdb7469a",
+      "rationale": "Its second conjunct directly states that every eigenvalue is the cast of an integer, while also proving diagonalizability and bounds.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:78de24dcff6cc8a61531",
+      "rationale": "This algebraic identity expresses the Jucys-Murphy element as a difference of transposition sums but does not state eigenvalue integrality.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d71cfc4554ae436735a8",
+      "rationale": "The formal type directly states that any eigenvalue of the Jucys-Murphy action on a finite-dimensional representation equals an integer cast.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0763"
+}

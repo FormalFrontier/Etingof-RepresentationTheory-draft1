@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.12.1",
+    "kind": "definition",
+    "title": "Symmetric algebra, exterior algebra, and universal enveloping algebra (coordinate-free)",
+    "node_id": "chapter-02/section-2-12",
+    "order": 110,
+    "slug": "definition2-12-1",
+    "span": {
+      "start": {
+        "page": "36",
+        "line": 1
+      },
+      "end": {
+        "page": "36",
+        "line": 16
+      }
+    },
+    "source_sha256": "4cd39e491d729e190d5752553041d0f6d3a6424356fea4b29c79f1d627a4aa18",
+    "features": {
+      "line_count": 16,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition2121",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

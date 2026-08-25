@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2cc4f76e5fcb7b67ba8a",
+      "declaration": "Etingof.charValue",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/343/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{n : Nat} \u2192 (N : Nat) \u2192 Etingof.BoundedPartition N n \u2192 n.Partition \u2192 Rat",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_21_1"
+    },
+    {
+      "association_id": "association:ea75c0c5febac666e14e",
+      "declaration": "Etingof.charValue_trivialCycleType_eq_descPochhammer_det",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/343/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : Etingof.BoundedPartition N n),\n  Eq.{1} (Etingof.charValue N lam (Etingof.trivialCycleType n))\n    (HMul.hMul.{0, 0, 0}\n      (HDiv.hDiv.{0, 0, 0} (Nat.cast.{0} n.factorial)\n        (Finset.prod.{0, 0} Finset.univ.{0} fun j => Nat.cast.{0} (Etingof.shiftedExps N lam.parts j).factorial))\n      (Int.cast.{0}\n        (Matrix.det.{0, 0}\n          (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0} fun i j =>\n            Polynomial.eval.{0} (Nat.cast.{0} (Etingof.shiftedExps N lam.parts i))\n              (descPochhammer.{0} Int (Etingof.vandermondeExps N j))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.CharValueHookFormula"
+    },
+    {
+      "association_id": "association:c9465bd56d5449bfbea5",
+      "declaration": "Etingof.psumPart_trivialCycleType",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/343/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (N n : Nat),\n  Eq.{1} (MvPolynomial.psumPart.{0, 0} (Fin N) Rat (Etingof.trivialCycleType n))\n    (HPow.hPow.{0, 0, 0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => MvPolynomial.X.{0, 0} i) n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SchurWeylPolynomialIdentity"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_hook_length_derivation",
+  "packet_id": "align-0094",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0094"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:1de3c267e930d91b7ad4",
+  "source_text": "The Frobenius coefficient extraction and signed permutation expansion reduce the identity character value to the descending-factorial determinant."
+}

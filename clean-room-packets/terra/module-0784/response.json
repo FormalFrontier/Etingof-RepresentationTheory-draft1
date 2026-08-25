@@ -1,0 +1,55 @@
+{
+  "module_name": "ModuleCat.FiniteUnderEquivalence",
+  "declarations": [
+    {
+      "temporary_id": "decl-005307",
+      "new_name": "toAuxiliaryAlgebraProperty",
+      "docstring": "The designated relation between two algebras implies the auxiliary algebra relation."
+    },
+    {
+      "temporary_id": "decl-005664",
+      "new_name": "exists_fgModuleCatEquivalence",
+      "docstring": "The designated relation between two rings yields an equivalence of their finitely generated module categories."
+    },
+    {
+      "temporary_id": "decl-005669",
+      "new_name": "toAuxiliaryRingProperty",
+      "docstring": "The designated relation between two rings implies the auxiliary ring property."
+    },
+    {
+      "temporary_id": "decl-019404",
+      "new_name": "moduleFinite_obj_biproduct",
+      "docstring": "An additive functor sends a finite biproduct to a finite module when each component image is finite."
+    },
+    {
+      "temporary_id": "decl-019405",
+      "new_name": "moduleFinite_equivalence_functor_obj_iff",
+      "docstring": "A module is finite exactly when its image under an equivalence of module categories is finite."
+    },
+    {
+      "temporary_id": "decl-019751",
+      "new_name": "moduleFinite_obj_of_moduleFinite_obj_regular",
+      "docstring": "An additive epimorphism-preserving functor sends every finite module to a finite module if it does so for the regular module."
+    },
+    {
+      "temporary_id": "decl-019752",
+      "new_name": "moduleFinite_equivalence_functor_obj_regular",
+      "docstring": "The image of the regular module under an equivalence of module categories is finite."
+    },
+    {
+      "temporary_id": "decl-020759",
+      "new_name": "moduleFinite_equivalence_inverse_obj_regular",
+      "docstring": "The inverse image of the regular module under an equivalence of module categories is finite."
+    },
+    {
+      "temporary_id": "decl-020839",
+      "new_name": "isFG_isClosedUnderIsomorphisms",
+      "docstring": "The property of being a finitely generated module is closed under isomorphisms."
+    },
+    {
+      "temporary_id": "decl-020893",
+      "new_name": "isSeparator_regularModule",
+      "docstring": "A ring regarded as its regular module is a separator in its module category."
+    }
+  ]
+}

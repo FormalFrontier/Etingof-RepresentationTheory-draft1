@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0725",
+  "associations": [
+    {
+      "association_id": "association:067d3a3de5b7160a3dd4",
+      "role": "supporting",
+      "rationale": "The type gives only multiplicativity of norm-squared, not the complete two-part claim including reversal of products by conjugation."
+    },
+    {
+      "association_id": "association:ab907faae51a2d53476b",
+      "role": "supporting",
+      "rationale": "The type gives only reversal of products by conjugation, not the complete two-part claim including multiplicativity of the quaternion norm."
+    }
+  ]
+}

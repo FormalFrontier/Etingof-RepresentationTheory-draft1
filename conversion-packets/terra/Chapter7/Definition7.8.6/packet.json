@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Definition7.8.6",
+    "kind": "definition",
+    "title": "Connecting homomorphism and long exact sequence",
+    "node_id": "chapter-07/section-7-8",
+    "order": 508,
+    "slug": "definition7-8-6",
+    "span": {
+      "start": {
+        "page": "193",
+        "line": 21
+      },
+      "end": {
+        "page": "193",
+        "line": 22
+      }
+    },
+    "source_sha256": "d47ecf97c16f70e5f55d198b0b4f6559398eafcf659e3ff709e02661a9f87684",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition786",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

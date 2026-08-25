@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:d3b795e9c8b39b4bce0f",
+      "rationale": "The formal type concludes only that an arbitrary endomorphism of the simple module is scalar. It does not display the eigenvalue, the map φ - λ Id, or the stated application of Schur's lemma, so it is consequence-level support for this proof step.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0437"
+}

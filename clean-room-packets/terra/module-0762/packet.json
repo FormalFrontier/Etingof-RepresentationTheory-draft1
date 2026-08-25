@@ -1,0 +1,120 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] [IsAlgClosed.{w} k] {C : Type u} [inst_2 : CategoryTheory.Category.{v, u} C]\n  [inst_3 : decl-005147.{u, v} C] [inst_4 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] [inst_6 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C]\n  {\u03b9 : Type v} [inst_7 : Fintype.{v} \u03b9] (P : \u03b9 \u2192 C) (n : \u03b9 \u2192 Nat),\n  Exists.{v + 2} fun J =>\n    Exists.{v + 1} fun x =>\n      Exists.{v + 1} fun d =>\n        And (\u2200 (j : J), LE.le.{0} 1 (d j))\n          (And\n            (Nonempty.{max ((max v w) + 1) (v + 1)}\n              (AlgEquiv.{w, v, max v w} k\n                (HasQuotient.Quotient.{v, v}\n                  (MulOpposite.{v} (CategoryTheory.End.{v, u} (decl-021689.{u, v} P n)))\n                  (decl-015214.{v}\n                    (MulOpposite.{v} (CategoryTheory.End.{v, u} (decl-021689.{u, v} P n)))))\n                ((j : J) \u2192 Matrix.{0, 0, w} (Fin (d j)) (Fin (d j)) k)))\n            (Iff\n              (decl-005123.{w, v} k\n                (MulOpposite.{v} (CategoryTheory.End.{v, u} (decl-021689.{u, v} P n))))\n              (\u2200 (j : J), Eq.{1} (d j) 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-015214",
+        "decl-021689"
+      ],
+      "structural_type_hash": "3024308608",
+      "temporary_id": "decl-018885"
+    },
+    {
+      "formal_type": "\u2200 (k : Type w) (A : Type u) [inst : Field.{w} k] [IsAlgClosed.{w} k] [inst_2 : Ring.{u} A] [inst_3 : Algebra.{w, u} k A]\n  [FiniteDimensional.{w, u} k A],\n  Exists.{u + 1} fun s =>\n    And (\u2200 (M : Submodule.{u, u} A A), Membership.mem.{u, u} s M \u2192 IsCoatom.{u} M)\n      (And\n        (\u2200 (M : Submodule.{u, u} A A),\n          Membership.mem.{u, u} s M \u2192\n            \u2200 (N : Submodule.{u, u} A A),\n              Membership.mem.{u, u} s N \u2192\n                Ne.{u + 1} M N \u2192\n                  IsEmpty.{u + 1}\n                    (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) (HasQuotient.Quotient.{u, u} A M)\n                      (HasQuotient.Quotient.{u, u} A N)))\n        (And\n          (\u2200 (W : Type u) [inst : AddCommGroup.{u} W] [inst_5 : Module.{u, u} A W] [IsSimpleModule.{u, u} A W],\n            Exists.{u + 1} fun M =>\n              And (Membership.mem.{u, u} s M)\n                (Nonempty.{u + 1} (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) W (HasQuotient.Quotient.{u, u} A M))))\n          (And\n            (\u2200 (M : Subtype.{u + 1} fun x => Membership.mem.{u, u} s x),\n              LE.le.{0} 1 (Module.finrank.{w, u} k (HasQuotient.Quotient.{u, u} A (Subtype.val.{u + 1} M))))\n            (And\n              (Nonempty.{max ((max u w) + 1) (u + 1)}\n                (AlgEquiv.{w, u, max u w} k (HasQuotient.Quotient.{u, u} A (decl-015214.{u} A))\n                  ((M : Subtype.{u + 1} fun x => Membership.mem.{u, u} s x) \u2192\n                    Matrix.{0, 0, w}\n                      (Fin (Module.finrank.{w, u} k (HasQuotient.Quotient.{u, u} A (Subtype.val.{u + 1} M))))\n                      (Fin (Module.finrank.{w, u} k (HasQuotient.Quotient.{u, u} A (Subtype.val.{u + 1} M)))) k)))\n              (Iff (decl-005123.{w, u} k A)\n                (\u2200 (M : Subtype.{u + 1} fun x => Membership.mem.{u, u} s x),\n                  Eq.{1} (Module.finrank.{w, u} k (HasQuotient.Quotient.{u, u} A (Subtype.val.{u + 1} M))) 1))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-015214"
+      ],
+      "structural_type_hash": "1785659310",
+      "temporary_id": "decl-018886"
+    },
+    {
+      "formal_type": "\u2200 (k : Type w) (A : Type u) [inst : Field.{w} k] [IsAlgClosed.{w} k] [inst_2 : Ring.{u} A] [inst_3 : Algebra.{w, u} k A]\n  [FiniteDimensional.{w, u} k A],\n  Exists.{u + 1} fun s =>\n    And (\u2200 (M : Submodule.{u, u} A A), Membership.mem.{u, u} s M \u2192 IsCoatom.{u} M)\n      (And\n        (\u2200 (M : Submodule.{u, u} A A),\n          Membership.mem.{u, u} s M \u2192\n            \u2200 (N : Submodule.{u, u} A A),\n              Membership.mem.{u, u} s N \u2192\n                Ne.{u + 1} M N \u2192\n                  IsEmpty.{u + 1}\n                    (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) (HasQuotient.Quotient.{u, u} A M)\n                      (HasQuotient.Quotient.{u, u} A N)))\n        (And\n          (\u2200 (W : Type u) [inst : AddCommGroup.{u} W] [inst_5 : Module.{u, u} A W] [IsSimpleModule.{u, u} A W],\n            Exists.{u + 1} fun M =>\n              And (Membership.mem.{u, u} s M)\n                (Nonempty.{u + 1} (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) W (HasQuotient.Quotient.{u, u} A M))))\n          (And\n            (\u2200 (M : Subtype.{u + 1} fun x => Membership.mem.{u, u} s x),\n              LE.le.{0} 1 (Module.finrank.{w, u} k (HasQuotient.Quotient.{u, u} A (Subtype.val.{u + 1} M))))\n            (Nonempty.{max ((max u w) + 1) (u + 1)}\n              (AlgEquiv.{w, u, max u w} k (HasQuotient.Quotient.{u, u} A (decl-015214.{u} A))\n                ((M : Subtype.{u + 1} fun x => Membership.mem.{u, u} s x) \u2192\n                  Matrix.{0, 0, w}\n                    (Fin (Module.finrank.{w, u} k (HasQuotient.Quotient.{u, u} A (Subtype.val.{u + 1} M))))\n                    (Fin (Module.finrank.{w, u} k (HasQuotient.Quotient.{u, u} A (Subtype.val.{u + 1} M)))) k))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015214"
+      ],
+      "structural_type_hash": "3809120410",
+      "temporary_id": "decl-018887"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] (X : C),\n  FiniteDimensional.{w, v} k (MulOpposite.{v} (CategoryTheory.End.{v, u} X))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167"
+      ],
+      "structural_type_hash": "446337481",
+      "temporary_id": "decl-019395"
+    },
+    {
+      "formal_type": "\u2200 (k : Type w) (A : Type u) [inst : Field.{w} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{w, u} k A],\n  Iff (decl-005123.{w, u} k A)\n    (\u2200 (x y : HasQuotient.Quotient.{u, u} A (decl-015214.{u} A)),\n      Eq.{u + 1} (HMul.hMul.{u, u, u} x y) (HMul.hMul.{u, u, u} y x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-015214"
+      ],
+      "structural_type_hash": "4020713559",
+      "temporary_id": "decl-020779"
+    },
+    {
+      "formal_type": "\u2200 (k : Type w) (A : Type u) [inst : Field.{w} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{w, u} k A] {\u03b9 : Type u_1}\n  (d : \u03b9 \u2192 Nat),\n  (\u2200 (i : \u03b9), LE.le.{0} 1 (d i)) \u2192\n    \u2200\n      (e :\n        AlgEquiv.{w, u, max u_1 w} k (HasQuotient.Quotient.{u, u} A (decl-015214.{u} A))\n          ((i : \u03b9) \u2192 Matrix.{0, 0, w} (Fin (d i)) (Fin (d i)) k)),\n      Iff (decl-005123.{w, u} k A) (\u2200 (i : \u03b9), Eq.{1} (d i) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-015214"
+      ],
+      "structural_type_hash": "700090185",
+      "temporary_id": "decl-020781"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} {S : Type u_2} [inst : Ring.{u_1} R] [inst_1 : Ring.{u_2} S] (e : RingEquiv.{u_1, u_2} R S),\n  Iff (\u2200 (x y : R), Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} x y) (HMul.hMul.{u_1, u_1, u_1} y x))\n    (\u2200 (x y : S), Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} x y) (HMul.hMul.{u_2, u_2, u_2} y x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3515123860",
+      "temporary_id": "decl-021685"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} {S : Type u_2} [inst : Ring.{u_1} R] [inst_1 : Ring.{u_2} S] (e : RingEquiv.{u_1, u_2} R S),\n  (\u2200 (x y : S), Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} x y) (HMul.hMul.{u_2, u_2, u_2} y x)) \u2192\n    \u2200 (x y : R), Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} x y) (HMul.hMul.{u_1, u_1, u_1} y x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2688852005",
+      "temporary_id": "decl-021686"
+    },
+    {
+      "formal_type": "\u2200 (k : Type w) (A : Type u) [inst : Field.{w} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{w, u} k A]\n  [FiniteDimensional.{w, u} k A] (M : Submodule.{u, u} A A),\n  IsCoatom.{u} M \u2192 LE.le.{0} 1 (Module.finrank.{w, u} k (HasQuotient.Quotient.{u, u} A M))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1834994951",
+      "temporary_id": "decl-021813"
+    }
+  ],
+  "module_temporary_id": "module-0762",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

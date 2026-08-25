@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_Schur_polynomials",
+    "kind": "discussion",
+    "title": "Definition of D_lambda and Schur polynomials S_lambda",
+    "node_id": "chapter-05/section-5-21",
+    "order": 361,
+    "slug": "discussion-schur-polynomials",
+    "span": {
+      "start": {
+        "page": "131",
+        "line": 3
+      },
+      "end": {
+        "page": "131",
+        "line": 16
+      }
+    },
+    "source_sha256": "e457146e07a8e6592bf9ff64a6f2d0823cc88c6649ffec203ea5ff8edb92097a",
+    "features": {
+      "line_count": 14,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionSchurPolynomials",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

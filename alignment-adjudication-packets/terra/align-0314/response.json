@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0314",
+  "associations": [
+    {
+      "association_id": "association:d78cce05672601bb138f",
+      "rationale": "The formal type directly states that every simple symmetric-group-algebra module is linearly equivalent to a Specht module for some partition, giving the exhaustion assertion.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:e87e5fdad4c5612dfa22",
+      "rationale": "The formal type proves that Specht modules attached to distinct partitions are not linearly equivalent; this sharpens the classification but is not itself the source's exhaustion assertion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:68789f0afd8a21610c0a",
+      "rationale": "The formal type states that every partition-indexed Specht module is simple, which supplies one direction needed for the section-level classification but does not itself state that all irreducible representations are described by Specht modules.",
+      "role": "supporting"
+    }
+  ]
+}

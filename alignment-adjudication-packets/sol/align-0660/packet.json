@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:71b5766a0f7dd99c4a87",
+      "declaration": "Etingof.Problem3_9_1.coboundaries_eq_range",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/171/claim_coverage/claims/6/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) (W : Type u_4) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : AddCommGroup.{u_4} W]\n  [inst_8 : Module.{u_1, u_4} k W] [inst_9 : Module.{u_2, u_4} A W] [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A W],\n  Eq.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)} (Etingof.Problem3_9_1.coboundaries.{u_1, u_2, u_3, u_4} k A V W)\n    (LinearMap.range.{u_1, u_1, max u_3 u_4, max (max u_2 u_3) u_4}\n      (Etingof.Problem3_9_1.coboundaryLinear.{u_1, u_2, u_3, u_4} k A V W))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_1"
+    },
+    {
+      "association_id": "association:24a1b21623ed7762a792",
+      "declaration": "Etingof.Problem3_9_1.coboundaryLinear",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/171/claim_coverage/claims/6/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      (W : Type u_4) \u2192\n        [inst : Field.{u_1} k] \u2192\n          [inst_1 : Ring.{u_2} A] \u2192\n            [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n              [inst_3 : AddCommGroup.{u_3} V] \u2192\n                [inst_4 : Module.{u_1, u_3} k V] \u2192\n                  [inst_5 : Module.{u_2, u_3} A V] \u2192\n                    [IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                      [inst_7 : AddCommGroup.{u_4} W] \u2192\n                        [inst_8 : Module.{u_1, u_4} k W] \u2192\n                          [inst_9 : Module.{u_2, u_4} A W] \u2192\n                            [IsScalarTower.{u_1, u_2, u_4} k A W] \u2192\n                              LinearMap.{u_1, u_1, max u_3 u_4, max (max u_3 u_4) u_2} (RingHom.id.{u_1} k)\n                                (LinearMap.{u_1, u_1, u_4, u_3} (RingHom.id.{u_1} k) W V)\n                                (LinearMap.{u_1, u_1, u_2, max u_3 u_4} (RingHom.id.{u_1} k) A\n                                  (LinearMap.{u_1, u_1, u_4, u_3} (RingHom.id.{u_1} k) W V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_1"
+    },
+    {
+      "association_id": "association:7fa92795aeaaea8aac90",
+      "declaration": "Etingof.Problem3_9_1.coboundaryOf_eq_zero_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/171/claim_coverage/claims/6/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) (W : Type u_4) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : AddCommGroup.{u_4} W]\n  [inst_8 : Module.{u_1, u_4} k W] [inst_9 : Module.{u_2, u_4} A W] [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A W]\n  (X : LinearMap.{u_1, u_1, u_4, u_3} (RingHom.id.{u_1} k) W V),\n  Iff\n    (Eq.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)} (Etingof.Problem3_9_1.coboundaryOf.{u_1, u_2, u_3, u_4} k A V W X) 0)\n    (\u2200 (a : A) (w : W),\n      Eq.{u_3 + 1} (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_4 + 1, u_3 + 1} X (HSMul.hSMul.{u_2, u_4, u_4} a w))\n        (HSMul.hSMul.{u_2, u_3, u_3} a (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_4 + 1, u_3 + 1} X w)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_1"
+    },
+    {
+      "association_id": "association:8816c12581df6a546b4c",
+      "declaration": "LinearMap.quotKerEquivRange",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/171/claim_coverage/claims/6/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.LinearAlgebra.Isomorphisms"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.1",
+  "packet_id": "align-0660",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0660"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.1:claim-07",
+  "source_text": "Coboundaries form B\u00b9(W,V)\u2286Z\u00b9(W,V), canonically isomorphic to Hom_k(W,V)/Hom_A(W,V)."
+}

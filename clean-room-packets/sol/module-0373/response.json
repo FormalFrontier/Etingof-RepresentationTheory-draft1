@@ -1,0 +1,110 @@
+{
+  "module_name": "PolynomialMatrixCoefficients",
+  "declarations": [
+    {
+      "temporary_id": "decl-006724",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.eval_polynomialCoordinateLinearMap_eq_coord",
+      "docstring": "If evaluating each polynomial matrix coefficient gives the corresponding basis coordinate of a linear map, then evaluating the associated polynomial-coordinate map gives that coordinate on every vector."
+    },
+    {
+      "temporary_id": "decl-006725",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.eval_polynomialTransform",
+      "docstring": "Evaluating the auxiliary transform of a multivariate polynomial at a matrix agrees with evaluating the original polynomial at the corresponding matrix product."
+    },
+    {
+      "temporary_id": "decl-006726",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.polynomialTransform_matrixCoefficient",
+      "docstring": "Polynomial matrix coefficients of a general linear group action satisfy the displayed transformation formula under the auxiliary polynomial transform."
+    },
+    {
+      "temporary_id": "decl-006727",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.polynomialCoordinateLinearMap",
+      "docstring": "The linear map whose value in row `a` is the sum of each basis coordinate of a vector multiplied by the polynomial in row `a` and the corresponding column."
+    },
+    {
+      "temporary_id": "decl-006729",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.polynomialCoordinateLinearMap_apply",
+      "docstring": "The polynomial-coordinate linear map is the sum of the basis coordinates of its argument multiplied by the corresponding row polynomials."
+    },
+    {
+      "temporary_id": "decl-006730",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.polynomialCoordinateLinearMap_mem_homogeneousSubmodule",
+      "docstring": "If every polynomial entry has degree `n`, then every value of the polynomial-coordinate linear map belongs to the degree-`n` homogeneous submodule."
+    },
+    {
+      "temporary_id": "decl-006731",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.polynomialCoordinateLinearMap_equivariant",
+      "docstring": "When the polynomial entries describe the matrix coefficients of an action and obey the displayed transform identity, the polynomial-coordinate linear map intertwines that action with the auxiliary polynomial transform."
+    },
+    {
+      "temporary_id": "decl-006732",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.tensorCoordinateFamilyLinearMap",
+      "docstring": "An auxiliary linear map from a based module to a family indexed by a basis index and a function from `Fin n` to `Fin N`, constructed from homogeneous polynomial entries."
+    },
+    {
+      "temporary_id": "decl-006734",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.tensorCoordinateFamilyLinearMap_apply",
+      "docstring": "The auxiliary tensor-coordinate family map at a pair of indices is obtained by applying the auxiliary linear equivalence to the corresponding component map."
+    },
+    {
+      "temporary_id": "decl-006735",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.tensorCoordinateFamilyLinearMap_equivariant",
+      "docstring": "Under the displayed matrix-coefficient and transform identities, the auxiliary tensor-coordinate family map intertwines the given general linear group action with the pointwise tensor-product action."
+    },
+    {
+      "temporary_id": "decl-006736",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.tensorCoordinateLinearMap",
+      "docstring": "For each basis index, an auxiliary linear map from the module to the displayed space determined by homogeneous polynomial matrix entries."
+    },
+    {
+      "temporary_id": "decl-006738",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.tensorCoordinateLinearMap_eq_zero_iff",
+      "docstring": "For each row and vector, the auxiliary tensor-coordinate map vanishes exactly when the associated polynomial-coordinate map vanishes."
+    },
+    {
+      "temporary_id": "decl-006739",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.tensorCoordinateLinearMap_equivariant",
+      "docstring": "Under the displayed matrix-coefficient and transform identities, each auxiliary tensor-coordinate map intertwines the given action with the auxiliary matrix action on its codomain."
+    },
+    {
+      "temporary_id": "decl-006740",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.exists_injective_equivariant_tensorFamilyMap_of_covariant_coefficients",
+      "docstring": "Given the auxiliary predicate on a finite-dimensional action and homogeneous polynomial matrix coefficients satisfying both displayed covariance identities, there is an injective linear map into a finite family of tensor-power spaces that intertwines the actions."
+    },
+    {
+      "temporary_id": "decl-006741",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.exists_injective_equivariant_tensorFamilyMap",
+      "docstring": "Given the auxiliary predicate on a finite-dimensional action and homogeneous polynomial formulas for its matrix coefficients, there is an injective equivariant linear map into a finite family of tensor-power spaces."
+    },
+    {
+      "temporary_id": "decl-006742",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.exists_injective_tensorFamilyMap",
+      "docstring": "Given the auxiliary predicate on a finite-dimensional action and homogeneous polynomial formulas for its matrix coefficients, there is an injective linear map into a finite family of the displayed spaces."
+    },
+    {
+      "temporary_id": "decl-006743",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.exists_homogeneous_matrixCoefficients_of_auxiliarySubmodules",
+      "docstring": "If the displayed auxiliary submodules span a representation and every nonzero indexed submodule has total index `n`, then some basis has degree-`n` homogeneous polynomial formulas for all action matrix coefficients."
+    },
+    {
+      "temporary_id": "decl-006744",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.exists_injective_equivariant_tensorFamilyMap_of_auxiliarySubmodules",
+      "docstring": "Under the auxiliary action predicate and the stated spanning and fixed-total-index conditions, there is an injective equivariant linear map from the representation into a finite family of tensor-power spaces."
+    },
+    {
+      "temporary_id": "decl-006745",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.unitToGeneralLinearGroup",
+      "docstring": "An auxiliary map from units of the field to the general linear group indexed by `Fin N`."
+    },
+    {
+      "temporary_id": "decl-006748",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.tensorCoordinateLinearEquiv",
+      "docstring": "An auxiliary linear equivalence from the displayed space to functions from `Fin n → Fin N` into the indicated tensor-product space."
+    },
+    {
+      "temporary_id": "decl-006756",
+      "new_name": "RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.tensorCoordinateLinearEquiv_map",
+      "docstring": "The auxiliary tensor-coordinate linear equivalence carries the auxiliary matrix action to the pointwise tensor-product action induced by the matrix."
+    }
+  ]
+}

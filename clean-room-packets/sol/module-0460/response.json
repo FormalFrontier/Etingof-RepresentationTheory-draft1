@@ -1,0 +1,165 @@
+{
+  "module_name": "CentralizerDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-000866",
+      "new_name": "AuxiliaryDecompositionData",
+      "docstring": "Auxiliary decomposition data attached to a family of submodules of an ambient module."
+    },
+    {
+      "temporary_id": "decl-000871",
+      "new_name": "equiv_apply_algebra",
+      "docstring": "The associated equivalence intertwines the original algebra action with its action on the tensor direct sum."
+    },
+    {
+      "temporary_id": "decl-000872",
+      "new_name": "equiv_apply_centralizer",
+      "docstring": "The associated equivalence intertwines the centralizer action with its action on the tensor direct sum."
+    },
+    {
+      "temporary_id": "decl-000881",
+      "new_name": "ofEquiv",
+      "docstring": "Constructs auxiliary decomposition data from an equivalence whose inverse sends pure tensors to evaluation."
+    },
+    {
+      "temporary_id": "decl-000897",
+      "new_name": "equiv",
+      "docstring": "The linear equivalence from the ambient module to the direct sum of tensor products carried by the data."
+    },
+    {
+      "temporary_id": "decl-016535",
+      "new_name": "exists_auxiliary_tensor_decomposition",
+      "docstring": "Provides auxiliary indexed data and a linear equivalence with a direct sum of tensor products."
+    },
+    {
+      "temporary_id": "decl-016537",
+      "new_name": "exists_auxiliary_decomposition_data",
+      "docstring": "Provides auxiliary indexed submodules and decomposition data satisfying the pure-tensor evaluation formula."
+    },
+    {
+      "temporary_id": "decl-016538",
+      "new_name": "exists_auxiliary_evaluation_equiv",
+      "docstring": "Provides auxiliary indexed submodules and an equivalence whose inverse evaluates pure tensors."
+    },
+    {
+      "temporary_id": "decl-016540",
+      "new_name": "isSemisimpleRing_centralizer",
+      "docstring": "The centralizer of a faithful semisimple algebra action on a finite-dimensional space is semisimple."
+    },
+    {
+      "temporary_id": "decl-016542",
+      "new_name": "exists_directSum_tensorProduct_equiv",
+      "docstring": "The finite module with its faithful semisimple algebra action is linearly equivalent to a direct sum of tensor products."
+    },
+    {
+      "temporary_id": "decl-016543",
+      "new_name": "centralizer_centralizer_eq",
+      "docstring": "A faithful semisimple subalgebra of endomorphisms equals its double centralizer."
+    },
+    {
+      "temporary_id": "decl-017380",
+      "new_name": "algebraActionOnTensorDirectSum",
+      "docstring": "The algebra action on a direct sum of tensors, acting on the submodule factor."
+    },
+    {
+      "temporary_id": "decl-017389",
+      "new_name": "algebraActionOnTensorDirectSum_apply_tmul",
+      "docstring": "The algebra action on a pure tensor acts on its first factor."
+    },
+    {
+      "temporary_id": "decl-017390",
+      "new_name": "centralizerActionOnTensorDirectSum",
+      "docstring": "The centralizer action on a direct sum of tensors, acting on the linear-map factor."
+    },
+    {
+      "temporary_id": "decl-017393",
+      "new_name": "centralizerActionOnTensorDirectSum_apply_tmul",
+      "docstring": "The centralizer action on a pure tensor composes its linear-map factor with the commuting endomorphism."
+    },
+    {
+      "temporary_id": "decl-017816",
+      "new_name": "centralizerModuleHom",
+      "docstring": "The centralizer-module structure on linear maps from an algebra module into the ambient module."
+    },
+    {
+      "temporary_id": "decl-017824",
+      "new_name": "centralizerModuleSubmoduleHom",
+      "docstring": "The centralizer-module structure on maps from a submodule into the ambient module."
+    },
+    {
+      "temporary_id": "decl-017839",
+      "new_name": "centralizerSMulCommClass",
+      "docstring": "Centralizer scalar multiplication on the linear-map space commutes with scalar multiplication by the base field."
+    },
+    {
+      "temporary_id": "decl-017846",
+      "new_name": "centralizerToModuleEnd",
+      "docstring": "The ring homomorphism sending a centralizing endomorphism to its module-linear action on the ambient module."
+    },
+    {
+      "temporary_id": "decl-018580",
+      "new_name": "scalarEquivModuleEnd",
+      "docstring": "For a finite simple module over an algebraically closed field, scalars are linearly equivalent to module endomorphisms."
+    },
+    {
+      "temporary_id": "decl-018584",
+      "new_name": "scalarEquivModuleEnd_symm_smul",
+      "docstring": "The scalar corresponding to a module endomorphism acts on every vector as that endomorphism."
+    },
+    {
+      "temporary_id": "decl-018587",
+      "new_name": "subalgebraCarrierRing",
+      "docstring": "The ring structure on the carrier of a subalgebra of linear endomorphisms."
+    },
+    {
+      "temporary_id": "decl-019992",
+      "new_name": "linearMapCodomainEquiv",
+      "docstring": "An equivalence of codomains induces a linear equivalence between the corresponding spaces of module maps."
+    },
+    {
+      "temporary_id": "decl-020092",
+      "new_name": "linearMapSubtypeCodomainEquiv",
+      "docstring": "Identifying a submodule with an isotypic component gives an equivalence between maps into it and maps into the ambient module."
+    },
+    {
+      "temporary_id": "decl-020119",
+      "new_name": "linearMapPiEquiv",
+      "docstring": "Module maps into a family of copies of a module are equivalent to families of module endomorphisms."
+    },
+    {
+      "temporary_id": "decl-020906",
+      "new_name": "isSimpleModule_linearMap",
+      "docstring": "Maps from a simple submodule into a semisimple module form a simple module over the centralizer."
+    },
+    {
+      "temporary_id": "decl-020982",
+      "new_name": "isotypicComponentsDFinsuppEquiv",
+      "docstring": "A Noetherian semisimple module is linearly equivalent to the finitely supported sum of its isotypic components."
+    },
+    {
+      "temporary_id": "decl-022109",
+      "new_name": "centralizerActionMonoidHom",
+      "docstring": "The centralizer acts by base-field-linear endomorphisms on the space of module maps into the ambient module."
+    },
+    {
+      "temporary_id": "decl-022120",
+      "new_name": "centralizerActionMonoidHom_apply",
+      "docstring": "The centralizer action on a module map is pointwise application of the centralizing endomorphism."
+    },
+    {
+      "temporary_id": "decl-022294",
+      "new_name": "range_le_isotypicComponent",
+      "docstring": "The range of a map from a simple submodule lies in its isotypic component."
+    },
+    {
+      "temporary_id": "decl-022930",
+      "new_name": "tensorProductLinearMapEquiv",
+      "docstring": "Evaluation gives an equivalence from a simple module tensored with its map space onto an isotypic module."
+    },
+    {
+      "temporary_id": "decl-022941",
+      "new_name": "tensorProductLinearMapEquiv_apply_tmul",
+      "docstring": "The tensor-product evaluation equivalence sends a pure tensor to evaluation of its linear-map factor."
+    }
+  ]
+}

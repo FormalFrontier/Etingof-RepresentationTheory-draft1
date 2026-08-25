@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0723",
+  "associations": [
+    {
+      "association_id": "association:12ebe4253c1fbd37d7fc",
+      "role": "supporting",
+      "rationale": "The displayed type only introduces commutant as a real endomorphism subalgebra and does not expose equivariance, dimension, or division."
+    },
+    {
+      "association_id": "association:c8ed448fd1e082c36528",
+      "role": "supporting",
+      "rationale": "The type gives only the division-algebra component for the commutant; it does not itself identify the equivariant endomorphisms and their four-dimensionality required by the complete source claim."
+    },
+    {
+      "association_id": "association:5e608109351f8bbe6fb1",
+      "role": "supporting",
+      "rationale": "The type gives only the four-dimensionality component for the commutant; it does not itself identify the equivariant endomorphisms and division property required by the complete source claim."
+    },
+    {
+      "association_id": "association:f5318ee65ab9e841150e",
+      "role": "supporting",
+      "rationale": "The equivalence gives only the equivariant-endomorphism identification component; it does not itself state the commutant's four-dimensionality and division property required by the complete source claim."
+    }
+  ]
+}

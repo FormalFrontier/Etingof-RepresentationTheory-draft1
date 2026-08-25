@@ -1,0 +1,1 @@
+{"packet_id":"align-0840","associations":[{"association_id":"association:784ac5b2778107d24eec","role":"supporting","rationale":"The type asserts an augmentation-compatible witness f, but f's type is elided, so the displayed evidence does not directly show that it is a morphism of the full resolutions."}]}

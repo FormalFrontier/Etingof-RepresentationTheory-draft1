@@ -1,0 +1,1 @@
+{"packet_id":"align-0857","associations":[{"association_id":"association:1bc728157803f24430c3","role":"supporting","rationale":"The type uses the opaque IsProgenerator predicate and an existential f whose morphism type is elided, so it does not directly display the claimed generator characterization by maps to simples."}]}

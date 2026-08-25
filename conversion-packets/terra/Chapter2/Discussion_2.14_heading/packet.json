@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_2.14_heading",
+    "kind": "discussion",
+    "title": "Section 2.14: Tensor products and duals of representations of Lie algebras \u2014 heading",
+    "node_id": "chapter-02/section-2-14",
+    "order": 113,
+    "slug": "discussion-2-14-heading",
+    "span": {
+      "start": {
+        "page": "37",
+        "line": 9
+      },
+      "end": {
+        "page": "37",
+        "line": 9
+      }
+    },
+    "source_sha256": "7ab9e528df7d462c4bc9d9a4764827135056d160f83606f19696e8b328ab80ba",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion214Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

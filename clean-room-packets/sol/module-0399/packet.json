@@ -1,0 +1,308 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Nat \u2192 Nat \u2192 Type",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2179427294",
+      "temporary_id": "decl-001040"
+    },
+    {
+      "formal_type": "\u2200 {N n : Nat} (self : decl-001040 N n), Antitone.{0, 0} self.parts",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-001040",
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055"
+      ],
+      "structural_type_hash": "3871917207",
+      "temporary_id": "decl-001045"
+    },
+    {
+      "formal_type": "{N n : Nat} \u2192 decl-001040 N n \u2192 Fin N \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": "decl-001040",
+      "project_type_dependencies": [
+        "decl-001040"
+      ],
+      "structural_type_hash": "3479140836",
+      "temporary_id": "decl-001055"
+    },
+    {
+      "formal_type": "\u2200 {N n : Nat} (self : decl-001040 N n), Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun i => self.parts i) n",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-001040",
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055"
+      ],
+      "structural_type_hash": "1213616080",
+      "temporary_id": "decl-001058"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (N : Nat) (\u03bc : n.Partition),\n  Eq.{1} (MvPolynomial.psumPart.{0, 0} (Fin N) Rat \u03bc)\n    (Finset.sum.{0, 0} Finset.univ.{0} fun lam =>\n      HSMul.hSMul.{0, 0, 0} (decl-017870 N lam \u03bc) (decl-023030 N lam.parts))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-017504",
+        "decl-017870",
+        "decl-023030"
+      ],
+      "structural_type_hash": "1673850891",
+      "temporary_id": "decl-014642"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (N : Nat) (\u03bc : n.Partition),\n  Eq.{1} (MvPolynomial.psumPart.{0, 0} (Fin N) Rat \u03bc)\n    (Finset.sum.{0, 0} Finset.univ.{0} fun lam =>\n      HSMul.hSMul.{0, 0, 0} (decl-017870 N lam \u03bc) (decl-023030 N lam.parts))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-017504",
+        "decl-017870",
+        "decl-023030"
+      ],
+      "structural_type_hash": "1673850891",
+      "temporary_id": "decl-014645"
+    },
+    {
+      "formal_type": "(N : Nat) \u2192 (Fin N \u2192 Nat) \u2192 Matrix.{0, 0, 0} (Fin N) (Fin N) (MvPolynomial.{0, 0} (Fin N) Rat)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "54634078",
+      "temporary_id": "decl-017206"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} {e e' : Fin N \u2192 Nat},\n  StrictAnti.{0, 0} e \u2192\n    StrictAnti.{0, 0} e' \u2192\n      Eq.{1}\n        (MvPolynomial.coeff.{0, 0} (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} Finsupp.equivFunOnFinite.{0, 0}) e')\n          (Matrix.det.{0, 0} (decl-017206 N e)))\n        (ite.{1} (Eq.{1} e e') 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017206"
+      ],
+      "structural_type_hash": "4208777893",
+      "temporary_id": "decl-017209"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} (e : Fin N \u2192 Nat),\n  MvPolynomial.IsHomogeneous.{0, 0} (Matrix.det.{0, 0} (decl-017206 N e))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun j => e j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017206"
+      ],
+      "structural_type_hash": "2318273065",
+      "temporary_id": "decl-017211"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} (p : MvPolynomial.{0, 0} (Fin N) Rat),\n  (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin N)),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} (MvPolynomial.rename.{0, 0, 0} (DFunLike.coe.{1, 1, 1} \u03c3)) p)\n        (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} \u03c3) p)) \u2192\n    (\u2200 (e : Fin N \u2192 Nat),\n        StrictAnti.{0, 0} e \u2192\n          Eq.{1}\n            (MvPolynomial.coeff.{0, 0} (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} Finsupp.equivFunOnFinite.{0, 0}) e) p)\n            0) \u2192\n      Eq.{1} p 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1436065789",
+      "temporary_id": "decl-017217"
+    },
+    {
+      "formal_type": "{N n : Nat} \u2192 DecidableEq.{1} (decl-001040 N n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040"
+      ],
+      "structural_type_hash": "1825115921",
+      "temporary_id": "decl-017502"
+    },
+    {
+      "formal_type": "{N n : Nat} \u2192 Fintype.{0} (decl-001040 N n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040"
+      ],
+      "structural_type_hash": "4023976728",
+      "temporary_id": "decl-017504"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 (N : Nat) \u2192 decl-001040 N n \u2192 n.Partition \u2192 Rat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040"
+      ],
+      "structural_type_hash": "760381038",
+      "temporary_id": "decl-017870"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} (p : MvPolynomial.{0, 0} (Fin N) Rat),\n  (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin N)),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} (MvPolynomial.rename.{0, 0, 0} (DFunLike.coe.{1, 1, 1} \u03c3)) p)\n        (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} \u03c3) p)) \u2192\n    \u2200 (d : Finsupp.{0, 0} (Fin N) Nat) {i j : Fin N},\n      Ne.{1} i j \u2192\n        Eq.{1} (DFunLike.coe.{1, 1, 1} d i) (DFunLike.coe.{1, 1, 1} d j) \u2192 Eq.{1} (MvPolynomial.coeff.{0, 0} d p) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "894478761",
+      "temporary_id": "decl-018035"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} {e : Fin N \u2192 Nat},\n  StrictAnti.{0, 0} e \u2192\n    \u2200 (\u03c3 : Equiv.Perm.{1} (Fin N)),\n      LE.le.{0}\n        (DFunLike.coe.{1, 1, 1} toDegLex.{0}\n          (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} Finsupp.equivFunOnFinite.{0, 0})\n            (Function.comp.{1, 1, 1} e (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} \u03c3)))))\n        (DFunLike.coe.{1, 1, 1} toDegLex.{0}\n          (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} Finsupp.equivFunOnFinite.{0, 0}) e))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2521128233",
+      "temporary_id": "decl-018314"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} {e : Fin N \u2192 Nat},\n  StrictAnti.{0, 0} e \u2192\n    Eq.{1} (MonomialOrder.degree.{0, 0, 0} MonomialOrder.degLex.{0} (Matrix.det.{0, 0} (decl-017206 N e)))\n      (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} Finsupp.equivFunOnFinite.{0, 0}) e)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017206"
+      ],
+      "structural_type_hash": "20735148",
+      "temporary_id": "decl-018317"
+    },
+    {
+      "formal_type": "\u2200 {N n : Nat} (e : Fin N \u2192 Nat),\n  StrictAnti.{0, 0} e \u2192\n    Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun j => e j)\n        (HAdd.hAdd.{0, 0, 0} (Finset.sum.{0, 0} Finset.univ.{0} fun j => decl-024471 N j) n) \u2192\n      Exists.{1} fun lam => Eq.{1} (decl-023121 N lam.parts) e",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-023121",
+        "decl-024471"
+      ],
+      "structural_type_hash": "3636837823",
+      "temporary_id": "decl-018770"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} {\u03c3 : Equiv.Perm.{1} (Fin N)}, StrictMono.{0, 0} (DFunLike.coe.{1, 1, 1} \u03c3) \u2192 Eq.{1} \u03c3 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "924189703",
+      "temporary_id": "decl-021999"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} (f : Fin N \u2192 Nat),\n  Eq.{1} (Finset.prod.{0, 0} Finset.univ.{0} fun i => HPow.hPow.{0, 0, 0} (MvPolynomial.X.{0, 0} i) (f i))\n    (DFunLike.coe.{1, 1, 1}\n      (MvPolynomial.monomial.{0, 0} (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} Finsupp.equivFunOnFinite.{0, 0}) f)) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2982742799",
+      "temporary_id": "decl-022175"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (N : Nat) (\u03bc : n.Partition),\n  MvPolynomial.IsHomogeneous.{0, 0} (MvPolynomial.psumPart.{0, 0} (Fin N) Rat \u03bc) n",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2017966705",
+      "temporary_id": "decl-022212"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (N : Nat) (\u03bc : n.Partition), MvPolynomial.IsSymmetric.{0, 0} (MvPolynomial.psumPart.{0, 0} (Fin N) Rat \u03bc)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "912354150",
+      "temporary_id": "decl-022213"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} (e : Fin N \u2192 Nat) (\u03c3 : Equiv.Perm.{1} (Fin N)),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (MvPolynomial.rename.{0, 0, 0} (DFunLike.coe.{1, 1, 1} \u03c3))\n      (Matrix.det.{0, 0} (decl-017206 N e)))\n    (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} \u03c3)\n      (Matrix.det.{0, 0} (decl-017206 N e)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017206"
+      ],
+      "structural_type_hash": "592823248",
+      "temporary_id": "decl-022570"
+    },
+    {
+      "formal_type": "(N : Nat) \u2192 (Fin N \u2192 Nat) \u2192 MvPolynomial.{0, 0} (Fin N) Rat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3320351039",
+      "temporary_id": "decl-023030"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    Ne.{1}\n      (MvPolynomial.coeff.{0, 0} (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} Finsupp.equivFunOnFinite.{0, 0}) lam)\n        (decl-023030 N lam))\n      0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023030"
+      ],
+      "structural_type_hash": "3305087939",
+      "temporary_id": "decl-023034"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0} (decl-023030 N lam)\n      (Matrix.det.{0, 0} (decl-017206 N (decl-024471 N))))\n    (Matrix.det.{0, 0} (decl-017206 N (decl-023121 N lam)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017206",
+        "decl-023030",
+        "decl-023121",
+        "decl-024471"
+      ],
+      "structural_type_hash": "1466123069",
+      "temporary_id": "decl-023050"
+    },
+    {
+      "formal_type": "(N : Nat) \u2192 (Fin N \u2192 Nat) \u2192 Fin N \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1251609497",
+      "temporary_id": "decl-023121"
+    },
+    {
+      "formal_type": "\u2200 {N n : Nat} (lam : decl-001040 N n), StrictAnti.{0, 0} (decl-023121 N lam.parts)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-023121"
+      ],
+      "structural_type_hash": "1275696941",
+      "temporary_id": "decl-023123"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} {e : Fin N \u2192 Nat},\n  StrictAnti.{0, 0} e \u2192 \u2200 (j : Fin N), LE.le.{0} (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) j.val) (e j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3586512430",
+      "temporary_id": "decl-023427"
+    },
+    {
+      "formal_type": "(N : Nat) \u2192 Fin N \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1293027417",
+      "temporary_id": "decl-024471"
+    }
+  ],
+  "module_temporary_id": "module-0399",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

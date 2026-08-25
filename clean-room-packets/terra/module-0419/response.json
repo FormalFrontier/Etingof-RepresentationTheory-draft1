@@ -1,0 +1,55 @@
+{
+  "module_name": "GeneralLinearGroup.Localization",
+  "declarations": [
+    {
+      "temporary_id": "decl-015511",
+      "new_name": "invSelf_action",
+      "docstring": "The action of an invertible matrix on the distinguished inverse is scalar multiplication by the inverse determinant."
+    },
+    {
+      "temporary_id": "decl-015512",
+      "new_name": "localizationElementSubmodule_action_mem",
+      "docstring": "Membership in the submodule associated to an element is preserved by the matrix action."
+    },
+    {
+      "temporary_id": "decl-015513",
+      "new_name": "action_map_mul_invSelf_pow",
+      "docstring": "Describes the matrix action on a polynomial times a power of the distinguished inverse."
+    },
+    {
+      "temporary_id": "decl-015514",
+      "new_name": "localizationDenominatorPower",
+      "docstring": "The linear map sending a polynomial to its image multiplied by a chosen power of the distinguished inverse."
+    },
+    {
+      "temporary_id": "decl-015521",
+      "new_name": "localizationDenominatorPower_apply",
+      "docstring": "Evaluating the denominator-power linear map gives the polynomial image times the specified inverse power."
+    },
+    {
+      "temporary_id": "decl-015524",
+      "new_name": "totalDegree_substitute_le",
+      "docstring": "Substitution induced by a square matrix does not increase total degree."
+    },
+    {
+      "temporary_id": "decl-015525",
+      "new_name": "localizationElementSubmodule",
+      "docstring": "The submodule of the localization associated to a chosen element."
+    },
+    {
+      "temporary_id": "decl-015527",
+      "new_name": "localizationElementSubrepresentation",
+      "docstring": "The subrepresentation associated to a chosen element of the localization."
+    },
+    {
+      "temporary_id": "decl-015528",
+      "new_name": "localizationElementSubmodule_finiteDimensional",
+      "docstring": "The submodule associated to an element is finite dimensional over the base field."
+    },
+    {
+      "temporary_id": "decl-015531",
+      "new_name": "self_mem_localizationElementSubmodule",
+      "docstring": "The chosen localization element belongs to its associated submodule."
+    }
+  ]
+}

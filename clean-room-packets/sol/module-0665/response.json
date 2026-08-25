@@ -1,0 +1,115 @@
+{
+  "declarations": [
+    {
+      "docstring": "The degree-n k-module obtained from the linear Yoneda complex associated to a projective resolution and a coefficient module.",
+      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObj",
+      "temporary_id": "decl-013266"
+    },
+    {
+      "docstring": "The degree-n additive commutative group attached to a left module and a projective resolution of an opposite-ring module.",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroup",
+      "temporary_id": "decl-013268"
+    },
+    {
+      "docstring": "A morphism between projective resolution complexes induces a morphism between their linear Yoneda complexes in the reversed direction.",
+      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaMapOfResolutionHom",
+      "temporary_id": "decl-013272"
+    },
+    {
+      "docstring": "The degree-n linear Yoneda objects for two projective resolutions are isomorphic.",
+      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObjIso",
+      "temporary_id": "decl-013275"
+    },
+    {
+      "docstring": "A morphism of projective-resolution complexes induces, in the displayed direction, a map between degree-n linear Yoneda objects.",
+      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObjMap",
+      "temporary_id": "decl-013276"
+    },
+    {
+      "docstring": "Under the displayed composition equality, the induced map on degree-n linear Yoneda objects is the hom of the specified isomorphism.",
+      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObjMap_eq_isoHom",
+      "temporary_id": "decl-013277"
+    },
+    {
+      "docstring": "Two complex morphisms satisfying the displayed composition equalities induce equal maps on degree-n linear Yoneda objects.",
+      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObjMap_eq_of_comm",
+      "temporary_id": "decl-013278"
+    },
+    {
+      "docstring": "The linear Yoneda complexes associated to two projective resolutions are homotopy equivalent.",
+      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaHomotopyEquiv",
+      "temporary_id": "decl-013279"
+    },
+    {
+      "docstring": "The homology map induced by a compatible morphism of projective resolutions is the hom of the comparison isomorphism after applying an additive functor.",
+      "new_name": "CategoryTheory.ProjectiveResolution.functorHomologyMap_eq_isoHom",
+      "temporary_id": "decl-013281"
+    },
+    {
+      "docstring": "Two morphisms satisfying the displayed degree-zero composition equalities induce equal homology maps after applying an additive functor.",
+      "new_name": "CategoryTheory.ProjectiveResolution.functorHomologyMap_eq_of_comm",
+      "temporary_id": "decl-013282"
+    },
+    {
+      "docstring": "Applying an additive functor to two projective resolutions gives an isomorphism between their homology objects in every degree.",
+      "new_name": "CategoryTheory.ProjectiveResolution.functorHomologyIso",
+      "temporary_id": "decl-013283"
+    },
+    {
+      "docstring": "The hom of the additive-functor homology comparison isomorphism from a projective resolution to itself is the identity.",
+      "new_name": "CategoryTheory.ProjectiveResolution.functorHomologyIso_self_hom",
+      "temporary_id": "decl-013289"
+    },
+    {
+      "docstring": "The composite of two additive-functor homology comparison isomorphisms agrees with the direct comparison isomorphism.",
+      "new_name": "CategoryTheory.ProjectiveResolution.functorHomologyIso_comp_hom",
+      "temporary_id": "decl-013290"
+    },
+    {
+      "docstring": "The degree-n groups attached to a left module and two projective resolutions of an opposite-ring module are isomorphic.",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupIso",
+      "temporary_id": "decl-013291"
+    },
+    {
+      "docstring": "The hom of the module-pair group isomorphism from a projective resolution to itself is the identity.",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupIso_self_hom",
+      "temporary_id": "decl-013294"
+    },
+    {
+      "docstring": "The composite of two module-pair group isomorphisms equals the direct isomorphism.",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupIso_comp_hom",
+      "temporary_id": "decl-013295"
+    },
+    {
+      "docstring": "A morphism of projective-resolution complexes induces a map on the associated degree-n module-pair groups.",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupMap",
+      "temporary_id": "decl-013296"
+    },
+    {
+      "docstring": "Under the displayed composition equality, the induced map on degree-n module-pair groups is the hom of the specified isomorphism.",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupMap_eq_isoHom",
+      "temporary_id": "decl-013297"
+    },
+    {
+      "docstring": "Two complex morphisms satisfying the displayed composition equalities induce equal maps on degree-n module-pair groups.",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupMap_eq_of_comm",
+      "temporary_id": "decl-013298"
+    },
+    {
+      "docstring": "A homotopy equivalence of complexes in an opposite category yields a reversed homotopy equivalence between their unop complexes.",
+      "new_name": "HomotopyEquiv.unopComplex",
+      "temporary_id": "decl-013299"
+    },
+    {
+      "docstring": "Any two projective resolutions of the same module have a nonempty type of homotopy equivalences between their complexes.",
+      "new_name": "CategoryTheory.ProjectiveResolution.homotopyEquivNonempty",
+      "temporary_id": "decl-014392"
+    },
+    {
+      "docstring": "Between two projective resolutions of the same module, there exists a complex morphism satisfying the displayed composition equality.",
+      "new_name": "CategoryTheory.ProjectiveResolution.existsHom_comp_pi",
+      "temporary_id": "decl-014393"
+    }
+  ],
+  "module_name": "HomologicalAlgebra.ProjectiveResolution.Comparison"
+}

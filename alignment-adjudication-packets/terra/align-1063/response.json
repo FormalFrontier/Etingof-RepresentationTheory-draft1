@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1063",
+  "associations": [
+    {
+      "association_id": "association:69476c15fc6e0d25f9ca",
+      "rationale": "The type gives the double-reflection isomorphism only in the surjective sink-map case; it does not state the injective source-map case also included in the source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:fa1815c1480a0cc75dbb",
+      "rationale": "The type gives the double-reflection isomorphism only in the injective source-map case; it does not state the surjective sink-map case also included in the source claim.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Definition7.1.1",
+    "kind": "definition",
+    "title": "Category",
+    "node_id": "chapter-07/section-7-1",
+    "order": 466,
+    "slug": "definition7-1-1",
+    "span": {
+      "start": {
+        "page": "181",
+        "line": 13
+      },
+      "end": {
+        "page": "182",
+        "line": 14
+      }
+    },
+    "source_sha256": "6a0056d155d38330dcdcdace180f725d496f02b6d4ac1708f377f9b98d598391",
+    "features": {
+      "line_count": 17,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition711",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

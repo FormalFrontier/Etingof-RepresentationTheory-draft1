@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ccb935cd6964d5126d6e",
+      "declaration": "Etingof.inverseKostkaMatrix_eq_zero_of_not_rootLe",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/337/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {mu la : n.Partition}, Not (la.RootLe mu) \u2192 Eq.{1} (Etingof.inverseKostkaMatrix n mu la) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_15_5"
+    },
+    {
+      "association_id": "association:e7f54fa7d4e558714384",
+      "declaration": "Etingof.spechtCharacter_eq_sum_inverseKostka_rootLe",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/337/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (Etingof.spechtModuleCharacter n la \u03c3)\n    (Finset.sum.{0, 0} (Finset.filter.{0} (fun mu => la.RootLe mu) Finset.univ.{0}) fun mu =>\n      HMul.hMul.{0, 0, 0} (Etingof.inverseKostkaMatrix n mu la) (Nat.cast.{0} (Etingof.permModuleCharacter n mu \u03c3)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_15_5"
+    }
+  ],
+  "canonical_reference": "Chapter5/Remark5.15.5",
+  "packet_id": "align-0364",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0364"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:722e75c48308ecaff9aa",
+  "source_text": "Specht characters expand through the inverse Kostka matrix only over the root-order upper set."
+}

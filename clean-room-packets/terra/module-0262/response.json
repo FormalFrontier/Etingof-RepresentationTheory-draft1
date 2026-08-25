@@ -1,0 +1,95 @@
+{
+  "module_name": "GeneralLinear.AuxiliaryPolynomialEmbedding",
+  "declarations": [
+    {
+      "temporary_id": "decl-001145",
+      "new_name": "auxiliaryMatrixExponentFinset",
+      "docstring": "An auxiliary finite set of matrix-indexed finitely supported natural-number exponents."
+    },
+    {
+      "temporary_id": "decl-001147",
+      "new_name": "card_auxiliaryMatrixExponentFinset",
+      "docstring": "The auxiliary exponent set has the displayed product cardinality when the coordinate sum matches the degree, and is empty otherwise."
+    },
+    {
+      "temporary_id": "decl-001148",
+      "new_name": "card_piAntidiag_eq_multichoose",
+      "docstring": "The finitely supported antidiagonal over a finite index type has cardinality given by multichoose."
+    },
+    {
+      "temporary_id": "decl-001149",
+      "new_name": "coeff_auxiliaryAction",
+      "docstring": "Under the displayed action at a coordinate-indexed auxiliary group element, each polynomial coefficient is scaled by the corresponding power of the unit."
+    },
+    {
+      "temporary_id": "decl-001150",
+      "new_name": "finrank_auxiliarySubmodule_eq_card_auxiliaryMatrixExponentFinset",
+      "docstring": "The dimension of the indicated auxiliary submodule equals the cardinality of the auxiliary matrix-exponent set."
+    },
+    {
+      "temporary_id": "decl-001151",
+      "new_name": "finrank_auxiliarySubmodule",
+      "docstring": "The auxiliary-submodule dimension is the displayed product of binomial coefficients when the index sum is the degree, and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-001152",
+      "new_name": "auxiliaryPolynomial_coeff",
+      "docstring": "A coefficient of the auxiliary polynomial for the displayed indexed representation is the stated binomial product when its total degree matches, and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-001153",
+      "new_name": "map_auxiliarySubmodule_auxiliaryPolynomialEmbedding",
+      "docstring": "The image of the indicated auxiliary submodule under the auxiliary polynomial embedding is spanned by monomials from the corresponding exponent set."
+    },
+    {
+      "temporary_id": "decl-001154",
+      "new_name": "mem_auxiliaryMatrixExponentFinset_iff",
+      "docstring": "Membership in the auxiliary exponent set is equivalent to having the specified total degree and prescribed column sums."
+    },
+    {
+      "temporary_id": "decl-001157",
+      "new_name": "mem_auxiliarySubmodule_iff_auxiliaryPolynomialEmbedding_action",
+      "docstring": "Membership in the auxiliary submodule is equivalent to the embedded polynomial scaling by the prescribed power under each displayed coordinate-indexed action."
+    },
+    {
+      "temporary_id": "decl-001161",
+      "new_name": "monomial_mem_homogeneousSubmodule",
+      "docstring": "A monomial whose exponent sum is the given degree belongs to the corresponding homogeneous polynomial submodule."
+    },
+    {
+      "temporary_id": "decl-001162",
+      "new_name": "multichoose_eq_choose_add_sub_one",
+      "docstring": "For a positive number of choices, multichoose is an ordinary binomial coefficient with shifted upper argument."
+    },
+    {
+      "temporary_id": "decl-001165",
+      "new_name": "auxiliaryPolynomialEmbedding",
+      "docstring": "An auxiliary linear map from the displayed indexed representation into matrix-variable multivariate polynomials."
+    },
+    {
+      "temporary_id": "decl-001166",
+      "new_name": "auxiliaryPolynomialEmbedding_injective",
+      "docstring": "The auxiliary polynomial map from the displayed indexed representation is injective."
+    },
+    {
+      "temporary_id": "decl-001167",
+      "new_name": "auxiliaryPolynomialEmbedding_mem_homogeneousSubmodule",
+      "docstring": "Every polynomial in the image of the auxiliary map is homogeneous of the indexed degree."
+    },
+    {
+      "temporary_id": "decl-001168",
+      "new_name": "auxiliaryPolynomialEmbedding_groupAction",
+      "docstring": "The auxiliary polynomial embedding intertwines the two displayed general linear group actions."
+    },
+    {
+      "temporary_id": "decl-001169",
+      "new_name": "auxiliaryAction_monomial",
+      "docstring": "The displayed action at a coordinate-indexed auxiliary group element scales a monomial by the unit raised to the corresponding column sum."
+    },
+    {
+      "temporary_id": "decl-001170",
+      "new_name": "finsupp_prod_update_snd_eq_pow_sum",
+      "docstring": "A finitely supported product of an updated function on second coordinates reduces to a power whose exponent is the selected column sum."
+    }
+  ]
+}

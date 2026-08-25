@@ -1,0 +1,215 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a70829dd5eea3c134880",
+      "declaration": "Etingof.Problem4_12_7.Q8",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Set.{0} (Quaternion.{0} Real)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:c3047c7d4b4f42dcb657",
+      "declaration": "Etingof.Problem4_12_7.Q8_mul_mem",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (x : Quaternion.{0} Real),\n  Membership.mem.{0, 0} Etingof.Problem4_12_7.Q8 x \u2192\n    \u2200 (y : Quaternion.{0} Real),\n      Membership.mem.{0, 0} Etingof.Problem4_12_7.Q8 y \u2192\n        Membership.mem.{0, 0} Etingof.Problem4_12_7.Q8 (HMul.hMul.{0, 0, 0} x y)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:6dd7f2076c788d385da5",
+      "declaration": "Etingof.Problem4_12_7.Q8_star_mem",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (x : Quaternion.{0} Real),\n  Membership.mem.{0, 0} Etingof.Problem4_12_7.Q8 x \u2192 Membership.mem.{0, 0} Etingof.Problem4_12_7.Q8 (Star.star.{0} x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:001b7900ee8cf8707bb0",
+      "declaration": "Etingof.Problem4_12_7.Q8_subset_unitary",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (x : Quaternion.{0} Real),\n  Membership.mem.{0, 0} Etingof.Problem4_12_7.Q8 x \u2192 Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) x",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:13134e8a930203712d8a",
+      "declaration": "Etingof.Problem4_12_7.finrank_quaternion",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Module.finrank.{0, 0} Real (Quaternion.{0} Real)) 4",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:3939c175f11eaace3968",
+      "declaration": "Etingof.Problem4_12_7.qI_mul_qI",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:75371f7fa71a8ae498a4",
+      "declaration": "Etingof.Problem4_12_7.qI_mul_qJ",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} Etingof.Problem4_12_7.qI Etingof.Problem4_12_7.qJ) Etingof.Problem4_12_7.qK",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:f66ed6852f1a460839fb",
+      "declaration": "Etingof.Problem4_12_7.qI_mul_qK",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} Etingof.Problem4_12_7.qI Etingof.Problem4_12_7.qK) (Neg.neg.{0} Etingof.Problem4_12_7.qJ)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:e568567ae58f944975d8",
+      "declaration": "Etingof.Problem4_12_7.qJ_mul_qI",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} Etingof.Problem4_12_7.qJ Etingof.Problem4_12_7.qI) (Neg.neg.{0} Etingof.Problem4_12_7.qK)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:531c04230b23f7cf4109",
+      "declaration": "Etingof.Problem4_12_7.qJ_mul_qJ",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:505db2939dc19c1d43d5",
+      "declaration": "Etingof.Problem4_12_7.qJ_mul_qK",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} Etingof.Problem4_12_7.qJ Etingof.Problem4_12_7.qK) Etingof.Problem4_12_7.qI",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:d96eb257cd4727db2faf",
+      "declaration": "Etingof.Problem4_12_7.qK_mul_qI",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} Etingof.Problem4_12_7.qK Etingof.Problem4_12_7.qI) Etingof.Problem4_12_7.qJ",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:7aab2d9a641e6c929442",
+      "declaration": "Etingof.Problem4_12_7.qK_mul_qJ",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} Etingof.Problem4_12_7.qK Etingof.Problem4_12_7.qJ) (Neg.neg.{0} Etingof.Problem4_12_7.qI)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:d5c1730ddeb5f5ac5574",
+      "declaration": "Etingof.Problem4_12_7.qK_mul_qK",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:9b4ba19d0abc4ee663a4",
+      "declaration": "Etingof.Problem4_12_7.quaternionBasis",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Module.Basis.{0, 0, 0} (Fin 4) Real (Quaternion.{0} Real)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.7",
+  "packet_id": "align-0724",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0724"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.7:part_c",
+  "source_text": "Part (c): construct the quaternion basis and multiplication table, including Q8."
+}

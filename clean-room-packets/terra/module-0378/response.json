@@ -1,0 +1,50 @@
+{
+  "module_name": "FinsuppPermutationAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-001488",
+      "new_name": "FinsuppPermAuxiliary",
+      "docstring": "An auxiliary type indexed by a natural number, a finitely supported function on `Fin N`, and a permutation of `Fin n`."
+    },
+    {
+      "temporary_id": "decl-005700",
+      "new_name": "FinNatFunctionPairAuxiliary",
+      "docstring": "An auxiliary type indexed by a natural number `N`, an implicit natural number `n`, and two functions from `Fin N` to natural numbers."
+    },
+    {
+      "temporary_id": "decl-018026",
+      "new_name": "coeff_eq_card_FinsuppPermAuxiliary",
+      "docstring": "The specified multivariate-polynomial coefficient equals the cardinality of the auxiliary type indexed by the finitely supported function and permutation."
+    },
+    {
+      "temporary_id": "decl-018445",
+      "new_name": "sum_FinsuppPermAuxiliary_card_mul_card_eq_factorial_mul_FinNatFunctionPairAuxiliary_card",
+      "docstring": "If the coordinate sums of `α` and `β` both equal `n`, the sum over permutations of the products of the two `FinsuppPermAuxiliary` cardinalities equals `n!` times the cardinality of `FinNatFunctionPairAuxiliary`."
+    },
+    {
+      "temporary_id": "decl-019725",
+      "new_name": "auxiliaryPowerSeriesCoeff_eq_card_FinNatFunctionPairAuxiliary",
+      "docstring": "If every coordinate of `α` is at most `n`, the specified multivariate-power-series coefficient equals the cardinality of `FinNatFunctionPairAuxiliary` indexed by `α` and `β`."
+    },
+    {
+      "temporary_id": "decl-020613",
+      "new_name": "finsuppPermAuxiliaryFintype",
+      "docstring": "A `Fintype` structure on `FinsuppPermAuxiliary` indexed by `N`, implicit `n`, `α`, and `σ`."
+    },
+    {
+      "temporary_id": "decl-020615",
+      "new_name": "finNatFunctionPairAuxiliaryFintype",
+      "docstring": "A `Fintype` structure on `FinNatFunctionPairAuxiliary` indexed by `N`, implicit `n`, `α`, and `β`."
+    },
+    {
+      "temporary_id": "decl-021543",
+      "new_name": "map_auxiliaryPowerSeries",
+      "docstring": "Mapping the auxiliary multivariate power series along a ring homomorphism gives the corresponding auxiliary power series."
+    },
+    {
+      "temporary_id": "decl-022156",
+      "new_name": "sum_coeff_mul_coeff_eq_factorial_mul_auxiliaryPowerSeriesCoeff",
+      "docstring": "If the coordinate sums of `α` and `β` both equal `n`, the sum over permutations of the products of their displayed polynomial coefficients equals `n!` times the displayed multivariate-power-series coefficient."
+    }
+  ]
+}

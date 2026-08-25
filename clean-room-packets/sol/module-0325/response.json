@@ -1,0 +1,210 @@
+{
+  "module_name": "Combinatorics.YoungDiagram.CornerStatistics",
+  "declarations": [
+    {
+      "temporary_id": "decl-017013",
+      "new_name": "YoungDiagram.colLen_eq_succ_of_isOuterCorner",
+      "docstring": "At an outer corner, the column length is one more than the row index."
+    },
+    {
+      "temporary_id": "decl-017015",
+      "new_name": "YoungDiagram.rowLen_eq_succ_of_isOuterCorner",
+      "docstring": "At an outer corner, the row length is one more than the column index."
+    },
+    {
+      "temporary_id": "decl-017017",
+      "new_name": "YoungDiagram.hookLength_eq_one_of_isOuterCorner",
+      "docstring": "The hook length at an outer corner is one."
+    },
+    {
+      "temporary_id": "decl-017019",
+      "new_name": "YoungDiagram.hookLengthProduct_div_removeCorner_eq_prod",
+      "docstring": "The quotient of hook-length products before and after removing an outer corner equals the product of the corresponding cellwise quotients."
+    },
+    {
+      "temporary_id": "decl-017020",
+      "new_name": "YoungDiagram.mem_removeCorner_iff",
+      "docstring": "A cell belongs to the diagram obtained by removing an outer corner exactly when it belonged to the original diagram and is not the removed cell."
+    },
+    {
+      "temporary_id": "decl-017021",
+      "new_name": "YoungDiagram.removeCorner_colLen_eq",
+      "docstring": "After removing an outer corner, its column has length equal to the corner's row index."
+    },
+    {
+      "temporary_id": "decl-017025",
+      "new_name": "YoungDiagram.removeCorner_colLen_eq_of_ne",
+      "docstring": "Removing an outer corner leaves every other column length unchanged."
+    },
+    {
+      "temporary_id": "decl-017026",
+      "new_name": "YoungDiagram.removeCorner_hookLength_eq_sub_one_of_lt_row",
+      "docstring": "Removing an outer corner decreases by one the hook length of a cell above it in the same column."
+    },
+    {
+      "temporary_id": "decl-017029",
+      "new_name": "YoungDiagram.removeCorner_hookLength_eq_of_row_ne_of_col_ne",
+      "docstring": "Removing an outer corner preserves the hook length of a cell in a different row and column."
+    },
+    {
+      "temporary_id": "decl-017030",
+      "new_name": "YoungDiagram.removeCorner_hookLength_eq_sub_one_of_lt_col",
+      "docstring": "Removing an outer corner decreases by one the hook length of a cell to its left in the same row."
+    },
+    {
+      "temporary_id": "decl-017033",
+      "new_name": "YoungDiagram.removeCorner_rowLen_eq",
+      "docstring": "After removing an outer corner, its row has length equal to the corner's column index."
+    },
+    {
+      "temporary_id": "decl-017037",
+      "new_name": "YoungDiagram.removeCorner_rowLen_eq_of_ne",
+      "docstring": "Removing an outer corner leaves every other row length unchanged."
+    },
+    {
+      "temporary_id": "decl-017741",
+      "new_name": "Partition.auxiliaryCard_eq_factorial_div_hookLengthProduct",
+      "docstring": "An auxiliary cardinality associated with a partition equals its size factorial divided by the hook-length product."
+    },
+    {
+      "temporary_id": "decl-017742",
+      "new_name": "Partition.auxiliaryCard_mul_hookLengthProduct_eq_factorial",
+      "docstring": "An auxiliary cardinality associated with a partition, multiplied by its hook-length product, equals its size factorial."
+    },
+    {
+      "temporary_id": "decl-017743",
+      "new_name": "Partition.auxiliaryFactorialIdentity_succ",
+      "docstring": "The auxiliary factorial identity for partitions of a given size implies the corresponding identity at the successor size."
+    },
+    {
+      "temporary_id": "decl-017744",
+      "new_name": "Partition.auxiliaryFactorialIdentity_zero",
+      "docstring": "The auxiliary factorial identity holds for partitions of zero."
+    },
+    {
+      "temporary_id": "decl-020290",
+      "new_name": "Partition.hookLengthProduct_dvd_factorial",
+      "docstring": "The hook-length product of a partition divides the factorial of its size."
+    },
+    {
+      "temporary_id": "decl-020303",
+      "new_name": "auxiliaryElidedStatement020303",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-023751",
+      "new_name": "auxiliaryElidedStatement023751",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-025214",
+      "new_name": "Partition.auxiliaryAtOuterCorner",
+      "docstring": "An auxiliary partition of the preceding size determined by a partition and one of its outer corners."
+    },
+    {
+      "temporary_id": "decl-025228",
+      "new_name": "Partition.card_toYoungDiagram_cells",
+      "docstring": "The Young diagram of a partition has as many cells as the partition's indexed size."
+    },
+    {
+      "temporary_id": "decl-025229",
+      "new_name": "Partition.toYoungDiagram_auxiliaryAtOuterCorner",
+      "docstring": "The Young diagram of the auxiliary partition at an outer corner is obtained by removing that corner from the original Young diagram."
+    },
+    {
+      "temporary_id": "decl-025595",
+      "new_name": "YoungDiagram.auxiliaryCellPredicate",
+      "docstring": "An auxiliary predicate on a Young diagram and two natural-number indices."
+    },
+    {
+      "temporary_id": "decl-025597",
+      "new_name": "YoungDiagram.card_hookCellsExcl_eq_hookLength_sub_one",
+      "docstring": "For a cell of a Young diagram, the associated hook cells excluding that cell have cardinality one less than its hook length."
+    },
+    {
+      "temporary_id": "decl-025600",
+      "new_name": "YoungDiagram.auxiliaryCellFinset",
+      "docstring": "An auxiliary finite set of pairs associated with a Young diagram and two indices."
+    },
+    {
+      "temporary_id": "decl-025602",
+      "new_name": "YoungDiagram.auxiliaryCellFinset_subset_cells",
+      "docstring": "For indices specifying a cell, every pair in the associated auxiliary finite set is a cell of the diagram."
+    },
+    {
+      "temporary_id": "decl-025606",
+      "new_name": "YoungDiagram.auxiliaryCellStatistic",
+      "docstring": "An auxiliary natural-number statistic of a Young diagram at two indices."
+    },
+    {
+      "temporary_id": "decl-025608",
+      "new_name": "YoungDiagram.auxiliaryDiagramStatistic",
+      "docstring": "An auxiliary natural-number statistic of a Young diagram."
+    },
+    {
+      "temporary_id": "decl-025610",
+      "new_name": "YoungDiagram.auxiliaryDiagramStatistic_pos",
+      "docstring": "The auxiliary natural-number statistic of a Young diagram is positive."
+    },
+    {
+      "temporary_id": "decl-025611",
+      "new_name": "YoungDiagram.auxiliaryCellStatistic_pos",
+      "docstring": "The auxiliary cell statistic is positive at every cell of a Young diagram."
+    },
+    {
+      "temporary_id": "decl-025613",
+      "new_name": "YoungDiagram.auxiliaryCellWeight",
+      "docstring": "An auxiliary rational weight depending on a Young diagram, two indices, and a pair of indices."
+    },
+    {
+      "temporary_id": "decl-025620",
+      "new_name": "YoungDiagram.sum_auxiliaryCellWeight_eq_statistic_div",
+      "docstring": "The sum over all cells of the auxiliary weights directed toward an outer corner equals the quotient of the diagram statistics before and after removing that corner."
+    },
+    {
+      "temporary_id": "decl-025629",
+      "new_name": "YoungDiagram.auxiliaryCellWeight_self_eq_one",
+      "docstring": "The auxiliary weight from an outer corner to itself is one."
+    },
+    {
+      "temporary_id": "decl-025630",
+      "new_name": "YoungDiagram.auxiliaryCellWeight_eq_zero_of_ne",
+      "docstring": "The auxiliary weight from an outer corner to a distinct pair of indices is zero."
+    },
+    {
+      "temporary_id": "decl-025631",
+      "new_name": "YoungDiagram.auxiliaryCellWeight_eq_zero_of_not_mem",
+      "docstring": "If a pair of indices is not a cell, every auxiliary weight originating at those indices is zero."
+    },
+    {
+      "temporary_id": "decl-025632",
+      "new_name": "YoungDiagram.sum_outerCorners_auxiliaryCellWeight_eq_one",
+      "docstring": "For a cell of a Young diagram, its auxiliary weights over all outer corners sum to one."
+    },
+    {
+      "temporary_id": "decl-025636",
+      "new_name": "YoungDiagram.mem_auxiliaryCellPairFinset_iff",
+      "docstring": "Membership in the auxiliary finite set of cell pairs is equivalent to the corresponding auxiliary corner predicate."
+    },
+    {
+      "temporary_id": "decl-025638",
+      "new_name": "YoungDiagram.auxiliaryCellPairFinset",
+      "docstring": "An auxiliary finite set of pairs associated with a Young diagram."
+    },
+    {
+      "temporary_id": "decl-025640",
+      "new_name": "YoungDiagram.auxiliaryCellPairFinset_nonempty",
+      "docstring": "A Young diagram with at least one cell has a nonempty auxiliary finite set of pairs."
+    },
+    {
+      "temporary_id": "decl-025641",
+      "new_name": "YoungDiagram.auxiliaryCornerTransform",
+      "docstring": "An auxiliary Young-diagram transformation determined by two indices satisfying the auxiliary corner predicate."
+    },
+    {
+      "temporary_id": "decl-025647",
+      "new_name": "YoungDiagram.card_auxiliaryCornerTransform_cells",
+      "docstring": "The auxiliary corner transformation decreases the number of cells by one."
+    }
+  ]
+}

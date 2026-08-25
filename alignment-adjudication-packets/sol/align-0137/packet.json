@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e2ca0908489695a3aad6",
+      "declaration": "toDualEmbedding",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/7/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {r : Nat} \u2192\n      {d : Fin r \u2192 Nat} \u2192\n        (X : Type u_2) \u2192\n          [inst_1 : AddCommGroup.{u_2} X] \u2192\n            [inst_2 : Module.{u_1, u_2} k X] \u2192\n              [inst_3 : Module.{u_1, u_2} (MatProd.{u_1} k d) X] \u2192\n                [IsScalarTower.{u_1, u_1, u_2} k (MatProd.{u_1} k d) X] \u2192\n                  [FiniteDimensional.{u_1, u_2} k X] \u2192\n                    LinearMap.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} (MatProd.{u_1} k d)) X\n                      (Module.Dual.{u_1, u_1} k\n                        (Fin (Module.finrank.{u_1, max u_2 u_1} k (Module.Dual.{u_1, u_2} k X)) \u2192 MatProd.{u_1} k d))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    },
+    {
+      "association_id": "association:c87a028c6e4a7e95a316",
+      "declaration": "toDualEmbedding_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/7/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {r : Nat} {d : Fin r \u2192 Nat} (X : Type u_2) [inst_1 : AddCommGroup.{u_2} X]\n  [inst_2 : Module.{u_1, u_2} k X] [inst_3 : Module.{u_1, u_2} (MatProd.{u_1} k d) X]\n  [inst_4 : IsScalarTower.{u_1, u_1, u_2} k (MatProd.{u_1} k d) X] [inst_5 : FiniteDimensional.{u_1, u_2} k X],\n  Function.Injective.{u_2 + 1, u_1 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} (toDualEmbedding.{u_1, u_2} X))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    },
+    {
+      "association_id": "association:1af48571b99fb6bb73a3",
+      "declaration": "twistedDualMap",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/7/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {r : Nat} \u2192\n      {d : Fin r \u2192 Nat} \u2192\n        {M : Type u_3} \u2192\n          {N : Type u_4} \u2192\n            [inst_1 : AddCommGroup.{u_3} M] \u2192\n              [inst_2 : Module.{u_1, u_3} k M] \u2192\n                [inst_3 : Module.{u_1, u_3} (MatProd.{u_1} k d) M] \u2192\n                  [inst_4 : IsScalarTower.{u_1, u_1, u_3} k (MatProd.{u_1} k d) M] \u2192\n                    [inst_5 : AddCommGroup.{u_4} N] \u2192\n                      [inst_6 : Module.{u_1, u_4} k N] \u2192\n                        [inst_7 : Module.{u_1, u_4} (MatProd.{u_1} k d) N] \u2192\n                          [inst_8 : IsScalarTower.{u_1, u_1, u_4} k (MatProd.{u_1} k d) N] \u2192\n                            LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} (MatProd.{u_1} k d)) M N \u2192\n                              LinearMap.{u_1, u_1, max u_4 u_1, max u_3 u_1} (RingHom.id.{u_1} (MatProd.{u_1} k d))\n                                (Module.Dual.{u_1, u_4} k N) (Module.Dual.{u_1, u_3} k M)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    },
+    {
+      "association_id": "association:3624cc106f63dcd868d4",
+      "declaration": "twistedDualMap_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/7/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {r : Nat} {d : Fin r \u2192 Nat} {M : Type u_3} {N : Type u_4}\n  [inst_1 : AddCommGroup.{u_3} M] [inst_2 : Module.{u_1, u_3} k M] [inst_3 : Module.{u_1, u_3} (MatProd.{u_1} k d) M]\n  [inst_4 : IsScalarTower.{u_1, u_1, u_3} k (MatProd.{u_1} k d) M] [inst_5 : AddCommGroup.{u_4} N]\n  [inst_6 : Module.{u_1, u_4} k N] [inst_7 : Module.{u_1, u_4} (MatProd.{u_1} k d) N]\n  [inst_8 : IsScalarTower.{u_1, u_1, u_4} k (MatProd.{u_1} k d) N]\n  {f : LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} (MatProd.{u_1} k d)) M N},\n  Function.Surjective.{u_3 + 1, u_4 + 1} (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f) \u2192\n    Function.Injective.{max (u_1 + 1) (u_4 + 1), max (u_1 + 1) (u_3 + 1)}\n      (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_4 + 1), max (u_1 + 1) (u_4 + 1), max (u_1 + 1) (u_3 + 1)}\n        (twistedDualMap.{u_1, u_3, u_4} f))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    },
+    {
+      "association_id": "association:73eca2faae8a58cf731e",
+      "declaration": "twistedEvalEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/7/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {r : Nat} \u2192\n      {d : Fin r \u2192 Nat} \u2192\n        (X : Type u_3) \u2192\n          [inst_1 : AddCommGroup.{u_3} X] \u2192\n            [inst_2 : Module.{u_1, u_3} k X] \u2192\n              [inst_3 : Module.{u_1, u_3} (MatProd.{u_1} k d) X] \u2192\n                [inst_4 : IsScalarTower.{u_1, u_1, u_3} k (MatProd.{u_1} k d) X] \u2192\n                  [FiniteDimensional.{u_1, u_3} k X] \u2192\n                    LinearEquiv.{u_1, u_1, u_3, max u_3 u_1} (RingHom.id.{u_1} (MatProd.{u_1} k d)) X\n                      (Module.Dual.{u_1, max u_3 u_1} k (Module.Dual.{u_1, u_3} k X))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.3.1",
+  "packet_id": "align-0137",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0137"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2af745543ca298876a0d",
+  "source_text": "Dualizing \u03c6 gives an injective A-linear map X \u2192 (A^n)*."
+}

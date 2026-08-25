@@ -1,0 +1,30 @@
+{
+  "module_name": "LinearAlgebra.AuxiliaryPowerSeriesMatrix",
+  "declarations": [
+    {
+      "temporary_id": "decl-001144",
+      "new_name": "AuxiliaryIndex",
+      "docstring": "An auxiliary type family indexed by natural numbers."
+    },
+    {
+      "temporary_id": "decl-001451",
+      "new_name": "det_auxiliaryPowerSeriesMatrix",
+      "docstring": "The determinant of the auxiliary multivariate power series matrix is the auxiliary determinant power series."
+    },
+    {
+      "temporary_id": "decl-017766",
+      "new_name": "auxiliaryPowerSeriesMatrix",
+      "docstring": "An auxiliary square matrix of multivariate power series."
+    },
+    {
+      "temporary_id": "decl-017768",
+      "new_name": "auxiliaryPowerSeriesArray",
+      "docstring": "An auxiliary two-indexed family of multivariate power series."
+    },
+    {
+      "temporary_id": "decl-017775",
+      "new_name": "auxiliaryDeterminantPowerSeries",
+      "docstring": "An auxiliary multivariate power series identified with the matrix determinant."
+    }
+  ]
+}

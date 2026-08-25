@@ -1,0 +1,15 @@
+{
+  "module_name": "Mathlib.Algebra.Algebra.FiniteDimensional.RingProperties",
+  "declarations": [
+    {
+      "temporary_id": "decl-032901",
+      "new_name": "FiniteDimensional.isArtinianRing",
+      "docstring": "A ring that is finite-dimensional as an algebra over a field is Artinian."
+    },
+    {
+      "temporary_id": "decl-032917",
+      "new_name": "FiniteDimensional.isSemiprimaryRing",
+      "docstring": "A ring that is finite-dimensional as an algebra over a field is semiprimary."
+    }
+  ]
+}

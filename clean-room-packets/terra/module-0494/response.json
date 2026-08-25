@@ -1,0 +1,25 @@
+{
+  "module_name": "AuxiliaryQuiverRepresentationRelations",
+  "declarations": [
+    {
+      "temporary_id": "decl-001458",
+      "new_name": "auxiliary_nonempty_of_finrank_eq",
+      "docstring": "Under the displayed matrix and quiver hypotheses, two auxiliary representations with matching vertexwise dimensions admit an auxiliary relation."
+    },
+    {
+      "temporary_id": "decl-014944",
+      "new_name": "symm",
+      "docstring": "Reverses an auxiliary relation between two quiver representations."
+    },
+    {
+      "temporary_id": "decl-014950",
+      "new_name": "trans",
+      "docstring": "Composes two auxiliary relations between quiver representations."
+    },
+    {
+      "temporary_id": "decl-014953",
+      "new_name": "castQuiver",
+      "docstring": "Transports an auxiliary relation across an equality of quiver structures."
+    }
+  ]
+}

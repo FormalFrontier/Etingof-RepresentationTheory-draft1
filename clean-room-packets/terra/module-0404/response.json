@@ -1,0 +1,50 @@
+{
+  "declarations": [
+    {
+      "docstring": "Rational algebraicity of complex numbers is preserved by addition and multiplication, and by inversion of a nonzero number.",
+      "new_name": "isAlgebraic_rat_complex_add_mul_inv",
+      "temporary_id": "decl-014697"
+    },
+    {
+      "docstring": "The complex subtype underlying the distinguished rational intermediate field is algebraically closed.",
+      "new_name": "isAlgClosed_distinguishedRatIntermediateField",
+      "temporary_id": "decl-014698"
+    },
+    {
+      "docstring": "The distinguished rational intermediate field in the complex numbers is an algebraic closure of the rationals.",
+      "new_name": "isAlgClosure_rat_distinguishedRatIntermediateField",
+      "temporary_id": "decl-014699"
+    },
+    {
+      "docstring": "Every element of the distinguished rational intermediate field in the complex numbers is algebraic over the rationals.",
+      "new_name": "algebra_isAlgebraic_rat_distinguishedRatIntermediateField",
+      "temporary_id": "decl-014700"
+    },
+    {
+      "docstring": "Integral complex numbers over the integers are closed under addition and multiplication.",
+      "new_name": "isIntegral_int_complex_add_mul",
+      "temporary_id": "decl-014701"
+    },
+    {
+      "docstring": "A distinguished integer subalgebra of the complex numbers.",
+      "new_name": "distinguishedIntSubalgebra",
+      "temporary_id": "decl-017200"
+    },
+    {
+      "docstring": "A distinguished rational intermediate field in the complex numbers.",
+      "new_name": "distinguishedRatIntermediateField",
+      "temporary_id": "decl-017201"
+    },
+    {
+      "docstring": "Membership in the distinguished integer subalgebra is equivalent to integrality over the integers.",
+      "new_name": "mem_distinguishedIntSubalgebra_iff",
+      "temporary_id": "decl-021576"
+    },
+    {
+      "docstring": "Membership in the distinguished rational intermediate field is equivalent to algebraicity over the rationals.",
+      "new_name": "mem_distinguishedRatIntermediateField_iff",
+      "temporary_id": "decl-021577"
+    }
+  ],
+  "module_name": "NumberTheory.AlgebraicNumber.Complex"
+}

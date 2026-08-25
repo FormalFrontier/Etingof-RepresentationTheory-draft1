@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0776",
+  "associations": [
+    {
+      "association_id": "association:daae507409c252d626f5",
+      "role": "supporting",
+      "rationale": "The displayed type proves injectivity only for the opaque glOrbitComorphism construction; it does not expose a rational-function-field embedding directly."
+    },
+    {
+      "association_id": "association:3b8d88efecdac3542f7b",
+      "role": "supporting",
+      "rationale": "It directly gives the dimension-bound component, but it does not itself construct the rational-function field embedding also required by the complete source claim."
+    }
+  ]
+}

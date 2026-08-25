@@ -1,0 +1,10 @@
+{
+  "module_name": "SimpleModule.SubtypeRepresentation",
+  "declarations": [
+    {
+      "temporary_id": "decl-016522",
+      "new_name": "exists_linearEquiv_to_subtype",
+      "docstring": "Every simple module in this family admits a linear identification with a suitably chosen membership-defined subtype."
+    }
+  ]
+}

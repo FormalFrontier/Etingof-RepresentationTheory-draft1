@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0379",
+  "associations": [
+    {
+      "association_id": "association:fc894c74e6897f2b5734",
+      "role": "primary",
+      "rationale": "Its formal equality states x ⋅ (v ⊗ w) = (x ⋅ v) ⊗ w + v ⊗ (x ⋅ w), exactly the tensor-product action in the source text."
+    }
+  ]
+}

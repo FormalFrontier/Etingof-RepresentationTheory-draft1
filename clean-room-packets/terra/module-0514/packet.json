@@ -1,0 +1,78 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Type",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-001861"
+    },
+    {
+      "formal_type": "(t : decl-001861) \u2192 Matrix.{0, 0, 0} (Fin t.rank) (Fin t.rank) Int",
+      "kind": "definition",
+      "owner_temporary_id": "decl-001861",
+      "project_type_dependencies": [
+        "decl-001861",
+        "decl-001899"
+      ],
+      "structural_type_hash": "454614178",
+      "temporary_id": "decl-001887"
+    },
+    {
+      "formal_type": "decl-001861 \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": "decl-001861",
+      "project_type_dependencies": [
+        "decl-001861"
+      ],
+      "structural_type_hash": "622541925",
+      "temporary_id": "decl-001899"
+    },
+    {
+      "formal_type": "\u2200 {n m : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int} {adj' : Matrix.{0, 0, 0} (Fin m) (Fin m) Int}\n  (\u03c3 : Equiv.{1, 1} (Fin n) (Fin m)),\n  (\u2200 (i j : Fin n), Eq.{1} (adj' (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) (adj i j)) \u2192\n    decl-005140 n adj \u2192 decl-005140 m adj'",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140"
+      ],
+      "structural_type_hash": "326938008",
+      "temporary_id": "decl-020827"
+    },
+    {
+      "formal_type": "\u2200 (t : decl-001861), decl-005140 t.rank t.adj",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001861",
+        "decl-001887",
+        "decl-001899",
+        "decl-005140"
+      ],
+      "structural_type_hash": "2421093717",
+      "temporary_id": "decl-020832"
+    }
+  ],
+  "module_temporary_id": "module-0514",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

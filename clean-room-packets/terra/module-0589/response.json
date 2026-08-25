@@ -1,0 +1,20 @@
+{
+  "declarations": [
+    {
+      "docstring": "An auxiliary type.",
+      "new_name": "AuxiliaryType",
+      "temporary_id": "decl-025029"
+    },
+    {
+      "docstring": "A relation on morphisms in the category of topological spaces.",
+      "new_name": "topCatHomRel",
+      "temporary_id": "decl-032885"
+    },
+    {
+      "docstring": "The specified topological-space morphism relation is a category congruence.",
+      "new_name": "topCatHomRel_congruence",
+      "temporary_id": "decl-032887"
+    }
+  ],
+  "module_name": "CategoryTheory.TopCatCongruence"
+}

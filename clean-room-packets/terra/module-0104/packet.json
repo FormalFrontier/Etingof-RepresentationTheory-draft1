@@ -1,0 +1,248 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] [CharZero.{u_1} k] [NoZeroDivisors.{u_1} k],\n  And\n    (LinearIndependent.{0, u_1, u_1} k fun p =>\n      decl-016902.{u_1} k (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p))\n    (LE.le.{u_1} Top.top.{u_1}\n      (Submodule.span.{u_1, u_1} k\n        (Set.range.{u_1, 1} fun p => decl-016902.{u_1} k (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016902",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "2693009036",
+      "temporary_id": "decl-014747"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [CommRing.{u_1} k] \u2192 Type u_1",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2658704163",
+      "temporary_id": "decl-016893"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    AlgHom.{u_1, u_1, u_1} k (FreeAlgebra.{u_1, 0} k decl-016940) (decl-016893.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "3818170470",
+      "temporary_id": "decl-016899"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 Nat \u2192 Nat \u2192 decl-016893.{u_1} k",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893"
+      ],
+      "structural_type_hash": "932171611",
+      "temporary_id": "decl-016902"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  LE.le.{u_1} Top.top.{u_1}\n    (Submodule.span.{u_1, u_1} k\n      (Set.range.{u_1, 1} fun p => decl-016902.{u_1} k (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016902",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "2866862865",
+      "temporary_id": "decl-016906"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] [CharZero.{u_1} k] [NoZeroDivisors.{u_1} k],\n  Function.Injective.{u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-022070.{u_1} k))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-022070"
+      ],
+      "structural_type_hash": "316086175",
+      "temporary_id": "decl-016923"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (p : Nat) [Fact (Nat.Prime p)] [CharP.{u_1} k p],\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-022070.{u_1} k)\n      (HPow.hPow.{u_1, 0, u_1} (decl-016935.{u_1} k) p))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016935",
+        "decl-016938",
+        "decl-016940",
+        "decl-022070"
+      ],
+      "structural_type_hash": "3609092081",
+      "temporary_id": "decl-016926"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 decl-016893.{u_1} k",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893"
+      ],
+      "structural_type_hash": "1582599152",
+      "temporary_id": "decl-016933"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 decl-016893.{u_1} k",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893"
+      ],
+      "structural_type_hash": "1582599152",
+      "temporary_id": "decl-016935"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (decl-016935.{u_1} k) (decl-016933.{u_1} k))\n    (HAdd.hAdd.{u_1, u_1, u_1}\n      (HMul.hMul.{u_1, u_1, u_1} (decl-016933.{u_1} k) (decl-016935.{u_1} k)) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016893",
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016933",
+        "decl-016935",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "3230745740",
+      "temporary_id": "decl-016937"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192 FreeAlgebra.{u_1, 0} k decl-016940 \u2192 FreeAlgebra.{u_1, 0} k decl-016940 \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016940"
+      ],
+      "structural_type_hash": "2454257260",
+      "temporary_id": "decl-016938"
+    },
+    {
+      "formal_type": "Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-016940"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (p : Nat) [Fact (Nat.Prime p)] [CharP.{u_1} k p] (Q : Polynomial.{u_1} k),\n  Eq.{u_1 + 1} (Nat.iterate.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} Polynomial.derivative.{u_1}) p Q) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2373449118",
+      "temporary_id": "decl-020990"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 Module.End.{u_1, u_1} k (Polynomial.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1224877159",
+      "temporary_id": "decl-022066"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (p : Polynomial.{u_1} k),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-022066.{u_1} k) p)\n    (HMul.hMul.{u_1, u_1, u_1} Polynomial.X.{u_1} p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022066"
+      ],
+      "structural_type_hash": "2330740449",
+      "temporary_id": "decl-022069"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    AlgHom.{u_1, u_1, u_1} k (decl-016893.{u_1} k) (Module.End.{u_1, u_1} k (Polynomial.{u_1} k))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "1451959116",
+      "temporary_id": "decl-022070"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-022070.{u_1} k) (decl-016933.{u_1} k))\n    (decl-022066.{u_1} k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016933",
+        "decl-016938",
+        "decl-016940",
+        "decl-022066",
+        "decl-022070"
+      ],
+      "structural_type_hash": "893008067",
+      "temporary_id": "decl-022072"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-022070.{u_1} k) (decl-016935.{u_1} k))\n    Polynomial.derivative.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016935",
+        "decl-016938",
+        "decl-016940",
+        "decl-022070"
+      ],
+      "structural_type_hash": "508421589",
+      "temporary_id": "decl-022073"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 FreeAlgebra.{u_1, 0} k decl-016940",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016940"
+      ],
+      "structural_type_hash": "3692143607",
+      "temporary_id": "decl-024545"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 FreeAlgebra.{u_1, 0} k decl-016940",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016940"
+      ],
+      "structural_type_hash": "3692143607",
+      "temporary_id": "decl-024548"
+    }
+  ],
+  "module_temporary_id": "module-0104",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

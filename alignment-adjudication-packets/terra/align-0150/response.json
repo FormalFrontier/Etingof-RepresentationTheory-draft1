@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0150",
+  "associations": [
+    {
+      "association_id": "association:71c43117456d6b64d80a",
+      "role": "supporting",
+      "rationale": "This is the Frobenius divisibility theorem that motivates the section, while the source text only introduces that topic."
+    }
+  ]
+}

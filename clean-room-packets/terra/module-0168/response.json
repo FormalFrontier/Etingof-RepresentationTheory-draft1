@@ -1,0 +1,15 @@
+{
+  "module_name": "RingTheory.JacobsonRadical.Nilpotence",
+  "declarations": [
+    {
+      "temporary_id": "decl-021718",
+      "new_name": "nilpotent_le_jacobson",
+      "docstring": "A nilpotent ideal is contained in the Jacobson radical."
+    },
+    {
+      "temporary_id": "decl-022285",
+      "new_name": "jacobson_isNilpotent_of_finiteDimensional",
+      "docstring": "The Jacobson radical of a finite-dimensional algebra is nilpotent."
+    }
+  ]
+}

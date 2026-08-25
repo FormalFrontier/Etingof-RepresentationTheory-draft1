@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0800",
+  "associations": [
+    {
+      "association_id": "association:40d98c240486357bba4c",
+      "role": "supporting",
+      "rationale": "The formal type transfers nilpotence of A ∘ B to the chain operator, supplying a nilpotence fact relevant to, but not itself constructing, the requested compatible chain basis."
+    },
+    {
+      "association_id": "association:fb50e3f9132a3ee4034c",
+      "role": "primary",
+      "rationale": "Under the stated nilpotence hypothesis, the formal type directly asserts existence of a CompatibleChainBasis for ρ, matching construction of the requested basis compatible with V plus W."
+    }
+  ]
+}

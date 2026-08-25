@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Definition4.10.1",
+    "kind": "definition",
+    "title": "Frobenius determinant (group determinant)",
+    "node_id": "chapter-04/section-4-10",
+    "order": 223,
+    "slug": "definition4-10-1",
+    "span": {
+      "start": {
+        "page": "78",
+        "line": 7
+      },
+      "end": {
+        "page": "78",
+        "line": 8
+      }
+    },
+    "source_sha256": "e2cc2ecd3b4df09f16f495d6400c2cffe5489ea3fb857fbb50b13c6c9608c8e9",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Definition4101",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

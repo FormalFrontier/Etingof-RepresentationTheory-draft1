@@ -1,0 +1,82 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (E : Type v) [inst_1 : AddCommGroup.{v} E] [inst_2 : Module.{u, v} k E]\n  {A : Subalgebra.{u, v} k (Module.End.{u, v} k E)} {V : Type u_1} [inst_3 : AddCommGroup.{u_1} V]\n  [inst_4 : Module.{u, u_1} k V] [inst_5 : Module.{v, u_1} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) V]\n  [inst_6 : IsScalarTower.{u, v, u_1} k (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) V],\n  IsScalarTower.{u, v, max v u_1} k\n    (Subtype.{v + 1} fun x => Membership.mem.{v, v} (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} A)) x)\n    (LinearMap.{v, v, u_1, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)) V E)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017816"
+      ],
+      "structural_type_hash": "2131022341",
+      "temporary_id": "decl-017838"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommSemiring.{u_1} k] \u2192\n    (R : Type u_2) \u2192\n      [inst_1 : Ring.{u_2} R] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k R] \u2192\n          (E : Type u_3) \u2192\n            [inst_3 : AddCommGroup.{u_3} E] \u2192\n              [inst_4 : Module.{u_1, u_3} k E] \u2192\n                [inst_5 : Module.{u_2, u_3} R E] \u2192\n                  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k R E] \u2192\n                    {M : Type u_4} \u2192\n                      {N : Type u_5} \u2192\n                        [inst_7 : AddCommGroup.{u_4} M] \u2192\n                          [inst_8 : Module.{u_1, u_4} k M] \u2192\n                            [inst_9 : Module.{u_2, u_4} R M] \u2192\n                              [IsScalarTower.{u_1, u_2, u_4} k R M] \u2192\n                                [inst_11 : AddCommGroup.{u_5} N] \u2192\n                                  [inst_12 : Module.{u_1, u_5} k N] \u2192\n                                    [inst_13 : Module.{u_2, u_5} R N] \u2192\n                                      [IsScalarTower.{u_1, u_2, u_5} k R N] \u2192\n                                        LinearEquiv.{u_2, u_2, u_4, u_5} (RingHom.id.{u_2} R) M N \u2192\n                                          LinearEquiv.{u_1, u_1, max u_3 u_5, max u_3 u_4} (RingHom.id.{u_1} k)\n                                            (LinearMap.{u_2, u_2, u_5, u_3} (RingHom.id.{u_2} R) N E)\n                                            (LinearMap.{u_2, u_2, u_4, u_3} (RingHom.id.{u_2} R) M E)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3556811733",
+      "temporary_id": "decl-019978"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} {S : Type u_2} [inst : Ring.{u_1} R] [inst_1 : Ring.{u_2} S] (\u03c3 : RingHom.{u_1, u_2} R S)\n  [RingHomSurjective.{u_1, u_2} \u03c3] {X : Type u_3} [inst_3 : AddCommGroup.{u_3} X] [inst_4 : Module.{u_1, u_3} R X]\n  [inst_5 : Module.{u_2, u_3} S X],\n  (\u2200 (r : R) (x : X),\n      Eq.{u_3 + 1} (HSMul.hSMul.{u_1, u_3, u_3} r x)\n        (HSMul.hSMul.{u_2, u_3, u_3} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c3 r) x)) \u2192\n    \u2200 [IsSimpleModule.{u_2, u_3} S X], IsSimpleModule.{u_1, u_3} R X",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3555870131",
+      "temporary_id": "decl-020912"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (E : Type v) [inst_1 : AddCommGroup.{v} E] [inst_2 : Module.{u, v} k E]\n  [Module.Finite.{u, v} k E] (A : Subalgebra.{u, v} k (Module.End.{u, v} k E))\n  [IsSemisimpleRing.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)]\n  [FaithfulSMul.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E] [IsAlgClosed.{u} k] {\u03b9 : Type u_1}\n  (S' : \u03b9 \u2192 Submodule.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E)\n  [\u2200 (i : \u03b9),\n      IsSimpleModule.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)\n        (Subtype.{v + 1} fun x => Membership.mem.{v, v} (S' i) x)],\n  (\u2200 (i j : \u03b9),\n      Nonempty.{v + 1}\n          (LinearEquiv.{v, v, v, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n            (Subtype.{v + 1} fun x => Membership.mem.{v, v} (S' i) x)\n            (Subtype.{v + 1} fun x => Membership.mem.{v, v} (S' j) x)) \u2192\n        Eq.{u_1 + 1} i j) \u2192\n    \u2200 (i j : \u03b9),\n      Nonempty.{v + 1}\n          (LinearEquiv.{v, v, v, v}\n            (RingHom.id.{v}\n              (Subtype.{v + 1} fun x =>\n                Membership.mem.{v, v} (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} A)) x))\n            (LinearMap.{v, v, v, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n              (Subtype.{v + 1} fun x => Membership.mem.{v, v} (S' i) x) E)\n            (LinearMap.{v, v, v, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n              (Subtype.{v + 1} fun x => Membership.mem.{v, v} (S' j) x) E)) \u2192\n        Eq.{u_1 + 1} i j",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017816"
+      ],
+      "structural_type_hash": "1242783506",
+      "temporary_id": "decl-021693"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (E : Type v) [inst_1 : AddCommGroup.{v} E] [inst_2 : Module.{u, v} k E]\n  [Module.Finite.{u, v} k E] (A : Subalgebra.{u, v} k (Module.End.{u, v} k E))\n  [IsSemisimpleRing.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)]\n  [FaithfulSMul.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E] [IsAlgClosed.{u} k]\n  (S T : Submodule.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E)\n  [IsSimpleModule.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)\n      (Subtype.{v + 1} fun x => Membership.mem.{v, v} S x)]\n  [IsSimpleModule.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)\n      (Subtype.{v + 1} fun x => Membership.mem.{v, v} T x)],\n  Nonempty.{v + 1}\n      (LinearEquiv.{v, v, v, v}\n        (RingHom.id.{v}\n          (Subtype.{v + 1} fun x => Membership.mem.{v, v} (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} A)) x))\n        (LinearMap.{v, v, v, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n          (Subtype.{v + 1} fun x => Membership.mem.{v, v} S x) E)\n        (LinearMap.{v, v, v, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n          (Subtype.{v + 1} fun x => Membership.mem.{v, v} T x) E)) \u2192\n    Nonempty.{v + 1}\n      (LinearEquiv.{v, v, v, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n        (Subtype.{v + 1} fun x => Membership.mem.{v, v} S x) (Subtype.{v + 1} fun x => Membership.mem.{v, v} T x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017816"
+      ],
+      "structural_type_hash": "576011793",
+      "temporary_id": "decl-021694"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (E : Type v) [inst_1 : AddCommGroup.{v} E] [inst_2 : Module.{u, v} k E]\n  [Module.Finite.{u, v} k E] (A : Subalgebra.{u, v} k (Module.End.{u, v} k E))\n  [IsSemisimpleRing.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)]\n  [FaithfulSMul.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E] [IsAlgClosed.{u} k]\n  (S : Submodule.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E)\n  [IsSimpleModule.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)\n      (Subtype.{v + 1} fun x => Membership.mem.{v, v} S x)],\n  Eq.{1} (Module.finrank.{u, v} k (Subtype.{v + 1} fun x => Membership.mem.{v, v} S x))\n    (Module.finrank.{u, v} k\n      (LinearMap.{v, v, v, v}\n        (RingHom.id.{v}\n          (Subtype.{v + 1} fun x => Membership.mem.{v, v} (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} A)) x))\n        (LinearMap.{v, v, v, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n          (Subtype.{v + 1} fun x => Membership.mem.{v, v} S x) E)\n        E))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017816"
+      ],
+      "structural_type_hash": "3827776578",
+      "temporary_id": "decl-021695"
+    }
+  ],
+  "module_temporary_id": "module-0364",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

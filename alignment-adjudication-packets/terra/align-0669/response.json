@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0669",
+  "associations": [
+    {
+      "association_id": "association:c3155739fb367e08b682",
+      "rationale": "For a module of complex finrank two, the formal type directly gives the stated alternative: equivalence to Vrep b × Vrep a with b ≠ a, or equivalence to Jrep a c.",
+      "role": "primary"
+    }
+  ]
+}

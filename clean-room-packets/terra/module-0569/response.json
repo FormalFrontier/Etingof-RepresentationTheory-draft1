@@ -1,0 +1,70 @@
+{
+  "module_name": "LinearAlgebra.IntegerMatrixReflections",
+  "declarations": [
+    {
+      "temporary_id": "decl-016656",
+      "new_name": "exists_iteratedCoordinateReflection_eq_single_of_quadraticForm_eq_two",
+      "docstring": "A nonnegative nonzero integer vector of quadratic value two can be carried to a coordinate vector by a finite sequence of coordinate reflections."
+    },
+    {
+      "temporary_id": "decl-017753",
+      "new_name": "matrixTransform_isSymm",
+      "docstring": "The matrix obtained from a symmetric integer matrix by the specified transform is symmetric."
+    },
+    {
+      "temporary_id": "decl-018852",
+      "new_name": "exists_pos_matrixMulVec_le_of_quadraticForm_eq_two",
+      "docstring": "For a nonnegative nonzero integer vector of quadratic value two and total sum at least two, some coordinate of the matrix product is positive and no larger than the corresponding vector coordinate."
+    },
+    {
+      "temporary_id": "decl-021002",
+      "new_name": "iteratedCoordinateReflection",
+      "docstring": "Evaluate the integer vector obtained by successively applying coordinate reflections indexed by a list."
+    },
+    {
+      "temporary_id": "decl-021005",
+      "new_name": "iteratedCoordinateReflection_cons",
+      "docstring": "Iteration along a list with a new head is iteration along the tail after reflecting at the head coordinate."
+    },
+    {
+      "temporary_id": "decl-023183",
+      "new_name": "coordinateReflection_apply_of_ne",
+      "docstring": "A coordinate reflection leaves every coordinate other than the reflected coordinate unchanged."
+    },
+    {
+      "temporary_id": "decl-023184",
+      "new_name": "coordinateReflection_apply_self",
+      "docstring": "For a symmetric matrix, the reflected coordinate equals its original value minus the corresponding coordinate of the matrix-vector product."
+    },
+    {
+      "temporary_id": "decl-023187",
+      "new_name": "coordinateReflection_nonneg",
+      "docstring": "Reflecting a nonnegative integer vector preserves nonnegativity when the selected matrix-product coordinate is at most the selected vector coordinate."
+    },
+    {
+      "temporary_id": "decl-023188",
+      "new_name": "coordinateReflection_ne_zero_of_quadraticForm_eq_two",
+      "docstring": "Under the stated matrix condition, reflecting a vector of quadratic value two at any coordinate does not produce the zero vector."
+    },
+    {
+      "temporary_id": "decl-023189",
+      "new_name": "quadraticForm_coordinateReflection",
+      "docstring": "Under the stated matrix condition, a coordinate reflection preserves the quadratic form defined by the matrix."
+    },
+    {
+      "temporary_id": "decl-023192",
+      "new_name": "sum_coordinateReflection",
+      "docstring": "For a symmetric matrix, the coordinate sum after reflection is the original coordinate sum minus the selected coordinate of the matrix-vector product."
+    },
+    {
+      "temporary_id": "decl-023550",
+      "new_name": "eq_single_of_nonneg_of_sum_eq_one",
+      "docstring": "A nonnegative nonzero integer vector whose coordinates sum to one is a coordinate vector."
+    },
+    {
+      "temporary_id": "decl-023555",
+      "new_name": "one_le_sum_of_nonneg_of_ne_zero",
+      "docstring": "The coordinate sum of a nonnegative nonzero integer vector is at least one."
+    }
+  ]
+}

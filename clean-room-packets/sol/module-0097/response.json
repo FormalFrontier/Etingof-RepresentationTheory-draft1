@@ -1,0 +1,200 @@
+{
+  "module_name": "Algebra.FiniteOrderShiftWeightModules",
+  "declarations": [
+    {
+      "temporary_id": "decl-009015",
+      "new_name": "inverseCyclicShiftEnd",
+      "docstring": "The inverse of the parameterized cyclic shift endomorphism on complex-valued functions on `Fin N`."
+    },
+    {
+      "temporary_id": "decl-009019",
+      "new_name": "inverseCyclicShiftEnd_comp_cyclicShiftEnd",
+      "docstring": "The inverse cyclic shift composed with the cyclic shift is the identity."
+    },
+    {
+      "temporary_id": "decl-009020",
+      "new_name": "cyclicShiftEnd",
+      "docstring": "The parameterized cyclic shift endomorphism on complex-valued functions on `Fin N`."
+    },
+    {
+      "temporary_id": "decl-009025",
+      "new_name": "cyclicShiftEnd_comp_inverseCyclicShiftEnd",
+      "docstring": "The cyclic shift composed with its inverse is the identity."
+    },
+    {
+      "temporary_id": "decl-009026",
+      "new_name": "cyclicShiftEnd_pow_apply",
+      "docstring": "A power of the cyclic shift evaluates by shifting the index backward and multiplying by the product of the intervening indexed scalars."
+    },
+    {
+      "temporary_id": "decl-009028",
+      "new_name": "cyclicShiftEnd_pow_card",
+      "docstring": "The `N`-th power of the cyclic shift is scalar multiplication by its parameter."
+    },
+    {
+      "temporary_id": "decl-009029",
+      "new_name": "cyclicShiftEnd_single",
+      "docstring": "The cyclic shift sends a coordinate vector to the next coordinate vector scaled by the corresponding indexed scalar."
+    },
+    {
+      "temporary_id": "decl-009030",
+      "new_name": "cyclicShiftUnit",
+      "docstring": "The unit of the endomorphism algebra defined by the cyclic shift and its inverse."
+    },
+    {
+      "temporary_id": "decl-009034",
+      "new_name": "cyclicShiftUnit_val",
+      "docstring": "The endomorphism underlying the cyclic shift unit is the cyclic shift."
+    },
+    {
+      "temporary_id": "decl-009035",
+      "new_name": "inverseDiagonalWeightEnd",
+      "docstring": "The inverse of the parameterized diagonal weight endomorphism on complex-valued functions on `Fin N`."
+    },
+    {
+      "temporary_id": "decl-009039",
+      "new_name": "inverseDiagonalWeightEnd_comp_diagonalWeightEnd",
+      "docstring": "The inverse diagonal weight endomorphism composed with the diagonal weight endomorphism is the identity."
+    },
+    {
+      "temporary_id": "decl-009040",
+      "new_name": "diagonalWeightEnd",
+      "docstring": "The parameterized diagonal weight endomorphism on complex-valued functions on `Fin N`."
+    },
+    {
+      "temporary_id": "decl-009044",
+      "new_name": "diagonalWeightEnd_comp_inverseDiagonalWeightEnd",
+      "docstring": "The diagonal weight endomorphism composed with its inverse is the identity."
+    },
+    {
+      "temporary_id": "decl-009045",
+      "new_name": "diagonalWeightEnd_pow_apply",
+      "docstring": "A power of the diagonal weight endomorphism acts pointwise by the corresponding power of the indexed scalar."
+    },
+    {
+      "temporary_id": "decl-009046",
+      "new_name": "diagonalWeightEnd_pow_card",
+      "docstring": "When the parameter has order `N`, the `N`-th power of the diagonal weight endomorphism is scalar multiplication by the `N`-th power of its scalar parameter."
+    },
+    {
+      "temporary_id": "decl-009047",
+      "new_name": "diagonalWeightEnd_single",
+      "docstring": "Each coordinate vector is an eigenvector of the diagonal weight endomorphism with the corresponding indexed scalar."
+    },
+    {
+      "temporary_id": "decl-009048",
+      "new_name": "diagonalWeightUnit",
+      "docstring": "The unit of the endomorphism algebra defined by the diagonal weight endomorphism and its inverse."
+    },
+    {
+      "temporary_id": "decl-009049",
+      "new_name": "diagonalWeightUnit_val",
+      "docstring": "The endomorphism underlying the diagonal weight unit is the diagonal weight endomorphism."
+    },
+    {
+      "temporary_id": "decl-009081",
+      "new_name": "finiteOrderModule",
+      "docstring": "The module structure on complex-valued functions on `Fin N` determined by finite-order, shift, and weight parameters."
+    },
+    {
+      "temporary_id": "decl-009082",
+      "new_name": "finrank_finFunction",
+      "docstring": "The complex-valued functions on `Fin N` have finrank `N`."
+    },
+    {
+      "temporary_id": "decl-009083",
+      "new_name": "finiteOrderModule_isScalarTower",
+      "docstring": "The complex scalar action and the displayed algebra action on the finite-order module form a scalar tower."
+    },
+    {
+      "temporary_id": "decl-009085",
+      "new_name": "firstGenerator_pow_card_smul",
+      "docstring": "The `N`-th power of the first distinguished generator acts by the shift parameter."
+    },
+    {
+      "temporary_id": "decl-009086",
+      "new_name": "firstGenerator_smul",
+      "docstring": "The first distinguished generator acts by the cyclic shift endomorphism."
+    },
+    {
+      "temporary_id": "decl-009087",
+      "new_name": "firstGenerator_cardExponent_smul",
+      "docstring": "The distinguished element with first exponent `N` acts by the shift parameter."
+    },
+    {
+      "temporary_id": "decl-009088",
+      "new_name": "secondGenerator_pow_card_smul",
+      "docstring": "The `N`-th power of the second distinguished generator acts by the `N`-th power of the weight parameter."
+    },
+    {
+      "temporary_id": "decl-009089",
+      "new_name": "secondGenerator_smul",
+      "docstring": "The second distinguished generator acts by the diagonal weight endomorphism."
+    },
+    {
+      "temporary_id": "decl-009090",
+      "new_name": "secondGenerator_cardExponent_smul",
+      "docstring": "The distinguished element with second exponent `N` acts by the `N`-th power of the weight parameter."
+    },
+    {
+      "temporary_id": "decl-009093",
+      "new_name": "diagonalWeightEnd_mul_cyclicShiftEnd",
+      "docstring": "The diagonal weight and cyclic shift endomorphisms commute up to the scalar parameter."
+    },
+    {
+      "temporary_id": "decl-009094",
+      "new_name": "diagonalWeightUnit_val_mul_cyclicShiftUnit_val",
+      "docstring": "The endomorphisms underlying the diagonal weight and cyclic shift units commute up to the scalar parameter."
+    },
+    {
+      "temporary_id": "decl-009150",
+      "new_name": "card_nsmul_one_fin",
+      "docstring": "In `Fin N`, adding one to itself `N` times gives zero."
+    },
+    {
+      "temporary_id": "decl-009151",
+      "new_name": "val_nsmul_one_fin",
+      "docstring": "In `Fin N`, adding one to itself the value of an index times gives that index."
+    },
+    {
+      "temporary_id": "decl-009152",
+      "new_name": "prod_unitIndexedScalar",
+      "docstring": "The product of the unit-parameterized indexed scalars around a complete cycle equals the unit parameter."
+    },
+    {
+      "temporary_id": "decl-009153",
+      "new_name": "pow_eq_one_of_orderOf_eq",
+      "docstring": "A complex unit raised to its specified order is one."
+    },
+    {
+      "temporary_id": "decl-009157",
+      "new_name": "pow_val_eq_mul_pow_pred",
+      "docstring": "At an index modulo the order of a complex unit, the indexed power is the unit times the power at the preceding index."
+    },
+    {
+      "temporary_id": "decl-009162",
+      "new_name": "nsmul_one_val_eq_mod",
+      "docstring": "The value of a natural multiple of one in `Fin N` is the natural number modulo `N`."
+    },
+    {
+      "temporary_id": "decl-009163",
+      "new_name": "unitIndexedScalar",
+      "docstring": "A complex scalar indexed by `Fin N` and parameterized by a complex unit."
+    },
+    {
+      "temporary_id": "decl-009166",
+      "new_name": "unitIndexedScalar_ne_zero",
+      "docstring": "Every scalar in the unit-parameterized indexed family is nonzero."
+    },
+    {
+      "temporary_id": "decl-009167",
+      "new_name": "twoUnitIndexedScalar",
+      "docstring": "A complex scalar indexed by `Fin N` and parameterized by two complex units."
+    },
+    {
+      "temporary_id": "decl-009170",
+      "new_name": "twoUnitIndexedScalar_ne_zero",
+      "docstring": "Every scalar in the two-unit-parameterized indexed family is nonzero."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "module_name": "Quiver.DependentPropertiesAuxiliary",
+  "declarations": [
+    {"temporary_id": "decl-014919", "new_name": "predicateAux", "docstring": "The first auxiliary predicate on the displayed quiver-dependent object."},
+    {"temporary_id": "decl-014920", "new_name": "predicateAux'", "docstring": "The second auxiliary predicate on the displayed quiver-dependent object."},
+    {"temporary_id": "decl-014921", "new_name": "predicateAux''", "docstring": "The third auxiliary predicate on the displayed quiver-dependent object."},
+    {"temporary_id": "decl-014922", "new_name": "predicateAux'''", "docstring": "The fourth auxiliary predicate on the displayed quiver-dependent object."},
+    {"temporary_id": "decl-015081", "new_name": "predicateAux", "docstring": "The first auxiliary predicate on an element of the displayed dependent type."},
+    {"temporary_id": "decl-015082", "new_name": "predicateAux'", "docstring": "The second auxiliary predicate on an element of the displayed dependent type."},
+    {"temporary_id": "decl-015085", "new_name": "elementAux", "docstring": "Selects an element of the displayed dependent type for each quiver-dependent object."},
+    {"temporary_id": "decl-015087", "new_name": "predicateAux'_elementAux", "docstring": "The first auxiliary selection satisfies the second auxiliary predicate."},
+    {"temporary_id": "decl-015124", "new_name": "elementAux'", "docstring": "Selects a second element of the displayed dependent type for each quiver-dependent object."},
+    {"temporary_id": "decl-015126", "new_name": "predicateAux_elementAux'", "docstring": "The second auxiliary selection satisfies the first auxiliary predicate."}
+  ]
+}

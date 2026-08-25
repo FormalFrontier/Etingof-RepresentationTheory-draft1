@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.25.2",
+    "kind": "theorem",
+    "title": "Irreducibility and classification of principal series representations",
+    "node_id": "chapter-05/section-5-25/subsection-5-25-3",
+    "order": 385,
+    "slug": "theorem5-25-2",
+    "span": {
+      "start": {
+        "page": "139",
+        "line": 15
+      },
+      "end": {
+        "page": "141",
+        "line": 34
+      }
+    },
+    "source_sha256": "fa61bbd1c404356b8bf1a4dec000e9d4537083897214d8d1b7c205f069205cdc",
+    "features": {
+      "line_count": 110,
+      "crosses_page": true,
+      "display_math_delimiters": 44,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5252",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

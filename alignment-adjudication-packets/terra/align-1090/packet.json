@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:734e6e7c03d922b9ec42",
+      "declaration": "Etingof.Remark5_2_8.character_eq_sum_rootsOfUnity",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/261/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (V : FDRep.{0, 0} Complex G) (g : G),\n  Exists.{1} fun s =>\n    And (\u2200 (\u03bc : Complex), Membership.mem.{0, 0} s \u03bc \u2192 Eq.{1} (HPow.hPow.{0, 0, 0} \u03bc (Nat.card.{0} G)) 1)\n      (Eq.{1} (FDRep.character.{0, 0} V g) (Multiset.sum.{0} s))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_2_8"
+    },
+    {
+      "association_id": "association:ceae36dcf1ba9e1a4a0f",
+      "declaration": "Etingof.Remark5_2_8.character_ringHom_pow",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/261/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (V : FDRep.{0, 0} Complex G) (g : G) {j : Nat}\n  (\u03c3 : RingHom.{0, 0} Complex Complex),\n  (\u2200 (\u03bc : Complex),\n      Eq.{1} (HPow.hPow.{0, 0, 0} \u03bc (Nat.card.{0} G)) 1 \u2192\n        Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c3 \u03bc) (HPow.hPow.{0, 0, 0} \u03bc j)) \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c3 (FDRep.character.{0, 0} V g)) (FDRep.character.{0, 0} V (HPow.hPow.{0, 0, 0} g j))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_2_8"
+    },
+    {
+      "association_id": "association:60e1335dcc6256b2621d",
+      "declaration": "Etingof.Remark5_2_8.ringHom_prod_char_inv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/261/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  {j : Nat},\n  (Nat.card.{0} G).Coprime j \u2192\n    \u2200 (\u03c3 : RingHom.{0, 0} Complex Complex),\n      (\u2200 (\u03bc : Complex),\n          Eq.{1} (HPow.hPow.{0, 0, 0} \u03bc (Nat.card.{0} G)) 1 \u2192\n            Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c3 \u03bc) (HPow.hPow.{0, 0, 0} \u03bc j)) \u2192\n        Eq.{1}\n          (DFunLike.coe.{1, 1, 1} \u03c3\n            (Finset.prod.{0, 0} (Finset.filter.{0} (fun x => Ne.{1} x 1) Finset.univ.{0}) fun g =>\n              HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} V g) (FDRep.character.{0, 0} V (Inv.inv.{0} g))))\n          (Finset.prod.{0, 0} (Finset.filter.{0} (fun x => Ne.{1} x 1) Finset.univ.{0}) fun g =>\n            HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} V g) (FDRep.character.{0, 0} V (Inv.inv.{0} g)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_2_8"
+    }
+  ],
+  "canonical_reference": "Chapter5/Remark5.2.8",
+  "packet_id": "align-1090",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1090"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d7c4b8a36f83c1aa010e",
+  "source_text": "Character values lie in the cyclotomic field, and the Galois action sends chi(g) to chi(g^j) while fixing beta."
+}

@@ -1,0 +1,10 @@
+{
+  "module_name": "SymmetricGroup.SimpleDimensions",
+  "declarations": [
+    {
+      "temporary_id": "decl-023539",
+      "new_name": "sum_finrank_simple_eq_card_involutions",
+      "docstring": "For a finite, nonredundant, exhaustive family of simple finite-dimensional complex representations of the permutations of `Fin n`, the sum of their dimensions equals the number of permutations whose square is the identity."
+    }
+  ]
+}

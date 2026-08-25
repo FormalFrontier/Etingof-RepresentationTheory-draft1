@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.8.8",
+    "kind": "definition",
+    "title": "Subrepresentation of a quiver representation",
+    "node_id": "chapter-02/section-2-8",
+    "order": 72,
+    "slug": "definition2-8-8",
+    "span": {
+      "start": {
+        "page": "21",
+        "line": 8
+      },
+      "end": {
+        "page": "21",
+        "line": 10
+      }
+    },
+    "source_sha256": "9101643d38bccbcfce2e04a7992f475d6421ef319a3bb405b99931f0c26b4409",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition288",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

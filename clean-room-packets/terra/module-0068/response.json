@@ -1,0 +1,55 @@
+{
+  "module_name": "LieModule.TensorProductDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-015749",
+      "new_name": "directSumEndomorphism",
+      "docstring": "An endomorphism of the displayed direct sum of finite-dimensional complex vector spaces."
+    },
+    {
+      "temporary_id": "decl-015752",
+      "new_name": "directSumEndomorphism_apply_lof",
+      "docstring": "Computes the direct-sum endomorphism on an element placed in one summand."
+    },
+    {
+      "temporary_id": "decl-015793",
+      "new_name": "tensorProductDecompositionEquiv",
+      "docstring": "A linear equivalence from the displayed direct sum to a tensor product of complex vector spaces."
+    },
+    {
+      "temporary_id": "decl-015795",
+      "new_name": "tensorProductDecompositionEquiv_intertwines",
+      "docstring": "The decomposition equivalence intertwines the two displayed linear actions."
+    },
+    {
+      "temporary_id": "decl-015796",
+      "new_name": "tensorProductDecompositionEquiv_apply_lof",
+      "docstring": "Computes the decomposition equivalence on an element embedded from a single direct summand."
+    },
+    {
+      "temporary_id": "decl-015855",
+      "new_name": "tensorProductDecompositionEquiv_commutes",
+      "docstring": "The tensor-product decomposition equivalence commutes with the displayed endomorphisms."
+    },
+    {
+      "temporary_id": "decl-015857",
+      "new_name": "coordinateEquiv_bracket_eq",
+      "docstring": "Under the coordinate equivalence, the bracket action is the specified endomorphism."
+    },
+    {
+      "temporary_id": "decl-015935",
+      "new_name": "tensorProductEndomorphism",
+      "docstring": "An endomorphism of a tensor product of two finite-dimensional complex function spaces."
+    },
+    {
+      "temporary_id": "decl-015937",
+      "new_name": "tensorProductEndomorphism_apply_tmul",
+      "docstring": "Computes the tensor-product endomorphism on a pure tensor as a sum of two pure tensors."
+    },
+    {
+      "temporary_id": "decl-015938",
+      "new_name": "exists_tensorProductEndomorphismEquiv",
+      "docstring": "There exists a linear equivalence intertwining the tensor-product endomorphism with the displayed direct-sum endomorphism."
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "module_name": "VirtualRepresentations.Basic",
+  "declarations": [
+    {
+      "temporary_id": "decl-016850",
+      "new_name": "VirtualRepresentation",
+      "docstring": "The type of virtual complex representations of a finite group."
+    },
+    {
+      "temporary_id": "decl-016851",
+      "new_name": "character",
+      "docstring": "The additive homomorphism sending a virtual representation to its complex-valued character."
+    },
+    {
+      "temporary_id": "decl-016853",
+      "new_name": "character_add",
+      "docstring": "The character of a sum of virtual representations is the sum of their characters."
+    },
+    {
+      "temporary_id": "decl-016854",
+      "new_name": "character_apply",
+      "docstring": "The character value of a virtual representation is the finite sum of its coefficients times the associated character values."
+    },
+    {
+      "temporary_id": "decl-016856",
+      "new_name": "character_neg",
+      "docstring": "The character of the negative of a virtual representation is the negative of its character."
+    },
+    {
+      "temporary_id": "decl-016857",
+      "new_name": "character_simpleMultiple",
+      "docstring": "The character of an integer multiple of a simple representation is that integer times its character."
+    },
+    {
+      "temporary_id": "decl-016858",
+      "new_name": "character_simple",
+      "docstring": "The virtual character associated with one copy of a simple representation is its ordinary character."
+    },
+    {
+      "temporary_id": "decl-016859",
+      "new_name": "character_one",
+      "docstring": "A virtual character evaluated at the identity is the integer cast of its dimension."
+    },
+    {
+      "temporary_id": "decl-016860",
+      "new_name": "character_single",
+      "docstring": "The character of a single supported coefficient is the corresponding integer multiple of its character."
+    },
+    {
+      "temporary_id": "decl-016861",
+      "new_name": "character_sub",
+      "docstring": "The character of a difference of virtual representations is the difference of their characters."
+    },
+    {
+      "temporary_id": "decl-016862",
+      "new_name": "character_zero",
+      "docstring": "The character of the zero virtual representation is zero."
+    },
+    {
+      "temporary_id": "decl-016863",
+      "new_name": "coeff",
+      "docstring": "The integer coefficient of a simple representation in a virtual representation."
+    },
+    {
+      "temporary_id": "decl-016865",
+      "new_name": "coeff_add",
+      "docstring": "The coefficient of a simple representation in a sum is the sum of its coefficients."
+    },
+    {
+      "temporary_id": "decl-016866",
+      "new_name": "coeff_eq_of_iso",
+      "docstring": "Isomorphic simple representations have equal coefficients in a virtual representation."
+    },
+    {
+      "temporary_id": "decl-016867",
+      "new_name": "coeff_independent_of_simple",
+      "docstring": "The coefficient of a fixed representation is independent of the proof that it is simple."
+    },
+    {
+      "temporary_id": "decl-016868",
+      "new_name": "coeff_neg",
+      "docstring": "The coefficient in the negative of a virtual representation is the negative coefficient."
+    },
+    {
+      "temporary_id": "decl-016869",
+      "new_name": "coeff_simpleMultiple_self",
+      "docstring": "The coefficient of a simple representation in its own integer multiple is that integer."
+    },
+    {
+      "temporary_id": "decl-016870",
+      "new_name": "coeff_sub",
+      "docstring": "The coefficient in a difference is the difference of the coefficients."
+    },
+    {
+      "temporary_id": "decl-016871",
+      "new_name": "coeff_zero",
+      "docstring": "Every simple coefficient of the zero virtual representation is zero."
+    },
+    {
+      "temporary_id": "decl-016872",
+      "new_name": "dim",
+      "docstring": "The integer-valued dimension of a virtual representation."
+    },
+    {
+      "temporary_id": "decl-016874",
+      "new_name": "dim_eq_sum_support",
+      "docstring": "The dimension is the sum over the support of each coefficient times the corresponding dimension."
+    },
+    {
+      "temporary_id": "decl-016876",
+      "new_name": "dim_simpleMultiple",
+      "docstring": "The dimension of an integer multiple of a simple representation is the integer times its finite dimension."
+    },
+    {
+      "temporary_id": "decl-016877",
+      "new_name": "dim_zero",
+      "docstring": "The dimension of the zero virtual representation is zero."
+    },
+    {
+      "temporary_id": "decl-016880",
+      "new_name": "ext",
+      "docstring": "Two virtual representations are equal when all their simple coefficients agree."
+    },
+    {
+      "temporary_id": "decl-016881",
+      "new_name": "iso_of_simpleMultiple_eq",
+      "docstring": "Simple representations are isomorphic when equal nonzero integer multiples of them define the same virtual representation."
+    },
+    {
+      "temporary_id": "decl-016883",
+      "new_name": "simpleMultiple",
+      "docstring": "The virtual representation given by an integer multiple of a simple representation."
+    },
+    {
+      "temporary_id": "decl-016885",
+      "new_name": "simpleMultiple_add",
+      "docstring": "The virtual representation attached to a sum of integers is the sum of the corresponding simple multiples."
+    },
+    {
+      "temporary_id": "decl-016886",
+      "new_name": "auxiliary",
+      "docstring": "An auxiliary theorem whose formal statement is unavailable."
+    },
+    {
+      "temporary_id": "decl-016887",
+      "new_name": "simpleMultiple_eq_of_iso",
+      "docstring": "Isomorphic simple representations have equal virtual integer multiples."
+    },
+    {
+      "temporary_id": "decl-016888",
+      "new_name": "simpleMultiple_eq_zero_iff",
+      "docstring": "An integer multiple of a simple representation is zero exactly when the integer is zero."
+    },
+    {
+      "temporary_id": "decl-016890",
+      "new_name": "simpleMultiple_ne_of_not_iso",
+      "docstring": "Nonzero multiples of nonisomorphic simple representations are distinct."
+    },
+    {
+      "temporary_id": "decl-016891",
+      "new_name": "simpleMultiple_zero",
+      "docstring": "The zero multiple of a simple representation is the zero virtual representation."
+    }
+  ]
+}

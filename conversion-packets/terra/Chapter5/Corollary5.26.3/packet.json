@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Corollary5.26.3",
+    "kind": "corollary",
+    "title": "Irreducible characters are rational combinations of induced characters from cyclic subgroups",
+    "node_id": "chapter-05/section-5-26",
+    "order": 394,
+    "slug": "corollary5-26-3",
+    "span": {
+      "start": {
+        "page": "145",
+        "line": 7
+      },
+      "end": {
+        "page": "145",
+        "line": 8
+      }
+    },
+    "source_sha256": "6a315f22a5f47fe26a409faf5a6e7af865da72aec6fb9b57629101cba2e6f98e",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Corollary5263",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

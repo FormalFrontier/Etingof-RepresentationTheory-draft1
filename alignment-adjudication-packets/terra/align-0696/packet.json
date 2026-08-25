@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3c8a9d4c81631db8af1a",
+      "declaration": "Etingof.Exercise4_2_3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/191/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k G : Type u) [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G],\n  Eq.{u + 1} (Nat.cast.{u} (Fintype.card.{u} G)) 0 \u2192\n    LT.lt.{0} (Nat.card.{u + 1} (Etingof.IrrepClasses.{u, u} k G)) (Nat.card.{u} (ConjClasses.{u} G))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Assembly"
+    },
+    {
+      "association_id": "association:8a8ce1223116bc0ee4b7",
+      "declaration": "Etingof.natCard_irrepClasses_lt_conjClasses_of_isAlgClosed",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/191/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (K : Type u) (G : Type v) [inst : Field.{u} K] [IsAlgClosed.{u} K] [inst_2 : Group.{v} G] [inst_3 : Fintype.{v} G],\n  Eq.{u + 1} (Nat.cast.{u} (Fintype.card.{v} G)) 0 \u2192\n    LT.lt.{0} (Nat.card.{max v (u + 1)} (Etingof.IrrepClasses.{u, v} K G)) (Nat.card.{v} (ConjClasses.{v} G))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Assembly"
+    }
+  ],
+  "canonical_reference": "Chapter4/Exercise4.2.3",
+  "packet_id": "align-0696",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0696"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Exercise4.2.3:strict_modular_count",
+  "source_text": "In modular characteristic the number of irreducible classes is strictly smaller than the number of conjugacy classes."
+}

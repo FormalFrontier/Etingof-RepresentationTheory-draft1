@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Theorem3.6.2",
+    "kind": "theorem",
+    "title": "Linear independence of characters; basis in semisimple case",
+    "node_id": "chapter-03/section-3-6",
+    "order": 159,
+    "slug": "theorem3-6-2",
+    "span": {
+      "start": {
+        "page": "52",
+        "line": 13
+      },
+      "end": {
+        "page": "53",
+        "line": 2
+      }
+    },
+    "source_sha256": "b36e1f9d1f7a88a07b58814d0f2a638686b8280f47cb2a0649ac7799d7991016",
+    "features": {
+      "line_count": 15,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Theorem362",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

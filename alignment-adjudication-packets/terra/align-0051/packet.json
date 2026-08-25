@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:861197e1b7f480464417",
+      "declaration": "Etingof.BookPathAlgebra.ofPath_mul_ofPath_eq_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/66/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  {a b c d : Q} (p : Quiver.Path.{u_3, u_2} a b) (q : Quiver.Path.{u_3, u_2} c d),\n  Ne.{u_2 + 1} b c \u2192\n    Eq.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1)}\n      (HMul.hMul.{max (max u_1 u_2) u_3, max (max u_1 u_2) u_3, max (max u_1 u_2) u_3}\n        (Etingof.BookPathAlgebra.ofPath.{u_1, u_2, u_3}\n          (Sigma.mk.{u_2, max u_2 u_3} c (Sigma.mk.{u_2, max u_2 u_3} d q)))\n        (Etingof.BookPathAlgebra.ofPath.{u_1, u_2, u_3}\n          (Sigma.mk.{u_2, max u_2 u_3} a (Sigma.mk.{u_2, max u_2 u_3} b p))))\n      0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.8.4",
+  "packet_id": "align-0051",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0051"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0e53f5b33ed72afbc511",
+  "source_text": "Non-composable paths multiply to zero."
+}

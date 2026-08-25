@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Discussion_after_Corollary6.8.3",
+    "kind": "discussion",
+    "title": "Summary: finitely many indecomposables, last part of Gabriel's theorem",
+    "node_id": "chapter-06/section-6-8",
+    "order": 457,
+    "slug": "discussion-after-corollary6-8-3",
+    "span": {
+      "start": {
+        "page": "176",
+        "line": 31
+      },
+      "end": {
+        "page": "176",
+        "line": 32
+      }
+    },
+    "source_sha256": "9bb5f53a7aff1a458386c8f684884513fb663b9cea40013c3697ebb078ef0128",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.DiscussionAfterCorollary683",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

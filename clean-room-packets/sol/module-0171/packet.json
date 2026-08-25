@@ -1,0 +1,178 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (X : Type u_3) \u2192\n      (V : Type u_4) \u2192\n        [inst : CommRing.{u_1} k] \u2192\n          [inst_1 : Ring.{u_2} A] \u2192\n            [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n              [inst_3 : AddCommGroup.{u_3} X] \u2192\n                [inst_4 : Module.{u_1, u_3} k X] \u2192\n                  [inst_5 : Module.{u_2, u_3} A X] \u2192\n                    [IsScalarTower.{u_1, u_2, u_3} k A X] \u2192\n                      [inst_7 : AddCommGroup.{u_4} V] \u2192\n                        [inst_8 : Module.{u_1, u_4} k V] \u2192\n                          [inst_9 : Module.{u_2, u_4} A V] \u2192\n                            [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A V] \u2192\n                              LinearMap.{u_1, u_1, max u_4 u_3, max u_4 u_3} (RingHom.id.{u_1} k)\n                                (LinearMap.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} A) X V)\n                                (LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} k) X V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3905787341",
+      "temporary_id": "decl-018671"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    {\u03b9 : Type u_3} \u2192\n      (X : \u03b9 \u2192 Type u_4) \u2192\n        (V : Type u_5) \u2192\n          [inst : Field.{u_1} k] \u2192\n            [inst_1 : Ring.{u_2} A] \u2192\n              [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n                [DecidableEq.{u_3 + 1} \u03b9] \u2192\n                  [inst_4 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)] \u2192\n                    [inst_5 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (X i)] \u2192\n                      [inst_6 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)] \u2192\n                        [\u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (X i)] \u2192\n                          [inst_8 : AddCommGroup.{u_5} V] \u2192\n                            [inst_9 : Module.{u_1, u_5} k V] \u2192\n                              [inst_10 : Module.{u_2, u_5} A V] \u2192\n                                [inst_11 : IsScalarTower.{u_1, u_2, u_5} k A V] \u2192\n                                  LinearMap.{u_1, u_1, max (max u_5 u_4) u_3, u_5} (RingHom.id.{u_1} k)\n                                    (DirectSum.{u_3, max u_5 u_4} \u03b9 fun i =>\n                                      TensorProduct.{u_1, max u_5 u_4, u_4} k\n                                        (LinearMap.{u_2, u_2, u_4, u_5} (RingHom.id.{u_2} A) (X i) V) (X i))\n                                    V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "183704170",
+      "temporary_id": "decl-018677"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    {\u03b9 : Type u_3} \u2192\n      (X : \u03b9 \u2192 Type u_4) \u2192\n        (V : Type u_5) \u2192\n          [inst : Field.{u_1} k] \u2192\n            [IsAlgClosed.{u_1} k] \u2192\n              [inst_2 : Ring.{u_2} A] \u2192\n                [inst_3 : Algebra.{u_1, u_2} k A] \u2192\n                  [Fintype.{u_3} \u03b9] \u2192\n                    [DecidableEq.{u_3 + 1} \u03b9] \u2192\n                      [inst_6 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)] \u2192\n                        [inst_7 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (X i)] \u2192\n                          [inst_8 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)] \u2192\n                            [\u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (X i)] \u2192\n                              [\u2200 (i : \u03b9), IsSimpleModule.{u_2, u_4} A (X i)] \u2192\n                                [\u2200 (i : \u03b9), FiniteDimensional.{u_1, u_4} k (X i)] \u2192\n                                  [inst_12 : AddCommGroup.{u_5} V] \u2192\n                                    [inst_13 : Module.{u_1, u_5} k V] \u2192\n                                      [inst_14 : Module.{u_2, u_5} A V] \u2192\n                                        [inst_15 : IsScalarTower.{u_1, u_2, u_5} k A V] \u2192\n                                          [FiniteDimensional.{u_1, u_5} k V] \u2192\n                                            [IsSemisimpleModule.{u_2, u_5} A V] \u2192\n                                              (\u2200 (i j : \u03b9),\n                                                  Ne.{u_3 + 1} i j \u2192\n                                                    IsEmpty.{u_4 + 1}\n                                                      (LinearEquiv.{u_2, u_2, u_4, u_4} (RingHom.id.{u_2} A) (X i)\n                                                        (X j))) \u2192\n                                                (\u2200 (W : Submodule.{u_2, u_5} A V),\n                                                    IsSimpleModule.{u_2, u_5} A\n                                                        (Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} W x) \u2192\n                                                      Exists.{u_3 + 1} fun i =>\n                                                        Nonempty.{max (u_4 + 1) (u_5 + 1)}\n                                                          (LinearEquiv.{u_2, u_2, u_5, u_4} (RingHom.id.{u_2} A)\n                                                            (Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} W x)\n                                                            (X i))) \u2192\n                                                  LinearEquiv.{u_1, u_1, max (max u_5 u_4) u_3, u_5}\n                                                    (RingHom.id.{u_1} k)\n                                                    (DirectSum.{u_3, max u_5 u_4} \u03b9 fun i =>\n                                                      TensorProduct.{u_1, max u_5 u_4, u_4} k\n                                                        (LinearMap.{u_2, u_2, u_4, u_5} (RingHom.id.{u_2} A) (X i) V)\n                                                        (X i))\n                                                    V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4029173264",
+      "temporary_id": "decl-018679"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) {\u03b9 : Type u_3} (X : \u03b9 \u2192 Type u_4) (V : Type u_5) [inst : Field.{u_1} k]\n  [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u_2} A] [inst_3 : Algebra.{u_1, u_2} k A] [Fintype.{u_3} \u03b9]\n  [inst_5 : DecidableEq.{u_3 + 1} \u03b9] [inst_6 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)]\n  [inst_7 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (X i)] [inst_8 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)]\n  [inst_9 : \u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (X i)] [\u2200 (i : \u03b9), IsSimpleModule.{u_2, u_4} A (X i)]\n  [\u2200 (i : \u03b9), FiniteDimensional.{u_1, u_4} k (X i)] [inst_12 : AddCommGroup.{u_5} V] [inst_13 : Module.{u_1, u_5} k V]\n  [inst_14 : Module.{u_2, u_5} A V] [inst_15 : IsScalarTower.{u_1, u_2, u_5} k A V] [FiniteDimensional.{u_1, u_5} k V]\n  [IsSemisimpleModule.{u_2, u_5} A V],\n  (\u2200 (i j : \u03b9),\n      Ne.{u_3 + 1} i j \u2192 IsEmpty.{u_4 + 1} (LinearEquiv.{u_2, u_2, u_4, u_4} (RingHom.id.{u_2} A) (X i) (X j))) \u2192\n    Function.Injective.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), u_5 + 1}\n      (DFunLike.coe.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), u_5 + 1}\n        (decl-018677.{u_1, u_2, u_3, u_4, u_5} k A X V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018677"
+      ],
+      "structural_type_hash": "1758617975",
+      "temporary_id": "decl-018683"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) {\u03b9 : Type u_3} (X : \u03b9 \u2192 Type u_4) (V : Type u_5) [inst : Field.{u_1} k]\n  [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : DecidableEq.{u_3 + 1} \u03b9]\n  [inst_4 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)] [inst_5 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (X i)]\n  [inst_6 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)] [inst_7 : \u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (X i)]\n  [inst_8 : AddCommGroup.{u_5} V] [inst_9 : Module.{u_1, u_5} k V] [inst_10 : Module.{u_2, u_5} A V]\n  [inst_11 : IsScalarTower.{u_1, u_2, u_5} k A V] (i : \u03b9)\n  (g : LinearMap.{u_2, u_2, u_4, u_5} (RingHom.id.{u_2} A) (X i) V) (x : X i),\n  Eq.{u_5 + 1}\n    (DFunLike.coe.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), u_5 + 1}\n      (decl-018677.{u_1, u_2, u_3, u_4, u_5} k A X V)\n      (DFunLike.coe.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), max (u_4 + 1) (u_5 + 1),\n          max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)}\n        (DirectSum.lof.{u_1, u_3, max u_5 u_4} k \u03b9\n          (fun i =>\n            TensorProduct.{u_1, max u_5 u_4, u_4} k (LinearMap.{u_2, u_2, u_4, u_5} (RingHom.id.{u_2} A) (X i) V) (X i))\n          i)\n        (TensorProduct.tmul.{u_1, max u_4 u_5, u_4} k g x)))\n    (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), u_4 + 1, u_5 + 1} g x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018677"
+      ],
+      "structural_type_hash": "2535435941",
+      "temporary_id": "decl-018684"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) {\u03b9 : Type u_3} (X : \u03b9 \u2192 Type u_4) (V : Type u_5) [inst : Field.{u_1} k]\n  [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : DecidableEq.{u_3 + 1} \u03b9]\n  [inst_4 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)] [inst_5 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (X i)]\n  [inst_6 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)] [inst_7 : \u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (X i)]\n  [inst_8 : AddCommGroup.{u_5} V] [inst_9 : Module.{u_1, u_5} k V] [inst_10 : Module.{u_2, u_5} A V]\n  [inst_11 : IsScalarTower.{u_1, u_2, u_5} k A V] [IsSemisimpleModule.{u_2, u_5} A V],\n  (\u2200 (W : Submodule.{u_2, u_5} A V),\n      IsSimpleModule.{u_2, u_5} A (Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} W x) \u2192\n        Exists.{u_3 + 1} fun i =>\n          Nonempty.{max (u_4 + 1) (u_5 + 1)}\n            (LinearEquiv.{u_2, u_2, u_5, u_4} (RingHom.id.{u_2} A)\n              (Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} W x) (X i))) \u2192\n    Function.Surjective.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), u_5 + 1}\n      (DFunLike.coe.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), u_5 + 1}\n        (decl-018677.{u_1, u_2, u_3, u_4, u_5} k A X V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018677"
+      ],
+      "structural_type_hash": "2706399597",
+      "temporary_id": "decl-018685"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (X : Type u_3) \u2192\n      (V : Type u_4) \u2192\n        [inst : CommRing.{u_1} k] \u2192\n          [inst_1 : Ring.{u_2} A] \u2192\n            [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n              [inst_3 : AddCommGroup.{u_3} X] \u2192\n                [inst_4 : Module.{u_1, u_3} k X] \u2192\n                  [inst_5 : Module.{u_2, u_3} A X] \u2192\n                    [IsScalarTower.{u_1, u_2, u_3} k A X] \u2192\n                      [inst_7 : AddCommGroup.{u_4} V] \u2192\n                        [inst_8 : Module.{u_1, u_4} k V] \u2192\n                          [inst_9 : Module.{u_2, u_4} A V] \u2192\n                            [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A V] \u2192\n                              LinearMap.{u_1, u_1, max u_4 u_3, u_4} (RingHom.id.{u_1} k)\n                                (TensorProduct.{u_1, max u_4 u_3, u_3} k\n                                  (LinearMap.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} A) X V) X)\n                                V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3661049668",
+      "temporary_id": "decl-018712"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : Field.{u_1} k] \u2192\n        [IsAlgClosed.{u_1} k] \u2192\n          [inst_2 : Ring.{u_2} A] \u2192\n            [inst_3 : Algebra.{u_1, u_2} k A] \u2192\n              [inst_4 : AddCommGroup.{u_3} V] \u2192\n                [inst_5 : Module.{u_1, u_3} k V] \u2192\n                  [inst_6 : Module.{u_2, u_3} A V] \u2192\n                    [inst_7 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                      [IsSimpleModule.{u_2, u_3} A V] \u2192\n                        [FiniteDimensional.{u_1, u_3} k V] \u2192\n                          LinearEquiv.{u_1, u_1, u_3, u_3} (RingHom.id.{u_1} k)\n                            (TensorProduct.{u_1, u_3, u_3} k (LinearMap.{u_2, u_2, u_3, u_3} (RingHom.id.{u_2} A) V V)\n                              V)\n                            V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2878813030",
+      "temporary_id": "decl-018714"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k]\n  [inst_2 : Ring.{u_2} A] [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : AddCommGroup.{u_3} V]\n  [inst_5 : Module.{u_1, u_3} k V] [inst_6 : Module.{u_2, u_3} A V] [inst_7 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  [inst_8 : IsSimpleModule.{u_2, u_3} A V] [inst_9 : FiniteDimensional.{u_1, u_3} k V]\n  (g : LinearMap.{u_2, u_2, u_3, u_3} (RingHom.id.{u_2} A) V V) (x : V),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (decl-018714.{u_1, u_2, u_3} k A V)\n      (TensorProduct.tmul.{u_1, u_3, u_3} k g x))\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} g x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018714"
+      ],
+      "structural_type_hash": "2596673816",
+      "temporary_id": "decl-018722"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (X : Type u_3) (V : Type u_4) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k]\n  [inst_2 : Ring.{u_2} A] [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : AddCommGroup.{u_3} X]\n  [inst_5 : Module.{u_1, u_3} k X] [inst_6 : Module.{u_2, u_3} A X] [inst_7 : IsScalarTower.{u_1, u_2, u_3} k A X]\n  [IsSimpleModule.{u_2, u_3} A X] [FiniteDimensional.{u_1, u_3} k X] [inst_10 : AddCommGroup.{u_4} V]\n  [inst_11 : Module.{u_1, u_4} k V] [inst_12 : Module.{u_2, u_4} A V] [inst_13 : IsScalarTower.{u_1, u_2, u_4} k A V]\n  [FiniteDimensional.{u_1, u_4} k V],\n  Function.Injective.{max (u_3 + 1) (u_4 + 1), u_4 + 1}\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1), u_4 + 1}\n      (decl-018712.{u_1, u_2, u_3, u_4} k A X V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018712"
+      ],
+      "structural_type_hash": "3801301509",
+      "temporary_id": "decl-018728"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) {\u03b9 : Type u_3} (X : \u03b9 \u2192 Type u_4) (V : Type u_5) [inst : Field.{u_1} k]\n  [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)]\n  [inst_4 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (X i)] [inst_5 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)]\n  [inst_6 : \u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (X i)] [\u2200 (i : \u03b9), IsSimpleModule.{u_2, u_4} A (X i)]\n  [inst_8 : AddCommGroup.{u_5} V] [inst_9 : Module.{u_1, u_5} k V] [inst_10 : Module.{u_2, u_5} A V]\n  [inst_11 : IsScalarTower.{u_1, u_2, u_5} k A V] (i : \u03b9)\n  (t : TensorProduct.{u_1, max u_5 u_4, u_4} k (LinearMap.{u_2, u_2, u_4, u_5} (RingHom.id.{u_2} A) (X i) V) (X i)),\n  Membership.mem.{u_5, u_5} (isotypicComponent.{u_5, u_2, u_4} A V (X i))\n    (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), max (u_4 + 1) (u_5 + 1), u_5 + 1}\n      (decl-018712.{u_1, u_2, u_4, u_5} k A (X i) V) t)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018712"
+      ],
+      "structural_type_hash": "437491328",
+      "temporary_id": "decl-018729"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (X : Type u_3) (V : Type u_4) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} X] [inst_4 : Module.{u_1, u_3} k X]\n  [inst_5 : Module.{u_2, u_3} A X] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A X] [inst_7 : AddCommGroup.{u_4} V]\n  [inst_8 : Module.{u_1, u_4} k V] [inst_9 : Module.{u_2, u_4} A V] [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A V]\n  (g : LinearMap.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} A) X V) (x : X),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1), u_4 + 1}\n      (decl-018712.{u_1, u_2, u_3, u_4} k A X V) (TensorProduct.tmul.{u_1, max u_3 u_4, u_3} k g x))\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} g x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018712"
+      ],
+      "structural_type_hash": "3752704890",
+      "temporary_id": "decl-018730"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_2) {\u03b9 : Type u_3} (X : \u03b9 \u2192 Type u_4) (V : Type u_5) [inst : Ring.{u_2} A]\n  [inst_1 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)] [inst_2 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{u_2, u_4} A (X i)] [inst_4 : AddCommGroup.{u_5} V] [inst_5 : Module.{u_2, u_5} A V]\n  [IsSemisimpleModule.{u_2, u_5} A V],\n  (\u2200 (i j : \u03b9),\n      Ne.{u_3 + 1} i j \u2192 IsEmpty.{u_4 + 1} (LinearEquiv.{u_2, u_2, u_4, u_4} (RingHom.id.{u_2} A) (X i) (X j))) \u2192\n    iSupIndep.{u_3 + 1, u_5} fun i => isotypicComponent.{u_5, u_2, u_4} A V (X i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3819016253",
+      "temporary_id": "decl-020473"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_2) {\u03b9 : Type u_3} (X : \u03b9 \u2192 Type u_4) (V : Type u_5) [inst : Ring.{u_2} A]\n  [inst_1 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)] [inst_2 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{u_2, u_4} A (X i)] [inst_4 : AddCommGroup.{u_5} V] [inst_5 : Module.{u_2, u_5} A V]\n  [IsSemisimpleModule.{u_2, u_5} A V],\n  (\u2200 (i j : \u03b9),\n      Ne.{u_3 + 1} i j \u2192 IsEmpty.{u_4 + 1} (LinearEquiv.{u_2, u_2, u_4, u_4} (RingHom.id.{u_2} A) (X i) (X j))) \u2192\n    \u2200 (i j : \u03b9),\n      Ne.{u_3 + 1} i j \u2192\n        Ne.{u_5 + 1} (isotypicComponent.{u_5, u_2, u_4} A V (X i)) Bot.bot.{u_5} \u2192\n          Ne.{u_5 + 1} (isotypicComponent.{u_5, u_2, u_4} A V (X i)) (isotypicComponent.{u_5, u_2, u_4} A V (X j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "497644548",
+      "temporary_id": "decl-020981"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_2) [inst : Ring.{u_2} A] {Y : Type u_6} {Z : Type u_7} [inst_1 : AddCommGroup.{u_6} Y]\n  [inst_2 : Module.{u_2, u_6} A Y] [inst_3 : AddCommGroup.{u_7} Z] [inst_4 : Module.{u_2, u_7} A Z]\n  [IsSimpleModule.{u_2, u_6} A Y] [IsSimpleModule.{u_2, u_7} A Z],\n  IsEmpty.{max (u_7 + 1) (u_6 + 1)} (LinearEquiv.{u_2, u_2, u_6, u_7} (RingHom.id.{u_2} A) Y Z) \u2192\n    \u2200 (f : LinearMap.{u_2, u_2, u_6, u_7} (RingHom.id.{u_2} A) Y Z), Eq.{max (u_6 + 1) (u_7 + 1)} f 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "912884488",
+      "temporary_id": "decl-021507"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_2) {\u03b9 : Type u_3} (X : \u03b9 \u2192 Type u_4) (V : Type u_5) [inst : Ring.{u_2} A]\n  [inst_1 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)] [inst_2 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{u_2, u_4} A (X i)] [inst_4 : AddCommGroup.{u_5} V] [inst_5 : Module.{u_2, u_5} A V]\n  (i : \u03b9),\n  Ne.{u_5 + 1} (isotypicComponent.{u_5, u_2, u_4} A V (X i)) Bot.bot.{u_5} \u2192\n    Membership.mem.{u_5, u_5} (isotypicComponents.{u_5, u_2} A V) (isotypicComponent.{u_5, u_2, u_4} A V (X i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "530977735",
+      "temporary_id": "decl-021586"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) {\u03b9 : Type u_3} (X : \u03b9 \u2192 Type u_4) (V : Type u_5) [inst : Field.{u_1} k]\n  [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : DecidableEq.{u_3 + 1} \u03b9]\n  [inst_4 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)] [inst_5 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (X i)]\n  [inst_6 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)] [inst_7 : \u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (X i)]\n  [inst_8 : AddCommGroup.{u_5} V] [inst_9 : Module.{u_1, u_5} k V] [inst_10 : Module.{u_2, u_5} A V]\n  [inst_11 : IsScalarTower.{u_1, u_2, u_5} k A V],\n  (\u2200 (W : Submodule.{u_2, u_5} A V),\n      IsSimpleModule.{u_2, u_5} A (Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} W x) \u2192\n        Exists.{u_3 + 1} fun i =>\n          Nonempty.{max (u_4 + 1) (u_5 + 1)}\n            (LinearEquiv.{u_2, u_2, u_5, u_4} (RingHom.id.{u_2} A)\n              (Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} W x) (X i))) \u2192\n    \u2200 (W : Submodule.{u_2, u_5} A V),\n      IsSimpleModule.{u_2, u_5} A (Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} W x) \u2192\n        LE.le.{u_5} (SetLike.coe.{u_5, u_5} W)\n          (SetLike.coe.{u_5, u_5}\n            (LinearMap.range.{u_1, u_1, max (max u_3 u_4) u_5, u_5}\n              (decl-018677.{u_1, u_2, u_3, u_4, u_5} k A X V)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018677"
+      ],
+      "structural_type_hash": "1352031519",
+      "temporary_id": "decl-023205"
+    }
+  ],
+  "module_temporary_id": "module-0171",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

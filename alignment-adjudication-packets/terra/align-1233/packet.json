@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c2d7081db5d5a9accbf3",
+      "declaration": "Etingof.character_eq_character_add_character_quotient",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/157/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V]\n  [inst_7 : FiniteDimensional.{u_1, u_3} k V] (W : Submodule.{u_2, u_3} A V),\n  Eq.{max (u_1 + 1) (u_2 + 1)} (Etingof.character.{u_1, u_2, u_3} k A V)\n    (HAdd.hAdd.{max u_1 u_2, max u_1 u_2, max u_1 u_2}\n      (Etingof.character.{u_1, u_2, u_3} k A (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} W x))\n      (Etingof.character.{u_1, u_2, u_3} k A (HasQuotient.Quotient.{u_3, u_3} V W)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Exercise3_6_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Exercise3.6.1",
+  "packet_id": "align-1233",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1233"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter3/Exercise3.6.1",
+  "source_text": "**Exercise 3.6.1.** Show that if $W \\subset V$ are finite dimensional representations of $A$, then $\\chi_V = \\chi_W + \\chi_{V/W}$.\n\n"
+}

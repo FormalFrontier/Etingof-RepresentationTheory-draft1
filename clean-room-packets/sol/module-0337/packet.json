@@ -1,0 +1,352 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{p : Nat} \u2192 [hp : Fact (Nat.Prime p)] \u2192 {n : Nat} \u2192 decl-027600 p n \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-027600"
+      ],
+      "structural_type_hash": "1248147106",
+      "temporary_id": "decl-024847"
+    },
+    {
+      "formal_type": "{p : Nat} \u2192 [hp : Fact (Nat.Prime p)] \u2192 {n : Nat} \u2192 decl-027600 p n \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-027600"
+      ],
+      "structural_type_hash": "1248147106",
+      "temporary_id": "decl-024849"
+    },
+    {
+      "formal_type": "{p : Nat} \u2192 [hp : Fact (Nat.Prime p)] \u2192 {n : Nat} \u2192 decl-027600 p n \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-027600"
+      ],
+      "structural_type_hash": "1248147106",
+      "temporary_id": "decl-024850"
+    },
+    {
+      "formal_type": "{p : Nat} \u2192 [hp : Fact (Nat.Prime p)] \u2192 {n : Nat} \u2192 decl-027600 p n \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-027600"
+      ],
+      "structural_type_hash": "1248147106",
+      "temporary_id": "decl-024851"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (decl-027600 p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun g => decl-024847 g) Finset.univ.{0}))\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2)\n            (HPow.hPow.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1) 2))\n          2)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024847",
+        "decl-027600",
+        "decl-032889"
+      ],
+      "structural_type_hash": "1976700649",
+      "temporary_id": "decl-024868"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (decl-027600 p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun g => decl-024849 g) Finset.univ.{0}))\n        (HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n          (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024849",
+        "decl-027600",
+        "decl-032890"
+      ],
+      "structural_type_hash": "2697785045",
+      "temporary_id": "decl-024874"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (decl-027600 p n)],\n  Ne.{1} n 0 \u2192\n    Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun g => decl-024850 g) Finset.univ.{0}))\n      (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024850",
+        "decl-027600",
+        "decl-032891"
+      ],
+      "structural_type_hash": "4162658206",
+      "temporary_id": "decl-024881"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (decl-027600 p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun g => decl-024851 g) Finset.univ.{0}))\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0}\n            (HMul.hMul.{0, 0, 0}\n              (HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n                (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2))\n              (Fintype.card.{0} (GaloisField p n)))\n            (HAdd.hAdd.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n          2)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024851",
+        "decl-027600",
+        "decl-032892"
+      ],
+      "structural_type_hash": "4191058460",
+      "temporary_id": "decl-024885"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : decl-027600 p n),\n  Or (decl-024850 g) (Or (decl-024849 g) (Or (decl-024851 g) (decl-024847 g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024847",
+        "decl-024849",
+        "decl-024850",
+        "decl-024851",
+        "decl-027600"
+      ],
+      "structural_type_hash": "3641952029",
+      "temporary_id": "decl-024911"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : decl-027600 p n),\n  Or\n    (And (decl-024850 g)\n      (And (Not (decl-024849 g)) (And (Not (decl-024851 g)) (Not (decl-024847 g)))))\n    (Or\n      (And (decl-024849 g)\n        (And (Not (decl-024850 g)) (And (Not (decl-024851 g)) (Not (decl-024847 g)))))\n      (Or\n        (And (decl-024851 g)\n          (And (Not (decl-024850 g)) (And (Not (decl-024849 g)) (Not (decl-024847 g)))))\n        (And (decl-024847 g)\n          (And (Not (decl-024850 g)) (And (Not (decl-024849 g)) (Not (decl-024851 g)))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024847",
+        "decl-024849",
+        "decl-024850",
+        "decl-024851",
+        "decl-027600"
+      ],
+      "structural_type_hash": "1778541313",
+      "temporary_id": "decl-024912"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : decl-027600 p n),\n  And (decl-024850 g \u2192 And (Not (decl-024849 g)) (And (Not (decl-024851 g)) (Not (decl-024847 g))))\n    (And (decl-024849 g \u2192 And (Not (decl-024850 g)) (And (Not (decl-024851 g)) (Not (decl-024847 g))))\n      (And\n        (decl-024851 g \u2192 And (Not (decl-024850 g)) (And (Not (decl-024849 g)) (Not (decl-024847 g))))\n        (decl-024847 g \u2192\n          And (Not (decl-024850 g)) (And (Not (decl-024849 g)) (Not (decl-024851 g))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024847",
+        "decl-024849",
+        "decl-024850",
+        "decl-024851",
+        "decl-027600"
+      ],
+      "structural_type_hash": "1488602401",
+      "temporary_id": "decl-024913"
+    },
+    {
+      "formal_type": "{p : Nat} \u2192 [hp : Fact (Nat.Prime p)] \u2192 {n : Nat} \u2192 decl-027600 p n \u2192 GaloisField p n",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-027600"
+      ],
+      "structural_type_hash": "732208333",
+      "temporary_id": "decl-024918"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : decl-027600 p n),\n  Eq.{1} (decl-024918 g)\n    (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Units.val.{0} g 0 0) (Units.val.{0} g 1 1)) 2)\n      (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} 4 (Units.val.{0} g 0 1)) (Units.val.{0} g 1 0)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024918",
+        "decl-027600"
+      ],
+      "structural_type_hash": "1716131309",
+      "temporary_id": "decl-024922"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : decl-027600 p n), decl-024850 g \u2192 Eq.{1} (decl-024918 g) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024850",
+        "decl-024918",
+        "decl-027600"
+      ],
+      "structural_type_hash": "2965610893",
+      "temporary_id": "decl-024923"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : decl-027600 p n), decl-024849 g \u2192 Not (decl-024847 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024847",
+        "decl-024849",
+        "decl-027600"
+      ],
+      "structural_type_hash": "31200281",
+      "temporary_id": "decl-024958"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : decl-027600 p n), decl-024849 g \u2192 Not (decl-024851 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024849",
+        "decl-024851",
+        "decl-027600"
+      ],
+      "structural_type_hash": "574262505",
+      "temporary_id": "decl-024959"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : decl-027600 p n),\n  Iff (decl-024850 g)\n    (And (Eq.{1} (Units.val.{0} g 0 1) 0)\n      (And (Eq.{1} (Units.val.{0} g 1 0) 0) (Eq.{1} (Units.val.{0} g 0 0) (Units.val.{0} g 1 1))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024850",
+        "decl-027600"
+      ],
+      "structural_type_hash": "77658581",
+      "temporary_id": "decl-024969"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : decl-027600 p n), decl-024850 g \u2192 Not (decl-024847 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024847",
+        "decl-024850",
+        "decl-027600"
+      ],
+      "structural_type_hash": "1552825372",
+      "temporary_id": "decl-024971"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : decl-027600 p n), decl-024850 g \u2192 Not (decl-024849 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024849",
+        "decl-024850",
+        "decl-027600"
+      ],
+      "structural_type_hash": "791058488",
+      "temporary_id": "decl-024972"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : decl-027600 p n), decl-024850 g \u2192 Not (decl-024851 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024850",
+        "decl-024851",
+        "decl-027600"
+      ],
+      "structural_type_hash": "2475371246",
+      "temporary_id": "decl-024973"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : decl-027600 p n), decl-024851 g \u2192 Not (decl-024847 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024847",
+        "decl-024851",
+        "decl-027600"
+      ],
+      "structural_type_hash": "2179536084",
+      "temporary_id": "decl-024976"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (decl-027600 p n)] (g : decl-027600 p n),\n  Or (Membership.mem.{0, 0} (Finset.filter.{0} (fun g => decl-024850 g) Finset.univ.{0}) g)\n    (Or (Membership.mem.{0, 0} (Finset.filter.{0} (fun g => decl-024849 g) Finset.univ.{0}) g)\n      (Or (Membership.mem.{0, 0} (Finset.filter.{0} (fun g => decl-024851 g) Finset.univ.{0}) g)\n        (Membership.mem.{0, 0} (Finset.filter.{0} (fun g => decl-024847 g) Finset.univ.{0}) g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024847",
+        "decl-024849",
+        "decl-024850",
+        "decl-024851",
+        "decl-027600",
+        "decl-032889",
+        "decl-032890",
+        "decl-032891",
+        "decl-032892"
+      ],
+      "structural_type_hash": "2295861858",
+      "temporary_id": "decl-024982"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (decl-027600 p n)] (f : decl-027600 p n \u2192 Complex),\n  Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun g => f g)\n    (HAdd.hAdd.{0, 0, 0}\n      (HAdd.hAdd.{0, 0, 0}\n        (HAdd.hAdd.{0, 0, 0}\n          (Finset.sum.{0, 0} (Finset.filter.{0} (fun g => decl-024850 g) Finset.univ.{0}) fun g => f g)\n          (Finset.sum.{0, 0} (Finset.filter.{0} (fun g => decl-024849 g) Finset.univ.{0}) fun g => f g))\n        (Finset.sum.{0, 0} (Finset.filter.{0} (fun g => decl-024851 g) Finset.univ.{0}) fun g => f g))\n      (Finset.sum.{0, 0} (Finset.filter.{0} (fun g => decl-024847 g) Finset.univ.{0}) fun g => f g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024847",
+        "decl-024849",
+        "decl-024850",
+        "decl-024851",
+        "decl-027600",
+        "decl-032889",
+        "decl-032890",
+        "decl-032891",
+        "decl-032892"
+      ],
+      "structural_type_hash": "2308533828",
+      "temporary_id": "decl-025020"
+    },
+    {
+      "formal_type": "{p : Nat} \u2192\n  [hp : Fact (Nat.Prime p)] \u2192\n    {n : Nat} \u2192\n      [Fintype.{0} (GaloisField p n)] \u2192\n        [DecidableEq.{1} (GaloisField p n)] \u2192 (g : decl-027600 p n) \u2192 Decidable (decl-024847 g)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024847",
+        "decl-027600"
+      ],
+      "structural_type_hash": "3148483354",
+      "temporary_id": "decl-032889"
+    },
+    {
+      "formal_type": "{p : Nat} \u2192\n  [hp : Fact (Nat.Prime p)] \u2192\n    {n : Nat} \u2192\n      [Fintype.{0} (GaloisField p n)] \u2192\n        [DecidableEq.{1} (GaloisField p n)] \u2192 (g : decl-027600 p n) \u2192 Decidable (decl-024849 g)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024849",
+        "decl-027600"
+      ],
+      "structural_type_hash": "4134972487",
+      "temporary_id": "decl-032890"
+    },
+    {
+      "formal_type": "{p : Nat} \u2192\n  [hp : Fact (Nat.Prime p)] \u2192\n    {n : Nat} \u2192\n      [Fintype.{0} (GaloisField p n)] \u2192\n        [DecidableEq.{1} (GaloisField p n)] \u2192 (g : decl-027600 p n) \u2192 Decidable (decl-024850 g)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024850",
+        "decl-027600"
+      ],
+      "structural_type_hash": "2773403488",
+      "temporary_id": "decl-032891"
+    },
+    {
+      "formal_type": "{p : Nat} \u2192\n  [hp : Fact (Nat.Prime p)] \u2192\n    {n : Nat} \u2192\n      [Fintype.{0} (GaloisField p n)] \u2192\n        [DecidableEq.{1} (GaloisField p n)] \u2192 (g : decl-027600 p n) \u2192 Decidable (decl-024851 g)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024851",
+        "decl-027600"
+      ],
+      "structural_type_hash": "2844207174",
+      "temporary_id": "decl-032892"
+    }
+  ],
+  "module_temporary_id": "module-0337",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

@@ -1,0 +1,8 @@
+{
+  "module_name": "LinearAlgebra.ModuleAuxiliaryData",
+  "declarations": [
+    {"temporary_id": "decl-016223", "new_name": "ModuleAuxiliaryData", "docstring": "An auxiliary type associated with a module over a ring."},
+    {"temporary_id": "decl-019740", "new_name": "moduleAuxiliaryData", "docstring": "An auxiliary value associated with a module over a ring."},
+    {"temporary_id": "decl-024710", "new_name": "moduleAuxiliaryData'", "docstring": "A second auxiliary value associated with a module over a ring."}
+  ]
+}

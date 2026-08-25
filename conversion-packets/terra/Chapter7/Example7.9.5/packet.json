@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Example7.9.5",
+    "kind": "example",
+    "title": "Representations of finite groups as semisimple category",
+    "node_id": "chapter-07/section-7-9",
+    "order": 516,
+    "slug": "example7-9-5",
+    "span": {
+      "start": {
+        "page": "195",
+        "line": 9
+      },
+      "end": {
+        "page": "195",
+        "line": 10
+      }
+    },
+    "source_sha256": "a80c70fed3d036f8b3b0da5cfe6d46c4b9911bdfc89dc25faa73ede0b8594260",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example795",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

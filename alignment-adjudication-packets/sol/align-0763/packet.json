@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4247f65902ed1c603597",
+      "declaration": "Etingof.sumTranspositionsWith1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/341/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 [NeZero.{0} n] \u2192 Etingof.SymGroupAlgebra n",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_3"
+    },
+    {
+      "association_id": "association:540d45c84f43fdb7469a",
+      "declaration": "Etingof.sumTranspositionsWith1_diagonalizable_integer_eigenvalues",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/341/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) [inst : NeZero.{0} n] {V : Type u_1} [inst_1 : AddCommGroup.{u_1} V] [inst_2 : Module.{0, u_1} Complex V]\n  [Module.Finite.{0, u_1} Complex V] (\u03c1 : Representation.{0, 0, u_1} Complex (Equiv.Perm.{1} (Fin n)) V),\n  And\n    (Exists.{u_1 + 1} fun b =>\n      \u2200 (i : Fin (Module.finrank.{0, u_1} Complex V)),\n        Exists.{1} fun \u03bc =>\n          Eq.{u_1 + 1}\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n              (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (Representation.asAlgebraHom.{0, 0, u_1} \u03c1)\n                (Etingof.sumTranspositionsWith1 n))\n              (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} b i))\n            (HSMul.hSMul.{0, u_1, u_1} \u03bc (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} b i)))\n    (\u2200 (\u03bc : Complex),\n      Module.End.HasEigenvalue.{0, u_1}\n          (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (Representation.asAlgebraHom.{0, 0, u_1} \u03c1)\n            (Etingof.sumTranspositionsWith1 n))\n          \u03bc \u2192\n        Exists.{1} fun m =>\n          And (Eq.{1} \u03bc (Int.cast.{0} m))\n            (And (LE.le.{0} (HSub.hSub.{0, 0, 0} 1 (Nat.cast.{0} n)) m)\n              (LE.le.{0} m (HSub.hSub.{0, 0, 0} (Nat.cast.{0} n) 1))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_3"
+    },
+    {
+      "association_id": "association:78de24dcff6cc8a61531",
+      "declaration": "Etingof.sumTranspositionsWith1_eq_sub",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/341/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) [inst : NeZero.{0} n],\n  Eq.{1} (Etingof.sumTranspositionsWith1 n)\n    (HSub.hSub.{0, 0, 0} (Etingof.sumTranspositions n) (Etingof.sumTranspositionsStab n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_3"
+    },
+    {
+      "association_id": "association:d71cfc4554ae436735a8",
+      "declaration": "Etingof.sumTranspositionsWith1_hasEigenvalue_integer",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/341/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (m : Nat) {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [Module.Finite.{0, u_1} Complex V]\n  (\u03c1 : Representation.{0, 0, u_1} Complex (Equiv.Perm.{1} (Fin (HAdd.hAdd.{0, 0, 0} m 1))) V) (\u03bc : Complex),\n  Module.End.HasEigenvalue.{0, u_1}\n      (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (Representation.asAlgebraHom.{0, 0, u_1} \u03c1)\n        (Etingof.sumTranspositionsWith1 (HAdd.hAdd.{0, 0, 0} m 1)))\n      \u03bc \u2192\n    Exists.{1} fun z => Eq.{1} \u03bc (Int.cast.{0} z)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Problem5.16.3",
+  "packet_id": "align-0763",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0763"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Problem5.16.3:part_a",
+  "source_text": "Part (a): every eigenvalue of the Jucys-Murphy element is an integer."
+}

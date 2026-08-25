@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:eab2761031da82d4b8be",
+      "declaration": "D\u2084Rep.classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/419/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] (rho : D\u2084Rep.{0, 0, 0, 0, 0} k),\n  D\u2084Rep.Indecomposable.{0, 0, 0, 0, 0} rho \u2192\n    ExistsUnique.{1} fun d =>\n      Nonempty.{1}\n        (Etingof.QuiverRepresentation.Iso.{0, 0, 0, 0, 0} (D\u2084Rep.toQuiverRepresentation.{0, 0} rho)\n          (D\u2084Rep.canonicalRepresentation.{0} k d))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1_Classification"
+    }
+  ],
+  "canonical_reference": "Chapter6/Example6.3.1",
+  "packet_id": "align-0915",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0915"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a6293c9b88b915764a39",
+  "source_text": "Every concrete indecomposable D\u2084 representation is isomorphic to exactly one canonical representative."
+}

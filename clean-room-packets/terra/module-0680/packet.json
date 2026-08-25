@@ -1,0 +1,154 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (A\u2081 A\u2082 : Type u) [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] (P\u2081 P\u2082 P\u2081' P\u2082' : Type u) [inst_5 : AddCommGroup.{u} P\u2081]\n  [inst_6 : Module.{u, u} k P\u2081] [inst_7 : Module.{u, u} (MulOpposite.{u} A\u2081) P\u2081]\n  [inst_8 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2081) P\u2081] [inst_9 : AddCommGroup.{u} P\u2082]\n  [inst_10 : Module.{u, u} k P\u2082] [inst_11 : Module.{u, u} (MulOpposite.{u} A\u2082) P\u2082]\n  [inst_12 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2082) P\u2082] [inst_13 : AddCommGroup.{u} P\u2081']\n  [inst_14 : Module.{u, u} k P\u2081'] [inst_15 : Module.{u, u} (MulOpposite.{u} A\u2081) P\u2081']\n  [inst_16 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2081) P\u2081'] [inst_17 : AddCommGroup.{u} P\u2082']\n  [inst_18 : Module.{u, u} k P\u2082'] [inst_19 : Module.{u, u} (MulOpposite.{u} A\u2082) P\u2082']\n  [inst_20 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2082) P\u2082']\n  [instM : Module.{u, u} (MulOpposite.{u} (TensorProduct.{u, u, u} k A\u2081 A\u2082)) (TensorProduct.{u, u, u} k P\u2081 P\u2082)]\n  [instM' : Module.{u, u} (MulOpposite.{u} (TensorProduct.{u, u, u} k A\u2081 A\u2082)) (TensorProduct.{u, u, u} k P\u2081' P\u2082')],\n  (\u2200 (a\u2081 : A\u2081) (a\u2082 : A\u2082) (p\u2081 : P\u2081) (p\u2082 : P\u2082),\n      Eq.{u + 1}\n        (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} (TensorProduct.tmul.{u, u, u} k a\u2081 a\u2082))\n          (TensorProduct.tmul.{u, u, u} k p\u2081 p\u2082))\n        (TensorProduct.tmul.{u, u, u} k (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} a\u2081) p\u2081)\n          (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} a\u2082) p\u2082))) \u2192\n    (\u2200 (a\u2081 : A\u2081) (a\u2082 : A\u2082) (p\u2081 : P\u2081') (p\u2082 : P\u2082'),\n        Eq.{u + 1}\n          (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} (TensorProduct.tmul.{u, u, u} k a\u2081 a\u2082))\n            (TensorProduct.tmul.{u, u, u} k p\u2081 p\u2082))\n          (TensorProduct.tmul.{u, u, u} k (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} a\u2081) p\u2081)\n            (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} a\u2082) p\u2082))) \u2192\n      \u2200 (f\u2081 : LinearMap.{u, u, u, u} (RingHom.id.{u} (MulOpposite.{u} A\u2081)) P\u2081 P\u2081')\n        (f\u2082 : LinearMap.{u, u, u, u} (RingHom.id.{u} (MulOpposite.{u} A\u2082)) P\u2082 P\u2082')\n        (r : MulOpposite.{u} (TensorProduct.{u, u, u} k A\u2081 A\u2082)) (x : TensorProduct.{u, u, u} k P\u2081 P\u2082),\n        Eq.{u + 1}\n          (DFunLike.coe.{u + 1, u + 1, u + 1}\n            (TensorProduct.map.{u, u, u, u, u, u} (decl-022680.{u} k A\u2081 P\u2081 P\u2081' f\u2081)\n              (decl-022680.{u} k A\u2082 P\u2082 P\u2082' f\u2082))\n            (HSMul.hSMul.{u, u, u} r x))\n          (HSMul.hSMul.{u, u, u} r\n            (DFunLike.coe.{u + 1, u + 1, u + 1}\n              (TensorProduct.map.{u, u, u, u, u, u} (decl-022680.{u} k A\u2081 P\u2081 P\u2081' f\u2081)\n                (decl-022680.{u} k A\u2082 P\u2082 P\u2082' f\u2082))\n              x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022680"
+      ],
+      "structural_type_hash": "3695152710",
+      "temporary_id": "decl-021542"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (A\u2081 A\u2082 : Type u) [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] (P\u2081 P\u2082 P\u2081' P\u2082' : Type u) [inst_5 : AddCommGroup.{u} P\u2081]\n  [inst_6 : Module.{u, u} k P\u2081] [inst_7 : Module.{u, u} (MulOpposite.{u} A\u2081) P\u2081]\n  [inst_8 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2081) P\u2081]\n  [inst_9 : SMulCommClass.{u, u, u} k (MulOpposite.{u} A\u2081) P\u2081] [inst_10 : AddCommGroup.{u} P\u2082]\n  [inst_11 : Module.{u, u} k P\u2082] [inst_12 : Module.{u, u} (MulOpposite.{u} A\u2082) P\u2082]\n  [inst_13 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2082) P\u2082]\n  [inst_14 : SMulCommClass.{u, u, u} k (MulOpposite.{u} A\u2082) P\u2082] [inst_15 : AddCommGroup.{u} P\u2081']\n  [inst_16 : Module.{u, u} k P\u2081'] [inst_17 : Module.{u, u} (MulOpposite.{u} A\u2081) P\u2081']\n  [inst_18 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2081) P\u2081']\n  [inst_19 : SMulCommClass.{u, u, u} k (MulOpposite.{u} A\u2081) P\u2081'] [inst_20 : AddCommGroup.{u} P\u2082']\n  [inst_21 : Module.{u, u} k P\u2082'] [inst_22 : Module.{u, u} (MulOpposite.{u} A\u2082) P\u2082']\n  [inst_23 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2082) P\u2082']\n  [inst_24 : SMulCommClass.{u, u, u} k (MulOpposite.{u} A\u2082) P\u2082'] (N\u2081 N\u2082 : Type u) [inst_25 : AddCommGroup.{u} N\u2081]\n  [inst_26 : Module.{u, u} k N\u2081] [inst_27 : Module.{u, u} A\u2081 N\u2081] [inst_28 : IsScalarTower.{u, u, u} k A\u2081 N\u2081]\n  [inst_29 : AddCommGroup.{u} N\u2082] [inst_30 : Module.{u, u} k N\u2082] [inst_31 : Module.{u, u} A\u2082 N\u2082]\n  [inst_32 : IsScalarTower.{u, u, u} k A\u2082 N\u2082]\n  [instM : Module.{u, u} (MulOpposite.{u} (TensorProduct.{u, u, u} k A\u2081 A\u2082)) (TensorProduct.{u, u, u} k P\u2081 P\u2082)]\n  [inst_33 :\n    SMulCommClass.{u, u, u} k (MulOpposite.{u} (TensorProduct.{u, u, u} k A\u2081 A\u2082)) (TensorProduct.{u, u, u} k P\u2081 P\u2082)]\n  [instM' : Module.{u, u} (MulOpposite.{u} (TensorProduct.{u, u, u} k A\u2081 A\u2082)) (TensorProduct.{u, u, u} k P\u2081' P\u2082')]\n  [inst_34 :\n    SMulCommClass.{u, u, u} k (MulOpposite.{u} (TensorProduct.{u, u, u} k A\u2081 A\u2082)) (TensorProduct.{u, u, u} k P\u2081' P\u2082')]\n  [instN : Module.{u, u} (TensorProduct.{u, u, u} k A\u2081 A\u2082) (TensorProduct.{u, u, u} k N\u2081 N\u2082)]\n  (hM :\n    \u2200 (a\u2081 : A\u2081) (a\u2082 : A\u2082) (p\u2081 : P\u2081) (p\u2082 : P\u2082),\n      Eq.{u + 1}\n        (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} (TensorProduct.tmul.{u, u, u} k a\u2081 a\u2082))\n          (TensorProduct.tmul.{u, u, u} k p\u2081 p\u2082))\n        (TensorProduct.tmul.{u, u, u} k (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} a\u2081) p\u2081)\n          (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} a\u2082) p\u2082)))\n  (hM' :\n    \u2200 (a\u2081 : A\u2081) (a\u2082 : A\u2082) (p\u2081 : P\u2081') (p\u2082 : P\u2082'),\n      Eq.{u + 1} (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} \u22ef) (TensorProduct.tmul.{u, u, u} k p\u2081 p\u2082))\n        (TensorProduct.tmul.{u, u, u} k (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} a\u2081) p\u2081)\n          (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} a\u2082) p\u2082)))\n  (hN :\n    \u2200 (a\u2081 : A\u2081) (a\u2082 : A\u2082) (n\u2081 : N\u2081) (n\u2082 : N\u2082),\n      Eq.{u + 1} (HSMul.hSMul.{u, u, u} \u22ef \u22ef) (TensorProduct.tmul.{u, u, u} k \u22ef \u22ef))\n  (f\u2081 : LinearMap.{u, u, u, u} (RingHom.id.{u} (MulOpposite.{u} A\u2081)) P\u2081 P\u2081')\n  (f\u2082 : LinearMap.{u, u, u, u} (RingHom.id.{u} (MulOpposite.{u} A\u2082)) P\u2082 P\u2082'),\n  Eq.{u + 1}\n    (LinearMap.comp.{u, u, u, u, u, u}\n      (TensorProduct.map.{u, u, u, u, u, u} (decl-023997.{u} k A\u2081 P\u2081 P\u2081' N\u2081 \u22ef \u22ef)\n        (decl-023997.{u} k A\u2082 P\u2082 P\u2082' N\u2082 \u22ef \u22ef))\n      (LinearEquiv.toLinearMap.{u, u, u, u} (decl-022332.{u} k A\u2081 A\u2082 P\u2081 P\u2082 N\u2081 N\u2082 hM hN)))\n    (LinearMap.comp.{u, u, u, u, u, u}\n      (LinearEquiv.toLinearMap.{u, u, u, u} (decl-022332.{u} k A\u2081 A\u2082 P\u2081' P\u2082' N\u2081 N\u2082 hM' hN))\n      (decl-023997.{u} k (TensorProduct.{u, u, u} k A\u2081 A\u2082) (TensorProduct.{u, u, u} k P\u2081 P\u2082)\n        (TensorProduct.{u, u, u} k P\u2081' P\u2082') (TensorProduct.{u, u, u} k N\u2081 N\u2082) (TensorProduct.map.{u, u, u, u, u, u} \u22ef \u22ef)\n        \u22ef))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-020644",
+        "decl-021542",
+        "decl-022332",
+        "decl-022680",
+        "decl-022685",
+        "decl-023968",
+        "decl-023997"
+      ],
+      "structural_type_hash": "1911928026",
+      "temporary_id": "decl-022339"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{u, u} k A] \u2192\n          (P P' : Type u) \u2192\n            [inst_3 : AddCommGroup.{u} P] \u2192\n              [inst_4 : Module.{u, u} k P] \u2192\n                [inst_5 : Module.{u, u} (MulOpposite.{u} A) P] \u2192\n                  [IsScalarTower.{u, u, u} k (MulOpposite.{u} A) P] \u2192\n                    [inst_7 : AddCommGroup.{u} P'] \u2192\n                      [inst_8 : Module.{u, u} k P'] \u2192\n                        [inst_9 : Module.{u, u} (MulOpposite.{u} A) P'] \u2192\n                          [IsScalarTower.{u, u, u} k (MulOpposite.{u} A) P'] \u2192\n                            LinearMap.{u, u, u, u} (RingHom.id.{u} (MulOpposite.{u} A)) P P' \u2192\n                              LinearMap.{u, u, u, u} (RingHom.id.{u} k) P P'",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1439998789",
+      "temporary_id": "decl-022680"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (A : Type u) [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] (P P' : Type u)\n  [inst_3 : AddCommGroup.{u} P] [inst_4 : Module.{u, u} k P] [inst_5 : Module.{u, u} (MulOpposite.{u} A) P]\n  [inst_6 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A) P] [inst_7 : AddCommGroup.{u} P']\n  [inst_8 : Module.{u, u} k P'] [inst_9 : Module.{u, u} (MulOpposite.{u} A) P']\n  [inst_10 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A) P']\n  (f : LinearMap.{u, u, u, u} (RingHom.id.{u} (MulOpposite.{u} A)) P P') (p : P),\n  Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-022680.{u} k A P P' f) p)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} f p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022680"
+      ],
+      "structural_type_hash": "226177810",
+      "temporary_id": "decl-022684"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (A : Type u) [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] (P P' : Type u)\n  [inst_3 : AddCommGroup.{u} P] [inst_4 : Module.{u, u} k P] [inst_5 : Module.{u, u} (MulOpposite.{u} A) P]\n  [inst_6 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A) P] [inst_7 : AddCommGroup.{u} P']\n  [inst_8 : Module.{u, u} k P'] [inst_9 : Module.{u, u} (MulOpposite.{u} A) P']\n  [inst_10 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A) P']\n  (f : LinearMap.{u, u, u, u} (RingHom.id.{u} (MulOpposite.{u} A)) P P') (a : MulOpposite.{u} A) (p : P),\n  Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-022680.{u} k A P P' f) (HSMul.hSMul.{u, u, u} a p))\n    (HSMul.hSMul.{u, u, u} a (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-022680.{u} k A P P' f) p))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022680"
+      ],
+      "structural_type_hash": "3863840332",
+      "temporary_id": "decl-022685"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        (P : Type u) \u2192\n          [inst_2 : AddCommGroup.{u} P] \u2192\n            [inst_3 : Module.{u, u} k P] \u2192\n              (P' : Type u) \u2192\n                [inst_4 : AddCommGroup.{u} P'] \u2192\n                  [inst_5 : Module.{u, u} k P'] \u2192\n                    [inst_6 : Module.{u, u} (MulOpposite.{u} A) P'] \u2192\n                      (N : Type u) \u2192\n                        [inst_7 : AddCommGroup.{u} N] \u2192\n                          [inst_8 : Module.{u, u} A N] \u2192\n                            LinearMap.{u, u, u, u} (RingHom.id.{u} k) P P' \u2192\n                              LinearMap.{0, 0, u, u} (RingHom.id.{0} Int) (TensorProduct.{0, u, u} Int P N)\n                                (decl-023968.{u} A N P')",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-023968"
+      ],
+      "structural_type_hash": "3791939971",
+      "temporary_id": "decl-023987"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (A : Type u) [inst_1 : Ring.{u} A] (P : Type u) [inst_2 : AddCommGroup.{u} P]\n  [inst_3 : Module.{u, u} k P] [inst_4 : Module.{u, u} (MulOpposite.{u} A) P] (P' : Type u)\n  [inst_5 : AddCommGroup.{u} P'] [inst_6 : Module.{u, u} k P'] [inst_7 : Module.{u, u} (MulOpposite.{u} A) P']\n  (N : Type u) [inst_8 : AddCommGroup.{u} N] [inst_9 : Module.{u, u} A N]\n  (f : LinearMap.{u, u, u, u} (RingHom.id.{u} k) P P'),\n  (\u2200 (a : MulOpposite.{u} A) (p : P),\n      Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} f (HSMul.hSMul.{u, u, u} a p))\n        (HSMul.hSMul.{u, u, u} a (DFunLike.coe.{u + 1, u + 1, u + 1} f p))) \u2192\n    \u2200 (w : TensorProduct.{0, u, u} Int P N),\n      Membership.mem.{u, u} (decl-017273.{u} A N P) w \u2192\n        Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-023987.{u} k A P P' N f) w) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-023968",
+        "decl-023987"
+      ],
+      "structural_type_hash": "2414322231",
+      "temporary_id": "decl-023991"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (A : Type u) [inst_1 : Ring.{u} A] (P : Type u) [inst_2 : AddCommGroup.{u} P]\n  [inst_3 : Module.{u, u} k P] (P' : Type u) [inst_4 : AddCommGroup.{u} P'] [inst_5 : Module.{u, u} k P']\n  [inst_6 : Module.{u, u} (MulOpposite.{u} A) P'] [inst_7 : SMulCommClass.{u, u, u} k (MulOpposite.{u} A) P']\n  (N : Type u) [inst_8 : AddCommGroup.{u} N] [inst_9 : Module.{u, u} A N]\n  (f : LinearMap.{u, u, u, u} (RingHom.id.{u} k) P P') (c : k) (w : TensorProduct.{0, u, u} Int P N),\n  Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-023987.{u} k A P P' N f) (HSMul.hSMul.{u, u, u} c w))\n    (HSMul.hSMul.{u, u, u} c (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-023987.{u} k A P P' N f) w))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-020665",
+        "decl-023968",
+        "decl-023987"
+      ],
+      "structural_type_hash": "3382853576",
+      "temporary_id": "decl-023995"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (A : Type u) [inst_1 : Ring.{u} A] (P : Type u) [inst_2 : AddCommGroup.{u} P]\n  [inst_3 : Module.{u, u} k P] (P' : Type u) [inst_4 : AddCommGroup.{u} P'] [inst_5 : Module.{u, u} k P']\n  [inst_6 : Module.{u, u} (MulOpposite.{u} A) P'] (N : Type u) [inst_7 : AddCommGroup.{u} N]\n  [inst_8 : Module.{u, u} A N] (f : LinearMap.{u, u, u, u} (RingHom.id.{u} k) P P') (p : P) (n : N),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-023987.{u} k A P P' N f)\n      (TensorProduct.tmul.{0, u, u} Int p n))\n    (QuotientAddGroup.mk.{u} (TensorProduct.tmul.{0, u, u} Int (DFunLike.coe.{u + 1, u + 1, u + 1} f p) n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-023968",
+        "decl-023987"
+      ],
+      "structural_type_hash": "3021294575",
+      "temporary_id": "decl-023996"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        (P : Type u) \u2192\n          [inst_2 : AddCommGroup.{u} P] \u2192\n            [inst_3 : Module.{u, u} k P] \u2192\n              [inst_4 : Module.{u, u} (MulOpposite.{u} A) P] \u2192\n                [inst_5 : SMulCommClass.{u, u, u} k (MulOpposite.{u} A) P] \u2192\n                  (P' : Type u) \u2192\n                    [inst_6 : AddCommGroup.{u} P'] \u2192\n                      [inst_7 : Module.{u, u} k P'] \u2192\n                        [inst_8 : Module.{u, u} (MulOpposite.{u} A) P'] \u2192\n                          [inst_9 : SMulCommClass.{u, u, u} k (MulOpposite.{u} A) P'] \u2192\n                            (N : Type u) \u2192\n                              [inst_10 : AddCommGroup.{u} N] \u2192\n                                [inst_11 : Module.{u, u} A N] \u2192\n                                  (f : LinearMap.{u, u, u, u} (RingHom.id.{u} k) P P') \u2192\n                                    (\u2200 (a : MulOpposite.{u} A) (p : P),\n                                        Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} f (HSMul.hSMul.{u, u, u} a p))\n                                          (HSMul.hSMul.{u, u, u} a (DFunLike.coe.{u + 1, u + 1, u + 1} f p))) \u2192\n                                      LinearMap.{u, u, u, u} (RingHom.id.{u} k) (decl-023968.{u} A N P)\n                                        (decl-023968.{u} A N P')",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-020644",
+        "decl-023968"
+      ],
+      "structural_type_hash": "3827851222",
+      "temporary_id": "decl-023997"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (A : Type u) [inst_1 : Ring.{u} A] (P : Type u) [inst_2 : AddCommGroup.{u} P]\n  [inst_3 : Module.{u, u} k P] [inst_4 : Module.{u, u} (MulOpposite.{u} A) P]\n  [inst_5 : SMulCommClass.{u, u, u} k (MulOpposite.{u} A) P] (P' : Type u) [inst_6 : AddCommGroup.{u} P']\n  [inst_7 : Module.{u, u} k P'] [inst_8 : Module.{u, u} (MulOpposite.{u} A) P']\n  [inst_9 : SMulCommClass.{u, u, u} k (MulOpposite.{u} A) P'] (N : Type u) [inst_10 : AddCommGroup.{u} N]\n  [inst_11 : Module.{u, u} A N] (f : LinearMap.{u, u, u, u} (RingHom.id.{u} k) P P')\n  (hf :\n    \u2200 (a : MulOpposite.{u} A) (p : P),\n      Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} f (HSMul.hSMul.{u, u, u} a p))\n        (HSMul.hSMul.{u, u, u} a (DFunLike.coe.{u + 1, u + 1, u + 1} f p)))\n  (p : P) (n : N),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-023997.{u} k A P P' N f hf)\n      (QuotientAddGroup.mk.{u} (TensorProduct.tmul.{0, u, u} Int p n)))\n    (QuotientAddGroup.mk.{u} (TensorProduct.tmul.{0, u, u} Int (DFunLike.coe.{u + 1, u + 1, u + 1} f p) n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-020644",
+        "decl-023968",
+        "decl-023997"
+      ],
+      "structural_type_hash": "3972747098",
+      "temporary_id": "decl-024000"
+    }
+  ],
+  "module_temporary_id": "module-0680",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

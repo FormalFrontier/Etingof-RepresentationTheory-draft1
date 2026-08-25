@@ -1,0 +1,90 @@
+{
+  "module_name": "PathDegreeDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-006221",
+      "new_name": "pathDegreeDecomposition",
+      "docstring": "Sends a finitely supported path combination to its finitely supported family of degree components."
+    },
+    {
+      "temporary_id": "decl-006230",
+      "new_name": "pathDegreeDecomposition_injective",
+      "docstring": "The path-degree decomposition map is injective."
+    },
+    {
+      "temporary_id": "decl-006232",
+      "new_name": "pathDegreeDecomposition_single",
+      "docstring": "Describes the path-degree decomposition of a single path term."
+    },
+    {
+      "temporary_id": "decl-006233",
+      "new_name": "degreeProjection",
+      "docstring": "The linear projection onto the component of a specified natural-number degree."
+    },
+    {
+      "temporary_id": "decl-006235",
+      "new_name": "degreeProjection_apply",
+      "docstring": "Applying a degree projection returns the corresponding decomposition component."
+    },
+    {
+      "temporary_id": "decl-006236",
+      "new_name": "degreeProjection_comp",
+      "docstring": "Composing the projections at two degrees returns the latter projection when the degrees agree and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-006241",
+      "new_name": "degreeProjection_path_mul_arrow",
+      "docstring": "Projection at one more than the path length fixes the product of the terms associated to the path and arrow."
+    },
+    {
+      "temporary_id": "decl-006243",
+      "new_name": "degreeProjection_single",
+      "docstring": "Projecting a single path term returns that term at its path degree and zero at every other degree."
+    },
+    {
+      "temporary_id": "decl-006244",
+      "new_name": "degreeProjection_single_pathDegree",
+      "docstring": "Projecting a single path term at its path degree leaves it unchanged."
+    },
+    {
+      "temporary_id": "decl-006246",
+      "new_name": "sumDegreeComponents",
+      "docstring": "Sums a finitely supported family of degree components."
+    },
+    {
+      "temporary_id": "decl-006254",
+      "new_name": "sumDegreeComponents_decomposition",
+      "docstring": "Summing the degree decomposition of an element recovers that element."
+    },
+    {
+      "temporary_id": "decl-006255",
+      "new_name": "sumDegreeComponents_single",
+      "docstring": "Summing a family supported at one degree returns its value."
+    },
+    {
+      "temporary_id": "decl-006291",
+      "new_name": "path_mul_arrow_eq_comp",
+      "docstring": "The product of the terms associated to a path and a composable arrow is the term associated to their concatenation."
+    },
+    {
+      "temporary_id": "decl-006317",
+      "new_name": "pathDegree",
+      "docstring": "The natural-number degree assigned to a path."
+    },
+    {
+      "temporary_id": "decl-006319",
+      "new_name": "pathDegree_comp",
+      "docstring": "The degree of a composite path is the sum of the path degrees."
+    },
+    {
+      "temporary_id": "decl-006320",
+      "new_name": "pathDegree_comp_arrow",
+      "docstring": "Appending an arrow increases path degree by one."
+    },
+    {
+      "temporary_id": "decl-006321",
+      "new_name": "pathDegree_eq_length",
+      "docstring": "The path degree equals the path length."
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a5408ca02206eac14098",
+      "declaration": "Etingof.Problem3_9_2.ext1_self",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (a : Fin n \u2192 Complex),\n  Nonempty.{1}\n    (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n      (Etingof.Problem3_9_1.Ext1.{0, 0, 0, 0} Complex (Etingof.Problem3_9_2.polyAlg n) (Etingof.Problem3_9_2.Vrep a)\n        (Etingof.Problem3_9_2.Vrep a))\n      (Fin n \u2192 Complex))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2"
+    },
+    {
+      "association_id": "association:fb9c801173d077f29e9a",
+      "declaration": "Etingof.Problem3_9_2.ext1_subsingleton_of_ne",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (a b : Fin n \u2192 Complex),\n  Ne.{1} a b \u2192\n    Subsingleton.{1}\n      (Etingof.Problem3_9_1.Ext1.{0, 0, 0, 0} Complex (Etingof.Problem3_9_2.polyAlg n) (Etingof.Problem3_9_2.Vrep b)\n        (Etingof.Problem3_9_2.Vrep a))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2"
+    },
+    {
+      "association_id": "association:c29a318571ddcfc839cd",
+      "declaration": "Etingof.Problem3_9_2.infinitely_many_indecomposables",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat},\n  LT.lt.{0} 1 n \u2192\n    Exists.{2} fun M =>\n      Exists.{1} fun x =>\n        Exists.{1} fun x_1 =>\n          And (\u2200 (k : Nat), Etingof.IsIndecomposable.{0, 0} (Etingof.Problem3_9_2.zeroMulAlg n) (M k))\n            (\u2200 (k l : Nat),\n              Nonempty.{1} (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.zeroMulAlg n)) (M k) (M l)) \u2192\n                Eq.{1} k l)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2"
+    },
+    {
+      "association_id": "association:53cc522a1341952f1965",
+      "declaration": "Etingof.Problem3_9_2.jrep_iso_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (a c a' c' : Fin n \u2192 Complex),\n  Iff\n    (Nonempty.{1}\n      (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.polyAlg n)) (Etingof.Problem3_9_2.Jrep a c)\n        (Etingof.Problem3_9_2.Jrep a' c')))\n    (And (Eq.{1} a a') (Exists.{1} fun lam => And (Ne.{1} lam 0) (Eq.{1} c' (HSMul.hSMul.{0, 0, 0} lam c))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2_Classification"
+    },
+    {
+      "association_id": "association:bb12f013e8e6ee616979",
+      "declaration": "Etingof.Problem3_9_2.split_iso_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (b a b' a' : Fin n \u2192 Complex),\n  Iff\n    (Nonempty.{1}\n      (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.polyAlg n))\n        (Prod.{0, 0} (Etingof.Problem3_9_2.Vrep b) (Etingof.Problem3_9_2.Vrep a))\n        (Prod.{0, 0} (Etingof.Problem3_9_2.Vrep b') (Etingof.Problem3_9_2.Vrep a'))))\n    (Or (And (Eq.{1} b b') (Eq.{1} a a')) (And (Eq.{1} b a') (Eq.{1} a b')))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2_Classification"
+    },
+    {
+      "association_id": "association:f4edcac6ae17a252f3af",
+      "declaration": "Etingof.Problem3_9_2.split_not_iso_jrep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (b a a' c' : Fin n \u2192 Complex),\n  Ne.{1} b a \u2192\n    Not\n      (Nonempty.{1}\n        (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.polyAlg n))\n          (Prod.{0, 0} (Etingof.Problem3_9_2.Vrep b) (Etingof.Problem3_9_2.Vrep a)) (Etingof.Problem3_9_2.Jrep a' c')))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2_Classification"
+    },
+    {
+      "association_id": "association:b9be654a101455b51d9b",
+      "declaration": "Etingof.Problem3_9_2.two_dim_is_extension",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (U : Type) [inst : AddCommGroup.{0} U] [inst_1 : Module.{0, 0} Complex U]\n  [inst_2 : Module.{0, 0} (Etingof.Problem3_9_2.polyAlg n) U]\n  [IsScalarTower.{0, 0, 0} Complex (Etingof.Problem3_9_2.polyAlg n) U] [FiniteDimensional.{0, 0} Complex U],\n  Eq.{1} (Module.finrank.{0, 0} Complex U) 2 \u2192\n    Exists.{1} fun a =>\n      Exists.{1} fun b =>\n        Exists.{1} fun S =>\n          And\n            (Nonempty.{1}\n              (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.polyAlg n))\n                (Subtype.{1} fun x => Membership.mem.{0, 0} S x) (Etingof.Problem3_9_2.Vrep b)))\n            (Nonempty.{1}\n              (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.polyAlg n))\n                (HasQuotient.Quotient.{0, 0} U S) (Etingof.Problem3_9_2.Vrep a)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2"
+    },
+    {
+      "association_id": "association:55839f800b2315cee1df",
+      "declaration": "Etingof.Problem3_9_2.two_dim_normal_form",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (U : Type) [inst : AddCommGroup.{0} U] [inst_1 : Module.{0, 0} Complex U]\n  [inst_2 : Module.{0, 0} (Etingof.Problem3_9_2.polyAlg n) U]\n  [IsScalarTower.{0, 0, 0} Complex (Etingof.Problem3_9_2.polyAlg n) U] [FiniteDimensional.{0, 0} Complex U],\n  Eq.{1} (Module.finrank.{0, 0} Complex U) 2 \u2192\n    Or\n      (Exists.{1} fun b =>\n        Exists.{1} fun a =>\n          And (Ne.{1} b a)\n            (Nonempty.{1}\n              (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.polyAlg n)) U\n                (Prod.{0, 0} (Etingof.Problem3_9_2.Vrep b) (Etingof.Problem3_9_2.Vrep a)))))\n      (Exists.{1} fun a =>\n        Exists.{1} fun c =>\n          Nonempty.{1}\n            (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.polyAlg n)) U\n              (Etingof.Problem3_9_2.Jrep a c)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2_Classification"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.2",
+  "packet_id": "align-1237",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1237"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter3/Problem3.9.2",
+  "source_text": "**Problem 3.9.2.** (a) Let $A = \\mathbb{C}[x_1, \\ldots, x_n]$, and let $V_a, V_b$ be 1-dimensional representations in which the elements $x_i$ act by $a_i$ and $b_i$, respectively ($a_i, b_i \\in \\mathbb{C}$). Find $\\operatorname{Ext}^1(V_a, V_b)$ and classify 2-dimensional representations of $A$.\n\n(b) Let $B$ be the algebra over $\\mathbb{C}$ generated by $x_1, \\ldots, x_n$ with the defining relations $x_i x_j = 0$ for all $i, j$. Show that for $n > 1$ the algebra $B$ has infinitely many nonisomorphic indecomposable representations.\n\n"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1103",
+  "associations": [
+    {
+      "association_id": "association:e5c5d98397db279db114",
+      "role": "supporting",
+      "rationale": "The displayed signature supplies a full-subcategory-shaped Type from a category and ObjectProperty, but it does not display the morphisms or state that ambient morphisms are inherited."
+    }
+  ]
+}

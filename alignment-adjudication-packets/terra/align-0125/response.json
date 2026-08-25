@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0125",
+  "associations": [
+    {
+      "association_id": "association:57b894f292f81360f1bc",
+      "role": "primary",
+      "rationale": "Its evaluation-at-one equality is exactly the stated Weyl dimension product for the Schur polynomial."
+    }
+  ]
+}

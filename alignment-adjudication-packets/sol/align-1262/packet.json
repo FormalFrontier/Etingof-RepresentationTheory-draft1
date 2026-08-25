@@ -1,0 +1,98 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:bcd631ce742d644348c5",
+      "declaration": "D\u2084Rep.canonicalRepresentation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/419/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192 [inst : Field.{u} k] \u2192 D\u2084Rep.ClassIndex \u2192 Etingof.QuiverRepresentation.{u, 0, u, 0} k (Fin 4)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1_Classification"
+    },
+    {
+      "association_id": "association:83e7edfe275dca74022f",
+      "declaration": "D\u2084Rep.canonicalRepresentation_indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/419/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (d : D\u2084Rep.ClassIndex),\n  Etingof.QuiverRepresentation.IsIndecomposable.{u, 0, 0, u} (D\u2084Rep.canonicalRepresentation.{u} k d)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1_Classification"
+    },
+    {
+      "association_id": "association:ecb6e4035d7b0bd417c3",
+      "declaration": "D\u2084Rep.canonical_pairwise_nonisomorphic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/419/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {d e : D\u2084Rep.ClassIndex},\n  Ne.{1} d e \u2192\n    Not\n      (Nonempty.{1}\n        (Etingof.QuiverRepresentation.Iso.{0, 0, 0, 0, 0} (D\u2084Rep.canonicalRepresentation.{0} k d)\n          (D\u2084Rep.canonicalRepresentation.{0} k e)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1_Classification"
+    },
+    {
+      "association_id": "association:f2c4f9ecfb33a4f6078f",
+      "declaration": "D\u2084Rep.classIndex_card",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/419/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "Eq.{1} (Fintype.card.{0} D\u2084Rep.ClassIndex) 12",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1_Classification"
+    },
+    {
+      "association_id": "association:8ebbbd069c859032f26c",
+      "declaration": "D\u2084Rep.classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/419/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] (rho : D\u2084Rep.{0, 0, 0, 0, 0} k),\n  D\u2084Rep.Indecomposable.{0, 0, 0, 0, 0} rho \u2192\n    ExistsUnique.{1} fun d =>\n      Nonempty.{1}\n        (Etingof.QuiverRepresentation.Iso.{0, 0, 0, 0, 0} (D\u2084Rep.toQuiverRepresentation.{0, 0} rho)\n          (D\u2084Rep.canonicalRepresentation.{0} k d))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1_Classification"
+    },
+    {
+      "association_id": "association:e5d8d5882c07595894be",
+      "declaration": "Etingof.Example_6_3_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/419/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03c1 : D\u2084Rep.{u_1, u_2, u_3, u_4, u_5} k),\n  D\u2084Rep.Indecomposable.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u2192\n    Membership.mem.{0, 0} D\u2084_indecomposable_dimVectors (D\u2084Rep.dimVector.{u_1, u_2, u_3, u_4, u_5} \u03c1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter6/Example6.3.1",
+  "packet_id": "align-1262",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1262"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter6/Example6.3.1",
+  "source_text": "**Example 6.3.1** ($D_4$). We restrict ourselves to the orientation\n\n$$\n\\begin{array}{ccccc}\n\\bullet & \\longrightarrow & \\bullet & \\longleftarrow & \\bullet \\\\\n&& \\uparrow && \\\\\n&& \\bullet &&\n\\end{array}.\n$$\n\nSo a representation of this quiver looks like\n\n$$\n\\begin{array}{ccccc}\n\\underset{V_1}{\\bullet} & \\xrightarrow{A_1} & \\overset{V}{\\bullet} &\n\\xleftarrow{A_3} & \\underset{V_3}{\\bullet} \\\\\n&& \\uparrow^{A_2} && \\\\\n&& \\underset{V_2}{\\bullet} &&\n\\end{array}.\n$$\n\nThe first thing we can do is \u2014 as usual \u2014 split away the kernels of the maps $A_1$, $A_2$, $A_3$. More precisely, we split away the representations\n\n$$\n\\begin{array}{ccccc}\n\\underset{\\ker A_1}{\\bullet} & \\xrightarrow{0} & \\overset{0}{\\bullet} &\n\\longleftarrow & \\underset{0}{\\bullet} \\\\\n&& \\uparrow && \\\\\n&& \\underset{0}{\\bullet} &&\n\\end{array},\n\\quad\n\\begin{array}{ccccc}\n\\underset{0}{\\bullet} & \\longrightarrow & \\overset{0}{\\bullet} &\n\\longleftarrow & \\underset{0}{\\bullet} \\\\\n&& \\overset{0}{\\uparrow} && \\\\\n&& \\underset{\\ker A_2}{\\bullet} &&\n\\end{array},\n$$\n$$\n\\begin{array}{ccccc}\n\\underset{0}{\\bullet} & \\longrightarrow & \\overset{0}{\\bullet} &\n\\xleftarrow{0} & \\underset{\\ker A_3}{\\bullet} \\\\\n&& \\uparrow && \\\\\n&& \\underset{0}{\\bullet} &&\n\\end{array}.\n$$\n\nThese representations are multiples of the indecomposable objects\n\n$$\n\\begin{array}{ccccc}\n\\underset{1}{\\bullet} & \\xrightarrow{0} & \\overset{0}{\\bullet} &\n\\longleftarrow & \\underset{0}{\\bullet} \\\\\n&& \\uparrow && \\\\\n&& \\underset{0}{\\bullet} &&\n\\end{array},\n\\qquad\n\\begin{array}{ccccc}\n\\underset{0}{\\bullet} & \\longrightarrow & \\overset{0}{\\bullet} &\n\\longleftarrow & \\underset{0}{\\bullet} \\\\\n&& \\overset{0}{\\uparrow} && \\\\\n&& \\underset{1}{\\bullet} &&\n\\end{array},\n\\qquad\n\\begin{array}{ccccc}\n\\underset{0}{\\bullet} & \\longrightarrow & \\overset{0}{\\bullet} &\n\\xleftarrow{0} & \\underset{1}{\\bullet} \\\\\n&& \\uparrow && \\\\\n&& \\underset{0}{\\bullet} &&\n\\end{array}.\n$$\n\nSo we get to a situation where all of the maps $A_1, A_2, A_3$ are injective:\n\n$$\n\\begin{array}{ccccc}\n\\underset{V_1}{\\bullet} & \\xrightarrow{A_1} & \\overset{V}{\\bullet} &\n\\xleftarrow{A_3} & \\underset{V_3}{\\bullet} \\\\\n&& \\uparrow^{A_2} && \\\\\n&& \\underset{V_2}{\\bullet} &&\n\\end{array}.\n$$\n\nAs in Example 6.2.4, we can then identify the spaces $V_1, V_2, V_3$ with subspaces of $V$. So we get to the **triple of subspaces problem** of classifying triples of subspaces of a given space $V$.\nThe next step is to split away a multiple of\n\n$$\n\\begin{array}{ccc}\n& 1 & \\\\\n0 \\longrightarrow & \\bullet & \\longleftarrow 0 \\\\\n& \\uparrow & \\\\\n& 0 &\n\\end{array}\n$$\n\nto reach a situation where\n\n$$\nV_1 + V_2 + V_3 = V.\n$$\n\nBy letting $Y = V_1 \\cap V_2 \\cap V_3$, choosing a complement $V'$ of $Y$ in $V$, and setting $V_i' = V' \\cap V_i$, $i = 1, 2, 3$, we can decompose this representation into\n\n$$\n\\begin{array}{ccc}\n& V' & \\\\\nV_1' \\hookrightarrow & \\bullet & \\hookleftarrow V_3' \\\\\n& \\uparrow & \\\\\n& V_2' &\n\\end{array}\n\\quad \\oplus \\quad\n\\begin{array}{ccc}\n& Y & \\\\\nY \\xrightarrow{\\sim} & \\bullet & \\xleftarrow{\\sim} Y \\\\\n& \\uparrow \\wr & \\\\\n& Y &\n\\end{array},\n$$\n\nThe last summand is a multiple of the indecomposable representation\n\n$$\n\\begin{array}{ccc}\n& 1 & \\\\\n1 \\xrightarrow{\\sim} & \\bullet & \\xleftarrow{\\sim} 1 \\\\\n& \\uparrow \\wr & \\\\\n& 1 &\n\\end{array}.\n$$\n\nSo \u2014 considering the first summand and renaming the spaces to simplify notation \u2014 we are in a situation where\n\n$$\nV = V_1 + V_2 + V_3, \\quad V_1 \\cap V_2 \\cap V_3 = 0.\n$$\n\nAs a next step, we let $Y = V_1 \\cap V_2$ and we choose a complement $V'$ of $Y$ in $V$ such that $V_3 \\subset V'$ and set $V_1' = V' \\cap V_1$, $V_2' = V' \\cap V_2$. This\nyields the decomposition\n\n$$\n\\begin{array}{ccc}\n& V & \\\\\nV_1 \\hookrightarrow & \\bullet & \\hookleftarrow V_3 \\\\\n& \\uparrow & \\\\\n& V_2 &\n\\end{array}\n\\quad = \\quad\n\\begin{array}{ccc}\n& V' & \\\\\nV_1' \\hookrightarrow & \\bullet & \\hookleftarrow V_3 \\\\\n& \\uparrow & \\\\\n& V_2' &\n\\end{array}\n\\quad \\oplus \\quad\n\\begin{array}{ccc}\n& Y & \\\\\nY \\xrightarrow{\\sim} & \\bullet & \\longleftarrow 0 \\\\\n& \\uparrow \\wr & \\\\\n& Y &\n\\end{array}.\n$$\n\nThe second summand is a multiple of the indecomposable object\n\n$$\n\\begin{array}{ccc}\n& 1 & \\\\\n1 \\xrightarrow{\\sim} & \\bullet & \\longleftarrow 0 \\\\\n& \\uparrow \\wr & \\\\\n& 1 &\n\\end{array}.\n$$\n\nIn the resulting situation we have $V_1 \\cap V_2 = 0$. Similarly we can split away multiples of\n\n$$\n\\begin{array}{ccc}\n& 1 & \\\\\n1 \\xrightarrow{\\sim} & \\bullet & \\xleftarrow{\\sim} 1 \\\\\n& \\uparrow & \\\\\n& 0 &\n\\end{array}\n\\qquad \\text{and} \\qquad\n\\begin{array}{ccc}\n& 1 & \\\\\n0 \\longrightarrow & \\bullet & \\xleftarrow{\\sim} 1 \\\\\n& \\uparrow \\wr & \\\\\n& 1 &\n\\end{array}\n$$\n\nto reach a situation where the spaces $V_1, V_2, V_3$ do not intersect pairwise:\n\n$$\nV_1 \\cap V_2 = V_1 \\cap V_3 = V_2 \\cap V_3 = 0.\n$$\n\nIf $V_1 \\not\\subset V_2 \\oplus V_3$, we let $Y = V_1 \\cap (V_2 \\oplus V_3)$. We let $V_1'$ be a complement of $Y$ in $V_1$. Since then $V_1' \\cap (V_2 \\oplus V_3) = 0$, we can select a complement\n$V'$ of $V_1'$ in $V$ which contains $V_2 \\oplus V_3$. This gives us the decomposition\n\n$$\n\\begin{array}{ccc}\n& V & \\\\\nV_1 \\hookrightarrow & \\bullet & \\hookleftarrow V_3 \\\\\n& \\uparrow & \\\\\n& V_2 &\n\\end{array}\n$$\n\n$$\n= \\quad\n\\begin{array}{ccc}\n& V_1' & \\\\\nV_1' \\xrightarrow{\\sim} & \\bullet & \\longleftarrow 0 \\\\\n& \\uparrow & \\\\\n& 0 &\n\\end{array}\n\\quad \\oplus \\quad\n\\begin{array}{ccc}\n& V' & \\\\\nY \\hookrightarrow & \\bullet & \\hookleftarrow V_3 \\\\\n& \\uparrow & \\\\\n& V_2 &\n\\end{array}.\n$$\n\nThe first of these summands is a multiple of\n\n$$\n\\begin{array}{ccc}\n& 1 & \\\\\n1 \\xrightarrow{\\sim} & \\bullet & \\longleftarrow 0 \\\\\n& \\uparrow & \\\\\n& 0 &\n\\end{array}.\n$$\n\nBy splitting these away, we get to a situation where $V_1 \\subseteq V_2 \\oplus V_3$. Similarly, we can split away objects of the type\n\n$$\n\\begin{array}{ccc}\n& 1 & \\\\\n0 \\longrightarrow & \\bullet & \\longleftarrow 0 \\\\\n& \\uparrow \\wr & \\\\\n& 1 &\n\\end{array}\n\\qquad \\text{and} \\qquad\n\\begin{array}{ccc}\n& 1 & \\\\\n0 \\longrightarrow & \\bullet & \\xleftarrow{\\sim} 1 \\\\\n& \\uparrow & \\\\\n& 0 &\n\\end{array}\n$$\n\nto reach a situation in which the following conditions hold:\n\n(1) $V_1 + V_2 + V_3 = V$.\n\n(2) $V_1 \\cap V_2 = 0$, $\\quad V_1 \\cap V_3 = 0$, $\\quad V_2 \\cap V_3 = 0$.\n\n(3) $V_1 \\subseteq V_2 \\oplus V_3$, $\\quad V_2 \\subseteq V_1 \\oplus V_3$, $\\quad V_3 \\subseteq V_1 \\oplus V_2$.\n\nBut this implies that\n\n$$\nV_1 \\oplus V_2 = V_1 \\oplus V_3 = V_2 \\oplus V_3 = V.\n$$\n\nSo we get\n\n$$\n\\dim V_1 = \\dim V_2 = \\dim V_3 = n\n$$\nand\n\n$$\n\\dim V = 2n.\n$$\n\nSince $V_3 \\subseteq V_1 \\oplus V_2$, we can write every element of $V_3$ in the form\n\n$$\nx \\in V_3, \\quad x = (x_1, x_2), \\, x_1 \\in V_1, \\, x_2 \\in V_2.\n$$\n\nWe then can define the projections\n\n$$\nB_1 : V_3 \\to V_1, \\quad (x_1, x_2) \\mapsto x_1,\n$$\n\n$$\nB_2 : V_3 \\to V_2, \\quad (x_1, x_2) \\mapsto x_2.\n$$\n\nSince $V_3 \\cap V_1 = 0$ and $V_3 \\cap V_2 = 0$, these maps have to be injective and therefore are isomorphisms. We then define the isomorphism\n\n$$\nA = B_2 \\circ B_1^{-1} : V_1 \\to V_2.\n$$\n\nLet $e_1, \\ldots, e_n$ be a basis for $V_1$. Then we get\n\n$$\nV_1 = k\\,e_1 \\oplus k\\,e_2 \\oplus \\cdots \\oplus k\\,e_n,\n$$\n\n$$\nV_2 = k\\,Ae_1 \\oplus k\\,Ae_2 \\oplus \\cdots \\oplus k\\,Ae_n,\n$$\n\n$$\nV_3 = k\\,(e_1 + Ae_1) \\oplus k\\,(e_2 + Ae_2) \\oplus \\cdots \\oplus k\\,(e_n + Ae_n).\n$$\n\nSo we can think of $V_3$ as the graph of an isomorphism $A : V_1 \\to V_2$.\n\nFrom this we obtain the decomposition\n\n$$\n\\begin{array}{ccc}\n& V & \\\\\nV_1 \\longrightarrow & \\bullet & \\longleftarrow V_3 \\\\\n& \\uparrow & \\\\\n& V_2 &\n\\end{array}\n\\quad = \\quad \\bigoplus_{j=1}^n\n\\begin{array}{ccc}\n& k^2 & \\\\\nk(1,0) \\longrightarrow & \\bullet & \\longleftarrow k(1,1) \\\\\n& \\uparrow & \\\\\n& k(0,1) &\n\\end{array}.\n$$\n\nThese correspond to the indecomposable object\n\n$$\n\\begin{array}{ccc}\n& 2 & \\\\\n1 \\longrightarrow & \\bullet & \\longleftarrow 1 \\\\\n& \\uparrow & \\\\\n& 1 &\n\\end{array}.\n$$\n\nThus the quiver $D_4$ with the selected orientation has 12 indecomposable objects. If one were to explicitly decompose representations for the other possible orientations, one would also find 12 indecomposable objects.\n"
+}

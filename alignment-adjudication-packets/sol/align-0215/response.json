@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0215",
+  "associations": [
+    {"association_id": "association:02d37210f6438466e85b", "role": "supporting", "rationale": "This gives only the cardinality of the index type, not the asserted family properties."},
+    {"association_id": "association:d6ad3bbbd1bf8917934f", "role": "supporting", "rationale": "It asserts the existence of some simple, pairwise-nonisomorphic family with the stated cardinality, but the displayed type does not identify that family as the one-dimensional and principal-series representations."},
+    {"association_id": "association:c7479cd0d7c62c100c94", "role": "supporting", "rationale": "This supplies only the pairwise-nonisomorphism component of the family claim."},
+    {"association_id": "association:af0aef848f8cdbbe5dc4", "role": "supporting", "rationale": "This supplies only the simplicity component of the family claim."}
+  ]
+}

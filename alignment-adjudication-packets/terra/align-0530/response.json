@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0530",
+  "associations": [
+    {
+      "association_id": "association:ea1d110e18151b9fabdf",
+      "rationale": "The hypotheses express that N is the least positive exponent annihilating the selected nonzero vector under F, and the conclusion directly states lambda = N - 1.",
+      "role": "primary"
+    }
+  ]
+}

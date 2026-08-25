@@ -1,0 +1,50 @@
+{
+  "module_name": "LinearAlgebra.SubalgebraCentralizerRange",
+  "declarations": [
+    {
+      "temporary_id": "decl-017498",
+      "new_name": "eq_on_directSum_summand_of_eq_on_tmul",
+      "docstring": "If conjugating the action of c through e agrees on pure tensors in the i-th direct-sum summand with applying f i to the first tensor factor, then the same equality holds for every tensor in that summand."
+    },
+    {
+      "temporary_id": "decl-017686",
+      "new_name": "subalgebraCentralizerLinearMap",
+      "docstring": "Associates to an element of a subalgebra of endomorphisms a linear endomorphism over the centralizer of that subalgebra."
+    },
+    {
+      "temporary_id": "decl-017692",
+      "new_name": "subalgebraCentralizerLinearMap_apply",
+      "docstring": "The endomorphism over the subalgebra centralizer acts identically to the underlying subalgebra element."
+    },
+    {
+      "temporary_id": "decl-018252",
+      "new_name": "commute_of_mem_subalgebra_of_mem_centralizer",
+      "docstring": "A subalgebra element commutes with an element of the centralizer of that subalgebra."
+    },
+    {
+      "temporary_id": "decl-020505",
+      "new_name": "subalgebraCentralizerSubmodule",
+      "docstring": "The submodule over the centralizer of a subalgebra associated to an element of that subalgebra."
+    },
+    {
+      "temporary_id": "decl-020509",
+      "new_name": "isSimpleModule_subalgebraCentralizerSubmodule",
+      "docstring": "Let the ambient module be finite over the field and semisimple over the subalgebra. Suppose the direct-sum tensor decomposition is compatible with evaluation and with the action of c through f, and that f vanishes away from a selected simple summand iLam. If c² = α • c for nonzero α and f iLam = α • π for an idempotent π whose range has finrank one, then the centralizer submodule associated to c is simple."
+    },
+    {
+      "temporary_id": "decl-021583",
+      "new_name": "mem_subalgebraCentralizerSubmodule_iff_mem_range",
+      "docstring": "Membership in the subalgebra-centralizer submodule associated to an element is equivalent to membership in the range of its underlying endomorphism."
+    },
+    {
+      "temporary_id": "decl-022298",
+      "new_name": "exists_fixed_generator_of_idempotent_of_finrank_range_eq_one",
+      "docstring": "A rank-one idempotent has a nonzero fixed vector that generates its range."
+    },
+    {
+      "temporary_id": "decl-024118",
+      "new_name": "exists_map_eq_tmul_of_range_eq_span",
+      "docstring": "If a linear map has range spanned by a vector, its tensor-product map sends every tensor to a pure tensor with that vector as first factor."
+    }
+  ]
+}

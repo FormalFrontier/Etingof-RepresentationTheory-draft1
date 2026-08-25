@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0960",
+  "associations": [
+    {
+      "association_id": "association:c2084b1ad3f7560e8d0b",
+      "role": "primary",
+      "rationale": "`homPiHomEquiv_apply` directly states that the isomorphism sends f to the component g ↦ f ∘ g."
+    },
+    {
+      "association_id": "association:b4a8286c7dff9c309a66",
+      "role": "supporting",
+      "rationale": "`postcompHom` constructs the post-composition map used by the isomorphism."
+    },
+    {
+      "association_id": "association:aeaf49b6f292768e523a",
+      "role": "supporting",
+      "rationale": "`postcompHom_apply` verifies the helper map's composition action, without stating the isomorphism."
+    }
+  ]
+}

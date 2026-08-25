@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Example7.1.5",
+    "kind": "example",
+    "title": "AbelianGroups as full subcategory of Groups",
+    "node_id": "chapter-07/section-7-1",
+    "order": 471,
+    "slug": "example7-1-5",
+    "span": {
+      "start": {
+        "page": "183",
+        "line": 5
+      },
+      "end": {
+        "page": "183",
+        "line": 6
+      }
+    },
+    "source_sha256": "904c9eb9cc82a3c5ebf17f044ade6bec36a0b0db329b5b8ac3c4027d31fc7d3c",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example715",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

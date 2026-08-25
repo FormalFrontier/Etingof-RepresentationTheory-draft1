@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0687",
+  "associations": [
+    {
+      "association_id": "association:ef1651d6dd7053d1805f",
+      "rationale": "The declaration name suggests the symmetrized generator relation, but its formal type is null, so the packet does not expose the equation directly.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6841d06e38872a1949f2",
+      "rationale": "The declaration name suggests the generator-square relation, but its formal type is null, so the packet does not expose the equation directly.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "module_name": "CategoryTheory.Projective.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-004093",
+      "new_name": "projective_exists_epi_of_forall_simple_exists_ne_zero",
+      "docstring": "A projective object admits epimorphisms under nonzero-morphism hypotheses for all simple objects."
+    },
+    {
+      "temporary_id": "decl-004097",
+      "new_name": "exists_object_with_nonempty_auxiliary",
+      "docstring": "There exists an object whose associated auxiliary type is nonempty."
+    },
+    {
+      "temporary_id": "decl-004098",
+      "new_name": "nonempty_auxiliary_iff_forall_simple_exists_ne_zero",
+      "docstring": "For a projective object, nonemptiness of its auxiliary type is equivalent to the existence of a nonzero morphism for every simple object."
+    },
+    {
+      "temporary_id": "decl-004099",
+      "new_name": "projective_biproduct",
+      "docstring": "A biproduct of projective objects is projective."
+    }
+  ]
+}

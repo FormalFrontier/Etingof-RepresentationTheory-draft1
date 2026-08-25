@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2ff49912f8e325dab8ab",
+      "declaration": "Etingof.EndSelfEquivOp_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/45/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (f : Module.End.{u_1, u_1} A A),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Etingof.EndSelfEquivOp.{u_1} A) f)\n    (MulOpposite.op.{u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} f 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_17"
+    },
+    {
+      "association_id": "association:bf52af939568de8e907b",
+      "declaration": "Etingof.EndSelfEquivOp_symm_op_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/45/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (a x : A),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (RingEquiv.symm.{u_1, u_1} (Etingof.EndSelfEquivOp.{u_1} A))\n        (MulOpposite.op.{u_1} a))\n      x)\n    (HMul.hMul.{u_1, u_1, u_1} x a)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_17"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.3.17",
+  "packet_id": "align-0579",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0579"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.3.17:claim-03",
+  "source_text": "The isomorphism sends f to op(f(1)), and its inverse sends op(a) to right multiplication by a."
+}

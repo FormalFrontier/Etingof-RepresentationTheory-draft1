@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0078",
+  "associations": [
+    {
+      "association_id": "association:64c3a22fe15f215d2664",
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so the claimed finite-family equivalence cannot be verified from the isolated evidence."
+    }
+  ]
+}

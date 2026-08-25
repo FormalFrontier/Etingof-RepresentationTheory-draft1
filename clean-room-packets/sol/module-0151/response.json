@@ -1,0 +1,80 @@
+{
+  "module_name": "LinearAlgebra.TensorProduct.ModuleBaseChange",
+  "declarations": [
+    {
+      "temporary_id": "decl-009372",
+      "new_name": "instModuleTensorProduct",
+      "docstring": "The module structure on the scalar extension of a module over the scalar-extended algebra."
+    },
+    {
+      "temporary_id": "decl-009373",
+      "new_name": "smul_eq_scalarExtensionAction",
+      "docstring": "Scalar multiplication by the extended algebra agrees with evaluation of its action homomorphism on the extended module."
+    },
+    {
+      "temporary_id": "decl-009374",
+      "new_name": "exists_retraction_of_baseChange",
+      "docstring": "A splitting by linear maps after scalar extension to one algebra induces a splitting after further base change along an algebra homomorphism."
+    },
+    {
+      "temporary_id": "decl-009375",
+      "new_name": "nonempty_linearEquiv_of_baseChange",
+      "docstring": "A linear equivalence between two scalar-extended modules induces one after further base change along an algebra homomorphism."
+    },
+    {
+      "temporary_id": "decl-009376",
+      "new_name": "baseChangeLinearEquiv",
+      "docstring": "Transport a linear equivalence between scalar-extended modules along a homomorphism of commutative scalar algebras."
+    },
+    {
+      "temporary_id": "decl-009398",
+      "new_name": "baseChangeLinearMap",
+      "docstring": "Transport a linear map between scalar-extended modules along a homomorphism of commutative scalar algebras."
+    },
+    {
+      "temporary_id": "decl-009406",
+      "new_name": "baseChangeLinearMap_cancelBaseChange_tmul",
+      "docstring": "The transported linear map sends a tensor introduced through cancellation of base change to the corresponding tensor of the original map value."
+    },
+    {
+      "temporary_id": "decl-009407",
+      "new_name": "baseChangeLinearMap_comp",
+      "docstring": "Transporting a composite linear map along base change equals the composite of the transported maps."
+    },
+    {
+      "temporary_id": "decl-009408",
+      "new_name": "baseChangeLinearMap_id",
+      "docstring": "Transporting the identity linear map along base change yields the identity."
+    },
+    {
+      "temporary_id": "decl-009409",
+      "new_name": "baseChangeLinearMap_tmul",
+      "docstring": "On a pure tensor over the target scalar algebra, the transported map is obtained by applying the original map to the unit tensor and then cancelling the intermediate base change."
+    },
+    {
+      "temporary_id": "decl-009410",
+      "new_name": "baseAlgebraAction",
+      "docstring": "The algebra homomorphism from the original algebra to scalar-linear endomorphisms of the scalar-extended module."
+    },
+    {
+      "temporary_id": "decl-009420",
+      "new_name": "scalarExtensionAction",
+      "docstring": "The algebra homomorphism from the scalar-extended algebra to scalar-linear endomorphisms of the scalar-extended module."
+    },
+    {
+      "temporary_id": "decl-009425",
+      "new_name": "scalarExtensionAction_tmul_one_tmul",
+      "docstring": "The scalar-extension action of a tensor with scalar component one on a pure module tensor applies the original algebra action to its module component."
+    },
+    {
+      "temporary_id": "decl-009426",
+      "new_name": "tmul_one_smul_tmul",
+      "docstring": "An extended-algebra tensor with scalar component one acts on a pure module tensor through the original module action."
+    },
+    {
+      "temporary_id": "decl-009427",
+      "new_name": "tmul_one_smul_eq_smul",
+      "docstring": "An extended-algebra tensor formed from a scalar and the algebra unit acts by scalar multiplication on the extended module."
+    }
+  ]
+}

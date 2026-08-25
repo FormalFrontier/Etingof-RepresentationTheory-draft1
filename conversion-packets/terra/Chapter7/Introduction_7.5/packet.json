@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Introduction_7.5",
+    "kind": "introduction",
+    "title": "Section 7.5: Representable functors",
+    "node_id": "chapter-07/section-7-5",
+    "order": 484,
+    "slug": "introduction-7-5",
+    "span": {
+      "start": {
+        "page": "187",
+        "line": 15
+      },
+      "end": {
+        "page": "187",
+        "line": 22
+      }
+    },
+    "source_sha256": "a3bcbbbc2faf8fb623ef379b621d3f454d450b4e84127b9caf841971fd8ab948",
+    "features": {
+      "line_count": 8,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction75",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

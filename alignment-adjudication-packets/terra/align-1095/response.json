@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1095",
+  "associations": [
+    {
+      "association_id": "association:b34b538dbc639f58d3b5",
+      "rationale": "No formal type is displayed, so the candidate does not visibly state that endomorphisms form an associative algebra.",
+      "role": "supporting"
+    }
+  ]
+}

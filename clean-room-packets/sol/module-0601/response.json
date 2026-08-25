@@ -1,0 +1,135 @@
+{
+  "module_name": "Quiver.EndofunctorAdjunction",
+  "declarations": [
+    {
+      "temporary_id": "decl-004092",
+      "new_name": "auxiliaryEndofunctorConditions",
+      "docstring": "Both auxiliary conditions hold for the two endofunctors determined by the finite vertex data."
+    },
+    {
+      "temporary_id": "decl-015002",
+      "new_name": "quiverEqFunctor_map_apply",
+      "docstring": "Transporting a mapped morphism along equality of quiver structures agrees pointwise with mapping the transported morphism."
+    },
+    {
+      "temporary_id": "decl-015013",
+      "new_name": "quiverEqFunctor",
+      "docstring": "The endofunctor on representations induced by an equality of quiver structures."
+    },
+    {
+      "temporary_id": "decl-015016",
+      "new_name": "quiverEqFunctor_obj",
+      "docstring": "On objects, transport along equality of quiver structures is given by equality recursor transport."
+    },
+    {
+      "temporary_id": "decl-015017",
+      "new_name": "quiverEqHom",
+      "docstring": "Transport a morphism between representations along an equality of quiver structures."
+    },
+    {
+      "temporary_id": "decl-015021",
+      "new_name": "vertexEndofunctor",
+      "docstring": "The representation endofunctor determined by a selected vertex."
+    },
+    {
+      "temporary_id": "decl-015022",
+      "new_name": "vertexEndofunctor_obj",
+      "docstring": "The selected-vertex endofunctor has the specified action on objects."
+    },
+    {
+      "temporary_id": "decl-020062",
+      "new_name": "auxiliaryLeftHomEquiv_apply_component_of_ne",
+      "docstring": "Away from the selected vertex, the first auxiliary morphism equivalence has the displayed componentwise composite."
+    },
+    {
+      "temporary_id": "decl-020063",
+      "new_name": "auxiliaryLeftHomEquiv_symm_apply_component_of_ne",
+      "docstring": "Away from the selected vertex, the inverse of the first auxiliary morphism equivalence has the displayed componentwise composite."
+    },
+    {
+      "temporary_id": "decl-020173",
+      "new_name": "auxiliaryRightHomEquiv_apply_component_of_ne",
+      "docstring": "Away from the selected vertex, the second auxiliary morphism equivalence has the displayed componentwise composite."
+    },
+    {
+      "temporary_id": "decl-020174",
+      "new_name": "auxiliaryRightHomEquiv_symm_apply_component_of_ne",
+      "docstring": "Away from the selected vertex, the inverse of the second auxiliary morphism equivalence has the displayed componentwise composite."
+    },
+    {
+      "temporary_id": "decl-022505",
+      "new_name": "adjunction",
+      "docstring": "The endofunctor requiring finite vertex data is left adjoint to the corresponding endofunctor without that requirement."
+    },
+    {
+      "temporary_id": "decl-022507",
+      "new_name": "adjunction_homEquiv",
+      "docstring": "The hom-set equivalence of the endofunctor adjunction is the explicitly defined equivalence."
+    },
+    {
+      "temporary_id": "decl-022508",
+      "new_name": "coreHomEquiv",
+      "docstring": "Core hom-set equivalence data for the two endofunctors."
+    },
+    {
+      "temporary_id": "decl-022509",
+      "new_name": "homEquiv",
+      "docstring": "The hom-set equivalence between maps out of the left endofunctor and maps into the right endofunctor."
+    },
+    {
+      "temporary_id": "decl-022510",
+      "new_name": "homEquiv_apply_component_of_ne",
+      "docstring": "Away from the selected vertex, the hom-set equivalence acts pointwise through the two displayed component equivalences."
+    },
+    {
+      "temporary_id": "decl-022511",
+      "new_name": "homEquiv_symm_comp_left",
+      "docstring": "The inverse hom-set equivalence sends precomposition to composition with the image under the left endofunctor."
+    },
+    {
+      "temporary_id": "decl-022512",
+      "new_name": "homEquiv_comp_right",
+      "docstring": "The hom-set equivalence sends postcomposition to composition with the image under the right endofunctor."
+    },
+    {
+      "temporary_id": "decl-022513",
+      "new_name": "homEquiv_symm_apply_component_of_ne",
+      "docstring": "Away from the selected vertex, the inverse hom-set equivalence acts pointwise through the two displayed component equivalences."
+    },
+    {
+      "temporary_id": "decl-022516",
+      "new_name": "leftEndofunctor",
+      "docstring": "The representation endofunctor determined by the selected vertex and a finite associated indexing type."
+    },
+    {
+      "temporary_id": "decl-022517",
+      "new_name": "leftEndofunctor_map_apply_of_ne",
+      "docstring": "Away from the selected vertex, the left endofunctor maps a morphism compatibly with the displayed component linear equivalences."
+    },
+    {
+      "temporary_id": "decl-022533",
+      "new_name": "auxiliaryLeftEndofunctorCondition",
+      "docstring": "The left endofunctor satisfies the required auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-022536",
+      "new_name": "rightEndofunctor",
+      "docstring": "The representation endofunctor determined by the selected vertex."
+    },
+    {
+      "temporary_id": "decl-022546",
+      "new_name": "auxiliaryRightEndofunctorCondition",
+      "docstring": "The right endofunctor satisfies the required auxiliary condition when the associated indexing type is finite."
+    },
+    {
+      "temporary_id": "decl-022547",
+      "new_name": "rightEndofunctorComponentEquiv",
+      "docstring": "Away from the selected vertex, evaluation of the right endofunctor is linearly equivalent to evaluation of the original representation."
+    },
+    {
+      "temporary_id": "decl-022551",
+      "new_name": "rightEndofunctor_map_apply_of_ne",
+      "docstring": "Away from the selected vertex, the right endofunctor maps a morphism compatibly with the component linear equivalences."
+    }
+  ]
+}

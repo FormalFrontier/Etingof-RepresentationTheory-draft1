@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1108",
+  "associations": [
+    {
+      "association_id": "association:0ccddea57126ebd9f795",
+      "role": "supporting",
+      "rationale": "The displayed signature merely supplies a Prop-valued predicate on rings; it does not show the defining condition that the ring is nonzero and has no other two-sided ideals."
+    },
+    {
+      "association_id": "association:886d570b98325baf9b19",
+      "role": "supporting",
+      "rationale": "The displayed type only supplies an Ideal-valued construction; it contains no equation or carrier description identifying unitIdeal with the whole ring."
+    },
+    {
+      "association_id": "association:b84a0d565b20c32ae82f",
+      "role": "supporting",
+      "rationale": "The displayed type only supplies an Ideal-valued construction; it contains no equation or carrier description identifying zeroIdeal with the zero ideal."
+    }
+  ]
+}

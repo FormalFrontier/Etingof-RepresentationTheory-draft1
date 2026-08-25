@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Example9.4.4",
+    "kind": "example",
+    "title": "Homological dimension of polynomial algebra (Hilbert syzygies theorem)",
+    "node_id": "chapter-09/section-9-4",
+    "order": 563,
+    "slug": "example9-4-4",
+    "span": {
+      "start": {
+        "page": "217",
+        "line": 5
+      },
+      "end": {
+        "page": "217",
+        "line": 6
+      }
+    },
+    "source_sha256": "e67282cf3585a7551f55e3b11a6a94e0e9287275a1bd76b8ee8a61580d3eb7de",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Example944",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

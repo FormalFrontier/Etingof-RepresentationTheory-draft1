@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1148",
+  "associations": [
+    {
+      "association_id": "association:c12eeffc0d46135d2646",
+      "role": "supporting",
+      "rationale": "The type establishes semisimplicity of a group algebra under an invertibility condition, not the displayed claim that every finite-dimensional complex representation decomposes into irreducibles."
+    },
+    {
+      "association_id": "association:0bd0fc682bedd7f6aad7",
+      "role": "supporting",
+      "rationale": "Its formal type is null, so it does not directly state the asserted decomposition of finite-dimensional complex representations."
+    }
+  ]
+}

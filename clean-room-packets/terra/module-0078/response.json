@@ -1,0 +1,21 @@
+{
+  "module_name": "GradedLieAlgebra.BracketRelations",
+  "declarations": [
+    {"temporary_id":"decl-007544","new_name":"componentOne_succ_eq_aux_add_bracket","docstring":"Relates the first component at a successor index to an auxiliary term and a bracket."},
+    {"temporary_id":"decl-007545","new_name":"componentOne_succ_eq_bracket_sum","docstring":"Rewrites the first component at a successor index as a sum of two brackets."},
+    {"temporary_id":"decl-007547","new_name":"componentOne_bracket","docstring":"The first component map preserves the Lie bracket."},
+    {"temporary_id":"decl-007555","new_name":"componentThree_bracket","docstring":"Expands the third component of a bracket using the lower components."},
+    {"temporary_id":"decl-007558","new_name":"componentTwo_bracket","docstring":"Expands the second component of a bracket using first and second components."},
+    {"temporary_id":"decl-007592","new_name":"eq_zero_of_mem_bot_component","docstring":"An element in a component equal to bottom is zero."},
+    {"temporary_id":"decl-007635","new_name":"componentAt_even_two_outside_range_eq_bot","docstring":"The indicated even-indexed component is bottom outside its displayed range."},
+    {"temporary_id":"decl-007646","new_name":"componentAt_even_one_outside_range_eq_bot","docstring":"The indicated component is bottom outside its displayed interval."},
+    {"temporary_id":"decl-007895","new_name":"bracket_componentOne_componentTwo_swap","docstring":"Swapping the indices gives equal brackets between the first and second components."},
+    {"temporary_id":"decl-007896","new_name":"bracket_components_eq_zero_outside_degree_range","docstring":"The bracket vanishes when the sum of component indices lies outside the stated range."},
+    {"temporary_id":"decl-007900","new_name":"bracket_componentTwo_componentTwo_eq_zero","docstring":"Any two displayed second-component elements have zero bracket."},
+    {"temporary_id":"decl-007906","new_name":"bracket_baseFamily_eq_zero","docstring":"Any two elements of the indexed base family commute."},
+    {"temporary_id":"decl-008222","new_name":"auxFamily_succ_eq_zero_iff_brackets_eq","docstring":"Characterizes vanishing of the successor auxiliary element by equality of two brackets."},
+    {"temporary_id":"decl-008232","new_name":"auxFamily_succ_eq_bracket","docstring":"Expresses the successor auxiliary element as a bracket of first components."},
+    {"temporary_id":"decl-008268","new_name":"two_smul_bracket_componentOne_eq_sub","docstring":"Relates twice a bracket of first components to a difference of brackets with second components."},
+    {"temporary_id":"decl-008271","new_name":"two_smul_auxFamily_succ_eq_sub_brackets","docstring":"Relates twice the successor auxiliary element to a difference of two brackets."}
+  ]
+}

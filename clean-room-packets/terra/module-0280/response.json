@@ -1,0 +1,10 @@
+{
+  "module_name": "CyclicCharacterSpan",
+  "declarations": [
+    {
+      "temporary_id": "decl-001455",
+      "new_name": "simple_character_mem_rat_span_zpowers_auxiliary_images",
+      "docstring": "The character of a simple complex representation lies in the rational span of the displayed auxiliary images of characters associated with cyclic subgroups."
+    }
+  ]
+}

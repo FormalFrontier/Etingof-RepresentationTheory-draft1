@@ -1,0 +1,181 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [h : decl-005147.{u, v} C],\n  CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005147",
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "1529087019",
+      "temporary_id": "decl-005153"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {P : C}\n  [hp : decl-005213.{u, v} P] [IsNoetherianRing.{v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P))],\n  CategoryTheory.Functor.EssSurj.{v, v, u, v + 1} decl-005264.{u, v}",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005213",
+        "decl-005264"
+      ],
+      "structural_type_hash": "2926594006",
+      "temporary_id": "decl-005216"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Preadditive.{v, u} C] {P : C}\n  [decl-005213.{u, v} P],\n  CategoryTheory.Functor.Faithful.{v, v, u, v + 1} (CategoryTheory.preadditiveCoyonedaObj.{v, u} P)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005213"
+      ],
+      "structural_type_hash": "3001362252",
+      "temporary_id": "decl-005218"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {P : C}\n  [hp : decl-005213.{u, v} P] (X : C),\n  Module.Finite.{v, v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P)) (Quiver.Hom.{v, u} P X)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005213"
+      ],
+      "structural_type_hash": "3185397733",
+      "temporary_id": "decl-005219"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {P : C}\n  [hp : decl-005213.{u, v} P],\n  CategoryTheory.Functor.Full.{v, v, u, v + 1} (CategoryTheory.preadditiveCoyonedaObj.{v, u} P)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005213"
+      ],
+      "structural_type_hash": "2328418649",
+      "temporary_id": "decl-005253"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Preadditive.{v, u} C] {P : C}\n  [hp : decl-005213.{u, v} P], decl-005270.{u, v} P",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005213",
+        "decl-005270"
+      ],
+      "structural_type_hash": "986279612",
+      "temporary_id": "decl-005256"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Preadditive.{v, u} C] {P : C}\n  [hp : decl-005213.{u, v} P], CategoryTheory.IsSeparator.{v, u} P",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005213"
+      ],
+      "structural_type_hash": "2819087933",
+      "temporary_id": "decl-005257"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : decl-005147.{u, v} C] \u2192\n      {P : C} \u2192\n        [hp : decl-005213.{u, v} P] \u2192\n          CategoryTheory.Functor.{v, v, u, v + 1} C (FGModuleCat.{v, v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P)))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005213"
+      ],
+      "structural_type_hash": "1736811651",
+      "temporary_id": "decl-005264"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P],\n  CategoryTheory.Functor.IsEquivalence.{v, v, u, v + 1} decl-005264.{u, v}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264"
+      ],
+      "structural_type_hash": "853350858",
+      "temporary_id": "decl-016759"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] (C : Type u) [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] (P : C) [hp : decl-005213.{u, v} P],\n  Nonempty.{max (max (v + 2) (u + 1)) (v + 1)}\n    (CategoryTheory.Equivalence.{v, v, u, v + 1} C (FGModuleCat.{v, v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213"
+      ],
+      "structural_type_hash": "410469338",
+      "temporary_id": "decl-016760"
+    },
+    {
+      "formal_type": "\u2200 (C : Type u) [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] (P : C)\n  [hp : decl-005213.{u, v} P] [IsNoetherianRing.{v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P))],\n  Nonempty.{max (max (v + 2) (u + 1)) (v + 1)}\n    (CategoryTheory.Equivalence.{v, v, u, v + 1} C (FGModuleCat.{v, v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005213"
+      ],
+      "structural_type_hash": "4057989859",
+      "temporary_id": "decl-016761"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {P : C}\n  [hp : decl-005213.{u, v} P] [IsNoetherianRing.{v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P))],\n  CategoryTheory.Functor.IsEquivalence.{v, v, u, v + 1} decl-005264.{u, v}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005213",
+        "decl-005264"
+      ],
+      "structural_type_hash": "2877770378",
+      "temporary_id": "decl-016762"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] (P : C),\n  IsNoetherianRing.{v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167"
+      ],
+      "structural_type_hash": "1940188677",
+      "temporary_id": "decl-020865"
+    }
+  ],
+  "module_temporary_id": "module-0765",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

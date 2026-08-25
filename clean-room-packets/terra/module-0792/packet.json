@@ -1,0 +1,122 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  {N : Nat} (b : Module.Basis.{0, u_1, u_2} (Fin N) k V) (A : LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} k) V V),\n  Iff\n    (Matrix.BlockTriangular.{u_1, 0, 0}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} (LinearMap.toMatrix.{u_1, 0, 0, u_2, u_2} b b) A)\n      id.{1})\n    (\u2200 (j : Fin N),\n      Membership.mem.{u_2, u_2}\n        (Submodule.span.{u_1, u_2} k\n          (Set.image.{0, u_2} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), 1, u_2 + 1} b) (Set.Iic.{0} j)))\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} A (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), 1, u_2 + 1} b j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2677188868",
+      "temporary_id": "decl-017496"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  {N : Nat} (b : Module.Basis.{0, u_1, u_2} (Fin N) k V) (A : LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} k) V V),\n  (\u2200 (j : Fin N),\n      Membership.mem.{u_2, u_2}\n        (Submodule.span.{u_1, u_2} k\n          (Set.image.{0, u_2} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), 1, u_2 + 1} b) (Set.Iic.{0} j)))\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} A (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), 1, u_2 + 1} b j))) \u2192\n    Matrix.BlockTriangular.{u_1, 0, 0}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} (LinearMap.toMatrix.{u_1, 0, 0, u_2, u_2} b b) A) id.{1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3105666901",
+      "temporary_id": "decl-017497"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [inst_3 : Module.Finite.{u, v} k V] {N : Nat} (A : LinearMap.{u, u, v, v} (RingHom.id.{u} k) V V),\n  Eq.{1} (Module.finrank.{u, v} k V) N \u2192\n    Polynomial.Splits.{u} (LinearMap.charpoly.{u, v} A) \u2192\n      Exists.{max (u + 1) (v + 1)} fun b =>\n        Matrix.BlockTriangular.{u, 0, 0}\n          (DFunLike.coe.{max (u + 1) (v + 1), v + 1, u + 1} (LinearMap.toMatrix.{u, 0, 0, v, v} b b) A) id.{1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2771716817",
+      "temporary_id": "decl-018761"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [inst_3 : Module.Finite.{u, v} k V] {N : Nat} (A : LinearMap.{u, u, v, v} (RingHom.id.{u} k) V V),\n  Eq.{1} (Module.finrank.{u, v} k V) N \u2192\n    Polynomial.Splits.{u} (LinearMap.charpoly.{u, v} A) \u2192\n      Exists.{max (u + 1) (v + 1)} fun b =>\n        Exists.{u + 1} fun lam =>\n          And\n            (Matrix.BlockTriangular.{u, 0, 0}\n              (DFunLike.coe.{max (u + 1) (v + 1), v + 1, u + 1} (LinearMap.toMatrix.{u, 0, 0, v, v} b b) A) id.{1})\n            (And\n              (\u2200 (i : Fin N),\n                Eq.{u + 1}\n                  (DFunLike.coe.{max (u + 1) (v + 1), v + 1, u + 1} (LinearMap.toMatrix.{u, 0, 0, v, v} b b) A i i)\n                  (lam i))\n              (Eq.{u + 1} (LinearMap.charpoly.{u, v} A)\n                (Finset.prod.{0, u} Finset.univ.{0} fun i =>\n                  HSub.hSub.{u, u, u} Polynomial.X.{u} (DFunLike.coe.{u + 1, u + 1, u + 1} Polynomial.C.{u} (lam i)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3877483723",
+      "temporary_id": "decl-018762"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [inst_3 : Module.Finite.{u, v} k V] {N : Nat} (A : LinearMap.{u, u, v, v} (RingHom.id.{u} k) V V),\n  Eq.{1} (Module.finrank.{u, v} k V) N \u2192\n    \u2200 (lam : Fin N \u2192 k),\n      Eq.{u + 1} (LinearMap.charpoly.{u, v} A)\n          (Finset.prod.{0, u} Finset.univ.{0} fun i =>\n            HSub.hSub.{u, u, u} Polynomial.X.{u} (DFunLike.coe.{u + 1, u + 1, u + 1} Polynomial.C.{u} (lam i))) \u2192\n        Exists.{max (u + 1) (v + 1)} fun b =>\n          Exists.{1} fun e =>\n            And\n              (Matrix.BlockTriangular.{u, 0, 0}\n                (DFunLike.coe.{max (u + 1) (v + 1), v + 1, u + 1} (LinearMap.toMatrix.{u, 0, 0, v, v} b b) A) id.{1})\n              (\u2200 (i : Fin N),\n                Eq.{u + 1}\n                  (DFunLike.coe.{max (u + 1) (v + 1), v + 1, u + 1} (LinearMap.toMatrix.{u, 0, 0, v, v} b b) A i i)\n                  (lam (DFunLike.coe.{1, 1, 1} e i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1937408438",
+      "temporary_id": "decl-018763"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] [IsAlgClosed.{u} k] {N : Nat} (A : LinearMap.{u, u, v, v} (RingHom.id.{u} k) V V),\n  Eq.{1} (Module.finrank.{u, v} k V) N \u2192\n    Exists.{max (u + 1) (v + 1)} fun b =>\n      Matrix.BlockTriangular.{u, 0, 0}\n        (DFunLike.coe.{max (u + 1) (v + 1), v + 1, u + 1} (LinearMap.toMatrix.{u, 0, 0, v, v} b b) A) id.{1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "806182943",
+      "temporary_id": "decl-018764"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (N : Nat) {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (A : LinearMap.{u, u, v, v} (RingHom.id.{u} k) V V),\n  Eq.{1} (Module.finrank.{u, v} k V) N \u2192\n    Polynomial.Splits.{u} (minpoly.{u, v} k A) \u2192\n      Exists.{max (u + 1) (v + 1)} fun b =>\n        Matrix.BlockTriangular.{u, 0, 0}\n          (DFunLike.coe.{max (u + 1) (v + 1), v + 1, u + 1} (LinearMap.toMatrix.{u, 0, 0, v, v} b b) A) id.{1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "353238169",
+      "temporary_id": "decl-018765"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {N : Nat} {lam mu : Fin N \u2192 k},\n  Eq.{u_1 + 1} (Multiset.map.{u_1, 0} lam (Finset.val.{0} Finset.univ.{0}))\n      (Multiset.map.{u_1, 0} mu (Finset.val.{0} Finset.univ.{0})) \u2192\n    Exists.{1} fun e => \u2200 (i : Fin N), Eq.{u_1 + 1} (lam i) (mu (DFunLike.coe.{1, 1, 1} e i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "303352740",
+      "temporary_id": "decl-018904"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} {lam mu : Fin N \u2192 k},\n  Eq.{u_1 + 1}\n      (Finset.prod.{0, u_1} Finset.univ.{0} fun i =>\n        HSub.hSub.{u_1, u_1, u_1} Polynomial.X.{u_1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} Polynomial.C.{u_1} (lam i)))\n      (Finset.prod.{0, u_1} Finset.univ.{0} fun i =>\n        HSub.hSub.{u_1, u_1, u_1} Polynomial.X.{u_1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} Polynomial.C.{u_1} (mu i))) \u2192\n    Exists.{1} fun e => \u2200 (i : Fin N), Eq.{u_1 + 1} (lam i) (mu (DFunLike.coe.{1, 1, 1} e i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3204886876",
+      "temporary_id": "decl-018906"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u03b9 : Type u_2} [inst_1 : Fintype.{u_2} \u03b9] (f : \u03b9 \u2192 k),\n  Eq.{u_1 + 1}\n    (Polynomial.roots.{u_1}\n      (Finset.prod.{u_2, u_1} Finset.univ.{u_2} fun i =>\n        HSub.hSub.{u_1, u_1, u_1} Polynomial.X.{u_1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} Polynomial.C.{u_1} (f i))))\n    (Multiset.map.{u_1, u_2} f (Finset.val.{u_2} Finset.univ.{u_2}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3126554277",
+      "temporary_id": "decl-022862"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (lam : Fin N \u2192 k) (e : Equiv.Perm.{1} (Fin N)) (n : Nat),\n  Eq.{u_1 + 1}\n    (Finset.sum.{0, u_1} (Finset.powersetCard.{0} n Finset.univ.{0}) fun s =>\n      Finset.prod.{0, u_1} s fun i => lam (DFunLike.coe.{1, 1, 1} e i))\n    (Finset.sum.{0, u_1} (Finset.powersetCard.{0} n Finset.univ.{0}) fun s => Finset.prod.{0, u_1} s fun i => lam i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2843564328",
+      "temporary_id": "decl-023557"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (lam : Fin N \u2192 k) (e : Equiv.Perm.{1} (Fin N)) (n : Nat),\n  Eq.{u_1 + 1}\n    (Finset.sum.{0, u_1} Finset.univ.{0} fun s =>\n      Multiset.prod.{u_1} (Multiset.map.{u_1, 0} (fun i => lam (DFunLike.coe.{1, 1, 1} e i)) (Sym.toMultiset.{0} s)))\n    (Finset.sum.{0, u_1} Finset.univ.{0} fun s =>\n      Multiset.prod.{u_1} (Multiset.map.{u_1, 0} lam (Sym.toMultiset.{0} s)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "74430642",
+      "temporary_id": "decl-023571"
+    }
+  ],
+  "module_temporary_id": "module-0792",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

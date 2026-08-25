@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e62b4b7655e8528a4373",
+      "declaration": "CategoryTheory.EnoughProjectives",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/543/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.CategoryTheory.Preadditive.Projective.Basic"
+    },
+    {
+      "association_id": "association:482f24363949ac830630",
+      "declaration": "CategoryTheory.ProjectiveResolution",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/543/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.CategoryTheory.Preadditive.Projective.Resolution"
+    }
+  ],
+  "canonical_reference": "Chapter8/Discussion_after_Problem8.2.8",
+  "packet_id": "align-1167",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1167"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f16758ddedb879224a85",
+  "source_text": "Tor and Ext can be defined in any abelian category with enough projectives because every object then has a projective resolution."
+}

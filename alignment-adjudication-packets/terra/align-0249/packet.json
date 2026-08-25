@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:00a3ee792adb199db4ac",
+      "declaration": "Etingof.Theorem5_14_3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/327/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (Nat.cast.{0} (Etingof.permModuleCharacter n la \u03c3))\n    (MvPolynomial.coeff.{0, 0} (Etingof.Nat.Partition.toFinsupp la) (Etingof.cycleTypePsumProduct n \u03c3))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_14_3"
+    },
+    {
+      "association_id": "association:a023719b33653f5d8450",
+      "declaration": "Etingof.coeff_psum_prod_eq_card_colorings",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/327/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (MvPolynomial.coeff.{0, 0} (Etingof.Nat.Partition.toFinsupp la) (Etingof.cycleTypePsumProduct n \u03c3))\n    (Nat.cast.{0} (Nat.card.{0} (Etingof.MonochromaticColoring n la \u03c3)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_14_3"
+    },
+    {
+      "association_id": "association:cc5d8802e91a8439892d",
+      "declaration": "Etingof.fixedCosets_eq_card_colorings",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/327/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (Etingof.permModuleCharacter n la \u03c3) (Nat.card.{0} (Etingof.MonochromaticColoring n la \u03c3))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_14_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.14.3",
+  "packet_id": "align-0249",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0249"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4ab382054019e3783a3e",
+  "source_text": "chi_{U_lambda}(C_i) is the coefficient of x^lambda in the product of power sums, with the source's stability in the number of variables."
+}

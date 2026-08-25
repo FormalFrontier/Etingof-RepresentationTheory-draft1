@@ -1,0 +1,20 @@
+{
+  "associations": [
+    {
+      "association_id": "association:dc9715c6674fd3d89b3d",
+      "rationale": "States the existence of a linear equivalence from the direct sum to V, but the displayed type does not identify that equivalence as the assembled evaluation map.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:973536f690d25a1677a7",
+      "rationale": "States injectivity of the evaluation map, a proof component rather than the asserted isomorphism.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:27390c7bf422acfd70a4",
+      "rationale": "States surjectivity of the evaluation map, a proof component rather than the asserted isomorphism.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0882"
+}

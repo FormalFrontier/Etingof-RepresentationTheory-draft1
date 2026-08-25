@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:242ac0fc4441b8363478",
+      "declaration": "Etingof.Example4_8_1_Q8_character",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/218/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (i j : Fin 5),\n  Eq.{1} (FDRep.character.{0, 0} (Etingof.Example4_8_1_Q8_irrep i) (Etingof.Example4_8_1.Q8.classRep j))\n    (Etingof.Example4_8_1.Q5toC (Etingof.Example4_8_1.chiQ8 i j))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1"
+    },
+    {
+      "association_id": "association:dd2e89057a2339397180",
+      "declaration": "Etingof.Example4_8_1_Q8_conj_classes",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/218/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Fintype.card.{0} (ConjClasses.{0} (QuaternionGroup 2))) 5",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1"
+    },
+    {
+      "association_id": "association:229598bff08da9d23523",
+      "declaration": "Etingof.Example4_8_1_Q8_irrep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/218/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Fin 5 \u2192 FDRep.{0, 0} Complex (QuaternionGroup 2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1"
+    },
+    {
+      "association_id": "association:44a2fccf560053421406",
+      "declaration": "Etingof.Example4_8_1_Q8_pairwise",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/218/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (i j : Fin 5),\n  Ne.{1} i j \u2192\n    Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (Etingof.Example4_8_1_Q8_irrep i) (Etingof.Example4_8_1_Q8_irrep j)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1"
+    },
+    {
+      "association_id": "association:e4c48dd9388aa51c2b41",
+      "declaration": "Etingof.Example4_8_1_Q8_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/218/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (i : Fin 5), CategoryTheory.Simple.{0, 1} (Etingof.Example4_8_1_Q8_irrep i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1"
+    }
+  ],
+  "canonical_reference": "Chapter4/Example4.8.1",
+  "packet_id": "align-0361",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0361"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:710e77b516ba52b906bd",
+  "source_text": "The Q\u2088 table consists of five genuine simple, pairwise nonisomorphic representations with exactly the displayed values and is complete."
+}

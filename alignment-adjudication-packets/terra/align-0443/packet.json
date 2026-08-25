@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:794055ef63b373554edf",
+      "declaration": "Etingof.Theorem5_25_2_part1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/384/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat)\n  (chi1 chi2 : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)),\n  Ne.{1} chi1 chi2 \u2192 CategoryTheory.Simple.{0, 1} (Etingof.GL2.principalSeries p n chi1 chi2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
+    },
+    {
+      "association_id": "association:4470c128f5c7dcd09011",
+      "declaration": "Etingof.Theorem5_25_2_part2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/384/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    \u2200 (mu : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)),\n      And\n        (Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (Etingof.GL2.principalSeries p n mu mu)\n            (CategoryTheory.Limits.biprod.{0, 1} (Etingof.GL2.detChar p n mu) (Etingof.GL2.complementW p n mu))))\n        (And (CategoryTheory.Simple.{0, 1} (Etingof.GL2.complementW p n mu))\n          (Eq.{1}\n            (Module.finrank.{0, 0} Complex\n              (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (Etingof.GL2.complementW p n mu))))\n            (HPow.hPow.{0, 0, 0} p n)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.25.2",
+  "packet_id": "align-0443",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0443"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:8efd727d2f66b0c028aa",
+  "source_text": "V(\u03bc,\u03bc) splits as the determinant character plus a simple q-dimensional complement W_\u03bc."
+}

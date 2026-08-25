@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:69476c15fc6e0d25f9ca",
+      "declaration": "Etingof.Proposition6_6_6_sink",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/445/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {Q : Type u_2} [inst_dec : DecidableEq.{u_2 + 1} Q]\n  [inst_1 : Quiver.{u_3, u_2} Q] {i : Q} (hi : Etingof.IsSink.{u_2, u_3} Q i)\n  (\u03c1 : Etingof.QuiverRepresentation.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  [\u2200 (v : Q),\n      Module.Free.{u_1, max (max u_2 u_3) u_4} k\n        (Etingof.QuiverRepresentation.obj.{u_1, u_2, max (max u_2 u_3) u_4, u_3} \u03c1 v)]\n  [\u2200 (v : Q),\n      Module.Finite.{u_1, max (max u_2 u_3) u_4} k\n        (Etingof.QuiverRepresentation.obj.{u_1, u_2, max (max u_2 u_3) u_4, u_3} \u03c1 v)]\n  [inst_4 : Fintype.{max u_3 u_2} (Etingof.ArrowsOutOf.{u_2, u_3} Q i)],\n  Function.Surjective.{max (max (u_2 + 1) (u_3 + 1)) ((max (max u_2 u_3) u_4) + 1), (max (max u_2 u_3) u_4) + 1}\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) ((max (max u_2 u_3) u_4) + 1),\n          max (max (u_2 + 1) (u_3 + 1)) ((max (max u_2 u_3) u_4) + 1), (max (max u_2 u_3) u_4) + 1}\n        (Etingof.QuiverRepresentation.sinkMap.{u_1, u_2, u_3, max (max u_2 u_3) u_4} \u03c1 i)) \u2192\n    Nonempty.{max ((max (max u_2 u_3) u_4) + 1) (u_2 + 1)}\n      (Etingof.QuiverRepresentation.Iso.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n        (Etingof.QuiverRepresentation.transportReversedTwice.{u_1, u_2, u_3, max (max u_2 u_3) u_4}\n          (Etingof.reflectionFunctorMinus.{u_1, u_2, u_3, u_4} Q i \u22ef\n            (Etingof.reflectionFunctorPlus.{u_1, u_2, u_3, u_4} Q i hi \u03c1)))\n        \u03c1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Proposition6_6_6"
+    },
+    {
+      "association_id": "association:fa1815c1480a0cc75dbb",
+      "declaration": "Etingof.Proposition6_6_6_source",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/445/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {Q : Type u_2} [inst_dec : DecidableEq.{u_2 + 1} Q]\n  [inst_1 : Quiver.{u_3, u_2} Q] {i : Q} (hi : Etingof.IsSource.{u_2, u_3} Q i)\n  (\u03c1 : Etingof.QuiverRepresentation.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  [\u2200 (v : Q),\n      Module.Free.{u_1, max (max u_2 u_3) u_4} k\n        (Etingof.QuiverRepresentation.obj.{u_1, u_2, max (max u_2 u_3) u_4, u_3} \u03c1 v)]\n  [\u2200 (v : Q),\n      Module.Finite.{u_1, max (max u_2 u_3) u_4} k\n        (Etingof.QuiverRepresentation.obj.{u_1, u_2, max (max u_2 u_3) u_4, u_3} \u03c1 v)]\n  [inst_4 : Fintype.{max u_3 u_2} (Etingof.ArrowsOutOf.{u_2, u_3} Q i)],\n  Function.Injective.{(max (max u_2 u_3) u_4) + 1, max (max (u_2 + 1) (u_3 + 1)) ((max (max u_2 u_3) u_4) + 1)}\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) ((max (max u_2 u_3) u_4) + 1), (max (max u_2 u_3) u_4) + 1,\n          max (max (u_2 + 1) (u_3 + 1)) ((max (max u_2 u_3) u_4) + 1)}\n        (Etingof.QuiverRepresentation.sourceMap.{u_1, u_2, u_3, max (max u_2 u_3) u_4} \u03c1 i)) \u2192\n    Nonempty.{max ((max (max u_2 u_3) u_4) + 1) (u_2 + 1)}\n      (Etingof.QuiverRepresentation.Iso.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n        (Etingof.QuiverRepresentation.transportReversedTwice.{u_1, u_2, u_3, max (max u_2 u_3) u_4}\n          (Etingof.reflectionFunctorPlus.{u_1, u_2, u_3, u_4} Q i \u22ef\n            (Etingof.reflectionFunctorMinus.{u_1, u_2, u_3, u_4} Q i hi \u03c1)))\n        \u03c1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Proposition6_6_6_source"
+    }
+  ],
+  "canonical_reference": "Chapter6/Proposition6.6.6",
+  "packet_id": "align-1063",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1063"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d0448bc1b192756a40f1",
+  "source_text": "Under the surjectivity/injectivity hypothesis, applying the opposite reflection recovers the original representation up to isomorphism."
+}

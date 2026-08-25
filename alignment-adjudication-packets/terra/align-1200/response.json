@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1200",
+  "associations": [
+    {
+      "association_id": "association:d727cb9c11039434adc5",
+      "rationale": "The displayed declaration constructs a character-valued linear map on the quotient by the commutator submodule, providing the ambient dual-space construction but not the basis assertion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a05fcad0cfaa5a6791e4",
+      "rationale": "The displayed theorem gives the spanning ingredient: every functional satisfying f(ab) = f(ba) lies in the span of the irreducible characters; it does not by itself state that those characters form a basis of the quotient dual.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9c76f5d3791da2576ab0",
+      "rationale": "The displayed theorem states linear independence of characters of pairwise nonisomorphic simple modules, which is one ingredient of the asserted basis result rather than the whole basis statement.",
+      "role": "supporting"
+    }
+  ]
+}

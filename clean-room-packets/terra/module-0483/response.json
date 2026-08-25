@@ -1,0 +1,45 @@
+{
+  "module_name": "SemisimpleAlgebraCenters",
+  "declarations": [
+    {
+      "temporary_id": "decl-017789",
+      "new_name": "centerPiLinearEquiv",
+      "docstring": "The center of a product of algebras is linearly equivalent to the product of their centers."
+    },
+    {
+      "temporary_id": "decl-018971",
+      "new_name": "exists_algEquiv_pi_matrix_of_isSemisimpleRing",
+      "docstring": "A finite-dimensional semisimple algebra over an algebraically closed field is equivalent to a finite product of nonzero matrix algebras indexed by the dimension of its center."
+    },
+    {
+      "temporary_id": "decl-019420",
+      "new_name": "center_finrank_eq_of_algEquiv",
+      "docstring": "Algebra-equivalent algebras have centers of equal dimension."
+    },
+    {
+      "temporary_id": "decl-019421",
+      "new_name": "center_finrank_eq_card_of_algEquiv_pi_matrix",
+      "docstring": "An algebra equivalent to a finite product of nonzero matrix algebras has center dimension equal to the number of factors."
+    },
+    {
+      "temporary_id": "decl-019422",
+      "new_name": "center_matrix_finrank",
+      "docstring": "The center of a nonempty finite square matrix algebra has dimension one."
+    },
+    {
+      "temporary_id": "decl-019423",
+      "new_name": "exists_algEquiv_pi_matrix_monoidAlgebra",
+      "docstring": "A finite group algebra over an algebraically closed field of characteristic zero is equivalent to a product of nonzero matrix algebras indexed by the dimension of its center."
+    },
+    {
+      "temporary_id": "decl-019424",
+      "new_name": "center_pi_matrix_finrank",
+      "docstring": "The center of a finite product of nonzero matrix algebras has dimension equal to the number of factors."
+    },
+    {
+      "temporary_id": "decl-021538",
+      "new_name": "map_center_eq_of_algEquiv",
+      "docstring": "An algebra equivalence maps the center of its source onto the center of its target."
+    }
+  ]
+}

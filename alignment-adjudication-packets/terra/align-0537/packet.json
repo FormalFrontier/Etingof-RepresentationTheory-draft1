@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b2625e7aa4d1cc62abe0",
+      "declaration": "Etingof.Sl2Irrep.jacobsonMorozov_sl2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/12/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (A : Module.End.{0, u_1} Complex V),\n  IsNilpotent.{u_1} A \u2192\n    And (Exists.{u_1 + 1} fun \u03c1 => Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 Etingof.Sl2Irrep.sl2_e) A)\n      (\u2200\n        (\u03c1 \u03c1' :\n          LieHom.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x)\n            (Module.End.{0, u_1} Complex V)),\n        Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 Etingof.Sl2Irrep.sl2_e) A \u2192\n          Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1' Etingof.Sl2Irrep.sl2_e) A \u2192\n            Nonempty.{u_1 + 1}\n              (LieModuleEquiv.{0, 0, u_1, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x)\n                (Etingof.Sl2Irrep.RepOf.{u_1} \u03c1) (Etingof.Sl2Irrep.RepOf.{u_1} \u03c1')))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_l_uniqueness"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.15.1",
+  "packet_id": "align-0537",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0537"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.15.1:claim-13",
+  "source_text": "Part (l): a nilpotent operator A is the raising operator of an sl(2)-representation, unique up to module isomorphism."
+}

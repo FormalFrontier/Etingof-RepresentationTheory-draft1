@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:e570e642dd9d7b0e740d",
+      "rationale": "For a finite commutative group over an algebraically closed field, the declaration gives finrank V = 1 for an irreducible representation.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0893"
+}

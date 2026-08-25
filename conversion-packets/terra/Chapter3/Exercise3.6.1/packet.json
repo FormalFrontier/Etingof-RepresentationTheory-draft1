@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Exercise3.6.1",
+    "kind": "exercise",
+    "title": "Additivity of characters on short exact sequences",
+    "node_id": "chapter-03/section-3-6",
+    "order": 158,
+    "slug": "exercise3-6-1",
+    "span": {
+      "start": {
+        "page": "52",
+        "line": 11
+      },
+      "end": {
+        "page": "52",
+        "line": 12
+      }
+    },
+    "source_sha256": "0e7a0bedd4b91f88a7c7cf6c60ea65e10a7afad7da7e998123c10a99b9dbe305",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Exercise361",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

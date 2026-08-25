@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Exercise8.2.9",
+    "kind": "exercise",
+    "title": "Categories without enough projectives",
+    "node_id": "chapter-08/section-8-2",
+    "order": 545,
+    "slug": "exercise8-2-9",
+    "span": {
+      "start": {
+        "page": "211",
+        "line": 1
+      },
+      "end": {
+        "page": "211",
+        "line": 4
+      }
+    },
+    "source_sha256": "7fc62e6cee8459e8d4b9c156f228651eb139992c7cf595359363e51ef076a016",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Exercise829",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

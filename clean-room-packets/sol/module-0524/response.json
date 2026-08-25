@@ -1,0 +1,145 @@
+{
+  "module_name": "IntegerZeroSumCoordinates",
+  "declarations": [
+    {
+      "temporary_id": "decl-000530",
+      "new_name": "zero_sum_basis",
+      "docstring": "A basis of the zero-sum integer-valued functions on `Fin (n + 1)`, indexed by `Fin n`."
+    },
+    {
+      "temporary_id": "decl-000533",
+      "new_name": "zero_sum_basis_apply",
+      "docstring": "The zero-sum basis vector at an index has underlying function equal to the corresponding adjacent-difference vector."
+    },
+    {
+      "temporary_id": "decl-000534",
+      "new_name": "adjacent_difference_to_zero_sum_coe",
+      "docstring": "The zero-sum-valued adjacent-difference map has underlying function equal to the ambient adjacent-difference linear map."
+    },
+    {
+      "temporary_id": "decl-000535",
+      "new_name": "dotProduct_adjacent_difference",
+      "docstring": "The dot product of two adjacent-difference vectors is the corresponding entry of twice the identity minus the specified adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-000538",
+      "new_name": "dotProduct_adjacent_difference_linear_map",
+      "docstring": "The dot product of two images under the adjacent-difference linear map equals the coefficient pairing defined by twice the identity minus the specified adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-000539",
+      "new_name": "prefix_sum_linear_map",
+      "docstring": "The integer-linear map taking a function on `Fin (n + 1)` to its prefix sums indexed by `Fin n`."
+    },
+    {
+      "temporary_id": "decl-000541",
+      "new_name": "prefix_sum_linear_map_apply",
+      "docstring": "At an index, the prefix-sum map is the sum of the input coordinates whose indices are at most that index."
+    },
+    {
+      "temporary_id": "decl-000542",
+      "new_name": "prefix_sum_adjacent_difference_linear_map",
+      "docstring": "Taking prefix sums after applying the adjacent-difference linear map recovers the original coefficient function."
+    },
+    {
+      "temporary_id": "decl-000550",
+      "new_name": "auxiliary_property_iff_mem_singleton_difference_set",
+      "docstring": "For the specified adjacency matrix, the auxiliary vector property holds exactly when the associated adjacent-difference vector belongs to the singleton-difference set."
+    },
+    {
+      "temporary_id": "decl-000551",
+      "new_name": "adjacent_difference_equiv_zero_sum",
+      "docstring": "The integer-linear equivalence from coefficient functions on `Fin n` to zero-sum functions on `Fin (n + 1)`."
+    },
+    {
+      "temporary_id": "decl-000555",
+      "new_name": "adjacent_difference_equiv_zero_sum_coe",
+      "docstring": "The underlying function of the adjacent-difference equivalence is its ambient adjacent-difference linear-map value."
+    },
+    {
+      "temporary_id": "decl-000556",
+      "new_name": "singleton_difference_set",
+      "docstring": "The set of integer-valued functions obtained as differences of unit singleton functions at distinct indices."
+    },
+    {
+      "temporary_id": "decl-000557",
+      "new_name": "mem_singleton_difference_set_iff",
+      "docstring": "A function belongs to the singleton-difference set exactly when it is the difference of two unit singleton functions at distinct indices."
+    },
+    {
+      "temporary_id": "decl-000564",
+      "new_name": "mem_zero_sum_submodule_iff",
+      "docstring": "An integer-valued function belongs to the zero-sum submodule exactly when the sum of all its coordinates is zero."
+    },
+    {
+      "temporary_id": "decl-000567",
+      "new_name": "auxiliary_set_ncard",
+      "docstring": "The auxiliary set has cardinality `n * (n + 1) / 2`."
+    },
+    {
+      "temporary_id": "decl-000572",
+      "new_name": "auxiliary_set",
+      "docstring": "An auxiliary set of integer-valued functions on `Fin (n + 1)`."
+    },
+    {
+      "temporary_id": "decl-000574",
+      "new_name": "adjacent_difference",
+      "docstring": "The integer-valued function given by the difference of unit coordinates at an index and its successor."
+    },
+    {
+      "temporary_id": "decl-000576",
+      "new_name": "adjacent_difference_apply",
+      "docstring": "An adjacent-difference function evaluates as the indicator of its first coordinate minus the indicator of the succeeding coordinate."
+    },
+    {
+      "temporary_id": "decl-000580",
+      "new_name": "coordinate_sum_linear_map",
+      "docstring": "The integer-linear map that sums all coordinates of a function on `Fin (n + 1)`."
+    },
+    {
+      "temporary_id": "decl-000582",
+      "new_name": "coordinate_sum_linear_map_apply",
+      "docstring": "The coordinate-sum linear map evaluates to the sum of the input over all indices."
+    },
+    {
+      "temporary_id": "decl-000583",
+      "new_name": "zero_sum_submodule",
+      "docstring": "The submodule of integer-valued functions on `Fin (n + 1)` whose coordinates sum to zero."
+    },
+    {
+      "temporary_id": "decl-000585",
+      "new_name": "sum_adjacent_difference",
+      "docstring": "The sum of the coordinates of an adjacent-difference function is zero."
+    },
+    {
+      "temporary_id": "decl-000586",
+      "new_name": "adjacent_difference_linear_map",
+      "docstring": "The integer-linear map sending coefficients on `Fin n` to the corresponding linear combination of adjacent-difference functions."
+    },
+    {
+      "temporary_id": "decl-000589",
+      "new_name": "adjacent_difference_to_zero_sum",
+      "docstring": "The adjacent-difference linear map with codomain restricted to the zero-sum submodule."
+    },
+    {
+      "temporary_id": "decl-000592",
+      "new_name": "adjacent_difference_linear_map_apply",
+      "docstring": "The adjacent-difference linear map evaluates as the sum of each coefficient multiplied by its adjacent-difference function."
+    },
+    {
+      "temporary_id": "decl-000593",
+      "new_name": "Auxiliary.statement000593",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
+    },
+    {
+      "temporary_id": "decl-000600",
+      "new_name": "adjacent_difference_prefix_sum_of_mem",
+      "docstring": "For a zero-sum integer-valued function, applying the adjacent-difference map to its prefix sums recovers the function."
+    },
+    {
+      "temporary_id": "decl-000620",
+      "new_name": "adjacent_difference_linear_map_single",
+      "docstring": "The adjacent-difference linear map sends a unit singleton coefficient function to the corresponding adjacent-difference vector."
+    }
+  ]
+}

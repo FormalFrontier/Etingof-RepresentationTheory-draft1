@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.23",
+    "kind": "introduction",
+    "title": "Section 5.23: Algebraic representations of GL(V)",
+    "node_id": "chapter-05/section-5-23",
+    "order": 370,
+    "slug": "introduction-5-23",
+    "span": {
+      "start": {
+        "page": "133",
+        "line": 7
+      },
+      "end": {
+        "page": "133",
+        "line": 8
+      }
+    },
+    "source_sha256": "3d4841eb6365026f228e196a75a604823033c94b789e397a32fd54804aad11bc",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction523",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

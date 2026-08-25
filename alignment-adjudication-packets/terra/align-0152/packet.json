@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:af2b9b03d0d06e8c0ec7",
+      "declaration": "Etingof.DirectSumRepresentation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/30/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Type u_1 \u2192 Type u_2 \u2192 Type (max u_1 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_7"
+    },
+    {
+      "association_id": "association:1aca00ebc6eec0a74328",
+      "declaration": "Etingof.DirectSumRepresentation_smul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/30/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) (V\u2081 : Type u_2) (V\u2082 : Type u_3) [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V\u2081]\n  [inst_2 : AddCommGroup.{u_3} V\u2082] [inst_3 : Module.{u_1, u_2} A V\u2081] [inst_4 : Module.{u_1, u_3} A V\u2082] (a : A) (v\u2081 : V\u2081)\n  (v\u2082 : V\u2082),\n  Eq.{max (u_2 + 1) (u_3 + 1)} (HSMul.hSMul.{u_1, max u_2 u_3, max u_2 u_3} a (Prod.mk.{u_2, u_3} v\u2081 v\u2082))\n    (Prod.mk.{u_2, u_3} (HSMul.hSMul.{u_1, u_2, u_2} a v\u2081) (HSMul.hSMul.{u_1, u_3, u_3} a v\u2082))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_7"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.3.7",
+  "packet_id": "align-0152",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0152"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2f78f48ebfdbbf41c0f9",
+  "source_text": "V\u2081 \u2295 V\u2082 carries the componentwise A-action."
+}

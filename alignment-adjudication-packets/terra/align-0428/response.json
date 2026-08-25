@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0428",
+  "associations": [
+    {
+      "association_id": "association:319e9625faa9a9854bfb",
+      "role": "supporting",
+      "rationale": "The declaration states only that the counterexample module is simple; it is a prerequisite/property of the example and does not state that the module is not an external tensor product with a simple first factor."
+    },
+    {
+      "association_id": "association:ad88dea0f15342f1fc90",
+      "role": "supporting",
+      "rationale": "The theorem rules out a tensor-product realization of the counterexample module when the first factor is simple and the second is nontrivial, but it does not itself state that the counterexample module is simple or identify its displayed concrete realization."
+    }
+  ]
+}

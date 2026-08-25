@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0395",
+  "associations": [
+    {
+      "association_id": "association:bd5f8af89a6c14f8ba4a",
+      "role": "primary",
+      "rationale": "The theorem directly produces multiplicities and an algebra-linear equivalence from the module to the direct sum of the corresponding standard simple modules."
+    }
+  ]
+}

@@ -1,0 +1,623 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-013997"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2],\n  Nonempty.{1}\n    (AlgEquiv.{0, 0, 0} k (MonoidAlgebra.{0, 0} k decl-013997)\n      (Prod.{0, 0} (Matrix.{0, 0, 0} (Fin 2) (Fin 2) k) (decl-014025 k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014025"
+      ],
+      "structural_type_hash": "4075877588",
+      "temporary_id": "decl-013998"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [CharP.{0} k 2] \u2192\n      Module.Basis.{0, 0, 0} (Fin 2) k\n        (Subtype.{1} fun x =>\n          Membership.mem.{0, 0} (Subrepresentation.toSubmodule.{0, 0, 0} (decl-014064 k)) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014029",
+        "decl-014064"
+      ],
+      "structural_type_hash": "2786345896",
+      "temporary_id": "decl-013999"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2],\n  Eq.{1} (Nat.card.{1} (decl-000898.{0, 0} (MonoidAlgebra.{0, 0} k decl-013997))) 2",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000898",
+        "decl-013997"
+      ],
+      "structural_type_hash": "1906910963",
+      "temporary_id": "decl-014002"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [CharP.{0} k 2] \u2192\n      LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k)\n        (Subtype.{1} fun x =>\n          Membership.mem.{0, 0} (Subrepresentation.toSubmodule.{0, 0, 0} (decl-014064 k)) x)\n        (Fin 2 \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014029",
+        "decl-014064"
+      ],
+      "structural_type_hash": "2750071729",
+      "temporary_id": "decl-014003"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2]\n  (v :\n    Subtype.{1} fun x =>\n      Membership.mem.{0, 0} (Subrepresentation.toSubmodule.{0, 0, 0} (decl-014064 k)) x),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-014003 k) v 1) (Subtype.val.{1} v 2)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014003",
+        "decl-014029",
+        "decl-014064"
+      ],
+      "structural_type_hash": "2847166096",
+      "temporary_id": "decl-014012"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2]\n  (v :\n    Subtype.{1} fun x =>\n      Membership.mem.{0, 0} (Subrepresentation.toSubmodule.{0, 0, 0} (decl-014064 k)) x),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-014003 k) v 0) (Subtype.val.{1} v 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014003",
+        "decl-014029",
+        "decl-014064"
+      ],
+      "structural_type_hash": "1812532373",
+      "temporary_id": "decl-014013"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2] (c : Fin 2 \u2192 k),\n  Eq.{1}\n    (Subtype.val.{1}\n      (DFunLike.coe.{1, 1, 1} (LinearEquiv.symm.{0, 0, 0, 0} (decl-014003 k)) c))\n    (Matrix.vecCons.{0} (c 0)\n      (Matrix.vecCons.{0} (HAdd.hAdd.{0, 0, 0} (c 0) (c 1)) (Matrix.vecCons.{0} (c 1) Matrix.vecEmpty.{0})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014003",
+        "decl-014029",
+        "decl-014064"
+      ],
+      "structural_type_hash": "2981574002",
+      "temporary_id": "decl-014014"
+    },
+    {
+      "formal_type": "(k : Type) \u2192 [inst : Field.{0} k] \u2192 MonoidAlgebra.{0, 0} k decl-013997",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997"
+      ],
+      "structural_type_hash": "2811828986",
+      "temporary_id": "decl-014015"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [CharP.{0} k 2] \u2192 decl-013991.{0} (MonoidAlgebra.{0, 0} k decl-013997)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013991",
+        "decl-013997"
+      ],
+      "structural_type_hash": "1686047877",
+      "temporary_id": "decl-014017"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (y : MonoidAlgebra.{0, 0} k decl-013997),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-014015 k) y)\n    (HMul.hMul.{0, 0, 0} y (decl-014015 k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014015"
+      ],
+      "structural_type_hash": "1012760706",
+      "temporary_id": "decl-014019"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (g : decl-013997),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-014015 k) (MonoidAlgebra.single.{0, 0} g 1))\n    (HMul.hMul.{0, 0, 0} (MonoidAlgebra.single.{0, 0} g 1) (decl-014015 k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014015"
+      ],
+      "structural_type_hash": "988441054",
+      "temporary_id": "decl-014020"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2], IsIdempotentElem.{0} (decl-014015 k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014015"
+      ],
+      "structural_type_hash": "4056800064",
+      "temporary_id": "decl-014021"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2]\n  (m : Representation.asModule.{0, 0, 0} (decl-014063 k)),\n  Eq.{1} (HSMul.hSMul.{0, 0, 0} (decl-014015 k) m) m",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014015",
+        "decl-014029",
+        "decl-014063",
+        "decl-014064"
+      ],
+      "structural_type_hash": "865655180",
+      "temporary_id": "decl-014023"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2]\n  (m : Representation.asModule.{0, 0, 0} (decl-014076 k)),\n  Eq.{1} (HSMul.hSMul.{0, 0, 0} (decl-014015 k) m) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014015",
+        "decl-014076"
+      ],
+      "structural_type_hash": "1914928088",
+      "temporary_id": "decl-014024"
+    },
+    {
+      "formal_type": "(k : Type) \u2192 [Field.{0} k] \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3231513733",
+      "temporary_id": "decl-014025"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2],\n  Not\n    (decl-000621.{0, 0} (MonoidAlgebra.{0, 0} k decl-013997)\n      (decl-014074 k) (decl-014060 k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621",
+        "decl-013997",
+        "decl-014060",
+        "decl-014074"
+      ],
+      "structural_type_hash": "279030672",
+      "temporary_id": "decl-014026"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2], Eq.{1} (HAdd.hAdd.{0, 0, 0} 1 1) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014025"
+      ],
+      "structural_type_hash": "661343640",
+      "temporary_id": "decl-014028"
+    },
+    {
+      "formal_type": "(k : Type) \u2192 [inst : Field.{0} k] \u2192 Representation.{0, 0, 0} k decl-013997 (Fin 3 \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997"
+      ],
+      "structural_type_hash": "201103173",
+      "temporary_id": "decl-014029"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (\u03c3 : decl-013997) (f : Fin 3 \u2192 k) (i : Fin 3),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-014029 k) \u03c3) f i)\n    (f (DFunLike.coe.{1, 1, 1} (Inv.inv.{0} \u03c3) i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014029"
+      ],
+      "structural_type_hash": "1789435108",
+      "temporary_id": "decl-014032"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [CharP.{0} k 2] \u2192\n      AlgHom.{0, 0, 0} k (MonoidAlgebra.{0, 0} k decl-013997) (decl-014025 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014025"
+      ],
+      "structural_type_hash": "3959380034",
+      "temporary_id": "decl-014033"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2],\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-014033 k) (decl-014015 k)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014015",
+        "decl-014025",
+        "decl-014033"
+      ],
+      "structural_type_hash": "3899389468",
+      "temporary_id": "decl-014036"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2] (g : decl-013997),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-014033 k) (MonoidAlgebra.single.{0, 0} g 1))\n    (DFunLike.coe.{1, 1, 1} (decl-014079 k) (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014025",
+        "decl-014033",
+        "decl-014079"
+      ],
+      "structural_type_hash": "4263849179",
+      "temporary_id": "decl-014037"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2],\n  Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} (decl-014033 k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014025",
+        "decl-014033"
+      ],
+      "structural_type_hash": "1348755989",
+      "temporary_id": "decl-014038"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [CharP.{0} k 2] \u2192\n      AlgHom.{0, 0, 0} k (MonoidAlgebra.{0, 0} k decl-013997) (Matrix.{0, 0, 0} (Fin 2) (Fin 2) k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997"
+      ],
+      "structural_type_hash": "2631799333",
+      "temporary_id": "decl-014039"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2],\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-014039 k) (decl-014015 k)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014015",
+        "decl-014039"
+      ],
+      "structural_type_hash": "2040580825",
+      "temporary_id": "decl-014044"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2] (g : decl-013997) (i j : Fin 2),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-014039 k) (MonoidAlgebra.single.{0, 0} g 1) i j)\n    (DFunLike.coe.{1, 1, 1} (decl-014003 k)\n      (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-014063 k) g)\n        (DFunLike.coe.{1, 1, 1} (LinearEquiv.symm.{0, 0, 0, 0} (decl-014003 k))\n          (Pi.single.{0, 0} j 1)))\n      i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014003",
+        "decl-014029",
+        "decl-014039",
+        "decl-014063",
+        "decl-014064"
+      ],
+      "structural_type_hash": "1253642838",
+      "temporary_id": "decl-014045"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2],\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-014039 k) (MonoidAlgebra.single.{0, 0} 1 1)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014039"
+      ],
+      "structural_type_hash": "2342253953",
+      "temporary_id": "decl-014046"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2] (g : decl-013997),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-014039 k) (MonoidAlgebra.single.{0, 0} g 1))\n    (DFunLike.coe.{1, 1, 1}\n      (LinearMap.toMatrix.{0, 0, 0, 0, 0} (decl-013999 k) (decl-013999 k))\n      (DFunLike.coe.{1, 1, 1} (decl-014063 k) g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-013999",
+        "decl-014029",
+        "decl-014039",
+        "decl-014063",
+        "decl-014064"
+      ],
+      "structural_type_hash": "552232862",
+      "temporary_id": "decl-014047"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2],\n  Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} (decl-014039 k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014039"
+      ],
+      "structural_type_hash": "605504427",
+      "temporary_id": "decl-014048"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2],\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-014039 k) (MonoidAlgebra.single.{0, 0} (Equiv.swap.{1} 0 1) 1))\n    (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0}\n      (Matrix.vecCons.{0} (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 Matrix.vecEmpty.{0}))\n        (Matrix.vecCons.{0} (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 1 Matrix.vecEmpty.{0})) Matrix.vecEmpty.{0})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014039"
+      ],
+      "structural_type_hash": "124560498",
+      "temporary_id": "decl-014049"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2],\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-014039 k) (MonoidAlgebra.single.{0, 0} (Equiv.swap.{1} 0 2) 1))\n    (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0}\n      (Matrix.vecCons.{0} (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 1 Matrix.vecEmpty.{0}))\n        (Matrix.vecCons.{0} (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})) Matrix.vecEmpty.{0})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014039"
+      ],
+      "structural_type_hash": "3641018771",
+      "temporary_id": "decl-014050"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2],\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-014039 k)\n      (MonoidAlgebra.single.{0, 0} decl-014073 1))\n    (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0}\n      (Matrix.vecCons.{0} (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 1 Matrix.vecEmpty.{0}))\n        (Matrix.vecCons.{0} (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 Matrix.vecEmpty.{0})) Matrix.vecEmpty.{0})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014039",
+        "decl-014073"
+      ],
+      "structural_type_hash": "2575195066",
+      "temporary_id": "decl-014051"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2],\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-014039 k)\n      (MonoidAlgebra.single.{0, 0} (HPow.hPow.{0, 0, 0} decl-014073 2) 1))\n    (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0}\n      (Matrix.vecCons.{0} (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 Matrix.vecEmpty.{0}))\n        (Matrix.vecCons.{0} (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})) Matrix.vecEmpty.{0})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014039",
+        "decl-014073"
+      ],
+      "structural_type_hash": "3945742343",
+      "temporary_id": "decl-014052"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [CharP.{0} k 2] \u2192 MonoidHom.{0, 0} decl-013997 (decl-014025 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014025"
+      ],
+      "structural_type_hash": "2012208918",
+      "temporary_id": "decl-014053"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2]\n  (S : ModuleCat.{0, 0} (MonoidAlgebra.{0, 0} k decl-013997)),\n  IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k decl-013997) (ModuleCat.carrier.{0, 0} S) \u2192\n    Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (decl-014074 k)))\n      (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (decl-014060 k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014060",
+        "decl-014074"
+      ],
+      "structural_type_hash": "2473934365",
+      "temporary_id": "decl-014054"
+    },
+    {
+      "formal_type": "(k : Type) \u2192 [inst : Field.{0} k] \u2192 ModuleCat.{0, 0} (MonoidAlgebra.{0, 0} k decl-013997)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997"
+      ],
+      "structural_type_hash": "3234638215",
+      "temporary_id": "decl-014060"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2],\n  IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k decl-013997)\n    (Representation.asModule.{0, 0, 0} (decl-014063 k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014029",
+        "decl-014063",
+        "decl-014064"
+      ],
+      "structural_type_hash": "1984616501",
+      "temporary_id": "decl-014061"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    Representation.{0, 0, 0} k decl-013997\n      (Subtype.{1} fun x =>\n        Membership.mem.{0, 0} (Subrepresentation.toSubmodule.{0, 0, 0} (decl-014064 k)) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014029",
+        "decl-014064"
+      ],
+      "structural_type_hash": "4280926541",
+      "temporary_id": "decl-014063"
+    },
+    {
+      "formal_type": "(k : Type) \u2192 [inst : Field.{0} k] \u2192 Subrepresentation.{0, 0, 0} (decl-014029 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014029"
+      ],
+      "structural_type_hash": "1877539624",
+      "temporary_id": "decl-014064"
+    },
+    {
+      "formal_type": "(k : Type) \u2192 [inst : Field.{0} k] \u2192 LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) (Fin 3 \u2192 k) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4259766644",
+      "temporary_id": "decl-014068"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (f : Fin 3 \u2192 k),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-014068 k) f)\n    (Finset.sum.{0, 0} Finset.univ.{0} fun i => f i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014068"
+      ],
+      "structural_type_hash": "2849316643",
+      "temporary_id": "decl-014070"
+    },
+    {
+      "formal_type": "(k : Type) \u2192 [inst : Field.{0} k] \u2192 decl-014025 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014025"
+      ],
+      "structural_type_hash": "4137829288",
+      "temporary_id": "decl-014071"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2], Eq.{1} (HPow.hPow.{0, 0, 0} (decl-014071 k) 2) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014025",
+        "decl-014071"
+      ],
+      "structural_type_hash": "1316206537",
+      "temporary_id": "decl-014072"
+    },
+    {
+      "formal_type": "decl-013997",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997"
+      ],
+      "structural_type_hash": "892670249",
+      "temporary_id": "decl-014073"
+    },
+    {
+      "formal_type": "(k : Type) \u2192 [inst : Field.{0} k] \u2192 ModuleCat.{0, 0} (MonoidAlgebra.{0, 0} k decl-013997)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997"
+      ],
+      "structural_type_hash": "3234638215",
+      "temporary_id": "decl-014074"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k],\n  IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k decl-013997)\n    (Representation.asModule.{0, 0, 0} (decl-014076 k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997",
+        "decl-014076"
+      ],
+      "structural_type_hash": "1364356054",
+      "temporary_id": "decl-014075"
+    },
+    {
+      "formal_type": "(k : Type) \u2192 [inst : Field.{0} k] \u2192 Representation.{0, 0, 0} k decl-013997 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997"
+      ],
+      "structural_type_hash": "3305972486",
+      "temporary_id": "decl-014076"
+    },
+    {
+      "formal_type": "decl-013997",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013997"
+      ],
+      "structural_type_hash": "892670249",
+      "temporary_id": "decl-014078"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192 [CharP.{0} k 2] \u2192 MonoidHom.{0, 0} (Units.{0} Int) (decl-014025 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014025"
+      ],
+      "structural_type_hash": "2969446656",
+      "temporary_id": "decl-014079"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014025",
+        "decl-014071",
+        "decl-014079"
+      ],
+      "structural_type_hash": "3770731436",
+      "temporary_id": "decl-014084"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : CharP.{0} k 2],\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-014079 k) 1) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014025",
+        "decl-014079"
+      ],
+      "structural_type_hash": "3260777571",
+      "temporary_id": "decl-014085"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2],\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} 1 (decl-014071 k))\n      (HAdd.hAdd.{0, 0, 0} 1 (decl-014071 k)))\n    1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014025",
+        "decl-014071"
+      ],
+      "structural_type_hash": "1295653707",
+      "temporary_id": "decl-014086"
+    }
+  ],
+  "module_temporary_id": "module-0755",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Discussion_after_Example8.1.7",
+    "kind": "discussion",
+    "title": "Projective and injective objects in abelian categories",
+    "node_id": "chapter-08/section-8-1",
+    "order": 533,
+    "slug": "discussion-after-example8-1-7",
+    "span": {
+      "start": {
+        "page": "207",
+        "line": 21
+      },
+      "end": {
+        "page": "207",
+        "line": 22
+      }
+    },
+    "source_sha256": "aa3603bebc2390546df57ba1b4f271e11686f092245f0198c3e65ce0ecd3865c",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.DiscussionAfterExample817",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

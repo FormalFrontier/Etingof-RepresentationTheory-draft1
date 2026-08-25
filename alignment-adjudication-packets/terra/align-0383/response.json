@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0383",
+  "associations": [
+    {
+      "association_id": "association:cd2d8f4667138eaf1ea8",
+      "role": "supporting",
+      "rationale": "This implication directly gives root-order vanishing for a Specht multiplicity, not for the Kostka number named in the claim."
+    },
+    {
+      "association_id": "association:b12880514d2741b0828c",
+      "role": "supporting",
+      "rationale": "This equality identifies a Young-rule multiplicity with a Kostka number but does not itself state the root-order vanishing condition."
+    }
+  ]
+}

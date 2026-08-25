@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1041",
+  "associations": [
+    {
+      "association_id": "association:921b6cc87b989c060adb",
+      "rationale": "The formal type is null, so the displayed declaration does not directly state the universe-size distinction between objects and hom collections.",
+      "role": "supporting"
+    }
+  ]
+}

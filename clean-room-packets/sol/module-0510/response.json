@@ -1,0 +1,100 @@
+{
+  "module_name": "QuiverRepresentationQuotientFunctor",
+  "declarations": [
+    {
+      "temporary_id": "decl-022425",
+      "new_name": "outgoingQuotientMap",
+      "docstring": "The linear map between quotients of outgoing direct sums induced by a morphism of quiver representations."
+    },
+    {
+      "temporary_id": "decl-022428",
+      "new_name": "outgoingQuotientMap_mk",
+      "docstring": "The induced map on outgoing quotients sends the class of a direct-sum element to the class of its componentwise image."
+    },
+    {
+      "temporary_id": "decl-022429",
+      "new_name": "outgoingDirectSumMapOfHom",
+      "docstring": "The linear map between outgoing direct sums obtained by applying a representation morphism on every summand."
+    },
+    {
+      "temporary_id": "decl-022431",
+      "new_name": "outgoingDirectSumMapOfHom_comp_apply",
+      "docstring": "The outgoing direct-sum map for a composite morphism acts by the two componentwise maps in succession."
+    },
+    {
+      "temporary_id": "decl-022432",
+      "new_name": "outgoingDirectSumMapOfHom_id_apply",
+      "docstring": "The outgoing direct-sum map induced by an identity morphism fixes each element."
+    },
+    {
+      "temporary_id": "decl-022433",
+      "new_name": "outgoingDirectSumMapOfHom_lof_apply",
+      "docstring": "On an element inserted into one outgoing summand, the componentwise direct-sum map applies the matching morphism component and reinserts it."
+    },
+    {
+      "temporary_id": "decl-022440",
+      "new_name": "quotientAuxiliaryVertexMap",
+      "docstring": "The linear map on quotient-based auxiliary vertex spaces induced by a morphism of representations."
+    },
+    {
+      "temporary_id": "decl-022441",
+      "new_name": "quotientAuxiliaryVertexMap_comp_apply",
+      "docstring": "The auxiliary vertex map associated to a composite acts as the successive auxiliary vertex maps."
+    },
+    {
+      "temporary_id": "decl-022442",
+      "new_name": "quotientAuxiliaryVertexMap_self_compat",
+      "docstring": "At the distinguished vertex, the auxiliary vertex map agrees with the induced map on outgoing quotients through the comparison equivalences."
+    },
+    {
+      "temporary_id": "decl-022443",
+      "new_name": "quotientAuxiliaryVertexMap_ne_compat",
+      "docstring": "Away from the distinguished vertex, the auxiliary vertex map agrees with the original component morphism under the comparison equivalences."
+    },
+    {
+      "temporary_id": "decl-022444",
+      "new_name": "quotientAuxiliaryVertexMap_id_apply",
+      "docstring": "The quotient-based auxiliary vertex map induced by an identity morphism fixes every element."
+    },
+    {
+      "temporary_id": "decl-022445",
+      "new_name": "quotientAuxiliaryVertexMap_transition",
+      "docstring": "The auxiliary vertex maps commute with the linear transition maps determined by a comparison datum."
+    },
+    {
+      "temporary_id": "decl-022462",
+      "new_name": "outgoingDirectSumMapOfHom_structural",
+      "docstring": "The componentwise outgoing direct-sum map commutes with the structural maps from the distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-022518",
+      "new_name": "quotientRepresentationFunctor",
+      "docstring": "The endofunctor on quiver representations arising from the quotient-based transformation at a distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-022521",
+      "new_name": "quotientRepresentationFunctor_map",
+      "docstring": "The functorial image of a representation morphism is its induced morphism between the quotient-transformed representations."
+    },
+    {
+      "temporary_id": "decl-022522",
+      "new_name": "quotientRepresentationFunctor_obj",
+      "docstring": "The object assigned by the quotient functor is the corresponding transformed representation."
+    },
+    {
+      "temporary_id": "decl-022523",
+      "new_name": "quotientRepresentationMap",
+      "docstring": "The morphism between quotient-transformed representations induced by a morphism of the original representations."
+    },
+    {
+      "temporary_id": "decl-022525",
+      "new_name": "quotientRepresentationMap_self",
+      "docstring": "At the distinguished vertex, the induced transformed morphism is compatible with the quotient comparison and the map on outgoing quotients."
+    },
+    {
+      "temporary_id": "decl-022526",
+      "new_name": "quotientRepresentationMap_of_ne",
+      "docstring": "At any other vertex, the induced transformed morphism agrees with the original component through the comparison equivalences."
+    }
+  ]
+}

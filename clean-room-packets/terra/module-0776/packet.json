@@ -1,0 +1,62 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] [IsNoetherianRing.{u} A],\n  CategoryTheory.EnoughProjectives.{u, u + 1} (FGModuleCat.{u, u} A)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1496759996",
+      "temporary_id": "decl-024837"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {X Y : FGModuleCat.{u, u} A} (\u03c6 : Quiver.Hom.{u, u + 1} X Y),\n  CategoryTheory.Epi.{u, u + 1} (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-024840.{u} A) \u03c6) \u2192\n    CategoryTheory.Epi.{u, u + 1} \u03c6",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024840"
+      ],
+      "structural_type_hash": "4137173660",
+      "temporary_id": "decl-024839"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192 CategoryTheory.Functor.{u, u, u + 1, u + 1} (FGModuleCat.{u, u} A) (ModuleCat.{u, u} A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1596177039",
+      "temporary_id": "decl-024840"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {P : FGModuleCat.{u, u} A},\n  CategoryTheory.Projective.{u, u + 1} (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-024840.{u} A) P) \u2192\n    CategoryTheory.Projective.{u, u + 1} P",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024840"
+      ],
+      "structural_type_hash": "3749564876",
+      "temporary_id": "decl-024842"
+    }
+  ],
+  "module_temporary_id": "module-0776",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

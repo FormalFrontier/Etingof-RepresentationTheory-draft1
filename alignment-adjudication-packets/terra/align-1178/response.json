@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1178",
+  "associations": [
+    {
+      "association_id": "association:eeb0a673d19ba2e92a9c",
+      "rationale": "The displayed type only exposes HasFiniteRepresentationType as a Prop on a field and finite quiver; the finiteness, isomorphism-class, finite-dimensional, and indecomposable conditions are opaque.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,240 @@
+{
+  "module_name": "CosetPermutationActions",
+  "declarations": [
+    {
+      "temporary_id": "decl-010987",
+      "new_name": "cardinalityFormula_010987",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-010988",
+      "new_name": "cardinalityFormula_010988",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-010989",
+      "new_name": "cardinalityFormula_010989",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-010990",
+      "new_name": "cardinalityFormula_010990",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-010991",
+      "new_name": "cardinalityFormula_010991",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-010993",
+      "new_name": "cardinalityFormula_010993",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-010995",
+      "new_name": "cardinalityFormula_010995",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-010996",
+      "new_name": "cardinalityFormula_010996",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-010998",
+      "new_name": "cardinalityFormula_010998",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-010999",
+      "new_name": "cardinalityFormula_010999",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011020",
+      "new_name": "cosetPermutationAction",
+      "docstring": "The subgroup specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011021",
+      "new_name": "subgroupRelation_011021",
+      "docstring": "A relation involving the displayed subgroup, quotient, or coset construction."
+    },
+    {
+      "temporary_id": "decl-011022",
+      "new_name": "cosetPermutationAction_transitive",
+      "docstring": "The permutation action induced from the displayed coset space is transitive."
+    },
+    {
+      "temporary_id": "decl-011023",
+      "new_name": "indexThirtyCosetEquiv",
+      "docstring": "The equivalence specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011025",
+      "new_name": "orderTwoSubgroup",
+      "docstring": "The subgroup specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011027",
+      "new_name": "indexThirtyAction",
+      "docstring": "The monoid homomorphism specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011028",
+      "new_name": "cardinalityFormula_011028",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011030",
+      "new_name": "indexThirtyAction_transitive",
+      "docstring": "The displayed action on thirty points is transitive."
+    },
+    {
+      "temporary_id": "decl-011031",
+      "new_name": "cardinalityFormula_011031",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011043",
+      "new_name": "cardinalityFormula_011043",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011054",
+      "new_name": "subgroupRelation_011054",
+      "docstring": "A relation involving the displayed subgroup, quotient, or coset construction."
+    },
+    {
+      "temporary_id": "decl-011062",
+      "new_name": "indexTwentyCosetEquiv",
+      "docstring": "The equivalence specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011064",
+      "new_name": "orderThreeSubgroup",
+      "docstring": "The subgroup specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011066",
+      "new_name": "indexTwentyAction",
+      "docstring": "The monoid homomorphism specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011067",
+      "new_name": "cardinalityFormula_011067",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011069",
+      "new_name": "indexTwentyAction_transitive",
+      "docstring": "The displayed action on twenty points is transitive."
+    },
+    {
+      "temporary_id": "decl-011070",
+      "new_name": "cardinalityFormula_011070",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011082",
+      "new_name": "cardinalityFormula_011082",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011121",
+      "new_name": "permCongr",
+      "docstring": "The homomorphism transporting permutations along the displayed equivalence."
+    },
+    {
+      "temporary_id": "decl-011138",
+      "new_name": "orbitCosetEquiv",
+      "docstring": "An equivalence from the displayed stabilizer quotient to the finite action space."
+    },
+    {
+      "temporary_id": "decl-011140",
+      "new_name": "subgroupRelation_011140",
+      "docstring": "A relation involving the displayed subgroup, quotient, or coset construction."
+    },
+    {
+      "temporary_id": "decl-011141",
+      "new_name": "subgroupRelation_011141",
+      "docstring": "A relation involving the displayed subgroup, quotient, or coset construction."
+    },
+    {
+      "temporary_id": "decl-011142",
+      "new_name": "actionFormula_011142",
+      "docstring": "A pointwise identity for the displayed group action."
+    },
+    {
+      "temporary_id": "decl-011143",
+      "new_name": "cosetToOrbit",
+      "docstring": "The map from the displayed stabilizer quotient to the action space."
+    },
+    {
+      "temporary_id": "decl-011145",
+      "new_name": "injective_011145",
+      "docstring": "Injectivity of the map displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011146",
+      "new_name": "subgroupRelation_011146",
+      "docstring": "A relation involving the displayed subgroup, quotient, or coset construction."
+    },
+    {
+      "temporary_id": "decl-011147",
+      "new_name": "surjective_011147",
+      "docstring": "Surjectivity of the map displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011148",
+      "new_name": "conjugateCosetEquiv",
+      "docstring": "The subgroup specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011160",
+      "new_name": "subgroupRelation_011160",
+      "docstring": "A relation involving the displayed subgroup, quotient, or coset construction."
+    },
+    {
+      "temporary_id": "decl-011161",
+      "new_name": "subgroupRelation_011161",
+      "docstring": "A relation involving the displayed subgroup, quotient, or coset construction."
+    },
+    {
+      "temporary_id": "decl-011182",
+      "new_name": "indexTwelveCosetEquiv",
+      "docstring": "The equivalence specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011184",
+      "new_name": "orderFiveSubgroup",
+      "docstring": "The subgroup specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011186",
+      "new_name": "indexTwelveAction",
+      "docstring": "The monoid homomorphism specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011187",
+      "new_name": "cardinalityFormula_011187",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011189",
+      "new_name": "indexTwelveAction_transitive",
+      "docstring": "The displayed action on twelve points is transitive."
+    },
+    {
+      "temporary_id": "decl-011190",
+      "new_name": "cardinalityFormula_011190",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011198",
+      "new_name": "cardinalityFormula_011198",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    }
+  ]
+}

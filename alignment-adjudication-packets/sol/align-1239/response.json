@@ -1,0 +1,105 @@
+{
+  "packet_id": "align-1239",
+  "associations": [
+    {
+      "association_id": "association:2c39b0c21232a988ba6c",
+      "rationale": "The type defines the contraction operator used in the spinor construction, not a semisimplicity or irreducible-classification conclusion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a9fd8aac4182fc9b232b",
+      "rationale": "The type defines the creation operator used in the hinted representation, so it is construction-level evidence only.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:fd140fbcfca41304a4ae",
+      "rationale": "The type constructs an even-dimensional Clifford action on the spinor space but does not itself state the classification or semisimplicity claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4f9bae05af36517d0da9",
+      "rationale": "The bijective even spin representation directly identifies the Clifford algebra with the full endomorphism algebra, stating the even matrix-algebra conclusion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7f3f7cf51492fc498ee3",
+      "rationale": "The type directly states irreducibility of the even spinor module for a nondegenerate form of dimension 2n.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:eb265b2dfa246c1e06ac",
+      "rationale": "The type directly states that every irreducible module in even dimension is isomorphic to the spinor module, giving uniqueness.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4a9671c012c72f332fd8",
+      "rationale": "The type directly states that the even-dimensional Clifford algebra is a matrix algebra on a space of dimension 2^n.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b6ef8b89fb8e371dfc4b",
+      "rationale": "The type constructs the spin action for a special hyperbolic form, a proof-strategy ingredient rather than the general source conclusion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:56742d0eb184056d20c4",
+      "rationale": "The type proves bijectivity only for the special hyperbolic model, serving as a prerequisite for the general even-dimensional result.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bad6f9404dd30ba1ba9c",
+      "rationale": "The type proves irreducibility only for the special hyperbolic spinor model, so it is helper evidence for the general claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d0bfefdcdbc55f38c4fc",
+      "rationale": "The type directly states that the Clifford algebra is semisimple exactly when the symmetric bilinear form is nondegenerate.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:732474361c56db5fbaa3",
+      "rationale": "The type directly states the requested nondegenerate-implies-semisimple assertion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:825462b0205bb3c4a906",
+      "rationale": "The type constructs the minus odd spin representation but does not itself assert its irreducibility, uniqueness, or the algebra decomposition.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:626a26645dfbcd3e768d",
+      "rationale": "The type constructs the plus odd spin representation, which is a construction used to prove the stated classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:5b8e7cf9a09a9fc93510",
+      "rationale": "The printed type asserts IsSimpleModule for Spinor n, but the minus module action is hidden, so it does not directly state irreducibility of S-.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ed0f28eea9890e2af7c0",
+      "rationale": "The printed type asserts IsSimpleModule for Spinor n, but the plus module action is hidden, so it does not directly state irreducibility of S+.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c94d5ff73de6da38823f",
+      "rationale": "The empty equivalence type directly states that the two odd spinor representations are nonisomorphic.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:27e12e099860b54f1047",
+      "rationale": "The type directly states that every odd-dimensional irreducible is isomorphic to one of the two spinors.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8c4377e03a310209fd2e",
+      "rationale": "The type directly identifies the odd-dimensional Clifford algebra with a product of two matrix algebras on spaces of dimension 2^n.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:003c6eba7450ea9796c5",
+      "rationale": "The type shows a nondegenerate B', surjective φ, and kernel equal to the Jacobson radical, but φ's codomain is elided, so the quotient identification is not directly displayed.",
+      "role": "supporting"
+    }
+  ]
+}

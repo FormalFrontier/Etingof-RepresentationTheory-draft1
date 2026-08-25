@@ -1,0 +1,100 @@
+{
+  "module_name": "AbelianCategoryRepresentation",
+  "declarations": [
+    {
+      "temporary_id": "decl-000473",
+      "new_name": "CategoryData",
+      "docstring": "A type-valued construction on categories."
+    },
+    {
+      "temporary_id": "decl-017122",
+      "new_name": "categoryDataOfObjectProperty",
+      "docstring": "Produces category data for the full subcategory of modules selected by an object property containing zero and closed under kernels, cokernels, and finite products."
+    },
+    {
+      "temporary_id": "decl-018636",
+      "new_name": "essImage_containsZero",
+      "docstring": "The essential image contains a zero object when the functor preserves the empty limit."
+    },
+    {
+      "temporary_id": "decl-018637",
+      "new_name": "essImage_closedUnderImages",
+      "docstring": "The essential image of a full faithful functor between abelian categories is closed under images when the functor preserves finite limits and finite colimits."
+    },
+    {
+      "temporary_id": "decl-018638",
+      "new_name": "essImage_closedUnderCokernels",
+      "docstring": "The essential image of a full faithful functor is closed under cokernels when the source has coequalizers and the functor preserves parallel-pair colimits."
+    },
+    {
+      "temporary_id": "decl-018639",
+      "new_name": "essImage_closedUnderColimitsOfShape",
+      "docstring": "The essential image of a full faithful functor is closed under colimits of a shape that exist in the source and are preserved by the functor."
+    },
+    {
+      "temporary_id": "decl-018640",
+      "new_name": "essImage_closedUnderFiniteCoproducts",
+      "docstring": "The essential image of a full faithful functor is closed under finite coproducts when they exist in the source and are preserved by the functor."
+    },
+    {
+      "temporary_id": "decl-018641",
+      "new_name": "essImage_closedUnderFiniteProducts",
+      "docstring": "The essential image of a full faithful functor is closed under finite products when they exist in the source and are preserved by the functor."
+    },
+    {
+      "temporary_id": "decl-018642",
+      "new_name": "essImage_closedUnderKernels",
+      "docstring": "The essential image of a full faithful functor is closed under kernels when the source has equalizers and the functor preserves parallel-pair limits."
+    },
+    {
+      "temporary_id": "decl-018643",
+      "new_name": "essImage_closedUnderLimitsOfShape",
+      "docstring": "The essential image of a full faithful functor is closed under limits of a shape that exist in the source and are preserved by the functor."
+    },
+    {
+      "temporary_id": "decl-018644",
+      "new_name": "essImage_mem_of_isColimit",
+      "docstring": "The apex of a colimit cocone lies in the essential image when every object in its diagram does."
+    },
+    {
+      "temporary_id": "decl-018645",
+      "new_name": "essImage_mem_of_isLimit",
+      "docstring": "The apex of a limit cone lies in the essential image when every object in its diagram does."
+    },
+    {
+      "temporary_id": "decl-018828",
+      "new_name": "exists_moduleCatFullSubcategoryEquivalence",
+      "docstring": "Every abelian category is equivalent to a full subcategory of modules selected by an object property containing zero and closed under isomorphisms, finite products, finite coproducts, kernels, cokernels, and images."
+    },
+    {
+      "temporary_id": "decl-021611",
+      "new_name": "embeddingFunctor",
+      "docstring": "A functor from an abelian category to modules over its associated coefficient ring."
+    },
+    {
+      "temporary_id": "decl-021612",
+      "new_name": "coefficientRing",
+      "docstring": "The coefficient type used for the module category associated to an abelian category."
+    },
+    {
+      "temporary_id": "decl-021623",
+      "new_name": "moduleProperty",
+      "docstring": "An object property on modules over the coefficient ring associated to an abelian category."
+    },
+    {
+      "temporary_id": "decl-021624",
+      "new_name": "moduleEquivalence",
+      "docstring": "An equivalence from an abelian category to the full subcategory selected by its module object property."
+    },
+    {
+      "temporary_id": "decl-021626",
+      "new_name": "moduleEquivalenceCompInclusionIso",
+      "docstring": "A natural isomorphism from the module equivalence followed by the full-subcategory inclusion to the embedding functor."
+    },
+    {
+      "temporary_id": "decl-021627",
+      "new_name": "moduleProperty_closedUnderImages",
+      "docstring": "The associated module object property is closed under images of morphisms between objects satisfying it."
+    }
+  ]
+}

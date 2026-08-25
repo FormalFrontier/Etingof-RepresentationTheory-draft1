@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:77a16f86ca7a291c83fe",
+      "declaration": "Etingof.Problem2_7_5.isOfFinOrder_iff_exists_nontrivial_finrep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/60/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Iff (IsOfFinOrder.{0} q)\n    (Exists.{2} fun V =>\n      Exists.{1} fun x =>\n        Exists.{1} fun x_1 =>\n          Exists.{1} fun x_2 => Exists.{0} fun x_3 => And (Nontrivial.{0} V) (FiniteDimensional.{0, 0} Complex V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Converse"
+    },
+    {
+      "association_id": "association:63a9be318192047922c6",
+      "declaration": "Etingof.Problem2_7_5.q_pow_finrank_eq_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/60/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x) V]\n  [IsScalarTower.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x)\n      V]\n  [FiniteDimensional.{0, u_1} Complex V],\n  Eq.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) (Module.finrank.{0, u_1} Complex V)) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.7.5",
+  "packet_id": "align-0609",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0609"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.7.5:claim-03",
+  "source_text": "A nonzero finite-dimensional representation exists exactly when q is a root of unity; the necessary direction is the determinant obstruction q^(dim V)=1."
+}

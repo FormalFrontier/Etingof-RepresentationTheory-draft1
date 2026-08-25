@@ -1,0 +1,50 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    (X Y : FDRep.{0, 0} Complex G) \u2192\n      LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n        (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (CategoryTheory.Limits.biprod.{0, 1} X Y)))\n        (Prod.{0, 0} (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} X))\n          (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} Y)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "125840727",
+      "temporary_id": "decl-032688"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (X Y : FDRep.{0, 0} Complex G) (g : G),\n  Eq.{1} (FDRep.character.{0, 0} (CategoryTheory.Limits.biprod.{0, 1} X Y) g)\n    (HAdd.hAdd.{0, 0, 0} (FDRep.character.{0, 0} X g) (FDRep.character.{0, 0} Y g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4046759636",
+      "temporary_id": "decl-032712"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {A B : FDRep.{0, 0} Complex G} (f : Quiver.Hom.{0, 1} A B) (g : G)\n  (a : FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} A)),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1}\n      (ModuleCat.Hom.hom.{0, 0} (CategoryTheory.InducedCategory.Hom.hom.{0, 1, 1} (Action.Hom.hom.{0, 1, 0} f)))\n      (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} A) g) a))\n    (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} B) g)\n      (DFunLike.coe.{1, 1, 1}\n        (ModuleCat.Hom.hom.{0, 0} (CategoryTheory.InducedCategory.Hom.hom.{0, 1, 1} (Action.Hom.hom.{0, 1, 0} f))) a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1499837377",
+      "temporary_id": "decl-032835"
+    }
+  ],
+  "module_temporary_id": "module-0773",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

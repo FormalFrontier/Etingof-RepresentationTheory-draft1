@@ -1,0 +1,35 @@
+{
+  "module_name": "CategoryTheory.EnrichedCorepresentability",
+  "declarations": [
+    {
+      "temporary_id": "decl-001920",
+      "new_name": "AuxiliaryMonoidalTypeOperator",
+      "docstring": "An auxiliary type operator parameterized by a monoidal category."
+    },
+    {
+      "temporary_id": "decl-001921",
+      "new_name": "IsEnrichedCorepresentable",
+      "docstring": "States that a functor from an enriched ordinary category into its enriching category is enriched corepresentable."
+    },
+    {
+      "temporary_id": "decl-018554",
+      "new_name": "isEnrichedCorepresentable_eCoyoneda",
+      "docstring": "The enriched co-Yoneda functor is enriched corepresentable."
+    },
+    {
+      "temporary_id": "decl-018555",
+      "new_name": "eCoyoneda_selfIso_nonempty",
+      "docstring": "The enriched co-Yoneda functor has a nonempty type of self-isomorphisms."
+    },
+    {
+      "temporary_id": "decl-018604",
+      "new_name": "enrichedComposition",
+      "docstring": "The composition morphism between enriched hom-objects."
+    },
+    {
+      "temporary_id": "decl-018605",
+      "new_name": "isEnrichedCorepresentable_iff",
+      "docstring": "Characterizes enriched corepresentability by isomorphism with an enriched co-Yoneda functor."
+    }
+  ]
+}

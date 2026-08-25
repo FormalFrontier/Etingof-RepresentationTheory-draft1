@@ -1,0 +1,100 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : CommRing.{u} R] {M : Type v} [inst_1 : AddCommGroup.{v} M] [inst_2 : Module.{u, v} R M]\n  (u : Module.Dual.{u, v} R M) (n : Nat) {x : ExteriorAlgebra.{u, v} R M},\n  Membership.mem.{max u v, max u v} (ExteriorAlgebra.exteriorPower.{u, v} R (HAdd.hAdd.{0, 0, 0} n 1) M) x \u2192\n    Membership.mem.{max u v, max u v} (ExteriorAlgebra.exteriorPower.{u, v} R n M)\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n        (DFunLike.coe.{max (v + 1) (u + 1), max (v + 1) (u + 1), max (v + 1) (u + 1)}\n          CliffordAlgebra.contractLeft.{u, v} u)\n        x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3593389960",
+      "temporary_id": "decl-018205"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "440946127",
+      "temporary_id": "decl-018207"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : CommRing.{u} R] \u2192\n    {M : Type v} \u2192\n      [inst_1 : AddCommGroup.{v} M] \u2192\n        [inst_2 : Module.{u, v} R M] \u2192\n          Module.Dual.{u, v} R M \u2192\n            (n : Nat) \u2192\n              LinearMap.{u, u, max u v, max u v} (RingHom.id.{u} R)\n                (Subtype.{(max u v) + 1} fun x =>\n                  Membership.mem.{max u v, max u v} (ExteriorAlgebra.exteriorPower.{u, v} R (HAdd.hAdd.{0, 0, 0} n 1) M)\n                    x)\n                (Subtype.{(max u v) + 1} fun x =>\n                  Membership.mem.{max u v, max u v} (ExteriorAlgebra.exteriorPower.{u, v} R n M) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1101518928",
+      "temporary_id": "decl-019262"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R] {M : Type v} [inst_1 : AddCommGroup.{v} M] [inst_2 : Module.{u, v} R M]\n  (u : Module.Dual.{u, v} R M) (n : Nat)\n  (x :\n    Subtype.{(max u v) + 1} fun x =>\n      Membership.mem.{max u v, max u v} (ExteriorAlgebra.exteriorPower.{u, v} R (HAdd.hAdd.{0, 0, 0} n 1) M) x),\n  Eq.{max (u + 1) (v + 1)}\n    (Subtype.val.{max (u + 1) (v + 1)}\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n        (decl-019262.{u, v} R u n) x))\n    (Neg.neg.{max u v}\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n        (DFunLike.coe.{max (v + 1) (u + 1), max (v + 1) (u + 1), max (v + 1) (u + 1)}\n          CliffordAlgebra.contractLeft.{u, v} u)\n        (Subtype.val.{max (u + 1) (v + 1)} x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019262"
+      ],
+      "structural_type_hash": "2612950703",
+      "temporary_id": "decl-019268"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R] {M : Type v} [inst_1 : AddCommGroup.{v} M] [inst_2 : Module.{u, v} R M]\n  (u u' : Module.Dual.{u, v} R M) (n : Nat)\n  (x :\n    Subtype.{(max u v) + 1} fun x =>\n      Membership.mem.{max u v, max u v} (ExteriorAlgebra.exteriorPower.{u, v} R (HAdd.hAdd.{0, 0, 0} n 2) M) x),\n  Eq.{max (u + 1) (v + 1)}\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n      (decl-019262.{u, v} R u n)\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n        (decl-019262.{u, v} R u' (HAdd.hAdd.{0, 0, 0} n 1)) x))\n    (Neg.neg.{max u v}\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n        (decl-019262.{u, v} R u' n)\n        (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n          (decl-019262.{u, v} R u (HAdd.hAdd.{0, 0, 0} n 1)) x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019262"
+      ],
+      "structural_type_hash": "1905718566",
+      "temporary_id": "decl-019269"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R] {M : Type v} [inst_1 : AddCommGroup.{v} M] [inst_2 : Module.{u, v} R M]\n  (u : Module.Dual.{u, v} R M) (n : Nat),\n  Eq.{max (u + 1) (v + 1)}\n    (LinearMap.comp.{u, u, u, max u v, max u v, max u v} (decl-019262.{u, v} R u n)\n      (decl-019262.{u, v} R u (HAdd.hAdd.{0, 0, 0} n 1)))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019262"
+      ],
+      "structural_type_hash": "627986272",
+      "temporary_id": "decl-019270"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R] {M : Type v} [inst_1 : AddCommGroup.{v} M] [inst_2 : Module.{u, v} R M]\n  (u : Module.Dual.{u, v} R M) (n : Nat)\n  (x :\n    Subtype.{(max u v) + 1} fun x =>\n      Membership.mem.{max u v, max u v} (ExteriorAlgebra.exteriorPower.{u, v} R (HAdd.hAdd.{0, 0, 0} n 2) M) x),\n  Eq.{max (u + 1) (v + 1)}\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n      (decl-019262.{u, v} R u n)\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n        (decl-019262.{u, v} R u (HAdd.hAdd.{0, 0, 0} n 1)) x))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019262"
+      ],
+      "structural_type_hash": "891203363",
+      "temporary_id": "decl-019271"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019262"
+      ],
+      "structural_type_hash": "329280249",
+      "temporary_id": "decl-019272"
+    }
+  ],
+  "module_temporary_id": "module-0652",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

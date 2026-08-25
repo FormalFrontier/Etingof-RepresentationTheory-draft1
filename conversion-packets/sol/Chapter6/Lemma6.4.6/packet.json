@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Lemma6.4.6",
+    "kind": "lemma",
+    "title": "Lemma 6.4.6: Root coefficients are all nonneg or all nonpos",
+    "node_id": "chapter-06/section-6-4",
+    "order": 428,
+    "slug": "lemma6-4-6",
+    "span": {
+      "start": {
+        "page": "165",
+        "line": 11
+      },
+      "end": {
+        "page": "166",
+        "line": 14
+      }
+    },
+    "source_sha256": "11956e5086ebbb1c8591c4571bc1ce56e01a8cbe77df1075d3b7b14c5d18447a",
+    "features": {
+      "line_count": 60,
+      "crosses_page": true,
+      "display_math_delimiters": 14,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Lemma646",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

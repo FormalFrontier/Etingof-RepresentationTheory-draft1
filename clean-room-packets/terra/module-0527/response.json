@@ -1,0 +1,30 @@
+{
+  "module_name": "MatrixBoundedVectors",
+  "declarations": [
+    {
+      "temporary_id": "decl-022107",
+      "new_name": "integerVectors",
+      "docstring": "The set of integer-valued vectors associated with a square integer matrix."
+    },
+    {
+      "temporary_id": "decl-032838",
+      "new_name": "finNatCast_injective",
+      "docstring": "Casting the coordinates of a finite-valued vector to integers is injective."
+    },
+    {
+      "temporary_id": "decl-032964",
+      "new_name": "integerVectors_finite_ncard_eq_boundedVectors_card",
+      "docstring": "Under the stated coordinate bounds, the associated integer-vector set is finite and has the same cardinality as the bounded finite-vector collection."
+    },
+    {
+      "temporary_id": "decl-032981",
+      "new_name": "boundedVectors",
+      "docstring": "The finite collection of bounded vectors associated with a square integer matrix."
+    },
+    {
+      "temporary_id": "decl-032983",
+      "new_name": "mem_integerVectors_of_mem_boundedVectors",
+      "docstring": "A vector from the bounded finite collection, after coercing its coordinates to integers, belongs to the associated integer-vector set."
+    }
+  ]
+}

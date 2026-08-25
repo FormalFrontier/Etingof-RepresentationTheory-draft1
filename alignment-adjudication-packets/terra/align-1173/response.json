@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1173",
+  "associations": [
+    {
+      "association_id": "association:44a5426107c3836fec07",
+      "rationale": "The displayed type is only a Prop-valued predicate on A and V; it elides the nonzero and nontrivial direct-sum conditions from the source definition.",
+      "role": "supporting"
+    }
+  ]
+}

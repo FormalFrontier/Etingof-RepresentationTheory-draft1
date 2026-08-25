@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0247",
+  "associations": [
+    {
+      "association_id": "association:33bd062b4d76dfe7b3c7",
+      "role": "supporting",
+      "rationale": "It identifies complex type with indicator zero, which explains the omitted contribution but does not state the claimed difference of dimension sums."
+    },
+    {
+      "association_id": "association:3c402be9748b73537e07",
+      "role": "supporting",
+      "rationale": "The declaration is relevant to identifying the quaternionic contribution, but its formal type failed to print and it does not packet-verifiably state the dimension-sum identity."
+    },
+    {
+      "association_id": "association:3ca4f31cfff647a0141f",
+      "role": "supporting",
+      "rationale": "It identifies real type with indicator one, which supports the positive contribution but does not state the claimed difference of dimension sums."
+    }
+  ]
+}

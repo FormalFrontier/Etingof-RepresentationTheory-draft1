@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:2dfc901c4ae5774e9ade",
+      "rationale": "The type supplies finite terms for a Noetherian-ring projective resolution, a general prerequisite rather than the displayed finite-dimensional claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:30bc83df14484989d4dc",
+      "rationale": "The type gives finite-dimensional terms only under the additional displayed HasProjectiveDimensionLE M d hypothesis, so it does not directly state the unrestricted finite-dimensional source claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0864"
+}

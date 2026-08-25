@@ -1,0 +1,15 @@
+{
+  "module_name": "ZModInvolution",
+  "declarations": [
+    {"temporary_id": "decl-001316", "new_name": "zmodTransform", "docstring": "A transformation of integers modulo `q^2 - 1`."},
+    {"temporary_id": "decl-001318", "new_name": "zmodTransform_involutive", "docstring": "Applying the transformation twice is the identity when `q ≥ 2`."},
+    {"temporary_id": "decl-001321", "new_name": "auxiliaryZModFinsetA", "docstring": "An auxiliary finite set of integers modulo `q^2 - 1`."},
+    {"temporary_id": "decl-001324", "new_name": "card_auxiliaryZModFinsetA", "docstring": "The first auxiliary finite set has cardinality `q * (q - 1)`."},
+    {"temporary_id": "decl-001328", "new_name": "auxiliaryZModFinsetB", "docstring": "Another auxiliary finite set of integers modulo `q^2 - 1`."},
+    {"temporary_id": "decl-001330", "new_name": "card_auxiliaryZModFinsetB", "docstring": "The second auxiliary finite set has cardinality `q * (q - 1) / 2`."},
+    {"temporary_id": "decl-001332", "new_name": "auxiliaryZModFinsets_partition", "docstring": "The second auxiliary finite set and its transformed image are disjoint, have equal cardinality, and have union equal to the first auxiliary finite set."},
+    {"temporary_id": "decl-001336", "new_name": "card_zmodTransform_fixedPoints", "docstring": "The transformation has `q - 1` fixed points."},
+    {"temporary_id": "decl-001339", "new_name": "zmodTransform_fixed_iff", "docstring": "Characterizes fixed points by divisibility of their natural representatives."},
+    {"temporary_id": "decl-001344", "new_name": "mem_auxiliaryZModFinsetA_iff", "docstring": "An element belongs to the first auxiliary finite set exactly when it is not fixed."}
+  ]
+}

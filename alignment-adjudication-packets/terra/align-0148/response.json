@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0148",
+  "associations": [
+    {
+      "association_id": "association:63c700c698cc7d4261b0",
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so the claimed quotient-module structure cannot be verified directly."
+    }
+  ]
+}

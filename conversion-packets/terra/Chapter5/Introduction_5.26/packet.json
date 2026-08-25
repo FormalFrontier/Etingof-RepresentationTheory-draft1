@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.26",
+    "kind": "introduction",
+    "title": "Section 5.26: Artin's theorem",
+    "node_id": "chapter-05/section-5-26",
+    "order": 390,
+    "slug": "introduction-5-26",
+    "span": {
+      "start": {
+        "page": "144",
+        "line": 23
+      },
+      "end": {
+        "page": "144",
+        "line": 24
+      }
+    },
+    "source_sha256": "556e5a18ddc0719205c9a4298133e66beefce70bab1e6ba905a106892f2712f6",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction526",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

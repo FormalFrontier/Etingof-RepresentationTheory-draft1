@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-1080",
+  "associations": [
+    {
+      "association_id": "association:32add57c4b7c934de0c0",
+      "role": "supporting",
+      "rationale": "The displayed type only makes ExactFunctor a proposition on a functor; it does not expose preservation of exact sequences as the proposition's defining condition."
+    },
+    {
+      "association_id": "association:90ef4787b0025ff45259",
+      "role": "supporting",
+      "rationale": "The displayed type only makes LeftExactFunctor a proposition on a functor; it does not state which end of an exact sequence is preserved."
+    },
+    {
+      "association_id": "association:3aee738bd1ddbd3a0cad",
+      "role": "supporting",
+      "rationale": "The displayed type only makes RightExactFunctor a proposition on a functor; it does not state which end of an exact sequence is preserved."
+    },
+    {
+      "association_id": "association:18b5f8dba7a6d322a310",
+      "role": "supporting",
+      "rationale": "The formal type relates exactness to the conjunction of left and right exactness, but it does not state that any of these predicates means preservation of the corresponding exact-sequence ends."
+    }
+  ]
+}

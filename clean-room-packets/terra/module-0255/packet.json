@@ -1,0 +1,92 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{N d : Nat} \u2192 LE.le.{0} N d \u2192 decl-001040 N (HSub.hSub.{0, 0, 0} d N) \u2192 decl-001040 N d",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040"
+      ],
+      "structural_type_hash": "2313562504",
+      "temporary_id": "decl-017351"
+    },
+    {
+      "formal_type": "{N d : Nat} \u2192\n  LE.le.{0} N d \u2192\n    (\u03bd : decl-001040 N d) \u2192\n      Not (Membership.mem.{0, 0} (Set.range.{0, 1} \u03bd.parts) 0) \u2192 decl-001040 N (HSub.hSub.{0, 0, 0} d N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055"
+      ],
+      "structural_type_hash": "4083927948",
+      "temporary_id": "decl-017355"
+    },
+    {
+      "formal_type": "\u2200 {N n : Nat} {a b : decl-001040 N n}, Eq.{1} a.parts b.parts \u2192 Eq.{1} a b",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055"
+      ],
+      "structural_type_hash": "2015215666",
+      "temporary_id": "decl-017360"
+    },
+    {
+      "formal_type": "\u2200 {N d : Nat},\n  LE.le.{0} N d \u2192\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0}\n        (Finset.sum.{0, 0} Finset.univ.{0} fun \u03bc =>\n          HSMul.hSMul.{0, 0, 0}\n            (DFunLike.coe.{1, 1, 1} (MvPolynomial.eval.{0, 0} fun x => 1) (decl-023030 N \u03bc.parts))\n            (decl-023030 N \u03bc.parts))\n        (Finset.prod.{0, 0} Finset.univ.{0} fun i => MvPolynomial.X.{0, 0} i))\n      (Finset.sum.{0, 0}\n        (Finset.filter.{0} (fun \u03bd => Not (Membership.mem.{0, 0} (Set.range.{0, 1} \u03bd.parts) 0)) Finset.univ.{0}) fun \u03bd =>\n        HSMul.hSMul.{0, 0, 0}\n          (DFunLike.coe.{1, 1, 1} (MvPolynomial.eval.{0, 0} fun x => 1) (decl-023030 N \u03bd.parts))\n          (decl-023030 N \u03bd.parts))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-017504",
+        "decl-023030"
+      ],
+      "structural_type_hash": "3504547166",
+      "temporary_id": "decl-017770"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (MvPolynomial.eval.{0, 0} fun x => 1)\n      (Finset.prod.{0, 0} Finset.univ.{0} fun i => MvPolynomial.X.{0, 0} i))\n    1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "337948919",
+      "temporary_id": "decl-018735"
+    },
+    {
+      "formal_type": "\u2200 {N d : Nat} (hd : LE.le.{0} N d) (\u03bc : decl-001040 N (HSub.hSub.{0, 0, 0} d N)),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (MvPolynomial.eval.{0, 0} fun x => 1)\n      (decl-023030 N (decl-017351 hd \u03bc).parts))\n    (DFunLike.coe.{1, 1, 1} (MvPolynomial.eval.{0, 0} fun x => 1) (decl-023030 N \u03bc.parts))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-017351",
+        "decl-023030"
+      ],
+      "structural_type_hash": "3576751465",
+      "temporary_id": "decl-018736"
+    }
+  ],
+  "module_temporary_id": "module-0255",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

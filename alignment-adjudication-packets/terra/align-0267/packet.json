@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:88023ac5312a1e3f30e3",
+      "declaration": "Etingof.RegularLeftIdeal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/50/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192 [Ring.{u_1} A] \u2192 Type u_1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_5_well_defined"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.5_well_defined",
+  "packet_id": "align-0267",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0267"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4ef468b8ba8f4bbf825f",
+  "source_text": "Left ideals of A are the A-submodules of its regular representation."
+}

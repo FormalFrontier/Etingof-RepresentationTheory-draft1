@@ -1,0 +1,25 @@
+{
+  "module_name": "CategoryTheory.Limits.BiproductDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-017484",
+      "new_name": "biprodOfBiproductIsoBiproductSum",
+      "docstring": "The binary biproduct of two indexed biproducts is isomorphic to the biproduct indexed by their sum."
+    },
+    {
+      "temporary_id": "decl-017974",
+      "new_name": "auxiliary_eq_of_iso",
+      "docstring": "An auxiliary object-level quantity has equal values on isomorphic objects."
+    },
+    {
+      "temporary_id": "decl-018862",
+      "new_name": "exists_iso_biproduct_of_indec",
+      "docstring": "Every object is isomorphic to a biproduct whose summands are indecomposable."
+    },
+    {
+      "temporary_id": "decl-018866",
+      "new_name": "exists_iso_biproduct_of_projective_indec",
+      "docstring": "A projective object is isomorphic to a biproduct of projective indecomposable objects."
+    }
+  ]
+}

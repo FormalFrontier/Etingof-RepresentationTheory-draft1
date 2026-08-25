@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Lemma5.13.4",
+    "kind": "lemma",
+    "title": "Hom_A(Ae, M) \u2245 eM for idempotent e (continues to missing page)",
+    "node_id": "chapter-05/section-5-13",
+    "order": 320,
+    "slug": "lemma5-13-4",
+    "span": {
+      "start": {
+        "page": "115",
+        "line": 13
+      },
+      "end": {
+        "page": "115",
+        "line": 13
+      }
+    },
+    "source_sha256": "7717871adac7a000f7e906a428349bbcdbe78d010af8dae7d538a036e28d736d",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma5134",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

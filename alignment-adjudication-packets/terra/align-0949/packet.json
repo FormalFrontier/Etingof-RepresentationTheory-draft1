@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2a51dd57a7388d32a73b",
+      "declaration": "Etingof.An.mem_latticeRoots_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/430/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (x : Fin (HAdd.hAdd.{0, 0, 0} n 1) \u2192 Int),\n  Iff (Membership.mem.{0, 0} (Etingof.An.latticeRoots n) x)\n    (Exists.{1} fun i =>\n      Exists.{1} fun j =>\n        And (Ne.{1} i j) (Eq.{1} x (HSub.hSub.{0, 0, 0} (Pi.single.{0, 0} i 1) (Pi.single.{0, 0} j 1))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_4_9_An_Lattice"
+    },
+    {
+      "association_id": "association:46e8abbdb5fae4b9027e",
+      "declaration": "Etingof.An.ncard_positiveLatticeRoots",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/430/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat),\n  Eq.{1} (Set.ncard.{0} (Etingof.An.positiveLatticeRoots n))\n    (HDiv.hDiv.{0, 0, 0} (HMul.hMul.{0, 0, 0} n (HAdd.hAdd.{0, 0, 0} n 1)) 2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_4_9_An_Lattice"
+    }
+  ],
+  "canonical_reference": "Chapter6/Example6.4.9",
+  "packet_id": "align-0949",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0949"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ae9bcfd6bbebe5ccd4ee",
+  "source_text": "The A_n roots have the explicit sum-zero-lattice model and the stated positive-root count."
+}

@@ -1,0 +1,80 @@
+{
+  "packet_id": "align-0724",
+  "associations": [
+    {
+      "association_id": "association:a70829dd5eea3c134880",
+      "role": "supporting",
+      "rationale": "The displayed type merely presents Q8 as a set of real quaternions without exposing its construction."
+    },
+    {
+      "association_id": "association:c3047c7d4b4f42dcb657",
+      "role": "supporting",
+      "rationale": "Closure of Q8 under multiplication supports its quaternion-group construction but is not the requested basis or multiplication table itself."
+    },
+    {
+      "association_id": "association:6dd7f2076c788d385da5",
+      "role": "supporting",
+      "rationale": "Closure of Q8 under conjugation is an auxiliary property rather than the basis or multiplication table."
+    },
+    {
+      "association_id": "association:001b7900ee8cf8707bb0",
+      "role": "supporting",
+      "rationale": "The inclusion of Q8 in the unit quaternions is contextual support and does not construct the requested basis or table."
+    },
+    {
+      "association_id": "association:13134e8a930203712d8a",
+      "role": "supporting",
+      "rationale": "Four-dimensionality of the quaternion space supports a four-element basis but does not itself construct that basis."
+    },
+    {
+      "association_id": "association:3939c175f11eaace3968",
+      "role": "supporting",
+      "rationale": "The displayed formal type is opaque, so it does not directly expose the claimed multiplication-table entry."
+    },
+    {
+      "association_id": "association:75371f7fa71a8ae498a4",
+      "role": "supporting",
+      "rationale": "The type supplies only one multiplication-table entry; it does not state the complete requested quaternion basis, multiplication table, and Q8 construction."
+    },
+    {
+      "association_id": "association:f66ed6852f1a460839fb",
+      "role": "supporting",
+      "rationale": "The type supplies only one multiplication-table entry; it does not state the complete requested quaternion basis, multiplication table, and Q8 construction."
+    },
+    {
+      "association_id": "association:e568567ae58f944975d8",
+      "role": "supporting",
+      "rationale": "The type supplies only one multiplication-table entry; it does not state the complete requested quaternion basis, multiplication table, and Q8 construction."
+    },
+    {
+      "association_id": "association:531c04230b23f7cf4109",
+      "role": "supporting",
+      "rationale": "The displayed formal type is opaque, so it does not directly expose the claimed multiplication-table entry."
+    },
+    {
+      "association_id": "association:505db2939dc19c1d43d5",
+      "role": "supporting",
+      "rationale": "The type supplies only one multiplication-table entry; it does not state the complete requested quaternion basis, multiplication table, and Q8 construction."
+    },
+    {
+      "association_id": "association:d96eb257cd4727db2faf",
+      "role": "supporting",
+      "rationale": "The type supplies only one multiplication-table entry; it does not state the complete requested quaternion basis, multiplication table, and Q8 construction."
+    },
+    {
+      "association_id": "association:7aab2d9a641e6c929442",
+      "role": "supporting",
+      "rationale": "The type supplies only one multiplication-table entry; it does not state the complete requested quaternion basis, multiplication table, and Q8 construction."
+    },
+    {
+      "association_id": "association:d5c1730ddeb5f5ac5574",
+      "role": "supporting",
+      "rationale": "The displayed formal type is opaque, so it does not directly expose the claimed multiplication-table entry."
+    },
+    {
+      "association_id": "association:9b4ba19d0abc4ee663a4",
+      "role": "supporting",
+      "rationale": "The type gives only a four-indexed real quaternion basis; it does not itself state the complete requested multiplication table and Q8 construction."
+    }
+  ]
+}

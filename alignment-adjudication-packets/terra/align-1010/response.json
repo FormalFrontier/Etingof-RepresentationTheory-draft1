@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1010",
+  "associations": [
+    {
+      "association_id": "association:f601888497b4e946dd6b",
+      "rationale": "Given a one-dimensional finite-dimensional module, it directly concludes that the module is simple, which is the stated irreducibility claim.",
+      "role": "primary"
+    }
+  ]
+}

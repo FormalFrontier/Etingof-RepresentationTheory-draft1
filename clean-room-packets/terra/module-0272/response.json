@@ -1,0 +1,30 @@
+{
+  "module_name": "GeneralLinearRepresentation.WeightSpaceEigenspaces",
+  "declarations": [
+    {
+      "temporary_id": "decl-001182",
+      "new_name": "GeneralLinearRepresentation.exists_weightEvaluation_injOn_nonzeroWeightSpaces",
+      "docstring": "There is a tuple of units whose evaluation map is injective on the weights having nonzero weight space."
+    },
+    {
+      "temporary_id": "decl-001189",
+      "new_name": "GeneralLinearRepresentation.generalizedEigenspace_eq_bot_of_not_weightValue",
+      "docstring": "If a scalar is distinct from every value attached to a nonzero weight space, its generalized eigenspace for the selected group element is trivial."
+    },
+    {
+      "temporary_id": "decl-001190",
+      "new_name": "GeneralLinearRepresentation.generalizedEigenspace_eq_weightSpace",
+      "docstring": "For a weight with nontrivial weight space, injective evaluation and spanning identify the generalized eigenspace at its associated value with that weight space."
+    },
+    {
+      "temporary_id": "decl-001195",
+      "new_name": "GeneralLinearRepresentation.weightSpace_le_generalizedEigenspace",
+      "docstring": "Every weight space lies in the generalized eigenspace of the selected group element at the corresponding evaluated weight."
+    },
+    {
+      "temporary_id": "decl-001216",
+      "new_name": "GeneralLinearRepresentation.iSup_weightSpace_inf_invariantSubmodule_eq",
+      "docstring": "An invariant submodule is the supremum of its intersections with all weight spaces when those weight spaces span the ambient representation."
+    }
+  ]
+}

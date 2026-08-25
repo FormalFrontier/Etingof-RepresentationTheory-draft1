@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0160",
+  "associations": [
+    {"association_id": "association:37582ae4839cb923b0a1", "role": "primary", "rationale": "The conjunction directly asserts an infinite group and an indecomposable, non-irreducible representation."},
+    {"association_id": "association:c69cb0b2a200bcb464e4", "role": "supporting", "rationale": "This only defines the example representation, rather than stating the full claim."},
+    {"association_id": "association:843ff591e30b288ba8d2", "role": "supporting", "rationale": "This proves only the indecomposability component for the constructed representation."},
+    {"association_id": "association:a37f8327f91d91e3b466", "role": "supporting", "rationale": "This proves only the non-irreducibility component for the constructed representation."}
+  ]
+}

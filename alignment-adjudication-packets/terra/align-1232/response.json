@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1232",
+  "associations": [
+    {
+      "association_id": "association:d33ae6e630d4883d6321",
+      "rationale": "The type directly provides a k-algebra equivalence from the tensor product of m-by-m and n-by-n matrix algebras to the mn-by-mn matrix algebra.",
+      "role": "primary"
+    }
+  ]
+}

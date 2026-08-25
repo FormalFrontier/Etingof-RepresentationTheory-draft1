@@ -1,0 +1,10 @@
+{
+  "module_name": "FiniteGroupRepresentations.AuxiliaryScalar",
+  "declarations": [
+    {
+      "temporary_id": "decl-019674",
+      "new_name": "auxiliaryRepresentationScalar",
+      "docstring": "An auxiliary complex scalar attached to a finite-dimensional complex representation of a finite group."
+    }
+  ]
+}

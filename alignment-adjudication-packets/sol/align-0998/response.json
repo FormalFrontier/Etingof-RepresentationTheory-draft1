@@ -1,0 +1,25 @@
+{
+  "associations": [
+    {
+      "association_id": "association:c9951fda897cacc48acf",
+      "rationale": "It gives the D_n count, one component of the combined D_n, E6, E7, and E8 claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:55232950d2094885bc79",
+      "rationale": "It gives the E6 count, one component of the combined D_n, E6, E7, and E8 claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8128c0cd311a5347eedb",
+      "rationale": "It gives the E7 count, one component of the combined D_n, E6, E7, and E8 claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7bbcb3436e6810a16b63",
+      "rationale": "It gives the E8 count, one component of the combined D_n, E6, E7, and E8 claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0998"
+}

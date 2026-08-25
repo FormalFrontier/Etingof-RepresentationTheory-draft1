@@ -1,0 +1,149 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192\n    (N : Nat) \u2192\n      LinearEquiv.{u_2, u_2, u_2, u_2} (RingHom.id.{u_2} k) (MvPolynomial.{0, u_2} (Prod.{0, 0} (Fin N) (Fin N)) k)\n        (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-005335.{u_2} k N) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005335"
+      ],
+      "structural_type_hash": "4283108974",
+      "temporary_id": "decl-001602"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (Q : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k),\n  Eq.{u_1 + 1}\n    (Subtype.val.{u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-001602.{u_1} k N) Q))\n    (HMul.hMul.{u_1, u_1, u_1} (decl-001528.{u_1} k N) Q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-001602",
+        "decl-005335"
+      ],
+      "structural_type_hash": "1908050025",
+      "temporary_id": "decl-001607"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)\n  (Q : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-001602.{u_1} k N)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (decl-005327.{u_1, u_1, u_1} (decl-005333.{u_1} k N)\n            (decl-006673.{u_1} k N))\n          g)\n        Q))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n        (Subrepresentation.toRepresentation.{u_1, u_1, u_1} (decl-001609.{u_1} k N)) g)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-001602.{u_1} k N) Q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001602",
+        "decl-001609",
+        "decl-005327",
+        "decl-005333",
+        "decl-005335",
+        "decl-006673"
+      ],
+      "structural_type_hash": "427084747",
+      "temporary_id": "decl-001608"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192\n    (N : Nat) \u2192 Subrepresentation.{u_2, u_2, u_2} (decl-006673.{u_2} k N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006673"
+      ],
+      "structural_type_hash": "3437694926",
+      "temporary_id": "decl-001609"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat},\n  Eq.{u_1 + 1} (Subrepresentation.toSubmodule.{u_1, u_1, u_1} (decl-001609.{u_1} k N))\n    (decl-005335.{u_1} k N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001609",
+        "decl-005335",
+        "decl-006673"
+      ],
+      "structural_type_hash": "1351190966",
+      "temporary_id": "decl-001611"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192\n    (N : Nat) \u2192\n      LinearMap.{u_2, u_2, u_2, u_2} (RingHom.id.{u_2} k) (MvPolynomial.{0, u_2} (Prod.{0, 0} (Fin N) (Fin N)) k)\n        (MvPolynomial.{0, u_2} (Prod.{0, 0} (Fin N) (Fin N)) k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "948462468",
+      "temporary_id": "decl-001612"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (Q : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-001612.{u_1} k N) Q)\n    (HMul.hMul.{u_1, u_1, u_1} (decl-001528.{u_1} k N) Q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-001612"
+      ],
+      "structural_type_hash": "2359643727",
+      "temporary_id": "decl-001614"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat},\n  Function.Injective.{u_1 + 1, u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-001612.{u_1} k N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001612"
+      ],
+      "structural_type_hash": "1009322126",
+      "temporary_id": "decl-001615"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)\n  (Q : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-001612.{u_1} k N)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (decl-005327.{u_1, u_1, u_1} (decl-005333.{u_1} k N)\n            (decl-006673.{u_1} k N))\n          g)\n        Q))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-006673.{u_1} k N) g)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-001612.{u_1} k N) Q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001612",
+        "decl-005327",
+        "decl-005333",
+        "decl-006673"
+      ],
+      "structural_type_hash": "1778597950",
+      "temporary_id": "decl-001616"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (M : Matrix.{0, 0, u_1} (Fin N) (Fin N) k),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-006678.{u_1} M)\n      (decl-001528.{u_1} k N))\n    (HMul.hMul.{u_1, u_1, u_1}\n      (DFunLike.coe.{max 1 (u_1 + 1), u_1 + 1, max 1 (u_1 + 1)} MvPolynomial.C.{u_1, 0} (Matrix.det.{u_1, 0} M))\n      (decl-001528.{u_1} k N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-006678"
+      ],
+      "structural_type_hash": "1406796407",
+      "temporary_id": "decl-001617"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat},\n  Eq.{u_1 + 1} (LinearMap.range.{u_1, u_1, u_1, u_1} (decl-001612.{u_1} k N))\n    (decl-005335.{u_1} k N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001612",
+        "decl-005335"
+      ],
+      "structural_type_hash": "2690910717",
+      "temporary_id": "decl-001618"
+    }
+  ],
+  "module_temporary_id": "module-0298",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

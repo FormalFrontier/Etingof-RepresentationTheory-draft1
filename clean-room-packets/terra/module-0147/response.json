@@ -1,0 +1,20 @@
+{
+  "module_name": "Algebra.Module.TensorScalarExtension",
+  "declarations": [
+    {
+      "temporary_id": "decl-009429",
+      "new_name": "tensorProductModule",
+      "docstring": "A module structure on tensor products of a scalar algebra, an algebra, and a module."
+    },
+    {
+      "temporary_id": "decl-009459",
+      "new_name": "scalarExtendedAction",
+      "docstring": "An algebra homomorphism from the original algebra to endomorphisms of the scalar-extended module."
+    },
+    {
+      "temporary_id": "decl-009469",
+      "new_name": "tensorProductAction",
+      "docstring": "An algebra homomorphism from the tensor-product algebra to endomorphisms of the scalar-extended module."
+    }
+  ]
+}

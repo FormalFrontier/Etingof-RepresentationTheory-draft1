@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Definition9.6.1",
+    "kind": "definition",
+    "title": "Finite abelian category",
+    "node_id": "chapter-09/section-9-6",
+    "order": 571,
+    "slug": "definition9-6-1",
+    "span": {
+      "start": {
+        "page": "218",
+        "line": 17
+      },
+      "end": {
+        "page": "218",
+        "line": 20
+      }
+    },
+    "source_sha256": "fb6e4153b97e6d5a01e582c6f93343e52f8a3c34098c52af0f5bf98061464bb7",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Definition961",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

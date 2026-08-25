@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:e3dfdb8a97121c6b9373",
+      "rationale": "The displayed conjunction states that opaque constants PartC.A and PartC.V give an indecomposable, noncyclic representation, but it does not identify V as the hinted coregular representation of ℂ[x,y]/I₂.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0599"
+}

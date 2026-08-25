@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Backmatter/MathematicalReferences",
+    "kind": "bibliography",
+    "title": "Mathematical references",
+    "node_id": "backmatter",
+    "order": 583,
+    "slug": "mathematicalreferences",
+    "span": {
+      "start": {
+        "page": "227",
+        "line": 1
+      },
+      "end": {
+        "page": "227",
+        "line": 19
+      }
+    },
+    "source_sha256": "0f8bd97f41571d4778caf8931ac2770c600b05855377a2f08eff4bb963ee6e1f",
+    "features": {
+      "line_count": 19,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Backmatter.MathematicalReferences",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

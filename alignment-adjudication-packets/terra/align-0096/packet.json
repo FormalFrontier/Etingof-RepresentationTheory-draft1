@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b2ee7324484c718ba2d5",
+      "declaration": "Etingof.algIrrepGLRep\u03c1_isSimpleModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/371/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k]\n  (lam : Etingof.DominantWeight n),\n  IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k))\n    (Representation.asModule.{0, 0, 0} (Etingof.algIrrepGLRep\u03c1.{0} n lam k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_23_2_PeterWeyl"
+    },
+    {
+      "association_id": "association:8aa08e68db17651264e2",
+      "declaration": "Etingof.algIrrepGLRep\u03c1_iso_iff_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/371/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k]\n  {lam mu : Etingof.DominantWeight n},\n  Iff\n    (Nonempty.{1}\n      (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k)))\n        (Representation.asModule.{0, 0, 0} (Etingof.algIrrepGLRep\u03c1.{0} n lam k))\n        (Representation.asModule.{0, 0, 0} (Etingof.algIrrepGLRep\u03c1.{0} n mu k))))\n    (Eq.{1} lam mu)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.AlgIrrepGLNonIso"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_after_Definition5.23.1",
+  "packet_id": "align-0096",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0096"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:1e2f2642e28e598d8d7d",
+  "source_text": "These representations are simple and two are isomorphic exactly when their dominant weights agree."
+}

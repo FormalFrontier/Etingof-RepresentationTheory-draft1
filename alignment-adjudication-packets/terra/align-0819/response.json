@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0819",
+  "associations": [
+    {
+      "association_id": "association:119d2996fbf5467bbcd0",
+      "role": "supporting",
+      "rationale": "The formal type states only the d-squared-zero component for an already named tensorComplex; it does not itself construct the tensor-product complex required by the complete source claim."
+    }
+  ]
+}

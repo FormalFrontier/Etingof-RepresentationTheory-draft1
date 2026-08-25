@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Remark2.11.4",
+    "kind": "remark",
+    "title": "Tensor product over a ring",
+    "node_id": "chapter-02/section-2-11",
+    "order": 105,
+    "slug": "remark2-11-4",
+    "span": {
+      "start": {
+        "page": "33",
+        "line": 16
+      },
+      "end": {
+        "page": "34",
+        "line": 11
+      }
+    },
+    "source_sha256": "4554197947ce4745b9beeb7f104550452de2a36b2f6e979d325532fe65ca81ea",
+    "features": {
+      "line_count": 13,
+      "crosses_page": true,
+      "display_math_delimiters": 6,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2114",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

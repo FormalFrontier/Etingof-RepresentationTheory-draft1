@@ -1,0 +1,30 @@
+{
+  "module_name": "FinsuppDualTensor",
+  "declarations": [
+    {
+      "temporary_id": "decl-014493",
+      "new_name": "finsuppDualTensorToLinearMap",
+      "docstring": "Send a tensor of linear functionals on finitely supported sequences to the associated linear map into the dual."
+    },
+    {
+      "temporary_id": "decl-014496",
+      "new_name": "finsuppDualTensorToLinearMap_apply",
+      "docstring": "Evaluating the linear map associated to a dual tensor agrees with evaluating the distributed tensor on a pure tensor of vectors."
+    },
+    {
+      "temporary_id": "decl-014497",
+      "new_name": "finsuppDualTensorToLinearMap_tmul",
+      "docstring": "A pure tensor of linear functionals yields the corresponding scalar-valued rank-one linear map."
+    },
+    {
+      "temporary_id": "decl-014498",
+      "new_name": "finsuppDualTensorToLinearMap_hasNoetherianRange",
+      "docstring": "Every linear map obtained from a tensor of duals of finitely supported sequences has Noetherian range."
+    },
+    {
+      "temporary_id": "decl-025594",
+      "new_name": "dualDistrib_finsuppNat_not_surjective",
+      "docstring": "The canonical distribution map from a tensor product of duals of finitely supported sequences is not surjective."
+    }
+  ]
+}
