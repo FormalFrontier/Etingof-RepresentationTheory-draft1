@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0066",
+  "associations": [
+    {
+      "association_id": "association:f6cc77951d796bdc54cb",
+      "role": "primary",
+      "rationale": "Its type directly defines the class functions as a subalgebra of the convolution algebra, stating the subalgebra component of the claim."
+    },
+    {
+      "association_id": "association:b1579e2b28e23befc49a",
+      "role": "supporting",
+      "rationale": "Its type computes multiplication by the convolution formula, supporting the algebra claim without itself stating associativity, unitality, or commutativity of class functions."
+    }
+  ]
+}

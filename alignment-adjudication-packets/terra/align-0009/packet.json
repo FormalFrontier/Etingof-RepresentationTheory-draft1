@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ae2efc9f1206ecb94626",
+      "declaration": "Nat.Partition.LexLe",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/316/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 n.Partition \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    },
+    {
+      "association_id": "association:8186305259206319f190",
+      "declaration": "Nat.Partition.LexLt",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/316/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 n.Partition \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    },
+    {
+      "association_id": "association:50a218789c8d19bb93d8",
+      "declaration": "Nat.Partition.exists_lexLt",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/316/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Exists.{1} fun la => Exists.{1} fun mu => mu.LexLt la",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_lexicographic_ordering",
+  "packet_id": "align-0009",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0009"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0132e46cfd1e45022f79",
+  "source_text": "Partitions are ordered lexicographically by the sign of their first differing part."
+}

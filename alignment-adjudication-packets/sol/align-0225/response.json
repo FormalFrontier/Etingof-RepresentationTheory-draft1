@@ -1,0 +1,35 @@
+{
+  "associations": [
+    {
+      "association_id": "association:f792acb4d1c877320490",
+      "rationale": "The displayed type only returns a type from the two modules; it does not expose the quotient of the free vector space or any of the stated defining relations.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7481441c9dded14a1870",
+      "rationale": "The add_tmul law records additivity of pure tensors in the first variable. It supplies one defining relation of the quotient presentation but does not itself define the tensor-product type.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6f70255fa94075af5b72",
+      "rationale": "The smul_tmul law moves a scalar from the first tensor factor to the tensor product. It supports one scalar relation in the quotient presentation but does not itself define V ⊗ W.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:729a520fba06852086fb",
+      "rationale": "tmul constructs the pure tensor represented by a pair (v, w). It is a constructor used to express the symbols and relations in the source definition, not the declaration defining the tensor-product type itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e1f34e32fddf9c22d16a",
+      "rationale": "The tmul_add law records additivity of pure tensors in the second variable. It supplies one defining relation of the quotient presentation but does not itself define the tensor-product type.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0755a54cb3378907830a",
+      "rationale": "The tmul_smul law moves a scalar from the second tensor factor to the tensor product. It supports the other scalar-moving relation in the quotient presentation but does not itself define V ⊗ W.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0225"
+}

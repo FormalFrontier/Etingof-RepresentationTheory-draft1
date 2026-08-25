@@ -1,0 +1,60 @@
+{
+  "module_name": "MatrixPolynomialHomogeneity",
+  "declarations": [
+    {
+      "temporary_id": "decl-006639",
+      "new_name": "generalLinearActionOnAssociatedRepresentation_preserves_isHomogeneous",
+      "docstring": "The action of a general linear group element through the associated representation sends a homogeneous matrix polynomial to one of the same degree."
+    },
+    {
+      "temporary_id": "decl-006640",
+      "new_name": "polynomial_isHomogeneous_of_degree_matrixSize",
+      "docstring": "The specified polynomial in the entries of an N-by-N matrix has uniform total degree N."
+    },
+    {
+      "temporary_id": "decl-006641",
+      "new_name": "inf_homogeneousSubmodule_eq_map_homogeneousSubmodule",
+      "docstring": "When d is at least N, the intersection of the specified submodule with the degree-d homogeneous submodule equals the image of the degree-(d-N) homogeneous submodule under the specified map."
+    },
+    {
+      "temporary_id": "decl-006643",
+      "new_name": "homogeneousComponent_matrixSizePolynomial_mul",
+      "docstring": "For the specified degree-N polynomial, the degree-(N+e) part of its product with Q is that polynomial times the degree-e part of Q."
+    },
+    {
+      "temporary_id": "decl-006648",
+      "new_name": "degreeShiftMap_homogeneousSubmodule_le",
+      "docstring": "The image of the degree-d homogeneous subspace under the specified map lies in the homogeneous subspace of degree N+d."
+    },
+    {
+      "temporary_id": "decl-006649",
+      "new_name": "degreeShiftMap_preserves_isHomogeneous",
+      "docstring": "The specified map takes a homogeneous polynomial of degree d to one of degree N+d."
+    },
+    {
+      "temporary_id": "decl-006650",
+      "new_name": "homogeneousSubrepresentation",
+      "docstring": "The degree-indexed subrepresentation whose underlying subspace consists of homogeneous matrix polynomials of the corresponding degree."
+    },
+    {
+      "temporary_id": "decl-006652",
+      "new_name": "homogeneousSubrepresentation_toSubmodule",
+      "docstring": "The underlying submodule of the degree-d subrepresentation is precisely the homogeneous submodule of matrix polynomials of degree d."
+    },
+    {
+      "temporary_id": "decl-006653",
+      "new_name": "generalLinearAction_preserves_isHomogeneous",
+      "docstring": "Acting by an invertible matrix on the matrix-polynomial representation preserves homogeneity and its degree."
+    },
+    {
+      "temporary_id": "decl-006654",
+      "new_name": "natIndexedSubrepresentationOfAssociatedAction",
+      "docstring": "A natural-number-indexed family of subrepresentations for the associated action on matrix polynomials."
+    },
+    {
+      "temporary_id": "decl-006656",
+      "new_name": "matrixMap_preserves_isHomogeneous",
+      "docstring": "The polynomial transformation parametrized by a square matrix sends every homogeneous polynomial to one of the same degree."
+    }
+  ]
+}

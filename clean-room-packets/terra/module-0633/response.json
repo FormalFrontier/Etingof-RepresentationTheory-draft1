@@ -1,0 +1,60 @@
+{
+  "declarations": [
+    {
+      "docstring": "An auxiliary morphism from degree zero of the displayed tensor-product complex to its specified target.",
+      "new_name": "auxiliaryMap",
+      "temporary_id": "decl-019086"
+    },
+    {
+      "docstring": "The differential from degree one to degree zero composed with the auxiliary morphism is zero.",
+      "new_name": "d_auxiliaryMap",
+      "temporary_id": "decl-019090"
+    },
+    {
+      "docstring": "Builds the chain complex over the tensor-product ring associated to two projective resolutions.",
+      "new_name": "tensorProduct",
+      "temporary_id": "decl-019099"
+    },
+    {
+      "docstring": "For every natural number, the fibre of the downward complex shape over that index is finite.",
+      "new_name": "finite_preimage_down",
+      "temporary_id": "decl-019103"
+    },
+    {
+      "docstring": "The displayed auxiliary two-variable map vanishes when its first morphism argument is zero.",
+      "new_name": "auxiliaryMap_zero_left",
+      "temporary_id": "decl-019143"
+    },
+    {
+      "docstring": "The displayed auxiliary two-variable map vanishes when its second morphism argument is zero.",
+      "new_name": "auxiliaryMap_zero_right",
+      "temporary_id": "decl-019144"
+    },
+    {
+      "docstring": "This auxiliary map is zero when its first morphism input is zero.",
+      "new_name": "auxiliaryMapToSingle_zero_left",
+      "temporary_id": "decl-019148"
+    },
+    {
+      "docstring": "This auxiliary map is zero when its second morphism input is zero.",
+      "new_name": "auxiliaryMapToSingle_zero_right",
+      "temporary_id": "decl-019149"
+    },
+    {
+      "docstring": "Packages an auxiliary morphism from the displayed complex as a map into a complex concentrated in degree zero.",
+      "new_name": "auxiliaryToSingle",
+      "temporary_id": "decl-019232"
+    },
+    {
+      "docstring": "The indicated functor sends zero morphisms to zero morphisms.",
+      "new_name": "auxiliaryFunctor_preservesZeroMorphisms",
+      "temporary_id": "decl-020657"
+    },
+    {
+      "docstring": "Every object image under the indicated functor has the zero-morphism preservation property.",
+      "new_name": "auxiliaryFunctor_obj_preservesZeroMorphisms",
+      "temporary_id": "decl-020660"
+    }
+  ],
+  "module_name": "HomologicalAlgebra.ProjectiveResolution.TensorProduct"
+}

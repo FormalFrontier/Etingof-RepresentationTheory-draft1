@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Remark2.9.14",
+    "kind": "remark",
+    "title": "Lie algebras as infinitesimal Lie groups and Lie's correspondence",
+    "node_id": "chapter-02/section-2-9",
+    "order": 94,
+    "slug": "remark2-9-14",
+    "span": {
+      "start": {
+        "page": "25",
+        "line": 13
+      },
+      "end": {
+        "page": "25",
+        "line": 15
+      }
+    },
+    "source_sha256": "256d75085d4a54730e8d87b643c45fa677dffabb2f7044314f00224a61989ef1",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2914",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:86a3d582582322cb38c9",
+      "declaration": "Etingof.Sl2Irrep.sl2LieHomOfOperators",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192\n      (E F H : Module.End.{0, u_1} Complex V) \u2192\n        Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} E F) H \u2192\n          Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} H E) (HSMul.hSMul.{0, u_1, u_1} 2 E) \u2192\n            Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} H F) (Neg.neg.{u_1} (HSMul.hSMul.{0, u_1, u_1} 2 F)) \u2192\n              LieHom.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x)\n                (Module.End.{0, u_1} Complex V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    },
+    {
+      "association_id": "association:b4ee58ef0ad4ccaad744",
+      "declaration": "Etingof.Sl2Irrep.sl2LieHomOfOperators_e",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (E F H : Module.End.{0, u_1} Complex V) (hEF : Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} E F) H)\n  (hHE : Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} H E) (HSMul.hSMul.{0, u_1, u_1} 2 E))\n  (hHF : Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} H F) (Neg.neg.{u_1} (HSMul.hSMul.{0, u_1, u_1} 2 F))),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (Etingof.Sl2Irrep.sl2LieHomOfOperators.{u_1} E F H hEF hHE hHF)\n      Etingof.Sl2Irrep.sl2_e)\n    E",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    },
+    {
+      "association_id": "association:96773025abe79140606f",
+      "declaration": "Etingof.Sl2Irrep.sl2LieHomOfOperators_f",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (E F H : Module.End.{0, u_1} Complex V) (hEF : Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} E F) H)\n  (hHE : Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} H E) (HSMul.hSMul.{0, u_1, u_1} 2 E))\n  (hHF : Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} H F) (Neg.neg.{u_1} (HSMul.hSMul.{0, u_1, u_1} 2 F))),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (Etingof.Sl2Irrep.sl2LieHomOfOperators.{u_1} E F H hEF hHE hHF)\n      Etingof.Sl2Irrep.sl2_f)\n    F",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    },
+    {
+      "association_id": "association:99ec2a7e386cca2a43f5",
+      "declaration": "Etingof.Sl2Irrep.sl2LieHomOfOperators_h",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (E F H : Module.End.{0, u_1} Complex V) (hEF : Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} E F) H)\n  (hHE : Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} H E) (HSMul.hSMul.{0, u_1, u_1} 2 E))\n  (hHF : Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} H F) (Neg.neg.{u_1} (HSMul.hSMul.{0, u_1, u_1} 2 F))),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (Etingof.Sl2Irrep.sl2LieHomOfOperators.{u_1} E F H hEF hHE hHF)\n      Etingof.Sl2Irrep.sl2_h)\n    H",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    },
+    {
+      "association_id": "association:9a6d112180e052b1b391",
+      "declaration": "Etingof.Sl2Irrep.sl2_eq_smul_h_add_smul_e_add_smul_f",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (X : Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x),\n  Eq.{1} X\n    (HAdd.hAdd.{0, 0, 0}\n      (HAdd.hAdd.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} (Subtype.val.{1} X 0 0) Etingof.Sl2Irrep.sl2_h)\n        (HSMul.hSMul.{0, 0, 0} (Subtype.val.{1} X 0 1) Etingof.Sl2Irrep.sl2_e))\n      (HSMul.hSMul.{0, 0, 0} (Subtype.val.{1} X 1 0) Etingof.Sl2Irrep.sl2_f))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.15.1",
+  "packet_id": "align-0525",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0525"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.15.1:claim-01",
+  "source_text": "An sl(2)-representation is equivalently an operator triple E, F, H satisfying [H,E]=2E, [H,F]=-2F, and [E,F]=H."
+}

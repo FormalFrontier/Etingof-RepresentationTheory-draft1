@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cd93adcea5d201ab6efb",
+      "declaration": "Etingof.density_theorem_part1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/136/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u_2} A]\n  [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V]\n  [inst_6 : Module.{u_2, u_3} A V] [inst_7 : IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V]\n  [IsSimpleModule.{u_2, u_3} A V],\n  Function.Surjective.{u_2 + 1, u_3 + 1}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} (Algebra.lsmul.{u_1, u_2, u_1, u_3} k k V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_2_2"
+    },
+    {
+      "association_id": "association:775d31fd5a996f7fda97",
+      "declaration": "Etingof.irreducible_interpolation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/136/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u_2} A]\n  [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V]\n  [inst_6 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V]\n  [IsSimpleModule.{u_2, u_3} A V] {n : Nat} (v : Fin n \u2192 V),\n  LinearIndependent.{0, u_1, u_3} k v \u2192\n    \u2200 (w : Fin n \u2192 V), Exists.{u_2 + 1} fun a => \u2200 (i : Fin n), Eq.{u_3 + 1} (HSMul.hSMul.{u_2, u_3, u_3} a (v i)) (w i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Corollary3_2_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Theorem3.2.2",
+  "packet_id": "align-0214",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0214"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:41105d1cd58f3ae093c5",
+  "source_text": "The book derives part (i) from Corollary 3.2.1 by realizing the values of an arbitrary endomorphism on a basis."
+}

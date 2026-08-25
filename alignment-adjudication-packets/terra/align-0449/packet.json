@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d59a2e9c7495776828ff",
+      "declaration": "Etingof.Definition5_2_1_algebraic_number",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/252/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (z : Complex),\n  Iff (IsAlgebraic.{0, 0} Rat z)\n    (Exists.{1} fun p => And (Ne.{1} p 0) (Eq.{1} (DFunLike.coe.{1, 1, 1} (Polynomial.aeval.{0, 0} z) p) 0))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_2_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Definition5.2.1",
+  "packet_id": "align-0449",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0449"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:905f160d8892ee519f6f",
+  "source_text": "A complex number is algebraic exactly when it is a root of a monic polynomial over Q."
+}

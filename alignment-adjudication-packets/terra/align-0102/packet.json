@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d65cf732e3bf8fac315e",
+      "declaration": "Etingof.Theorem5_4_6",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/276/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type) [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (p : Nat),\n  Nat.Prime p \u2192\n    \u2200 (k : Nat),\n      LT.lt.{0} 0 k \u2192\n        \u2200 (g : G),\n          Eq.{1} (Fintype.card.{0} (Subtype.{1} fun h => IsConj.{0} g h)) (HPow.hPow.{0, 0, 0} p k) \u2192\n            Exists.{1} fun N => And (Subgroup.Normal.{0} N) (And (Ne.{1} N Bot.bot.{0}) (Ne.{1} N Top.top.{0}))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_4_6"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.4.6",
+  "packet_id": "align-0102",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0102"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:209cf5e860d8e7d40b8a",
+  "source_text": "The proof uses column orthogonality, the p-divisible/non-p-divisible partition, Theorem 5.4.4, and algebraic integrality to rule out simplicity."
+}

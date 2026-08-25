@@ -1,0 +1,160 @@
+{
+  "module_name": "LinearAlgebra.SymmetricTensors",
+  "declarations": [
+    {
+      "temporary_id": "decl-006858",
+      "new_name": "exists_witness",
+      "docstring": "There exists a value satisfying the displayed conditions."
+    },
+    {
+      "temporary_id": "decl-006899",
+      "new_name": "finrank_eq",
+      "docstring": "The finite rank of the displayed module has the stated value."
+    },
+    {
+      "temporary_id": "decl-006900",
+      "new_name": "finrank_eq_aux1",
+      "docstring": "The finite rank of the displayed module has the stated value."
+    },
+    {
+      "temporary_id": "decl-006901",
+      "new_name": "linearMap",
+      "docstring": "A linear map between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-006903",
+      "new_name": "map_apply",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-006909",
+      "new_name": "tensorLift_perm",
+      "docstring": "A permutation-invariant multilinear map induces a permutation-invariant map on tensors."
+    },
+    {
+      "temporary_id": "decl-006920",
+      "new_name": "map_apply_aux1",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-006934",
+      "new_name": "distinguishedElement",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-006935",
+      "new_name": "distinguishedElement_aux1",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-006936",
+      "new_name": "map_apply_aux2",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-006938",
+      "new_name": "linearEquiv",
+      "docstring": "A linear equivalence between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-006951",
+      "new_name": "linearMap_aux1",
+      "docstring": "A linear map between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-006956",
+      "new_name": "invariantMultilinearMapEquiv",
+      "docstring": "An equivalence between permutation-invariant multilinear maps and linear maps from the displayed symmetric quotient."
+    },
+    {
+      "temporary_id": "decl-006963",
+      "new_name": "map_apply_aux3",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-006969",
+      "new_name": "linearMap_aux3",
+      "docstring": "A linear map between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-006972",
+      "new_name": "map_apply_aux4",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-006973",
+      "new_name": "displayed_eq",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-006978",
+      "new_name": "submodule_le",
+      "docstring": "The first displayed submodule is contained in the second."
+    },
+    {
+      "temporary_id": "decl-006989",
+      "new_name": "map_apply_aux5",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-007000",
+      "new_name": "distinguishedElement_aux2",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-007002",
+      "new_name": "tensor_eq",
+      "docstring": "The displayed tensor expressions are equal."
+    },
+    {
+      "temporary_id": "decl-007011",
+      "new_name": "linearMap_aux4",
+      "docstring": "A linear map between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-007014",
+      "new_name": "map_apply_aux6",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-007015",
+      "new_name": "map_apply_aux7",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-007016",
+      "new_name": "tensor_eq_aux1",
+      "docstring": "The displayed tensor expressions are equal."
+    },
+    {
+      "temporary_id": "decl-007027",
+      "new_name": "distinguishedElement_aux3",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-007029",
+      "new_name": "displayed_eq_aux1",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-007030",
+      "new_name": "map_apply_aux8",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-007031",
+      "new_name": "exists_witness_aux1",
+      "docstring": "There exists a value satisfying the displayed conditions."
+    },
+    {
+      "temporary_id": "decl-007032",
+      "new_name": "map_surjective",
+      "docstring": "The displayed map is surjective."
+    },
+    {
+      "temporary_id": "decl-007033",
+      "new_name": "displayed_eq_aux2",
+      "docstring": "The two displayed expressions are equal."
+    }
+  ]
+}

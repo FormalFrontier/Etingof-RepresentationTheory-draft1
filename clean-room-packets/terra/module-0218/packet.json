@@ -1,0 +1,76 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u) (G : Type v) [inst : Group.{v} G] [inst_1 : Field.{u} k] (V : FDRep.{u, v} k G) (g : G),\n  Eq.{u + 1} (FDRep.character.{u, v} V g)\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1}\n      (decl-017926.{u, max v u, u} k (MonoidAlgebra.{u, v} k G)\n        (Representation.asModule.{u, v, u} (FDRep.\u03c1.{u, v} V)))\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (MonoidAlgebra.of.{u, v} k G) g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017926"
+      ],
+      "structural_type_hash": "218372814",
+      "temporary_id": "decl-004192"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) (G : Type v) [inst : Group.{v} G] [inst_1 : Field.{u} k] (V : FDRep.{u, v} k G),\n  Membership.mem.{max u v, max u v} (decl-017961.{u, v} k G) (FDRep.character.{u, v} V)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004340",
+        "decl-017961"
+      ],
+      "structural_type_hash": "768271031",
+      "temporary_id": "decl-004193"
+    },
+    {
+      "formal_type": "Type u \u2192 Type v \u2192 Type (max u v)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3173088088",
+      "temporary_id": "decl-004340"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  (G : Type v) \u2192 [Group.{v} G] \u2192 [inst : Semiring.{u} k] \u2192 Submodule.{u, max v u} k (decl-004340.{u, v} k G)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004340"
+      ],
+      "structural_type_hash": "851141592",
+      "temporary_id": "decl-017961"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) (G : Type v) [inst : Group.{v} G] [inst_1 : Semiring.{u} k] (f : decl-004340.{u, v} k G),\n  Iff (Membership.mem.{max u v, max u v} (decl-017961.{u, v} k G) f)\n    (\u2200 (g h : G), Eq.{u + 1} (f (HMul.hMul.{v, v, v} (HMul.hMul.{v, v, v} h g) (Inv.inv.{v} h))) (f g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004340",
+        "decl-017961"
+      ],
+      "structural_type_hash": "2803862586",
+      "temporary_id": "decl-021579"
+    }
+  ],
+  "module_temporary_id": "module-0218",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Corollary2.3.10",
+    "kind": "corollary",
+    "title": "Schur's lemma for algebraically closed fields",
+    "node_id": "chapter-02/section-2-3",
+    "order": 36,
+    "slug": "corollary2-3-10",
+    "span": {
+      "start": {
+        "page": "12",
+        "line": 14
+      },
+      "end": {
+        "page": "12",
+        "line": 16
+      }
+    },
+    "source_sha256": "3986af3d2d48aef748fd34117456c6c5cf5ec66527dd1d768a4d408e292de721",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Corollary2310",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

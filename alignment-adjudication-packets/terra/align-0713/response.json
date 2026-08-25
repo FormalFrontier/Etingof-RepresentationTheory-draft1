@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0713",
+  "associations": [
+    {
+      "association_id": "association:18ac3f430470159ae3f3",
+      "rationale": "The theorem directly says every submodule of the exterior power invariant under all GL(V) maps is bottom or top, which is the stated irreducibility.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:053ab1de0b8e0c5fa0a5",
+      "rationale": "This universe-general theorem directly states the same invariant-submodule characterization of irreducibility for the exterior power.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0354",
+  "associations": [
+    {
+      "association_id": "association:5f9aa3c43f9b8fa07723",
+      "role": "primary",
+      "rationale": "The formal type directly gives an equivalence between maps from the idempotent-generated summand and the subtype of e-fixed vectors in M."
+    }
+  ]
+}

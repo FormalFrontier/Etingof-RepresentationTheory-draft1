@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0287",
+  "associations": [
+    {
+      "association_id": "association:567721b76ea1e04e7dc0",
+      "role": "supporting",
+      "rationale": "The displayed type only declares a representation type from a ring and an additive group; it does not itself state the algebra-homomorphism or left-module characterization."
+    },
+    {
+      "association_id": "association:bf40ffb8c591d59b15c9",
+      "role": "supporting",
+      "rationale": "The formal type provides only the construction from an algebra homomorphism to a module structure; by itself it does not state the claimed equivalence."
+    },
+    {
+      "association_id": "association:acd4600320d64dfae368",
+      "role": "supporting",
+      "rationale": "The formal type states only one round-trip identity used to prove the characterization, not the full equivalence asserted by the source claim."
+    },
+    {
+      "association_id": "association:1002748409bbe9ae9846",
+      "role": "supporting",
+      "rationale": "The formal type provides only the construction from a module structure to an algebra homomorphism; by itself it does not state the claimed equivalence."
+    },
+    {
+      "association_id": "association:78dc707969246b965887",
+      "role": "supporting",
+      "rationale": "The formal type states only the converse round-trip identity used to prove the characterization, not the full equivalence asserted by the source claim."
+    }
+  ]
+}

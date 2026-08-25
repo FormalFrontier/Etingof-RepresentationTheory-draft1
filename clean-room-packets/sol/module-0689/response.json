@@ -1,0 +1,145 @@
+{
+  "declarations": [
+    {
+      "docstring": "The endofunctor on additive commutative groups given by finitely supported functions on an indexing type.",
+      "new_name": "ModulePairing.finsuppFunctor",
+      "temporary_id": "decl-019474"
+    },
+    {
+      "docstring": "Applying the image of a homomorphism under the finitely supported-function functor agrees with mapping the range.",
+      "new_name": "ModulePairing.finsuppFunctor_map_apply",
+      "temporary_id": "decl-019477"
+    },
+    {
+      "docstring": "A short exact complex remains short exact after applying the finitely supported-function functor.",
+      "new_name": "ModulePairing.shortExact_map_finsuppFunctor",
+      "temporary_id": "decl-019482"
+    },
+    {
+      "docstring": "An additive equivalence from the displayed construction on a free opposite-ring module to finitely supported functions with values in the coefficient module.",
+      "new_name": "ModulePairing.freeModuleTensorAddEquiv",
+      "temporary_id": "decl-019587"
+    },
+    {
+      "docstring": "The free-module additive equivalence sends a displayed pure tensor to the value of the associated finitely supported scalar-action map.",
+      "new_name": "ModulePairing.freeModuleTensorAddEquiv_tmul",
+      "temporary_id": "decl-019597"
+    },
+    {
+      "docstring": "For each index, an additive map from the coefficient module into the displayed construction associated with a free opposite-ring module.",
+      "new_name": "ModulePairing.Auxiliary.freeModuleIndexAddHom",
+      "temporary_id": "decl-019630"
+    },
+    {
+      "docstring": "The functor attached to a free opposite-ring module is naturally isomorphic to finitely supported functions after forgetting module structure.",
+      "new_name": "ModulePairing.freeModuleFunctorIsoFinsupp",
+      "temporary_id": "decl-019638"
+    },
+    {
+      "docstring": "Applying the functor attached to a free opposite-ring module to a short exact complex preserves short exactness.",
+      "new_name": "ModulePairing.freeModuleFunctor_map_shortExact",
+      "temporary_id": "decl-019642"
+    },
+    {
+      "docstring": "The opposite-ring-linear map that sends a finitely supported scalar family to an additive map into coefficient-valued finitely supported functions.",
+      "new_name": "ModulePairing.finsuppScalarActionLinearMap",
+      "temporary_id": "decl-019644"
+    },
+    {
+      "docstring": "On a scalar supported at one index, the finitely supported scalar-action map is the corresponding scalar multiple of the single-coordinate additive map.",
+      "new_name": "ModulePairing.finsuppScalarActionLinearMap_single",
+      "temporary_id": "decl-019651"
+    },
+    {
+      "docstring": "Evaluating the finitely supported scalar-action map on a single supported scalar yields a single supported coefficient.",
+      "new_name": "ModulePairing.finsuppScalarActionLinearMap_single_apply",
+      "temporary_id": "decl-019652"
+    },
+    {
+      "docstring": "The finitely supported-function endofunctor preserves zero morphisms.",
+      "new_name": "ModulePairing.finsuppFunctor_preservesZeroMorphisms",
+      "temporary_id": "decl-020655"
+    },
+    {
+      "docstring": "For a projective opposite-ring module, each positive-degree left-derived value of the associated functor is zero.",
+      "new_name": "ModulePairing.projectiveModuleFunctor_leftDerived_succ_isZero",
+      "temporary_id": "decl-020940"
+    },
+    {
+      "docstring": "The finitely supported scalar-action construction commutes with applying a linear map to the coefficient module.",
+      "new_name": "ModulePairing.finsuppScalarActionLinearMap_natural",
+      "temporary_id": "decl-021529"
+    },
+    {
+      "docstring": "A retract of opposite-ring modules induces a retract between the short complexes obtained from the associated module functors.",
+      "new_name": "ModulePairing.shortComplexMap_retract",
+      "temporary_id": "decl-021531"
+    },
+    {
+      "docstring": "Short exactness descends from a short complex to any retract of it in an abelian category.",
+      "new_name": "CategoryTheory.ShortComplex.shortExact_of_retract",
+      "temporary_id": "decl-023128"
+    },
+    {
+      "docstring": "A functor assigning to each opposite-ring module a functor from modules to additive commutative groups.",
+      "new_name": "ModulePairing.Auxiliary.moduleBifunctor",
+      "temporary_id": "decl-023856"
+    },
+    {
+      "docstring": "The functor associated with a projective opposite-ring module sends short exact complexes to short exact complexes.",
+      "new_name": "ModulePairing.projectiveModuleFunctor_map_shortExact",
+      "temporary_id": "decl-023920"
+    },
+    {
+      "docstring": "A morphism of opposite-ring modules induces a morphism between their associated functors to additive commutative groups.",
+      "new_name": "ModulePairing.Auxiliary.moduleFunctorMap",
+      "temporary_id": "decl-023922"
+    },
+    {
+      "docstring": "The functor associated with the regular opposite-ring module preserves short exact complexes.",
+      "new_name": "ModulePairing.regularModuleFunctor_map_shortExact",
+      "temporary_id": "decl-024395"
+    },
+    {
+      "docstring": "An additive equivalence from the displayed construction on the regular opposite-ring module to the coefficient module.",
+      "new_name": "ModulePairing.regularModuleTensorAddEquiv",
+      "temporary_id": "decl-024397"
+    },
+    {
+      "docstring": "The regular-module additive equivalence sends a displayed pure tensor to the action of its underlying scalar.",
+      "new_name": "ModulePairing.regularModuleTensorAddEquiv_tmul",
+      "temporary_id": "decl-024406"
+    },
+    {
+      "docstring": "An additive map from the displayed construction on the regular opposite-ring module to the coefficient module.",
+      "new_name": "ModulePairing.regularModuleTensorToModule",
+      "temporary_id": "decl-024407"
+    },
+    {
+      "docstring": "The additive map out of the regular-module construction sends a displayed pure tensor to scalar action.",
+      "new_name": "ModulePairing.regularModuleTensorToModule_tmul",
+      "temporary_id": "decl-024410"
+    },
+    {
+      "docstring": "An additive map from the coefficient module into the displayed construction associated with the regular opposite-ring module.",
+      "new_name": "ModulePairing.Auxiliary.moduleToRegularConstructionAddHom",
+      "temporary_id": "decl-024411"
+    },
+    {
+      "docstring": "The functor associated with the regular opposite-ring module is naturally isomorphic to the forgetful functor to additive commutative groups.",
+      "new_name": "ModulePairing.regularModuleFunctorIsoForget",
+      "temporary_id": "decl-024419"
+    },
+    {
+      "docstring": "The opposite-ring-linear map sending each scalar to its additive action on the coefficient module.",
+      "new_name": "ModulePairing.opScalarActionLinearMap",
+      "temporary_id": "decl-024423"
+    },
+    {
+      "docstring": "Evaluating the opposite-scalar action map agrees with the action of the underlying ring element.",
+      "new_name": "ModulePairing.opScalarActionLinearMap_apply",
+      "temporary_id": "decl-024436"
+    }
+  ],
+  "module_name": "ModulePairing.Projective"
+}

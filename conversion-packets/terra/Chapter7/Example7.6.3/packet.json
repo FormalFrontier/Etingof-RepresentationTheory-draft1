@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Example7.6.3",
+    "kind": "example",
+    "title": "Examples of adjoint functors",
+    "node_id": "chapter-07/section-7-6",
+    "order": 492,
+    "slug": "example7-6-3",
+    "span": {
+      "start": {
+        "page": "190",
+        "line": 1
+      },
+      "end": {
+        "page": "190",
+        "line": 10
+      }
+    },
+    "source_sha256": "89c09ef3a52223ccfc97fe8d65fa41624f70aa81c31a93dd78078af49ca26a6b",
+    "features": {
+      "line_count": 10,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example763",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

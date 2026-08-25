@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4bc6f79dbe193fe7f0dc",
+      "declaration": "Etingof.Theorem_8_1_5_i_iff_ii",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/528/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (I : Type v) [inst_1 : AddCommGroup.{v} I] [inst_2 : Module.{u, v} R I]\n  [Small.{v, u} R],\n  Iff (Module.Injective.{u, v} R I)\n    (\u2200 {M : Type v} [inst_4 : AddCommGroup.{v} M] [inst_5 : Module.{u, v} R M]\n      (f : LinearMap.{u, u, v, v} (RingHom.id.{u} R) I M),\n      Function.Injective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} f) \u2192\n        Exists.{v + 1} fun g => Eq.{v + 1} (LinearMap.comp.{u, u, u, v, v, v} g f) LinearMap.id.{u, v})",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Theorem8_1_5"
+    },
+    {
+      "association_id": "association:051dbd36abdd9e0a766a",
+      "declaration": "Etingof.Theorem_8_1_5_i_iff_iii",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/528/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (I : Type v) [inst_1 : AddCommGroup.{v} I] [inst_2 : Module.{u, v} R I]\n  [Small.{v, u} R],\n  Iff (Module.Injective.{u, v} R I)\n    (\u2200 {K M N : Type v} [inst_4 : AddCommGroup.{v} K] [inst_5 : AddCommGroup.{v} M] [inst_6 : AddCommGroup.{v} N]\n      [inst_7 : Module.{u, v} R K] [inst_8 : Module.{u, v} R M] [inst_9 : Module.{u, v} R N]\n      (\u03b9 : LinearMap.{u, u, v, v} (RingHom.id.{u} R) K M) (\u03c0 : LinearMap.{u, u, v, v} (RingHom.id.{u} R) M N),\n      Function.Injective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} \u03b9) \u2192\n        Function.Surjective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} \u03c0) \u2192\n          Eq.{v + 1} (LinearMap.range.{u, u, v, v} \u03b9) (LinearMap.ker.{u, u, v, v} \u03c0) \u2192\n            And (Function.Injective.{v + 1, v + 1} fun g => LinearMap.comp.{u, u, u, v, v, v} g \u03c0)\n              (And\n                (\u2200 (h : LinearMap.{u, u, v, v} (RingHom.id.{u} R) M I),\n                  Iff (Eq.{v + 1} (LinearMap.comp.{u, u, u, v, v, v} h \u03b9) 0)\n                    (Exists.{v + 1} fun g => Eq.{v + 1} (LinearMap.comp.{u, u, u, v, v, v} g \u03c0) h))\n                (Function.Surjective.{v + 1, v + 1} fun h => LinearMap.comp.{u, u, u, v, v, v} h \u03b9)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Theorem8_1_5"
+    }
+  ],
+  "canonical_reference": "Chapter8/Discussion_after_Exercise8.1.4",
+  "packet_id": "align-0965",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0965"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b36d100755aa52f0853a",
+  "source_text": "Injective modules are dual to projective modules."
+}

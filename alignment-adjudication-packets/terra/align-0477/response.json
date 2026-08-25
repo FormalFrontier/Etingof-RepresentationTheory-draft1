@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0477",
+  "associations": [
+    {
+      "association_id": "association:9f2cc717fc72f5c18372",
+      "role": "supporting",
+      "rationale": "Identifying the commutator submodule with the trace kernel implies that diagonal matrix-unit differences lie in the commutator submodule, but it does not state their specific expression as [E_ij,E_ji]."
+    }
+  ]
+}

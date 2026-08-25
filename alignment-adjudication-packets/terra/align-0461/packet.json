@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:721a38c104834249911d",
+      "declaration": "Etingof.MatrixCoefficients.basis",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/216/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k G : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [IsAlgClosed.{u} k] \u2192\n      [inst_2 : Group.{u} G] \u2192\n        [inst_3 : Fintype.{u} G] \u2192\n          {n : Nat} \u2192\n            {d : Fin n \u2192 Nat} \u2192\n              {V : Fin n \u2192 FDRep.{u, u} k G} \u2192\n                {b :\n                    (i : Fin n) \u2192\n                      Module.Basis.{0, u, u} (Fin (d i)) k\n                        (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))} \u2192\n                  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] \u2192\n                    (\u2200 (i : Fin n), CategoryTheory.Simple.{u, u + 1} (V i)) \u2192\n                      (\u2200 (i j : Fin n), Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n                        (\u2200 (W : FDRep.{u, u} k G),\n                            CategoryTheory.Simple.{u, u + 1} W \u2192\n                              Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} W (V i))) \u2192\n                          (\u2200 (i : Fin n), Ne.{u + 1} (Nat.cast.{u} (d i)) 0) \u2192\n                            Module.Basis.{0, u, u} (Etingof.MatrixCoefficients.Index n d) k (G \u2192 k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Proposition4_7_1"
+    },
+    {
+      "association_id": "association:5df002aaef8589721399",
+      "declaration": "averagedLinHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/216/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k G : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Group.{u} G] \u2192\n      [inst_2 : Fintype.{u} G] \u2192\n        [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] \u2192\n          (V W : FDRep.{u, u} k G) \u2192\n            LinearMap.{u, u, u, u} (RingHom.id.{u} k) (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} W))\n                (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} V)) \u2192\n              LinearMap.{u, u, u, u} (RingHom.id.{u} k) (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} W))\n                (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Proposition4_7_1"
+    },
+    {
+      "association_id": "association:a8525ae24622a565e921",
+      "declaration": "averagedLinHom_mem_invariants",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/216/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G]\n  [inst_3 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (V W : FDRep.{u, u} k G)\n  (f :\n    LinearMap.{u, u, u, u} (RingHom.id.{u} k) (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} W))\n      (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} V))),\n  Membership.mem.{u, u}\n    (Representation.invariants.{u, u, u} (Representation.linHom.{u, u, u, u} (FDRep.\u03c1.{u, u} W) (FDRep.\u03c1.{u, u} V)))\n    (averagedLinHom.{u} V W f)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Proposition4_7_1"
+    }
+  ],
+  "canonical_reference": "Chapter4/Proposition4.7.1",
+  "packet_id": "align-0461",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0461"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:938dc9391847349ba9c1",
+  "source_text": "The averaging projector and sum-of-squares formula prove orthogonality and spanning."
+}

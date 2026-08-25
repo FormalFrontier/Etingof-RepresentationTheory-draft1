@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9621504b127d8729f9d7",
+      "declaration": "Etingof.chiRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/294/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    (K : Subgroup.{u_1} G) \u2192\n      MonoidHom.{u_1, 0} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} K x) (Units.{0} Complex) \u2192\n        Representation.{0, u_1, 0} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} K x) Complex",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_8_5"
+    },
+    {
+      "association_id": "association:ad0c8b67d9415ba8b01d",
+      "declaration": "Etingof.idempotentOfChar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/294/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    [Fintype.{u_1} G] \u2192\n      (K : Subgroup.{u_1} G) \u2192\n        MonoidHom.{u_1, 0} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} K x) (Units.{0} Complex) \u2192\n          MonoidAlgebra.{0, u_1} Complex G",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_8_5"
+    }
+  ],
+  "canonical_reference": "Chapter5/Exercise5.8.5",
+  "packet_id": "align-0749",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0749"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Exercise5.8.5:normalized_idempotent",
+  "source_text": "The displayed character average is the normalized idempotent attached to the one-dimensional character."
+}

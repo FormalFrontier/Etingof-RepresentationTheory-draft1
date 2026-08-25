@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0933",
+  "associations": [
+    {
+      "association_id": "association:61a28d6704c3909edf11",
+      "role": "supporting",
+      "rationale": "The Jordan--Holder declaration is a general composition-series result, not the stated induced quotient filtration."
+    },
+    {
+      "association_id": "association:1e524ceec86de509d31f",
+      "role": "supporting",
+      "rationale": "Submodule.comap is a construction used for induced submodules, rather than the asserted filtration statement."
+    },
+    {
+      "association_id": "association:05aeb7f0092087d5d954",
+      "role": "supporting",
+      "rationale": "Submodule.map is a construction that can form induced data, not the claim about quotient factors."
+    }
+  ]
+}

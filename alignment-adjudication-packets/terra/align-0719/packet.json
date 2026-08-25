@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:432bcc6083896ab9a544",
+      "declaration": "Etingof.Problem4_12_6.Vrep_character",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/235/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {K : Type u_1} [inst : Field.{u_1} K] [inst_1 : Fintype.{u_1} K] [inst_2 : DecidableEq.{u_1 + 1} K]\n  (g : Etingof.Problem4_12_6.Affine.{u_1} K),\n  Eq.{1}\n    (Representation.character.{u_1, 0, u_1}\n      (Subrepresentation.toRepresentation.{0, u_1, u_1} Etingof.Problem4_12_6.Vsub.{u_1}) g)\n    (HSub.hSub.{0, 0, 0} (Nat.cast.{0} (Etingof.Problem4_12_6.affineFixCard.{u_1} g)) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.6",
+  "packet_id": "align-0719",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0719"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.6:characters",
+  "source_text": "Compute the characters of all those irreducibles."
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c0c32290206bf5b72775",
+      "declaration": "Etingof.simpleRoot",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/426/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 Fin n \u2192 Fin n \u2192 Int",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Definition6_4_5"
+    }
+  ],
+  "canonical_reference": "Chapter6/Definition6.4.5",
+  "packet_id": "align-0912",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0912"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a58cc29a38a1227d4d78",
+  "source_text": "The simple roots are the standard coordinate vectors."
+}

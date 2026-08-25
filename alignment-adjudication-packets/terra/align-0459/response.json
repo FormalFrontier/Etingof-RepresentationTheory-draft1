@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0459",
+  "associations": [
+    {
+      "association_id": "association:8b270a004b8ce4f54564",
+      "role": "supporting",
+      "rationale": "The declaration constructs a linear equivalence from the conjugate space to the dual from an inner-product core, but its type does not state equivariance under a group action."
+    },
+    {
+      "association_id": "association:213683c38e1c177dd48d",
+      "role": "supporting",
+      "rationale": "Assuming invariance of the inner product, the displayed equality states that the named conjugate-to-dual map intertwines the two group actions, but it does not itself display that map as the required linear isomorphism."
+    },
+    {
+      "association_id": "association:5f5ab3e82051fa0e7c66",
+      "role": "supporting",
+      "rationale": "This theorem supplies an equivariant equivalence for finite-group representations, but its type does not state that a given invariant unitary form induces that equivalence."
+    }
+  ]
+}

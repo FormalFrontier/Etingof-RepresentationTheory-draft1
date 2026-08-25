@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:fb691489e86178e28ce9",
+      "declaration": "Etingof.Example_2_3_14.jordanRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/41/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192 [Field.{u_1} k] \u2192 k \u2192 Nat \u2192 Type u_1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14"
+    },
+    {
+      "association_id": "association:75a138dcd628849ff397",
+      "declaration": "Etingof.Example_2_3_14_polynomial_reps",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/41/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] (I : Ideal.{u_1} (Polynomial.{u_1} k))\n  [hmax : Ideal.IsMaximal.{u_1} I],\n  Eq.{1} (Module.finrank.{u_1, u_1} k (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) I)) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.3.14",
+  "packet_id": "align-0141",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0141"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2c2b96863be47bf11678",
+  "source_text": "Finite-dimensional irreducible k[x]-representations are one-dimensional and parameterized by the scalar action of x."
+}

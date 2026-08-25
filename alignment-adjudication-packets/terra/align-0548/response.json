@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0548",
+  "associations": [
+    {
+      "association_id": "association:015d241989a459a1191d",
+      "rationale": "The type supplies only existence of an equivalence to the opaque oneDimModule or Fam constructions, without the claimed uniqueness or displayed family properties.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f8b2ed13839334fd670c",
+      "rationale": "The type refines existence with uniqueness conditions, but the families and the parameter map lam remain opaque and it does not directly display the asserted one- and p-dimensional family descriptions.",
+      "role": "supporting"
+    }
+  ]
+}

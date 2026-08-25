@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0458",
+  "associations": [
+    {
+      "association_id": "association:94bfb8d0f4c1c972f7eb",
+      "role": "supporting",
+      "rationale": "No formal type is displayed, so the declaration cannot be verified here as directly stating that functors form a category whose morphisms are natural transformations."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0326",
+  "associations": [
+    {
+      "association_id": "association:9a29954270b0fb35cd33",
+      "rationale": "The formal type identifies the component postcomposition map with ordinary composition by f; this is a helper used in the decomposed-map formula rather than the decomposition formula itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:15289051c2aaf3606be9",
+      "rationale": "The formal type gives the direct-sum decomposition formula for an arbitrary linear map `f : V → U`; it supports the quotient-map instance, but does not itself mention a submodule `W` or the quotient `V/W`.",
+      "role": "supporting"
+    }
+  ]
+}

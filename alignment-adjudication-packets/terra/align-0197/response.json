@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0197",
+  "associations": [
+    {
+      "association_id": "association:dc0d6dca051238949394",
+      "role": "supporting",
+      "rationale": "It constructs a representation-level isomorphism and a left-composition action formula, but does not state the specific algebra isomorphism psi."
+    },
+    {
+      "association_id": "association:e2661a11f1208676ec32",
+      "role": "supporting",
+      "rationale": "It supplies an isomorphism of the regular representation with a decomposed representation, not the stated psi compatibility."
+    }
+  ]
+}

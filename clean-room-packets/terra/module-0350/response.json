@@ -1,0 +1,15 @@
+{
+  "module_name": "Nat.Partition.ScalarMultiplication",
+  "declarations": [
+    {
+      "temporary_id": "decl-005452",
+      "new_name": "partitionIndexedElement_mul_self_eq_smul_self",
+      "docstring": "For each natural number and partition, multiplying the indexed element by itself yields the scalar multiple specified in the statement."
+    },
+    {
+      "temporary_id": "decl-021458",
+      "new_name": "MonoidAlgebra.instCoeFun",
+      "docstring": "Provides the coefficient-function coercion for a monoid algebra over a semiring."
+    }
+  ]
+}

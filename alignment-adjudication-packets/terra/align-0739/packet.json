@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:05ffbd6aff45a1309eca",
+      "declaration": "Etingof.Problem5_10_2_f",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/302/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G\u2080 : Type} \u2192\n  [inst : Group.{0} G\u2080] \u2192\n    [inst_1 : Fintype.{0} G\u2080] \u2192\n      (H\u2080 : Subgroup.{0} G\u2080) \u2192\n        (V : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H\u2080 x)) \u2192\n          CategoryTheory.Iso.{0, 1}\n            (Etingof.Problem5_10_2_indFDRep H\u2080 (FDRep.of.{0, 0} (Representation.dual.{0, 0, 0} (FDRep.\u03c1.{0, 0} V))))\n            (FDRep.of.{0, 0} (Representation.dual.{0, 0, 0} (FDRep.\u03c1.{0, 0} (Etingof.Problem5_10_2_indFDRep H\u2080 V))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_10_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_Problem5.10.2_parts",
+  "packet_id": "align-0739",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0739"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Discussion_Problem5.10.2_parts:part_f",
+  "source_text": "Part (f): induction commutes with duals as an equivariant isomorphism."
+}

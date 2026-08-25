@@ -1,0 +1,42 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {p n : Nat} [Fact (Nat.Prime p)] {k : Type u_1} [inst : Field.{u_1} k] [CharP.{u_1} k p] {G : Type u_2}\n  [inst_2 : Group.{u_2} G] [inst_3 : Fintype.{u_2} G],\n  Eq.{1} (Fintype.card.{u_2} G) (HPow.hPow.{0, 0, 0} p n) \u2192\n    \u2200 {V : Type u_3} [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V]\n      (\u03c1 : Representation.{u_1, u_2, u_3} k G V),\n      IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_3} \u03c1) \u2192\n        \u2200 (g : G), Eq.{u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g) LinearMap.id.{u_1, u_3}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1556279998",
+      "temporary_id": "decl-011867"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [Fact (Nat.Prime p)] {k : Type u_1} [inst : Field.{u_1} k] [CharP.{u_1} k p] (N : Nat) {G : Type u_2}\n  [inst_2 : Group.{u_2} G] [Finite.{u_2 + 1} G],\n  IsPGroup.{u_2} p G \u2192\n    Eq.{1} (Nat.card.{u_2} G) N \u2192\n      \u2200 {V : Type u_3} [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V],\n        Nontrivial.{u_3} V \u2192\n          \u2200 (\u03c1 : Representation.{u_1, u_2, u_3} k G V),\n            Exists.{u_3 + 1} fun x =>\n              And (Ne.{u_3 + 1} x 0)\n                (\u2200 (g : G),\n                  Eq.{u_3 + 1}\n                    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n                      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g) x)\n                    x)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-011867",
+      "project_type_dependencies": [],
+      "structural_type_hash": "1493213693",
+      "temporary_id": "decl-011868"
+    }
+  ],
+  "module_temporary_id": "module-0235",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

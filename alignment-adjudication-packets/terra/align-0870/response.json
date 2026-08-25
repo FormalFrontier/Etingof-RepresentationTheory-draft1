@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:a97f9fbf70620783c317",
+      "rationale": "The type gives an algebra equivalence from a free algebra to a path algebra, a contextual construction rather than the homological-dimension statement.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a15f62ec231ec2f6a5ba",
+      "rationale": "For n at least one, the type directly sets the free algebra's homological dimension to one.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0870"
+}

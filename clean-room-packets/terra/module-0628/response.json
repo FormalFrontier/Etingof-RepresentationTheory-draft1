@@ -1,0 +1,100 @@
+{
+  "module_name": "CategoryTheory.Abelian.ProjectiveResolution",
+  "declarations": [
+    {
+      "temporary_id": "decl-004101",
+      "new_name": "nonempty_projectiveResolution",
+      "docstring": "States that a projective resolution of a module exists."
+    },
+    {
+      "temporary_id": "decl-004102",
+      "new_name": "exists_free_projectiveResolution",
+      "docstring": "Shows that a module has a projective resolution with free underlying modules in every degree."
+    },
+    {
+      "temporary_id": "decl-004310",
+      "new_name": "freeCoverBasis",
+      "docstring": "Provides a basis for the underlying module of the associated module object."
+    },
+    {
+      "temporary_id": "decl-004311",
+      "new_name": "freeCover",
+      "docstring": "Assigns a module object to each module."
+    },
+    {
+      "temporary_id": "decl-004312",
+      "new_name": "freeCover_free",
+      "docstring": "The underlying module of the associated module object is free."
+    },
+    {
+      "temporary_id": "decl-004313",
+      "new_name": "freeCover_projective",
+      "docstring": "The associated module object is projective."
+    },
+    {
+      "temporary_id": "decl-004314",
+      "new_name": "freeCoverTo",
+      "docstring": "The morphism from the associated module object to the given module."
+    },
+    {
+      "temporary_id": "decl-004315",
+      "new_name": "freeCoverTo_epi",
+      "docstring": "The morphism from the associated module object to the given module is an epimorphism."
+    },
+    {
+      "temporary_id": "decl-004316",
+      "new_name": "freeProjectiveResolution",
+      "docstring": "Assigns a projective resolution to a module."
+    },
+    {
+      "temporary_id": "decl-004318",
+      "new_name": "freeProjectiveResolution_free",
+      "docstring": "Every degree of this projective resolution has a free underlying module."
+    },
+    {
+      "temporary_id": "decl-004319",
+      "new_name": "assignedKernelToSource",
+      "docstring": "Constructs a morphism from the object assigned to a kernel into the source of the original morphism."
+    },
+    {
+      "temporary_id": "decl-004321",
+      "new_name": "assignedKernelToSource_comp",
+      "docstring": "Composing the morphism from the assigned kernel object with the original morphism yields zero."
+    },
+    {
+      "temporary_id": "decl-004322",
+      "new_name": "assignedKernelToSource_exact",
+      "docstring": "The morphism from the assigned kernel object and the original morphism form an exact short complex."
+    },
+    {
+      "temporary_id": "decl-004323",
+      "new_name": "projectiveResolutionOf",
+      "docstring": "Constructs a projective resolution from an object assignment with projective values and epimorphisms to the original objects."
+    },
+    {
+      "temporary_id": "decl-004329",
+      "new_name": "iteratedKernelComplex",
+      "docstring": "Builds a chain complex from an object assignment, morphisms from assigned objects to the original objects, and a chosen object."
+    },
+    {
+      "temporary_id": "decl-004333",
+      "new_name": "iteratedKernelComplex_d_one_zero",
+      "docstring": "The differential from degree one to degree zero is the morphism from the object assigned to the kernel of the comparison map at the chosen object into that map's source."
+    },
+    {
+      "temporary_id": "decl-004334",
+      "new_name": "iteratedKernelComplex_exactAt_succ",
+      "docstring": "The constructed complex is exact at every positive successor degree."
+    },
+    {
+      "temporary_id": "decl-004336",
+      "new_name": "projectiveResolutionOf_exists_term_eq_assignedObject",
+      "docstring": "In every degree, the constructed projective resolution has a term equal to the object assigned to some object."
+    },
+    {
+      "temporary_id": "decl-004337",
+      "new_name": "iteratedKernelComplex_projective",
+      "docstring": "Every degree of the constructed complex is projective."
+    }
+  ]
+}

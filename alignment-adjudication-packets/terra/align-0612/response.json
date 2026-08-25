@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0612",
+  "associations": [
+    {
+      "association_id": "association:6c7e49febd52e95746d7",
+      "rationale": "The type packages existence and uniqueness of family parameters for an arbitrary irreducible module, rather than directly stating the displayed pairwise isomorphism criterion for two family members.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:adb9f45383f52127d6e6",
+      "rationale": "The type states the pairwise equivalence criterion for family members, but it does not itself state that the central character gives the complete classification, so it covers only part of the full claim.",
+      "role": "supporting"
+    }
+  ]
+}

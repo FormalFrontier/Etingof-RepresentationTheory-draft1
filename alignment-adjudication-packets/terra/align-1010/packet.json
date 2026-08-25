@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f601888497b4e946dd6b",
+      "declaration": "Etingof.Remark_2_3_13",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/39/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  {V : Type u_3} [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V] [inst_5 : Module.{u_2, u_3} A V]\n  [IsScalarTower.{u_1, u_2, u_3} k A V], Eq.{1} (Module.finrank.{u_1, u_3} k V) 1 \u2192 IsSimpleModule.{u_2, u_3} A V",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_3_13"
+    }
+  ],
+  "canonical_reference": "Chapter2/Remark2.3.13",
+  "packet_id": "align-1010",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1010"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c17eb5567752324059a7",
+  "source_text": "A one-dimensional representation of any algebra is irreducible."
+}

@@ -1,0 +1,55 @@
+{
+  "module_name": "Algebra.Module.TensorProductCoordinates",
+  "declarations": [
+    {
+      "temporary_id": "decl-009428",
+      "new_name": "nonempty_linearEquiv_fin_fun",
+      "docstring": "The scalar-extended module is linearly equivalent to functions indexed by the dimension of the extending field."
+    },
+    {
+      "temporary_id": "decl-009430",
+      "new_name": "tensorProductModule",
+      "docstring": "An A-module structure on the tensor product of an extension field with an A-module."
+    },
+    {
+      "temporary_id": "decl-009431",
+      "new_name": "smul_eq_includeRight_smul",
+      "docstring": "The restricted scalar action agrees with the action induced by the right tensor-product inclusion."
+    },
+    {
+      "temporary_id": "decl-009432",
+      "new_name": "smul_tmul",
+      "docstring": "Scalar multiplication on a pure tensor acts on its module factor."
+    },
+    {
+      "temporary_id": "decl-009433",
+      "new_name": "tensorProductAlgebra_smul_eq_action",
+      "docstring": "The tensor-product-algebra scalar action agrees with the displayed algebra homomorphism action."
+    },
+    {
+      "temporary_id": "decl-009475",
+      "new_name": "tensorProductAction_tmul_one",
+      "docstring": "The displayed tensor-product-algebra action on a pure tensor with unit scalar acts on its module factor."
+    },
+    {
+      "temporary_id": "decl-009476",
+      "new_name": "linearEquivFinFun",
+      "docstring": "A chosen basis of the extending field gives a linear equivalence from the tensor product to a finite function module."
+    },
+    {
+      "temporary_id": "decl-009479",
+      "new_name": "linearMapFinFun",
+      "docstring": "A chosen basis of the extending field gives a linear map from the tensor product to a finite function module."
+    },
+    {
+      "temporary_id": "decl-009482",
+      "new_name": "linearEquivFinFunOfBasis",
+      "docstring": "A basis of a field extension gives a linear equivalence from a tensor product to a finite function module."
+    },
+    {
+      "temporary_id": "decl-009488",
+      "new_name": "linearEquivFinFunOfBasis_tmul",
+      "docstring": "The basis-induced linear equivalence sends a pure tensor to its coefficient function times the module factor."
+    }
+  ]
+}

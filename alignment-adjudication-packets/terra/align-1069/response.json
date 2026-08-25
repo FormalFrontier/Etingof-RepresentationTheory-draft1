@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1069",
+  "associations": [
+    {
+      "association_id": "association:795572fce0611680cecd",
+      "rationale": "The formal type is null, so it does not display the asserted integrality of algebraic conjugates.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:eaa99bfc45b8ee0ee358",
+      "rationale": "The formal type is null, so it does not display the asserted relation between the rational minimal polynomial and a monic integer polynomial.",
+      "role": "supporting"
+    }
+  ]
+}

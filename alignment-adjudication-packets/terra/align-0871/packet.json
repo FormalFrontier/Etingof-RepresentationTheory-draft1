@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f735c5b5d9b1901a4208",
+      "declaration": "Etingof.Problem946.hasHomologicalDimensionLE_pathAlgebra_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/564/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {Q : Type u} [inst_1 : Quiver.{u + 1, u} Q] [inst_2 : Fintype.{u} Q]\n  [inst_3 : DecidableEq.{u + 1} Q], Etingof.HasHomologicalDimensionLE.{u + 1} (Etingof.PathAlgebra.{u, u, u + 1} k Q) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6"
+    },
+    {
+      "association_id": "association:e3955c534aad55144376",
+      "declaration": "Etingof.Problem946.homologicalDimension_pathAlgebra_eq_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/564/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {Q : Type u} [inst_1 : Quiver.{u + 1, u} Q] [inst_2 : Fintype.{u} Q]\n  [inst_3 : DecidableEq.{u + 1} Q],\n  (Exists.{u + 1} fun a => Exists.{u + 1} fun b => Nonempty.{u + 2} (Quiver.Hom.{u + 1, u} a b)) \u2192\n    Eq.{1} (Etingof.homologicalDimension.{u + 1} (Etingof.PathAlgebra.{u, u, u + 1} k Q)) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.4.6",
+  "packet_id": "align-0871",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0871"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.4.6:part_i_path",
+  "source_text": "Part (i): every path algebra with an edge has homological dimension one."
+}

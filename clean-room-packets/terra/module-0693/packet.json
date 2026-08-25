@@ -1,0 +1,50 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (I : Type v) [inst_1 : AddCommGroup.{v} I] [inst_2 : Module.{u, v} R I]\n  [Small.{v, u} R], Iff (Module.Injective.{u, v} R I) (Module.Baer.{u, v} R I)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "657611291",
+      "temporary_id": "decl-016748"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (I : Type v) [inst_1 : AddCommGroup.{v} I] [inst_2 : Module.{u, v} R I]\n  [Small.{v, u} R],\n  Iff (Module.Injective.{u, v} R I)\n    (\u2200 {M : Type v} [inst_4 : AddCommGroup.{v} M] [inst_5 : Module.{u, v} R M]\n      (f : LinearMap.{u, u, v, v} (RingHom.id.{u} R) I M),\n      Function.Injective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} f) \u2192\n        Exists.{v + 1} fun g => Eq.{v + 1} (LinearMap.comp.{u, u, u, v, v, v} g f) LinearMap.id.{u, v})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3404343333",
+      "temporary_id": "decl-016749"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (I : Type v) [inst_1 : AddCommGroup.{v} I] [inst_2 : Module.{u, v} R I]\n  [Small.{v, u} R],\n  Iff (Module.Injective.{u, v} R I)\n    (\u2200 {K M N : Type v} [inst_4 : AddCommGroup.{v} K] [inst_5 : AddCommGroup.{v} M] [inst_6 : AddCommGroup.{v} N]\n      [inst_7 : Module.{u, v} R K] [inst_8 : Module.{u, v} R M] [inst_9 : Module.{u, v} R N]\n      (\u03b9 : LinearMap.{u, u, v, v} (RingHom.id.{u} R) K M) (\u03c0 : LinearMap.{u, u, v, v} (RingHom.id.{u} R) M N),\n      Function.Injective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} \u03b9) \u2192\n        Function.Surjective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} \u03c0) \u2192\n          Eq.{v + 1} (LinearMap.range.{u, u, v, v} \u03b9) (LinearMap.ker.{u, u, v, v} \u03c0) \u2192\n            And (Function.Injective.{v + 1, v + 1} fun g => LinearMap.comp.{u, u, u, v, v, v} g \u03c0)\n              (And\n                (\u2200 (h : LinearMap.{u, u, v, v} (RingHom.id.{u} R) M I),\n                  Iff (Eq.{v + 1} (LinearMap.comp.{u, u, u, v, v, v} h \u03b9) 0)\n                    (Exists.{v + 1} fun g => Eq.{v + 1} (LinearMap.comp.{u, u, u, v, v, v} g \u03c0) h))\n                (Function.Surjective.{v + 1, v + 1} fun h => LinearMap.comp.{u, u, u, v, v, v} h \u03b9)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2053180996",
+      "temporary_id": "decl-016751"
+    }
+  ],
+  "module_temporary_id": "module-0693",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

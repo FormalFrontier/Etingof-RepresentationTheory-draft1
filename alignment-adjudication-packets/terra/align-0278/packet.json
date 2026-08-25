@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:907a167ae2eab16b4a56",
+      "declaration": "Etingof.UniversalEnvelopingAlgebraCoordFree",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/109/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (L : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192 [inst_1 : LieRing.{u_2} L] \u2192 [LieAlgebra.{u_1, u_2} k L] \u2192 Type (max u_1 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_12_1"
+    },
+    {
+      "association_id": "association:fc2fc90b0c5d2fe74944",
+      "declaration": "Etingof.universalEnvelopingAlgebra_generator_relation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/109/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type v) [inst_1 : LieRing.{v} L] [inst_2 : LieAlgebra.{u, v} k L] (x y : L),\n  Eq.{max (u + 1) (v + 1)}\n    (HSub.hSub.{max u v, max u v, max u v}\n      (HMul.hMul.{max u v, max u v, max u v}\n        (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k) x)\n        (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k) y))\n      (HMul.hMul.{max u v, max u v, max u v}\n        (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k) y)\n        (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k) x)))\n    (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k)\n      (Bracket.bracket.{v, v} x y))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_12_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.12.1",
+  "packet_id": "align-0278",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0278"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:5393657439dace7024b9",
+  "source_text": "U(L) is the quotient of T(L) imposing xy\u2212yx=[x,y]."
+}

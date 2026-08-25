@@ -1,0 +1,50 @@
+{
+  "module_name": "CategoryTheory.Abelian.ProjectiveDimension",
+  "declarations": [
+    {
+      "temporary_id": "decl-013889",
+      "new_name": "exists_finite_projectiveResolution_of_hasProjectiveDimensionLE",
+      "docstring": "Constructs a projective resolution with finite scalar-restricted terms from a finite module of bounded projective dimension."
+    },
+    {
+      "temporary_id": "decl-013890",
+      "new_name": "moduleFinite_over_base_of_moduleFinite_over_algebra",
+      "docstring": "Shows that a module finite over a finite algebra is finite over the base commutative ring."
+    },
+    {
+      "temporary_id": "decl-013891",
+      "new_name": "projectiveResolution_finite_auxiliaryObjects_of_finite_complexTerms",
+      "docstring": "Establishes finiteness of the auxiliary objects of a projective resolution when its complex terms are finite."
+    },
+    {
+      "temporary_id": "decl-013892",
+      "new_name": "finite_projectiveResolution_structure_of_hasProjectiveDimensionLE",
+      "docstring": "Packages projectivity, finiteness, and exactness properties of a finite projective resolution at a bounded degree."
+    },
+    {
+      "temporary_id": "decl-013893",
+      "new_name": "hasProjectiveDimensionLE_iff_ext_subsingleton",
+      "docstring": "Characterizes a projective-dimension bound by subsingleton higher Ext groups."
+    },
+    {
+      "temporary_id": "decl-013896",
+      "new_name": "hasProjectiveDimensionLE_pred_of_shortExact_of_projective_middle",
+      "docstring": "Decreases a projective-dimension bound along a short exact complex with projective middle object."
+    },
+    {
+      "temporary_id": "decl-013897",
+      "new_name": "right_endpoint_value_eq_left_endpoint_value_add_one_of_shortExact_of_projective_middle_of_no_splitting",
+      "docstring": "For a short exact complex with projective middle object and no splitting, identifies the value at the third object with the value at the first object plus one."
+    },
+    {
+      "temporary_id": "decl-013905",
+      "new_name": "projectiveResolution_object_projective_of_hasProjectiveDimensionLE",
+      "docstring": "Shows that the resolution object at a bounded projective dimension is projective."
+    },
+    {
+      "temporary_id": "decl-013908",
+      "new_name": "projectiveResolution_structure_of_hasProjectiveDimensionLE",
+      "docstring": "Provides projectivity and the exact-resolution structure at a degree bounding projective dimension."
+    }
+  ]
+}

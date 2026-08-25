@@ -1,0 +1,523 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x) \u2192\n  (Fin 3 \u2192 Real) \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "331115191",
+      "temporary_id": "decl-011607"
+    },
+    {
+      "formal_type": "Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-011608"
+    },
+    {
+      "formal_type": "\u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x)\n  (v : decl-011608),\n  Eq.{1} (Subtype.val.{1} (HSMul.hSMul.{0, 0, 0} g v)) (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} g) (Subtype.val.{1} v))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-011608",
+      "project_type_dependencies": [
+        "decl-011608",
+        "decl-011612"
+      ],
+      "structural_type_hash": "4228114812",
+      "temporary_id": "decl-011609"
+    },
+    {
+      "formal_type": "\u2200 {v w : decl-011608}, Eq.{1} (Subtype.val.{1} v) (Subtype.val.{1} w) \u2192 Eq.{1} v w",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-011608",
+      "project_type_dependencies": [
+        "decl-011608"
+      ],
+      "structural_type_hash": "2874497793",
+      "temporary_id": "decl-011610"
+    },
+    {
+      "formal_type": "MulAction.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x)\n  decl-011608",
+      "kind": "definition",
+      "owner_temporary_id": "decl-011608",
+      "project_type_dependencies": [
+        "decl-011608"
+      ],
+      "structural_type_hash": "415939874",
+      "temporary_id": "decl-011612"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (k : Nat),\n  LE.le.{0} 2 k \u2192\n    Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)) (HMul.hMul.{0, 0, 0} 2 k) \u2192\n      \u2200 (b : Set.Elem.{0} (decl-011750 G)),\n        Eq.{1}\n            (Nat.card.{0}\n              (Subtype.{1} fun x =>\n                Membership.mem.{0, 0} (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b)\n                  x))\n            k \u2192\n          \u2200 (\u03c1 : Subtype.{1} fun x => Membership.mem.{0, 0} G x),\n            Eq.{1} (orderOf.{0} \u03c1) k \u2192\n              Eq.{1} (HSMul.hSMul.{0, 0, 0} \u03c1 b) b \u2192\n                Exists.{1} fun s =>\n                  And (Eq.{1} (orderOf.{0} s) 2)\n                    (And (Eq.{1} (Subtype.val.{1} (HSMul.hSMul.{0, 0, 0} s b)) (Neg.neg.{0} (Subtype.val.{1} b)))\n                      (Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} s \u03c1) (Inv.inv.{0} s)) (Inv.inv.{0} \u03c1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "1588813394",
+      "temporary_id": "decl-011616"
+    },
+    {
+      "formal_type": "\u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x),\n  Ne.{1} g 1 \u2192 Exists.{1} fun v => And (Ne.{1} v 0) (Eq.{1} (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} g) v) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "208501924",
+      "temporary_id": "decl-011628"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (m : Multiset.{0} Nat),\n  Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 4))) \u2192\n    Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)) 24 \u2192\n      (\u2200 (x : Nat),\n          Membership.mem.{0, 0} m x \u2192\n            Exists.{1} fun b =>\n              Eq.{1}\n                (Nat.card.{0}\n                  (Subtype.{1} fun x =>\n                    Membership.mem.{0, 0}\n                      (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b) x))\n                x) \u2192\n        Exists.{1} fun \u03c6 => Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "1470947761",
+      "temporary_id": "decl-011630"
+    },
+    {
+      "formal_type": "\u2200 {Grp : Type u_1} [inst : Group.{u_1} Grp] [Finite.{u_1 + 1} Grp],\n  IsSimpleGroup.{u_1} Grp \u2192\n    \u2200 (H : Subgroup.{u_1} Grp),\n      Eq.{1} (Subgroup.index.{u_1} H) 5 \u2192\n        Exists.{u_1 + 1} fun \u03c6 => Function.Injective.{u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1908524945",
+      "temporary_id": "decl-011633"
+    },
+    {
+      "formal_type": "\u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x),\n  Ne.{1} g 1 \u2192 Set.Finite.{0} (decl-011636 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011636"
+      ],
+      "structural_type_hash": "273659950",
+      "temporary_id": "decl-011634"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)], Set.Finite.{0} (decl-011750 G)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750"
+      ],
+      "structural_type_hash": "1083884415",
+      "temporary_id": "decl-011635"
+    },
+    {
+      "formal_type": "(Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x) \u2192\n  Set.{0} (Fin 3 \u2192 Real)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3983852287",
+      "temporary_id": "decl-011636"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)] (v : Fin 3 \u2192 Real),\n  Ne.{1} v 0 \u2192\n    (\u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} H x),\n        Eq.{1} (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} (Subtype.val.{1} g)) v) v) \u2192\n      IsCyclic.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2400247575",
+      "temporary_id": "decl-011638"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (b : Set.Elem.{0} (decl-011750 G)),\n  IsCyclic.{0}\n    (Subtype.{1} fun x =>\n      Membership.mem.{0, 0} (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "1573265377",
+      "temporary_id": "decl-011643"
+    },
+    {
+      "formal_type": "\u2200 {G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x)}\n  {g : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x},\n  Membership.mem.{0, 0} G g \u2192\n    \u2200 {v : Fin 3 \u2192 Real},\n      decl-011607 G v \u2192 decl-011607 G (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} g) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011607"
+      ],
+      "structural_type_hash": "4194626661",
+      "temporary_id": "decl-011644"
+    },
+    {
+      "formal_type": "\u2200 {Grp : Type u_1} [inst : Group.{u_1} Grp] [Finite.{u_1 + 1} Grp],\n  Eq.{1} (Nat.card.{u_1} Grp) 60 \u2192 Nontrivial.{u_1} (Sylow.{u_1} 5 Grp) \u2192 IsSimpleGroup.{u_1} Grp",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4062643919",
+      "temporary_id": "decl-011652"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2401192594",
+      "temporary_id": "decl-011714"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Finite.{u_1 + 1} G] (k : Nat) [NeZero.{0} k] (\u03c1 s : G),\n  Eq.{1} (orderOf.{u_1} \u03c1) k \u2192\n    Eq.{1} (orderOf.{u_1} s) 2 \u2192\n      Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} s \u03c1) (Inv.inv.{u_1} s)) (Inv.inv.{u_1} \u03c1) \u2192\n        Not (Membership.mem.{u_1, u_1} (Subgroup.zpowers.{u_1} \u03c1) s) \u2192\n          Eq.{1} (Nat.card.{u_1} G) (HMul.hMul.{0, 0, 0} 2 k) \u2192\n            Nonempty.{max 1 (u_1 + 1)} (MulEquiv.{u_1, 0} G (DihedralGroup k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "229627503",
+      "temporary_id": "decl-011715"
+    },
+    {
+      "formal_type": "\u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x),\n  Ne.{1} g 1 \u2192\n    Exists.{1} fun v\u2080 =>\n      And (Eq.{1} (dotProduct.{0, 0} v\u2080 v\u2080) 1)\n        (Eq.{1} (decl-011636 g)\n          (Insert.insert.{0, 0} v\u2080 (Singleton.singleton.{0, 0} (Neg.neg.{0} v\u2080))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011636"
+      ],
+      "structural_type_hash": "2953232085",
+      "temporary_id": "decl-011724"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)) 24 \u2192\n    \u2200 (b : Set.Elem.{0} (decl-011750 G)),\n      Eq.{1}\n          (Nat.card.{0}\n            (Subtype.{1} fun x =>\n              Membership.mem.{0, 0} (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b) x))\n          3 \u2192\n        \u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} G x),\n          (\u2200 (w : Set.Elem.{0} (MulAction.orbit.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b)),\n              Or\n                (Eq.{1} (Subtype.val.{1} (Subtype.val.{1} (HSMul.hSMul.{0, 0, 0} g w)))\n                  (Subtype.val.{1} (Subtype.val.{1} w)))\n                (Eq.{1} (Subtype.val.{1} (Subtype.val.{1} (HSMul.hSMul.{0, 0, 0} g w)))\n                  (Neg.neg.{0} (Subtype.val.{1} (Subtype.val.{1} w))))) \u2192\n            Eq.{1} g 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "2480007957",
+      "temporary_id": "decl-011727"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)) 24 \u2192\n    \u2200 (b : Set.Elem.{0} (decl-011750 G)),\n      Eq.{1}\n          (Nat.card.{0}\n            (Subtype.{1} fun x =>\n              Membership.mem.{0, 0} (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b) x))\n          3 \u2192\n        Exists.{1} fun g => Eq.{1} (Subtype.val.{1} (HSMul.hSMul.{0, 0, 0} g b)) (Neg.neg.{0} (Subtype.val.{1} b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "1090250993",
+      "temporary_id": "decl-011735"
+    },
+    {
+      "formal_type": "Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x) \u2192\n  Set.{0} (Fin 3 \u2192 Real)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1383102442",
+      "temporary_id": "decl-011750"
+    },
+    {
+      "formal_type": "(G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x)) \u2192\n  MulAction.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) (Set.Elem.{0} (decl-011750 G))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750"
+      ],
+      "structural_type_hash": "3703772956",
+      "temporary_id": "decl-011751"
+    },
+    {
+      "formal_type": "\u2200 {G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x)}\n  (x : Subtype.{1} fun x => Membership.mem.{0, 0} G x) (P : Set.Elem.{0} (decl-011750 G)),\n  Eq.{1} (Subtype.val.{1} (HSMul.hSMul.{0, 0, 0} x P))\n    (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} (Subtype.val.{1} x)) (Subtype.val.{1} P))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "3247844426",
+      "temporary_id": "decl-011755"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)],\n  LE.le.{0} 2 (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)) \u2192\n    Exists.{1} fun m =>\n      And (\u2200 (x : Nat), Membership.mem.{0, 0} m x \u2192 LE.le.{0} 2 x)\n        (And\n          (\u2200 (x : Nat),\n            Membership.mem.{0, 0} m x \u2192 Dvd.dvd.{0} x (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)))\n          (And\n            (Eq.{1}\n              (HMul.hMul.{0, 0, 0} 2\n                (HSub.hSub.{0, 0, 0} 1\n                  (Inv.inv.{0} (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x))))))\n              (Multiset.sum.{0}\n                (Multiset.map.{0, 0} (fun x => HSub.hSub.{0, 0, 0} 1 (Inv.inv.{0} x)) do\n                  let a \u2190 m\n                  Pure.pure.{0, 0} (Nat.cast.{0} a))))\n            (And\n              (Or\n                (Eq.{1} m\n                  (Insert.insert.{0, 0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x))\n                    (Singleton.singleton.{0, 0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)))))\n                (Or\n                  (Exists.{1} fun k =>\n                    And\n                      (Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)) (HMul.hMul.{0, 0, 0} 2 k))\n                      (Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 2 (Singleton.singleton.{0, 0} k)))))\n                  (Or (Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 3))))\n                    (Or (Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 4))))\n                      (Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 5))))))))\n              (\u2200 (x : Nat),\n                Membership.mem.{0, 0} m x \u2192\n                  Exists.{1} fun b =>\n                    Eq.{1}\n                      (Nat.card.{0}\n                        (Subtype.{1} fun x =>\n                          Membership.mem.{0, 0}\n                            (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b) x))\n                      x))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "311036056",
+      "temporary_id": "decl-011756"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat),\n  LE.le.{0} 2 n \u2192\n    \u2200 (m : Multiset.{0} Nat),\n      (\u2200 (x : Nat), Membership.mem.{0, 0} m x \u2192 LE.le.{0} 2 x) \u2192\n        (\u2200 (x : Nat), Membership.mem.{0, 0} m x \u2192 Dvd.dvd.{0} x n) \u2192\n          Eq.{1} (HMul.hMul.{0, 0, 0} 2 (HSub.hSub.{0, 0, 0} 1 (Inv.inv.{0} (Nat.cast.{0} n))))\n              (Multiset.sum.{0}\n                (Multiset.map.{0, 0} (fun x => HSub.hSub.{0, 0, 0} 1 (Inv.inv.{0} x)) do\n                  let a \u2190 m\n                  Pure.pure.{0, 0} (Nat.cast.{0} a))) \u2192\n            Or (Eq.{1} m (Insert.insert.{0, 0} n (Singleton.singleton.{0, 0} n)))\n              (Or\n                (Exists.{1} fun k =>\n                  And (Eq.{1} n (HMul.hMul.{0, 0, 0} 2 k))\n                    (Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 2 (Singleton.singleton.{0, 0} k)))))\n                (Or (Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 3))))\n                  (Or (Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 4))))\n                    (Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 5)))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1608370906",
+      "temporary_id": "decl-011765"
+    },
+    {
+      "formal_type": "\u2200 {Grp : Type u_1} [inst : Group.{u_1} Grp] [Finite.{u_1 + 1} Grp],\n  IsSimpleGroup.{u_1} Grp \u2192 Eq.{1} (Nat.card.{u_1} Grp) 60 \u2192 Exists.{u_1 + 1} fun H => Eq.{1} (Subgroup.index.{u_1} H) 5",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "872594442",
+      "temporary_id": "decl-011774"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)],\n  Or (IsCyclic.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x))\n    (Or\n      (Exists.{1} fun n =>\n        Nonempty.{1} (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) (DihedralGroup n)))\n      (Or\n        (Nonempty.{1}\n          (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)\n            (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 4)) x)))\n        (Or (Nonempty.{1} (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) (Equiv.Perm.{1} (Fin 4))))\n          (Nonempty.{1}\n            (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)\n              (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2441231530",
+      "temporary_id": "decl-011793"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (b : Set.Elem.{0} (decl-011750 G)),\n  Eq.{1}\n      (Nat.card.{0}\n        (Subtype.{1} fun x =>\n          Membership.mem.{0, 0} (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b) x))\n      (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)) \u2192\n    IsCyclic.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "1072297293",
+      "temporary_id": "decl-011795"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (b : Set.Elem.{0} (decl-011750 G)),\n  (\u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} G x), Eq.{1} (HSMul.hSMul.{0, 0, 0} g b) b) \u2192\n    IsCyclic.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "239039269",
+      "temporary_id": "decl-011796"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (m : Multiset.{0} Nat),\n  Eq.{1} m\n      (Insert.insert.{0, 0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x))\n        (Singleton.singleton.{0, 0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)))) \u2192\n    (\u2200 (x : Nat),\n        Membership.mem.{0, 0} m x \u2192\n          Exists.{1} fun b =>\n            Eq.{1}\n              (Nat.card.{0}\n                (Subtype.{1} fun x =>\n                  Membership.mem.{0, 0} (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b)\n                    x))\n              x) \u2192\n      IsCyclic.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "853122145",
+      "temporary_id": "decl-011797"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (k : Nat),\n  LE.le.{0} 2 k \u2192\n    Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)) (HMul.hMul.{0, 0, 0} 2 k) \u2192\n      (\u2200 (x : Nat),\n          Membership.mem.{0, 0} (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 2 (Singleton.singleton.{0, 0} k))) x \u2192\n            Exists.{1} fun b =>\n              Eq.{1}\n                (Nat.card.{0}\n                  (Subtype.{1} fun x =>\n                    Membership.mem.{0, 0}\n                      (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b) x))\n                x) \u2192\n        Nonempty.{1} (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) (DihedralGroup k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "1113340063",
+      "temporary_id": "decl-011798"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)],\n  Or (IsCyclic.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x))\n    (Or\n      (Exists.{1} fun n =>\n        Nonempty.{1} (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) (DihedralGroup n)))\n      (Or\n        (Nonempty.{1}\n          (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)\n            (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 4)) x)))\n        (Or (Nonempty.{1} (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) (Equiv.Perm.{1} (Fin 4))))\n          (Nonempty.{1}\n            (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)\n              (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2441231530",
+      "temporary_id": "decl-011800"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (m : Multiset.{0} Nat),\n  Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 5))) \u2192\n    Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)) 60 \u2192\n      (\u2200 (x : Nat),\n          Membership.mem.{0, 0} m x \u2192\n            Exists.{1} fun b =>\n              Eq.{1}\n                (Nat.card.{0}\n                  (Subtype.{1} fun x =>\n                    Membership.mem.{0, 0}\n                      (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b) x))\n                x) \u2192\n        IsSimpleGroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "3009148109",
+      "temporary_id": "decl-011801"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (m : Multiset.{0} Nat),\n  Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 5))) \u2192\n    Eq.{1}\n        (HMul.hMul.{0, 0, 0} 2\n          (HSub.hSub.{0, 0, 0} 1\n            (Inv.inv.{0} (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x))))))\n        (Multiset.sum.{0}\n          (Multiset.map.{0, 0} (fun x => HSub.hSub.{0, 0, 0} 1 (Inv.inv.{0} x)) do\n            let a \u2190 m\n            Pure.pure.{0, 0} (Nat.cast.{0} a))) \u2192\n      Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)) 60",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2451707538",
+      "temporary_id": "decl-011807"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (m : Multiset.{0} Nat),\n  Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 5))) \u2192\n    Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)) 60 \u2192\n      (\u2200 (x : Nat),\n          Membership.mem.{0, 0} m x \u2192\n            Exists.{1} fun b =>\n              Eq.{1}\n                (Nat.card.{0}\n                  (Subtype.{1} fun x =>\n                    Membership.mem.{0, 0}\n                      (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b) x))\n                x) \u2192\n        Exists.{1} fun \u03c6 => Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "4146688997",
+      "temporary_id": "decl-011809"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (m : Multiset.{0} Nat),\n  Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 5))) \u2192\n    Eq.{1}\n        (HMul.hMul.{0, 0, 0} 2\n          (HSub.hSub.{0, 0, 0} 1\n            (Inv.inv.{0} (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x))))))\n        (Multiset.sum.{0}\n          (Multiset.map.{0, 0} (fun x => HSub.hSub.{0, 0, 0} 1 (Inv.inv.{0} x)) do\n            let a \u2190 m\n            Pure.pure.{0, 0} (Nat.cast.{0} a))) \u2192\n      (\u2200 (x : Nat),\n          Membership.mem.{0, 0} m x \u2192\n            Exists.{1} fun b =>\n              Eq.{1}\n                (Nat.card.{0}\n                  (Subtype.{1} fun x =>\n                    Membership.mem.{0, 0}\n                      (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b) x))\n                x) \u2192\n        Nonempty.{1}\n          (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)\n            (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "42927639",
+      "temporary_id": "decl-011810"
+    },
+    {
+      "formal_type": "\u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x)\n  (a b : Fin 3 \u2192 Real),\n  Eq.{1}\n    (dotProduct.{0, 0} (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} g) a) (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} g) b))\n    (dotProduct.{0, 0} a b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4280014391",
+      "temporary_id": "decl-011812"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (m : Multiset.{0} Nat),\n  Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 4))) \u2192\n    Eq.{1}\n        (HMul.hMul.{0, 0, 0} 2\n          (HSub.hSub.{0, 0, 0} 1\n            (Inv.inv.{0} (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x))))))\n        (Multiset.sum.{0}\n          (Multiset.map.{0, 0} (fun x => HSub.hSub.{0, 0, 0} 1 (Inv.inv.{0} x)) do\n            let a \u2190 m\n            Pure.pure.{0, 0} (Nat.cast.{0} a))) \u2192\n      (\u2200 (x : Nat),\n          Membership.mem.{0, 0} m x \u2192\n            Exists.{1} fun b =>\n              Eq.{1}\n                (Nat.card.{0}\n                  (Subtype.{1} fun x =>\n                    Membership.mem.{0, 0}\n                      (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b) x))\n                x) \u2192\n        Nonempty.{1} (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) (Equiv.Perm.{1} (Fin 4)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "2801985175",
+      "temporary_id": "decl-011813"
+    },
+    {
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] (m : Multiset.{0} Nat),\n  Eq.{1} m (Insert.insert.{0, 0} 2 (Insert.insert.{0, 0} 3 (Singleton.singleton.{0, 0} 3))) \u2192\n    Eq.{1}\n        (HMul.hMul.{0, 0, 0} 2\n          (HSub.hSub.{0, 0, 0} 1\n            (Inv.inv.{0} (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x))))))\n        (Multiset.sum.{0}\n          (Multiset.map.{0, 0} (fun x => HSub.hSub.{0, 0, 0} 1 (Inv.inv.{0} x)) do\n            let a \u2190 m\n            Pure.pure.{0, 0} (Nat.cast.{0} a))) \u2192\n      (\u2200 (x : Nat),\n          Membership.mem.{0, 0} m x \u2192\n            Exists.{1} fun b =>\n              Eq.{1}\n                (Nat.card.{0}\n                  (Subtype.{1} fun x =>\n                    Membership.mem.{0, 0}\n                      (MulAction.stabilizer.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) b) x))\n                x) \u2192\n        Nonempty.{1}\n          (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)\n            (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 4)) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011750",
+        "decl-011751"
+      ],
+      "structural_type_hash": "3562054877",
+      "temporary_id": "decl-011815"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2720346151",
+      "temporary_id": "decl-011820"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "719110470",
+      "temporary_id": "decl-011821"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "282128389",
+      "temporary_id": "decl-011822"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3516494201",
+      "temporary_id": "decl-011825"
+    },
+    {
+      "formal_type": "\u2200\n  (h :\n    MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  (H : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)],\n  Or (IsCyclic.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.map.{0, 0} h H) x))\n    (Or\n      (Exists.{1} fun n =>\n        Nonempty.{1}\n          (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.map.{0, 0} h H) x) (DihedralGroup n)))\n      (Or\n        (Nonempty.{1}\n          (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.map.{0, 0} h H) x)\n            (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 4)) x)))\n        (Or\n          (Nonempty.{1}\n            (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.map.{0, 0} h H) x)\n              (Equiv.Perm.{1} (Fin 4))))\n          (Nonempty.{1}\n            (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.map.{0, 0} h H) x)\n              (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1563460069",
+      "temporary_id": "decl-011826"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3693430655",
+      "temporary_id": "decl-011827"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4045329628",
+      "temporary_id": "decl-011831"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3369939166",
+      "temporary_id": "decl-011832"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3635328951",
+      "temporary_id": "decl-011833"
+    },
+    {
+      "formal_type": "\u2200 {H : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)}\n  (x y : Subtype.{1} fun x => Membership.mem.{0, 0} H x),\n  Eq.{1} (Subtype.val.{1} (Subtype.val.{1} (HMul.hMul.{0, 0, 0} x y)))\n    (HMul.hMul.{0, 0, 0} (Subtype.val.{1} (Subtype.val.{1} x)) (Subtype.val.{1} (Subtype.val.{1} y)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3580242635",
+      "temporary_id": "decl-011834"
+    },
+    {
+      "formal_type": "\u2200 {H : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)},\n  Eq.{1} (Subtype.val.{1} (Subtype.val.{1} 1)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1701825452",
+      "temporary_id": "decl-011835"
+    },
+    {
+      "formal_type": "\u2200 {H : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)}\n  {x : Subtype.{1} fun x => Membership.mem.{0, 0} H x},\n  Eq.{1} (HMul.hMul.{0, 0, 0} x x) 1 \u2192 Eq.{1} (HMul.hMul.{0, 0, 0} (Subtype.val.{1} x) (Subtype.val.{1} x)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4073738033",
+      "temporary_id": "decl-011836"
+    },
+    {
+      "formal_type": "\u2200 {H : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)}\n  {x y : Subtype.{1} fun x => Membership.mem.{0, 0} H x},\n  Eq.{1} (Subtype.val.{1} (Subtype.val.{1} x)) (Subtype.val.{1} (Subtype.val.{1} y)) \u2192 Eq.{1} x y",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1759936603",
+      "temporary_id": "decl-011837"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1112836654",
+      "temporary_id": "decl-011838"
+    }
+  ],
+  "module_temporary_id": "module-0233",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

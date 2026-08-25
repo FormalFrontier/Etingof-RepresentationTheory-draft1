@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:e4e32a354bdcf1189221",
+      "rationale": "The displayed type directly states that, for nontrivial V, simplicity is equivalent to every nonzero vector being cyclic.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0592"
+}

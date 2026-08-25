@@ -1,0 +1,110 @@
+{
+  "module_name": "QuaternionFunctionSubmodule",
+  "declarations": [
+    {
+      "temporary_id": "decl-003803",
+      "new_name": "auxiliarySubmoduleEquivFinTwo",
+      "docstring": "A complex-linear equivalence between the auxiliary function submodule and pairs of complex numbers."
+    },
+    {
+      "temporary_id": "decl-003810",
+      "new_name": "auxiliaryFunctionSubmodule",
+      "docstring": "An auxiliary complex submodule of functions on the quaternion group."
+    },
+    {
+      "temporary_id": "decl-003814",
+      "new_name": "eq_quaternionFunctionOfValues",
+      "docstring": "A function in the auxiliary submodule is determined by its values at the displayed two quaternion-group elements."
+    },
+    {
+      "temporary_id": "decl-003815",
+      "new_name": "finrank_auxiliaryFunctionSubmodule",
+      "docstring": "The auxiliary complex function submodule has dimension two."
+    },
+    {
+      "temporary_id": "decl-003816",
+      "new_name": "auxiliaryFunctionSubmodule_invariant",
+      "docstring": "The auxiliary function submodule is preserved by the displayed group representation."
+    },
+    {
+      "temporary_id": "decl-003817",
+      "new_name": "invariant_submodule_eq_bot_or_auxiliaryFunctionSubmodule",
+      "docstring": "An invariant submodule contained in the auxiliary function submodule is either zero or the whole auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-003819",
+      "new_name": "values_of_mem_auxiliaryFunctionSubmodule",
+      "docstring": "Membership in the auxiliary submodule forces the displayed values at quaternion-group elements to differ by powers and signs of the imaginary unit."
+    },
+    {
+      "temporary_id": "decl-003820",
+      "new_name": "quaternionFunctionOfValues",
+      "docstring": "A quaternion-group function constructed from two complex parameters."
+    },
+    {
+      "temporary_id": "decl-003823",
+      "new_name": "quaternionFunctionOfValues_a_zero",
+      "docstring": "The constructed quaternion function takes its first parameter at `a 0`."
+    },
+    {
+      "temporary_id": "decl-003824",
+      "new_name": "quaternionFunctionOfValues_a_one",
+      "docstring": "The constructed quaternion function takes the imaginary unit times its first parameter at `a 1`."
+    },
+    {
+      "temporary_id": "decl-003825",
+      "new_name": "quaternionFunctionOfValues_a_two",
+      "docstring": "The constructed quaternion function takes the negative of its first parameter at `a 2`."
+    },
+    {
+      "temporary_id": "decl-003826",
+      "new_name": "quaternionFunctionOfValues_a_three",
+      "docstring": "The constructed quaternion function takes negative imaginary unit times its first parameter at `a 3`."
+    },
+    {
+      "temporary_id": "decl-003827",
+      "new_name": "quaternionFunctionOfValues_mem",
+      "docstring": "Every function constructed from two complex parameters belongs to the auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-003829",
+      "new_name": "quaternionFunctionOfValues_xa_zero",
+      "docstring": "The constructed quaternion function takes its second parameter at `xa 0`."
+    },
+    {
+      "temporary_id": "decl-003830",
+      "new_name": "quaternionFunctionOfValues_xa_one",
+      "docstring": "The constructed quaternion function takes negative imaginary unit times its second parameter at `xa 1`."
+    },
+    {
+      "temporary_id": "decl-003831",
+      "new_name": "quaternionFunctionOfValues_xa_two",
+      "docstring": "The constructed quaternion function takes the negative of its second parameter at `xa 2`."
+    },
+    {
+      "temporary_id": "decl-003832",
+      "new_name": "quaternionFunctionOfValues_xa_three",
+      "docstring": "The constructed quaternion function takes the imaginary unit times its second parameter at `xa 3`."
+    },
+    {
+      "temporary_id": "decl-003833",
+      "new_name": "mem_auxiliaryFunctionSubmodule_iff",
+      "docstring": "A complex function belongs to the auxiliary submodule exactly when left multiplication by `a 1` scales its values by the imaginary unit."
+    },
+    {
+      "temporary_id": "decl-003835",
+      "new_name": "rightTranslationRepresentation",
+      "docstring": "A complex representation of the quaternion group on its complex-valued function space."
+    },
+    {
+      "temporary_id": "decl-003838",
+      "new_name": "rightTranslationRepresentation_apply",
+      "docstring": "The displayed representation acts on a function by right multiplication of its argument."
+    },
+    {
+      "temporary_id": "decl-003839",
+      "new_name": "zmod_four_eq_zero_or_one_or_two_or_three",
+      "docstring": "Every element of integers modulo four equals zero, one, two, or three."
+    }
+  ]
+}

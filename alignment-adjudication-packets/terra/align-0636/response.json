@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0636",
+  "associations": [
+    {
+      "association_id": "association:ee899f97c61f328d7d3b",
+      "rationale": "The formal type asserts simplicity of the standard matrix representation and does not state the definition or multiplication action of matrix units.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:06d17c4474d9ea03ce68",
+      "rationale": "No formal type is displayed, so the candidate does not directly state the source claim in the available evidence.",
+      "role": "supporting"
+    }
+  ]
+}

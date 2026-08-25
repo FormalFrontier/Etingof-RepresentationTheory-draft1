@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0101",
+  "associations": [
+    {"association_id": "association:83d9fb22a3aba66850c3", "role": "supporting", "rationale": "The displayed type places Der(A) in the linear endomorphisms as a Lie subalgebra, but its elided body does not state the defining Leibniz membership condition."},
+    {"association_id": "association:f357a23b0c846023a78e", "role": "supporting", "rationale": "The formal type derives the Leibniz identity from membership in Der(A), so it gives only the consequence direction rather than characterizing which endomorphisms belong to Der(A)."},
+    {"association_id": "association:34f2cc19718596fe97cd", "role": "supporting", "rationale": "This merely gives the type of the IsLeibniz predicate without displaying its defining law."},
+    {"association_id": "association:6b05e6e435c0ab3de7cc", "role": "primary", "rationale": "The iff directly characterizes membership in Der(A) by the Leibniz formula for all a and b."}
+  ]
+}

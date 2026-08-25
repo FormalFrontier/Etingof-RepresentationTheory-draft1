@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6a5a65ffd40a6542d373",
+      "declaration": "Etingof.Theorem5_6_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/282/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] [IsAlgClosed.{u_2} k] {G : Type u_3} {H : Type u_4} [inst_2 : Group.{u_3} G]\n  [inst_3 : Group.{u_4} H],\n  And\n    (\u2200 {V W : Type u} [inst_4 : AddCommGroup.{u} V] [inst_5 : Module.{u_2, u} k V] [FiniteDimensional.{u_2, u} k V]\n      [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u_2, u} k W] [FiniteDimensional.{u_2, u} k W]\n      (\u03c1 : Representation.{u_2, u_3, u} k G V) (\u03c3 : Representation.{u_2, u_4, u} k H W),\n      Etingof.IsIrreducibleRep.{u_2, u_3, u} \u03c1 \u2192\n        Etingof.IsIrreducibleRep.{u_2, u_4, u} \u03c3 \u2192\n          Etingof.IsIrreducibleRep.{u_2, max u_3 u_4, u} (Etingof.extTprod.{u_2, u_3, u_4, u, u} \u03c1 \u03c3))\n    (\u2200 {M : Type u} [inst_4 : AddCommGroup.{u} M] [inst_5 : Module.{u_2, u} k M] [FiniteDimensional.{u_2, u} k M]\n      (\u03c4 : Representation.{u_2, max u_4 u_3, u} k (Prod.{u_3, u_4} G H) M),\n      Etingof.IsIrreducibleRep.{u_2, max u_3 u_4, u} \u03c4 \u2192\n        Exists.{u + 2} fun V =>\n          Exists.{u + 2} fun W =>\n            Exists.{u + 1} fun x =>\n              Exists.{max (u + 1) (u_2 + 1)} fun x_1 =>\n                Exists.{0} fun x_2 =>\n                  Exists.{u + 1} fun x_3 =>\n                    Exists.{max (u + 1) (u_2 + 1)} fun x_4 =>\n                      Exists.{0} fun x_5 =>\n                        Exists.{max (u + 1) (u_3 + 1)} fun \u03c1 =>\n                          Exists.{max (u + 1) (u_4 + 1)} fun \u03c3 =>\n                            And (Etingof.IsIrreducibleRep.{u_2, u_3, u} \u03c1)\n                              (And (Etingof.IsIrreducibleRep.{u_2, u_4, u} \u03c3)\n                                (Exists.{u + 1} fun e =>\n                                  \u2200 (gh : Prod.{u_3, u_4} G H) (m : M),\n                                    Eq.{u + 1}\n                                      (DFunLike.coe.{u + 1, u + 1, u + 1} e\n                                        (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                          (DFunLike.coe.{max (max (u + 1) (u_3 + 1)) (u_4 + 1), max (u_3 + 1) (u_4 + 1),\n                                              u + 1}\n                                            \u03c4 gh)\n                                          m))\n                                      (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                        (DFunLike.coe.{max (max (u + 1) (u_3 + 1)) (u_4 + 1), max (u_3 + 1) (u_4 + 1),\n                                            u + 1}\n                                          (Etingof.extTprod.{u_2, u_3, u_4, u, u} \u03c1 \u03c3) gh)\n                                        (DFunLike.coe.{u + 1, u + 1, u + 1} e m)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_6_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Introduction_5.6",
+  "packet_id": "align-0245",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0245"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:498c1b93601282b502f9",
+  "source_text": "The section classifies irreducible representations of direct products."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Problem8.2.7",
+    "kind": "exercise",
+    "title": "Computing Tor and Ext for abelian groups and polynomial modules",
+    "node_id": "chapter-08/section-8-2",
+    "order": 542,
+    "slug": "problem8-2-7",
+    "span": {
+      "start": {
+        "page": "210",
+        "line": 23
+      },
+      "end": {
+        "page": "210",
+        "line": 26
+      }
+    },
+    "source_sha256": "d4886b1bd7a53201ce8b319f5da1170086c09ea8cf80b89d4c6e9077ff5faa86",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Problem827",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

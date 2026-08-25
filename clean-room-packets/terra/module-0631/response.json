@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.Homology.LinearYoneda",
+  "declarations": [
+    {
+      "temporary_id": "decl-004134",
+      "new_name": "ModuleCat.linearYonedaHomology",
+      "docstring": "The degree-n k-module represented by linear Yoneda homology for two A-module objects."
+    },
+    {
+      "temporary_id": "decl-019022",
+      "new_name": "ModuleCat.linearYonedaHomologyIsoOfProjectiveResolution",
+      "docstring": "An isomorphism from the degree-n linear Yoneda homology object to the homology of the linear Yoneda complex obtained from a projective resolution of the first A-module and the second A-module."
+    }
+  ]
+}

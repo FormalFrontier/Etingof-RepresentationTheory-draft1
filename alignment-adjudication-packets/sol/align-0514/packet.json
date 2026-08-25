@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1ff591982880aa19c716",
+      "declaration": "Etingof.Problem2_11_3.extPowMap",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/103/claim_coverage/claims/11/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    {V : Type u_2} \u2192\n      {W : Type u_3} \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} k W] \u2192\n                LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) V W \u2192\n                  (n : Nat) \u2192\n                    LinearMap.{u_1, u_1, max u_2 u_1, max u_3 u_1} (RingHom.id.{u_1} k)\n                      (Etingof.Problem2_11_3.ExtPow.{u_1, u_2} k V n) (Etingof.Problem2_11_3.ExtPow.{u_1, u_3} k W n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow"
+    },
+    {
+      "association_id": "association:e1c6827ba9f8cd12abba",
+      "declaration": "Etingof.Problem2_11_3.extPowMap_comp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/103/claim_coverage/claims/11/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {V : Type u_2} {W : Type u_3} {U : Type u_4} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W]\n  [inst_5 : AddCommGroup.{u_4} U] [inst_6 : Module.{u_1, u_4} k U]\n  (A : LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} k) W U)\n  (B : LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) V W) (n : Nat),\n  Eq.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1)}\n    (Etingof.Problem2_11_3.extPowMap.{u_1, u_2, u_4} (LinearMap.comp.{u_1, u_1, u_1, u_2, u_3, u_4} A B) n)\n    (LinearMap.comp.{u_1, u_1, u_1, max u_1 u_2, max u_1 u_3, max u_1 u_4}\n      (Etingof.Problem2_11_3.extPowMap.{u_1, u_3, u_4} A n) (Etingof.Problem2_11_3.extPowMap.{u_1, u_2, u_3} B n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow"
+    },
+    {
+      "association_id": "association:f311a4378f1f94e61c0a",
+      "declaration": "Etingof.Problem2_11_3.symPowMap",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/103/claim_coverage/claims/11/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    {V : Type u_2} \u2192\n      {W : Type u_3} \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} k W] \u2192\n                LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) V W \u2192\n                  (n : Nat) \u2192\n                    LinearMap.{u_1, u_1, max u_2 u_1, max u_3 u_1} (RingHom.id.{u_1} k)\n                      (Etingof.Problem2_11_3.SymPow.{u_1, u_2} k V n) (Etingof.Problem2_11_3.SymPow.{u_1, u_3} k W n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow"
+    },
+    {
+      "association_id": "association:8fe010d1277d1d47c4cc",
+      "declaration": "Etingof.Problem2_11_3.symPowMap_comp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/103/claim_coverage/claims/11/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {V : Type u_2} {W : Type u_3} {U : Type u_4} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W]\n  [inst_5 : AddCommGroup.{u_4} U] [inst_6 : Module.{u_1, u_4} k U]\n  (A : LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} k) W U)\n  (B : LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) V W) (n : Nat),\n  Eq.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1)}\n    (Etingof.Problem2_11_3.symPowMap.{u_1, u_2, u_4} (LinearMap.comp.{u_1, u_1, u_1, u_2, u_3, u_4} A B) n)\n    (LinearMap.comp.{u_1, u_1, u_1, max u_1 u_2, max u_1 u_3, max u_1 u_4}\n      (Etingof.Problem2_11_3.symPowMap.{u_1, u_3, u_4} A n) (Etingof.Problem2_11_3.symPowMap.{u_1, u_2, u_3} B n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow"
+    },
+    {
+      "association_id": "association:4ba7e900db4ede25bc84",
+      "declaration": "Etingof.Problem2_11_3.tensorPowMap",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/103/claim_coverage/claims/11/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    {V : Type u_2} \u2192\n      {W : Type u_3} \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} k W] \u2192\n                LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) V W \u2192\n                  (n : Nat) \u2192\n                    LinearMap.{u_1, u_1, max u_2 u_1, max u_3 u_1} (RingHom.id.{u_1} k)\n                      (Etingof.Problem2_11_3.TensorPow.{u_1, u_2} k V n)\n                      (Etingof.Problem2_11_3.TensorPow.{u_1, u_3} k W n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.11.3",
+  "packet_id": "align-0514",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0514"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.11.3:claim-12",
+  "source_text": "(f) A linear map A induces A^{\u2297n}, S\u207fA, and \u2227\u207fA, functorially under composition."
+}

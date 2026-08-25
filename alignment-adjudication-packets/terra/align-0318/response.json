@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0318",
+  "associations": [
+    {
+      "association_id": "association:96fd7d82f19a4c06d975",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so packet-only evidence does not establish that this basis declaration itself states the concatenation multiplication rule."
+    },
+    {
+      "association_id": "association:c5a9d6989e3b499e53d5",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable; the named equivalence can support a word-basis interpretation but cannot be verified here as the direct multiplication statement."
+    },
+    {
+      "association_id": "association:3298a54a602a030bebd3",
+      "role": "supporting",
+      "rationale": "Although the declaration name suggests the relevant multiplication rule, its formal type is unavailable, so the packet does not directly verify the source equation."
+    }
+  ]
+}

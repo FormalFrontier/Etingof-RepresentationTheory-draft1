@@ -1,0 +1,15 @@
+{
+  "module_name": "AlgebraicNumbers.MatrixCriteria",
+  "declarations": [
+    {
+      "temporary_id": "decl-001495",
+      "new_name": "isAlgebraic_iff_exists_rat_matrix_charpoly_isRoot",
+      "docstring": "Characterizes rational-algebraic complex numbers through zeros of characteristic polynomials arising from rational matrices."
+    },
+    {
+      "temporary_id": "decl-001496",
+      "new_name": "isIntegral_iff_exists_int_matrix_charpoly_isRoot",
+      "docstring": "Characterizes integer-integral complex numbers through zeros of characteristic polynomials arising from integer matrices."
+    }
+  ]
+}

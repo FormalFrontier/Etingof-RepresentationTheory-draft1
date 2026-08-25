@@ -1,0 +1,102 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "336211725",
+      "temporary_id": "decl-018186"
+    },
+    {
+      "formal_type": "{R : Type u_1} \u2192\n  {M : Type u_2} \u2192\n    [inst : Semiring.{u_1} R] \u2192\n      CoeFun.{max (u_2 + 1) (u_1 + 1), max (u_1 + 1) (u_2 + 1)} (MonoidAlgebra.{u_1, u_2} R M) fun x => M \u2192 R",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "959306518",
+      "temporary_id": "decl-022163"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 decl-016224 n",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224"
+      ],
+      "structural_type_hash": "3420600066",
+      "temporary_id": "decl-023496"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (y : decl-016224 n),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-023496 n) y) (HMul.hMul.{0, 0, 0} y (decl-023496 n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224",
+        "decl-023496"
+      ],
+      "structural_type_hash": "915157159",
+      "temporary_id": "decl-023525"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (x : decl-016224 n),\n  Membership.mem.{0, 0} (decl-016116 n la) x \u2192\n    Eq.{1} (HMul.hMul.{0, 0, 0} (decl-023496 n) x)\n      (HSMul.hSMul.{0, 0, 0} (Int.cast.{0} (decl-018186 la)) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016224",
+        "decl-018186",
+        "decl-023496"
+      ],
+      "structural_type_hash": "11155839",
+      "temporary_id": "decl-023527"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-023496 n) (decl-017048 n la))\n    (HSMul.hSMul.{0, 0, 0} (Int.cast.{0} (decl-018186 la)) (decl-017048 n la))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016224",
+        "decl-017048",
+        "decl-018186",
+        "decl-023496"
+      ],
+      "structural_type_hash": "3644654807",
+      "temporary_id": "decl-023528"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) {i j : Fin n},\n  Ne.{1} i j \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.coeff.{0, 0} (decl-017048 n la)) (Equiv.swap.{1} i j))\n      (HSub.hSub.{0, 0, 0}\n        (ite.{1} (Eq.{1} (decl-022870 la.sortedParts i.val) (decl-022870 la.sortedParts j.val)) 1 0)\n        (ite.{1} (Eq.{1} (decl-018063 la.sortedParts i.val) (decl-018063 la.sortedParts j.val)) 1 0))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017048",
+        "decl-018063",
+        "decl-022870",
+        "decl-025220"
+      ],
+      "structural_type_hash": "3070604046",
+      "temporary_id": "decl-024705"
+    }
+  ],
+  "module_temporary_id": "module-0386",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

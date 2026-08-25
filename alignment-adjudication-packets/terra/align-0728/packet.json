@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2e6771edb2156d0c4abe",
+      "declaration": "Etingof.Problem4_12_8.so3_finite_subgroup_classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/237/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x))\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)],\n  Or (IsCyclic.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x))\n    (Or\n      (Exists.{1} fun n =>\n        Nonempty.{1} (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) (DihedralGroup n)))\n      (Or\n        (Nonempty.{1}\n          (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)\n            (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 4)) x)))\n        (Or (Nonempty.{1} (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) (Equiv.Perm.{1} (Fin 4))))\n          (Nonempty.{1}\n            (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)\n              (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_8"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.8",
+  "packet_id": "align-0728",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0728"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.8:part_a",
+  "source_text": "Part (a): exhaustively classify finite subgroups of SO(3)."
+}

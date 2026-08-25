@@ -1,0 +1,15 @@
+{
+  "module_name": "DualContraction",
+  "declarations": [
+    {
+      "temporary_id": "decl-018204",
+      "new_name": "contractLeft_dual_action_tmul_action",
+      "docstring": "Contracting a pure tensor after applying the dual and original representation actions gives the original contraction."
+    },
+    {
+      "temporary_id": "decl-018206",
+      "new_name": "contractLeft_ne_zero",
+      "docstring": "Left contraction on a nontrivial finite-dimensional vector space is nonzero."
+    }
+  ]
+}

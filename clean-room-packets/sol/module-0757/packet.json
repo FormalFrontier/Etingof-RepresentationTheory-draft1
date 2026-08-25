@@ -1,0 +1,1506 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              (P : C) \u2192\n                (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) \u2192\n                  Quiver.Hom.{v, u}\n                    (decl-014250.{u, v, w} P\n                      (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)))\n                    (decl-014250.{u, v, w} P (FGModuleCat.carrier.{v, v} X))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "1249538543",
+      "temporary_id": "decl-014200"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (decl-014200.{u, v, w} P\n        (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y))\n      (decl-014241.{u, v, w} Y))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014200",
+        "decl-014228",
+        "decl-014229",
+        "decl-014241",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "4194790191",
+      "temporary_id": "decl-014202"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C)\n  {X Y : FGModuleCat.{v, v} (decl-014229.{u, v} P)} (f : Quiver.Hom.{v, v + 1} X Y),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014200.{u, v, w} P X)\n      (decl-014268.{u, v, w} P (decl-014306.{u, v, w} P f)))\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (decl-014268.{u, v, w} P (decl-014334.{u, v, w} P f))\n      (decl-014200.{u, v, w} P Y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014200",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014268",
+        "decl-014306",
+        "decl-014334"
+      ],
+      "structural_type_hash": "4051999830",
+      "temporary_id": "decl-014203"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014200.{u, v, w} P X)\n      (decl-014213.{u, v, w} P X))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014200",
+        "decl-014206",
+        "decl-014213",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "2835442089",
+      "temporary_id": "decl-014204"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) {Z : C}\n  (h : Quiver.Hom.{v, u} (decl-014206.{u, v, w} P X) Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014200.{u, v, w} P X)\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014213.{u, v, w} P X) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u} 0 h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014200",
+        "decl-014206",
+        "decl-014213",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "769490269",
+      "temporary_id": "decl-014205"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [decl-005167.{w, u, v} k C] \u2192\n              (P : C) \u2192 FGModuleCat.{v, v} (decl-014229.{u, v} P) \u2192 C",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014229"
+      ],
+      "structural_type_hash": "1398992306",
+      "temporary_id": "decl-014206"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [decl-005167.{w, u, v} k C] \u2192\n              (P : C) \u2192\n                CategoryTheory.Functor.{v, v, v + 1, u} (FGModuleCat.{v, v} (decl-014229.{u, v} P)) C",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014229"
+      ],
+      "structural_type_hash": "42288115",
+      "temporary_id": "decl-014208"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              (P : C) \u2192\n                {X Y : FGModuleCat.{v, v} (decl-014229.{u, v} P)} \u2192\n                  Quiver.Hom.{v, v + 1} X Y \u2192\n                    Quiver.Hom.{v, u} (decl-014206.{u, v, w} P X)\n                      (decl-014206.{u, v, w} P Y)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014206",
+        "decl-014229"
+      ],
+      "structural_type_hash": "2443375518",
+      "temporary_id": "decl-014211"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              (P : C) \u2192\n                (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) \u2192\n                  Quiver.Hom.{v, u} (decl-014250.{u, v, w} P (FGModuleCat.carrier.{v, v} X))\n                    (decl-014206.{u, v, w} P X)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014206",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "3095221374",
+      "temporary_id": "decl-014213"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)),\n  CategoryTheory.Epi.{v, u} (decl-014213.{u, v, w} P X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014206",
+        "decl-014213",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "992945209",
+      "temporary_id": "decl-014214"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (decl-014213.{u, v, w} P\n        (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y))\n      (decl-014231.{u, v, w} Y))\n    (decl-014241.{u, v, w} Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014213",
+        "decl-014229",
+        "decl-014231",
+        "decl-014241",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "2398534489",
+      "temporary_id": "decl-014215"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C) {Z : C} (h : Quiver.Hom.{v, u} Y Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (decl-014213.{u, v, w} P\n        (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y))\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014231.{u, v, w} Y) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014241.{u, v, w} Y) h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014213",
+        "decl-014229",
+        "decl-014231",
+        "decl-014241",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "77531822",
+      "temporary_id": "decl-014216"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C)\n  {X Y : FGModuleCat.{v, v} (decl-014229.{u, v} P)} (f : Quiver.Hom.{v, v + 1} X Y),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014213.{u, v, w} P X)\n      (decl-014211.{u, v, w} P f))\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (decl-014268.{u, v, w} P (decl-014306.{u, v, w} P f))\n      (decl-014213.{u, v, w} P Y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014206",
+        "decl-014211",
+        "decl-014213",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014268",
+        "decl-014306"
+      ],
+      "structural_type_hash": "126632886",
+      "temporary_id": "decl-014217"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C)\n  {X Y : FGModuleCat.{v, v} (decl-014229.{u, v} P)} (f : Quiver.Hom.{v, v + 1} X Y) {Z : C}\n  (h : Quiver.Hom.{v, u} (decl-014206.{u, v, w} P Y) Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014213.{u, v, w} P X)\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014211.{u, v, w} P f) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (decl-014268.{u, v, w} P (decl-014306.{u, v, w} P f))\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014213.{u, v, w} P Y) h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014206",
+        "decl-014211",
+        "decl-014213",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014268",
+        "decl-014306"
+      ],
+      "structural_type_hash": "3926976083",
+      "temporary_id": "decl-014218"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) \u2192\n                  LinearMap.{v, v, v, v} (RingHom.id.{v} (decl-014229.{u, v} P))\n                    (Quiver.Hom.{v, u} P (decl-014250.{u, v, w} P (FGModuleCat.carrier.{v, v} X)))\n                    (FGModuleCat.carrier.{v, v} X)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "987759152",
+      "temporary_id": "decl-014219"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C}\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P))\n  (z : TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)),\n  Eq.{v + 1}\n    (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014219.{u, v, w} X)\n      (CategoryTheory.CategoryStruct.comp.{v, u}\n        (DFunLike.coe.{v + 1, v + 1, v + 1}\n          (decl-014274.{u, v, w} P\n            (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)))\n          z)\n        (decl-014200.{u, v, w} P X)))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014200",
+        "decl-014219",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274"
+      ],
+      "structural_type_hash": "4181974583",
+      "temporary_id": "decl-014224"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C}\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P))\n  (h :\n    Quiver.Hom.{v, u} P\n      (decl-014250.{u, v, w} P\n        (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)))),\n  Eq.{v + 1}\n    (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014219.{u, v, w} X)\n      (CategoryTheory.CategoryStruct.comp.{v, u} h (decl-014200.{u, v, w} P X)))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014200",
+        "decl-014219",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "3142739558",
+      "temporary_id": "decl-014225"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C}\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) (x : FGModuleCat.carrier.{v, v} X),\n  Eq.{v + 1}\n    (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014219.{u, v, w} X)\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P (FGModuleCat.carrier.{v, v} X))\n        x))\n    x",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014219",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274"
+      ],
+      "structural_type_hash": "1589459735",
+      "temporary_id": "decl-014226"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C),\n  CategoryTheory.IsIso.{v, v + 1}\n    (CategoryTheory.Functor.map.{v, v, u, v + 1} decl-005264.{u, v}\n      (decl-014231.{u, v, w} Y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014231"
+      ],
+      "structural_type_hash": "2931054098",
+      "temporary_id": "decl-014227"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] (P : C),\n  FiniteDimensional.{w, v} k (CategoryTheory.End.{v, u} P)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167"
+      ],
+      "structural_type_hash": "182272289",
+      "temporary_id": "decl-014228"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192 [CategoryTheory.Category.{v, u} C] \u2192 C \u2192 Type v",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1081856253",
+      "temporary_id": "decl-014229"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] {P : C} (r : k),\n  Eq.{v + 1}\n    (MulOpposite.unop.{v}\n      (DFunLike.coe.{max (v + 1) (w + 1), w + 1, v + 1}\n        (Algebra.algebraMap.{w, v} k (decl-014229.{u, v} P)) r))\n    (HSMul.hSMul.{w, v, v} r (CategoryTheory.CategoryStruct.id.{v, u} P))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014229"
+      ],
+      "structural_type_hash": "3239523115",
+      "temporary_id": "decl-014230"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                [hp : decl-005213.{u, v} P] \u2192\n                  (Y : C) \u2192\n                    Quiver.Hom.{v, u}\n                      (decl-014206.{u, v, w} P\n                        (CategoryTheory.Functor.obj.{v, v, u, v + 1}\n                          decl-005264.{u, v} Y))\n                      Y",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206"
+      ],
+      "structural_type_hash": "730213397",
+      "temporary_id": "decl-014231"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C), CategoryTheory.Epi.{v, u} (decl-014231.{u, v, w} Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014231"
+      ],
+      "structural_type_hash": "2971383258",
+      "temporary_id": "decl-014234"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C), CategoryTheory.IsIso.{v, u} (decl-014231.{u, v, w} Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014231"
+      ],
+      "structural_type_hash": "2814693915",
+      "temporary_id": "decl-014235"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C),\n  CategoryTheory.Limits.IsZero.{v, u}\n    (CategoryTheory.Limits.kernel.{v, u} (decl-014231.{u, v, w} Y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014231"
+      ],
+      "structural_type_hash": "1063715750",
+      "temporary_id": "decl-014236"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C)\n  (f :\n    FGModuleCat.carrier.{v, v}\n      (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y)),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (decl-014274.{u, v, w} P\n          (FGModuleCat.carrier.{v, v}\n            (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y)))\n        f)\n      (CategoryTheory.CategoryStruct.comp.{v, u}\n        (decl-014213.{u, v, w} P\n          (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y))\n        (decl-014231.{u, v, w} Y)))\n    f",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014213",
+        "decl-014231",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274"
+      ],
+      "structural_type_hash": "91337647",
+      "temporary_id": "decl-014237"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C)\n  (f :\n    FGModuleCat.carrier.{v, v}\n      (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y))\n  {Z : C} (h : Quiver.Hom.{v, u} Y Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (decl-014274.{u, v, w} P\n          (FGModuleCat.carrier.{v, v}\n            (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y)))\n        f)\n      (CategoryTheory.CategoryStruct.comp.{v, u}\n        (decl-014213.{u, v, w} P\n          (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y))\n        (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014231.{u, v, w} Y) h)))\n    (CategoryTheory.CategoryStruct.comp.{v, u} f h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014213",
+        "decl-014231",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274"
+      ],
+      "structural_type_hash": "1421916258",
+      "temporary_id": "decl-014238"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                [hp : decl-005213.{u, v} P] \u2192\n                  (Y : C) \u2192\n                    CategoryTheory.Iso.{v, u}\n                      (decl-014206.{u, v, w} P\n                        (CategoryTheory.Functor.obj.{v, v, u, v + 1}\n                          decl-005264.{u, v} Y))\n                      Y",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206"
+      ],
+      "structural_type_hash": "1795337816",
+      "temporary_id": "decl-014239"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C),\n  Eq.{v + 1} (CategoryTheory.Iso.hom.{v, u} (decl-014239.{u, v, w} Y))\n    (decl-014231.{u, v, w} Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014231",
+        "decl-014239"
+      ],
+      "structural_type_hash": "2136960300",
+      "temporary_id": "decl-014240"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                [hp : decl-005213.{u, v} P] \u2192\n                  (Y : C) \u2192\n                    Quiver.Hom.{v, u}\n                      (decl-014250.{u, v, w} P\n                        (FGModuleCat.carrier.{v, v}\n                          (CategoryTheory.Functor.obj.{v, v, u, v + 1}\n                            decl-005264.{u, v} Y)))\n                      Y",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "2207363024",
+      "temporary_id": "decl-014241"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  {Y Z : C} (f : Quiver.Hom.{v, u} Y Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (decl-014268.{u, v, w} P\n        (decl-014306.{u, v, w} P\n          (CategoryTheory.Functor.map.{v, v, u, v + 1} decl-005264.{u, v} f)))\n      (decl-014241.{u, v, w} Z))\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014241.{u, v, w} Y) f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014229",
+        "decl-014241",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014268",
+        "decl-014306"
+      ],
+      "structural_type_hash": "3216192257",
+      "temporary_id": "decl-014243"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P))\n  (g : Quiver.Hom.{v, u} P (decl-014250.{u, v, w} P (FGModuleCat.carrier.{v, v} X))),\n  Eq.{v + 1} (CategoryTheory.CategoryStruct.comp.{v, u} g (decl-014213.{u, v, w} P X)) 0 \u2192\n    Exists.{v + 1} fun h =>\n      Eq.{v + 1} (CategoryTheory.CategoryStruct.comp.{v, u} h (decl-014200.{u, v, w} P X)) g",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-014200",
+        "decl-014206",
+        "decl-014213",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "76050100",
+      "temporary_id": "decl-014244"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                [hp : decl-005213.{u, v} P] \u2192\n                  CategoryTheory.Equivalence.{v, v, u, v + 1} C (FGModuleCat.{v, v} (decl-014229.{u, v} P))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-014229"
+      ],
+      "structural_type_hash": "3032314194",
+      "temporary_id": "decl-014245"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)),\n  SMulCommClass.{v, w, v} (decl-014229.{u, v} P) k (FGModuleCat.carrier.{v, v} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014229",
+        "decl-014248"
+      ],
+      "structural_type_hash": "2063087165",
+      "temporary_id": "decl-014246"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)),\n  FiniteDimensional.{w, v} k (FGModuleCat.carrier.{v, v} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014229",
+        "decl-014248"
+      ],
+      "structural_type_hash": "1908115832",
+      "temporary_id": "decl-014247"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [CategoryTheory.Linear.{w, v, u} k C] \u2192\n            (P : C) \u2192\n              (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) \u2192\n                Module.{w, v} k (FGModuleCat.carrier.{v, v} X)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014229"
+      ],
+      "structural_type_hash": "2689109854",
+      "temporary_id": "decl-014248"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)),\n  IsScalarTower.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014229",
+        "decl-014248"
+      ],
+      "structural_type_hash": "2276665875",
+      "temporary_id": "decl-014249"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [decl-005147.{u, v} C] \u2192\n          C \u2192\n            (V : Type v) \u2192 [inst_3 : AddCommGroup.{v} V] \u2192 [inst_4 : Module.{w, v} k V] \u2192 [Module.Finite.{w, v} k V] \u2192 C",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147"
+      ],
+      "structural_type_hash": "3580186118",
+      "temporary_id": "decl-014250"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            (P : C) \u2192\n              {V : Type v} \u2192\n                [inst_4 : AddCommGroup.{v} V] \u2192\n                  [inst_5 : Module.{w, v} k V] \u2192\n                    [inst_6 : Module.Finite.{w, v} k V] \u2192\n                      {Y : C} \u2192\n                        LinearMap.{w, w, v, v} (RingHom.id.{w} k) V (Quiver.Hom.{v, u} P Y) \u2192\n                          Quiver.Hom.{v, u} (decl-014250.{u, v, w} P V) Y",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014250"
+      ],
+      "structural_type_hash": "1782376894",
+      "temporary_id": "decl-014252"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            (P : C) \u2192\n              (V : Type v) \u2192\n                [inst_4 : AddCommGroup.{v} V] \u2192\n                  [inst_5 : Module.{w, v} k V] \u2192\n                    [inst_6 : Module.Finite.{w, v} k V] \u2192\n                      (Y : C) \u2192\n                        LinearEquiv.{w, w, v, v} (RingHom.id.{w} k)\n                          (Quiver.Hom.{v, u} (decl-014250.{u, v, w} P V) Y)\n                          (LinearMap.{w, w, v, v} (RingHom.id.{w} k) V (Quiver.Hom.{v, u} P Y))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014250"
+      ],
+      "structural_type_hash": "698317484",
+      "temporary_id": "decl-014254"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [CategoryTheory.Linear.{w, v, u} k C] \u2192\n            (P : C) \u2192\n              {V W : Type v} \u2192\n                [inst_4 : AddCommGroup.{v} V] \u2192\n                  [inst_5 : Module.{w, v} k V] \u2192\n                    [inst_6 : Module.Finite.{w, v} k V] \u2192\n                      [inst_7 : AddCommGroup.{v} W] \u2192\n                        [inst_8 : Module.{w, v} k W] \u2192\n                          [inst_9 : Module.Finite.{w, v} k W] \u2192\n                            LinearMap.{w, w, v, v} (RingHom.id.{w} k) V W \u2192\n                              Quiver.Hom.{v, u} (decl-014250.{u, v, w} P V)\n                                (decl-014250.{u, v, w} P W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014250"
+      ],
+      "structural_type_hash": "3203136357",
+      "temporary_id": "decl-014268"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  {U V W : Type v} [inst_4 : AddCommGroup.{v} U] [inst_5 : Module.{w, v} k U] [inst_6 : Module.Finite.{w, v} k U]\n  [inst_7 : AddCommGroup.{v} V] [inst_8 : Module.{w, v} k V] [inst_9 : Module.Finite.{w, v} k V]\n  [inst_10 : AddCommGroup.{v} W] [inst_11 : Module.{w, v} k W] [inst_12 : Module.Finite.{w, v} k W]\n  (f : LinearMap.{w, w, v, v} (RingHom.id.{w} k) U V) (g : LinearMap.{w, w, v, v} (RingHom.id.{w} k) V W),\n  Eq.{v + 1} (decl-014268.{u, v, w} P (LinearMap.comp.{w, w, w, v, v, v} g f))\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014268.{u, v, w} P f)\n      (decl-014268.{u, v, w} P g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014250",
+        "decl-014268"
+      ],
+      "structural_type_hash": "2627025176",
+      "temporary_id": "decl-014270"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  {U V W : Type v} [inst_4 : AddCommGroup.{v} U] [inst_5 : Module.{w, v} k U] [inst_6 : Module.Finite.{w, v} k U]\n  [inst_7 : AddCommGroup.{v} V] [inst_8 : Module.{w, v} k V] [inst_9 : Module.Finite.{w, v} k V]\n  [inst_10 : AddCommGroup.{v} W] [inst_11 : Module.{w, v} k W] [inst_12 : Module.Finite.{w, v} k W]\n  (f : LinearMap.{w, w, v, v} (RingHom.id.{w} k) U V) (g : LinearMap.{w, w, v, v} (RingHom.id.{w} k) V W) {Z : C}\n  (h : Quiver.Hom.{v, u} (decl-014250.{u, v, w} P W) Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (decl-014268.{u, v, w} P (LinearMap.comp.{w, w, w, v, v, v} g f)) h)\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014268.{u, v, w} P f)\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014268.{u, v, w} P g) h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014250",
+        "decl-014268"
+      ],
+      "structural_type_hash": "3014470998",
+      "temporary_id": "decl-014271"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  (V : Type v) [inst_4 : AddCommGroup.{v} V] [inst_5 : Module.{w, v} k V] [inst_6 : Module.Finite.{w, v} k V],\n  Eq.{v + 1} (decl-014268.{u, v, w} P LinearMap.id.{w, v})\n    (CategoryTheory.CategoryStruct.id.{v, u} (decl-014250.{u, v, w} P V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014250",
+        "decl-014268"
+      ],
+      "structural_type_hash": "3671049170",
+      "temporary_id": "decl-014272"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  {V : Type v} [inst_4 : AddCommGroup.{v} V] [inst_5 : Module.{w, v} k V] [inst_6 : Module.Finite.{w, v} k V] {Y : C}\n  {f g : Quiver.Hom.{v, u} (decl-014250.{u, v, w} P V) Y},\n  (\u2200 (x : V),\n      Eq.{v + 1}\n        (CategoryTheory.CategoryStruct.comp.{v, u}\n          (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P V) x) f)\n        (CategoryTheory.CategoryStruct.comp.{v, u}\n          (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P V) x) g)) \u2192\n    Eq.{v + 1} f g",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014250",
+        "decl-014274"
+      ],
+      "structural_type_hash": "154463191",
+      "temporary_id": "decl-014273"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            (P : C) \u2192\n              (V : Type v) \u2192\n                [inst_4 : AddCommGroup.{v} V] \u2192\n                  [inst_5 : Module.{w, v} k V] \u2192\n                    [inst_6 : Module.Finite.{w, v} k V] \u2192\n                      LinearMap.{w, w, v, v} (RingHom.id.{w} k) V\n                        (Quiver.Hom.{v, u} P (decl-014250.{u, v, w} P V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014250"
+      ],
+      "structural_type_hash": "2540143502",
+      "temporary_id": "decl-014274"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) (b : decl-014229.{u, v} P)\n  (x : FGModuleCat.carrier.{v, v} X),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (decl-014274.{u, v, w} P\n          (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)))\n        (TensorProduct.tmul.{w, v, v} k b x))\n      (decl-014200.{u, v, w} P X))\n    (HSub.hSub.{v, v, v}\n      (CategoryTheory.CategoryStruct.comp.{v, u} (MulOpposite.unop.{v} b)\n        (DFunLike.coe.{v + 1, v + 1, v + 1}\n          (decl-014274.{u, v, w} P (FGModuleCat.carrier.{v, v} X)) x))\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P (FGModuleCat.carrier.{v, v} X))\n        (HSMul.hSMul.{v, v, v} b x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014200",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274"
+      ],
+      "structural_type_hash": "4103484507",
+      "temporary_id": "decl-014280"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) (b : decl-014229.{u, v} P)\n  (x : FGModuleCat.carrier.{v, v} X) {Z : C}\n  (h : Quiver.Hom.{v, u} (decl-014250.{u, v, w} P (FGModuleCat.carrier.{v, v} X)) Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (decl-014274.{u, v, w} P\n          (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)))\n        (TensorProduct.tmul.{w, v, v} k b x))\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014200.{u, v, w} P X) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (HSub.hSub.{v, v, v}\n        (CategoryTheory.CategoryStruct.comp.{v, u} (MulOpposite.unop.{v} b)\n          (DFunLike.coe.{v + 1, v + 1, v + 1}\n            (decl-014274.{u, v, w} P (FGModuleCat.carrier.{v, v} X)) x))\n        (DFunLike.coe.{v + 1, v + 1, v + 1}\n          (decl-014274.{u, v, w} P (FGModuleCat.carrier.{v, v} X)) (HSMul.hSMul.{v, v, v} b x)))\n      h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014200",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274"
+      ],
+      "structural_type_hash": "3491096296",
+      "temporary_id": "decl-014281"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  (V : Type v) [inst_4 : AddCommGroup.{v} V] [inst_5 : Module.{w, v} k V] [inst_6 : Module.Finite.{w, v} k V]\n  (i : Fin (Module.finrank.{w, v} k V)),\n  Eq.{v + 1}\n    (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P V)\n      (DFunLike.coe.{max (v + 1) (w + 1), 1, v + 1} (Module.finBasis.{w, v} k V) i))\n    (CategoryTheory.Limits.biproduct.\u03b9.{0, v, u} (fun x => P) i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005153",
+        "decl-005164",
+        "decl-014250",
+        "decl-014274"
+      ],
+      "structural_type_hash": "1249619946",
+      "temporary_id": "decl-014282"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  (V : Type v) [inst_4 : AddCommGroup.{v} V] [inst_5 : Module.{w, v} k V] [inst_6 : Module.Finite.{w, v} k V] (x : V)\n  (i : Fin (Module.finrank.{w, v} k V)),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P V) x)\n      (CategoryTheory.Limits.biproduct.\u03c0.{0, v, u} (fun x => P) i))\n    (HSMul.hSMul.{w, v, v}\n      (DFunLike.coe.{w + 1, 1, w + 1}\n        (DFunLike.coe.{max (v + 1) (w + 1), v + 1, w + 1} (Module.Basis.repr.{0, w, v} (Module.finBasis.{w, v} k V)) x)\n        i)\n      (CategoryTheory.CategoryStruct.id.{v, u} P))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005153",
+        "decl-005164",
+        "decl-014250",
+        "decl-014274"
+      ],
+      "structural_type_hash": "1062904633",
+      "temporary_id": "decl-014283"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  {V : Type v} [inst_4 : AddCommGroup.{v} V] [inst_5 : Module.{w, v} k V] [inst_6 : Module.Finite.{w, v} k V] {Y : C}\n  (f : LinearMap.{w, w, v, v} (RingHom.id.{w} k) V (Quiver.Hom.{v, u} P Y)) (x : V),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P V) x)\n      (decl-014252.{u, v, w} P f))\n    (DFunLike.coe.{v + 1, v + 1, v + 1} f x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014250",
+        "decl-014252",
+        "decl-014274"
+      ],
+      "structural_type_hash": "2437622282",
+      "temporary_id": "decl-014284"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  {V : Type v} [inst_4 : AddCommGroup.{v} V] [inst_5 : Module.{w, v} k V] [inst_6 : Module.Finite.{w, v} k V] {Y : C}\n  (f : LinearMap.{w, w, v, v} (RingHom.id.{w} k) V (Quiver.Hom.{v, u} P Y)) (x : V) {Z : C} (h : Quiver.Hom.{v, u} Y Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P V) x)\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014252.{u, v, w} P f) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u} (DFunLike.coe.{v + 1, v + 1, v + 1} f x) h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014250",
+        "decl-014252",
+        "decl-014274"
+      ],
+      "structural_type_hash": "2532554798",
+      "temporary_id": "decl-014285"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C)\n  (f :\n    FGModuleCat.carrier.{v, v}\n      (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y)),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (decl-014274.{u, v, w} P\n          (FGModuleCat.carrier.{v, v}\n            (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y)))\n        f)\n      (decl-014241.{u, v, w} Y))\n    f",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014241",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274"
+      ],
+      "structural_type_hash": "2544264925",
+      "temporary_id": "decl-014286"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C)\n  (f :\n    FGModuleCat.carrier.{v, v}\n      (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y))\n  {Z : C} (h : Quiver.Hom.{v, u} Y Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (decl-014274.{u, v, w} P\n          (FGModuleCat.carrier.{v, v}\n            (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y)))\n        f)\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014241.{u, v, w} Y) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u} f h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014241",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274"
+      ],
+      "structural_type_hash": "3041096017",
+      "temporary_id": "decl-014287"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) (b : decl-014229.{u, v} P)\n  (x : FGModuleCat.carrier.{v, v} X),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (decl-014274.{u, v, w} P\n          (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)))\n        (TensorProduct.tmul.{w, v, v} k b x))\n      (decl-014299.{u, v, w} P X))\n    (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P (FGModuleCat.carrier.{v, v} X))\n      (HSMul.hSMul.{v, v, v} b x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274",
+        "decl-014299"
+      ],
+      "structural_type_hash": "1513353644",
+      "temporary_id": "decl-014288"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) (b : decl-014229.{u, v} P)\n  (x : FGModuleCat.carrier.{v, v} X) {Z : C}\n  (h : Quiver.Hom.{v, u} (decl-014250.{u, v, w} P (FGModuleCat.carrier.{v, v} X)) Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (decl-014274.{u, v, w} P\n          (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)))\n        (TensorProduct.tmul.{w, v, v} k b x))\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014299.{u, v, w} P X) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P (FGModuleCat.carrier.{v, v} X))\n        (HSMul.hSMul.{v, v, v} b x))\n      h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274",
+        "decl-014299"
+      ],
+      "structural_type_hash": "2387406741",
+      "temporary_id": "decl-014289"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  {V W : Type v} [inst_4 : AddCommGroup.{v} V] [inst_5 : Module.{w, v} k V] [inst_6 : Module.Finite.{w, v} k V]\n  [inst_7 : AddCommGroup.{v} W] [inst_8 : Module.{w, v} k W] [inst_9 : Module.Finite.{w, v} k W]\n  (f : LinearMap.{w, w, v, v} (RingHom.id.{w} k) V W) (x : V),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P V) x)\n      (decl-014268.{u, v, w} P f))\n    (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P W)\n      (DFunLike.coe.{v + 1, v + 1, v + 1} f x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014250",
+        "decl-014268",
+        "decl-014274"
+      ],
+      "structural_type_hash": "2330632261",
+      "temporary_id": "decl-014290"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  {V W : Type v} [inst_4 : AddCommGroup.{v} V] [inst_5 : Module.{w, v} k V] [inst_6 : Module.Finite.{w, v} k V]\n  [inst_7 : AddCommGroup.{v} W] [inst_8 : Module.{w, v} k W] [inst_9 : Module.Finite.{w, v} k W]\n  (f : LinearMap.{w, w, v, v} (RingHom.id.{w} k) V W) (x : V) {Z : C}\n  (h : Quiver.Hom.{v, u} (decl-014250.{u, v, w} P W) Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P V) x)\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014268.{u, v, w} P f) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P W)\n        (DFunLike.coe.{v + 1, v + 1, v + 1} f x))\n      h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014250",
+        "decl-014268",
+        "decl-014274"
+      ],
+      "structural_type_hash": "3232157455",
+      "temporary_id": "decl-014291"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C) (b : decl-014229.{u, v} P),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (decl-014274.{u, v, w} P (decl-014229.{u, v} P)) b)\n      (decl-014320.{u, v, w} P))\n    (MulOpposite.unop.{v} b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014228",
+        "decl-014229",
+        "decl-014250",
+        "decl-014274",
+        "decl-014320"
+      ],
+      "structural_type_hash": "3859185796",
+      "temporary_id": "decl-014292"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) (b : decl-014229.{u, v} P)\n  (x : FGModuleCat.carrier.{v, v} X),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (decl-014274.{u, v, w} P\n          (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)))\n        (TensorProduct.tmul.{w, v, v} k b x))\n      (decl-014322.{u, v, w} P X))\n    (CategoryTheory.CategoryStruct.comp.{v, u} (MulOpposite.unop.{v} b)\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P (FGModuleCat.carrier.{v, v} X))\n        x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274",
+        "decl-014322"
+      ],
+      "structural_type_hash": "4078283421",
+      "temporary_id": "decl-014293"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) (b : decl-014229.{u, v} P)\n  (x : FGModuleCat.carrier.{v, v} X) {Z : C}\n  (h : Quiver.Hom.{v, u} (decl-014250.{u, v, w} P (FGModuleCat.carrier.{v, v} X)) Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (decl-014274.{u, v, w} P\n          (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)))\n        (TensorProduct.tmul.{w, v, v} k b x))\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014322.{u, v, w} P X) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u} (MulOpposite.unop.{v} b)\n      (CategoryTheory.CategoryStruct.comp.{v, u}\n        (DFunLike.coe.{v + 1, v + 1, v + 1}\n          (decl-014274.{u, v, w} P (FGModuleCat.carrier.{v, v} X)) x)\n        h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274",
+        "decl-014322"
+      ],
+      "structural_type_hash": "306180555",
+      "temporary_id": "decl-014294"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] (P : C) (b : decl-014229.{u, v} P)\n  {Z : C} (h : Quiver.Hom.{v, u} P Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (decl-014274.{u, v, w} P (decl-014229.{u, v} P)) b)\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014320.{u, v, w} P) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u} (MulOpposite.unop.{v} b) h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014228",
+        "decl-014229",
+        "decl-014250",
+        "decl-014274",
+        "decl-014320"
+      ],
+      "structural_type_hash": "3334726166",
+      "temporary_id": "decl-014295"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            {P : C} \u2192\n              [hp : decl-005213.{u, v} P] \u2192\n                (Y : C) \u2192\n                  LinearMap.{w, w, v, v} (RingHom.id.{w} k)\n                    (FGModuleCat.carrier.{v, v}\n                      (CategoryTheory.Functor.obj.{v, v, u, v + 1}\n                        decl-005264.{u, v} Y))\n                    (Quiver.Hom.{v, u} P Y)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005213",
+        "decl-005264",
+        "decl-014248"
+      ],
+      "structural_type_hash": "1077743069",
+      "temporary_id": "decl-014296"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              (P : C) \u2192\n                (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) \u2192\n                  Quiver.Hom.{v, u}\n                    (decl-014250.{u, v, w} P\n                      (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)))\n                    (decl-014250.{u, v, w} P (FGModuleCat.carrier.{v, v} X))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "1249538543",
+      "temporary_id": "decl-014299"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            (P : C) \u2192\n              (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) \u2192\n                LinearMap.{w, w, v, v} (RingHom.id.{w} k)\n                  (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X))\n                  (FGModuleCat.carrier.{v, v} X)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014229",
+        "decl-014248"
+      ],
+      "structural_type_hash": "1467197466",
+      "temporary_id": "decl-014301"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) (b : decl-014229.{u, v} P)\n  (x : FGModuleCat.carrier.{v, v} X),\n  Eq.{v + 1}\n    (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014301.{u, v, w} P X)\n      (TensorProduct.tmul.{w, v, v} k b x))\n    (HSMul.hSMul.{v, v, v} b x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014229",
+        "decl-014248",
+        "decl-014301"
+      ],
+      "structural_type_hash": "3827442041",
+      "temporary_id": "decl-014305"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            (P : C) \u2192\n              {X Y : FGModuleCat.{v, v} (decl-014229.{u, v} P)} \u2192\n                Quiver.Hom.{v, v + 1} X Y \u2192\n                  LinearMap.{w, w, v, v} (RingHom.id.{w} k) (FGModuleCat.carrier.{v, v} X)\n                    (FGModuleCat.carrier.{v, v} Y)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014229",
+        "decl-014248"
+      ],
+      "structural_type_hash": "3571680434",
+      "temporary_id": "decl-014306"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  {X Y : FGModuleCat.{v, v} (decl-014229.{u, v} P)} (f : Quiver.Hom.{v, v + 1} X Y)\n  (x : FGModuleCat.carrier.{v, v} X),\n  Eq.{v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014306.{u, v, w} P f) x)\n    (DFunLike.coe.{v + 1, v + 1, v + 1} (CategoryTheory.ConcreteCategory.hom.{v, v, v + 1, v} f) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014229",
+        "decl-014248",
+        "decl-014306"
+      ],
+      "structural_type_hash": "3690039684",
+      "temporary_id": "decl-014310"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  {X Y Z : FGModuleCat.{v, v} (decl-014229.{u, v} P)} (f : Quiver.Hom.{v, v + 1} X Y)\n  (g : Quiver.Hom.{v, v + 1} Y Z),\n  Eq.{v + 1} (decl-014306.{u, v, w} P (CategoryTheory.CategoryStruct.comp.{v, v + 1} f g))\n    (LinearMap.comp.{w, w, w, v, v, v} (decl-014306.{u, v, w} P g)\n      (decl-014306.{u, v, w} P f))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014229",
+        "decl-014248",
+        "decl-014306"
+      ],
+      "structural_type_hash": "2516919152",
+      "temporary_id": "decl-014311"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)),\n  Eq.{v + 1} (decl-014306.{u, v, w} P (CategoryTheory.CategoryStruct.id.{v, v + 1} X))\n    LinearMap.id.{w, v}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014229",
+        "decl-014248",
+        "decl-014306"
+      ],
+      "structural_type_hash": "4191113219",
+      "temporary_id": "decl-014312"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                [hp : decl-005213.{u, v} P] \u2192\n                  CategoryTheory.Iso.{v + 1, v + 1}\n                    (CategoryTheory.Functor.comp.{v, v, v, v + 1, u, v + 1}\n                      (decl-014208.{u, v, w} P)\n                      decl-005264.{u, v})\n                    (CategoryTheory.Functor.id.{v, v + 1} (FGModuleCat.{v, v} (decl-014229.{u, v} P)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014208",
+        "decl-014229"
+      ],
+      "structural_type_hash": "487799787",
+      "temporary_id": "decl-014313"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C), CategoryTheory.Epi.{v, u} (CategoryTheory.NatTrans.app.{v, v, u, u} decl-014354.{u, v, w} Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014208",
+        "decl-014354"
+      ],
+      "structural_type_hash": "4011346455",
+      "temporary_id": "decl-014315"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P],\n  CategoryTheory.IsIso.{max u v, max u v} decl-014354.{u, v, w}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014208",
+        "decl-014354"
+      ],
+      "structural_type_hash": "2479427815",
+      "temporary_id": "decl-014316"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                [hp : decl-005213.{u, v} P] \u2192\n                  CategoryTheory.Iso.{max u v, max u v}\n                    (CategoryTheory.Functor.comp.{v, v, v, u, v + 1, u}\n                      decl-005264.{u, v}\n                      (decl-014208.{u, v, w} P))\n                    (CategoryTheory.Functor.id.{v, u} C)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014208"
+      ],
+      "structural_type_hash": "2741259078",
+      "temporary_id": "decl-014317"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) \u2192\n                  Quiver.Hom.{v, u} P (decl-014250.{u, v, w} P (FGModuleCat.carrier.{v, v} X)) \u2192\n                    Quiver.Hom.{v, u} P\n                      (decl-014250.{u, v, w} P\n                        (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "3587833357",
+      "temporary_id": "decl-014318"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C}\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P))\n  (g : Quiver.Hom.{v, u} P (decl-014250.{u, v, w} P (FGModuleCat.carrier.{v, v} X))),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-014318.{u, v, w} X g)\n      (decl-014200.{u, v, w} P X))\n    (HSub.hSub.{v, v, v} g\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P (FGModuleCat.carrier.{v, v} X))\n        (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014219.{u, v, w} X) g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014200",
+        "decl-014219",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274",
+        "decl-014318"
+      ],
+      "structural_type_hash": "2335119401",
+      "temporary_id": "decl-014319"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              (P : C) \u2192\n                Quiver.Hom.{v, u} (decl-014250.{u, v, w} P (decl-014229.{u, v} P)) P",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014228",
+        "decl-014229",
+        "decl-014250"
+      ],
+      "structural_type_hash": "2859095042",
+      "temporary_id": "decl-014320"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              (P : C) \u2192\n                (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) \u2192\n                  Quiver.Hom.{v, u}\n                    (decl-014250.{u, v, w} P\n                      (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X)))\n                    (decl-014250.{u, v, w} P (FGModuleCat.carrier.{v, v} X))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014228",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250"
+      ],
+      "structural_type_hash": "1249538543",
+      "temporary_id": "decl-014322"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            (P : C) \u2192\n              {X Y : FGModuleCat.{v, v} (decl-014229.{u, v} P)} \u2192\n                Quiver.Hom.{v, v + 1} X Y \u2192\n                  LinearMap.{w, w, v, v} (RingHom.id.{w} k)\n                    (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} X))\n                    (TensorProduct.{w, v, v} k (decl-014229.{u, v} P) (FGModuleCat.carrier.{v, v} Y))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014229",
+        "decl-014248"
+      ],
+      "structural_type_hash": "1018042716",
+      "temporary_id": "decl-014334"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (P : C)\n  {X Y : FGModuleCat.{v, v} (decl-014229.{u, v} P)} (f : Quiver.Hom.{v, v + 1} X Y)\n  (b : decl-014229.{u, v} P) (x : FGModuleCat.carrier.{v, v} X),\n  Eq.{v + 1}\n    (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014334.{u, v, w} P f)\n      (TensorProduct.tmul.{w, v, v} k b x))\n    (TensorProduct.tmul.{w, v, v} k b\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (CategoryTheory.ConcreteCategory.hom.{v, v, v + 1, v} f) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-014229",
+        "decl-014248",
+        "decl-014334"
+      ],
+      "structural_type_hash": "1586169816",
+      "temporary_id": "decl-014336"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                [hp : decl-005213.{u, v} P] \u2192\n                  Quiver.Hom.{v + 1, v + 1}\n                    (CategoryTheory.Functor.id.{v, v + 1} (FGModuleCat.{v, v} (decl-014229.{u, v} P)))\n                    (CategoryTheory.Functor.comp.{v, v, v, v + 1, u, v + 1}\n                      (decl-014208.{u, v, w} P)\n                      decl-005264.{u, v})",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014208",
+        "decl-014229"
+      ],
+      "structural_type_hash": "3852531696",
+      "temporary_id": "decl-014337"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                [hp : decl-005213.{u, v} P] \u2192\n                  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) \u2192\n                    Quiver.Hom.{v, v + 1} X\n                      (CategoryTheory.Functor.obj.{v, v, u, v + 1}\n                        decl-005264.{u, v}\n                        (decl-014206.{u, v, w} P X))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014229"
+      ],
+      "structural_type_hash": "2665666582",
+      "temporary_id": "decl-014339"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) (x : FGModuleCat.carrier.{v, v} X),\n  Eq.{v + 1}\n    (DFunLike.coe.{v + 1, v + 1, v + 1}\n      (CategoryTheory.ConcreteCategory.hom.{v, v, v + 1, v} (decl-014339.{u, v, w} X)) x)\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014274.{u, v, w} P (FGModuleCat.carrier.{v, v} X))\n        x)\n      (decl-014213.{u, v, w} P X))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014213",
+        "decl-014229",
+        "decl-014247",
+        "decl-014248",
+        "decl-014250",
+        "decl-014274",
+        "decl-014339"
+      ],
+      "structural_type_hash": "2616743266",
+      "temporary_id": "decl-014340"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)),\n  CategoryTheory.IsIso.{v, v + 1} (decl-014339.{u, v, w} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014229",
+        "decl-014339"
+      ],
+      "structural_type_hash": "4282179839",
+      "temporary_id": "decl-014341"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                [hp : decl-005213.{u, v} P] \u2192\n                  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) \u2192\n                    CategoryTheory.Iso.{v, v + 1} X\n                      (CategoryTheory.Functor.obj.{v, v, u, v + 1}\n                        decl-005264.{u, v}\n                        (decl-014206.{u, v, w} P X))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014229"
+      ],
+      "structural_type_hash": "1729834374",
+      "temporary_id": "decl-014342"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)),\n  Eq.{v + 1} (CategoryTheory.Iso.hom.{v, v + 1} (decl-014342.{u, v, w} X))\n    (decl-014339.{u, v, w} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014229",
+        "decl-014339",
+        "decl-014342"
+      ],
+      "structural_type_hash": "1214971011",
+      "temporary_id": "decl-014347"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)) \u2192\n                  LinearMap.{v, v, v, v} (RingHom.id.{v} (decl-014229.{u, v} P))\n                    (FGModuleCat.carrier.{v, v} X)\n                    (Quiver.Hom.{v, u} P (decl-014206.{u, v, w} P X))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-014206",
+        "decl-014229"
+      ],
+      "structural_type_hash": "1639305547",
+      "temporary_id": "decl-014348"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)),\n  Function.Injective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014348.{u, v, w} X))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-014206",
+        "decl-014229",
+        "decl-014348"
+      ],
+      "structural_type_hash": "189845081",
+      "temporary_id": "decl-014351"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (X : FGModuleCat.{v, v} (decl-014229.{u, v} P)),\n  Function.Surjective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-014348.{u, v, w} X))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-014206",
+        "decl-014229",
+        "decl-014348"
+      ],
+      "structural_type_hash": "3133042515",
+      "temporary_id": "decl-014352"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : decl-005167.{w, u, v} k C] {P : C} [hp : decl-005213.{u, v} P]\n  (Y : C),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, v + 1}\n      (decl-014339.{u, v, w}\n        (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y))\n      (CategoryTheory.Functor.map.{v, v, u, v + 1} decl-005264.{u, v}\n        (decl-014231.{u, v, w} Y)))\n    (CategoryTheory.CategoryStruct.id.{v, v + 1}\n      (CategoryTheory.Functor.obj.{v, v, u, v + 1} decl-005264.{u, v} Y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014206",
+        "decl-014229",
+        "decl-014231",
+        "decl-014339"
+      ],
+      "structural_type_hash": "2829587840",
+      "temporary_id": "decl-014353"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : decl-005167.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                [hp : decl-005213.{u, v} P] \u2192\n                  Quiver.Hom.{max u v, max u v}\n                    (CategoryTheory.Functor.comp.{v, v, v, u, v + 1, u}\n                      decl-005264.{u, v}\n                      (decl-014208.{u, v, w} P))\n                    (CategoryTheory.Functor.id.{v, u} C)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005264",
+        "decl-014208"
+      ],
+      "structural_type_hash": "1306552068",
+      "temporary_id": "decl-014354"
+    }
+  ],
+  "module_temporary_id": "module-0757",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

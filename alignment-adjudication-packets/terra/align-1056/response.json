@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1056",
+  "associations": [
+    {
+      "association_id": "association:ae20a5cc3216ead8e791",
+      "rationale": "It gives a coefficient characterization for a virtual character expressed in a chosen family, from which the stated irreducible-character conclusion requires additional reasoning.",
+      "role": "supporting"
+    }
+  ]
+}

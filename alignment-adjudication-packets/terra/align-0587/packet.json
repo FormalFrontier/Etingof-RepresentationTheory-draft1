@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:090bc702519efb4eb21a",
+      "declaration": "Etingof.Problem2_4_1.exists_maximal_twoSided_ideal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/48/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] [Nontrivial.{u_1} A], Exists.{u_1 + 1} fun I => IsCoatom.{u_1} I",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_4_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.4.1",
+  "packet_id": "align-0587",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0587"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.4.1:claim-04",
+  "source_text": "Every nontrivial unital ring has a maximal two-sided ideal."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Definition5.8.1",
+    "kind": "definition",
+    "title": "Induced representation Ind_H^G V",
+    "node_id": "chapter-05/section-5-8",
+    "order": 290,
+    "slug": "definition5-8-1",
+    "span": {
+      "start": {
+        "page": "108",
+        "line": 1
+      },
+      "end": {
+        "page": "108",
+        "line": 6
+      }
+    },
+    "source_sha256": "131735edfcf7350f72b8994a0401b134cbf2e0ba4c478fa4864d7ca6088fb8a1",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Definition581",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

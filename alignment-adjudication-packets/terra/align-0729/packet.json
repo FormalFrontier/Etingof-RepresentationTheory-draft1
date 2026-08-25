@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ca2f100764b744fbeede",
+      "declaration": "Etingof.Problem4_12_8.su2_finite_subgroup_binary_classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/237/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_8"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.8",
+  "packet_id": "align-0729",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0729"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.8:part_b",
+  "source_text": "Part (b): exhaustively classify finite subgroups of SU(2), including the cyclic and binary-polyhedral cases."
+}

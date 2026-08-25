@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0386",
+  "associations": [
+    {
+      "association_id": "association:585db966a52e3f8b4405",
+      "role": "supporting",
+      "rationale": "The formal theorem states the equivalence of projectivity with the splitting-of-surjections condition, but it does not itself state equivalence with the other two displayed characterizations, so it is only one part of the four-way claim."
+    },
+    {
+      "association_id": "association:faf5109b4a9662e9bcfb",
+      "role": "supporting",
+      "rationale": "The formal theorem states the equivalence of projectivity with the retract characterization, but it does not itself state equivalence with the other two displayed characterizations, so it is only one part of the four-way claim."
+    },
+    {
+      "association_id": "association:77d854b4d37e9c91adfe",
+      "role": "supporting",
+      "rationale": "The formal theorem states the equivalence of projectivity with the induced-Hom exactness condition, but it does not itself state equivalence with the other two displayed characterizations, so it is only one part of the four-way claim."
+    }
+  ]
+}

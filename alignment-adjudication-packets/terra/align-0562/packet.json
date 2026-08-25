@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e80939cf794fa2c88ae3",
+      "declaration": "Etingof.Problem2_16_5.Uqsl2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Units.{0} Complex \u2192 Type",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    },
+    {
+      "association_id": "association:de24f06e6a974f1a7b0e",
+      "declaration": "IsOfFinOrder",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.GroupTheory.OrderOfElement"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.5",
+  "packet_id": "align-0562",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0562"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.5:claim-01",
+  "source_text": "The source fixes an algebraically closed characteristic-zero field and q \u2208 k\u00d7 with q \u2260 \u00b11, and asks for separate root-of-unity and non-root-of-unity cases."
+}

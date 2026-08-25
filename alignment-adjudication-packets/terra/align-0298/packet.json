@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:96648697b9a965896335",
+      "declaration": "Etingof.Example2_9_2.Der",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/78/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192 LieSubalgebra.{u_1, u_2} k (Module.End.{u_1, u_2} k A)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2"
+    },
+    {
+      "association_id": "association:1c46de57e0fdfe74a340",
+      "declaration": "Etingof.Example2_9_2.Der.bracket_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/78/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (D\u2081 D\u2082 : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Example2_9_2.Der.{u_1, u_2} k A) x) (a : A),\n  Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Subtype.val.{u_2 + 1} (Bracket.bracket.{u_2, u_2} D\u2081 D\u2082)) a)\n    (HSub.hSub.{u_2, u_2, u_2}\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Subtype.val.{u_2 + 1} D\u2081)\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Subtype.val.{u_2 + 1} D\u2082) a))\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Subtype.val.{u_2 + 1} D\u2082)\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Subtype.val.{u_2 + 1} D\u2081) a)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2"
+    },
+    {
+      "association_id": "association:34b5f3751b3c71a56784",
+      "declaration": "Etingof.Example2_9_2.derivationLieEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/78/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : CommRing.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          LieEquiv.{u_1, u_2, u_2} k (Derivation.{u_1, u_2, u_2} k A A)\n            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Example2_9_2.Der.{u_1, u_2} k A) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.9.2",
+  "packet_id": "align-0298",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0298"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:58f70750130bee1b396a",
+  "source_text": "Der(A) is closed under commutators and hence is a Lie algebra."
+}

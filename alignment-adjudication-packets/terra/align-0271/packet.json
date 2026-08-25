@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:bb59143ba94038b3d2ed",
+      "declaration": "Etingof.Theorem4_6_3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/212/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type u_1) [inst : Group.{u_1} G] (V : Type u_2) [inst_1 : NormedAddCommGroup.{u_2} V]\n  [inst_2 : InnerProductSpace.{0, u_2} Complex V] [FiniteDimensional.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  (\u2200 (g : G) (v w : V),\n      Eq.{1}\n        (Inner.inner.{0, u_2} Complex\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g) v)\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g) w))\n        (Inner.inner.{0, u_2} Complex v w)) \u2192\n    \u2200 (W : Submodule.{0, u_2} Complex V),\n      (\u2200 (g : G) (w : V),\n          Membership.mem.{u_2, u_2} W w \u2192\n            Membership.mem.{u_2, u_2} W\n              (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g)\n                w)) \u2192\n        Exists.{u_2 + 1} fun W' =>\n          And\n            (\u2200 (g : G) (w : V),\n              Membership.mem.{u_2, u_2} W' w \u2192\n                Membership.mem.{u_2, u_2} W'\n                  (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n                    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g) w))\n            (IsCompl.{u_2} W W')",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Theorem4_6_3"
+    }
+  ],
+  "canonical_reference": "Chapter4/Theorem4.6.3",
+  "packet_id": "align-0271",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0271"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:503dd085c067ccdbe75b",
+  "source_text": "Every invariant subspace of a finite-dimensional unitary representation has an invariant orthogonal complement, hence the representation is completely reducible."
+}

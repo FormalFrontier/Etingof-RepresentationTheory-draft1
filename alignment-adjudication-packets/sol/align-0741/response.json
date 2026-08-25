@@ -1,0 +1,50 @@
+{
+  "packet_id": "align-0741",
+  "associations": [
+    {
+      "association_id": "association:0068b2d1e95f74943fd2",
+      "role": "supporting",
+      "rationale": "This only defines the semidirect-product presentation used for the affine group; it does not state the representation classification."
+    },
+    {
+      "association_id": "association:5da9861d06c68033e297",
+      "role": "supporting",
+      "rationale": "The equivalence identifies the usual affine group with the auxiliary presentation, providing the transport step rather than the classification itself."
+    },
+    {
+      "association_id": "association:73fc256a3b282651a829",
+      "role": "supporting",
+      "rationale": "This classifies simples for the auxiliary AffineGroup presentation, so it is the semidirect-product intermediate used to re-derive the requested classification."
+    },
+    {
+      "association_id": "association:9c9f9b8354b39a52210d",
+      "role": "supporting",
+      "rationale": "The type classifies the usual affine group only for fields of cardinality greater than two; it does not itself cover the cardinality-two case needed for the complete finite-field classification."
+    },
+    {
+      "association_id": "association:cb899284ab6bc74545d7",
+      "role": "supporting",
+      "rationale": "This strengthened classification is restricted to fields of cardinality greater than two; it does not itself cover the cardinality-two case needed for the complete finite-field classification."
+    },
+    {
+      "association_id": "association:8da1c3122913492f0b19",
+      "role": "supporting",
+      "rationale": "This handles the cardinality-two case only for the auxiliary AffineGroup presentation, making it an intermediate transport result."
+    },
+    {
+      "association_id": "association:43cf9eaff236a0baac53",
+      "role": "supporting",
+      "rationale": "The type gives only the exceptional cardinality-two classification; it does not itself cover the fields of cardinality greater than two needed for the complete finite-field classification."
+    },
+    {
+      "association_id": "association:7c002e682c2fd3b82753",
+      "role": "supporting",
+      "rationale": "This defines the multiplicative action needed to form the semidirect product but states no classification of representations."
+    },
+    {
+      "association_id": "association:ed811158fa3f0c18d47d",
+      "role": "supporting",
+      "rationale": "This constructs the distinguished zero-sum representation used in the classification rather than asserting the classification."
+    }
+  ]
+}

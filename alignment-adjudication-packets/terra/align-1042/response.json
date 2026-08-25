@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1042",
+  "associations": [
+    {
+      "association_id": "association:b390b12d1b669e6b9788",
+      "role": "supporting",
+      "rationale": "This only defines the EnrichedRepresentable predicate; it does not state that enriched co-Yoneda is representable."
+    },
+    {
+      "association_id": "association:26138737c12d6fdaa2c8",
+      "role": "primary",
+      "rationale": "The declaration directly states that the enriched co-Yoneda functor at X is EnrichedRepresentable."
+    }
+  ]
+}

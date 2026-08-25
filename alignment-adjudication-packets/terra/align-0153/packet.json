@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:260b90c45f79e3126dc7",
+      "declaration": "Etingof.Theorem6_8_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/452/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Etingof.IsDynkinDiagram n adj \u2192\n    \u2200 (d : Fin n \u2192 Int),\n      (\u2200 (i : Fin n), LE.le.{0} 0 (d i)) \u2192\n        Ne.{1} d 0 \u2192\n          Eq.{1} (dotProduct.{0, 0} d (Matrix.mulVec.{0, 0, 0} (Etingof.cartanMatrix n adj) d)) 2 \u2192\n            Exists.{1} fun vertices =>\n              Exists.{1} fun p =>\n                Eq.{1} (Etingof.iteratedSimpleReflection n (Etingof.cartanMatrix n adj) vertices d)\n                  (Etingof.simpleRoot n p)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Theorem6_8_1"
+    }
+  ],
+  "canonical_reference": "Chapter6/Theorem6.8.1",
+  "packet_id": "align-0153",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0153"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2fd82bd120688957ecf9",
+  "source_text": "A nonnegative root can be reflected along an admissible sequence to a simple root."
+}

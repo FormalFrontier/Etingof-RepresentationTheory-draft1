@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0141",
+  "associations": [
+    {
+      "association_id": "association:fb691489e86178e28ce9",
+      "role": "supporting",
+      "rationale": "The type only gives a family indexed by a scalar and a natural number; it does not expose the k[x]-action or state that x acts by that scalar."
+    },
+    {
+      "association_id": "association:75a138dcd628849ff397",
+      "role": "primary",
+      "rationale": "Its dimension formula directly gives the asserted one-dimensionality of irreducible polynomial quotients."
+    }
+  ]
+}

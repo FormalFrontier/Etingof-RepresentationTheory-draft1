@@ -1,0 +1,30 @@
+{
+  "module_name": "Algebra.Module.AuxiliaryQuotientMap",
+  "declarations": [
+    {
+      "temporary_id": "decl-017942",
+      "new_name": "linearMapOnAuxiliaryQuotient",
+      "docstring": "A linear map from the quotient of an algebra by the displayed auxiliary submodule to the base ring."
+    },
+    {
+      "temporary_id": "decl-017943",
+      "new_name": "linearMapOnAuxiliaryQuotient_mk",
+      "docstring": "The displayed linear map on the auxiliary quotient agrees on a quotient class with the displayed auxiliary linear map."
+    },
+    {
+      "temporary_id": "decl-017950",
+      "new_name": "auxiliaryLinearMap_mul_comm",
+      "docstring": "The displayed auxiliary linear map takes the same value on x times y and y times x."
+    },
+    {
+      "temporary_id": "decl-018113",
+      "new_name": "auxiliarySubmodule",
+      "docstring": "An auxiliary base-linear submodule of an algebra."
+    },
+    {
+      "temporary_id": "decl-018115",
+      "new_name": "auxiliarySubmodule_le_ker",
+      "docstring": "The displayed auxiliary submodule is contained in the kernel of the displayed auxiliary linear map."
+    }
+  ]
+}

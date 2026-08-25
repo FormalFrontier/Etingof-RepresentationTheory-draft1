@@ -1,0 +1,20 @@
+{
+  "module_name": "AdjInputSetCardinalities",
+  "declarations": [
+    {
+      "temporary_id": "decl-003735",
+      "new_name": "set_from_adj_at_six_finite_and_ncard_eq",
+      "docstring": "Using six as the parameter and the `adj` field as input gives a finite set with thirty-six elements."
+    },
+    {
+      "temporary_id": "decl-003736",
+      "new_name": "set_from_adj_at_seven_finite_and_ncard_eq",
+      "docstring": "The set obtained with parameter seven from the `adj` field is finite and has sixty-three elements."
+    },
+    {
+      "temporary_id": "decl-003737",
+      "new_name": "set_from_adj_at_eight_finite_and_ncard_eq",
+      "docstring": "Supplying eight and the `adj` field produces a finite set whose cardinality is one hundred twenty."
+    }
+  ]
+}

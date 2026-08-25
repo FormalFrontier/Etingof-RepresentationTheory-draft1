@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1086",
+  "associations": [
+    {
+      "association_id": "association:5780ae33a9214991ead9",
+      "rationale": "The displayed signature only produces a proposition from an existing LieRingModule structure; it does not display either the homomorphism definition or the claimed equivalence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2267a9bdbfd8da98799b",
+      "rationale": "No formal type is displayed, so this candidate cannot itself be verified as stating the representation definition or equivalence.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:69f15d5a7528f04f05d1",
+      "declaration": "Etingof.krull_schmidt_existence",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/163/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V],\n  Exists.{1} fun n =>\n    Exists.{u_3 + 1} fun W =>\n      And\n        (\u2200 (i : Fin n),\n          Etingof.IsIndecomposable.{u_2, u_3} A (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (W i) x))\n        (And (Eq.{u_3 + 1} (iSup.{u_3, 1} W) Top.top.{u_3}) (iSupIndep.{1, u_3} W))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_8_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Theorem3.8.1",
+  "packet_id": "align-1055",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1055"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:cde47b836cdf2c3d885e",
+  "source_text": "Every finite-dimensional representation is a direct sum of indecomposable representations."
+}

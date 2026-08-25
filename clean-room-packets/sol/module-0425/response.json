@@ -1,0 +1,30 @@
+{
+  "module_name": "SymmetricGroup.SimpleModuleTrace",
+  "declarations": [
+    {
+      "temporary_id": "decl-018964",
+      "new_name": "Auxiliary.statement018964",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-018965",
+      "new_name": "Auxiliary.statement018965",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-023208",
+      "new_name": "Auxiliary.statement023208",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024674",
+      "new_name": "complexValueNeZeroOfAntitone",
+      "docstring": "For an antitone natural-valued function on `Fin N`, the displayed expression is nonzero."
+    },
+    {
+      "temporary_id": "decl-024675",
+      "new_name": "valueNeZeroOfAntitone",
+      "docstring": "Over an algebraically closed field of characteristic zero, the displayed value for an antitone natural-valued function on `Fin N` is nonzero."
+    }
+  ]
+}

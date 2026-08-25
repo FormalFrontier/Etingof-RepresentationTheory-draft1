@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:f4ef9dd0c498cdb5a419",
+      "rationale": "The formal type directly states that a finite-dimensional simple module over a commutative algebra over an algebraically closed field has finrank one, matching the source corollary.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0484"
+}

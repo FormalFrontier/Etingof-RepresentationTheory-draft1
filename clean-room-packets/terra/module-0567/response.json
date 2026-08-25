@@ -1,0 +1,15 @@
+{
+  "module_name": "IntegerVectorPredicate",
+  "declarations": [
+    {
+      "temporary_id": "decl-005282",
+      "new_name": "neg",
+      "docstring": "The predicate is preserved by pointwise negation of an integer-valued vector."
+    },
+    {
+      "temporary_id": "decl-015439",
+      "new_name": "finite_setOf_integerVectorPredicate",
+      "docstring": "Under the given condition on the integer matrix, the set of integer-valued vectors satisfying the predicate is finite."
+    }
+  ]
+}

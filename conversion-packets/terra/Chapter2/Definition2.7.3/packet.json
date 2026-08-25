@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.7.3",
+    "kind": "definition",
+    "title": "Faithful representation",
+    "node_id": "chapter-02/section-2-7",
+    "order": 58,
+    "slug": "definition2-7-3",
+    "span": {
+      "start": {
+        "page": "18",
+        "line": 21
+      },
+      "end": {
+        "page": "18",
+        "line": 21
+      }
+    },
+    "source_sha256": "415f6699d1a3d231b3d7c8a1f9c9f276cb108be19fc6cea7c3e9106bb4eb4edb",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition273",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

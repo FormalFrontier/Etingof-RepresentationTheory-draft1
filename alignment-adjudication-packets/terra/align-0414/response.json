@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:57ab9fd5cbf7ebf78105",
+      "rationale": "The formal equality directly recovers each character value from the corresponding coefficient of the renormalized character element with the explicit factor |G| divided by the representation dimension.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0414"
+}

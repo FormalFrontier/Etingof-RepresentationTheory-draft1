@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a948f626a5893146dfa1",
+      "declaration": "Etingof.Proposition6_6_7_sink",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/446/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {Q : Type u_2} [inst_1 : DecidableEq.{u_2 + 1} Q] [inst_2 : Quiver.{u_3, u_2} Q]\n  {i : Q} (hi : Etingof.IsSink.{u_2, u_3} Q i)\n  (\u03c1 : Etingof.QuiverRepresentation.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  [\u2200 (v : Q),\n      Module.Free.{u_1, max (max u_2 u_3) u_4} k\n        (Etingof.QuiverRepresentation.obj.{u_1, u_2, max (max u_2 u_3) u_4, u_3} \u03c1 v)]\n  [\u2200 (v : Q),\n      Module.Finite.{u_1, max (max u_2 u_3) u_4} k\n        (Etingof.QuiverRepresentation.obj.{u_1, u_2, max (max u_2 u_3) u_4, u_3} \u03c1 v)],\n  Etingof.QuiverRepresentation.IsIndecomposable.{u_1, u_2, u_3, max (max u_2 u_3) u_4} \u03c1 \u2192\n    Or\n      (Etingof.QuiverRepresentation.IsIndecomposable.{u_1, u_2, u_3, max (max u_2 u_3) u_4}\n        (Etingof.reflectionFunctorPlus.{u_1, u_2, u_3, u_4} Q i hi \u03c1))\n      (Etingof.QuiverRepresentation.IsZero.{u_1, u_2, u_3, max (max u_2 u_3) u_4}\n        (Etingof.reflectionFunctorPlus.{u_1, u_2, u_3, u_4} Q i hi \u03c1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Proposition6_6_7"
+    },
+    {
+      "association_id": "association:224d0bf67ce3407071c9",
+      "declaration": "Etingof.Proposition6_6_7_source",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/446/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {Q : Type u_2} [inst_1 : DecidableEq.{u_2 + 1} Q] [inst_2 : Quiver.{u_3, u_2} Q]\n  {i : Q} (hi : Etingof.IsSource.{u_2, u_3} Q i)\n  (\u03c1 : Etingof.QuiverRepresentation.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  [\u2200 (v : Q),\n      Module.Free.{u_1, max (max u_2 u_3) u_4} k\n        (Etingof.QuiverRepresentation.obj.{u_1, u_2, max (max u_2 u_3) u_4, u_3} \u03c1 v)]\n  [\u2200 (v : Q),\n      Module.Finite.{u_1, max (max u_2 u_3) u_4} k\n        (Etingof.QuiverRepresentation.obj.{u_1, u_2, max (max u_2 u_3) u_4, u_3} \u03c1 v)]\n  [inst_5 : Fintype.{max u_3 u_2} (Etingof.ArrowsOutOf.{u_2, u_3} Q i)],\n  Etingof.QuiverRepresentation.IsIndecomposable.{u_1, u_2, u_3, max (max u_2 u_3) u_4} \u03c1 \u2192\n    Or\n      (Etingof.QuiverRepresentation.IsIndecomposable.{u_1, u_2, u_3, max (max u_2 u_3) u_4}\n        (Etingof.reflectionFunctorMinus.{u_1, u_2, u_3, u_4} Q i hi \u03c1))\n      (Etingof.QuiverRepresentation.IsZero.{u_1, u_2, u_3, max (max u_2 u_3) u_4}\n        (Etingof.reflectionFunctorMinus.{u_1, u_2, u_3, u_4} Q i hi \u03c1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Proposition6_6_7"
+    }
+  ],
+  "canonical_reference": "Chapter6/Proposition6.6.7",
+  "packet_id": "align-0012",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0012"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:016f0b63ed900713e9fe",
+  "source_text": "Reflection sends an indecomposable representation to an indecomposable representation or zero."
+}

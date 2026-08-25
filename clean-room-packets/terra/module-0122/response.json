@@ -1,0 +1,16 @@
+{
+  "module_name": "Quiver.AuxiliaryFiniteProperties",
+  "declarations": [
+    {"temporary_id": "decl-004266", "new_name": "AuxiliaryQuiverType", "docstring": "An auxiliary type associated with a quiver on a finite vertex type over a commutative semiring."},
+    {"temporary_id": "decl-004741", "new_name": "AuxiliaryQuiverProperty", "docstring": "An auxiliary proposition associated with a finite quiver over a field."},
+    {"temporary_id": "decl-004742", "new_name": "finite_auxiliary_dimension_functions", "docstring": "Under the auxiliary quiver property, the functions realized by objects with finite vertex modules, the displayed auxiliary condition, and the specified vertexwise linear equivalences form a finite set."},
+    {"temporary_id": "decl-014947", "new_name": "auxiliaryMap", "docstring": "An auxiliary map from the displayed source type to the displayed target type."},
+    {"temporary_id": "decl-015128", "new_name": "AuxiliaryQuiverCondition", "docstring": "An auxiliary proposition determined by a finite quiver with decidable arrow existence."},
+    {"temporary_id": "decl-016730", "new_name": "auxiliaryQuiverProperty_iff_auxiliaryMatrixProperty", "docstring": "Under the displayed quiver and auxiliary hypotheses, the auxiliary quiver property is equivalent to the auxiliary property of the associated matrix."},
+    {"temporary_id": "decl-019901", "new_name": "auxiliaryQuiverProperty_of_auxiliaryMatrixProperty", "docstring": "Under the displayed quiver and auxiliary hypotheses, the auxiliary matrix property implies the auxiliary quiver property over a field."},
+    {"temporary_id": "decl-022255", "new_name": "auxiliaryMatrix", "docstring": "An auxiliary integer matrix associated with a finite quiver having decidable arrow existence."},
+    {"temporary_id": "decl-022258", "new_name": "auxiliaryMatrix_entry_eq_zero_or_one", "docstring": "Every entry of the auxiliary matrix is either zero or one."},
+    {"temporary_id": "decl-022259", "new_name": "auxiliaryMatrix_diagonal", "docstring": "Every diagonal entry of the auxiliary matrix is zero."},
+    {"temporary_id": "decl-022260", "new_name": "auxiliaryMatrix_isSymm", "docstring": "The auxiliary matrix is symmetric."}
+  ]
+}

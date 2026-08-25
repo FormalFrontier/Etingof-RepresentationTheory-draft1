@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:28cd6bfafd20aaf2c4c6",
+      "declaration": "Etingof.Problem2_16_3.finrank_g_two",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/121/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k], Eq.{1} (Module.finrank.{u_2, u_2} k (Etingof.Problem2_16_3.g.{u_2} k 2)) 4",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.3",
+  "packet_id": "align-0553",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0553"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.3:claim-04",
+  "source_text": "g_2 is finite-dimensional with dimension 4."
+}

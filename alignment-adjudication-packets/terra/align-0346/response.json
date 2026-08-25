@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0346",
+  "associations": [
+    {
+      "association_id": "association:f5d520181696f53250b2",
+      "role": "primary",
+      "rationale": "The equality directly expresses the Specht-module character as the indicated Laurent coefficient, which is the claimed equivalent Frobenius-character formula."
+    },
+    {
+      "association_id": "association:88a1477b1e59fd70b0a6",
+      "role": "supporting",
+      "rationale": "This general coefficient-conversion identity relates the Laurent expression to a Vandermonde coefficient and supports the equivalence, but does not itself state the character formula."
+    },
+    {
+      "association_id": "association:5c7b5a18cd464afe136a",
+      "role": "supporting",
+      "rationale": "This monomial-factor identity is a helper for rewriting the Laurent product and does not itself identify the Frobenius character coefficient."
+    }
+  ]
+}

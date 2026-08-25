@@ -1,0 +1,30 @@
+{
+  "module_name": "LinearAlgebra.FunctionSpaceEndomorphism",
+  "declarations": [
+    {
+      "temporary_id": "decl-017947",
+      "new_name": "auxiliaryFunction_finFun",
+      "docstring": "For a finite family of copies of a module, the auxiliary function is the family cardinality times its value for the module."
+    },
+    {
+      "temporary_id": "decl-017951",
+      "new_name": "auxiliaryFunction_finFun_eq_zero_of_char",
+      "docstring": "In characteristic p, the auxiliary function for p copies of a module is zero."
+    },
+    {
+      "temporary_id": "decl-018360",
+      "new_name": "linearMapOnFunctions",
+      "docstring": "A linear endomorphism induces a linear endomorphism of a function space by acting pointwise."
+    },
+    {
+      "temporary_id": "decl-018363",
+      "new_name": "linearMapOnFunctions_apply",
+      "docstring": "The pointwise endomorphism of a function space applies the original linear map at each input."
+    },
+    {
+      "temporary_id": "decl-024291",
+      "new_name": "trace_linearMapOnFunctions",
+      "docstring": "The trace of the pointwise endomorphism on a finite family of copies is the family cardinality times the trace of the original endomorphism."
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "module_name": "LinearAlgebra.Matrix.LocalizationActions",
+  "declarations": [
+    {
+      "temporary_id": "decl-005582",
+      "new_name": "matrixLocalizationFirstRepresentation_eval",
+      "docstring": "Evaluating the first general-linear representation translates the evaluation argument by left division."
+    },
+    {
+      "temporary_id": "decl-005584",
+      "new_name": "matrixPolynomialMap_eval",
+      "docstring": "Evaluating the matrix polynomial transform agrees with evaluating the original polynomial after multiplication by the transposed matrix."
+    },
+    {
+      "temporary_id": "decl-005585",
+      "new_name": "transposeInverseMonoidHom",
+      "docstring": "A monoid homomorphism from a general linear group to itself."
+    },
+    {
+      "temporary_id": "decl-005588",
+      "new_name": "transposeInverse",
+      "docstring": "A self-map of the general linear group."
+    },
+    {
+      "temporary_id": "decl-005591",
+      "new_name": "transposeInverse_apply",
+      "docstring": "The underlying matrix of this map is the transpose of the inverse matrix."
+    },
+    {
+      "temporary_id": "decl-005592",
+      "new_name": "transposeInverseMonoidHom_apply",
+      "docstring": "The monoid homomorphism acts by transposing the inverse matrix."
+    },
+    {
+      "temporary_id": "decl-005593",
+      "new_name": "matrixPolynomialMapToLocalization_isUnit_of_mem_powers",
+      "docstring": "For an invertible matrix, the associated algebra homomorphism sends every element of the indicated powers submonoid to a unit."
+    },
+    {
+      "temporary_id": "decl-005595",
+      "new_name": "matrixPolynomialMap_localizationPolynomial",
+      "docstring": "The matrix polynomial map sends the localized polynomial to its determinant scalar multiple."
+    },
+    {
+      "temporary_id": "decl-005596",
+      "new_name": "matrixPolynomialMapToLocalization",
+      "docstring": "An algebra homomorphism from a multivariable polynomial algebra to a localization, parametrized by a matrix."
+    },
+    {
+      "temporary_id": "decl-005600",
+      "new_name": "matrixPolynomialMapToLocalization_apply",
+      "docstring": "The homomorphism sends a polynomial to the canonical localization image of its image under the matrix-parameterized polynomial map."
+    },
+    {
+      "temporary_id": "decl-005601",
+      "new_name": "matrixLocalizationProductRepresentation",
+      "docstring": "A representation of a product of two general linear groups on a localization."
+    },
+    {
+      "temporary_id": "decl-005602",
+      "new_name": "matrixLocalizationProductRepresentation_apply",
+      "docstring": "The product representation applies the first and second factor endomorphisms in succession."
+    },
+    {
+      "temporary_id": "decl-005603",
+      "new_name": "matrixLocalizationFirstAction",
+      "docstring": "A general-linear-indexed algebra endomorphism of the localization."
+    },
+    {
+      "temporary_id": "decl-005608",
+      "new_name": "matrixLocalizationFirstAction_algebraMap_apply",
+      "docstring": "On canonical polynomial images in the localization, the first action applies the matrix-parameterized polynomial transform associated with the transformed invertible matrix."
+    },
+    {
+      "temporary_id": "decl-005609",
+      "new_name": "matrixLocalizationFirstAction_commutes",
+      "docstring": "The first action commutes with the companion algebra endomorphism."
+    },
+    {
+      "temporary_id": "decl-005610",
+      "new_name": "matrixLocalizationFirstAction_mul",
+      "docstring": "The first action takes group multiplication to composition of algebra endomorphisms."
+    },
+    {
+      "temporary_id": "decl-005611",
+      "new_name": "matrixLocalizationFirstAction_one",
+      "docstring": "The first action at the identity is the identity algebra homomorphism."
+    },
+    {
+      "temporary_id": "decl-005612",
+      "new_name": "matrixLocalizationFirstRepresentation",
+      "docstring": "A representation of the general linear group on the localization."
+    },
+    {
+      "temporary_id": "decl-005615",
+      "new_name": "matrixLocalizationFirstRepresentation_algebraMap_apply",
+      "docstring": "On polynomial images in the localization, the representation agrees with the canonical image of the indicated polynomial transform."
+    },
+    {
+      "temporary_id": "decl-005616",
+      "new_name": "matrixLocalizationFirstRepresentation_apply",
+      "docstring": "The representation and the first action give the same endomorphism on every localization element."
+    },
+    {
+      "temporary_id": "decl-005617",
+      "new_name": "matrixLocalizationFirstRepresentation_commutes",
+      "docstring": "The two indicated representations commute."
+    },
+    {
+      "temporary_id": "decl-025564",
+      "new_name": "Representation.ofCommuting",
+      "docstring": "Builds a representation of a direct-product monoid from two pointwise commuting representations."
+    },
+    {
+      "temporary_id": "decl-025567",
+      "new_name": "Representation.ofCommuting_apply",
+      "docstring": "The direct-product representation acts by applying the second representation and then the first."
+    }
+  ]
+}

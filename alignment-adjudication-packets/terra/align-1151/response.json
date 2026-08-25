@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1151",
+  "associations": [
+    {
+      "association_id": "association:f5b1c3bafb7e065d5c56",
+      "role": "supporting",
+      "rationale": "It gives the stated dimension formula, but does not display the Vandermonde-determinant derivation in the source claim."
+    }
+  ]
+}

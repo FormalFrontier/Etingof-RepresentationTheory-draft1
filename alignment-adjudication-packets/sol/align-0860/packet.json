@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3c53c1dfe5aa91047bb2",
+      "declaration": "Etingof.Problem932.existsUnique_index_of_indecomposable_projective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/557/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (Q : Type u) [inst : AddCommGroup.{u} Q] [inst_1 : Module.{0, u} Complex Q]\n  [inst_2 : Module.{0, u} Etingof.Problem932.A Q] [IsScalarTower.{0, 0, u} Complex Etingof.Problem932.A Q]\n  [FiniteDimensional.{0, u} Complex Q] [Module.Projective.{0, u} Etingof.Problem932.A Q],\n  Etingof.IsIndecomposable.{0, u} Etingof.Problem932.A Q \u2192\n    ExistsUnique.{1} fun i =>\n      Nonempty.{max 1 (u + 1)}\n        (LinearEquiv.{0, 0, u, 0} (RingHom.id.{0} Etingof.Problem932.A) Q (Etingof.Problem932.Pfam i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_3_2"
+    },
+    {
+      "association_id": "association:f147ca12de1bc772e530",
+      "declaration": "Etingof.Problem932.indecomposable_projective_classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/557/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (Q : Type u) [inst : AddCommGroup.{u} Q] [inst_1 : Module.{0, u} Complex Q]\n  [inst_2 : Module.{0, u} Etingof.Problem932.A Q] [IsScalarTower.{0, 0, u} Complex Etingof.Problem932.A Q]\n  [FiniteDimensional.{0, u} Complex Q] [Module.Projective.{0, u} Etingof.Problem932.A Q],\n  Etingof.IsIndecomposable.{0, u} Etingof.Problem932.A Q \u2192\n    Or\n      (Nonempty.{max 1 (u + 1)}\n        (LinearEquiv.{0, 0, u, 0} (RingHom.id.{0} Etingof.Problem932.A) Q Etingof.Problem932.Pplus))\n      (Nonempty.{max 1 (u + 1)}\n        (LinearEquiv.{0, 0, u, 0} (RingHom.id.{0} Etingof.Problem932.A) Q Etingof.Problem932.Pminus))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_3_2"
+    },
+    {
+      "association_id": "association:ea6e1affb328265e0f38",
+      "declaration": "Etingof.Problem932.isProjectiveCover_Pminus",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/557/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And (Module.Projective.{0, 0} Etingof.Problem932.A Etingof.Problem932.Pminus)\n  (And (Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Problem932.gSESm))\n    (\u2200 (N : Submodule.{0, 0} Etingof.Problem932.A Etingof.Problem932.Pminus),\n      Eq.{1} (Max.max.{0} N (LinearMap.ker.{0, 0, 0, 0} Etingof.Problem932.gSESm)) Top.top.{0} \u2192 Eq.{1} N Top.top.{0}))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_3_2"
+    },
+    {
+      "association_id": "association:461edf865ddb95da8c04",
+      "declaration": "Etingof.Problem932.isProjectiveCover_Pplus",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/557/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And (Module.Projective.{0, 0} Etingof.Problem932.A Etingof.Problem932.Pplus)\n  (And (Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Problem932.gSES))\n    (\u2200 (N : Submodule.{0, 0} Etingof.Problem932.A Etingof.Problem932.Pplus),\n      Eq.{1} (Max.max.{0} N (LinearMap.ker.{0, 0, 0, 0} Etingof.Problem932.gSES)) Top.top.{0} \u2192 Eq.{1} N Top.top.{0}))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_3_2"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.3.2",
+  "packet_id": "align-0860",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0860"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.3.2:projectives",
+  "source_text": "Classify the indecomposable projective modules and their projective-cover maps."
+}

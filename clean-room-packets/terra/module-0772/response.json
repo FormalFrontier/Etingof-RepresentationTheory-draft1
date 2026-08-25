@@ -1,0 +1,100 @@
+{
+  "module_name": "RingTheory.Idempotent",
+  "declarations": [
+    {
+      "temporary_id": "decl-001418",
+      "new_name": "submodule",
+      "docstring": "The submodule associated to an element of an algebra."
+    },
+    {
+      "temporary_id": "decl-001419",
+      "new_name": "finrank_le",
+      "docstring": "The finite dimension of the associated submodule is at most that of the ambient algebra."
+    },
+    {
+      "temporary_id": "decl-001420",
+      "new_name": "algebra",
+      "docstring": "The algebra structure on the associated subtype obtained from an idempotent element."
+    },
+    {
+      "temporary_id": "decl-001425",
+      "new_name": "moduleFinite",
+      "docstring": "The subtype of the associated submodule is finite as a module when the ambient algebra is finite."
+    },
+    {
+      "temporary_id": "decl-001426",
+      "new_name": "ring",
+      "docstring": "The ring structure on the associated subtype induced by an idempotent element."
+    },
+    {
+      "temporary_id": "decl-018232",
+      "new_name": "sandwichLinearMap",
+      "docstring": "The linear map that multiplies an algebra element on both sides by a fixed element."
+    },
+    {
+      "temporary_id": "decl-018235",
+      "new_name": "sandwichLinearMap_apply",
+      "docstring": "Evaluating the sandwich linear map sends an element to the corresponding double product."
+    },
+    {
+      "temporary_id": "decl-018236",
+      "new_name": "sandwichSubmodule",
+      "docstring": "The submodule associated to products with a fixed element on both sides."
+    },
+    {
+      "temporary_id": "decl-018238",
+      "new_name": "sandwichSubmodule_moduleFinite",
+      "docstring": "The sandwich submodule is finite over the base field when the ambient algebra is finite."
+    },
+    {
+      "temporary_id": "decl-018239",
+      "new_name": "left_mul_eq_of_mem_sandwichSubmodule",
+      "docstring": "An idempotent acts as a left identity on elements of the sandwich submodule."
+    },
+    {
+      "temporary_id": "decl-018240",
+      "new_name": "mul_mem_sandwichSubmodule",
+      "docstring": "The product of two elements of the sandwich submodule belongs to it."
+    },
+    {
+      "temporary_id": "decl-018241",
+      "new_name": "right_mul_eq_of_mem_sandwichSubmodule",
+      "docstring": "An idempotent acts as a right identity on elements of the sandwich submodule."
+    },
+    {
+      "temporary_id": "decl-018571",
+      "new_name": "moduleEndRingEquivOpposite",
+      "docstring": "The ring equivalence from endomorphisms of the principal submodule to the opposite associated subtype."
+    },
+    {
+      "temporary_id": "decl-018733",
+      "new_name": "Auxiliary.statement018733",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-019425",
+      "new_name": "sandwichSubmodule_finrank_le",
+      "docstring": "The finite dimension of the sandwich submodule is bounded by that of the ambient algebra."
+    },
+    {
+      "temporary_id": "decl-021443",
+      "new_name": "mul_idempotent_eq_of_mem_span_singleton",
+      "docstring": "Right multiplication by an idempotent fixes every element of its principal span."
+    },
+    {
+      "temporary_id": "decl-021581",
+      "new_name": "mem_sandwichSubmodule_iff",
+      "docstring": "Membership in the sandwich submodule is equivalent to being a double product with the fixed element."
+    },
+    {
+      "temporary_id": "decl-021582",
+      "new_name": "idempotent_mem_sandwichSubmodule",
+      "docstring": "An idempotent belongs to its sandwich submodule."
+    },
+    {
+      "temporary_id": "decl-022794",
+      "new_name": "submoduleElementToEnd",
+      "docstring": "A construction sending an element of the associated subtype to an endomorphism of the principal submodule."
+    }
+  ]
+}

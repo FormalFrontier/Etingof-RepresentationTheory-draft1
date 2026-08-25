@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8231a42f3a952fe99406",
+      "declaration": "Etingof.BookPathAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/65/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (Q : Type u_2) \u2192 [Field.{u_1} k] \u2192 [Quiver.{u_3, u_2} Q] \u2192 [DecidableEq.{u_2 + 1} Q] \u2192 Type (max (max u_3 u_2) u_1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_path_algebra_intro",
+  "packet_id": "align-0946",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0946"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:adeecd5272479a79eda1",
+  "source_text": "For each quiver Q there is a path algebra P_Q."
+}

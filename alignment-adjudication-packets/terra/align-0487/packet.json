@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e00b8afd4cf3a9236c9d",
+      "declaration": "Etingof.Sl2Irrep.irrep_isIrreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/10/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (d : Nat) [NeZero.{0} d],\n  LieModule.IsIrreducible.{0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) (Fin d \u2192 Complex)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    },
+    {
+      "association_id": "association:83bbdc6aafd325bed789",
+      "declaration": "Etingof.Theorem_2_1_1_i_polynomial_model",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/10/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (d : PNat),\n  Exists.{1} fun \u03a6 =>\n    \u2200 (v : Fin d.val \u2192 Complex),\n      And\n        (Eq.{1}\n          (Subtype.val.{1}\n            (DFunLike.coe.{1, 1, 1} \u03a6\n              (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (Etingof.Sl2Irrep.rhoLieHom d.val) Etingof.Sl2Irrep.sl2_h)\n                v)))\n          (HSub.hSub.{0, 0, 0}\n            (HMul.hMul.{0, 0, 0} (MvPolynomial.X.{0, 0} 0)\n              (DFunLike.coe.{1, 1, 1} (MvPolynomial.pderiv.{0, 0} 0) (Subtype.val.{1} (DFunLike.coe.{1, 1, 1} \u03a6 v))))\n            (HMul.hMul.{0, 0, 0} (MvPolynomial.X.{0, 0} 1)\n              (DFunLike.coe.{1, 1, 1} (MvPolynomial.pderiv.{0, 0} 1) (Subtype.val.{1} (DFunLike.coe.{1, 1, 1} \u03a6 v))))))\n        (And\n          (Eq.{1}\n            (Subtype.val.{1}\n              (DFunLike.coe.{1, 1, 1} \u03a6\n                (DFunLike.coe.{1, 1, 1}\n                  (DFunLike.coe.{1, 1, 1} (Etingof.Sl2Irrep.rhoLieHom d.val) Etingof.Sl2Irrep.sl2_e) v)))\n            (HMul.hMul.{0, 0, 0} (MvPolynomial.X.{0, 0} 0)\n              (DFunLike.coe.{1, 1, 1} (MvPolynomial.pderiv.{0, 0} 1) (Subtype.val.{1} (DFunLike.coe.{1, 1, 1} \u03a6 v)))))\n          (Eq.{1}\n            (Subtype.val.{1}\n              (DFunLike.coe.{1, 1, 1} \u03a6\n                (DFunLike.coe.{1, 1, 1}\n                  (DFunLike.coe.{1, 1, 1} (Etingof.Sl2Irrep.rhoLieHom d.val) Etingof.Sl2Irrep.sl2_f) v)))\n            (HMul.hMul.{0, 0, 0} (MvPolynomial.X.{0, 0} 1)\n              (DFunLike.coe.{1, 1, 1} (MvPolynomial.pderiv.{0, 0} 0) (Subtype.val.{1} (DFunLike.coe.{1, 1, 1} \u03a6 v))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Theorem2.1.1",
+  "packet_id": "align-0487",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0487"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:993df1379b2d282a30ef",
+  "source_text": "The d-dimensional irreducible is realized by homogeneous polynomials of degree d-1 in x,y with h=x\u2202x-y\u2202y, e=x\u2202y, and f=y\u2202x."
+}

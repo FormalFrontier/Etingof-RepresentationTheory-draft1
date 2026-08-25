@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d79ad07afab6271c337c",
+      "declaration": "abelian_fgModuleCat_of_finiteDimensional",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/495/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          [FiniteDimensional.{u_1, u_2} k A] \u2192\n            CategoryTheory.Abelian.{u_3, max u_2 (u_3 + 1)} (FGModuleCat.{u_3, u_2} A)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_7_2"
+    },
+    {
+      "association_id": "association:b44afc8f1dde16cab39c",
+      "declaration": "module_finite_iff_finiteDimensional",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/495/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  [FiniteDimensional.{u_1, u_2} k A] (M : Type u_3) [inst_4 : AddCommGroup.{u_3} M] [inst_5 : Module.{u_2, u_3} A M]\n  [inst_6 : Module.{u_1, u_3} k M] [IsScalarTower.{u_1, u_2, u_3} k A M],\n  Iff (Module.Finite.{u_2, u_3} A M) (FiniteDimensional.{u_1, u_3} k M)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_7_2"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.7.2",
+  "packet_id": "align-0981",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0981"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ba31e9965e64fac0891d",
+  "source_text": "Finite-dimensional modules over a finite-dimensional k-algebra form an abelian category."
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0491",
+  "associations": [
+    {
+      "association_id": "association:d0376b1749229de86658",
+      "rationale": "The formal type records an algebraic-integer prerequisite, while the source claim only describes the section's prerequisite context rather than stating this equivalence itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e0ced07b4ded3b14ace6",
+      "rationale": "The formal type records an algebraic-number prerequisite, while the source claim only describes the section's prerequisite context rather than stating this equivalence itself.",
+      "role": "supporting"
+    }
+  ]
+}

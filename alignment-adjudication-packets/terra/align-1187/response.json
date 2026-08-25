@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1187",
+  "associations": [
+    {
+      "association_id": "association:c7f71acca282a91f5904",
+      "rationale": "The displayed type is only an opaque family C → C → Nat → Type; it does not state a derived-functor construction or quantify failure of Hom to be exact.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:110fa864ef46d79fe434",
+      "rationale": "The displayed type supplies a Nat-indexed functor from right modules to abelian groups, but it does not state that it is derived from tensor or that it measures failure of exactness, nor does it cover Ext.",
+      "role": "supporting"
+    }
+  ]
+}

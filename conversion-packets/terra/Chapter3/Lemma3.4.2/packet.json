@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Lemma3.4.2",
+    "kind": "lemma",
+    "title": "Existence of filtration with irreducible successive quotients",
+    "node_id": "chapter-03/section-3-4",
+    "order": 147,
+    "slug": "lemma3-4-2",
+    "span": {
+      "start": {
+        "page": "49",
+        "line": 9
+      },
+      "end": {
+        "page": "49",
+        "line": 12
+      }
+    },
+    "source_sha256": "5b413bba71f0e8a74b693a4f84146c021919a65f85767d9a8b5114aa3844ba27",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Lemma342",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

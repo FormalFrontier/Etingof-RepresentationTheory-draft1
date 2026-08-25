@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Introduction_7.1",
+    "kind": "introduction",
+    "title": "Section 7.1: The definition of a category",
+    "node_id": "chapter-07/section-7-1",
+    "order": 465,
+    "slug": "introduction-7-1",
+    "span": {
+      "start": {
+        "page": "181",
+        "line": 5
+      },
+      "end": {
+        "page": "181",
+        "line": 12
+      }
+    },
+    "source_sha256": "5fc3be1c539d5c804307ea5b6173462d4104245a85c08a8d31258a3a4dbc2891",
+    "features": {
+      "line_count": 8,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction71",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

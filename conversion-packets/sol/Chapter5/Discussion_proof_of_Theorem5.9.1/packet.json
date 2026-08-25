@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_proof_of_Theorem5.9.1",
+    "kind": "discussion",
+    "title": "Proof of Theorem 5.9.1 (Frobenius formula)",
+    "node_id": "chapter-05/section-5-9",
+    "order": 299,
+    "slug": "discussion-proof-of-theorem5-9-1",
+    "span": {
+      "start": {
+        "page": "109",
+        "line": 15
+      },
+      "end": {
+        "page": "110",
+        "line": 2
+      }
+    },
+    "source_sha256": "fef969c7a366b556c2218250c83e3ff56b1d51521926909bc3c4b5522a4d5281",
+    "features": {
+      "line_count": 25,
+      "crosses_page": true,
+      "display_math_delimiters": 10,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem591",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

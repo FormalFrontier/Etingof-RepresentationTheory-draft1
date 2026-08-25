@@ -1,0 +1,25 @@
+{
+  "module_name": "Module.RelSeriesAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-004248",
+      "new_name": "ModuleRelSeriesAuxiliary",
+      "docstring": "An auxiliary type associated with a module."
+    },
+    {
+      "temporary_id": "decl-004252",
+      "new_name": "toRelSeries",
+      "docstring": "The relational series associated with the auxiliary module data."
+    },
+    {
+      "temporary_id": "decl-004254",
+      "new_name": "toRelSeries_head",
+      "docstring": "The head of the associated relational series is bottom."
+    },
+    {
+      "temporary_id": "decl-004255",
+      "new_name": "toRelSeries_last",
+      "docstring": "The last term of the associated relational series is top."
+    }
+  ]
+}

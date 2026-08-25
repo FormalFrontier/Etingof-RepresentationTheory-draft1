@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0156",
+  "associations": [
+    {
+      "association_id": "association:a26ed3c2e62fa55139eb",
+      "role": "primary",
+      "rationale": "This equality shows reconstruction of the module presentation from its algebra homomorphism."
+    },
+    {
+      "association_id": "association:e7a177cf61dc1986fba0",
+      "role": "primary",
+      "rationale": "This equality shows reconstruction of the algebra-homomorphism presentation from a representation."
+    }
+  ]
+}

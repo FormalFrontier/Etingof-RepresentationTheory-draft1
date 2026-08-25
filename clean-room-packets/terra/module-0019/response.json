@@ -1,0 +1,35 @@
+{
+  "module_name": "CategoryTheory.QuiverLinearMaps",
+  "declarations": [
+    {
+      "temporary_id": "decl-015026",
+      "new_name": "AuxiliaryQuiverEquivData",
+      "docstring": "Auxiliary data associated with two objects over a quiver and a commutative semiring."
+    },
+    {
+      "temporary_id": "decl-015030",
+      "new_name": "naturality",
+      "docstring": "The component linear equivalences commute with each quiver arrow."
+    },
+    {
+      "temporary_id": "decl-015033",
+      "new_name": "app",
+      "docstring": "Returns the linear equivalence at a chosen vertex."
+    },
+    {
+      "temporary_id": "decl-015053",
+      "new_name": "AuxiliaryQuiverLinearMapData",
+      "docstring": "A second auxiliary data type associated with two objects over a quiver and a commutative semiring."
+    },
+    {
+      "temporary_id": "decl-015056",
+      "new_name": "app",
+      "docstring": "Returns the linear map at a specified vertex."
+    },
+    {
+      "temporary_id": "decl-015075",
+      "new_name": "naturality",
+      "docstring": "The component maps of a quiver linear map commute with each arrow."
+    }
+  ]
+}

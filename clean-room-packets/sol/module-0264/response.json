@@ -1,0 +1,95 @@
+{
+  "module_name": "YoungDiagram.PartitionFormulas",
+  "declarations": [
+    {
+      "temporary_id": "decl-005711",
+      "new_name": "Partition.toYoungDiagram_rowLen_eq_getD",
+      "docstring": "The length of a row in a partition's Young diagram is the corresponding sorted part, with default value zero."
+    },
+    {
+      "temporary_id": "decl-017880",
+      "new_name": "auxiliaryElidedStatement017880",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-017881",
+      "new_name": "auxiliary_partition_value_eq_descPochhammer_determinant_formula",
+      "docstring": "An auxiliary value at the displayed partition is expressed using factorials and a determinant of descending-Pochhammer evaluations."
+    },
+    {
+      "temporary_id": "decl-017883",
+      "new_name": "auxiliary_partition_value_eq_pairwise_difference_formula",
+      "docstring": "An auxiliary value at the displayed partition is a factorial times pairwise differences of displayed values, divided by their factorial product."
+    },
+    {
+      "temporary_id": "decl-017884",
+      "new_name": "auxiliaryElidedStatement017884",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-018320",
+      "new_name": "det_descPochhammer_eval_eq_det_pow",
+      "docstring": "The determinant of descending-Pochhammer evaluations agrees with the determinant of the corresponding powers."
+    },
+    {
+      "temporary_id": "decl-018768",
+      "new_name": "auxiliaryElidedStatement018768",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-019458",
+      "new_name": "finrank_auxiliary_subtype_eq_card",
+      "docstring": "The complex finrank of the auxiliary subtype associated with a partition equals the cardinality of the corresponding auxiliary type."
+    },
+    {
+      "temporary_id": "decl-019459",
+      "new_name": "auxiliaryElidedStatement019459",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-019460",
+      "new_name": "auxiliaryElidedStatement019460",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-019461",
+      "new_name": "auxiliaryElidedStatement019461",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-020291",
+      "new_name": "toYoungDiagram_hookLengthProduct_eq_prod",
+      "docstring": "The hook-length product of the Young diagram is the iterated product of its hook lengths over the displayed rows and columns."
+    },
+    {
+      "temporary_id": "decl-020292",
+      "new_name": "auxiliaryElidedStatement020292",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-020293",
+      "new_name": "toYoungDiagram_hookLength_eq_row_remainder_add_card",
+      "docstring": "A hook length is the remaining length in its row plus the number of later rows extending beyond its column."
+    },
+    {
+      "temporary_id": "decl-024498",
+      "new_name": "toYoungDiagram_colLen_eq_card_filter",
+      "docstring": "A column length in the Young diagram is the number of indexed parts strictly exceeding the column index."
+    },
+    {
+      "temporary_id": "decl-024506",
+      "new_name": "toYoungDiagram_rowLen_eq_parts",
+      "docstring": "At an index in the finite family, the corresponding Young-diagram row has length equal to that part."
+    },
+    {
+      "temporary_id": "decl-024507",
+      "new_name": "toYoungDiagram_rowLen_eq_zero_of_bound",
+      "docstring": "A row whose index is at least the size of the finite family has length zero."
+    },
+    {
+      "temporary_id": "decl-024508",
+      "new_name": "toYoungDiagram_sortedParts_length_le",
+      "docstring": "The sorted-parts list constructed from a family indexed by `Fin N` has length at most `N`."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c0b07a21f1c564108bba",
+      "declaration": "Etingof.conjugatePartition",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/376/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 n.Partition",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_24_1_b"
+    },
+    {
+      "association_id": "association:529b3abe7c925c51be8c",
+      "declaration": "Etingof.spechtModule_signTwist_iso_conjugate",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/376/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Exists.{1} fun e =>\n    \u2200 (g : Equiv.Perm.{1} (Fin n)) (x : Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n la) x),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1} e\n          (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) g)\n            x))\n        (HSMul.hSMul.{0, 0, 0} (Int.cast.{0} (Units.val.{0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} g)))\n          (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) g)\n            (DFunLike.coe.{1, 1, 1} e x)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_24_1_b"
+    }
+  ],
+  "canonical_reference": "Chapter5/Problem5.24.1",
+  "packet_id": "align-0769",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0769"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Problem5.24.1:part_b_conjugate",
+  "source_text": "Part (b): tensoring a Specht module with sign gives the conjugate-partition Specht module."
+}

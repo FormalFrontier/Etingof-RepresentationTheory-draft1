@@ -1,0 +1,20 @@
+{
+  "associations": [
+    {
+      "association_id": "association:9c2856e5738d29bf34e2",
+      "rationale": "The algebra decomposition provides structural input for determining the blocks but does not state the block determination itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:34c2d738c285b1198be5",
+      "rationale": "This gives only the number of blocks, an outcome contributing to rather than fully stating their determination.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2b1f8e15ee6fae44aa8d",
+      "rationale": "This classifies simple modules as trivial or standard, useful evidence for the block calculation but not a statement of the blocks.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0877"
+}

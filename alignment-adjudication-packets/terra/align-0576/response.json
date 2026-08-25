@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0576",
+  "associations": [
+    {
+      "association_id": "association:1697c521bd44a0e17844",
+      "role": "supporting",
+      "rationale": "The theorem shows a particular epsilon action is not scalar, but its displayed type does not state the indecomposable central-action claim."
+    }
+  ]
+}

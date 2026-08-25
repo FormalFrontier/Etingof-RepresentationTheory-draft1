@@ -1,0 +1,25 @@
+{
+  "module_name": "AlternatingTensorSquare",
+  "declarations": [
+    {"temporary_id":"decl-002753","new_name":"auxiliaryCoordinateSubmodule","docstring":"An auxiliary complex submodule of functions on five coordinates."},
+    {"temporary_id":"decl-002767","new_name":"equivariantIdempotent","docstring":"A complex-linear endomorphism of the tensor square of the auxiliary coordinate submodule."},
+    {"temporary_id":"decl-002772","new_name":"equivariantIdempotent_commutes","docstring":"The endomorphism commutes with every operator of the tensor-product representation."},
+    {"temporary_id":"decl-002773","new_name":"isIdempotentElem_equivariantIdempotent","docstring":"The equivariant tensor-square endomorphism is idempotent."},
+    {"temporary_id":"decl-002775","new_name":"equivariantInvolution","docstring":"A complex-linear endomorphism of the tensor square that commutes with the group action."},
+    {"temporary_id":"decl-002778","new_name":"equivariantInvolution_commutes","docstring":"The tensor-square involution commutes with every representation operator."},
+    {"temporary_id":"decl-002779","new_name":"equivariantInvolution_sq","docstring":"The square of the equivariant tensor endomorphism is the identity."},
+    {"temporary_id":"decl-002784","new_name":"complexTable_selectedRows_eq_intCast","docstring":"The selected entries of the displayed complex table are integer casts of the corresponding integer-table entries."},
+    {"temporary_id":"decl-002822","new_name":"alternatingSquareRepresentation","docstring":"A finite-dimensional complex representation with the alternating-square character formula."},
+    {"temporary_id":"decl-002824","new_name":"auxiliaryTensorSquareSubrepresentation","docstring":"An auxiliary subrepresentation of the tensor square of the coordinate representation."},
+    {"temporary_id":"decl-002827","new_name":"character_alternatingSquareRepresentation","docstring":"The alternating-square character is one half of the difference between the squared character and its value at the square."},
+    {"temporary_id":"decl-002833","new_name":"auxiliaryUnavailableStatement","docstring":"An auxiliary statement whose formal type was unavailable."},
+    {"temporary_id":"decl-002836","new_name":"finrank_end_alternatingSquareRepresentation","docstring":"The endomorphism space of the alternating-square representation has complex dimension two."},
+    {"temporary_id":"decl-002902","new_name":"character_auxiliaryRepresentation_row_one","docstring":"At each indexed group element, the displayed representation's character equals the integer-table entry in row one."},
+    {"temporary_id":"decl-002908","new_name":"character_auxiliaryRepresentation_row_two","docstring":"At each indexed group element, the displayed representation's character equals the integer-table entry in row two."},
+    {"temporary_id":"decl-002914","new_name":"character_auxiliaryRepresentation_row_zero","docstring":"At each indexed group element, the displayed representation's character equals the integer-table entry in row zero."},
+    {"temporary_id":"decl-002916","new_name":"coordinateRepresentation","docstring":"A complex representation on the auxiliary five-coordinate submodule."},
+    {"temporary_id":"decl-002920","new_name":"selectedCharacterRowIndex","docstring":"A map selecting three character-table rows from a five-valued row index."},
+    {"temporary_id":"decl-002924","new_name":"integerCharacterTable","docstring":"A three-by-five table of integer character values."},
+    {"temporary_id":"decl-002926","new_name":"trace_coordinateRepresentation","docstring":"The trace of each coordinate representation operator equals the character of the displayed finite-dimensional representation."}
+  ]
+}

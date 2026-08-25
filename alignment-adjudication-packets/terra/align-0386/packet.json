@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:585db966a52e3f8b4405",
+      "declaration": "Etingof.Theorem_8_1_1_i_iff_ii",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/524/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (P : Type v) [inst_1 : AddCommGroup.{v} P] [inst_2 : Module.{u, v} R P]\n  [Small.{v, u} R],\n  Iff (Module.Projective.{u, v} R P)\n    (\u2200 {M : Type v} [inst_4 : AddCommGroup.{v} M] [inst_5 : Module.{u, v} R M]\n      (f : LinearMap.{u, u, v, v} (RingHom.id.{u} R) M P),\n      Function.Surjective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} f) \u2192\n        Exists.{v + 1} fun g => Eq.{v + 1} (LinearMap.comp.{u, u, u, v, v, v} f g) LinearMap.id.{u, v})",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Theorem8_1_1"
+    },
+    {
+      "association_id": "association:faf5109b4a9662e9bcfb",
+      "declaration": "Etingof.Theorem_8_1_1_i_iff_iii",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/524/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (P : Type v) [inst_1 : AddCommGroup.{v} P] [inst_2 : Module.{u, v} R P],\n  Iff (Module.Projective.{u, v} R P)\n    (Exists.{max (u + 2) (v + 2)} fun Q =>\n      Exists.{max (u + 1) (v + 1)} fun x =>\n        Exists.{max (u + 1) (v + 1)} fun x_1 =>\n          Exists.{0} fun x_2 =>\n            Exists.{max (u + 1) (v + 1)} fun i =>\n              Exists.{max (u + 1) (v + 1)} fun s =>\n                Eq.{v + 1} (LinearMap.comp.{u, u, u, v, max u v, v} s i) LinearMap.id.{u, v})",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Theorem8_1_1"
+    },
+    {
+      "association_id": "association:77d854b4d37e9c91adfe",
+      "declaration": "Etingof.Theorem_8_1_1_i_iff_iv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/524/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (P : Type v) [inst_1 : AddCommGroup.{v} P] [inst_2 : Module.{u, v} R P]\n  [Small.{v, u} R],\n  Iff (Module.Projective.{u, v} R P)\n    (\u2200 {K M N : Type v} [inst_4 : AddCommGroup.{v} K] [inst_5 : AddCommGroup.{v} M] [inst_6 : AddCommGroup.{v} N]\n      [inst_7 : Module.{u, v} R K] [inst_8 : Module.{u, v} R M] [inst_9 : Module.{u, v} R N]\n      (\u03b9 : LinearMap.{u, u, v, v} (RingHom.id.{u} R) K M) (\u03c0 : LinearMap.{u, u, v, v} (RingHom.id.{u} R) M N),\n      Function.Injective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} \u03b9) \u2192\n        Function.Surjective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} \u03c0) \u2192\n          Eq.{v + 1} (LinearMap.range.{u, u, v, v} \u03b9) (LinearMap.ker.{u, u, v, v} \u03c0) \u2192\n            And (Function.Injective.{v + 1, v + 1} fun g => LinearMap.comp.{u, u, u, v, v, v} \u03b9 g)\n              (And\n                (\u2200 (h : LinearMap.{u, u, v, v} (RingHom.id.{u} R) P M),\n                  Iff (Eq.{v + 1} (LinearMap.comp.{u, u, u, v, v, v} \u03c0 h) 0)\n                    (Exists.{v + 1} fun g => Eq.{v + 1} (LinearMap.comp.{u, u, u, v, v, v} \u03b9 g) h))\n                (Function.Surjective.{v + 1, v + 1} fun h => LinearMap.comp.{u, u, u, v, v, v} \u03c0 h)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Theorem8_1_1"
+    }
+  ],
+  "canonical_reference": "Chapter8/Theorem8.1.1",
+  "packet_id": "align-0386",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0386"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:79286e4403bb825a24cb",
+  "source_text": "The four stated characterizations of a projective module are equivalent."
+}

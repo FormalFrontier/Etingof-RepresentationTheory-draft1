@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0358",
+  "associations": [
+    {
+      "association_id": "association:4479e47e8680d1fb214e",
+      "role": "primary",
+      "rationale": "The equality directly states that the product of the quotient images of `a` and `b` is the quotient image of `a * b`."
+    }
+  ]
+}

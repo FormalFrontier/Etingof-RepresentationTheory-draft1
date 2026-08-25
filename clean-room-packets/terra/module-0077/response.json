@@ -1,0 +1,65 @@
+{
+  "module_name": "LieAlgebra.ParameterFourConstructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-007352",
+      "new_name": "eq_from_diagonalCoefficient",
+      "docstring": "Under the stated conditions, the bilinear map is recovered from the associated one-index coefficient data."
+    },
+    {
+      "temporary_id": "decl-007651",
+      "new_name": "parameterFourBasis",
+      "docstring": "A basis for the displayed module at parameter four."
+    },
+    {
+      "temporary_id": "decl-007654",
+      "new_name": "parameterFourBasis_apply",
+      "docstring": "Computes the parameter-four basis vector at an index."
+    },
+    {
+      "temporary_id": "decl-007675",
+      "new_name": "parameterFourLieEquiv",
+      "docstring": "A Lie algebra equivalence from the displayed parameter-four module to the specified subtype."
+    },
+    {
+      "temporary_id": "decl-007683",
+      "new_name": "parameterFourLieEquiv_apply",
+      "docstring": "Computes the parameter-four Lie equivalence on an element."
+    },
+    {
+      "temporary_id": "decl-007695",
+      "new_name": "parameterFourMap_injective",
+      "docstring": "The displayed linear map from the parameter-four module is injective."
+    },
+    {
+      "temporary_id": "decl-007719",
+      "new_name": "sequence_has_property_of_characteristicAssumptions",
+      "docstring": "The sequence-derived bilinear map satisfies the indicated property when two, three, and five are nonzero."
+    },
+    {
+      "temporary_id": "decl-008099",
+      "new_name": "not_moduleFinite_parameterFour",
+      "docstring": "The displayed module at parameter four is not finite over the field."
+    },
+    {
+      "temporary_id": "decl-008111",
+      "new_name": "derivedPair_has_property",
+      "docstring": "The two displayed objects associated with an index satisfy the specified binary property."
+    },
+    {
+      "temporary_id": "decl-008210",
+      "new_name": "span_range_parameterFourMap_eq_top",
+      "docstring": "The range of the displayed map spans the parameter-four module."
+    },
+    {
+      "temporary_id": "decl-008221",
+      "new_name": "specifiedScalar_eq_zero",
+      "docstring": "The displayed scalar indexed by a natural number is zero."
+    },
+    {
+      "temporary_id": "decl-008266",
+      "new_name": "hasStructure_of_conditions",
+      "docstring": "The stated structural property follows from the two displayed conditions on a bilinear map."
+    }
+  ]
+}

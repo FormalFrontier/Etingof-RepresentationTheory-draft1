@@ -1,0 +1,25 @@
+{
+  "declarations": [
+    {
+      "docstring": "Given the displayed auxiliary hypothesis, the auxiliary condition implies either the auxiliary vertex condition or surjectivity of the associated map.",
+      "new_name": "QuiverRepresentation.Auxiliary.vertexConditionOrSurjective",
+      "temporary_id": "decl-014717"
+    },
+    {
+      "docstring": "Given the displayed auxiliary hypothesis, the auxiliary condition implies either the auxiliary vertex condition or injectivity of the associated map.",
+      "new_name": "QuiverRepresentation.Auxiliary.vertexConditionOrInjective",
+      "temporary_id": "decl-014719"
+    },
+    {
+      "docstring": "An auxiliary predicate for the displayed quiver-indexed object over a commutative semiring.",
+      "new_name": "AuxiliaryCondition",
+      "temporary_id": "decl-014923"
+    },
+    {
+      "docstring": "An auxiliary predicate at a vertex for a quiver-indexed object with finite free component modules.",
+      "new_name": "AuxiliaryVertexCondition",
+      "temporary_id": "decl-014925"
+    }
+  ],
+  "module_name": "QuiverRepresentation.Auxiliary"
+}

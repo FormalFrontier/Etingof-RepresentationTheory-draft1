@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0334",
+  "associations": [
+    {
+      "association_id": "association:b828951eb80380415670",
+      "rationale": "The displayed type only gives a natural-number-valued function of two partitions and does not expose the semistandard-tableau counting definition.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:18ec564e111b5f254758",
+      "rationale": "The formal type identifies the Young-rule multiplicity with the corresponding Kostka number, but it states only the equality clause and not the semistandard-tableau counting claim.",
+      "role": "supporting"
+    }
+  ]
+}

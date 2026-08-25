@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1188",
+  "associations": [
+    {
+      "association_id": "association:a36611516cd2e272dff6",
+      "rationale": "The displayed type concludes solvability from a group order of the form p^a q^b; it is a consequence of the proof discussion, not the source claim's Sylow-theoretic conjugacy-class versus center alternative.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:23e6d6454d04a8abb81b",
+      "rationale": "The displayed type derives a proper nontrivial normal subgroup from an already assumed positive prime-power conjugacy-class size, but it does not state that Sylow theory produces such a class or the alternative involving the center.",
+      "role": "supporting"
+    }
+  ]
+}

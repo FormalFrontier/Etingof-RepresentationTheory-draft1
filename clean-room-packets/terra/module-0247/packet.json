@@ -1,0 +1,144 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [inst_1 : Fintype.{u} G] {k : Type u} [inst_2 : Field.{u} k]\n  [inst_3 : IsAlgClosed.{u} k] [inst_4 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (D : decl-025031.{u, u} k G)\n  (V : Fin (decl-025117.{u, u} D) \u2192 FDRep.{u, u} k G),\n  (\u2200 (i : Fin (decl-025117.{u, u} D)), CategoryTheory.Simple.{u, u + 1} (V i)) \u2192\n    (\u2200 (i j : Fin (decl-025117.{u, u} D)),\n        Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (W : FDRep.{u, u} k G),\n          CategoryTheory.Simple.{u, u + 1} W \u2192\n            Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} W (V i))) \u2192\n        \u2200 (g h : G),\n          Eq.{u + 1}\n            (Finset.sum.{0, u} Finset.univ.{0} fun i =>\n              HMul.hMul.{u, u, u} (FDRep.character.{u, u} (V i) g) (FDRep.character.{u, u} (V i) (Inv.inv.{u} h)))\n            (ite.{u + 1} (IsConj.{u} g h)\n              (Nat.cast.{u}\n                (Fintype.card.{u}\n                  (Subtype.{u + 1} fun x =>\n                    Membership.mem.{u, u} (Subgroup.centralizer.{u} (Singleton.singleton.{u, u} g)) x)))\n              0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025117"
+      ],
+      "structural_type_hash": "1142370953",
+      "temporary_id": "decl-016506"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [inst_1 : Fintype.{u} G] {k : Type u} [inst_2 : Field.{u} k]\n  [inst_3 : IsAlgClosed.{u} k] [inst_4 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (D : decl-025031.{u, u} k G)\n  (i : Fin (decl-025117.{u, u} D)) (g : G),\n  Eq.{u + 1} (FDRep.character.{u, u} (decl-025052.{u, u} D i) g)\n    (Matrix.trace.{0, u}\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-025104.{u, u} D)\n        (DFunLike.coe.{u + 1, u + 1, u + 1} (MonoidAlgebra.of.{u, u} k G) g) i))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025031",
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025052",
+        "decl-025074",
+        "decl-025104",
+        "decl-025117"
+      ],
+      "structural_type_hash": "3388534458",
+      "temporary_id": "decl-025054"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [inst_1 : Fintype.{u} G] {k : Type u} [inst_2 : Field.{u} k]\n  [inst_3 : IsAlgClosed.{u} k] [inst_4 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (D : decl-025031.{u, u} k G),\n  And (\u2200 (i : Fin (decl-025117.{u, u} D)), CategoryTheory.Simple.{u, u + 1} (decl-025052.{u, u} D i))\n    (And\n      (\u2200 (i j : Fin (decl-025117.{u, u} D)),\n        Nonempty.{u + 1}\n            (CategoryTheory.Iso.{u, u + 1} (decl-025052.{u, u} D i) (decl-025052.{u, u} D j)) \u2192\n          Eq.{1} i j)\n      (\u2200 (W : FDRep.{u, u} k G),\n        CategoryTheory.Simple.{u, u + 1} W \u2192\n          Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} W (decl-025052.{u, u} D i))))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025031",
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025052",
+        "decl-025117"
+      ],
+      "structural_type_hash": "4050248755",
+      "temporary_id": "decl-025056"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [inst_1 : Fintype.{u} G] (g h : G),\n  Eq.{1}\n    (Finset.card.{u}\n      (Finset.filter.{u} (fun x => Eq.{u + 1} (HMul.hMul.{u, u, u} (HMul.hMul.{u, u, u} x g) (Inv.inv.{u} x)) h)\n        Finset.univ.{u}))\n    (ite.{1} (IsConj.{u} g h)\n      (Fintype.card.{u}\n        (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Subgroup.centralizer.{u} (Singleton.singleton.{u, u} g)) x))\n      0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3138677066",
+      "temporary_id": "decl-032698"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [inst_1 : Fintype.{u} G] (g h : G),\n  IsConj.{u} g h \u2192\n    Eq.{1}\n      (Finset.card.{u}\n        (Finset.filter.{u} (fun x => Eq.{u + 1} (HMul.hMul.{u, u, u} (HMul.hMul.{u, u, u} x g) (Inv.inv.{u} x)) h)\n          Finset.univ.{u}))\n      (Fintype.card.{u}\n        (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Subgroup.centralizer.{u} (Singleton.singleton.{u, u} g)) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "247989906",
+      "temporary_id": "decl-032699"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [inst_1 : Fintype.{u} G] (g h : G),\n  Eq.{1}\n    (Finset.card.{u}\n      (Finset.filter.{u} (fun x => Eq.{u + 1} (HMul.hMul.{u, u, u} (HMul.hMul.{u, u, u} g x) (Inv.inv.{u} h)) x)\n        Finset.univ.{u}))\n    (Finset.card.{u}\n      (Finset.filter.{u} (fun x => Eq.{u + 1} (HMul.hMul.{u, u, u} (HMul.hMul.{u, u, u} x g) (Inv.inv.{u} x)) h)\n        Finset.univ.{u}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "852977223",
+      "temporary_id": "decl-032707"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [inst_1 : Fintype.{u} G] {k : Type u} [inst_2 : Field.{u} k]\n  [inst_3 : IsAlgClosed.{u} k] [inst_4 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (D : decl-025031.{u, u} k G)\n  (g h : G),\n  Eq.{u + 1}\n    (Finset.sum.{0, u} Finset.univ.{0} fun i =>\n      HMul.hMul.{u, u, u} (FDRep.character.{u, u} (decl-025052.{u, u} D i) g)\n        (FDRep.character.{u, u} (decl-025052.{u, u} D i) (Inv.inv.{u} h)))\n    (ite.{u + 1} (IsConj.{u} g h)\n      (Nat.cast.{u}\n        (Fintype.card.{u}\n          (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Subgroup.centralizer.{u} (Singleton.singleton.{u, u} g)) x)))\n      0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025052",
+        "decl-025117"
+      ],
+      "structural_type_hash": "3263369876",
+      "temporary_id": "decl-032722"
+    },
+    {
+      "formal_type": "{G : Type u} \u2192\n  [inst : Group.{u} G] \u2192\n    (g h c : G) \u2192\n      Eq.{u + 1} (HMul.hMul.{u, u, u} (HMul.hMul.{u, u, u} c g) (Inv.inv.{u} c)) h \u2192\n        Equiv.{u + 1, max 1 (u + 1)}\n          (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Subgroup.centralizer.{u} (Singleton.singleton.{u, u} g)) x)\n          (Subtype.{u + 1} fun x => Eq.{u + 1} (HMul.hMul.{u, u, u} (HMul.hMul.{u, u, u} x g) (Inv.inv.{u} x)) h)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2752071533",
+      "temporary_id": "decl-032732"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [inst_1 : Fintype.{u} G] (g h : G),\n  Not (IsConj.{u} g h) \u2192\n    Eq.{u + 1}\n      (Finset.filter.{u} (fun x => Eq.{u + 1} (HMul.hMul.{u, u, u} (HMul.hMul.{u, u, u} x g) (Inv.inv.{u} x)) h)\n        Finset.univ.{u})\n      EmptyCollection.emptyCollection.{u}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2022767011",
+      "temporary_id": "decl-032746"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [Fintype.{u} G] {k : Type u} [inst_2 : Field.{u} k] [IsAlgClosed.{u} k]\n  [NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] {n : Nat} (V W : Fin n \u2192 FDRep.{u, u} k G),\n  (\u2200 (i : Fin n), CategoryTheory.Simple.{u, u + 1} (V i)) \u2192\n    (\u2200 (i j : Fin n), Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (U : FDRep.{u, u} k G),\n          CategoryTheory.Simple.{u, u + 1} U \u2192\n            Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} U (V i))) \u2192\n        (\u2200 (i : Fin n), CategoryTheory.Simple.{u, u + 1} (W i)) \u2192\n          (\u2200 (i j : Fin n), Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (W i) (W j)) \u2192 Eq.{1} i j) \u2192\n            (\u2200 (U : FDRep.{u, u} k G),\n                CategoryTheory.Simple.{u, u + 1} U \u2192\n                  Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} U (W i))) \u2192\n              \u2200 (g h : G),\n                Eq.{u + 1}\n                  (Finset.sum.{0, u} Finset.univ.{0} fun i =>\n                    HMul.hMul.{u, u, u} (FDRep.character.{u, u} (V i) g) (FDRep.character.{u, u} (V i) h))\n                  (Finset.sum.{0, u} Finset.univ.{0} fun i =>\n                    HMul.hMul.{u, u, u} (FDRep.character.{u, u} (W i) g) (FDRep.character.{u, u} (W i) h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2209739387",
+      "temporary_id": "decl-033004"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [inst_1 : Fintype.{u} G] {k : Type u} [inst_2 : Field.{u} k]\n  [inst_3 : IsAlgClosed.{u} k] [inst_4 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (D : decl-025031.{u, u} k G)\n  (a b : MonoidAlgebra.{u, u} k G),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (LinearMap.trace.{u, u} k (MonoidAlgebra.{u, u} k G))\n      (LinearMap.mulLeftRight.{u, u} k (Prod.mk.{u, u} a b)))\n    (Finset.sum.{0, u} Finset.univ.{0} fun i =>\n      HMul.hMul.{u, u, u} (Matrix.trace.{0, u} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-025104.{u, u} D) a i))\n        (Matrix.trace.{0, u} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-025104.{u, u} D) b i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025074",
+        "decl-025104",
+        "decl-025117"
+      ],
+      "structural_type_hash": "356130161",
+      "temporary_id": "decl-033019"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [inst_1 : Fintype.{u} G] {k : Type u} [inst_2 : Field.{u} k] [IsAlgClosed.{u} k]\n  [NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (g h : G),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (LinearMap.trace.{u, u} k (MonoidAlgebra.{u, u} k G))\n      (LinearMap.mulLeftRight.{u, u} k\n        (Prod.mk.{u, u} (DFunLike.coe.{u + 1, u + 1, u + 1} (MonoidAlgebra.of.{u, u} k G) g)\n          (DFunLike.coe.{u + 1, u + 1, u + 1} (MonoidAlgebra.of.{u, u} k G) (Inv.inv.{u} h)))))\n    (ite.{u + 1} (IsConj.{u} g h)\n      (Nat.cast.{u}\n        (Fintype.card.{u}\n          (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Subgroup.centralizer.{u} (Singleton.singleton.{u, u} g)) x)))\n      0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2717814186",
+      "temporary_id": "decl-033022"
+    }
+  ],
+  "module_temporary_id": "module-0247",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

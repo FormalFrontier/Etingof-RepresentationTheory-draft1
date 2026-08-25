@@ -1,0 +1,285 @@
+{
+  "module_name": "FiniteFieldMatrixCharacterValues",
+  "declarations": [
+    {
+      "temporary_id": "decl-004419",
+      "new_name": "multiplicativeCharacterMatrixFunction",
+      "docstring": "A complex-valued function on units of two-by-two matrices, parameterized by a multiplicative character of the finite field."
+    },
+    {
+      "temporary_id": "decl-004421",
+      "new_name": "distinguishedMatrixUnitFunction",
+      "docstring": "A distinguished complex-valued function on the group of units of two-by-two matrices over a finite field."
+    },
+    {
+      "temporary_id": "decl-004458",
+      "new_name": "subgroupCharacterMatrixFunction",
+      "docstring": "A complex-valued function on matrix units parameterized by a character of a distinguished subgroup."
+    },
+    {
+      "temporary_id": "decl-004544",
+      "new_name": "distinguishedMatrixSubgroup",
+      "docstring": "A distinguished subgroup of the units of two-by-two matrices over a finite field."
+    },
+    {
+      "temporary_id": "decl-004551",
+      "new_name": "quadraticFieldUnitsToMatrixUnits",
+      "docstring": "The monoid homomorphism from units of the quadratic finite-field extension to matrix units over the base field."
+    },
+    {
+      "temporary_id": "decl-004696",
+      "new_name": "scalarUnitsToDistinguishedSubgroup",
+      "docstring": "The monoid homomorphism from finite-field units to the distinguished matrix subgroup."
+    },
+    {
+      "temporary_id": "decl-017196",
+      "new_name": "quadraticFiniteFieldAlgebra",
+      "docstring": "The algebra structure of the finite field of degree twice the given degree over the smaller finite field."
+    },
+    {
+      "temporary_id": "decl-017197",
+      "new_name": "algebraMap_matrixInvariant_quadraticFieldUnitsToMatrixUnits",
+      "docstring": "After embedding into the quadratic extension, the scalar invariant of the matrix image of a unit is the square of its Frobenius difference."
+    },
+    {
+      "temporary_id": "decl-017890",
+      "new_name": "multiplicativeCharacterMatrixFunction_conj",
+      "docstring": "The character-parameterized matrix function is invariant under conjugation."
+    },
+    {
+      "temporary_id": "decl-017898",
+      "new_name": "multiplicativeCharacterMatrixFunction_eq_zero_of_auxiliaryProperty",
+      "docstring": "The character-parameterized matrix function vanishes when the specified auxiliary predicate holds."
+    },
+    {
+      "temporary_id": "decl-017900",
+      "new_name": "exists_multiplicativeCharacterMatrixFunction_eq_characterValue",
+      "docstring": "Under the specified auxiliary predicate, the matrix-function value equals the character value of some field unit."
+    },
+    {
+      "temporary_id": "decl-017910",
+      "new_name": "auxiliaryElidedStatement017910",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-017918",
+      "new_name": "multiplicativeCharacterMatrixFunction_eq_cardinalityFactor_mul_character",
+      "docstring": "Under the specified auxiliary predicate and a nonzero top-left entry, the matrix-function value is an explicit cardinality factor times the character of that entry."
+    },
+    {
+      "temporary_id": "decl-017919",
+      "new_name": "auxiliaryUnavailableStatement017919",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
+    },
+    {
+      "temporary_id": "decl-017920",
+      "new_name": "distinguishedMatrixUnitFunction_eq_zero_of_auxiliaryProperty",
+      "docstring": "The distinguished matrix-unit function vanishes when the specified auxiliary predicate holds."
+    },
+    {
+      "temporary_id": "decl-017922",
+      "new_name": "distinguishedMatrixUnitFunction_eq_card_of_auxiliaryProperty",
+      "docstring": "Under the specified auxiliary predicate, the distinguished matrix-unit function equals the cardinality of the finite field."
+    },
+    {
+      "temporary_id": "decl-017923",
+      "new_name": "distinguishedMatrixUnitFunction_eq_one_of_auxiliaryProperty",
+      "docstring": "In odd characteristic, the distinguished matrix-unit function is one when the specified auxiliary predicate holds."
+    },
+    {
+      "temporary_id": "decl-018122",
+      "new_name": "exists_subgroupCharacterMatrixFunction_eq_neg_characterValue",
+      "docstring": "Under the specified auxiliary predicate, the subgroup-character matrix function is the negative of a composite character value."
+    },
+    {
+      "temporary_id": "decl-018134",
+      "new_name": "subgroupCharacterMatrixFunction_eq_zero_of_auxiliaryProperty",
+      "docstring": "In odd characteristic, the subgroup-character matrix function vanishes when the specified auxiliary predicate holds."
+    },
+    {
+      "temporary_id": "decl-018163",
+      "new_name": "auxiliaryProperty_of_conjugate",
+      "docstring": "The specified auxiliary predicate for a conjugate implies the same predicate for the original matrix unit."
+    },
+    {
+      "temporary_id": "decl-018424",
+      "new_name": "matrixInvariant_conj",
+      "docstring": "The scalar invariant of a matrix unit is unchanged by conjugation."
+    },
+    {
+      "temporary_id": "decl-018425",
+      "new_name": "diagonalDifference_sq_add_four_mul_offDiagonal",
+      "docstring": "For a two-by-two matrix, the squared diagonal difference plus four times the off-diagonal product equals trace squared minus four times determinant."
+    },
+    {
+      "temporary_id": "decl-018426",
+      "new_name": "matrixInvariant_quadraticFieldUnitsToMatrixUnits_eq_trace_sq_sub_four_norm",
+      "docstring": "The invariant of the matrix image of a quadratic-extension unit equals its trace squared minus four times its norm."
+    },
+    {
+      "temporary_id": "decl-018476",
+      "new_name": "X_pow_card_sub_X_dvd_X_pow_card_sq_sub_X",
+      "docstring": "The finite-field polynomial X raised to the field cardinality minus X divides the analogous polynomial for the squared cardinality."
+    },
+    {
+      "temporary_id": "decl-018561",
+      "new_name": "matrixInvariant_eq_zero_or_not_isSquare_of_mem_distinguishedSubgroup",
+      "docstring": "In odd characteristic, a member of the distinguished subgroup has scalar invariant zero or nonsquare."
+    },
+    {
+      "temporary_id": "decl-019391",
+      "new_name": "quadraticFiniteField_finiteDimensional",
+      "docstring": "The finite field of twice the degree is finite-dimensional over the smaller finite field."
+    },
+    {
+      "temporary_id": "decl-019432",
+      "new_name": "quadraticFiniteField_finrank",
+      "docstring": "For positive degree, the larger finite field has rank two over the smaller finite field."
+    },
+    {
+      "temporary_id": "decl-019653",
+      "new_name": "frobeniusDifference_pow_card_eq_neg",
+      "docstring": "In the quadratic finite-field extension, raising an element minus its Frobenius image to the base-field cardinality gives its negative."
+    },
+    {
+      "temporary_id": "decl-019781",
+      "new_name": "finiteFieldToQuadraticExtensionAlgHom",
+      "docstring": "The algebra homomorphism from a finite field to the finite field of twice its degree, over the prime field."
+    },
+    {
+      "temporary_id": "decl-020561",
+      "new_name": "conjugate_not_mem_distinguishedSubgroup_of_auxiliaryProperty",
+      "docstring": "In odd characteristic, the specified auxiliary predicate ensures that no conjugate belongs to the distinguished subgroup."
+    },
+    {
+      "temporary_id": "decl-021508",
+      "new_name": "card_filter_linear_eq_zero",
+      "docstring": "Over a finite field, a linear expression with nonzero leading coefficient vanishes at exactly one element."
+    },
+    {
+      "temporary_id": "decl-021738",
+      "new_name": "subgroupCharacterMatrixFunction_mul_star_eq_one",
+      "docstring": "In odd characteristic and under the specified auxiliary predicate, the subgroup-character matrix function times its complex conjugate is one."
+    },
+    {
+      "temporary_id": "decl-021739",
+      "new_name": "subgroupCharacterMatrixFunction_mul_star_eq_card_sub_one_sq",
+      "docstring": "Under the specified auxiliary predicate, the subgroup-character matrix function times its complex conjugate is the square of one less than the field cardinality."
+    },
+    {
+      "temporary_id": "decl-021744",
+      "new_name": "characterValue_mul_star_eq_one",
+      "docstring": "A complex unit-valued character value multiplied by its complex conjugate is one."
+    },
+    {
+      "temporary_id": "decl-021783",
+      "new_name": "not_isSquare_of_quadraticExtension_sq_and_frobenius_eq_neg",
+      "docstring": "In odd characteristic, a base-field element is nonsquare if it is the square of a nonzero extension element whose Frobenius image is its negative."
+    },
+    {
+      "temporary_id": "decl-021788",
+      "new_name": "subgroupCharacter_eq_compositeCharacter_topLeft",
+      "docstring": "For a subgroup member satisfying the specified auxiliary predicate, its character value equals the composite character evaluated at its nonzero top-left entry."
+    },
+    {
+      "temporary_id": "decl-021845",
+      "new_name": "conjugate_not_mem_distinguishedSubgroup",
+      "docstring": "The specified auxiliary predicate ensures that every conjugate lies outside the distinguished subgroup."
+    },
+    {
+      "temporary_id": "decl-021857",
+      "new_name": "topLeft_ne_zero_of_lowerLeft_eq_zero",
+      "docstring": "For a matrix unit satisfying the specified auxiliary predicate, a zero lower-left entry forces the top-left entry to be nonzero."
+    },
+    {
+      "temporary_id": "decl-021859",
+      "new_name": "conjugator_lowerLeft_eq_zero",
+      "docstring": "If a matrix unit and one of its conjugates have zero lower-left entries under the specified auxiliary predicate, then the conjugating unit also has zero lower-left entry."
+    },
+    {
+      "temporary_id": "decl-021868",
+      "new_name": "conjugate_topLeft_eq_of_lowerLeft_eq_zero",
+      "docstring": "Under the specified auxiliary predicate, if a matrix unit and its conjugate have zero lower-left entries, then their top-left entries agree."
+    },
+    {
+      "temporary_id": "decl-022243",
+      "new_name": "card_quadratic_roots_eq_zero_of_discriminant_not_isSquare",
+      "docstring": "A quadratic over a finite field with nonzero leading coefficient has no roots when its discriminant is nonsquare."
+    },
+    {
+      "temporary_id": "decl-022244",
+      "new_name": "card_quadratic_roots_eq_one_of_discriminant_eq_zero",
+      "docstring": "A quadratic over a finite field with nonzero leading coefficient has exactly one root when its discriminant is zero."
+    },
+    {
+      "temporary_id": "decl-022249",
+      "new_name": "card_quadratic_roots_eq_two_of_discriminant_isSquare",
+      "docstring": "In characteristic different from two, a quadratic with nonzero leading coefficient has exactly two roots when its discriminant is a nonzero square."
+    },
+    {
+      "temporary_id": "decl-022923",
+      "new_name": "primeField_finiteField_quadraticExtension_isScalarTower",
+      "docstring": "The prime field, a finite field, and its degree-doubled extension form a scalar tower."
+    },
+    {
+      "temporary_id": "decl-022924",
+      "new_name": "complex_rational_identity",
+      "docstring": "A rational identity in a complex variable under the stated nonvanishing assumptions."
+    },
+    {
+      "temporary_id": "decl-022925",
+      "new_name": "conj_eq_self_of_auxiliaryProperty",
+      "docstring": "A matrix unit satisfying the specified auxiliary predicate is fixed by every conjugation."
+    },
+    {
+      "temporary_id": "decl-022926",
+      "new_name": "topLeft_ne_zero_of_auxiliaryProperty",
+      "docstring": "The top-left entry of a matrix unit satisfying the specified auxiliary predicate is nonzero."
+    },
+    {
+      "temporary_id": "decl-022927",
+      "new_name": "eq_quadraticFieldUnitsToMatrixUnits_topLeft",
+      "docstring": "For positive degree, a matrix unit satisfying the specified auxiliary predicate is the image of the scalar unit given by its top-left entry."
+    },
+    {
+      "temporary_id": "decl-022928",
+      "new_name": "mem_distinguishedMatrixSubgroup_of_auxiliaryProperty",
+      "docstring": "For positive degree, a matrix unit satisfying the specified auxiliary predicate and having nonzero top-left entry belongs to the distinguished subgroup."
+    },
+    {
+      "temporary_id": "decl-023383",
+      "new_name": "map_X_pow_card_sub_X_splits_quadraticFiniteField",
+      "docstring": "After mapping to the degree-doubled finite field, the polynomial X raised to the smaller field cardinality minus X splits."
+    },
+    {
+      "temporary_id": "decl-024443",
+      "new_name": "monoidCharacter_apply_mul_star_eq_one",
+      "docstring": "The value of a complex unit-valued monoid character times its complex conjugate is one."
+    },
+    {
+      "temporary_id": "decl-024464",
+      "new_name": "conjugate_topLeft_sq_eq_det_of_invariant_eq_zero",
+      "docstring": "If the scalar invariant vanishes and a conjugate has zero lower-left entry, then that conjugate's top-left entry squared equals the original determinant."
+    },
+    {
+      "temporary_id": "decl-024465",
+      "new_name": "two_mul_conjugate_topLeft_eq_trace_of_invariant_eq_zero",
+      "docstring": "If the scalar invariant vanishes and a conjugate has zero lower-left entry, then twice that conjugate's top-left entry equals the original trace."
+    },
+    {
+      "temporary_id": "decl-024466",
+      "new_name": "conjugate_topLeft_eq_of_invariant_eq_zero",
+      "docstring": "In odd characteristic, any two conjugates with zero lower-left entry have equal top-left entries when the scalar invariant vanishes."
+    },
+    {
+      "temporary_id": "decl-024467",
+      "new_name": "conjugate_diagonal_eq_of_invariant_eq_zero",
+      "docstring": "If the scalar invariant vanishes and a conjugate has zero lower-left entry, then that conjugate has equal diagonal entries."
+    },
+    {
+      "temporary_id": "decl-024469",
+      "new_name": "conjugate_topLeft_ne_zero_of_invariant_eq_zero",
+      "docstring": "If the scalar invariant vanishes and a conjugate has zero lower-left entry, then that conjugate's top-left entry is nonzero."
+    }
+  ]
+}

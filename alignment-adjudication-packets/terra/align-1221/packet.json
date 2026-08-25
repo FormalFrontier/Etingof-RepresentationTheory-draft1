@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b19a2eb3e25e6767e92a",
+      "declaration": "Etingof.Example4_3_S4.indH_sign_decomp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/585/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (CategoryTheory.Iso.{0, 1}\n    (FDRep.of.{0, 0} (Etingof.Definition5_8_1.{0, 0} Etingof.Example4_3_S4.H Etingof.Example4_3_S4.indSign))\n    (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_3_S4.signRep Etingof.Example4_3_S4.rotRep))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion5_11_S4S3"
+    },
+    {
+      "association_id": "association:88cdf8b3b2ad9a6a7e80",
+      "declaration": "Etingof.Example4_3_S4.indH_triv_decomp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/585/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (CategoryTheory.Iso.{0, 1}\n    (FDRep.of.{0, 0} (Etingof.Definition5_8_1.{0, 0} Etingof.Example4_3_S4.H Etingof.Example4_3_S4.indTriv))\n    (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_3_S4.trivRep Etingof.Example4_3_S4.stdRep))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion5_11_S4S3"
+    },
+    {
+      "association_id": "association:303ff12e08c9e285680c",
+      "declaration": "Etingof.Example4_3_S4.indH_twoDim_decomp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/585/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (CategoryTheory.Iso.{0, 1}\n    (FDRep.of.{0, 0} (Etingof.Definition5_8_1.{0, 0} Etingof.Example4_3_S4.H Etingof.Example4_3_S4.indStd))\n    (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_3_S4.twoDimRep\n      (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_3_S4.stdRep Etingof.Example4_3_S4.rotRep)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion5_11_S4S3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_5.11_examples/Derived01",
+  "packet_id": "align-1221",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1221"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "derived:d1f32ad2f14949d6cdd1",
+  "source_text": "The three induced representations of S\u2084 from S\u2083: Ind_{S\u2083}^{S\u2084} \u2102\u208a \u2245 \u2102\u208a \u2295 \u2102\u00b3\u208b, Ind_{S\u2083}^{S\u2084} \u2102\u208b \u2245 \u2102\u208b \u2295 \u2102\u00b3\u208a, Ind_{S\u2083}^{S\u2084} \u2102\u00b2 \u2245 \u2102\u00b2 \u2295 \u2102\u00b3\u208b \u2295 \u2102\u00b3\u208a"
+}

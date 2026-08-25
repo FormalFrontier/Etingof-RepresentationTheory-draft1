@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1138",
+  "associations": [
+    {
+      "association_id": "association:83f8eef794af3de7c625",
+      "role": "supporting",
+      "rationale": "No formal type is displayed, so the declaration name alone cannot establish the right-translation multiplication law stated in the source."
+    }
+  ]
+}

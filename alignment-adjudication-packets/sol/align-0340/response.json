@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0340",
+  "associations": [
+    {
+      "association_id": "association:68b867e9992dc3e37e6c",
+      "rationale": "The formal type classifies an arbitrary simple S3 representation among three displayed representations, supporting the interpretation of the table but not directly asserting how the table was obtained or that each displayed representation is simple.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:54de8743313ee48082f1",
+      "rationale": "The formal type only supplies a displayed S3 representation and does not state its irreducibility or its character-table row.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:82d96b8d62997e2c50db",
+      "rationale": "The formal type only supplies a displayed S3 representation and does not state its irreducibility or its character-table row.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d4b45075b3b1cdd6f00d",
+      "rationale": "The formal type gives the character formula for the displayed standard representation, supporting one table row but not directly asserting that the full table comes from genuine irreducible representations.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4a9bf5be0cf7998b55bb",
+      "rationale": "The formal type only supplies a displayed S3 representation and does not state its irreducibility or its character-table row.",
+      "role": "supporting"
+    }
+  ]
+}

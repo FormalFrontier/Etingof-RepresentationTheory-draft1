@@ -1,0 +1,60 @@
+{
+  "module_name": "GeneralLinear.AuxiliaryPolynomialQuotient",
+  "declarations": [
+    {
+      "temporary_id": "decl-001072",
+      "new_name": "exists_equivariantEmbedding_auxiliaryRepresentationFamily",
+      "docstring": "A simple representation embedded equivariantly in the polynomial quotient embeds equivariantly in some member of the auxiliary representation family."
+    },
+    {
+      "temporary_id": "decl-001087",
+      "new_name": "homogeneousComponent_mem_auxiliarySubmodule",
+      "docstring": "Every homogeneous component of an element of the auxiliary polynomial submodule remains in that submodule."
+    },
+    {
+      "temporary_id": "decl-001088",
+      "new_name": "homogeneousComponent_auxiliaryAction",
+      "docstring": "Taking a homogeneous component commutes with the displayed general linear group action on multivariate polynomials."
+    },
+    {
+      "temporary_id": "decl-001115",
+      "new_name": "iSupIndep_auxiliarySubrepresentationFamily",
+      "docstring": "The underlying submodules of the auxiliary subrepresentation family are independent."
+    },
+    {
+      "temporary_id": "decl-001116",
+      "new_name": "iSup_auxiliarySubrepresentationFamily_eq_top",
+      "docstring": "The underlying submodules of the auxiliary subrepresentation family span the entire quotient representation."
+    },
+    {
+      "temporary_id": "decl-001124",
+      "new_name": "auxiliaryLinearEndomorphism",
+      "docstring": "An auxiliary natural-number-indexed linear endomorphism of the displayed polynomial quotient."
+    },
+    {
+      "temporary_id": "decl-001126",
+      "new_name": "auxiliaryLinearEndomorphism_commutes_action",
+      "docstring": "The auxiliary linear endomorphism commutes with the displayed general linear group action on the quotient."
+    },
+    {
+      "temporary_id": "decl-001127",
+      "new_name": "auxiliaryLinearEndomorphism_eq_self_of_mem",
+      "docstring": "The auxiliary linear endomorphism fixes each element of the correspondingly indexed auxiliary subrepresentation."
+    },
+    {
+      "temporary_id": "decl-001128",
+      "new_name": "auxiliaryLinearEndomorphism_mem",
+      "docstring": "The image of the auxiliary linear endomorphism belongs to the correspondingly indexed auxiliary subrepresentation."
+    },
+    {
+      "temporary_id": "decl-001129",
+      "new_name": "auxiliaryLinearEndomorphism_mk",
+      "docstring": "On a quotient class, the auxiliary linear endomorphism is represented by the correspondingly indexed homogeneous component."
+    },
+    {
+      "temporary_id": "decl-001130",
+      "new_name": "auxiliaryLinearEndomorphism_eq_zero_of_mem_ne",
+      "docstring": "The auxiliary linear endomorphism at one index vanishes on an auxiliary subrepresentation at a distinct index."
+    }
+  ]
+}

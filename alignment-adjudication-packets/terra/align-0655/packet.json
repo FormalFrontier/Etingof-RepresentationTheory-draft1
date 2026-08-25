@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3331ab2647eaba993cfe",
+      "declaration": "Etingof.Problem3_9_1.ExtMod.exact_inclusion_projection",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/171/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} {W : Type u_4} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : AddCommGroup.{u_4} W]\n  [inst_8 : Module.{u_1, u_4} k W] [inst_9 : Module.{u_2, u_4} A W] [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A W]\n  {f :\n    LinearMap.{u_1, u_1, u_2, max u_3 u_4} (RingHom.id.{u_1} k) A\n      (LinearMap.{u_1, u_1, u_4, u_3} (RingHom.id.{u_1} k) W V)}\n  {hf : Etingof.Problem3_9_1.IsCocycle.{u_1, u_2, u_3, u_4} k A V W f},\n  Function.Exact.{u_3, max u_3 u_4, u_4}\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, max (u_3 + 1) (u_4 + 1)}\n      (Etingof.Problem3_9_1.ExtMod.inclusion.{u_1, u_2, u_3, u_4} f hf))\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1), u_4 + 1}\n      (Etingof.Problem3_9_1.ExtMod.projection.{u_1, u_2, u_3, u_4} f hf))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_1"
+    },
+    {
+      "association_id": "association:a8f8415f0d5e223085a8",
+      "declaration": "Etingof.Problem3_9_1.ExtMod.quotEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/171/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      {W : Type u_4} \u2192\n        [inst : Field.{u_1} k] \u2192\n          [inst_1 : Ring.{u_2} A] \u2192\n            [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n              [inst_3 : AddCommGroup.{u_3} V] \u2192\n                [inst_4 : Module.{u_1, u_3} k V] \u2192\n                  [inst_5 : Module.{u_2, u_3} A V] \u2192\n                    [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                      [inst_7 : AddCommGroup.{u_4} W] \u2192\n                        [inst_8 : Module.{u_1, u_4} k W] \u2192\n                          [inst_9 : Module.{u_2, u_4} A W] \u2192\n                            [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A W] \u2192\n                              (g :\n                                  LinearMap.{u_1, u_1, u_2, max u_3 u_4} (RingHom.id.{u_1} k) A\n                                    (LinearMap.{u_1, u_1, u_4, u_3} (RingHom.id.{u_1} k) W V)) \u2192\n                                (hg : Etingof.Problem3_9_1.IsCocycle.{u_1, u_2, u_3, u_4} k A V W g) \u2192\n                                  LinearEquiv.{u_2, u_2, max (max u_3 u_4) u_4 u_3, u_4} (RingHom.id.{u_2} A)\n                                    (HasQuotient.Quotient.{max u_4 u_3, max u_3 u_4}\n                                      (Etingof.Problem3_9_1.ExtMod.{u_1, u_2, u_3, u_4} k A V W g hg)\n                                      (LinearMap.range.{u_2, u_2, u_3, max u_3 u_4}\n                                        (Etingof.Problem3_9_1.ExtMod.inclusion.{u_1, u_2, u_3, u_4} g hg)))\n                                    W",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.1",
+  "packet_id": "align-0655",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0655"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.1:claim-02",
+  "source_text": "The canonical maps V \u2192 U_f \u2192 W form a short exact sequence, and U_f/V is isomorphic to W."
+}

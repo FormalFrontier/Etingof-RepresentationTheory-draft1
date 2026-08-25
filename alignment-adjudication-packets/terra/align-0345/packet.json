@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c9f467584525c6458014",
+      "declaration": "Etingof.Theorem_2_1_2_general",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/12/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] (n : Nat) [inst_2 : Quiver.{0, 0} (Fin n)]\n  [inst_3 : (a b : Fin n) \u2192 Decidable (Nonempty.{1} (Quiver.Hom.{0, 0} a b))],\n  Etingof.QuiverUndirectedConnected n \u2192\n    Iff (Etingof.HasFiniteRepresentationType k n)\n      (And (\u2200 (v : Fin n), IsEmpty.{1} (Quiver.Hom.{0, 0} v v))\n        (And (\u2200 (v w : Fin n), Nonempty.{1} (Quiver.Hom.{0, 0} v w) \u2192 Nonempty.{1} (Quiver.Hom.{0, 0} w v) \u2192 False)\n          (And (\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b))\n            (Etingof.IsDynkinDiagram n (Etingof.quiverUndirectedAdj n)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_2_General"
+    },
+    {
+      "association_id": "association:caeff2d379ceef58a625",
+      "declaration": "Etingof.Theorem_2_1_2_general_orientation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/12/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] (n : Nat) [inst_2 : Quiver.{0, 0} (Fin n)]\n  [inst_3 : (a b : Fin n) \u2192 Decidable (Nonempty.{1} (Quiver.Hom.{0, 0} a b))],\n  Etingof.QuiverUndirectedConnected n \u2192\n    Iff (Etingof.HasFiniteRepresentationType k n)\n      (And (Etingof.IsOrientationOf.{0} inst_2 (Etingof.quiverUndirectedAdj n))\n        (And (\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b))\n          (Etingof.IsDynkinDiagram n (Etingof.quiverUndirectedAdj n))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_2_General"
+    }
+  ],
+  "canonical_reference": "Chapter2/Theorem2.1.2",
+  "packet_id": "align-0345",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0345"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6ac04c837c32bc6fac26",
+  "source_text": "For connected finite quivers, finite representation type is independent of the orientation and occurs exactly when the underlying graph is Dynkin."
+}

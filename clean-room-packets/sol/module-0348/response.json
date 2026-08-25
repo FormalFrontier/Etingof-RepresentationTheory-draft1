@@ -1,0 +1,135 @@
+{
+  "module_name": "SymmetricGroup.PartitionDominance",
+  "declarations": [
+    {
+      "temporary_id": "decl-005447",
+      "new_name": "sandwich_eq_zero_of_strictDominates",
+      "docstring": "If one partition strictly dominates another, their associated group-algebra elements give zero when placed on either side of any group-algebra element."
+    },
+    {
+      "temporary_id": "decl-005449",
+      "new_name": "sandwich_eq_zero_of_not_dominates",
+      "docstring": "If `mu` does not dominate `la`, the elements associated with `la` and `mu` give zero when placed on either side of any group-algebra element."
+    },
+    {
+      "temporary_id": "decl-005450",
+      "new_name": "sandwich_eq_zero_of_lexLt",
+      "docstring": "If `mu` is lexicographically smaller than `la`, the elements associated with `la` and `mu` give zero when placed on either side of any group-algebra element."
+    },
+    {
+      "temporary_id": "decl-017327",
+      "new_name": "sandwich_single_eq_zero_of_strictDominates",
+      "docstring": "Under strict dominance, inserting the group-algebra basis element of any permutation between the two partition-indexed elements yields zero."
+    },
+    {
+      "temporary_id": "decl-017343",
+      "new_name": "sandwich_single_eq_zero_of_not_dominates",
+      "docstring": "If `mu` does not dominate `la`, inserting the group-algebra basis element of any permutation between their associated elements yields zero."
+    },
+    {
+      "temporary_id": "decl-022058",
+      "new_name": "auxiliaryUnavailableStatement022058",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
+    },
+    {
+      "temporary_id": "decl-022059",
+      "new_name": "auxiliaryUnavailableStatement022059",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
+    },
+    {
+      "temporary_id": "decl-023604",
+      "new_name": "swap_mem_of_column_eq",
+      "docstring": "The swap of two positions with equal column coordinates is a member of the associated set."
+    },
+    {
+      "temporary_id": "decl-023605",
+      "new_name": "swap_mem_of_row_eq",
+      "docstring": "The swap of two positions with equal row coordinates is a member of the associated set."
+    },
+    {
+      "temporary_id": "decl-025184",
+      "new_name": "Partition.Dominates",
+      "docstring": "The dominance relation between partitions of the same natural number."
+    },
+    {
+      "temporary_id": "decl-025185",
+      "new_name": "antisymm",
+      "docstring": "Two partitions that dominate each other are equal."
+    },
+    {
+      "temporary_id": "decl-025186",
+      "new_name": "lexLe",
+      "docstring": "Dominance of `la` over `mu` implies that `mu` is lexicographically at most `la`."
+    },
+    {
+      "temporary_id": "decl-025192",
+      "new_name": "Partition.LexLe",
+      "docstring": "The lexicographic non-strict order on partitions of the same natural number."
+    },
+    {
+      "temporary_id": "decl-025194",
+      "new_name": "Partition.LexLt",
+      "docstring": "The strict lexicographic order on partitions of the same natural number."
+    },
+    {
+      "temporary_id": "decl-025196",
+      "new_name": "not_dominates",
+      "docstring": "If `mu` is lexicographically smaller than `la`, then `mu` does not dominate `la`."
+    },
+    {
+      "temporary_id": "decl-025206",
+      "new_name": "Partition.StrictDominates",
+      "docstring": "The strict dominance relation between partitions of the same natural number."
+    },
+    {
+      "temporary_id": "decl-025207",
+      "new_name": "Partition.exists_lexLt",
+      "docstring": "There exist two partitions such that one is strictly smaller than the other in lexicographic order."
+    },
+    {
+      "temporary_id": "decl-032695",
+      "new_name": "List.sum_take_add_lt_sum",
+      "docstring": "If `c` is less than the entry at index `r`, then the sum of the entries before `r` plus `c` is less than the total sum."
+    },
+    {
+      "temporary_id": "decl-032700",
+      "new_name": "Fin.card_filter_val_lt",
+      "docstring": "For `m \u2264 n`, exactly `m` elements of `Fin n` have value less than `m`."
+    },
+    {
+      "temporary_id": "decl-032715",
+      "new_name": "auxiliaryElidedStatement032715",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-032719",
+      "new_name": "List.lt_getElem_of_le_index",
+      "docstring": "In a nonincreasing list, a number below the entry at a later index is also below the entry at any earlier index."
+    },
+    {
+      "temporary_id": "decl-032986",
+      "new_name": "rowColumnIndex_sum_take_add",
+      "docstring": "For a valid row and column, the flattened index given by the preceding row sums has the original row and column coordinates."
+    },
+    {
+      "temporary_id": "decl-032992",
+      "new_name": "rowIndex_lt_iff_lt_sum_take",
+      "docstring": "For an index below the total sum, its row coordinate is less than `k` exactly when the index lies below the sum of the first `k` entries."
+    },
+    {
+      "temporary_id": "decl-032998",
+      "new_name": "rowIndex_lt_length",
+      "docstring": "The row coordinate of an index below the total sum is a valid list index."
+    },
+    {
+      "temporary_id": "decl-033002",
+      "new_name": "Partition.zero_lt_of_mem_sortedParts",
+      "docstring": "Every entry occurring in the sorted parts of a partition is positive."
+    },
+    {
+      "temporary_id": "decl-033003",
+      "new_name": "Partition.sortedParts_pairwise_ge",
+      "docstring": "The sorted parts of a partition are pairwise nonincreasing."
+    }
+  ]
+}

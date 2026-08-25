@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter1/Acknowledgments",
+    "kind": "preface",
+    "title": "Acknowledgments",
+    "node_id": "chapter-01",
+    "order": 7,
+    "slug": "acknowledgments",
+    "span": {
+      "start": {
+        "page": "3",
+        "line": 13
+      },
+      "end": {
+        "page": "4",
+        "line": 1
+      }
+    },
+    "source_sha256": "9cda8b080d38b27e99818d60f9f75d2e633b2053fef509b8055d6c32786bb3ef",
+    "features": {
+      "line_count": 8,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter1.Acknowledgments",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

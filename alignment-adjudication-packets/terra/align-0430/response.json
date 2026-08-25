@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0430",
+  "associations": [
+    {
+      "association_id": "association:721e37ee28455084135f",
+      "role": "primary",
+      "rationale": "The theorem directly states that the finrank dimension vector of an indecomposable representation of an oriented Dynkin diagram is a positive root."
+    }
+  ]
+}

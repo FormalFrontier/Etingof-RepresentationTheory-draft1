@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0384",
+  "associations": [
+    {
+      "association_id": "association:25ae80a51bf75dc4dd8a",
+      "role": "supporting",
+      "rationale": "The source claim leaves the converse elided; this conjunction supplies a concrete indecomposable, non-simple counterexample rather than itself stating that contextual converse."
+    }
+  ]
+}

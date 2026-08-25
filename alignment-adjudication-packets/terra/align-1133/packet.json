@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7d8f6ae4dacbb1616213",
+      "declaration": "Etingof.Theorem_2_1_1_i_exists",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/10/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (d : PNat),\n  Exists.{2} fun V =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x_1 =>\n        Exists.{1} fun x_2 =>\n          Exists.{0} fun x_3 =>\n            And (Eq.{1} (Module.finrank.{0, 0} Complex V) d.val)\n              (LieModule.IsIrreducible.{0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Theorem2.1.1",
+  "packet_id": "align-1133",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1133"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e6cbdf197fa750082c1a",
+  "source_text": "For every positive dimension d there exists an irreducible complex sl(2)-representation of dimension d."
+}

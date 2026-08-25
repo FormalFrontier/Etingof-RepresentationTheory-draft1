@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b89b40bd4ad0a962b189",
+      "declaration": "Etingof.Exercise5_27_3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/398/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Exercise5.27.3",
+  "packet_id": "align-0746",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0746"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Exercise5.27.3:part_iii",
+  "source_text": "Deduce exhaustiveness from the character formula."
+}

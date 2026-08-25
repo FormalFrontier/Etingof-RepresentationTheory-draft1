@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ed7e172557cb163fa394",
+      "declaration": "Etingof.nilpotent_ideal_le_radical",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/150/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (I : Ideal.{u_1} A),\n  IsNilpotent.{u_1} I \u2192 LE.le.{u_1} I (Ideal.jacobson.{u_1} Bot.bot.{u_1})",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Proposition3_5_3"
+    }
+  ],
+  "canonical_reference": "Chapter3/Proposition3.5.3",
+  "packet_id": "align-0927",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0927"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a84c4c803b0597e97b18",
+  "source_text": "Every nilpotent two-sided ideal I of A is contained in Rad(A)."
+}

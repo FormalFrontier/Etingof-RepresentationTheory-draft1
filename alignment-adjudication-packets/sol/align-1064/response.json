@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-1064",
+  "associations": [
+    {
+      "association_id": "association:a19a9edfb6737a547271",
+      "rationale": "The type defines the bundled algebraic-integer object, but it does not itself define the algebraic-number object also identified in the source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:448118055ca47329cfbc",
+      "rationale": "The type defines the bundled algebraic-number object, but it does not itself define the algebraic-integer object also identified in the source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:726d45939687dc72ea0d",
+      "rationale": "This membership characterization supports the bundled algebraic-integer object but is not itself the claim that the object represents Z-bar.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:338ce0f0c32effe08f57",
+      "rationale": "This membership characterization supports the bundled algebraic-number object but is not itself the claim that the object represents Q-bar.",
+      "role": "supporting"
+    }
+  ]
+}

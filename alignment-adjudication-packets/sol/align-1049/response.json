@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-1049",
+  "associations": [
+    {
+      "association_id": "association:9c9c2ca38df0612d5e4f",
+      "role": "supporting",
+      "rationale": "This supplies the named truncated-polynomial module type but does not itself state simplicity, uniqueness, dimension, or the action of x."
+    },
+    {
+      "association_id": "association:48cec8289849b08f9118",
+      "role": "supporting",
+      "rationale": "It establishes one-dimensionality, one component of the combined uniqueness, simplicity, dimension, and action claim."
+    },
+    {
+      "association_id": "association:40509db925e12d1f9b75",
+      "role": "supporting",
+      "rationale": "It establishes simplicity, one component of the combined claim."
+    },
+    {
+      "association_id": "association:4ff8da202d2590477bb9",
+      "role": "supporting",
+      "rationale": "It establishes uniqueness up to equivalence, one component of the combined claim."
+    },
+    {
+      "association_id": "association:8445bf3839090ee6db96",
+      "role": "supporting",
+      "rationale": "It establishes the zero action of x, one component of the combined claim."
+    }
+  ]
+}

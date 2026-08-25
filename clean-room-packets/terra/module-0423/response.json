@@ -1,0 +1,45 @@
+{
+  "module_name": "LinearEquivCompatibility",
+  "declarations": [
+    {
+      "temporary_id": "decl-004917",
+      "new_name": "RepresentationLinearEquiv.IsCompatible",
+      "docstring": "A predicate on two representations and a linear equivalence between their carrier spaces."
+    },
+    {
+      "temporary_id": "decl-004919",
+      "new_name": "map_both",
+      "docstring": "The compatibility predicate is preserved after applying the same scalar-valued monoid homomorphism transformation to both representations."
+    },
+    {
+      "temporary_id": "decl-004920",
+      "new_name": "symm",
+      "docstring": "Compatibility in the reverse direction holds for the inverse linear equivalence."
+    },
+    {
+      "temporary_id": "decl-004921",
+      "new_name": "trans",
+      "docstring": "Two successive compatible linear equivalences have a compatible composite."
+    },
+    {
+      "temporary_id": "decl-017868",
+      "new_name": "representationTransform_one",
+      "docstring": "The representation transformation associated with the unit monoid homomorphism fixes every representation."
+    },
+    {
+      "temporary_id": "decl-017869",
+      "new_name": "exists_compatible_linearEquiv_of_antitone",
+      "docstring": "For an antitone map from a finite type to natural numbers and each natural parameter, the displayed subtype of compatible linear equivalences is nonempty."
+    },
+    {
+      "temporary_id": "decl-020698",
+      "new_name": "isCompatible_isoToLinearEquiv",
+      "docstring": "The linear equivalence underlying an isomorphism of finite-dimensional representations satisfies the compatibility predicate."
+    },
+    {
+      "temporary_id": "decl-023000",
+      "new_name": "exists_action_compatible_map",
+      "docstring": "For each natural parameter, the displayed subtype contains a map carrying one general linear group action to the other pointwise."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1544c3422b6111b5167b",
+      "declaration": "Etingof.Remark5_2_8.beta_rat_not_mem_Ioo",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/261/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  {q : Rat},\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Rat Complex) q)\n      (Finset.prod.{0, 0} (Finset.filter.{0} (fun x => Ne.{1} x 1) Finset.univ.{0}) fun g =>\n        HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} V g) (FDRep.character.{0, 0} V (Inv.inv.{0} g))) \u2192\n    LT.lt.{0} 0 q \u2192 LT.lt.{0} q 1 \u2192 False",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_2_8"
+    },
+    {
+      "association_id": "association:26346a5a0d5f14235e1a",
+      "declaration": "Etingof.Remark5_2_8.character_prod_rat",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/261/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G),\n  Exists.{1} fun q =>\n    Eq.{1} (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Rat Complex) q)\n      (Finset.prod.{0, 0} (Finset.filter.{0} (fun x => Ne.{1} x 1) Finset.univ.{0}) fun g =>\n        HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} V g) (FDRep.character.{0, 0} V (Inv.inv.{0} g)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_2_8"
+    },
+    {
+      "association_id": "association:f248a721f25c84d46f5b",
+      "declaration": "Etingof.Remark5_2_8.isIntegral_prod_normSq_character",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/261/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (V : FDRep.{0, 0} Complex G) (s : Finset.{0} G),\n  IsIntegral.{0, 0} Int\n    (Finset.prod.{0, 0} s fun g => Complex.ofReal (DFunLike.coe.{1, 1, 1} Complex.normSq (FDRep.character.{0, 0} V g)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_2_8"
+    },
+    {
+      "association_id": "association:5dd4d6bfa15435ce3e9a",
+      "declaration": "Etingof.Remark5_2_8.not_isIntegral_rat_mem_Ioo",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/261/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {q : Rat},\n  IsIntegral.{0, 0} Int (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Rat Complex) q) \u2192\n    LT.lt.{0} 0 q \u2192 LT.lt.{0} q 1 \u2192 False",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_2_8"
+    }
+  ],
+  "canonical_reference": "Chapter5/Remark5.2.8",
+  "packet_id": "align-0039",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0039"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0abe46a63aad89f3ae5a",
+  "source_text": "Beta is rational and integral, hence an integer; the bound 0 < beta < 1 supplied by Problem 5.2.7(b) yields the contradiction."
+}

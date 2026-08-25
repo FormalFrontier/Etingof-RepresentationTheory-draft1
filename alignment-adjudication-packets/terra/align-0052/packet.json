@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4ffffbb3ccb0fa357abd",
+      "declaration": "Etingof.Nat.Partition.toFinsuppN",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/328/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{n : Nat} \u2192 (N : Nat) \u2192 n.Partition \u2192 Finsupp.{0, 0} (Fin N) Nat",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_15_1_General"
+    },
+    {
+      "association_id": "association:427ef019534c3f8340c5",
+      "declaration": "Etingof.rhoShift",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/328/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 Finsupp.{0, 0} (Fin n) Nat",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
+    },
+    {
+      "association_id": "association:382fb79a69e9af7968fb",
+      "declaration": "Etingof.vandermondePoly",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/328/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 MvPolynomial.{0, 0} (Fin n) Complex",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Introduction_5.15",
+  "packet_id": "align-0052",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0052"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0ec500f63a19de4a8a1d",
+  "source_text": "The Vandermonde polynomial and staircase rho used in the Frobenius formula are defined with the source's independent variable count."
+}

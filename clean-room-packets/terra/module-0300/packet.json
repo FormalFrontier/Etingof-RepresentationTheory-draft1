@@ -1,0 +1,42 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {M : Type u_2} [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} k M]\n  {B : Type u_3} (b : Module.Basis.{u_3, u_1, u_2} B k M) {T : Module.End.{u_1, u_2} k M} {w : B \u2192 k},\n  (\u2200 (s : B),\n      Eq.{u_2 + 1}\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} T\n          (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1), u_3 + 1, u_2 + 1} b s))\n        (HSMul.hSMul.{u_1, u_2, u_2} (w s)\n          (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1), u_3 + 1, u_2 + 1} b s))) \u2192\n    Function.Injective.{u_3 + 1, u_1 + 1} w \u2192\n      \u2200 {W : Submodule.{u_1, u_2} k M},\n        (\u2200 (x : M),\n            Membership.mem.{u_2, u_2} W x \u2192\n              Membership.mem.{u_2, u_2} W (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} T x)) \u2192\n          \u2200 (Adj : B \u2192 B \u2192 Prop),\n            (\u2200 (s t : B), Relation.ReflTransGen.{u_3} Adj s t) \u2192\n              (\u2200 (s t : B),\n                  Membership.mem.{u_2, u_2} W\n                      (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1), u_3 + 1, u_2 + 1} b s) \u2192\n                    Adj s t \u2192\n                      Membership.mem.{u_2, u_2} W\n                        (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1), u_3 + 1, u_2 + 1} b t)) \u2192\n                Or (Eq.{u_2 + 1} W Bot.bot.{u_2}) (Eq.{u_2 + 1} W Top.top.{u_2})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3767544709",
+      "temporary_id": "decl-001622"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {M : Type u_2} [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} k M]\n  {B : Type u_3} (b : Module.Basis.{u_3, u_1, u_2} B k M) {T : Module.End.{u_1, u_2} k M} {w : B \u2192 k},\n  (\u2200 (s : B),\n      Eq.{u_2 + 1}\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} T\n          (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1), u_3 + 1, u_2 + 1} b s))\n        (HSMul.hSMul.{u_1, u_2, u_2} (w s)\n          (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1), u_3 + 1, u_2 + 1} b s))) \u2192\n    Function.Injective.{u_3 + 1, u_1 + 1} w \u2192\n      \u2200 {W : Submodule.{u_1, u_2} k M},\n        (\u2200 (x : M),\n            Membership.mem.{u_2, u_2} W x \u2192\n              Membership.mem.{u_2, u_2} W (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} T x)) \u2192\n          \u2200 {y : M},\n            Membership.mem.{u_2, u_2} W y \u2192\n              \u2200 {t : B},\n                Ne.{u_1 + 1}\n                    (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_3 + 1, u_1 + 1}\n                      (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1), u_2 + 1, max (u_1 + 1) (u_3 + 1)}\n                        (Module.Basis.repr.{u_3, u_1, u_2} b) y)\n                      t)\n                    0 \u2192\n                  Membership.mem.{u_2, u_2} W\n                    (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1), u_3 + 1, u_2 + 1} b t)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2115118778",
+      "temporary_id": "decl-001623"
+    }
+  ],
+  "module_temporary_id": "module-0300",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

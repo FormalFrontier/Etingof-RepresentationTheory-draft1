@@ -1,0 +1,135 @@
+{
+  "module_name": "GeneralLinear.AuxiliaryRepresentationFamilies",
+  "declarations": [
+    {
+      "temporary_id": "decl-001067",
+      "new_name": "auxiliaryAntitoneMap",
+      "docstring": "An auxiliary map from the displayed indexing type to antitone functions."
+    },
+    {
+      "temporary_id": "decl-001068",
+      "new_name": "auxiliaryAntitoneMap_injective",
+      "docstring": "The auxiliary map to antitone functions is injective."
+    },
+    {
+      "temporary_id": "decl-001069",
+      "new_name": "auxiliaryUnitsMap_apply_auxiliaryElement",
+      "docstring": "The displayed units-valued map sends the auxiliary element indexed by a coordinate and a unit to a unit with the same value."
+    },
+    {
+      "temporary_id": "decl-001070",
+      "new_name": "auxiliarySubmodule_inf_homogeneousSubmodule_eq_bot",
+      "docstring": "When the degree is less than the displayed natural number, the auxiliary submodule has trivial intersection with the corresponding homogeneous component."
+    },
+    {
+      "temporary_id": "decl-001073",
+      "new_name": "auxiliaryPolynomial_eq_add_of_exact",
+      "docstring": "For the displayed equivariant exact pair, if the indicated auxiliary submodules span, the middle auxiliary polynomial is the sum of the other two."
+    },
+    {
+      "temporary_id": "decl-001076",
+      "new_name": "auxiliaryPolynomial_familyTwo_eq_variables_mul_source",
+      "docstring": "The auxiliary polynomial for the second family is the product of all variables times the auxiliary polynomial for the displayed source representation."
+    },
+    {
+      "temporary_id": "decl-001078",
+      "new_name": "auxiliarySubmodule_inf_range_eq_map",
+      "docstring": "For an injective equivariant linear map, the target auxiliary submodule intersected with the range equals the image of the corresponding source auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-001081",
+      "new_name": "map_auxiliarySubmodule_le",
+      "docstring": "An equivariant linear map sends each displayed auxiliary submodule into the corresponding target auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-001084",
+      "new_name": "auxiliarySubmodule_familyTwo_eq_source_shift",
+      "docstring": "When every coordinate is positive, the auxiliary submodule for the second family equals that for the displayed source representation at the coordinatewise predecessor."
+    },
+    {
+      "temporary_id": "decl-001085",
+      "new_name": "auxiliarySubmodule_familyTwo_eq_bot_of_coord_eq_zero",
+      "docstring": "A zero coordinate makes the indicated auxiliary submodule for the second family equal to bottom."
+    },
+    {
+      "temporary_id": "decl-001090",
+      "new_name": "mem_auxiliarySubmodule_iff_action_eq_smul",
+      "docstring": "Membership in the auxiliary submodule is equivalent to the displayed coordinate-indexed group elements acting by the prescribed powers."
+    },
+    {
+      "temporary_id": "decl-001094",
+      "new_name": "sum_eq_degree_of_auxiliarySubmodule_ne_bot",
+      "docstring": "If the displayed auxiliary submodule is not bottom, the sum of its indices equals the degree."
+    },
+    {
+      "temporary_id": "decl-001095",
+      "new_name": "iSup_auxiliarySubmodule_eq_top",
+      "docstring": "The supremum of the displayed auxiliary submodules is top."
+    },
+    {
+      "temporary_id": "decl-001101",
+      "new_name": "auxiliaryRepresentationFamilyOne",
+      "docstring": "An auxiliary natural-number-indexed family of finite-dimensional general linear group representations."
+    },
+    {
+      "temporary_id": "decl-001104",
+      "new_name": "auxiliaryPolynomial_familyOne_eq_filtered_sum",
+      "docstring": "When the degree is at least the displayed natural number, the polynomial of the first auxiliary family is a filtered finite sum of the displayed auxiliary polynomials."
+    },
+    {
+      "temporary_id": "decl-001108",
+      "new_name": "auxiliaryLinearMapToFamilyOne",
+      "docstring": "An auxiliary linear map from the displayed source representation to the first auxiliary representation family."
+    },
+    {
+      "temporary_id": "decl-001110",
+      "new_name": "auxiliaryLinearMapToFamilyOne_equivariant",
+      "docstring": "The auxiliary linear map to the first family commutes with the general linear group action."
+    },
+    {
+      "temporary_id": "decl-001111",
+      "new_name": "auxiliaryLinearMapToFamilyOne_surjective",
+      "docstring": "The auxiliary linear map onto the first representation family is surjective."
+    },
+    {
+      "temporary_id": "decl-001112",
+      "new_name": "auxiliarySubrepresentationFamily",
+      "docstring": "An auxiliary natural-number-indexed family of subrepresentations of the displayed representation."
+    },
+    {
+      "temporary_id": "decl-001117",
+      "new_name": "exists_auxiliaryPolynomial_familyOne_expansion",
+      "docstring": "The polynomial of the first auxiliary family admits a finite expansion by auxiliary polynomials indexed by antitone sequences that attain zero."
+    },
+    {
+      "temporary_id": "decl-001119",
+      "new_name": "auxiliaryPolynomial_familyOne_eq_source_of_degree_lt",
+      "docstring": "When the degree is less than the displayed natural number, the first auxiliary family and the displayed source representation have the same auxiliary polynomial."
+    },
+    {
+      "temporary_id": "decl-001122",
+      "new_name": "sum_eq_degree_of_familyOneAuxiliarySubmodule_ne_bot",
+      "docstring": "If an indicated auxiliary submodule for the first family is not bottom, its coordinate sum equals the degree."
+    },
+    {
+      "temporary_id": "decl-001123",
+      "new_name": "iSup_familyOneAuxiliarySubmodule_eq_top",
+      "docstring": "The supremum of the indicated auxiliary submodules for the first family is top."
+    },
+    {
+      "temporary_id": "decl-001131",
+      "new_name": "auxiliaryPolynomial_eval_one_eq_natCast",
+      "docstring": "Evaluating the auxiliary polynomial of an antitone sequence at one produces a natural-number value in the field."
+    },
+    {
+      "temporary_id": "decl-001132",
+      "new_name": "auxiliaryRepresentationFamilyTwo",
+      "docstring": "A second auxiliary natural-number-indexed family of finite-dimensional general linear group representations."
+    },
+    {
+      "temporary_id": "decl-001133",
+      "new_name": "auxiliaryRepresentationFamilyTwo_action_eq_unitsVal_smul",
+      "docstring": "The action on the second auxiliary family equals the displayed representation action scaled by the value of the indicated units-valued map."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0498",
+  "associations": [
+    {
+      "association_id": "association:5e4c4e3cd6dab6c8df5d",
+      "rationale": "The formal equality describes how the right-hand algebra map acts, a compatibility fact supporting the algebra structure rather than the structure claim itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c1b2dae69d4fd4d88d86",
+      "rationale": "The formal type directly equips A tensor L with an L-algebra structure under the displayed extension and algebra hypotheses.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "packet_id": "align-0023",
+  "associations": [
+    {"association_id": "association:f28a9e0cbb36a157af72", "role": "supporting", "rationale": "The displayed type only produces a type from a ring and does not expose the two-sided closure conditions."},
+    {"association_id": "association:2e61b1496365377a099d", "role": "supporting", "rationale": "The displayed type only produces a type from a ring and does not state the left-ideal closure conditions."},
+    {"association_id": "association:2386667c9e3d11e1bce2", "role": "supporting", "rationale": "The displayed type only produces a type from a ring and does not state the right-ideal closure conditions."}
+  ]
+}

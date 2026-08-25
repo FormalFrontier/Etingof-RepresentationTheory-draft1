@@ -1,0 +1,323 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(A : Type u_1) \u2192\n  [inst : Ring.{u_1} A] \u2192\n    (X : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} X] \u2192\n        [Module.{u_1, u_2} (MulOpposite.{u_1} A) X] \u2192\n          (M : Type u_3) \u2192 [inst_3 : AddCommGroup.{u_3} M] \u2192 [Module.{u_1, u_3} A M] \u2192 Type (max (max u_2 u_3) u_3 u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2074014725",
+      "temporary_id": "decl-000648"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192\n  [inst : Ring.{u_1} A] \u2192\n    (X : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} X] \u2192\n        [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) X] \u2192\n          {M : Type u_3} \u2192\n            [inst_3 : AddCommGroup.{u_3} M] \u2192\n              [inst_4 : Module.{u_1, u_3} A M] \u2192\n                {N : Type u_4} \u2192\n                  [inst_5 : AddCommGroup.{u_4} N] \u2192\n                    [inst_6 : Module.{u_1, u_4} A N] \u2192\n                      LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} A) M N \u2192\n                        LinearMap.{0, 0, max u_3 u_2, max u_4 u_2} (RingHom.id.{0} Int)\n                          (decl-000648.{u_1, u_2, u_3} A X M) (decl-000648.{u_1, u_2, u_4} A X N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000648",
+        "decl-017282"
+      ],
+      "structural_type_hash": "1225683560",
+      "temporary_id": "decl-017267"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (X : Type u_2) [inst_1 : AddCommGroup.{u_2} X]\n  [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) X] {M : Type u_3} [inst_3 : AddCommGroup.{u_3} M]\n  [inst_4 : Module.{u_1, u_3} A M] {N : Type u_4} [inst_5 : AddCommGroup.{u_4} N] [inst_6 : Module.{u_1, u_4} A N]\n  {P : Type u_5} [inst_7 : AddCommGroup.{u_5} P] [inst_8 : Module.{u_1, u_5} A P]\n  (f : LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} A) M N)\n  (g : LinearMap.{u_1, u_1, u_4, u_5} (RingHom.id.{u_1} A) N P),\n  Function.Exact.{u_3, u_4, u_5} (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f)\n      (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), u_4 + 1, u_5 + 1} g) \u2192\n    Function.Surjective.{u_4 + 1, u_5 + 1} (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), u_4 + 1, u_5 + 1} g) \u2192\n      Function.Exact.{max u_2 u_3, max u_2 u_4, max u_2 u_5}\n        (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_4 + 1)}\n          (decl-017267.{u_1, u_2, u_3, u_4} A X f))\n        (DFunLike.coe.{max (max (u_2 + 1) (u_4 + 1)) (u_5 + 1), max (u_2 + 1) (u_4 + 1), max (u_2 + 1) (u_5 + 1)}\n          (decl-017267.{u_1, u_2, u_4, u_5} A X g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000648",
+        "decl-017267",
+        "decl-017282"
+      ],
+      "structural_type_hash": "1212309431",
+      "temporary_id": "decl-017269"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (X : Type u_2) [inst_1 : AddCommGroup.{u_2} X]\n  [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) X] {M : Type u_3} [inst_3 : AddCommGroup.{u_3} M]\n  [inst_4 : Module.{u_1, u_3} A M] {N : Type u_4} [inst_5 : AddCommGroup.{u_4} N] [inst_6 : Module.{u_1, u_4} A N]\n  (g : LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} A) M N) (t : TensorProduct.{0, u_2, u_3} Int X M),\n  Eq.{max (u_2 + 1) (u_4 + 1)}\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_4 + 1)}\n      (decl-017267.{u_1, u_2, u_3, u_4} A X g) (Submodule.Quotient.mk.{0, max u_2 u_3} t))\n    (Submodule.Quotient.mk.{0, max u_2 u_4}\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_4 + 1)}\n        (LinearMap.lTensor.{0, u_2, u_3, u_4} X (decl-020689.{u_1, u_3, u_4} g)) t))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000648",
+        "decl-017267",
+        "decl-017282",
+        "decl-020689"
+      ],
+      "structural_type_hash": "257015960",
+      "temporary_id": "decl-017270"
+    },
+    {
+      "formal_type": "Not\n  (Function.Injective.{1, 1}\n    (DFunLike.coe.{1, 1, 1}\n      (decl-017267.{0, 0, 0, 0} Int (ZMod 2) (DFunLike.coe.{1, 1, 1} (LinearMap.lsmul.{0, 0} Int Int) 2))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000648",
+        "decl-017267",
+        "decl-017282",
+        "decl-020690"
+      ],
+      "structural_type_hash": "608332998",
+      "temporary_id": "decl-017271"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (X : Type u_2) [inst_1 : AddCommGroup.{u_2} X]\n  [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) X] {N : Type u_4} [inst_3 : AddCommGroup.{u_4} N]\n  [inst_4 : Module.{u_1, u_4} A N] {P : Type u_5} [inst_5 : AddCommGroup.{u_5} P] [inst_6 : Module.{u_1, u_5} A P]\n  (g : LinearMap.{u_1, u_1, u_4, u_5} (RingHom.id.{u_1} A) N P),\n  Function.Surjective.{u_4 + 1, u_5 + 1} (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), u_4 + 1, u_5 + 1} g) \u2192\n    Function.Surjective.{max (u_2 + 1) (u_4 + 1), max (u_2 + 1) (u_5 + 1)}\n      (DFunLike.coe.{max (max (u_2 + 1) (u_4 + 1)) (u_5 + 1), max (u_2 + 1) (u_4 + 1), max (u_2 + 1) (u_5 + 1)}\n        (decl-017267.{u_1, u_2, u_4, u_5} A X g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000648",
+        "decl-017267",
+        "decl-017282"
+      ],
+      "structural_type_hash": "2859173645",
+      "temporary_id": "decl-017272"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192\n  [inst : Ring.{u_1} A] \u2192\n    (X : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} X] \u2192\n        [Module.{u_1, u_2} (MulOpposite.{u_1} A) X] \u2192\n          (M : Type u_3) \u2192\n            [inst_3 : AddCommGroup.{u_3} M] \u2192\n              [Module.{u_1, u_3} A M] \u2192 Set.{max u_3 u_2} (TensorProduct.{0, u_2, u_3} Int X M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1467344010",
+      "temporary_id": "decl-017281"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192\n  [inst : Ring.{u_1} A] \u2192\n    (X : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} X] \u2192\n        [Module.{u_1, u_2} (MulOpposite.{u_1} A) X] \u2192\n          (M : Type u_3) \u2192\n            [inst_3 : AddCommGroup.{u_3} M] \u2192\n              [Module.{u_1, u_3} A M] \u2192 Submodule.{0, max u_3 u_2} Int (TensorProduct.{0, u_2, u_3} Int X M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1233900536",
+      "temporary_id": "decl-017282"
+    },
+    {
+      "formal_type": "\u2200 (X : Type u_6) [inst : AddCommGroup.{u_6} X] [inst_1 : Module.{0, u_6} (MulOpposite.{0} Int) X] (M : Type u_7)\n  [inst_2 : AddCommGroup.{u_7} M],\n  (\u2200 (a : Int) (x : X),\n      Eq.{u_6 + 1} (HSMul.hSMul.{0, u_6, u_6} (MulOpposite.op.{0} a) x) (HSMul.hSMul.{0, u_6, u_6} a x)) \u2192\n    Eq.{max (u_6 + 1) (u_7 + 1)} (decl-017282.{0, u_6, u_7} Int X M) Bot.bot.{max u_6 u_7}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017282"
+      ],
+      "structural_type_hash": "2384135672",
+      "temporary_id": "decl-017284"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (X : Type u_2) [inst_1 : AddCommGroup.{u_2} X]\n  [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) X] {M : Type u_3} [inst_3 : AddCommGroup.{u_3} M]\n  [inst_4 : Module.{u_1, u_3} A M] {N : Type u_4} [inst_5 : AddCommGroup.{u_4} N] [inst_6 : Module.{u_1, u_4} A N]\n  (g : LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} A) M N),\n  LE.le.{max u_2 u_3} (decl-017282.{u_1, u_2, u_3} A X M)\n    (Submodule.comap.{0, 0, max u_2 u_3, max u_2 u_4}\n      (LinearMap.lTensor.{0, u_2, u_3, u_4} X (decl-020689.{u_1, u_3, u_4} g))\n      (decl-017282.{u_1, u_2, u_4} A X N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017282",
+        "decl-020689"
+      ],
+      "structural_type_hash": "2497157614",
+      "temporary_id": "decl-017285"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} {M : Type u_2} {N : Type u_3} [inst : Ring.{u_1} R] [inst_1 : AddCommGroup.{u_2} M]\n  [inst_2 : Module.{u_1, u_2} R M] [inst_3 : AddCommGroup.{u_3} N] [inst_4 : Module.{u_1, u_3} R N]\n  (f : LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} R) M N) (p : Submodule.{u_1, u_2} R M),\n  Eq.{u_2 + 1} (Submodule.comap.{u_1, u_1, u_2, u_3} f (Submodule.map.{u_1, u_1, u_2, u_3} f p))\n    (Max.max.{u_2} p (LinearMap.ker.{u_1, u_1, u_2, u_3} f))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2267715499",
+      "temporary_id": "decl-018107"
+    },
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : CommRing.{u} R] [inst_1 : CommRing.{u} S] {f : RingHom.{u, u} R S},\n  RingHom.Flat.{u, u} f \u2192\n    And (CategoryTheory.Limits.PreservesFiniteLimits.{u, u, u + 1, u + 1} (ModuleCat.extendScalars.{u, u, u} f))\n      (CategoryTheory.Limits.PreservesFiniteColimits.{u, u, u + 1, u + 1} (ModuleCat.extendScalars.{u, u, u} f))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3496520899",
+      "temporary_id": "decl-019252"
+    },
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : CommRing.{u} R] [inst_1 : CommRing.{u} S] (f : RingHom.{u, u} R S),\n  CategoryTheory.Limits.PreservesFiniteColimits.{u, u, u + 1, u + 1} (ModuleCat.extendScalars.{u, u, u} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3600565699",
+      "temporary_id": "decl-019253"
+    },
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : CommRing.{u} R] [inst_1 : CommRing.{u} S] {f : RingHom.{u, u} R S},\n  RingHom.Flat.{u, u} f \u2192\n    CategoryTheory.Limits.PreservesFiniteLimits.{u, u, u + 1, u + 1} (ModuleCat.extendScalars.{u, u, u} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3000651132",
+      "temporary_id": "decl-019254"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] (X : C),\n  CategoryTheory.Limits.PreservesFiniteLimits.{u_2, u_2, u_1, u_2 + 1}\n    (CategoryTheory.Functor.obj.{u_2, max u_1 u_2, u_1, max u_1 (u_2 + 1)} CategoryTheory.coyoneda.{u_2, u_1}\n      (Opposite.op.{u_1 + 1} X))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3570406976",
+      "temporary_id": "decl-020176"
+    },
+    {
+      "formal_type": "\u2200 (g : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Int) Int (ZMod 2)),\n  Not (Function.Surjective.{1, 1} fun \u03c6 => LinearMap.comp.{0, 0, 0, 0, 0, 0} g \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "729214989",
+      "temporary_id": "decl-020178"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {G : Type u} [inst_1 : Group.{u} G] (S : Subgroup.{u} G)\n  [Subgroup.FiniteIndex.{u} S],\n  And\n    (CategoryTheory.Limits.PreservesFiniteLimits.{u, u, u + 1, u + 1}\n      (Rep.indFunctor.{u, u, u, u} k (Subgroup.subtype.{u} S)))\n    (CategoryTheory.Limits.PreservesFiniteColimits.{u, u, u + 1, u + 1}\n      (Rep.indFunctor.{u, u, u, u} k (Subgroup.subtype.{u} S)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1461369122",
+      "temporary_id": "decl-020512"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {G : Type u} [inst_1 : Group.{u} G] (S : Subgroup.{u} G),\n  CategoryTheory.Limits.PreservesFiniteColimits.{u, u, u + 1, u + 1}\n    (Rep.indFunctor.{u, u, u, u} k (Subgroup.subtype.{u} S))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2519931959",
+      "temporary_id": "decl-020514"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {G : Type u} [inst_1 : Group.{u} G] (S : Subgroup.{u} G)\n  [Subgroup.FiniteIndex.{u} S],\n  CategoryTheory.Limits.PreservesFiniteLimits.{u, u, u + 1, u + 1}\n    (Rep.indFunctor.{u, u, u, u} k (Subgroup.subtype.{u} S))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "170181873",
+      "temporary_id": "decl-020515"
+    },
+    {
+      "formal_type": "{R : Type u_1} \u2192\n  {M : Type u_2} \u2192\n    {N : Type u_3} \u2192\n      [inst : Ring.{u_1} R] \u2192\n        [inst_1 : AddCommGroup.{u_2} M] \u2192\n          [inst_2 : Module.{u_1, u_2} R M] \u2192\n            [inst_3 : AddCommGroup.{u_3} N] \u2192\n              [inst_4 : Module.{u_1, u_3} R N] \u2192\n                LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} R) M N \u2192\n                  LinearMap.{0, 0, u_2, u_3} (RingHom.id.{0} Int) M N",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1082714605",
+      "temporary_id": "decl-020689"
+    },
+    {
+      "formal_type": "(X : Type u_6) \u2192 [inst : AddCommGroup.{u_6} X] \u2192 Module.{0, u_6} (MulOpposite.{0} Int) X",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2971665473",
+      "temporary_id": "decl-020690"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (X : Type u_2) [inst_1 : AddCommGroup.{u_2} X]\n  [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) X] {M : Type u_3} [inst_3 : AddCommGroup.{u_3} M]\n  [inst_4 : Module.{u_1, u_3} A M] {N : Type u_4} [inst_5 : AddCommGroup.{u_4} N] [inst_6 : Module.{u_1, u_4} A N]\n  (g : LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} A) M N) (a : A) (x : X) (m : M),\n  Eq.{max (u_2 + 1) (u_4 + 1)}\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_4 + 1)}\n      (LinearMap.lTensor.{0, u_2, u_3, u_4} X (decl-020689.{u_1, u_3, u_4} g))\n      (HSub.hSub.{max u_2 u_3, max u_2 u_3, max u_2 u_3}\n        (TensorProduct.tmul.{0, u_2, u_3} Int (HSMul.hSMul.{u_1, u_2, u_2} (MulOpposite.op.{u_1} a) x) m)\n        (TensorProduct.tmul.{0, u_2, u_3} Int x (HSMul.hSMul.{u_1, u_3, u_3} a m))))\n    (HSub.hSub.{max u_2 u_4, max u_2 u_4, max u_2 u_4}\n      (TensorProduct.tmul.{0, u_2, u_4} Int (HSMul.hSMul.{u_1, u_2, u_2} (MulOpposite.op.{u_1} a) x)\n        (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} g m))\n      (TensorProduct.tmul.{0, u_2, u_4} Int x\n        (HSMul.hSMul.{u_1, u_4, u_4} a (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} g m))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020689"
+      ],
+      "structural_type_hash": "1996174626",
+      "temporary_id": "decl-021431"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (X : Type u_2) [inst_1 : AddCommGroup.{u_2} X]\n  [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) X] {N : Type u_4} [inst_3 : AddCommGroup.{u_4} N]\n  [inst_4 : Module.{u_1, u_4} A N] {P : Type u_5} [inst_5 : AddCommGroup.{u_5} P] [inst_6 : Module.{u_1, u_5} A P]\n  (g : LinearMap.{u_1, u_1, u_4, u_5} (RingHom.id.{u_1} A) N P),\n  Function.Surjective.{u_4 + 1, u_5 + 1} (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), u_4 + 1, u_5 + 1} g) \u2192\n    Eq.{max (u_2 + 1) (u_5 + 1)}\n      (Submodule.map.{0, 0, max u_2 u_4, max u_2 u_5}\n        (LinearMap.lTensor.{0, u_2, u_4, u_5} X (decl-020689.{u_1, u_4, u_5} g))\n        (decl-017282.{u_1, u_2, u_4} A X N))\n      (decl-017282.{u_1, u_2, u_5} A X P)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017282",
+        "decl-020689"
+      ],
+      "structural_type_hash": "1501891013",
+      "temporary_id": "decl-021537"
+    },
+    {
+      "formal_type": "\u2200 (X : Type u_6) [inst : AddCommGroup.{u_6} X] (a : Int) (x : X),\n  Eq.{u_6 + 1} (HSMul.hSMul.{0, u_6, u_6} (MulOpposite.op.{0} a) x) (HSMul.hSMul.{0, u_6, u_6} a x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020690"
+      ],
+      "structural_type_hash": "3357865800",
+      "temporary_id": "decl-021819"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {G H : Type u} [inst_1 : Group.{u} G] [inst_2 : Group.{u} H]\n  (\u03c6 : MonoidHom.{u, u} G H),\n  And (CategoryTheory.Limits.PreservesFiniteLimits.{u, u, u + 1, u + 1} (Rep.resFunctor.{u, u, u, u} \u03c6))\n    (CategoryTheory.Limits.PreservesFiniteColimits.{u, u, u + 1, u + 1} (Rep.resFunctor.{u, u, u, u} \u03c6))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "243743059",
+      "temporary_id": "decl-022644"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {G H : Type u} [inst_1 : Group.{u} G] [inst_2 : Group.{u} H]\n  (\u03c6 : MonoidHom.{u, u} G H),\n  CategoryTheory.Limits.PreservesFiniteColimits.{u, u, u + 1, u + 1} (Rep.resFunctor.{u, u, u, u} \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2092541948",
+      "temporary_id": "decl-022646"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {G H : Type u} [inst_1 : Group.{u} G] [inst_2 : Group.{u} H]\n  (\u03c6 : MonoidHom.{u, u} G H),\n  CategoryTheory.Limits.PreservesFiniteLimits.{u, u, u + 1, u + 1} (Rep.resFunctor.{u, u, u, u} \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "623425910",
+      "temporary_id": "decl-022647"
+    },
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : CommRing.{u} R] [inst_1 : CommRing.{u} S] (f : RingHom.{u, u} R S),\n  CategoryTheory.Limits.PreservesFiniteColimits.{u_1, u_1, max u (u_1 + 1), max u (u_1 + 1)}\n    (ModuleCat.restrictScalars.{u_1, u, u} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2834094142",
+      "temporary_id": "decl-022694"
+    },
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : CommRing.{u} R] [inst_1 : CommRing.{u} S] (f : RingHom.{u, u} R S),\n  CategoryTheory.Limits.PreservesFiniteLimits.{u_1, u_1, max u (u_1 + 1), max u (u_1 + 1)}\n    (ModuleCat.restrictScalars.{u_1, u, u} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2962615480",
+      "temporary_id": "decl-022695"
+    },
+    {
+      "formal_type": "Subsingleton.{1} (LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Int) (ZMod 2) Int)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3542729577",
+      "temporary_id": "decl-023485"
+    },
+    {
+      "formal_type": "Not\n  (Function.Injective.{1, 1}\n    (DFunLike.coe.{1, 1, 1}\n      (LinearMap.lTensor.{0, 0, 0, 0} (ZMod 2) (DFunLike.coe.{1, 1, 1} (LinearMap.lsmul.{0, 0} Int Int) 2))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2030171837",
+      "temporary_id": "decl-024112"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : CommRing.{u_1} R] (X : ModuleCat.{u_1, u_1} R),\n  CategoryTheory.Limits.PreservesFiniteColimits.{u_1, u_1, u_1 + 1, u_1 + 1}\n    (CategoryTheory.MonoidalCategory.tensorLeft.{u_1, u_1 + 1} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1567755435",
+      "temporary_id": "decl-024117"
+    },
+    {
+      "formal_type": "Ne.{1} (TensorProduct.tmul.{0, 0, 0} Int 1 1) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "519564920",
+      "temporary_id": "decl-024141"
+    }
+  ],
+  "module_temporary_id": "module-0597",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

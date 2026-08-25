@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-1236",
+  "associations": [
+    {
+      "association_id": "association:412cfac4d2aa56b4353e",
+      "rationale": "The type directly states that the antiperiodic module is indecomposable over the periodic-function algebra.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:97c82625e613202dbd1c",
+      "rationale": "The type directly states that the periodic-function algebra, viewed as its own module, is indecomposable.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0c547cbe018c5e5a476a",
+      "rationale": "The empty linear-equivalence type directly states that the periodic module is not isomorphic to the antiperiodic module.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0e6e89292987a4ded563",
+      "rationale": "The inhabited linear-equivalence type directly states that two copies of the periodic module are isomorphic to two copies of the antiperiodic module.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_principal_series_name",
+    "kind": "discussion",
+    "title": "The representations W_mu, V_{lambda_1,lambda_2} are called principal series",
+    "node_id": "chapter-05/section-5-25/subsection-5-25-3",
+    "order": 386,
+    "slug": "discussion-principal-series-name",
+    "span": {
+      "start": {
+        "page": "141",
+        "line": 35
+      },
+      "end": {
+        "page": "141",
+        "line": 36
+      }
+    },
+    "source_sha256": "99f7109ed6a190e3e0c4a65c16e0b65eb3c23c108e615e106f4ba80a7e1c665a",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionPrincipalSeriesName",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

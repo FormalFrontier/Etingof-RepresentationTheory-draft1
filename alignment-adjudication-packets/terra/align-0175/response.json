@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0175",
+  "associations": [
+    {
+      "association_id": "association:e665a0c1f491c9ab4a92",
+      "role": "primary",
+      "rationale": "It directly constructs a G-representation on the induced representation space from an H-representation."
+    },
+    {
+      "association_id": "association:22f8a9b14940030e4e57",
+      "role": "primary",
+      "rationale": "It directly constructs the function-space model of a G-representation from the given H-representation."
+    }
+  ]
+}

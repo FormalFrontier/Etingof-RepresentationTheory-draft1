@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0927",
+  "associations": [
+    {
+      "association_id": "association:ed7e172557cb163fa394",
+      "role": "primary",
+      "rationale": "The declaration directly states that a nilpotent ideal is contained in the Jacobson radical."
+    }
+  ]
+}

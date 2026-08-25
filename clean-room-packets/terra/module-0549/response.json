@@ -1,0 +1,35 @@
+{
+  "module_name": "AdjacencyMatrixQuadraticForms",
+  "declarations": [
+    {
+      "temporary_id": "decl-018431",
+      "new_name": "dotProduct_mulVec_eq_sum_sum",
+      "docstring": "Expands the dot product of an integer vector with its image under a square matrix as a double sum of matrix entries and vector coordinates."
+    },
+    {
+      "temporary_id": "decl-020823",
+      "new_name": "connected_zero_one_adjacency_quadratic_pos",
+      "docstring": "Derives the conclusion from a symmetric zero-one matrix with zero diagonal and paths between every pair of vertices, when its `2I - adj` quadratic form is positive on every nonzero nonnegative integer vector."
+    },
+    {
+      "temporary_id": "decl-024127",
+      "new_name": "two_smul_one_sub_quadratic_eq",
+      "docstring": "Expands the integer quadratic form associated with `2I - adj` as twice the sum of coordinate squares minus the adjacency-weighted double sum."
+    },
+    {
+      "temporary_id": "decl-024129",
+      "new_name": "two_smul_one_sub_quadratic_pos_of_nonneg",
+      "docstring": "For an integer matrix with nonnegative entries, positivity of the `2I - adj` quadratic form on nonzero coordinatewise nonnegative integer vectors implies positivity on every nonzero integer vector."
+    },
+    {
+      "temporary_id": "decl-024131",
+      "new_name": "rat_quadratic_pos_of_int_quadratic_pos",
+      "docstring": "Positivity of the `2I - adj` quadratic form on every nonzero integer vector implies positivity of its rational scalar extension on every nonzero rational vector."
+    },
+    {
+      "temporary_id": "decl-024140",
+      "new_name": "real_posDef_of_rat_quadratic_pos",
+      "docstring": "For a symmetric integer matrix, positivity over nonzero rational vectors of the quadratic form associated with `2I - adj` implies that its real scalar extension is positive definite."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Discussion_after_Definition9.7.1",
+    "kind": "discussion",
+    "title": "Morita equivalence classes and dimensions of algebras",
+    "node_id": "chapter-09/section-9-7",
+    "order": 579,
+    "slug": "discussion-after-definition9-7-1",
+    "span": {
+      "start": {
+        "page": "220",
+        "line": 9
+      },
+      "end": {
+        "page": "220",
+        "line": 12
+      }
+    },
+    "source_sha256": "b077d6d7613989919cbf2ac014450a5ef7f0977c1ff8654ebb2e81bc0b37a5ac",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.DiscussionAfterDefinition971",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

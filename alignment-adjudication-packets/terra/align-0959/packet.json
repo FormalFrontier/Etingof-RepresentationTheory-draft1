@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4d285eeec618d97016ad",
+      "declaration": "Etingof.descPochhammer_alternant_det_eq_pow_alternant_det",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/343/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (N : Nat) (\u03b2 : Fin N \u2192 Nat),\n  Eq.{1}\n    (Matrix.det.{0, 0}\n      (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0} fun i j =>\n        Polynomial.eval.{0} (Nat.cast.{0} (\u03b2 i)) (descPochhammer.{0} Int (Etingof.vandermondeExps N j))))\n    (Matrix.det.{0, 0}\n      (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0} fun i j =>\n        HPow.hPow.{0, 0, 0} (Nat.cast.{0} (\u03b2 i)) (Etingof.vandermondeExps N j)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.CharValueHookFormula"
+    },
+    {
+      "association_id": "association:bb6923a19e7397c44859",
+      "declaration": "Etingof.finrank_spechtModule_eq_frobeniusPowerDetForm",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/343/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : Etingof.BoundedPartition N n),\n  Eq.{1}\n    (Nat.cast.{0}\n      (Module.finrank.{0, 0} Complex\n        (Subtype.{1} fun x =>\n          Membership.mem.{0, 0} (Etingof.SpechtModule n (Eq.rec.{1, 1} (Etingof.weightToPartition N lam.parts) \u22ef)) x)))\n    (HMul.hMul.{0, 0, 0}\n      (HDiv.hDiv.{0, 0, 0} (Nat.cast.{0} n.factorial)\n        (Finset.prod.{0, 0} Finset.univ.{0} fun j => Nat.cast.{0} (Etingof.shiftedExps N lam.parts j).factorial))\n      (Int.cast.{0}\n        (Matrix.det.{0, 0}\n          (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0} fun i j =>\n            HPow.hPow.{0, 0, 0} (Nat.cast.{0} (Etingof.shiftedExps N lam.parts i)) (Etingof.vandermondeExps N j)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.CharValueHookFormula"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_hook_length_derivation",
+  "packet_id": "align-0959",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0959"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b121acd8ddc3fba30d8f",
+  "source_text": "Column reduction replaces the descending-factorial determinant by det(l_j^(N-i)), giving the first equality in equation (5.17.1)."
+}

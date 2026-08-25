@@ -1,0 +1,15 @@
+{
+  "module_name": "AlgebraicNumbers.PolynomialCriteria",
+  "declarations": [
+    {
+      "temporary_id": "decl-001493",
+      "new_name": "isIntegral_iff_exists_monic_aeval_eq_zero",
+      "docstring": "A complex number is integral over the integers exactly when it is a zero of a monic integer polynomial."
+    },
+    {
+      "temporary_id": "decl-001494",
+      "new_name": "isAlgebraic_iff_exists_ne_zero_aeval_eq_zero",
+      "docstring": "A complex number is algebraic over the rationals exactly when it is a zero of a nonzero rational polynomial."
+    }
+  ]
+}

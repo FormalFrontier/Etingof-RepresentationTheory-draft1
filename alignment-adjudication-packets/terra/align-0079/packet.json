@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:02b169a724d36b60799b",
+      "declaration": "Etingof.InjectiveObject",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/532/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192 [CategoryTheory.Category.{u_2, u_1} C] \u2192 C \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_1_8"
+    },
+    {
+      "association_id": "association:e62f03ac8210d8ffd4b8",
+      "declaration": "Etingof.ProjectiveObject",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/532/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192 [CategoryTheory.Category.{u_2, u_1} C] \u2192 C \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_1_8"
+    }
+  ],
+  "canonical_reference": "Chapter8/Discussion_after_Example8.1.7",
+  "packet_id": "align-0079",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0079"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:19d5827d85ddaa64ce7b",
+  "source_text": "Hom-exactness defines projective and injective objects in arbitrary abelian categories."
+}

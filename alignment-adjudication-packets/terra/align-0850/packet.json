@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:086fdec0819d2f14e6be",
+      "declaration": "Etingof.Problem_8_2_7_i_ext_fg",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/541/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {M N : Type} [inst : AddCommGroup.{0} M] [inst_1 : AddCommGroup.{0} N] [Module.Finite.{0, 0} Int M]\n  [Module.Finite.{0, 0} Int N],\n  Exists.{2} fun D =>\n    Exists.{2} fun E =>\n      And\n        (Nonempty.{1}\n          (AddEquiv.{0, 0} (Etingof.Ext.{1, 0, 0} (ModuleCat.of.{0, 0} Int M) (ModuleCat.of.{0, 0} Int N) 0)\n            (Prod.{0, 0} (Fin (Etingof.PIDDecomposition.freeRank.{0} D) \u2192 N)\n              ((i : Etingof.PIDDecomposition.torsionIndex.{0} D) \u2192\n                (l : Etingof.PIDDecomposition.torsionIndex.{0} E) \u2192\n                  ZMod\n                    ((Etingof.PIDDecomposition.gen.{0} D i).natAbs.gcd\n                      (Etingof.PIDDecomposition.gen.{0} E l).natAbs)))))\n        (And\n          (Nonempty.{1}\n            (AddEquiv.{0, 0} (Etingof.Ext.{1, 0, 0} (ModuleCat.of.{0, 0} Int M) (ModuleCat.of.{0, 0} Int N) 1)\n              ((i : Etingof.PIDDecomposition.torsionIndex.{0} D) \u2192\n                (l : Etingof.PIDDecomposition.index.{0} E) \u2192\n                  ZMod\n                    ((Etingof.PIDDecomposition.gen.{0} D i).natAbs.gcd\n                      (Etingof.PIDDecomposition.genOf.{0} E l).natAbs))))\n          (\u2200 (n : Nat),\n            Subsingleton.{1}\n              (Etingof.Ext.{1, 0, 0} (ModuleCat.of.{0, 0} Int M) (ModuleCat.of.{0, 0} Int N)\n                (HAdd.hAdd.{0, 0, 0} n 2))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtInt"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.7",
+  "packet_id": "align-0850",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0850"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.7:part_i_ext",
+  "source_text": "Part (i): compute every Ext group of finitely generated abelian groups."
+}

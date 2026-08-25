@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0552",
+  "associations": [
+    {
+      "association_id": "association:6a816b33c51111e6115b",
+      "rationale": "The type directly states that g_1 has finrank 3 over every field, which gives the claimed finite dimension and dimension.",
+      "role": "primary"
+    }
+  ]
+}

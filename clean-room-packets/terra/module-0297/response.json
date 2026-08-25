@@ -1,0 +1,120 @@
+{
+  "module_name": "Auxiliary.GeneralLinearLocalizationFiltration",
+  "declarations": [
+    {
+      "temporary_id": "decl-001558",
+      "new_name": "auxiliary_negative_power_apply",
+      "docstring": "Evaluating the indicated negative power at a general linear matrix yields the corresponding power of the inverse determinant."
+    },
+    {
+      "temporary_id": "decl-001559",
+      "new_name": "localization_degree_filtration",
+      "docstring": "A natural-number-indexed family of submodules in the localization away from the auxiliary matrix polynomial."
+    },
+    {
+      "temporary_id": "decl-001562",
+      "new_name": "localization_degree_filtration_monotone",
+      "docstring": "The degree filtration on the localization is monotone in its natural-number index."
+    },
+    {
+      "temporary_id": "decl-001564",
+      "new_name": "localization_degree_filtration_zero",
+      "docstring": "The zeroth filtered submodule is the range of the canonical linear map from the matrix-entry polynomial ring."
+    },
+    {
+      "temporary_id": "decl-001565",
+      "new_name": "filtration_quotient_equiv_polynomial_quotient",
+      "docstring": "For positive degree, the quotient of one filtration level by the preceding level is linearly equivalent to the matrix-polynomial quotient by the displayed submodule."
+    },
+    {
+      "temporary_id": "decl-001569",
+      "new_name": "filtration_to_polynomial_quotient",
+      "docstring": "The linear map from a filtered localization submodule to the quotient of the matrix-entry polynomial ring by the displayed submodule."
+    },
+    {
+      "temporary_id": "decl-001572",
+      "new_name": "auxiliaryElidedStatement001572",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-001573",
+      "new_name": "auxiliaryElidedStatement001573",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-001574",
+      "new_name": "filtration_to_polynomial_quotient_surjective",
+      "docstring": "The linear map from each filtration level to the polynomial quotient is surjective."
+    },
+    {
+      "temporary_id": "decl-001575",
+      "new_name": "iSup_localization_degree_filtration",
+      "docstring": "The supremum of all levels of the localization degree filtration is the full localization."
+    },
+    {
+      "temporary_id": "decl-001576",
+      "new_name": "ker_filtration_to_polynomial_quotient",
+      "docstring": "At positive degree, the kernel of the map to the polynomial quotient is the preceding filtration level pulled back to the current subtype."
+    },
+    {
+      "temporary_id": "decl-001577",
+      "new_name": "localization_degree_filtration_stable",
+      "docstring": "Every level of the localization degree filtration is stable under the displayed general linear group action."
+    },
+    {
+      "temporary_id": "decl-001578",
+      "new_name": "action_denominator_power_embedding",
+      "docstring": "Acting on a degree-indexed polynomial embedding produces the embedded transformed polynomial scaled by the matching inverse determinant power."
+    },
+    {
+      "temporary_id": "decl-001579",
+      "new_name": "mem_auxiliary_polynomial_submodule_iff_dvd",
+      "docstring": "A matrix-entry polynomial belongs to the displayed submodule exactly when it is divisible by the auxiliary matrix polynomial."
+    },
+    {
+      "temporary_id": "decl-001580",
+      "new_name": "mem_localization_degree_filtration_iff_order_le",
+      "docstring": "A localized element belongs to filtration level `r` exactly when its denominator order is at most `r`."
+    },
+    {
+      "temporary_id": "decl-001582",
+      "new_name": "mem_localization_degree_filtration_iff_exists_presentation",
+      "docstring": "Membership in filtration level `r` is equivalent to having a polynomial-numerator presentation with inverse exponent `r`."
+    },
+    {
+      "temporary_id": "decl-001586",
+      "new_name": "polynomial_equiv_localization_filtration",
+      "docstring": "The matrix-entry polynomial ring is linearly equivalent to each filtered localization subtype."
+    },
+    {
+      "temporary_id": "decl-001588",
+      "new_name": "coe_polynomial_equiv_localization_filtration",
+      "docstring": "The underlying localized element of the filtration equivalence is the degree-indexed polynomial embedding."
+    },
+    {
+      "temporary_id": "decl-001589",
+      "new_name": "denominator_power_embedding",
+      "docstring": "The linear map sending a matrix-entry polynomial into the localization at a specified inverse-power degree."
+    },
+    {
+      "temporary_id": "decl-001597",
+      "new_name": "denominator_power_embedding_apply",
+      "docstring": "The degree-`r` embedding sends a polynomial to its canonical localized image multiplied by the `r`-th power of the distinguished inverse."
+    },
+    {
+      "temporary_id": "decl-001598",
+      "new_name": "denominator_power_embedding_injective",
+      "docstring": "The degree-indexed linear embedding of matrix-entry polynomials into the localization is injective."
+    },
+    {
+      "temporary_id": "decl-001599",
+      "new_name": "denominator_power_embedding_mem_previous_iff_dvd",
+      "docstring": "At positive degree, an embedded polynomial lies in the preceding filtration level exactly when the auxiliary polynomial divides it."
+    },
+    {
+      "temporary_id": "decl-001601",
+      "new_name": "denominator_power_embedding_zero",
+      "docstring": "The degree-zero polynomial embedding is the linear map underlying the canonical algebra homomorphism into the localization."
+    }
+  ]
+}

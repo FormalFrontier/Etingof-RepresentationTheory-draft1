@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Proposition6.6.7",
+    "kind": "proposition",
+    "title": "Proposition 6.6.7: Reflection of indecomposable is indecomposable or 0",
+    "node_id": "chapter-06/section-6-6",
+    "order": 447,
+    "slug": "proposition6-6-7",
+    "span": {
+      "start": {
+        "page": "171",
+        "line": 33
+      },
+      "end": {
+        "page": "172",
+        "line": 26
+      }
+    },
+    "source_sha256": "77b853df601f6a552a631150474ea64d051444d05ddcdd03d4fdc4b7e0c89c15",
+    "features": {
+      "line_count": 45,
+      "crosses_page": true,
+      "display_math_delimiters": 14,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Proposition667",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

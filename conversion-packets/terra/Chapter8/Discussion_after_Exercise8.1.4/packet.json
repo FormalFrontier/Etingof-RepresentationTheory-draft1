@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Discussion_after_Exercise8.1.4",
+    "kind": "discussion",
+    "title": "Introduction to injective modules",
+    "node_id": "chapter-08/section-8-1",
+    "order": 529,
+    "slug": "discussion-after-exercise8-1-4",
+    "span": {
+      "start": {
+        "page": "206",
+        "line": 19
+      },
+      "end": {
+        "page": "206",
+        "line": 22
+      }
+    },
+    "source_sha256": "e35703b91ae4d257b9e1f5322b48655da7e0f7be3e84b53ce0e1de2d4220455f",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.DiscussionAfterExercise814",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

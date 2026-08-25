@@ -1,0 +1,10 @@
+{
+  "module_name": "CategoryPair",
+  "declarations": [
+    {
+      "temporary_id": "decl-004341",
+      "new_name": "AssociatedType",
+      "docstring": "A universe-polymorphic type associated with a pair of categories."
+    }
+  ]
+}

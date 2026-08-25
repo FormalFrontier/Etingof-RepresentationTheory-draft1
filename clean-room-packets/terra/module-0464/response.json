@@ -1,0 +1,30 @@
+{
+  "module_name": "TensorProducts.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-016563",
+      "new_name": "sum_reindexConjugates_mem_auxiliary",
+      "docstring": "The sum of all permutation conjugates of an endomorphism in the span of factorwise tensor maps belongs to the designated auxiliary subalgebra."
+    },
+    {
+      "temporary_id": "decl-016565",
+      "new_name": "reindexConjugate_map",
+      "docstring": "Conjugating the tensor product map by a reindexing permutes its family of component endomorphisms."
+    },
+    {
+      "temporary_id": "decl-016566",
+      "new_name": "map_basisEnd_eq_piTensorProductBasisEnd",
+      "docstring": "The tensor product of basis endomorphisms agrees with the corresponding endomorphism from the induced tensor-product basis."
+    },
+    {
+      "temporary_id": "decl-016567",
+      "new_name": "span_range_map_eq_top",
+      "docstring": "For a finite free module, factorwise tensor-product endomorphisms span the full endomorphism space."
+    },
+    {
+      "temporary_id": "decl-016569",
+      "new_name": "sum_permutedMaps_mem_auxiliary",
+      "docstring": "The sum of factorwise tensor maps over all permutations belongs to the designated auxiliary subalgebra."
+    }
+  ]
+}

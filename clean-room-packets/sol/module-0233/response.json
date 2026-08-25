@@ -1,0 +1,275 @@
+{
+  "module_name": "FiniteRotationGroups",
+  "declarations": [
+    {
+      "temporary_id": "decl-011607",
+      "new_name": "IsFixedVector",
+      "docstring": "A predicate that a vector is fixed by every element of the given subgroup."
+    },
+    {
+      "temporary_id": "decl-011608",
+      "new_name": "AuxiliaryType011608",
+      "docstring": "An auxiliary type whose internal description is not exposed by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011609",
+      "new_name": "smul_val",
+      "docstring": "A matrix identity for the displayed action or transformation."
+    },
+    {
+      "temporary_id": "decl-011610",
+      "new_name": "ext",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011612",
+      "new_name": "instMulAction",
+      "docstring": "The action of the displayed orthogonal group on the auxiliary vector type."
+    },
+    {
+      "temporary_id": "decl-011616",
+      "new_name": "cardinalityFormula_011616",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011628",
+      "new_name": "exists_ne_zero_fixed_vector",
+      "docstring": "Every nonidentity displayed orthogonal transformation fixes a nonzero vector."
+    },
+    {
+      "temporary_id": "decl-011630",
+      "new_name": "exists_injective_hom_011630",
+      "docstring": "Under the displayed stabilizer hypotheses, an injective homomorphism exists."
+    },
+    {
+      "temporary_id": "decl-011633",
+      "new_name": "exists_injective_hom_011633",
+      "docstring": "A simple group with a subgroup of the displayed index admits an injective homomorphism."
+    },
+    {
+      "temporary_id": "decl-011634",
+      "new_name": "finite_rotationAxisSet",
+      "docstring": "The set associated with a nonidentity displayed rotation is finite."
+    },
+    {
+      "temporary_id": "decl-011635",
+      "new_name": "finite_rotationAxes",
+      "docstring": "The displayed set of rotation axes of a finite subgroup is finite."
+    },
+    {
+      "temporary_id": "decl-011636",
+      "new_name": "rotationAxisSet",
+      "docstring": "The set-valued construction associated with an orthogonal transformation."
+    },
+    {
+      "temporary_id": "decl-011638",
+      "new_name": "cyclicGroup_011638",
+      "docstring": "A cyclicity conclusion under the hypotheses shown in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011643",
+      "new_name": "cyclicGroup_011643",
+      "docstring": "A cyclicity conclusion under the hypotheses shown in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011644",
+      "new_name": "isFixedVector_smul",
+      "docstring": "A vector fixed by a subgroup remains fixed after applying one of its elements."
+    },
+    {
+      "temporary_id": "decl-011652",
+      "new_name": "simpleGroup_011652",
+      "docstring": "A simplicity criterion for the finite group appearing in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011714",
+      "new_name": "Auxiliary011714",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011715",
+      "new_name": "multiplicativeEquivalence_011715",
+      "docstring": "Existence of the displayed multiplicative equivalence under the stated hypotheses."
+    },
+    {
+      "temporary_id": "decl-011724",
+      "new_name": "rotationAxisSet_eq_pair",
+      "docstring": "The set attached to a nonidentity rotation is the displayed antipodal pair of unit vectors."
+    },
+    {
+      "temporary_id": "decl-011727",
+      "new_name": "eq_one_of_smul_eq_or_neg",
+      "docstring": "An element acting by either identity or negation on every point of the displayed orbit is the identity."
+    },
+    {
+      "temporary_id": "decl-011735",
+      "new_name": "exists_smul_eq_neg",
+      "docstring": "Under the displayed cardinality hypotheses, some group element sends the point to its negative."
+    },
+    {
+      "temporary_id": "decl-011750",
+      "new_name": "rotationAxes",
+      "docstring": "The set-valued construction assigning rotation axes to a subgroup."
+    },
+    {
+      "temporary_id": "decl-011751",
+      "new_name": "rotationAxesAction",
+      "docstring": "The displayed action of a subgroup on its rotation-axis set."
+    },
+    {
+      "temporary_id": "decl-011755",
+      "new_name": "matrixAction_011755",
+      "docstring": "A matrix identity for the displayed action or transformation."
+    },
+    {
+      "temporary_id": "decl-011756",
+      "new_name": "exists_stabilizer_cardMultiset",
+      "docstring": "A finite subgroup admits a multiset of stabilizer cardinalities with the displayed properties."
+    },
+    {
+      "temporary_id": "decl-011765",
+      "new_name": "stabilizer_cardMultiset_cases",
+      "docstring": "A multiset satisfying the displayed divisibility and sum conditions has one of the listed forms."
+    },
+    {
+      "temporary_id": "decl-011774",
+      "new_name": "simpleGroup_011774",
+      "docstring": "A simplicity criterion for the finite group appearing in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011793",
+      "new_name": "finiteRotationGroupClassification",
+      "docstring": "Every finite displayed rotation subgroup belongs to one of the listed group classes."
+    },
+    {
+      "temporary_id": "decl-011795",
+      "new_name": "isCyclic_of_stabilizer_card_eq_card",
+      "docstring": "If a point stabilizer has the full group cardinality, the displayed group is cyclic."
+    },
+    {
+      "temporary_id": "decl-011796",
+      "new_name": "isCyclic_of_fixed_point",
+      "docstring": "If every group element fixes the displayed point, the group is cyclic."
+    },
+    {
+      "temporary_id": "decl-011797",
+      "new_name": "isCyclic_of_stabilizer_cardMultiset_eq_pair",
+      "docstring": "The displayed two-entry stabilizer-cardinality multiset implies that the group is cyclic."
+    },
+    {
+      "temporary_id": "decl-011798",
+      "new_name": "mulEquiv_dihedral_of_stabilizer_cardMultiset",
+      "docstring": "The displayed stabilizer-cardinality multiset identifies the group with a dihedral group."
+    },
+    {
+      "temporary_id": "decl-011800",
+      "new_name": "finiteRotationGroupClassification_011800",
+      "docstring": "The displayed finite rotation subgroup belongs to one of the listed group classes."
+    },
+    {
+      "temporary_id": "decl-011801",
+      "new_name": "isSimpleGroup_of_stabilizer_cardMultiset",
+      "docstring": "The displayed stabilizer-cardinality multiset implies that the group is simple."
+    },
+    {
+      "temporary_id": "decl-011807",
+      "new_name": "card_eq_sixty_of_stabilizer_cardMultiset",
+      "docstring": "The displayed stabilizer-cardinality multiset and sum identity force group cardinality sixty."
+    },
+    {
+      "temporary_id": "decl-011809",
+      "new_name": "exists_injective_hom_of_stabilizer_cardMultiset",
+      "docstring": "The displayed stabilizer data yields an injective homomorphism."
+    },
+    {
+      "temporary_id": "decl-011810",
+      "new_name": "mulEquiv_alternatingGroupFinFive_of_stabilizer_cardMultiset",
+      "docstring": "The displayed stabilizer data identifies the group with the alternating group on five elements."
+    },
+    {
+      "temporary_id": "decl-011812",
+      "new_name": "matrixAction_011812",
+      "docstring": "A matrix identity for the displayed action or transformation."
+    },
+    {
+      "temporary_id": "decl-011813",
+      "new_name": "mulEquiv_permFinFour_of_stabilizer_cardMultiset",
+      "docstring": "The displayed stabilizer data identifies the group with permutations of four elements."
+    },
+    {
+      "temporary_id": "decl-011815",
+      "new_name": "mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset",
+      "docstring": "The displayed stabilizer data identifies the group with the alternating group on four elements."
+    },
+    {
+      "temporary_id": "decl-011820",
+      "new_name": "Auxiliary011820",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011821",
+      "new_name": "Auxiliary011821",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011822",
+      "new_name": "Auxiliary011822",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011825",
+      "new_name": "Auxiliary011825",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011826",
+      "new_name": "finiteImageSubgroupClassification",
+      "docstring": "The image of the displayed finite subgroup belongs to one of the listed group classes."
+    },
+    {
+      "temporary_id": "decl-011827",
+      "new_name": "Auxiliary011827",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011831",
+      "new_name": "Auxiliary011831",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011832",
+      "new_name": "Auxiliary011832",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011833",
+      "new_name": "Auxiliary011833",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011834",
+      "new_name": "coe_mul",
+      "docstring": "Coercion of a subgroup product agrees with multiplication of the coerced elements."
+    },
+    {
+      "temporary_id": "decl-011835",
+      "new_name": "coe_one",
+      "docstring": "Coercion of the subgroup identity agrees with the ambient identity."
+    },
+    {
+      "temporary_id": "decl-011836",
+      "new_name": "coe_sq_eq_one",
+      "docstring": "An element whose square is the subgroup identity has ambient square equal to one."
+    },
+    {
+      "temporary_id": "decl-011837",
+      "new_name": "ext_011837",
+      "docstring": "Two subgroup elements with equal ambient values are equal."
+    },
+    {
+      "temporary_id": "decl-011838",
+      "new_name": "Auxiliary011838",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    }
+  ]
+}

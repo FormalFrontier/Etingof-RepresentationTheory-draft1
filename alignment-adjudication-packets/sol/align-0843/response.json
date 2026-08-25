@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0843",
+  "associations": [
+    {
+      "association_id": "association:31a6ba9695069d7352f6",
+      "role": "supporting",
+      "rationale": "extCochainMap constructs the cochain-complex map induced by a resolution morphism, an ingredient for Ext comparison maps."
+    },
+    {
+      "association_id": "association:069eef481ebf710541a2",
+      "role": "supporting",
+      "rationale": "The type gives only the Ext comparison-isomorphism component; it does not itself state the required independence of compatible lifts."
+    },
+    {
+      "association_id": "association:aeeab295110908671c47",
+      "role": "supporting",
+      "rationale": "extLiftMap constructs an Ext morphism from a selected reverse chain lift, rather than asserting its independence or isomorphism."
+    },
+    {
+      "association_id": "association:a9eb6dcefa2ca4f48a3d",
+      "role": "supporting",
+      "rationale": "extLiftMap_eq_comparison identifies a compatible lift's induced map with extComparison; this establishes a construction detail rather than the comparison-isomorphism claim itself."
+    },
+    {
+      "association_id": "association:d3f9bc9a2b82027f67c6",
+      "role": "supporting",
+      "rationale": "The type gives only the compatible-lift independence component; it does not itself state the Ext comparison-isomorphism component required by the complete source claim."
+    }
+  ]
+}

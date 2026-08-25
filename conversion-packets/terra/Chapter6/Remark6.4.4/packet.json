@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Remark6.4.4",
+    "kind": "remark",
+    "title": "Remark 6.4.4: Finiteness of roots",
+    "node_id": "chapter-06/section-6-4",
+    "order": 426,
+    "slug": "remark6-4-4",
+    "span": {
+      "start": {
+        "page": "164",
+        "line": 47
+      },
+      "end": {
+        "page": "164",
+        "line": 47
+      }
+    },
+    "source_sha256": "4bcce74d08bf28cbd18b33427d2340ef5ba856bdd3b167c201a842524c6296ba",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Remark644",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

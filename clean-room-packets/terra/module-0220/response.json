@@ -1,0 +1,35 @@
+{
+  "module_name": "FiniteGroupTensorProductDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-018945",
+      "new_name": "tensorProduct_exists_simpleDecomposition",
+      "docstring": "The tensor product of two finite-dimensional complex representations of a finite group is isomorphic to a decomposition indexed by pairwise nonisomorphic simple representations that exhaust all simple objects."
+    },
+    {
+      "temporary_id": "decl-019450",
+      "new_name": "finrank_hom_tensor_eq_sum_multiplicity_mul_finrank_hom",
+      "docstring": "For a complete finite family of pairwise nonisomorphic simple representations, the dimension of morphisms into a tensor product is the sum of tensor-product multiplicities weighted by the corresponding morphism-space dimensions."
+    },
+    {
+      "temporary_id": "decl-023891",
+      "new_name": "tensorProduct_iso_auxiliaryDecomposition",
+      "docstring": "A tensor product is isomorphic to the specified auxiliary decomposition whenever the indexing family is simple, pairwise nonisomorphic, and exhaustive among simple representations."
+    },
+    {
+      "temporary_id": "decl-023892",
+      "new_name": "auxiliaryTensorProductDecomposition",
+      "docstring": "An auxiliary finite-dimensional representation associated with an indexed family and two representations."
+    },
+    {
+      "temporary_id": "decl-023956",
+      "new_name": "tensorProductMultiplicity",
+      "docstring": "A natural-number multiplicity attached to three finite-dimensional complex representations of a group."
+    },
+    {
+      "temporary_id": "decl-023958",
+      "new_name": "cast_tensorProductMultiplicity_eq_character_average",
+      "docstring": "The complex cast of the tensor-product multiplicity is the group average of the product of two characters with the inverse-argument character of the third representation."
+    }
+  ]
+}

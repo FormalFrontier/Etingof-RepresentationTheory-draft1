@@ -1,0 +1,15 @@
+{
+  "module_name": "FiniteAssociatedSetCardinality",
+  "declarations": [
+    {
+      "temporary_id": "decl-000001",
+      "new_name": "associatedSet_finite_and_ncard",
+      "docstring": "For every positive natural number n, the associated set is finite and has `n * (n + 1) / 2` elements."
+    },
+    {
+      "temporary_id": "decl-003733",
+      "new_name": "finite_associatedSet_and_ncard_eq",
+      "docstring": "The set attached to a positive natural number n is finite, with cardinality `n * (n + 1) / 2`."
+    }
+  ]
+}

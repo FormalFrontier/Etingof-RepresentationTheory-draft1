@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0661",
+  "associations": [
+    {
+      "association_id": "association:45871ae4cfd7e2fe91ee",
+      "rationale": "The formal type only presents Ext1 as a Type under the module hypotheses; it does not state or expose an identification with cocycles modulo coboundaries.",
+      "role": "supporting"
+    }
+  ]
+}

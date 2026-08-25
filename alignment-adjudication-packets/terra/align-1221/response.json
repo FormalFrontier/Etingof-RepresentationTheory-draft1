@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1221",
+  "associations": [
+    {
+      "association_id": "association:b19a2eb3e25e6767e92a",
+      "rationale": "The type directly states the induced-sign decomposition into signRep and rotRep, but this is only one of the three decompositions in the source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:88cdf8b3b2ad9a6a7e80",
+      "rationale": "The type directly states the induced-trivial decomposition into trivRep and stdRep, but this is only one of the three decompositions in the source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:303ff12e08c9e285680c",
+      "rationale": "The type directly states the induced-two-dimensional decomposition into twoDimRep, stdRep, and rotRep, but this is only one of the three decompositions in the source claim.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0492",
+  "associations": [
+    {
+      "association_id": "association:3f81b8edbf766f72d3c0",
+      "rationale": "The formal type directly characterizes equivalence of the Jordan representations by equality of their parameters and dimensions, giving the stated pairwise nonisomorphism.",
+      "role": "primary"
+    }
+  ]
+}

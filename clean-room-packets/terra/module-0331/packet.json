@@ -1,0 +1,156 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005277",
+        "decl-019674"
+      ],
+      "structural_type_hash": "2380057187",
+      "temporary_id": "decl-019678"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019674"
+      ],
+      "structural_type_hash": "4224313014",
+      "temporary_id": "decl-019686"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019674"
+      ],
+      "structural_type_hash": "417155345",
+      "temporary_id": "decl-019687"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [inst_2 : DecidableEq.{u_1 + 1} G] {V : Type u_2}\n  [inst_3 : AddCommGroup.{u_2} V] [inst_4 : Module.{0, u_2} Complex V] [inst_5 : Module.Finite.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    Iff (decl-005130.{u_1, u_2} \u03c1) (Eq.{1} (decl-019674.{u_1, u_2} \u03c1) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005130",
+        "decl-019674"
+      ],
+      "structural_type_hash": "4244924680",
+      "temporary_id": "decl-020818"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [DecidableEq.{u_1 + 1} G] {V : Type u_2}\n  [inst_3 : AddCommGroup.{u_2} V] [inst_4 : Module.{0, u_2} Complex V] [inst_5 : Module.Finite.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    Or (decl-005130.{u_1, u_2} \u03c1)\n      (Or (decl-005278.{u_1, u_2} \u03c1) (decl-005277.{u_1, u_2} \u03c1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005130",
+        "decl-005277",
+        "decl-005278"
+      ],
+      "structural_type_hash": "4152782457",
+      "temporary_id": "decl-020820"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005277",
+        "decl-019674"
+      ],
+      "structural_type_hash": "4084267000",
+      "temporary_id": "decl-020871"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005277",
+        "decl-019674"
+      ],
+      "structural_type_hash": "2834436792",
+      "temporary_id": "decl-020872"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [inst_2 : DecidableEq.{u_1 + 1} G] {V : Type u_2}\n  [inst_3 : AddCommGroup.{u_2} V] [inst_4 : Module.{0, u_2} Complex V] [inst_5 : Module.Finite.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    Iff (decl-005278.{u_1, u_2} \u03c1) (Eq.{1} (decl-019674.{u_1, u_2} \u03c1) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278",
+        "decl-019674"
+      ],
+      "structural_type_hash": "2526680366",
+      "temporary_id": "decl-020874"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [DecidableEq.{u_1 + 1} G] {V : Type u_2}\n  [inst_3 : AddCommGroup.{u_2} V] [inst_4 : Module.{0, u_2} Complex V] [inst_5 : Module.Finite.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  Not (And (decl-005130.{u_1, u_2} \u03c1) (decl-005277.{u_1, u_2} \u03c1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005130",
+        "decl-005277"
+      ],
+      "structural_type_hash": "3473097592",
+      "temporary_id": "decl-021771"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [DecidableEq.{u_1 + 1} G] {V : Type u_2}\n  [inst_3 : AddCommGroup.{u_2} V] [inst_4 : Module.{0, u_2} Complex V] [inst_5 : Module.Finite.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  Not (And (decl-005130.{u_1, u_2} \u03c1) (decl-005278.{u_1, u_2} \u03c1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005130",
+        "decl-005278"
+      ],
+      "structural_type_hash": "21632610",
+      "temporary_id": "decl-021773"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [DecidableEq.{u_1 + 1} G] {V : Type u_2}\n  [inst_3 : AddCommGroup.{u_2} V] [inst_4 : Module.{0, u_2} Complex V] [inst_5 : Module.Finite.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    Not (And (decl-005278.{u_1, u_2} \u03c1) (decl-005277.{u_1, u_2} \u03c1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005277",
+        "decl-005278"
+      ],
+      "structural_type_hash": "3137185782",
+      "temporary_id": "decl-021779"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [DecidableEq.{u_1 + 1} G] {V : Type u_2}\n  [inst_3 : AddCommGroup.{u_2} V] [inst_4 : Module.{0, u_2} Complex V] [inst_5 : Module.Finite.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  Not (decl-005130.{u_1, u_2} \u03c1) \u2192\n    \u2200 (g : G),\n      Eq.{1} (Representation.character.{u_1, 0, u_2} \u03c1 (Inv.inv.{u_1} g)) (Representation.character.{u_1, 0, u_2} \u03c1 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005130"
+      ],
+      "structural_type_hash": "150263987",
+      "temporary_id": "decl-023069"
+    }
+  ],
+  "module_temporary_id": "module-0331",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

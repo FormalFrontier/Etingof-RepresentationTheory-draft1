@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.MonoidAlgebra.Coefficients",
+  "declarations": [
+    {
+      "temporary_id": "decl-024680",
+      "new_name": "monoidAlgebraCoeFun",
+      "docstring": "A monoid algebra over a semiring coerces to its coefficient function."
+    },
+    {
+      "temporary_id": "decl-024687",
+      "new_name": "weighted_coeff_sum_eq_ite_of_mul_self_eq_smul",
+      "docstring": "If the displayed element squares to a scalar multiple of itself, the indicated coefficient-weighted sum is that scalar when the partitions agree and zero otherwise."
+    }
+  ]
+}

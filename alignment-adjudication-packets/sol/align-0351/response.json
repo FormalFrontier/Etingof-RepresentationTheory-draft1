@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0351",
+  "associations": [
+    {
+      "association_id": "association:9c7c0d9594af4d3225d9",
+      "role": "supporting",
+      "rationale": "The Lie equivalence identifies the abstract presentation with the special-linear matrix algebra, but does not itself identify the displayed basis elements."
+    },
+    {
+      "association_id": "association:2ce686a11530e4196f26",
+      "role": "supporting",
+      "rationale": "The equality identifies the image of e with its displayed matrix, but it states neither the corresponding identifications for f and h nor that the three elements form a basis, so it is only partial evidence."
+    },
+    {
+      "association_id": "association:4f034cdd7d67b5404ff4",
+      "role": "supporting",
+      "rationale": "The equality identifies the image of f with its displayed matrix, but it states neither the corresponding identifications for e and h nor that the three elements form a basis, so it is only partial evidence."
+    },
+    {
+      "association_id": "association:17fde40df168b9129bab",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the packet does not expose a direct statement identifying h with the displayed matrix; it is conservatively supporting."
+    }
+  ]
+}

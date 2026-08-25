@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0433",
+  "associations": [
+    {
+      "association_id": "association:ac9b4d0035902cb67c1f",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the algebra structure on module endomorphisms cannot be directly compared with the full source claim."
+    },
+    {
+      "association_id": "association:9f7ced540b169a4e154a",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the packet does not directly show that multiplication evaluates as composition."
+    }
+  ]
+}

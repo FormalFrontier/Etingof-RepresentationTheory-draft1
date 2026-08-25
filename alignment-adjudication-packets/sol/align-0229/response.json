@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0229",
+  "associations": [
+    {"association_id": "association:2a179fa91c147bf54fd5", "role": "supporting", "rationale": "The formal type is null, so it is opaque evidence for the minimal-polynomial claim."},
+    {"association_id": "association:b9cca6c2280e06a5302b", "role": "supporting", "rationale": "The formal type is null, so it is opaque evidence for the annihilation clause."},
+    {"association_id": "association:4b4610ed05f6fda6b403", "role": "supporting", "rationale": "The formal type is null, so it is opaque evidence for the divisibility clause."},
+    {"association_id": "association:484665d666688fa4b615", "role": "supporting", "rationale": "The formal type is null, so it is opaque evidence for the least-degree clause."},
+    {"association_id": "association:49a303f046786f983116", "role": "supporting", "rationale": "The formal type is null, so it is opaque evidence for the monicity clause."}
+  ]
+}

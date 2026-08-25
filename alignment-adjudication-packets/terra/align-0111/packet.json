@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:de5e34bf8db2a0411b57",
+      "declaration": "Etingof.CommutativeAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/20/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 (A : Type u_2) \u2192 [Field.{u_1} k] \u2192 [CommRing.{u_2} A] \u2192 Type (max u_1 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_2_5"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.2.5",
+  "packet_id": "align-0111",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0111"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:226ed903b0fcf093e010",
+  "source_text": "A unital algebra A is commutative when ab = ba for every a and b."
+}

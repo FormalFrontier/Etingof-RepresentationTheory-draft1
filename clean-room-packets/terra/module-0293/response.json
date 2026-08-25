@@ -1,0 +1,45 @@
+{
+  "module_name": "GeneralLinearGroup.CoordinatePolynomials",
+  "declarations": [
+    {
+      "temporary_id": "decl-005112",
+      "new_name": "exists_det_twist",
+      "docstring": "There is a determinant power such that twisting the given general-linear-group action by that power satisfies the target predicate."
+    },
+    {
+      "temporary_id": "decl-017969",
+      "new_name": "clearDeterminantDenominator",
+      "docstring": "Clears an inverse-determinant denominator in a polynomial expression at a specified natural degree."
+    },
+    {
+      "temporary_id": "decl-018334",
+      "new_name": "determinantPolynomial",
+      "docstring": "The multivariable polynomial in matrix entries representing the determinant."
+    },
+    {
+      "temporary_id": "decl-018661",
+      "new_name": "evaluate_coordinatePolynomialEquiv",
+      "docstring": "Evaluation after the coordinate polynomial equivalence agrees with substituting matrix entries and the inverse determinant."
+    },
+    {
+      "temporary_id": "decl-018731",
+      "new_name": "eval_clearDeterminantDenominator",
+      "docstring": "Evaluating a denominator-cleared polynomial gives a determinant power times evaluation with the inverse determinant substituted."
+    },
+    {
+      "temporary_id": "decl-018732",
+      "new_name": "eval_determinantPolynomial",
+      "docstring": "Evaluating the determinant polynomial at an invertible matrix gives its determinant."
+    },
+    {
+      "temporary_id": "decl-019804",
+      "new_name": "coordinateIndexEquiv",
+      "docstring": "An equivalence between the extended coordinate index type and an optional pair of matrix indices."
+    },
+    {
+      "temporary_id": "decl-019808",
+      "new_name": "coordinatePolynomialEquiv",
+      "docstring": "The algebra equivalence identifying polynomials in extended coordinates with univariate polynomials over matrix-entry polynomials."
+    }
+  ]
+}

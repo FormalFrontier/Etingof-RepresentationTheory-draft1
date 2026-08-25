@@ -1,0 +1,70 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  {n : Nat} (\u03c6 : Module.End.{u_1, max u_2 u_1} k (PiTensorProduct.{0, u_1, u_2} k fun x => V)),\n  Membership.mem.{max u_1 u_2, max u_2 u_1}\n      (Submodule.span.{u_1, max u_2 u_1} k\n        (Set.range.{max u_2 u_1, u_2 + 1} fun f => PiTensorProduct.map.{0, u_1, u_2, u_2} f))\n      \u03c6 \u2192\n    Membership.mem.{max u_1 u_2, max u_1 u_2}\n      (DFunLike.coe.{(max u_1 u_2) + 1, (max u_1 u_2) + 1, (max u_1 u_2) + 1} Subalgebra.toSubmodule.{u_1, max u_1 u_2}\n        (decl-005490.{u_1, u_2} k V n))\n      (Finset.sum.{0, max u_1 u_2} Finset.univ.{0} fun \u03c3 =>\n        HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2}\n          (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2}\n            (LinearEquiv.toLinearMap.{u_1, u_1, max u_1 u_2, max u_1 u_2}\n              (PiTensorProduct.reindex.{0, 0, u_1, u_2} k (fun x => V) \u03c3))\n            \u03c6)\n          (LinearEquiv.toLinearMap.{u_1, u_1, max u_1 u_2, max u_1 u_2}\n            (LinearEquiv.symm.{u_1, u_1, max u_1 u_2, max u_1 u_2}\n              (PiTensorProduct.reindex.{0, 0, u_1, u_2} k (fun x => V) \u03c3))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005490"
+      ],
+      "structural_type_hash": "1477429765",
+      "temporary_id": "decl-016563"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  {n : Nat} (f : Fin n \u2192 Module.End.{u_1, u_2} k V) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2}\n      (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2}\n        (LinearEquiv.toLinearMap.{u_1, u_1, max u_1 u_2, max u_1 u_2}\n          (PiTensorProduct.reindex.{0, 0, u_1, u_2} k (fun x => V) \u03c3))\n        (PiTensorProduct.map.{0, u_1, u_2, u_2} f))\n      (LinearEquiv.toLinearMap.{u_1, u_1, max u_1 u_2, max u_1 u_2}\n        (LinearEquiv.symm.{u_1, u_1, max u_1 u_2, max u_1 u_2}\n          (PiTensorProduct.reindex.{0, 0, u_1, u_2} k (fun x => V) \u03c3))))\n    (PiTensorProduct.map.{0, u_1, u_2, u_2} fun i => f (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} \u03c3) i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "676038519",
+      "temporary_id": "decl-016565"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  {n : Nat} {\u03b9 : Type u_3} [inst_3 : Fintype.{u_3} \u03b9] [inst_4 : DecidableEq.{u_3 + 1} \u03b9]\n  (bV : Module.Basis.{u_3, u_1, u_2} \u03b9 k V) (q r : Fin n \u2192 \u03b9),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (PiTensorProduct.map.{0, u_1, u_2, u_2} fun l =>\n      DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1), u_3 + 1, u_2 + 1} (Module.Basis.end.{u_1, u_2, u_3} bV)\n        (Prod.mk.{u_3, u_3} (q l) (r l)))\n    (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1), u_3 + 1, max (u_1 + 1) (u_2 + 1)}\n      (Module.Basis.end.{u_1, max u_1 u_2, u_3} (Basis.piTensorProduct.{0, u_1, u_2, u_3} fun x => bV))\n      (Prod.mk.{u_3, u_3} q r))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3783272673",
+      "temporary_id": "decl-016566"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  {n : Nat} [Module.Free.{u_1, u_2} k V] [Module.Finite.{u_1, u_2} k V],\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (Submodule.span.{u_1, max u_2 u_1} k\n      (Set.range.{max u_2 u_1, u_2 + 1} fun f => PiTensorProduct.map.{0, u_1, u_2, u_2} f))\n    Top.top.{max u_1 u_2}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1836911669",
+      "temporary_id": "decl-016567"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  {n : Nat} (f : Fin n \u2192 Module.End.{u_1, u_2} k V),\n  Membership.mem.{max u_2 u_1, max u_1 u_2}\n    (DFunLike.coe.{(max u_1 u_2) + 1, (max u_1 u_2) + 1, (max u_1 u_2) + 1} Subalgebra.toSubmodule.{u_1, max u_1 u_2}\n      (decl-005490.{u_1, u_2} k V n))\n    (Finset.sum.{0, max u_2 u_1} Finset.univ.{0} fun \u03c3 =>\n      PiTensorProduct.map.{0, u_1, u_2, u_2} fun i => f (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} \u03c3) i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005490"
+      ],
+      "structural_type_hash": "343246342",
+      "temporary_id": "decl-016569"
+    }
+  ],
+  "module_temporary_id": "module-0464",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

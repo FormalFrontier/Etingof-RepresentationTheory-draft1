@@ -1,0 +1,65 @@
+{
+  "module_name": "DihedralAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-003841",
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary type indexed by a natural number."
+    },
+    {
+      "temporary_id": "decl-003872",
+      "new_name": "dihedralAuxiliaryMulEquiv",
+      "docstring": "Constructs a multiplicative equivalence from a dihedral group to an auxiliary type."
+    },
+    {
+      "temporary_id": "decl-003879",
+      "new_name": "auxiliaryRepresentationEquivalence",
+      "docstring": "Defines an equivalence between representation categories for an auxiliary type and a dihedral group."
+    },
+    {
+      "temporary_id": "decl-003880",
+      "new_name": "exists_dihedralSimpleRepresentatives",
+      "docstring": "Provides simple complex representation representatives of a dihedral group with the displayed dimension and parity-dependent counts."
+    },
+    {
+      "temporary_id": "decl-003881",
+      "new_name": "multiplicativeZModAction",
+      "docstring": "Defines an action of multiplicative residues modulo two by automorphisms of multiplicative residues modulo N."
+    },
+    {
+      "temporary_id": "decl-003884",
+      "new_name": "multiplicativeZModAction_ofAdd_one_apply",
+      "docstring": "The action of the multiplicative image of one sends a multiplicative residue to its inverse."
+    },
+    {
+      "temporary_id": "decl-003885",
+      "new_name": "multiplicativeZModAction_one_apply",
+      "docstring": "The identity residue acts trivially on multiplicative residues."
+    },
+    {
+      "temporary_id": "decl-003888",
+      "new_name": "auxiliaryRepresentationEquivalence_finrank",
+      "docstring": "The representation-category equivalence preserves complex dimension."
+    },
+    {
+      "temporary_id": "decl-003944",
+      "new_name": "auxiliaryMulAut",
+      "docstring": "Defines an auxiliary automorphism of multiplicative residues modulo N."
+    },
+    {
+      "temporary_id": "decl-003945",
+      "new_name": "auxiliaryMulAut_apply",
+      "docstring": "The auxiliary automorphism sends each multiplicative residue to its inverse."
+    },
+    {
+      "temporary_id": "decl-003946",
+      "new_name": "auxiliaryMulAut_sq",
+      "docstring": "The square of the auxiliary automorphism is the identity."
+    },
+    {
+      "temporary_id": "decl-003948",
+      "new_name": "exists_auxiliarySimpleRepresentatives",
+      "docstring": "Provides simple complex representation representatives of an auxiliary group with the displayed dimension and parity-dependent counts."
+    }
+  ]
+}

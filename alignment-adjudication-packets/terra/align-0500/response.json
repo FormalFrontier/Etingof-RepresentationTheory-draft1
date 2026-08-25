@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0500",
+  "associations": [
+    {
+      "association_id": "association:5d66fb099599e048a8bc",
+      "rationale": "No formal type is displayed, so the candidate cannot directly establish the claimed tensor-product module structure from packet evidence alone.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1edd6bb2b5875335dfe3",
+      "rationale": "No formal type is displayed, so the candidate cannot directly establish scalar action on one tensor factor from packet evidence alone.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:5c8c58616b9e6407a151",
+      "rationale": "No formal type is displayed, so the candidate cannot directly establish the equivalent scalar action on the other tensor factor from packet evidence alone.",
+      "role": "supporting"
+    }
+  ]
+}

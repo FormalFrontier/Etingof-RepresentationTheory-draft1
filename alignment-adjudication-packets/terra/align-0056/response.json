@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0056",
+  "associations": [
+    {
+      "association_id": "association:0c0171a88a7733c08403",
+      "role": "supporting",
+      "rationale": "The type gives the opaque conclusion CompositionSeries.Equivalent for arbitrary full series; it does not state the packet's particular combined multisets or induction step."
+    },
+    {
+      "association_id": "association:9420d0aac53bbf07bdde",
+      "role": "supporting",
+      "rationale": "The type gives a general permutation matching factors of two full series, but does not identify the displayed W₁, W'₁, Z₁, ..., Zₚ multisets or an induction-hypothesis application."
+    }
+  ]
+}

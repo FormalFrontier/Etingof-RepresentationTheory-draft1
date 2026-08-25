@@ -1,0 +1,35 @@
+{
+  "packet_id": "align-1262",
+  "associations": [
+    {
+      "association_id": "association:bcd631ce742d644348c5",
+      "rationale": "This constructs an opaque ClassIndex-indexed family of D4 representations but makes no classification or indecomposability claim by itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:83e7edfe275dca74022f",
+      "rationale": "Indecomposability of each canonical representative is one ingredient in the twelve-object classification, but it does not state completeness or distinctness.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ecb6e4035d7b0bd417c3",
+      "rationale": "Pairwise nonisomorphism of the canonical family is another ingredient in counting the twelve indecomposables, not the full source classification on its own.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f2c4f9ecfb33a4f6078f",
+      "rationale": "The cardinality twelve concerns the auxiliary ClassIndex; only together with the family properties does it yield the source's count of indecomposable objects.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8ebbbd069c859032f26c",
+      "rationale": "This gives each indecomposable a unique index in the canonical family, but the cardinality of `ClassIndex` and indecomposability of every canonical representation are separate facts; by itself it does not state that there are exactly twelve indecomposable classes.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e5d8d5882c07595894be",
+      "rationale": "Membership of an indecomposable's dimension vector in a fixed list is a necessary numerical consequence of the classification, but it does not identify the representation or establish the twelve isomorphism classes.",
+      "role": "supporting"
+    }
+  ]
+}

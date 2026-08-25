@@ -1,0 +1,80 @@
+{
+  "module_name": "Quiver.Representation.DenseOrbit",
+  "declarations": [
+    {
+      "temporary_id": "decl-012817",
+      "new_name": "IsPolynomiallyDense",
+      "docstring": "A subset of the representation space is polynomially dense when every polynomial vanishing on it vanishes identically."
+    },
+    {
+      "temporary_id": "decl-012819",
+      "new_name": "aeval_baseChangeCoordinateMatrix",
+      "docstring": "Entrywise evaluation of the generic base-change coordinate matrix at a group element recovers the matrix underlying its component at the chosen vertex."
+    },
+    {
+      "temporary_id": "decl-012832",
+      "new_name": "baseChangePointEval",
+      "docstring": "The algebra homomorphism that evaluates the localized base-change coordinate ring at a base-change group element."
+    },
+    {
+      "temporary_id": "decl-012836",
+      "new_name": "baseChangePointEval_algebraMap",
+      "docstring": "On polynomials embedded in the localization, evaluation at a base-change group element agrees with multivariate polynomial evaluation at its coordinate values."
+    },
+    {
+      "temporary_id": "decl-012837",
+      "new_name": "baseChangePointEval_comp_orbitMapPullback",
+      "docstring": "Composing evaluation at a base-change group element with the coordinate-ring pullback of an orbit map equals evaluation at the transformed representation."
+    },
+    {
+      "temporary_id": "decl-012838",
+      "new_name": "baseChangePointEval_genericMatrix",
+      "docstring": "Entrywise evaluation of the localized generic matrix at a base-change group element yields its matrix at the chosen vertex."
+    },
+    {
+      "temporary_id": "decl-012839",
+      "new_name": "baseChangePointEval_genericInverseMatrix",
+      "docstring": "Entrywise evaluation of the localized generic inverse matrix at a base-change group element yields the inverse of its matrix at the chosen vertex."
+    },
+    {
+      "temporary_id": "decl-012849",
+      "new_name": "exists_injective_orbitMapPullback",
+      "docstring": "If the base-change action has finitely many orbits over an infinite field, some representation has an injective coordinate-ring pullback along its orbit map."
+    },
+    {
+      "temporary_id": "decl-012850",
+      "new_name": "exists_polynomiallyDense_orbit",
+      "docstring": "For a base-change action with finitely many orbits over an infinite field, one orbit is polynomially dense in the representation space."
+    },
+    {
+      "temporary_id": "decl-012870",
+      "new_name": "baseChangeCoordinateValues",
+      "docstring": "The assignment of coordinate variables obtained from the matrix entries of a base-change group element."
+    },
+    {
+      "temporary_id": "decl-012872",
+      "new_name": "orbitMapPullback_injective_of_polynomiallyDense",
+      "docstring": "Polynomial density of a representation's orbit makes the coordinate-ring pullback along its orbit map injective."
+    },
+    {
+      "temporary_id": "decl-012873",
+      "new_name": "isUnit_aeval_baseChangeDenominator",
+      "docstring": "The distinguished denominator of the base-change coordinate ring evaluates to a unit at every base-change group element."
+    },
+    {
+      "temporary_id": "decl-012879",
+      "new_name": "representationCoordinateValues",
+      "docstring": "The coordinate-value function obtained by reading every arrow-matrix entry of a quiver representation."
+    },
+    {
+      "temporary_id": "decl-012881",
+      "new_name": "representationCoordinateValues_representationOfCoordinateValues",
+      "docstring": "Reading the coordinates of the representation assembled from a coordinate-value function returns the original function."
+    },
+    {
+      "temporary_id": "decl-012882",
+      "new_name": "representationOfCoordinateValues",
+      "docstring": "The quiver representation assembled from a function assigning a scalar to each arrow-matrix coordinate."
+    }
+  ]
+}

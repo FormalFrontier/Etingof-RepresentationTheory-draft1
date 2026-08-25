@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5f89878355d9cbead8da",
+      "declaration": "Etingof.Example4_3_S3_irreps_count",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/195/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Fintype.card.{0} (ConjClasses.{0} (Equiv.Perm.{1} (Fin 3)))) 3",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_S3"
+    },
+    {
+      "association_id": "association:4b6ea4af993486e9750f",
+      "declaration": "Etingof.Example4_3_S3_sum_of_squares",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/195/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1}\n  (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} 1 2) (HPow.hPow.{0, 0, 0} 1 2))\n    (HPow.hPow.{0, 0, 0} 2 2))\n  (Fintype.card.{0} (Equiv.Perm.{1} (Fin 3)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_S3"
+    }
+  ],
+  "canonical_reference": "Chapter4/Example4.3_S3",
+  "packet_id": "align-0995",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0995"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:be6a61f83b43881d48d5",
+  "source_text": "S3 has three conjugacy classes and irreducible dimensions 1,1,2 with the stated sum of squares."
+}

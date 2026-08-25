@@ -1,0 +1,435 @@
+{
+  "module_name": "GroupRepresentation.QuaternionGroup.ComplexIrreducibles",
+  "declarations": [
+    {
+      "temporary_id": "decl-002376",
+      "new_name": "simpleRepresentation_iso_standard_or_linear",
+      "docstring": "Every simple finite-dimensional complex representation of the quaternion group of order eight is isomorphic to the distinguished two-dimensional representation or one of four distinguished one-dimensional representations."
+    },
+    {
+      "temporary_id": "decl-002379",
+      "new_name": "standardRepresentation_character_a_zero",
+      "docstring": "The character of the distinguished two-dimensional representation at the zeroth cyclic element is two."
+    },
+    {
+      "temporary_id": "decl-002380",
+      "new_name": "standardRepresentation_character_a_one",
+      "docstring": "The character of the distinguished two-dimensional representation at the first cyclic element is zero."
+    },
+    {
+      "temporary_id": "decl-002381",
+      "new_name": "auxiliary_fact1",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
+    },
+    {
+      "temporary_id": "decl-002382",
+      "new_name": "standardRepresentation_character_a_three",
+      "docstring": "The character of the distinguished two-dimensional representation at the third cyclic element is zero."
+    },
+    {
+      "temporary_id": "decl-002383",
+      "new_name": "standardRepresentation_character_eq_trace",
+      "docstring": "The character of the distinguished two-dimensional representation equals the trace of its matrix representation."
+    },
+    {
+      "temporary_id": "decl-002384",
+      "new_name": "standardRepresentation_character_xa_zero",
+      "docstring": "The character of the distinguished two-dimensional representation at the zeroth element of the second coset is zero."
+    },
+    {
+      "temporary_id": "decl-002385",
+      "new_name": "standardRepresentation_character_xa_one",
+      "docstring": "The character of the distinguished two-dimensional representation at the first element of the second coset is zero."
+    },
+    {
+      "temporary_id": "decl-002386",
+      "new_name": "standardRepresentation_character_xa_two",
+      "docstring": "The character of the distinguished two-dimensional representation at the second element of the second coset is zero."
+    },
+    {
+      "temporary_id": "decl-002387",
+      "new_name": "standardRepresentation_character_xa_three",
+      "docstring": "The character of the distinguished two-dimensional representation at the third element of the second coset is zero."
+    },
+    {
+      "temporary_id": "decl-002388",
+      "new_name": "linearCharacterValue",
+      "docstring": "A two-parameter complex-valued function on the quaternion group of order eight."
+    },
+    {
+      "temporary_id": "decl-002391",
+      "new_name": "linearCharacter",
+      "docstring": "A complex-valued monoid homomorphism of the quaternion group determined by two scalars that square to one."
+    },
+    {
+      "temporary_id": "decl-002395",
+      "new_name": "linearCharacter_aux1",
+      "docstring": "An auxiliary distinguished complex-valued linear character of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-002397",
+      "new_name": "linearCharacter_aux2",
+      "docstring": "An auxiliary distinguished complex-valued linear character of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-002399",
+      "new_name": "linearCharacter_aux3",
+      "docstring": "An auxiliary distinguished complex-valued linear character of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-002402",
+      "new_name": "linearCharacter_aux4",
+      "docstring": "An auxiliary distinguished complex-valued linear character of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-002405",
+      "new_name": "finEightToQuaternionGroup",
+      "docstring": "A map enumerating the quaternion group of order eight by a finite type with eight elements."
+    },
+    {
+      "temporary_id": "decl-002409",
+      "new_name": "finEightToQuaternionGroup_bijective",
+      "docstring": "The finite enumeration of the quaternion group of order eight is bijective."
+    },
+    {
+      "temporary_id": "decl-002410",
+      "new_name": "sum_sq_finrank_distinguishedRepresentations",
+      "docstring": "The sum of the squared dimensions of the four distinguished one-dimensional representations and the distinguished two-dimensional representation equals the group order."
+    },
+    {
+      "temporary_id": "decl-002411",
+      "new_name": "distinguishedRepresentations_pairwise_nonisomorphic",
+      "docstring": "The five distinguished complex representations of the quaternion group are pairwise nonisomorphic."
+    },
+    {
+      "temporary_id": "decl-002412",
+      "new_name": "mem_center_iff",
+      "docstring": "An element of the quaternion group of order eight lies in the center exactly when it is the zeroth or second cyclic element."
+    },
+    {
+      "temporary_id": "decl-002413",
+      "new_name": "natCast_zmod_val",
+      "docstring": "Casting the natural representative of an element of integers modulo four recovers that element."
+    },
+    {
+      "temporary_id": "decl-002414",
+      "new_name": "representationOfLinearCharacter",
+      "docstring": "The one-dimensional complex representation associated with a complex-valued monoid homomorphism of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-002418",
+      "new_name": "representationOfLinearCharacter_character",
+      "docstring": "The character of the representation associated with a linear character is the original monoid homomorphism."
+    },
+    {
+      "temporary_id": "decl-002419",
+      "new_name": "representationOfLinearCharacter_character_norm",
+      "docstring": "The sum of a linear character times its value on inverses equals the order of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-002420",
+      "new_name": "representationOfLinearCharacter_not_iso_of_ne",
+      "docstring": "Two one-dimensional representations are not isomorphic if their defining characters differ at some group element."
+    },
+    {
+      "temporary_id": "decl-002421",
+      "new_name": "linearRepresentations_pairwise_nonisomorphic",
+      "docstring": "The four distinguished one-dimensional representations of the quaternion group are pairwise nonisomorphic."
+    },
+    {
+      "temporary_id": "decl-002422",
+      "new_name": "pow_eq_pow_of_mod_two_eq",
+      "docstring": "Powers of a complex scalar that squares to one agree when their exponents have the same remainder modulo two."
+    },
+    {
+      "temporary_id": "decl-002423",
+      "new_name": "standardMatrixRepresentation",
+      "docstring": "A two-dimensional complex matrix representation of the quaternion group of order eight."
+    },
+    {
+      "temporary_id": "decl-002427",
+      "new_name": "standardRepresentation",
+      "docstring": "The distinguished two-dimensional finite-dimensional complex representation of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-002429",
+      "new_name": "standardRepresentation_finrank",
+      "docstring": "The distinguished quaternion-group representation has complex dimension two."
+    },
+    {
+      "temporary_id": "decl-002430",
+      "new_name": "standardRepresentation_simple",
+      "docstring": "The distinguished two-dimensional quaternion-group representation is simple."
+    },
+    {
+      "temporary_id": "decl-002431",
+      "new_name": "standardMatrixValue",
+      "docstring": "The matrix-valued function underlying the distinguished two-dimensional quaternion-group representation."
+    },
+    {
+      "temporary_id": "decl-002433",
+      "new_name": "standardMatrixValue_a",
+      "docstring": "On a cyclic element, the matrix-valued function is the corresponding power of the first generator matrix."
+    },
+    {
+      "temporary_id": "decl-002434",
+      "new_name": "standardMatrixValue_xa",
+      "docstring": "On an element of the second coset, the matrix-valued function is the second generator matrix times a power of the first."
+    },
+    {
+      "temporary_id": "decl-002435",
+      "new_name": "standardLinearRepresentation",
+      "docstring": "The two-dimensional complex linear representation induced by the standard matrix representation."
+    },
+    {
+      "temporary_id": "decl-002438",
+      "new_name": "standardLinearRepresentation_apply",
+      "docstring": "The standard linear action is matrix-vector multiplication by the corresponding representation matrix."
+    },
+    {
+      "temporary_id": "decl-002439",
+      "new_name": "finTwoComplex_finrank",
+      "docstring": "The complex vector space of functions on a two-element finite type has dimension two."
+    },
+    {
+      "temporary_id": "decl-002440",
+      "new_name": "linearRepresentation_aux1",
+      "docstring": "An auxiliary distinguished one-dimensional complex representation of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-002442",
+      "new_name": "linearRepresentation_aux1_finrank",
+      "docstring": "The indicated auxiliary one-dimensional representation has complex dimension one."
+    },
+    {
+      "temporary_id": "decl-002443",
+      "new_name": "linearRepresentation_aux1_not_iso_standardRepresentation",
+      "docstring": "The indicated auxiliary one-dimensional representation is not isomorphic to the distinguished two-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-002444",
+      "new_name": "linearRepresentation_aux1_simple",
+      "docstring": "The indicated auxiliary one-dimensional quaternion-group representation is simple."
+    },
+    {
+      "temporary_id": "decl-002445",
+      "new_name": "linearRepresentation_aux2",
+      "docstring": "An auxiliary distinguished one-dimensional complex representation of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-002447",
+      "new_name": "linearRepresentation_aux2_finrank",
+      "docstring": "The indicated auxiliary one-dimensional representation has complex dimension one."
+    },
+    {
+      "temporary_id": "decl-002448",
+      "new_name": "linearRepresentation_aux2_not_iso_standardRepresentation",
+      "docstring": "The indicated auxiliary one-dimensional representation is not isomorphic to the distinguished two-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-002449",
+      "new_name": "linearRepresentation_aux2_not_iso_linearRepresentation_aux1",
+      "docstring": "The indicated auxiliary one-dimensional representations are not isomorphic."
+    },
+    {
+      "temporary_id": "decl-002450",
+      "new_name": "linearRepresentation_aux2_simple",
+      "docstring": "The indicated auxiliary one-dimensional quaternion-group representation is simple."
+    },
+    {
+      "temporary_id": "decl-002451",
+      "new_name": "linearRepresentation_aux3",
+      "docstring": "An auxiliary distinguished one-dimensional complex representation of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-002453",
+      "new_name": "linearRepresentation_aux3_finrank",
+      "docstring": "The indicated auxiliary one-dimensional representation has complex dimension one."
+    },
+    {
+      "temporary_id": "decl-002454",
+      "new_name": "linearRepresentation_aux3_not_iso_standardRepresentation",
+      "docstring": "The indicated auxiliary one-dimensional representation is not isomorphic to the distinguished two-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-002455",
+      "new_name": "linearRepresentation_aux3_not_iso_linearRepresentation_aux1",
+      "docstring": "The indicated auxiliary one-dimensional representations are not isomorphic."
+    },
+    {
+      "temporary_id": "decl-002456",
+      "new_name": "linearRepresentation_aux3_not_iso_linearRepresentation_aux2",
+      "docstring": "The indicated auxiliary one-dimensional representations are not isomorphic."
+    },
+    {
+      "temporary_id": "decl-002457",
+      "new_name": "linearRepresentation_aux3_simple",
+      "docstring": "The indicated auxiliary one-dimensional quaternion-group representation is simple."
+    },
+    {
+      "temporary_id": "decl-002458",
+      "new_name": "linearRepresentation_aux4",
+      "docstring": "An auxiliary distinguished one-dimensional complex representation of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-002461",
+      "new_name": "linearRepresentation_aux4_finrank",
+      "docstring": "The indicated auxiliary one-dimensional representation has complex dimension one."
+    },
+    {
+      "temporary_id": "decl-002462",
+      "new_name": "linearRepresentation_aux4_not_iso_standardRepresentation",
+      "docstring": "The indicated auxiliary one-dimensional representation is not isomorphic to the distinguished two-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-002463",
+      "new_name": "linearRepresentation_aux4_not_iso_linearRepresentation_aux1",
+      "docstring": "The indicated auxiliary one-dimensional representations are not isomorphic."
+    },
+    {
+      "temporary_id": "decl-002464",
+      "new_name": "linearRepresentation_aux4_not_iso_linearRepresentation_aux2",
+      "docstring": "The indicated auxiliary one-dimensional representations are not isomorphic."
+    },
+    {
+      "temporary_id": "decl-002465",
+      "new_name": "linearRepresentation_aux4_not_iso_linearRepresentation_aux3",
+      "docstring": "The indicated auxiliary one-dimensional representations are not isomorphic."
+    },
+    {
+      "temporary_id": "decl-002466",
+      "new_name": "linearRepresentation_aux4_simple",
+      "docstring": "The indicated auxiliary one-dimensional quaternion-group representation is simple."
+    },
+    {
+      "temporary_id": "decl-002467",
+      "new_name": "standardMatrixRepresentation_a",
+      "docstring": "The standard matrix representation sends a cyclic element to the corresponding power of the first generator matrix."
+    },
+    {
+      "temporary_id": "decl-002468",
+      "new_name": "standardMatrixRepresentation_a_one",
+      "docstring": "The standard matrix representation sends the first cyclic generator to the first generator matrix."
+    },
+    {
+      "temporary_id": "decl-002469",
+      "new_name": "standardMatrixRepresentation_xa_zero",
+      "docstring": "The standard matrix representation sends the zeroth element of the second coset to the second generator matrix."
+    },
+    {
+      "temporary_id": "decl-002470",
+      "new_name": "standardMatrixRepresentation_xa_three",
+      "docstring": "The standard matrix representation sends the third element of the second coset to the third distinguished matrix."
+    },
+    {
+      "temporary_id": "decl-002471",
+      "new_name": "auxiliary_fact2",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
+    },
+    {
+      "temporary_id": "decl-002472",
+      "new_name": "standardMatrixRepresentation_xa",
+      "docstring": "The standard matrix representation sends a second-coset element to the second generator matrix times a power of the first."
+    },
+    {
+      "temporary_id": "decl-002473",
+      "new_name": "firstGeneratorMatrix",
+      "docstring": "The first distinguished two-by-two complex matrix used in the quaternion-group representation."
+    },
+    {
+      "temporary_id": "decl-002475",
+      "new_name": "firstGeneratorMatrix_mul_secondGeneratorMatrix",
+      "docstring": "The product of the first and second generator matrices is the third distinguished matrix."
+    },
+    {
+      "temporary_id": "decl-002477",
+      "new_name": "firstGeneratorMatrix_mul_secondGeneratorMatrix_eq_neg",
+      "docstring": "The first and second generator matrices anticommute."
+    },
+    {
+      "temporary_id": "decl-002478",
+      "new_name": "firstGeneratorMatrix_mul_secondGeneratorMatrix_eq",
+      "docstring": "The product of the first and second generator matrices equals the second generator matrix times the third power of the first."
+    },
+    {
+      "temporary_id": "decl-002479",
+      "new_name": "firstGeneratorMatrix_pow_eq_of_natCast_eq",
+      "docstring": "Powers of the first generator matrix agree when the corresponding natural-number casts agree."
+    },
+    {
+      "temporary_id": "decl-002480",
+      "new_name": "firstGeneratorMatrix_pow_four",
+      "docstring": "The fourth power of the first generator matrix is the identity."
+    },
+    {
+      "temporary_id": "decl-002481",
+      "new_name": "firstGeneratorMatrix_pow_eq_mod_four",
+      "docstring": "A power of the first generator matrix depends only on its exponent modulo four."
+    },
+    {
+      "temporary_id": "decl-002482",
+      "new_name": "firstGeneratorMatrix_pow_mul_secondGeneratorMatrix",
+      "docstring": "Moving a power of the first generator matrix past the second replaces the exponent by three times that exponent."
+    },
+    {
+      "temporary_id": "decl-002483",
+      "new_name": "firstGeneratorMatrix_pow_three",
+      "docstring": "The third power of the first generator matrix is its negative."
+    },
+    {
+      "temporary_id": "decl-002484",
+      "new_name": "auxiliary_fact3",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
+    },
+    {
+      "temporary_id": "decl-002485",
+      "new_name": "secondGeneratorMatrix",
+      "docstring": "The second distinguished two-by-two complex matrix used in the quaternion-group representation."
+    },
+    {
+      "temporary_id": "decl-002487",
+      "new_name": "secondGeneratorMatrix_mul_pow_mul_secondGeneratorMatrix",
+      "docstring": "Sandwiching a power of the first generator matrix between two copies of the second gives the square of the first times its power with exponent multiplied by three."
+    },
+    {
+      "temporary_id": "decl-002488",
+      "new_name": "auxiliary_fact4",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
+    },
+    {
+      "temporary_id": "decl-002489",
+      "new_name": "secondGeneratorMatrix_sq",
+      "docstring": "The square of the second generator matrix equals the square of the first generator matrix."
+    },
+    {
+      "temporary_id": "decl-002490",
+      "new_name": "thirdDistinguishedMatrix",
+      "docstring": "A third distinguished two-by-two complex matrix associated with the two generator matrices."
+    },
+    {
+      "temporary_id": "decl-002492",
+      "new_name": "auxiliary_fact5",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
+    },
+    {
+      "temporary_id": "decl-002493",
+      "new_name": "sum_quaternionGroup_eq",
+      "docstring": "A sum over the quaternion group of order eight expands as the sum of its values on the four cyclic elements and four second-coset elements."
+    },
+    {
+      "temporary_id": "decl-002494",
+      "new_name": "standardRepresentation_character_norm",
+      "docstring": "The sum of the standard character times its value on inverses equals the order of the quaternion group."
+    },
+    {
+      "temporary_id": "decl-002495",
+      "new_name": "card_conjClasses_quaternionGroup",
+      "docstring": "The quaternion group of order eight has five conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-002496",
+      "new_name": "four_one_sq_add_two_sq_eq_card",
+      "docstring": "The sum of four copies of one squared and one copy of two squared equals the cardinality of the quaternion group of order eight."
+    }
+  ]
+}

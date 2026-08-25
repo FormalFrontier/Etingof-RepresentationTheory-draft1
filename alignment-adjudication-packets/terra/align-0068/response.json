@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0068",
+  "associations": [
+    {
+      "association_id": "association:fa921f5b2726ff3d8204",
+      "role": "primary",
+      "rationale": "Its type directly gives the claimed linear equivalence from the exterior algebra to the direct sum of all exterior powers."
+    }
+  ]
+}

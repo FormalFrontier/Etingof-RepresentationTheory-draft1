@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Discussion_before_Theorem9.6.4",
+    "kind": "discussion",
+    "title": "Setup of the equivalence functor F",
+    "node_id": "chapter-09/section-9-6",
+    "order": 574,
+    "slug": "discussion-before-theorem9-6-4",
+    "span": {
+      "start": {
+        "page": "219",
+        "line": 5
+      },
+      "end": {
+        "page": "219",
+        "line": 6
+      }
+    },
+    "source_sha256": "5ef3ea782007d89d0fb4b163a86a648ce8922f20855aa40bbe163148fed55c1e",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.DiscussionBeforeTheorem964",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

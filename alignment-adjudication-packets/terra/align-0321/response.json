@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0321",
+  "associations": [
+    {
+      "association_id": "association:3fe53a104127b4c6c85b",
+      "role": "supporting",
+      "rationale": "The displayed type supplies a Lie algebra structure on the endomorphism algebra, but does not display the associative-commutator bracket asserted by the source."
+    }
+  ]
+}

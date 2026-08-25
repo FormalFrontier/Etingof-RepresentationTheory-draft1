@@ -1,0 +1,30 @@
+{
+  "module_name": "FiniteIntegerMatrixModels",
+  "declarations": [
+    {
+      "temporary_id": "decl-001861",
+      "new_name": "FiniteMatrixModel",
+      "docstring": "An index for a distinguished family of finite square integer matrices."
+    },
+    {
+      "temporary_id": "decl-001887",
+      "new_name": "matrix",
+      "docstring": "The square integer matrix associated with a finite matrix model."
+    },
+    {
+      "temporary_id": "decl-001899",
+      "new_name": "rank",
+      "docstring": "The finite size associated with a finite matrix model."
+    },
+    {
+      "temporary_id": "decl-020827",
+      "new_name": "matrixCondition_of_relabeling",
+      "docstring": "The matrix condition is preserved when indices are relabeled through an equivalence."
+    },
+    {
+      "temporary_id": "decl-020832",
+      "new_name": "matrix_satisfies_condition",
+      "docstring": "The matrix associated with every finite matrix model satisfies the matrix condition."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1128",
+  "associations": [
+    {
+      "association_id": "association:e1bbd3656b564c1813e5",
+      "role": "supporting",
+      "rationale": "The formal type gives the corresponding finite-dimensional module indecomposability criterion iff finrank V = 1, but it does not display A₁, a representation, or an identification of A₁-representations with these modules."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0797",
+  "associations": [
+    {
+      "association_id": "association:724df9048cb8262ad08d",
+      "rationale": "The formal type proves connectivity of the McKay graph, but it neither identifies nor normalizes the marks for each family.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c18508a359814949a40e",
+      "rationale": "The formal type shows that representation dimensions form a Cartan null vector, directly supporting marks, but it does not identify and normalize the marks family by family.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8810cfb981e0ac1ee802",
+      "rationale": "The formal type recognizes an affine Dynkin diagram under general hypotheses, providing diagram context without stating the family-specific normalized marks.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:442161b28d09283c63dd",
+      "rationale": "The formal type proves symmetry of McKay multiplicities, a structural helper that does not identify or normalize marks.",
+      "role": "supporting"
+    }
+  ]
+}

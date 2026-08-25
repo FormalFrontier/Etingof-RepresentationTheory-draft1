@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1180",
+  "associations": [
+    {
+      "association_id": "association:2ccd4dc69104b0ac8e42",
+      "rationale": "The displayed type equates permTracePoly with powerSumCycleProduct, but both constants are unexpanded, so it does not display either tensor-permutation trace semantics or a product of power sums determined by cycle type.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5696be72d5ef89ae0db4",
+      "declaration": "Etingof.Exercise2_11_2.relSet",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/99/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [Module.{u_1, u_3} k W] \u2192 Set.{max u_3 u_2} (FreeAbelianGroup.{max u_3 u_2} (Prod.{u_2, u_3} V W))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_11_2"
+    },
+    {
+      "association_id": "association:f13d6580d83bc0c26583",
+      "declaration": "Etingof.Exercise2_11_2.relSubgroup",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/99/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [Module.{u_1, u_3} k W] \u2192 AddSubgroup.{max u_3 u_2} (FreeAbelianGroup.{max u_3 u_2} (Prod.{u_2, u_3} V W))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_11_2"
+    },
+    {
+      "association_id": "association:5383f90b65e054d88e2f",
+      "declaration": "Etingof.Exercise2_11_2.tensorQuot",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/99/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192 [Module.{u_1, u_3} k W] \u2192 Type (max (max u_3 u_2) u_2 u_3)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_11_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Exercise2.11.2",
+  "packet_id": "align-0496",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0496"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Exercise2.11.2:claim-01",
+  "source_text": "The alternative construction is the quotient of FreeAbelianGroup (V \u00d7 W) by the two additivity relation families and the balancing relation av \u2297 w = v \u2297 aw."
+}

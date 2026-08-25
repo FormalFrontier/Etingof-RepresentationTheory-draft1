@@ -1,0 +1,45 @@
+{
+  "module_name": "Combinatorics.PartitionPolynomialAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-017888",
+      "new_name": "Auxiliary.statement017888",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-017889",
+      "new_name": "Auxiliary.statement017889",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-019732",
+      "new_name": "auxiliaryAtOne_eq_partitionChoice",
+      "docstring": "The auxiliary value at one agrees with the selected partition for every natural number."
+    },
+    {
+      "temporary_id": "decl-022215",
+      "new_name": "psumPart_partitionChoice_eq_sum_variables_pow",
+      "docstring": "Applying `MvPolynomial.psumPart` to the selected partition gives the corresponding power of the sum of all variables."
+    },
+    {
+      "temporary_id": "decl-023321",
+      "new_name": "auxiliaryAtOne_eq_finrank",
+      "docstring": "The auxiliary construction evaluated at one equals the natural-number cast of the finrank of the displayed Complex subtype."
+    },
+    {
+      "temporary_id": "decl-023529",
+      "new_name": "sum_variables_pow_eq_sum_auxiliary_smul",
+      "docstring": "The power of the sum of all variables is a finite sum of auxiliary terms scaled by the indicated values."
+    },
+    {
+      "temporary_id": "decl-023530",
+      "new_name": "Auxiliary.statement023530",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024347",
+      "new_name": "partitionChoice",
+      "docstring": "Associates to each natural number a partition of that number."
+    }
+  ]
+}

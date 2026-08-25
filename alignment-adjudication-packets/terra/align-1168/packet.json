@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f40511997b6445268b71",
+      "declaration": "Etingof.Remark2_9_4.hasDerivAt_leibniz",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/81/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} [inst : NormedRing.{u_1} A] [inst_1 : NormedAlgebra.{0, u_1} Real A]\n  (g : Real \u2192 ContinuousLinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Real) A A)\n  (D : ContinuousLinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Real) A A),\n  (\u2200 (t : Real) (x y : A),\n      Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (g t) (HMul.hMul.{u_1, u_1, u_1} x y))\n        (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (g t) x)\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (g t) y))) \u2192\n    Eq.{u_1 + 1} (g 0) 1 \u2192\n      HasDerivAt.{0, u_1} g D 0 \u2192\n        \u2200 (x y : A),\n          Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D (HMul.hMul.{u_1, u_1, u_1} x y))\n            (HAdd.hAdd.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D x) y)\n              (HMul.hMul.{u_1, u_1, u_1} x (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D y)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_9_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Remark2.9.4",
+  "packet_id": "align-1168",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1168"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f1a8cdbd0f0c754d9047",
+  "source_text": "The derivative at zero of a differentiable multiplicative family through the identity satisfies the Leibniz rule."
+}

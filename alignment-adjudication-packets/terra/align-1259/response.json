@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1259",
+  "associations": [
+    {
+      "association_id": "association:0b2931efffd08f59137c",
+      "rationale": "The formal type states the covering condition and an induced-character span condition, but its inducing representation W is unrestricted rather than irreducible as required in the displayed source condition, so it is an equivalent-style supporting variant rather than a direct statement.",
+      "role": "supporting"
+    }
+  ]
+}

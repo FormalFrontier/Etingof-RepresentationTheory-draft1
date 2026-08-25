@@ -1,0 +1,10 @@
+{
+  "module_name": "AuxiliaryFiniteIndexIntegerFunction",
+  "declarations": [
+    {
+      "temporary_id": "decl-023199",
+      "new_name": "auxiliaryValue",
+      "docstring": "An auxiliary integer-valued function of two indices in the same finite type."
+    }
+  ]
+}

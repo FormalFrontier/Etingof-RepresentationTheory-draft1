@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0635",
+  "associations": [
+    {
+      "association_id": "association:16492fa14930db041b1b",
+      "rationale": "The formal type directly gives an n and a module equivalence from V to Fin n to Fin d to k, the finite family of copies of the standard module asserted by the source.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "module_name": "GeneralLinearGroup.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-004708",
+      "new_name": "AuxiliaryIndex",
+      "docstring": "An auxiliary family of index types parametrized by a natural number."
+    },
+    {
+      "temporary_id": "decl-005106",
+      "new_name": "HasAuxiliaryMapProperty",
+      "docstring": "An auxiliary property of maps from a general linear group to linear endomorphisms."
+    },
+    {
+      "temporary_id": "decl-005118",
+      "new_name": "impliesRepresentationProperty",
+      "docstring": "The auxiliary map property for the underlying function of a representation implies the auxiliary representation property."
+    },
+    {
+      "temporary_id": "decl-005119",
+      "new_name": "HasAuxiliaryRepresentationProperty",
+      "docstring": "An auxiliary property of finite-dimensional representations of a general linear group."
+    },
+    {
+      "temporary_id": "decl-018652",
+      "new_name": "auxiliaryPolynomialEvaluation",
+      "docstring": "An auxiliary scalar-valued operation on a general linear group element and a multivariable polynomial."
+    },
+    {
+      "temporary_id": "decl-018757",
+      "new_name": "exists_auxiliaryMap_ne_id_at_one",
+      "docstring": "There exists a map with the auxiliary property whose value at the identity is not the identity linear map."
+    },
+    {
+      "temporary_id": "decl-020773",
+      "new_name": "auxiliaryRepresentationProperty_iff_mapProperty",
+      "docstring": "The auxiliary representation property is equivalent to the auxiliary map property for its underlying function."
+    }
+  ]
+}

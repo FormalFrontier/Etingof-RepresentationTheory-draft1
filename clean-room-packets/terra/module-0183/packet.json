@@ -1,0 +1,60 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{A : Type u_1} \u2192\n  {V : Type u_2} \u2192\n    [inst : Ring.{u_1} A] \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} A V] \u2192\n          (s : CompositionSeries.{u_2} (Submodule.{u_1, u_2} A V)) \u2192 Fin (RelSeries.length.{u_2} s) \u2192 Type u_2",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3577571879",
+      "temporary_id": "decl-018143"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) (V : Type u_2) [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  (s\u2081 s\u2082 : CompositionSeries.{u_2} (Submodule.{u_1, u_2} A V)),\n  Eq.{u_2 + 1} (RelSeries.head.{u_2} s\u2081) Bot.bot.{u_2} \u2192\n    Eq.{u_2 + 1} (RelSeries.last.{u_2} s\u2081) Top.top.{u_2} \u2192\n      Eq.{u_2 + 1} (RelSeries.head.{u_2} s\u2082) Bot.bot.{u_2} \u2192\n        Eq.{u_2 + 1} (RelSeries.last.{u_2} s\u2082) Top.top.{u_2} \u2192\n          Eq.{1} (RelSeries.length.{u_2} s\u2081) (RelSeries.length.{u_2} s\u2082)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2397169593",
+      "temporary_id": "decl-021013"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) (V : Type u_2) [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  (s\u2081 s\u2082 : CompositionSeries.{u_2} (Submodule.{u_1, u_2} A V)),\n  Eq.{u_2 + 1} (RelSeries.head.{u_2} s\u2081) Bot.bot.{u_2} \u2192\n    Eq.{u_2 + 1} (RelSeries.last.{u_2} s\u2081) Top.top.{u_2} \u2192\n      Eq.{u_2 + 1} (RelSeries.head.{u_2} s\u2082) Bot.bot.{u_2} \u2192\n        Eq.{u_2 + 1} (RelSeries.last.{u_2} s\u2082) Top.top.{u_2} \u2192 CompositionSeries.Equivalent.{u_2} s\u2081 s\u2082",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2238053986",
+      "temporary_id": "decl-021014"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) (V : Type u_2) [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  (s\u2081 s\u2082 : CompositionSeries.{u_2} (Submodule.{u_1, u_2} A V)),\n  Eq.{u_2 + 1} (RelSeries.head.{u_2} s\u2081) Bot.bot.{u_2} \u2192\n    Eq.{u_2 + 1} (RelSeries.last.{u_2} s\u2081) Top.top.{u_2} \u2192\n      Eq.{u_2 + 1} (RelSeries.head.{u_2} s\u2082) Bot.bot.{u_2} \u2192\n        Eq.{u_2 + 1} (RelSeries.last.{u_2} s\u2082) Top.top.{u_2} \u2192\n          Exists.{1} fun \u03c3 =>\n            \u2200 (i : Fin (RelSeries.length.{u_2} s\u2081)),\n              Nonempty.{u_2 + 1}\n                (LinearEquiv.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} A) (decl-018143.{u_1, u_2} s\u2081 i)\n                  (decl-018143.{u_1, u_2} s\u2082 (DFunLike.coe.{1, 1, 1} \u03c3 i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018143"
+      ],
+      "structural_type_hash": "1001034000",
+      "temporary_id": "decl-021015"
+    }
+  ],
+  "module_temporary_id": "module-0183",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

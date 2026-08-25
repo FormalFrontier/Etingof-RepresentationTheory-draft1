@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0950",
+  "associations": [
+    {
+      "association_id": "association:f6f90b38ac599cda9026",
+      "role": "supporting",
+      "rationale": "It gives an algebra equivalence for A modulo its radical, but does not itself state a combined representation map or its kernel equality."
+    }
+  ]
+}

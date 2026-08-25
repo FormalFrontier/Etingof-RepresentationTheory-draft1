@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8c352d3b40da9ef7ceed",
+      "declaration": "Etingof.Lemma5_13_2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/317/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la mu : n.Partition),\n  la.StrictDominates mu \u2192\n    \u2200 (x : MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Etingof.RowSymmetrizer n la) x) (Etingof.ColumnAntisymmetrizer n mu))\n        0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    },
+    {
+      "association_id": "association:55b757ff6d20e11a9537",
+      "declaration": "Etingof.Lemma5_13_2_general",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/317/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la mu : n.Partition),\n  Not (mu.Dominates la) \u2192\n    \u2200 (x : MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Etingof.RowSymmetrizer n la) x) (Etingof.ColumnAntisymmetrizer n mu))\n        0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    },
+    {
+      "association_id": "association:ed0cd53a8bb7fe3a3335",
+      "declaration": "Etingof.basis_vanishing_general",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/317/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la mu : n.Partition),\n  Not (mu.Dominates la) \u2192\n    \u2200 (\u03c3 : Equiv.Perm.{1} (Fin n)),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (Etingof.RowSymmetrizer n la)\n            (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) \u03c3))\n          (Etingof.ColumnAntisymmetrizer n mu))\n        0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    },
+    {
+      "association_id": "association:f4903edc1320553095f5",
+      "declaration": "Etingof.pigeonhole_transposition_general",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/317/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Lemma5.13.2",
+  "packet_id": "align-0962",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0962"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b32f85f0c46f44f7f550",
+  "source_text": "The stronger generalized vanishing holds whenever mu does not dominate lambda, with strict dominance as a special case."
+}

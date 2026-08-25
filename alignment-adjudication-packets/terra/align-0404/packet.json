@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0d16b9f168bccbc44aac",
+      "declaration": "Etingof.Representation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/26/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192 (V : Type u_2) \u2192 [Ring.{u_1} A] \u2192 [AddCommGroup.{u_2} V] \u2192 Type (max u_1 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.3.3",
+  "packet_id": "align-0404",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0404"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:80e05bd8d01e1112aa95",
+  "source_text": "A representation of the ground field k is simply a k-vector space."
+}

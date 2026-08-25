@@ -1,0 +1,135 @@
+{
+  "module_name": "FDRep.SimpleCharacters",
+  "declarations": [
+    {
+      "temporary_id": "decl-005067",
+      "new_name": "SimpleCharacter",
+      "docstring": "Data representing an isomorphism class of simple finite-dimensional representations of a monoid."
+    },
+    {
+      "temporary_id": "decl-005068",
+      "new_name": "value",
+      "docstring": "The field-valued function on the monoid associated with simple-character data."
+    },
+    {
+      "temporary_id": "decl-005069",
+      "new_name": "value_ofSimple",
+      "docstring": "The value function attached to a simple representation is its character."
+    },
+    {
+      "temporary_id": "decl-005070",
+      "new_name": "value_one",
+      "docstring": "The value at the identity equals the field cast of the stored dimension."
+    },
+    {
+      "temporary_id": "decl-005071",
+      "new_name": "character_representation",
+      "docstring": "The character of the representative equals the value function of the simple-character data."
+    },
+    {
+      "temporary_id": "decl-005072",
+      "new_name": "exists_ofSimple_eq",
+      "docstring": "Every simple-character datum is obtained from some simple finite-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-005073",
+      "new_name": "dimension",
+      "docstring": "The natural-number dimension associated with simple-character data."
+    },
+    {
+      "temporary_id": "decl-005075",
+      "new_name": "dimension_ofSimple",
+      "docstring": "The dimension attached to a simple representation equals its vector-space dimension."
+    },
+    {
+      "temporary_id": "decl-005076",
+      "new_name": "finrank_representation",
+      "docstring": "The vector-space dimension of the representative equals the stored dimension."
+    },
+    {
+      "temporary_id": "decl-005077",
+      "new_name": "induction_on",
+      "docstring": "A property holding for the data of every simple representation holds for all simple-character data."
+    },
+    {
+      "temporary_id": "decl-005079",
+      "new_name": "simple_representation",
+      "docstring": "The representative attached to simple-character data is a simple object."
+    },
+    {
+      "temporary_id": "decl-005080",
+      "new_name": "simpleObjectIso",
+      "docstring": "An isomorphism between auxiliary simple-object data induces an isomorphism between their underlying objects."
+    },
+    {
+      "temporary_id": "decl-005081",
+      "new_name": "rec",
+      "docstring": "An isomorphism-invariant assignment on simple representations descends to simple-character data."
+    },
+    {
+      "temporary_id": "decl-005084",
+      "new_name": "rec_ofSimple",
+      "docstring": "The descended assignment evaluates on data from a simple representation as the original assignment."
+    },
+    {
+      "temporary_id": "decl-005085",
+      "new_name": "ofSimple",
+      "docstring": "Simple-character data associated with a simple finite-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-005087",
+      "new_name": "ofSimple_proof_irrel",
+      "docstring": "The data associated with a simple representation does not depend on the chosen simplicity proof."
+    },
+    {
+      "temporary_id": "decl-005088",
+      "new_name": "ofSimple_eq_iff_nonempty_iso",
+      "docstring": "Two simple representations determine equal data exactly when they are isomorphic."
+    },
+    {
+      "temporary_id": "decl-005089",
+      "new_name": "ofSimple_eq_of_iso",
+      "docstring": "Isomorphic simple representations determine equal simple-character data."
+    },
+    {
+      "temporary_id": "decl-005090",
+      "new_name": "Auxiliary.statement005090",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-005091",
+      "new_name": "ofSimple_representation_withProof",
+      "docstring": "Using any simplicity proof for the representative recovers the original simple-character datum."
+    },
+    {
+      "temporary_id": "decl-005092",
+      "new_name": "Auxiliary.statement005092",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-005093",
+      "new_name": "representation_ofSimple_iso",
+      "docstring": "The representative of the data from a simple representation is isomorphic to that representation."
+    },
+    {
+      "temporary_id": "decl-005094",
+      "new_name": "representation_iso_iff_eq",
+      "docstring": "Representatives of two simple-character data are isomorphic exactly when the data are equal."
+    },
+    {
+      "temporary_id": "decl-005096",
+      "new_name": "representation",
+      "docstring": "A finite-dimensional representative attached to simple-character data."
+    },
+    {
+      "temporary_id": "decl-005097",
+      "new_name": "simpleObjectIsoOfUnderlying",
+      "docstring": "An isomorphism of the underlying objects induces an isomorphism between the auxiliary simple-object data."
+    },
+    {
+      "temporary_id": "decl-015610",
+      "new_name": "SimpleObjectData",
+      "docstring": "Auxiliary object data for a full subcategory of finite-dimensional representations."
+    }
+  ]
+}

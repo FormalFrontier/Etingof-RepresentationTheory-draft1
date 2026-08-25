@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:092b2a7e4849e356791e",
+      "declaration": "Etingof.Example2_9_2.Abelian",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/78/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192 [inst : CommRing.{u_1} k] \u2192 [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} k V] \u2192 Type u_2",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2"
+    },
+    {
+      "association_id": "association:c29e1fad082de0f3b8dc",
+      "declaration": "Etingof.Example2_9_2.Abelian.instIsLieAbelian",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/78/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {V : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V], IsLieAbelian.{u_2} (Etingof.Example2_9_2.Abelian.{u_1, u_2} k V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2"
+    },
+    {
+      "association_id": "association:ef54f4da160babf76cd6",
+      "declaration": "Etingof.Example2_9_2.Abelian.instLieAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/78/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {V : Type u_2} \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192 LieAlgebra.{u_1, u_2} k (Etingof.Example2_9_2.Abelian.{u_1, u_2} k V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2"
+    },
+    {
+      "association_id": "association:d3c113b89ab25ed57c2b",
+      "declaration": "Etingof.Example2_9_2.Abelian.instLieRing",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/78/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {V : Type u_2} \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192 LieRing.{u_2} (Etingof.Example2_9_2.Abelian.{u_1, u_2} k V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.9.2",
+  "packet_id": "align-0493",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0493"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:9f5782e8d56543655e05",
+  "source_text": "Every vector space with zero bracket is an abelian Lie algebra."
+}

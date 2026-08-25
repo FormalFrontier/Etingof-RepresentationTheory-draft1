@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1102",
+  "associations": [
+    {
+      "association_id": "association:7f89f30932985966555d",
+      "role": "supporting",
+      "rationale": "The packet displays no formal type for CategoryTheory.Abelian, so it does not show that this declaration itself states the listed additive, zero-object, kernel, cokernel, image, mono, and epi properties."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0226",
+  "associations": [
+    {
+      "association_id": "association:a6cdd49085d92ae26602",
+      "role": "primary",
+      "rationale": "It directly proves that every module over a subsingleton ring is subsingleton, and hence states the zero-algebra representation claim in a more general form."
+    }
+  ]
+}

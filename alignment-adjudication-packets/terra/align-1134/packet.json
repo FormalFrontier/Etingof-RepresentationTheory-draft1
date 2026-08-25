@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7d977808bc62f7250e30",
+      "declaration": "Etingof.Proposition_2_2_3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/17/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) {A : Type u_2} [inst : Field.{u_1} k] [inst_1 : AddCommGroup.{u_2} A] [inst_2 : Module.{u_1, u_2} k A]\n  [inst_3 : Etingof.AssociativeAlgebra.{u_1, u_2} k A] {e e' : A},\n  Etingof.AssociativeAlgebra.IsUnit.{u_1, u_2} k e \u2192\n    Etingof.AssociativeAlgebra.IsUnit.{u_1, u_2} k e' \u2192 Eq.{u_2 + 1} e e'",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Proposition2_2_3"
+    }
+  ],
+  "canonical_reference": "Chapter2/Proposition2.2.3",
+  "packet_id": "align-1134",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1134"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e709264e884c50f3e0ab",
+  "source_text": "If a unit exists in a possibly non-unital associative algebra, it is unique."
+}

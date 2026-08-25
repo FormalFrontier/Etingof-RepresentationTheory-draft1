@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0273",
+  "associations": [
+    {
+      "association_id": "association:1629008aacce9f807e4d",
+      "role": "supporting",
+      "rationale": "Q8_simple_iso classifies simples by five named representations, but its displayed type does not state their dimensions."
+    },
+    {
+      "association_id": "association:c54b4381c14cd3a61a96",
+      "role": "supporting",
+      "rationale": "The sum-of-squares identity is a consequence consistent with the irreducible dimensions, not their stated list."
+    },
+    {
+      "association_id": "association:e34497d9e0d219ce1b23",
+      "role": "supporting",
+      "rationale": "Pairwise nonisomorphism supports distinctness of the listed representations but does not state the composite Q8 claim."
+    },
+    {
+      "association_id": "association:01097c5fed00307086b2",
+      "role": "supporting",
+      "rationale": "mem_center_iff directly identifies the center of Q8 as two specified elements, but that is only the center clause of the displayed composite claim; it does not state the relations, conjugacy-class count, or irreducible dimensions."
+    },
+    {
+      "association_id": "association:318ebd04568d92224fbe",
+      "role": "supporting",
+      "rationale": "The equality directly states that Q8 has five conjugacy classes, but that is only one clause of the displayed composite claim and does not state its relations, center, or irreducible dimensions."
+    }
+  ]
+}

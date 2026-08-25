@@ -1,0 +1,145 @@
+{
+  "module_name": "LieAlgebra.MatrixSubalgebraRepresentationAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-015716",
+      "new_name": "auxiliaryQuadraticCombination_eq_smul_id",
+      "docstring": "For the displayed representation, the stated quadratic combination of three auxiliary elements is `((d - 1) * (d + 1) / 2)` times the identity."
+    },
+    {
+      "temporary_id": "decl-015717",
+      "new_name": "auxiliaryQuadraticCombination_succ_eq_smul_id",
+      "docstring": "In the representation indexed by `lam + 1`, the stated quadratic combination of three auxiliary elements is `(lam * (lam + 2) / 2)` times the identity."
+    },
+    {
+      "temporary_id": "decl-015822",
+      "new_name": "auxiliaryCoordinateFunction",
+      "docstring": "An auxiliary complex-valued function of two indices in `Fin d`."
+    },
+    {
+      "temporary_id": "decl-015824",
+      "new_name": "auxiliaryCoordinateFunction_apply",
+      "docstring": "The auxiliary function indexed by `k` is one at `k` and zero at every other index."
+    },
+    {
+      "temporary_id": "decl-015895",
+      "new_name": "finFunctionLieModule",
+      "docstring": "The complex-valued functions on `Fin d` carry the displayed Lie-module structure."
+    },
+    {
+      "temporary_id": "decl-015896",
+      "new_name": "finFunctionLieRingModule",
+      "docstring": "A Lie-ring-module structure on the complex-valued functions on `Fin d` for the displayed Lie algebra."
+    },
+    {
+      "temporary_id": "decl-015897",
+      "new_name": "finrank_finFunction",
+      "docstring": "For nonzero `d`, the complex vector space of functions on `Fin d` has finrank `d`."
+    },
+    {
+      "temporary_id": "decl-015898",
+      "new_name": "finFunction_isIrreducible",
+      "docstring": "For nonzero `d`, the displayed Lie-module structure on complex-valued functions on `Fin d` is irreducible."
+    },
+    {
+      "temporary_id": "decl-015962",
+      "new_name": "bracket_auxiliaryElement1_auxiliaryElement2",
+      "docstring": "The bracket of the first and second auxiliary elements is the third auxiliary element."
+    },
+    {
+      "temporary_id": "decl-015963",
+      "new_name": "bracket_eq_auxiliaryRepresentation_apply",
+      "docstring": "The Lie action on a complex-valued function is evaluation of the corresponding endomorphism in the displayed representation."
+    },
+    {
+      "temporary_id": "decl-015964",
+      "new_name": "bracket_auxiliaryElement3_auxiliaryElement1",
+      "docstring": "The bracket of the third auxiliary element with the first is twice the first."
+    },
+    {
+      "temporary_id": "decl-015965",
+      "new_name": "bracket_auxiliaryElement3_auxiliaryElement2",
+      "docstring": "The bracket of the third auxiliary element with the second is negative twice the second."
+    },
+    {
+      "temporary_id": "decl-015969",
+      "new_name": "bracket_auxiliaryElement1_auxiliaryCoordinateFunction",
+      "docstring": "The first auxiliary element sends the function at `i` to `i` times the function at `i - 1`."
+    },
+    {
+      "temporary_id": "decl-015980",
+      "new_name": "bracket_auxiliaryElement2_auxiliaryCoordinateFunction",
+      "docstring": "When `i + 1 < d`, the second auxiliary element sends the function at `i` to `(d - 1 - i)` times the function at `i + 1`."
+    },
+    {
+      "temporary_id": "decl-015986",
+      "new_name": "bracket_auxiliaryElement2_auxiliaryCoordinateFunction_eq_zero",
+      "docstring": "The second auxiliary element sends the final indexed function to zero."
+    },
+    {
+      "temporary_id": "decl-015991",
+      "new_name": "bracket_auxiliaryElement3_auxiliaryCoordinateFunction",
+      "docstring": "The third auxiliary element acts on the function at `i` by the scalar `d - 1 - 2 * i`."
+    },
+    {
+      "temporary_id": "decl-016042",
+      "new_name": "auxiliaryFinFunctionRepresentation",
+      "docstring": "An auxiliary Lie homomorphism to the endomorphisms of complex-valued functions on `Fin d`."
+    },
+    {
+      "temporary_id": "decl-016054",
+      "new_name": "auxiliaryLieHomOfBracketRelations",
+      "docstring": "An auxiliary Lie homomorphism to endomorphisms from three endomorphisms satisfying the displayed bracket relations."
+    },
+    {
+      "temporary_id": "decl-016063",
+      "new_name": "auxiliaryLieHomOfBracketRelations_apply_element1",
+      "docstring": "The auxiliary Lie homomorphism sends the first displayed element to `E`."
+    },
+    {
+      "temporary_id": "decl-016064",
+      "new_name": "auxiliaryLieHomOfBracketRelations_apply_element2",
+      "docstring": "The auxiliary Lie homomorphism sends the second displayed element to `F`."
+    },
+    {
+      "temporary_id": "decl-016065",
+      "new_name": "auxiliaryLieHomOfBracketRelations_apply_element3",
+      "docstring": "The auxiliary Lie homomorphism sends the third displayed element to `H`."
+    },
+    {
+      "temporary_id": "decl-016097",
+      "new_name": "auxiliaryElement1",
+      "docstring": "The first auxiliary element of the displayed Lie algebra."
+    },
+    {
+      "temporary_id": "decl-016102",
+      "new_name": "eq_linearCombination_auxiliaryElements",
+      "docstring": "Every displayed element is the stated linear combination of the three auxiliary elements using its matrix entries."
+    },
+    {
+      "temporary_id": "decl-016103",
+      "new_name": "auxiliaryElement2",
+      "docstring": "The second auxiliary element of the displayed Lie algebra."
+    },
+    {
+      "temporary_id": "decl-016106",
+      "new_name": "auxiliaryElement3",
+      "docstring": "The third auxiliary element of the displayed Lie algebra."
+    },
+    {
+      "temporary_id": "decl-016108",
+      "new_name": "auxiliaryElement3_ne_zero",
+      "docstring": "The third auxiliary element is nonzero."
+    },
+    {
+      "temporary_id": "decl-016109",
+      "new_name": "entry_one_one_eq_neg_entry_zero_zero",
+      "docstring": "For every element of the displayed matrix Lie algebra, the `(1, 1)` entry is the negation of the `(0, 0)` entry."
+    },
+    {
+      "temporary_id": "decl-016110",
+      "new_name": "isSl2Triple_auxiliaryElements",
+      "docstring": "The third, first, and second auxiliary elements form an `sl₂` triple."
+    }
+  ]
+}

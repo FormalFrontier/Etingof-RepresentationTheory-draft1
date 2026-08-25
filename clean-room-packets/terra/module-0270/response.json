@@ -1,0 +1,30 @@
+{
+  "module_name": "GeneralLinearRepresentation.WeightSpaceMorphisms",
+  "declarations": [
+    {
+      "temporary_id": "decl-001185",
+      "new_name": "GeneralLinearRepresentation.weightPolynomial_eq_add_of_equivariant_exact",
+      "docstring": "For an equivariant short exact sequence whose first two representations have spanning weight spaces, the middle polynomial invariant is the sum of the outer invariants."
+    },
+    {
+      "temporary_id": "decl-001191",
+      "new_name": "GeneralLinearRepresentation.iSup_weightSpaces_eq_top_of_surjective_equivariant",
+      "docstring": "A surjective equivariant linear map carries the property that all weight spaces span the representation to its target."
+    },
+    {
+      "temporary_id": "decl-001192",
+      "new_name": "GeneralLinearRepresentation.weightSpace_inf_range_eq_map_of_injective_equivariant",
+      "docstring": "For an injective equivariant linear map, the target weight space intersected with the range equals the image of the source weight space."
+    },
+    {
+      "temporary_id": "decl-001196",
+      "new_name": "GeneralLinearRepresentation.map_weightSpace_le_of_equivariant",
+      "docstring": "An equivariant linear map sends each weight space into the corresponding target weight space."
+    },
+    {
+      "temporary_id": "decl-001199",
+      "new_name": "GeneralLinearRepresentation.mem_weightSpace_iff_action_eq_smul",
+      "docstring": "A vector belongs to a weight space exactly when the action of each displayed group element scales it by the corresponding power of the unit."
+    }
+  ]
+}

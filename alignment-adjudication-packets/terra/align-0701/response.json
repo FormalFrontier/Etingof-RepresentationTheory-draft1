@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0701",
+  "associations": [
+    {
+      "association_id": "association:c8b636677f293f6a1364",
+      "rationale": "For every irreducible representation σ, the theorem produces a tensor power and a nonzero intertwiner from σ into that power, directly expressing occurrence in a tensor power.",
+      "role": "primary"
+    }
+  ]
+}

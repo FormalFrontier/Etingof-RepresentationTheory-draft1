@@ -1,0 +1,112 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{R : Type u} \u2192 [inst : Ring.{u} R] \u2192 FGModuleCat.{u, u} R \u2192 Prop",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4274799505",
+      "temporary_id": "decl-005184"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {P : FGModuleCat.{u, u} R},\n  decl-005184.{u} P \u2192 CategoryTheory.Projective.{u, u + 1} P",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005184",
+      "project_type_dependencies": [
+        "decl-005184"
+      ],
+      "structural_type_hash": "2092153338",
+      "temporary_id": "decl-005188"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {P : FGModuleCat.{u, u} R},\n  decl-005184.{u} P \u2192 CategoryTheory.IsSeparator.{u, u + 1} P",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005184",
+      "project_type_dependencies": [
+        "decl-005184"
+      ],
+      "structural_type_hash": "1859121538",
+      "temporary_id": "decl-005191"
+    },
+    {
+      "formal_type": "\u2200 {A B : Type u} [inst : Ring.{u} A] [IsNoetherianRing.{u} A] [inst_2 : Ring.{u} B],\n  decl-005672.{u} A B \u2192 Exists.{u + 2} fun P => decl-005184.{u} P",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005672",
+      "project_type_dependencies": [
+        "decl-005184",
+        "decl-005672"
+      ],
+      "structural_type_hash": "1513192214",
+      "temporary_id": "decl-005674"
+    },
+    {
+      "formal_type": "\u2200 {k A B : Type u} [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] [Module.Finite.{u, u} k A]\n  [inst_4 : Ring.{u} B] [inst_5 : Algebra.{u, u} k B] [Module.Finite.{u, u} k B],\n  decl-005672.{u} A B \u2192 Exists.{u + 2} fun P => decl-005184.{u} P",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005672",
+      "project_type_dependencies": [
+        "decl-005184",
+        "decl-005672"
+      ],
+      "structural_type_hash": "1873226262",
+      "temporary_id": "decl-005675"
+    },
+    {
+      "formal_type": "\u2200 {A B : Type u} [inst : Ring.{u} A] [IsNoetherianRing.{u} A] [inst_2 : Ring.{u} B]\n  (E : CategoryTheory.Equivalence.{u, u, u + 1, u + 1} (FGModuleCat.{u, u} A) (FGModuleCat.{u, u} B)),\n  decl-005184.{u}\n    (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (CategoryTheory.Equivalence.functor.{u, u, u + 1, u + 1} E)\n      (FGModuleCat.of.{u, u} A A))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005184"
+      ],
+      "structural_type_hash": "2262664030",
+      "temporary_id": "decl-019490"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R], CategoryTheory.IsSeparator.{u, u + 1} (FGModuleCat.of.{u, u} R R)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "223117211",
+      "temporary_id": "decl-020898"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [IsNoetherianRing.{u} R],\n  CategoryTheory.Projective.{u, u + 1} (FGModuleCat.of.{u, u} R R)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1371568931",
+      "temporary_id": "decl-022198"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [IsNoetherianRing.{u} R], decl-005184.{u} (FGModuleCat.of.{u, u} R R)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005184"
+      ],
+      "structural_type_hash": "358589225",
+      "temporary_id": "decl-022565"
+    }
+  ],
+  "module_temporary_id": "module-0786",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

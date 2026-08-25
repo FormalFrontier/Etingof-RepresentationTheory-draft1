@@ -1,0 +1,20 @@
+{
+  "module_name": "RingPredicateBounds",
+  "declarations": [
+    {
+      "temporary_id": "decl-020181",
+      "new_name": "eq_one_of_predicate_one_and_not_predicate_zero",
+      "docstring": "The ring-indexed value equals one when its index predicate holds at one and fails at zero."
+    },
+    {
+      "temporary_id": "decl-020183",
+      "new_name": "eq_top_of_forall_not_predicate",
+      "docstring": "The ring-indexed value is top when the index predicate fails for every natural number."
+    },
+    {
+      "temporary_id": "decl-020185",
+      "new_name": "le_natCast_of_predicate",
+      "docstring": "Whenever the index predicate holds, the ring-indexed value is at most that index viewed in its ambient ordered type."
+    }
+  ]
+}

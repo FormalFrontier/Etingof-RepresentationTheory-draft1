@@ -1,0 +1,84 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : Ring.{u} R] [inst_1 : Ring.{u} S] (e : RingEquiv.{u, u} R S) (d : Nat),\n  Iff (decl-004746.{u} R d) (decl-004746.{u} S d)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004746"
+      ],
+      "structural_type_hash": "585570558",
+      "temporary_id": "decl-019903"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] [inst_2 : CategoryTheory.Abelian.{u_3, u_1} C]\n  [inst_3 : CategoryTheory.Abelian.{u_4, u_2} D] (e : CategoryTheory.Equivalence.{u_3, u_4, u_1, u_2} C D)\n  [CategoryTheory.Functor.Additive.{u_3, u_1, u_4, u_2} (CategoryTheory.Equivalence.functor.{u_3, u_4, u_1, u_2} e)]\n  [CategoryTheory.EnoughProjectives.{u_3, u_1} C] (n : Nat) (X : C),\n  CategoryTheory.HasProjectiveDimensionLT.{u_3, u_1} X n \u2192\n    CategoryTheory.HasProjectiveDimensionLT.{u_4, u_2}\n      (CategoryTheory.Functor.obj.{u_3, u_4, u_1, u_2} (CategoryTheory.Equivalence.functor.{u_3, u_4, u_1, u_2} e) X) n",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3892477778",
+      "temporary_id": "decl-019906"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] [inst_2 : CategoryTheory.Abelian.{u_3, u_1} C]\n  [inst_3 : CategoryTheory.Abelian.{u_4, u_2} D] (e : CategoryTheory.Equivalence.{u_3, u_4, u_1, u_2} C D)\n  [CategoryTheory.Functor.Additive.{u_3, u_1, u_4, u_2} (CategoryTheory.Equivalence.functor.{u_3, u_4, u_1, u_2} e)]\n  [CategoryTheory.Functor.Additive.{u_4, u_2, u_3, u_1} (CategoryTheory.Equivalence.inverse.{u_3, u_4, u_1, u_2} e)]\n  [CategoryTheory.EnoughProjectives.{u_3, u_1} C] [CategoryTheory.EnoughProjectives.{u_4, u_2} D] (n : Nat) (X : C),\n  Iff\n    (CategoryTheory.HasProjectiveDimensionLT.{u_4, u_2}\n      (CategoryTheory.Functor.obj.{u_3, u_4, u_1, u_2} (CategoryTheory.Equivalence.functor.{u_3, u_4, u_1, u_2} e) X) n)\n    (CategoryTheory.HasProjectiveDimensionLT.{u_3, u_1} X n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "751141579",
+      "temporary_id": "decl-019911"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R] (d : Nat),\n  Iff (decl-004748.{u} R d) (decl-004747.{u} R d)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004747",
+        "decl-004748"
+      ],
+      "structural_type_hash": "2382287104",
+      "temporary_id": "decl-019921"
+    },
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : Ring.{u} R] [inst_1 : Ring.{u} S] (e : RingEquiv.{u, u} R S),\n  Eq.{1} (decl-020179.{u} R) (decl-020179.{u} S)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020179"
+      ],
+      "structural_type_hash": "1718580241",
+      "temporary_id": "decl-020180"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R],\n  Eq.{1} (decl-022787.{u} R) (decl-021435.{u} R)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021435",
+        "decl-022787"
+      ],
+      "structural_type_hash": "3411120941",
+      "temporary_id": "decl-022788"
+    }
+  ],
+  "module_temporary_id": "module-0720",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

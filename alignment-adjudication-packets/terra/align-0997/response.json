@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0997",
+  "associations": [
+    {
+      "association_id": "association:ea4d079230be55b56b3b",
+      "role": "supporting",
+      "rationale": "It states the spanning conclusion, but does not display the repeated use of the relation yx = xy + 1 in the source claim."
+    }
+  ]
+}

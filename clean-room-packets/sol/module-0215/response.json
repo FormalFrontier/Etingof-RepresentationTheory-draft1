@@ -1,0 +1,130 @@
+{
+  "module_name": "AuxiliaryDecompositionData",
+  "declarations": [
+    {
+      "temporary_id": "decl-016122",
+      "new_name": "AuxiliaryDecompositionData",
+      "docstring": "Auxiliary data associated with a field and a group."
+    },
+    {
+      "temporary_id": "decl-016123",
+      "new_name": "indexedType",
+      "docstring": "The module type indexed by an entry of the auxiliary data."
+    },
+    {
+      "temporary_id": "decl-016124",
+      "new_name": "index_eq_of_nonempty_linearEquiv",
+      "docstring": "Two indices are equal when their indexed modules are linearly equivalent over the group monoid algebra."
+    },
+    {
+      "temporary_id": "decl-016127",
+      "new_name": "matrixRepresentation",
+      "docstring": "The algebra homomorphism from the group monoid algebra to matrices attached to an index."
+    },
+    {
+      "temporary_id": "decl-016129",
+      "new_name": "matrixRepresentation_surjective",
+      "docstring": "Each indexed matrix representation is surjective under the stated finiteness and closure assumptions."
+    },
+    {
+      "temporary_id": "decl-016130",
+      "new_name": "card_auxiliaryType_eq_count",
+      "docstring": "The cardinality of the referenced auxiliary type for the monoid algebra equals the number of indexed entries."
+    },
+    {
+      "temporary_id": "decl-016133",
+      "new_name": "dimension",
+      "docstring": "The natural-number dimension associated with an indexed module."
+    },
+    {
+      "temporary_id": "decl-016134",
+      "new_name": "dimension_neZero",
+      "docstring": "Every indexed dimension is nonzero."
+    },
+    {
+      "temporary_id": "decl-016135",
+      "new_name": "exists_module_linearEquiv",
+      "docstring": "Every simple module over the group monoid algebra is linearly equivalent to an indexed module."
+    },
+    {
+      "temporary_id": "decl-016136",
+      "new_name": "instAddCommGroupModule",
+      "docstring": "The additive commutative group structure on an indexed module."
+    },
+    {
+      "temporary_id": "decl-016154",
+      "new_name": "module_finite",
+      "docstring": "Each indexed module is finite-dimensional over the field."
+    },
+    {
+      "temporary_id": "decl-016156",
+      "new_name": "isScalarTower_matrix_module",
+      "docstring": "Field scalars and the indexed matrix algebra form a scalar tower on the indexed module."
+    },
+    {
+      "temporary_id": "decl-016158",
+      "new_name": "isScalarTower_monoidAlgebra_module",
+      "docstring": "Field scalars and the group monoid algebra form a scalar tower on the indexed module."
+    },
+    {
+      "temporary_id": "decl-016159",
+      "new_name": "instModuleMatrix",
+      "docstring": "The module structure of an indexed module over its matrix algebra."
+    },
+    {
+      "temporary_id": "decl-016167",
+      "new_name": "instModuleMonoidAlgebra",
+      "docstring": "The module structure of an indexed module over the group monoid algebra."
+    },
+    {
+      "temporary_id": "decl-016168",
+      "new_name": "instModuleField",
+      "docstring": "The vector-space structure of an indexed module over the field."
+    },
+    {
+      "temporary_id": "decl-016176",
+      "new_name": "isSimpleModule_module",
+      "docstring": "Each indexed module is simple over the group monoid algebra under the stated assumptions."
+    },
+    {
+      "temporary_id": "decl-016178",
+      "new_name": "nonempty_linearEquiv_of_simpleModules",
+      "docstring": "Any two simple modules over an Artinian simple ring are nonemptily linearly equivalent."
+    },
+    {
+      "temporary_id": "decl-016185",
+      "new_name": "count",
+      "docstring": "The number of indexed entries in the auxiliary data."
+    },
+    {
+      "temporary_id": "decl-016188",
+      "new_name": "auxiliaryData",
+      "docstring": "Auxiliary decomposition data for a finite group over an algebraically closed field."
+    },
+    {
+      "temporary_id": "decl-016201",
+      "new_name": "smul_eq_matrix_smul",
+      "docstring": "The monoid-algebra action on an indexed module agrees with the matrix action through its representation."
+    },
+    {
+      "temporary_id": "decl-016202",
+      "new_name": "matrixProductRepresentation",
+      "docstring": "The algebra homomorphism from the group monoid algebra to the product of all indexed matrix algebras."
+    },
+    {
+      "temporary_id": "decl-016203",
+      "new_name": "ker_matrixProductRepresentation",
+      "docstring": "The kernel of the product matrix representation is the Jacobson radical of the group monoid algebra."
+    },
+    {
+      "temporary_id": "decl-016204",
+      "new_name": "matrixProductRepresentation_surjective",
+      "docstring": "The product of the indexed matrix representations is surjective."
+    },
+    {
+      "temporary_id": "decl-016205",
+      "new_name": "exists_auxiliaryDecompositionData_card_eq_count",
+      "docstring": "There exists auxiliary decomposition data whose count equals the cardinality of the referenced type for the monoid algebra."
+    }
+  ]
+}

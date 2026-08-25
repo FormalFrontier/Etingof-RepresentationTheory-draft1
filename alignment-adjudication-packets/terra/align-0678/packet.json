@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:57d28fb028538591ffa5",
+      "declaration": "Etingof.Problem3_9_3.sum_dimVec_twoRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:9e0131c175554204ab2f",
+      "declaration": "Etingof.Problem3_9_3.twoRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:aca92eca79de7a6f13b5",
+      "declaration": "Etingof.Problem3_9_3.two_dim_normalForm",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_3} {Q : Type u_4} [inst : Field.{u_3} k] [inst_1 : Quiver.{u_5, u_4} Q] [inst_2 : DecidableEq.{u_4 + 1} Q]\n  [inst_3 : Fintype.{u_4} Q],\n  Etingof.Problem3_9_3.NoOrientedCycles.{u_4, u_5} Q \u2192\n    \u2200 (\u03c1 : Etingof.QuiverRepresentation.{u_3, u_4, u_6, u_5} k Q)\n      [\u2200 (v : Q), Module.Free.{u_3, u_6} k (Etingof.QuiverRepresentation.obj.{u_3, u_4, u_6, u_5} \u03c1 v)]\n      [\u2200 (v : Q), Module.Finite.{u_3, u_6} k (Etingof.QuiverRepresentation.obj.{u_3, u_4, u_6, u_5} \u03c1 v)],\n      Eq.{1} (Finset.sum.{u_4, 0} Finset.univ.{u_4} fun v => Etingof.Problem6_9_3.dimVec.{u_3, u_4, u_5, u_6} \u03c1 v) 2 \u2192\n        Or\n          (Exists.{u_4 + 1} fun i =>\n            Exists.{u_4 + 1} fun j =>\n              Nonempty.{max (max (u_3 + 1) (u_6 + 1)) (u_4 + 1)}\n                (Etingof.QuiverRepresentationEquiv.{u_3, u_4, u_5, u_6, u_3} k Q \u03c1\n                  (Etingof.Problem3_9_3.twoRep.{u_3, u_4, u_5} i j 0)))\n          (Exists.{u_4 + 1} fun i =>\n            Exists.{u_4 + 1} fun j =>\n              Exists.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)} fun c =>\n                Exists.{u_5 + 1} fun e\u2080 =>\n                  And (Ne.{u_4 + 1} i j)\n                    (And (Ne.{u_3 + 1} (c (Sigma.mk.{u_4, max u_4 u_5} i (Sigma.mk.{u_4, u_5} j e\u2080))) 0)\n                      (Nonempty.{max (max (u_3 + 1) (u_6 + 1)) (u_4 + 1)}\n                        (Etingof.QuiverRepresentationEquiv.{u_3, u_4, u_5, u_6, u_3} k Q \u03c1\n                          (Etingof.Problem3_9_3.twoRep.{u_3, u_4, u_5} i j c)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.3",
+  "packet_id": "align-0678",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0678"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.3:claim-04",
+  "source_text": "Every two-dimensional representation has an explicit normal form twoRep(i,j,c) supported at two vertices, including the same-vertex case."
+}

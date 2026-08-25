@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:09c708b8e088dd25b60e",
+      "declaration": "Etingof.jordanHolder_length_isGreatest_strict",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/161/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) (V : Type u_2) [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  (s : CompositionSeries.{u_2} (Submodule.{u_1, u_2} A V)),\n  Eq.{u_2 + 1} (RelSeries.head.{u_2} s) Bot.bot.{u_2} \u2192\n    Eq.{u_2 + 1} (RelSeries.last.{u_2} s) Top.top.{u_2} \u2192\n      IsGreatest.{0} (Set.range.{0, u_2 + 1} fun l => Nat.cast.{0} (RelSeries.length.{u_2} l))\n        (Nat.cast.{0} (RelSeries.length.{u_2} s))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Discussion_after_Theorem3_7_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_after_Theorem3.7.1",
+  "packet_id": "align-1213",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1213"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ffaa8c23b01ceb3f9895",
+  "source_text": "The composition length is the maximal length of any filtration of V in which every inclusion is strict."
+}

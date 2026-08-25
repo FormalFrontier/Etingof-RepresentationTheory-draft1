@@ -1,0 +1,103 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 ModuleCat.{u, u} R \u2192 WithBot.{0} ENat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3488077250",
+      "temporary_id": "decl-022180"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 ModuleCat.{u, u} R \u2192 WithBot.{0} ENat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3488077250",
+      "temporary_id": "decl-022182"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R),\n  Not (CategoryTheory.Limits.IsZero.{u, u + 1} M) \u2192\n    Eq.{1} (decl-022180.{u} R M) (decl-022182.{u} R M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022180",
+        "decl-022182"
+      ],
+      "structural_type_hash": "740181690",
+      "temporary_id": "decl-022184"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R),\n  Iff (Eq.{1} (decl-022180.{u} R M) 0) (CategoryTheory.Projective.{u, u + 1} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022180"
+      ],
+      "structural_type_hash": "3310130889",
+      "temporary_id": "decl-022185"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R),\n  CategoryTheory.Limits.IsZero.{u, u + 1} M \u2192 Eq.{1} (decl-022180.{u} R M) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022180"
+      ],
+      "structural_type_hash": "4244380171",
+      "temporary_id": "decl-022186"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R) (n : Nat),\n  Iff (LE.le.{0} (decl-022180.{u} R M) (Nat.cast.{0} n))\n    (CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} M n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022180"
+      ],
+      "structural_type_hash": "3445850668",
+      "temporary_id": "decl-022187"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R), LE.le.{0} 0 (decl-022180.{u} R M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022180"
+      ],
+      "structural_type_hash": "1995719455",
+      "temporary_id": "decl-024711"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R),\n  Not (CategoryTheory.Limits.IsZero.{u, u + 1} M) \u2192 LE.le.{0} 0 (decl-022182.{u} R M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022182"
+      ],
+      "structural_type_hash": "2792457985",
+      "temporary_id": "decl-024712"
+    }
+  ],
+  "module_temporary_id": "module-0702",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

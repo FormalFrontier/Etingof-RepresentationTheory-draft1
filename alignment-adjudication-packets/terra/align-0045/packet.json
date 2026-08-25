@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0ccc6abed2689dc81fb0",
+      "declaration": "Etingof.WeylAlgebra.polyRep_not_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/58/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] [Nontrivial.{u_1} k] (p : Nat) [Fact (Nat.Prime p)] [CharP.{u_1} k p],\n  Not (Function.Injective.{u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Etingof.polyRep.{u_1} k)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.FaithfulWeylModule"
+    },
+    {
+      "association_id": "association:deac0e2b7e9940c30c99",
+      "declaration": "Etingof.WeylAlgebra.polyRep_y_pow_eq_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/58/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (p : Nat) [Fact (Nat.Prime p)] [CharP.{u_1} k p],\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Etingof.polyRep.{u_1} k)\n      (HPow.hPow.{u_1, 0, u_1} (Etingof.WeylAlgebra.y.{u_1} k) p))\n    0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Proposition2_7_1"
+    },
+    {
+      "association_id": "association:0571d24464f8cddea2ea",
+      "declaration": "Etingof.iterate_derivative_eq_zero_of_charP",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/58/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (p : Nat) [Fact (Nat.Prime p)] [CharP.{u_1} k p] (Q : Polynomial.{u_1} k),\n  Eq.{u_1 + 1} (Nat.iterate.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} Polynomial.derivative.{u_1}) p Q) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Proposition2_7_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_faithful_example",
+  "packet_id": "align-0045",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0045"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0c3911f2a67e45e114d3",
+  "source_text": "In characteristic p, the p-th derivative of every polynomial is zero, so k[t] is not a faithful Weyl-algebra representation."
+}

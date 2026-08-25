@@ -1,0 +1,35 @@
+{
+  "module_name": "FiniteField.RepresentationConstruction",
+  "declarations": [
+    {
+      "temporary_id": "decl-004413",
+      "new_name": "subtype_card_eq_field_card_sq_sub_one",
+      "docstring": "The displayed subtype has cardinality one less than the square of the finite field cardinality."
+    },
+    {
+      "temporary_id": "decl-004426",
+      "new_name": "auxiliary_theorem",
+      "docstring": "An auxiliary theorem."
+    },
+    {
+      "temporary_id": "decl-004460",
+      "new_name": "representation_character_formula",
+      "docstring": "Relates the displayed character expression to auxiliary values associated with a unit-valued character."
+    },
+    {
+      "temporary_id": "decl-004541",
+      "new_name": "representationOfCharacter",
+      "docstring": "Constructs a finite-dimensional complex representation from a unit-valued character on the displayed subtype."
+    },
+    {
+      "temporary_id": "decl-004565",
+      "new_name": "representationOfCharacter_finrank",
+      "docstring": "The representation constructed from a character has dimension equal to the displayed quotient of finite cardinalities."
+    },
+    {
+      "temporary_id": "decl-004566",
+      "new_name": "representationOfCharacter_finrank_eq_field_card_mul_pred",
+      "docstring": "For nonzero extension degree, the constructed representation has dimension equal to the field cardinality times its predecessor."
+    }
+  ]
+}

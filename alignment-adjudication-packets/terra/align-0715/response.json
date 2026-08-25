@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0715",
+  "associations": [
+    {
+      "association_id": "association:ef26fc32a38d37651ada",
+      "rationale": "The conclusion says the real adjacency characteristic polynomial is not squarefree, but the displayed existential omits the types of σ and τ, so it does not visibly identify the premise as noncommuting graph automorphisms.",
+      "role": "supporting"
+    }
+  ]
+}

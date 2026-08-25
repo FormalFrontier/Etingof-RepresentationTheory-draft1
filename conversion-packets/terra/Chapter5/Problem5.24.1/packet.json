@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Problem5.24.1",
+    "kind": "exercise",
+    "title": "V'_lambda \u2245 V_lambda and V_lambda \u2297 C_- = V_{lambda*}",
+    "node_id": "chapter-05/section-5-24",
+    "order": 377,
+    "slug": "problem5-24-1",
+    "span": {
+      "start": {
+        "page": "135",
+        "line": 3
+      },
+      "end": {
+        "page": "135",
+        "line": 14
+      }
+    },
+    "source_sha256": "62ef5664124551b4dbbba66f6dc3da7613f9b37d1f747ab6dfc7f2c23b69a38c",
+    "features": {
+      "line_count": 12,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem5241",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

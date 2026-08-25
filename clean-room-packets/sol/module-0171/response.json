@@ -1,0 +1,90 @@
+{
+  "module_name": "Module.IsotypicDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-018671",
+      "new_name": "restrictScalarsHomLinearMap",
+      "docstring": "The linear map that regards an algebra-linear map between scalar-tower modules as a linear map over the base ring."
+    },
+    {
+      "temporary_id": "decl-018677",
+      "new_name": "isotypicEvaluation",
+      "docstring": "The evaluation map from the direct sum of hom-space tensor products associated with a family of modules into the target module."
+    },
+    {
+      "temporary_id": "decl-018679",
+      "new_name": "isotypicDecompositionEquiv",
+      "docstring": "The linear equivalence from the direct sum of multiplicity-space tensor products to a finite-dimensional semisimple module whose simple constituents are exhausted by a pairwise inequivalent family."
+    },
+    {
+      "temporary_id": "decl-018683",
+      "new_name": "isotypicEvaluation_injective",
+      "docstring": "The isotypic evaluation map is injective for a pairwise inequivalent finite family of finite-dimensional simple modules over an algebraically closed field."
+    },
+    {
+      "temporary_id": "decl-018684",
+      "new_name": "isotypicEvaluation_lof_tmul",
+      "docstring": "The isotypic evaluation map sends a pure tensor included from one direct-sum component to evaluation of its homomorphism on its vector."
+    },
+    {
+      "temporary_id": "decl-018685",
+      "new_name": "isotypicEvaluation_surjective",
+      "docstring": "The isotypic evaluation map is surjective when every simple submodule of the semisimple target is equivalent to a member of the indexing family."
+    },
+    {
+      "temporary_id": "decl-018712",
+      "new_name": "homTensorEvaluation",
+      "docstring": "The linear evaluation map from the tensor product of algebra-linear maps with their source module into the target module."
+    },
+    {
+      "temporary_id": "decl-018714",
+      "new_name": "endomorphismTensorSelfEquiv",
+      "docstring": "For a finite-dimensional simple module over an algebraically closed field, evaluation is a linear equivalence from its algebra-endomorphism space tensored with the module to the module."
+    },
+    {
+      "temporary_id": "decl-018722",
+      "new_name": "endomorphismTensorSelfEquiv_tmul",
+      "docstring": "The endomorphism-tensor equivalence sends a pure tensor to evaluation of the endomorphism on the vector."
+    },
+    {
+      "temporary_id": "decl-018728",
+      "new_name": "homTensorEvaluation_injective",
+      "docstring": "Evaluation from the hom-space tensor product of a finite-dimensional simple module into a finite-dimensional target is injective over an algebraically closed field."
+    },
+    {
+      "temporary_id": "decl-018729",
+      "new_name": "homTensorEvaluation_mem_isotypicComponent",
+      "docstring": "The value of the hom-tensor evaluation map belongs to the isotypic component determined by its simple source module."
+    },
+    {
+      "temporary_id": "decl-018730",
+      "new_name": "homTensorEvaluation_tmul",
+      "docstring": "The hom-tensor evaluation map sends a pure tensor to application of the homomorphism to the vector."
+    },
+    {
+      "temporary_id": "decl-020473",
+      "new_name": "iSupIndep_isotypicComponent",
+      "docstring": "The isotypic components associated with a pairwise inequivalent family of simple modules in a semisimple module form an independent supremum."
+    },
+    {
+      "temporary_id": "decl-020981",
+      "new_name": "isotypicComponent_ne_of_ne",
+      "docstring": "Distinct members of a pairwise inequivalent family have distinct isotypic components whenever the first component is nonzero."
+    },
+    {
+      "temporary_id": "decl-021507",
+      "new_name": "linearMap_eq_zero_of_isEmpty_linearEquiv",
+      "docstring": "Every linear map between two simple modules is zero when no module-linear equivalence between them exists."
+    },
+    {
+      "temporary_id": "decl-021586",
+      "new_name": "isotypicComponent_mem_isotypicComponents",
+      "docstring": "A nonzero isotypic component belongs to the set of isotypic components of the ambient module."
+    },
+    {
+      "temporary_id": "decl-023205",
+      "new_name": "simpleSubmodule_le_range_isotypicEvaluation",
+      "docstring": "Every simple submodule represented by the indexing family is contained in the range of the isotypic evaluation map."
+    }
+  ]
+}

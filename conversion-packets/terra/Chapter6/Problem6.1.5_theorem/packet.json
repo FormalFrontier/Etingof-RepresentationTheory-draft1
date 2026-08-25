@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Problem6.1.5_theorem",
+    "kind": "theorem",
+    "title": "Theorem: Connected quiver is finite type iff Dynkin",
+    "node_id": "chapter-06/section-6-1",
+    "order": 411,
+    "slug": "problem6-1-5-theorem",
+    "span": {
+      "start": {
+        "page": "153",
+        "line": 1
+      },
+      "end": {
+        "page": "153",
+        "line": 4
+      }
+    },
+    "source_sha256": "3018aeb83198838bb7ba5fb2c985d49eac6c0dc6596dc17ae1e672adfd7e0244",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem615Theorem",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

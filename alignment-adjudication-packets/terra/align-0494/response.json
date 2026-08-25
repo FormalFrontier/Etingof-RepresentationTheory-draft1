@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0494",
+  "associations": [
+    {
+      "association_id": "association:6300dba3117434e07fe5",
+      "rationale": "The formal type asserts that the lattice of Lie submodules is complemented, which supports complete reducibility, but it does not itself state that every module is a direct sum of irreducible subrepresentations.",
+      "role": "supporting"
+    }
+  ]
+}

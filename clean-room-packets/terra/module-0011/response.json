@@ -1,0 +1,70 @@
+{
+  "module_name": "Algebra.ModuleActions",
+  "declarations": [
+    {
+      "temporary_id": "decl-015440",
+      "new_name": "RingAddCommGroupAuxiliary",
+      "docstring": "An auxiliary type associated with a ring and an additive commutative group."
+    },
+    {
+      "temporary_id": "decl-015444",
+      "new_name": "mul_smul",
+      "docstring": "Scalar multiplication by a product agrees with successive scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-015445",
+      "new_name": "moduleOfAlgHom",
+      "docstring": "Constructs a module structure from an algebra homomorphism into linear endomorphisms."
+    },
+    {
+      "temporary_id": "decl-015447",
+      "new_name": "moduleOfAlgHom_isScalarTower",
+      "docstring": "The module structure induced by an algebra homomorphism is compatible with the base-ring action."
+    },
+    {
+      "temporary_id": "decl-015448",
+      "new_name": "moduleOfAlgHom_smul_apply",
+      "docstring": "The induced action of an algebra element is its image endomorphism applied to the vector."
+    },
+    {
+      "temporary_id": "decl-015449",
+      "new_name": "moduleOfAlgHom_actionAlgHom",
+      "docstring": "Reconstructing a module structure from its associated action homomorphism returns the existing structure."
+    },
+    {
+      "temporary_id": "decl-015454",
+      "new_name": "oppositeActionAlgHom",
+      "docstring": "The action of the opposite algebra yields an algebra homomorphism into linear endomorphisms."
+    },
+    {
+      "temporary_id": "decl-015455",
+      "new_name": "oppositeActionAlgHom_apply",
+      "docstring": "The opposite-action homomorphism evaluates to the given opposite-ring scalar action."
+    },
+    {
+      "temporary_id": "decl-015456",
+      "new_name": "op_mul_smul",
+      "docstring": "The action of the opposite of a product is successive action in reversed order."
+    },
+    {
+      "temporary_id": "decl-015463",
+      "new_name": "actionAlgHom",
+      "docstring": "The scalar action of an algebra defines a homomorphism to linear endomorphisms."
+    },
+    {
+      "temporary_id": "decl-015466",
+      "new_name": "actionAlgHom_apply",
+      "docstring": "Evaluating the action homomorphism at an algebra element gives its scalar action."
+    },
+    {
+      "temporary_id": "decl-015467",
+      "new_name": "actionAlgHom_eq",
+      "docstring": "The action homomorphism determined by a module structure equals any homomorphism that induces that structure."
+    },
+    {
+      "temporary_id": "decl-015498",
+      "new_name": "RingAddCommGroupAuxiliary'",
+      "docstring": "A second auxiliary type associated with a ring and an additive commutative group."
+    }
+  ]
+}

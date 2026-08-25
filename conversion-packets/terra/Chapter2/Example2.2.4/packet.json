@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Example2.2.4",
+    "kind": "example",
+    "title": "Examples of algebras over k",
+    "node_id": "chapter-02/section-2-2",
+    "order": 20,
+    "slug": "example2-2-4",
+    "span": {
+      "start": {
+        "page": "9",
+        "line": 11
+      },
+      "end": {
+        "page": "9",
+        "line": 22
+      }
+    },
+    "source_sha256": "4fb142a1637ac84ff52dc7e2012c87ee0854e95df775a611e2c7e5b0e338227c",
+    "features": {
+      "line_count": 12,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example224",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

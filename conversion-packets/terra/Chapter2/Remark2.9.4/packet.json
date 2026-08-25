@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Remark2.9.4",
+    "kind": "remark",
+    "title": "Derivations as infinitesimal automorphisms; motivation for Lie algebras",
+    "node_id": "chapter-02/section-2-9",
+    "order": 82,
+    "slug": "remark2-9-4",
+    "span": {
+      "start": {
+        "page": "23",
+        "line": 4
+      },
+      "end": {
+        "page": "23",
+        "line": 7
+      }
+    },
+    "source_sha256": "16dd11516e52f63de580e78532ec34801bd6b68b1112a4002b99f5ac8cd1efd0",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark294",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:57ab9fd5cbf7ebf78105",
+      "declaration": "Etingof.Remark4_5_3.character_recovery_exact",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/204/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [inst_1 : Fintype.{u} G] (V : FDRep.{0, u} Complex G)\n  [CategoryTheory.Simple.{0, max 1 u} V] (g : G),\n  Eq.{1} (FDRep.character.{0, u} V g)\n    (HMul.hMul.{0, 0, 0}\n      (HDiv.hDiv.{0, 0, 0} (Nat.cast.{0} (Fintype.card.{u} G))\n        (Nat.cast.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, u} V)))))\n      (DFunLike.coe.{u + 1, u + 1, 1} (MonoidAlgebra.coeff.{0, u} (Etingof.Remark4_5_3.renormCharElt.{u} V)) g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Remark4_5_3"
+    }
+  ],
+  "canonical_reference": "Chapter4/Remark4.5.3",
+  "packet_id": "align-0414",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0414"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:849518fe58bd9610c024",
+  "source_text": "Characters are recovered with the source's definite normalization."
+}

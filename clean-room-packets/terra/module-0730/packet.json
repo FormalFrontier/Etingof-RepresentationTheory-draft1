@@ -1,0 +1,104 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {e : R},\n  IsIdempotentElem.{u_1} e \u2192 IsNilpotent.{u_1} (HSub.hSub.{u_1, u_1, u_1} 1 e) \u2192 Eq.{u_1 + 1} e 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2448565977",
+      "temporary_id": "decl-005193"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (A : Type u) [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A] (e : A),\n  LE.le.{0} (Module.finrank.{u, u} k (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-018236.{u} e) x))\n    (Module.finrank.{u, u} k A)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005663",
+      "project_type_dependencies": [
+        "decl-018236"
+      ],
+      "structural_type_hash": "1854433951",
+      "temporary_id": "decl-005665"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {B : Type u} [inst_1 : Ring.{u} B],\n  decl-005663.{u, u} A B \u2192 decl-005663.{u, u} B A",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005663",
+      "project_type_dependencies": [
+        "decl-005663"
+      ],
+      "structural_type_hash": "2409946151",
+      "temporary_id": "decl-005668"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {B : Type u} [inst_1 : Ring.{u} B] {C : Type u} [inst_2 : Ring.{u} C],\n  decl-005663.{u, u} A B \u2192 decl-005663.{u, u} B C \u2192 decl-005663.{u, u} A C",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005663",
+      "project_type_dependencies": [
+        "decl-005663"
+      ],
+      "structural_type_hash": "251328147",
+      "temporary_id": "decl-005671"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A] (B : Type u) [inst_5 : Ring.{u} B] [inst_6 : Algebra.{u, u} k B]\n  [Module.Finite.{u, u} k B],\n  decl-005126.{u, u, u} k B \u2192\n    decl-005305.{u, u} k A B \u2192\n      Exists.{u + 1} fun e =>\n        Exists.{0} fun he =>\n          Nonempty.{u + 1}\n            (AlgEquiv.{u, u, u} k B (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-001418.{u} e) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001418",
+        "decl-001420",
+        "decl-001426",
+        "decl-005126",
+        "decl-005305"
+      ],
+      "structural_type_hash": "1011173140",
+      "temporary_id": "decl-005682"
+    },
+    {
+      "formal_type": "\u2200 {B\u2081 : Type u} [inst : Ring.{u} B\u2081] {B\u2082 : Type u} [inst_1 : Ring.{u} B\u2082]\n  (F : CategoryTheory.Equivalence.{u, u, u + 1, u + 1} (ModuleCat.{u, u} B\u2081) (ModuleCat.{u, u} B\u2082))\n  {M : ModuleCat.{u, u} B\u2081},\n  decl-005194.{u, u} B\u2081 (ModuleCat.carrier.{u, u} M) \u2192\n    decl-005194.{u, u} B\u2082\n      (ModuleCat.carrier.{u, u}\n        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (CategoryTheory.Equivalence.functor.{u, u, u + 1, u + 1} F) M))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "3991743132",
+      "temporary_id": "decl-018621"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : Ring.{u} A] \u2192\n    {\u03b9 : Type} \u2192\n      [inst_1 : Fintype.{0} \u03b9] \u2192\n        [inst_2 : DecidableEq.{1} \u03b9] \u2192\n          (N : \u03b9 \u2192 Submodule.{u, u} A A) \u2192\n            DirectSum.IsInternal.{0, u, u} N \u2192\n              CategoryTheory.Iso.{u, u + 1} (ModuleCat.of.{u, u} A A)\n                (CategoryTheory.Limits.biproduct.{0, u, u + 1} fun i =>\n                  ModuleCat.of.{u, u} A (Subtype.{u + 1} fun x => Membership.mem.{u, u} (N i) x))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2066551707",
+      "temporary_id": "decl-020694"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] {D : Type u} [inst_1 : CategoryTheory.Category.{v, u} D]\n  [inst_2 : CategoryTheory.Limits.HasZeroMorphisms.{v, u} C] [inst_3 : CategoryTheory.Limits.HasZeroMorphisms.{v, u} D]\n  (F : CategoryTheory.Equivalence.{v, v, u, u} C D) (X : C) [CategoryTheory.Simple.{v, u} X],\n  CategoryTheory.Simple.{v, u}\n    (CategoryTheory.Functor.obj.{v, v, u, u} (CategoryTheory.Equivalence.functor.{v, v, u, u} F) X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3742148045",
+      "temporary_id": "decl-023217"
+    }
+  ],
+  "module_temporary_id": "module-0730",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.Module.Simple",
+  "declarations": [
+    {
+      "temporary_id": "decl-015605",
+      "new_name": "IsSimpleModule.finite",
+      "docstring": "A simple module is finitely generated."
+    },
+    {
+      "temporary_id": "decl-015606",
+      "new_name": "Submodule.nonempty_linearEquiv_directSumFin_of_simple",
+      "docstring": "A submodule of a module linearly equivalent to a finite direct sum of simple modules is linearly equivalent to a finite direct sum of selected summand types."
+    }
+  ]
+}

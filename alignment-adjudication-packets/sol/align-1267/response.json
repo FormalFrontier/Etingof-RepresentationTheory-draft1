@@ -1,0 +1,65 @@
+{
+  "packet_id": "align-1267",
+  "associations": [
+    {
+      "association_id": "association:a6dfce0432aa117655d8",
+      "rationale": "This constructs the balancing morphism from the copower involving B tensor X to the copower involving X, but the displayed type does not expose the stated difference-of-actions formula or its cokernel property.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d04705e87bd37237d625",
+      "rationale": "This is the object-level balanced-tensor construction, but its displayed type is opaque about the cokernel presentation required in the source statement.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d318bb9f7222ea3bbbb5",
+      "rationale": "This packages balanced tensoring as a functor from finite B-modules to the category, a construction needed for G, while the displayed type does not state its action X maps to P tensor_B X.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0d733981f10281960fe9",
+      "rationale": "The displayed type proves that the kernel of the opaque `evaluationApp` morphism is zero, but does not expose that morphism as `ξ.app Y`; it therefore provides contextual evidence for the K = 0 step rather than directly stating part (iii).",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:862667bf28f23ffb5dde",
+      "rationale": "This supplies an equivalence between the category and finite modules over End(P)^op, but the displayed type does not identify its functors with the particular F and G whose quasi-inverse relationship the problem asks to prove.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3b3a9ebb8e2b4486e523",
+      "rationale": "The copower-Hom linear equivalence is an auxiliary adjunction-style identification used in the construction and proof, not one of the problem's stated natural isomorphisms between F, G, and identity functors.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:36f4992142f12e8ad8f8",
+      "rationale": "This defines the module action map on X used to form the balancing relation, so it is a prerequisite construction rather than a direct statement of parts (i)-(iii).",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c1e511c1437d6df84109",
+      "rationale": "The displayed functor isomorphism states that composing balanced tensor with the Hom(P,-) functor is naturally isomorphic to the identity on finite B-modules, directly matching part (i).",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c2311c590c77ea404d2b",
+      "rationale": "For every object Y, this directly asserts that the component of the natural transformation xi is an epimorphism, formalizing the requested surjectivity in part (ii).",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0f3f78ee821d5346f4f4",
+      "rationale": "The formal type directly states that the natural transformation xi from G composed with F to the identity is an isomorphism, which is the conclusion of part (iii).",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2e8dd773212de5cafd8d",
+      "rationale": "This constructs the action morphism from the copower of P by its endomorphism algebra to P, an ingredient in the balanced relation rather than a requested conclusion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:26df21cc40cc33f43ed4",
+      "rationale": "This directly constructs the natural morphism xi from the composite of the Hom and balanced-tensor functors to the identity functor, matching the construction requested in part (ii).",
+      "role": "supporting"
+    }
+  ]
+}

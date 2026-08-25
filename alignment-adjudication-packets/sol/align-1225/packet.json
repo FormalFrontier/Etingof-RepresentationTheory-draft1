@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5c7a148341cd0214769d",
+      "declaration": "Etingof.Problem2_16_1.finrank_eq_one_of_isSolvable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/119/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {L : Type u_1} [inst : LieRing.{u_1} L] [inst_1 : LieAlgebra.{0, u_1} Complex L] {V : Type u_2}\n  [inst_2 : AddCommGroup.{u_2} V] [inst_3 : Module.{0, u_2} Complex V] [inst_4 : LieRingModule.{u_1, u_2} L V]\n  [LieModule.{0, u_1, u_2} Complex L V] [LieAlgebra.IsSolvable.{u_1} L] [FiniteDimensional.{0, u_2} Complex V]\n  [Nontrivial.{u_2} V],\n  IsSimpleOrder.{u_2} (LieSubmodule.{0, u_1, u_2} Complex L V) \u2192 Eq.{1} (Module.finrank.{0, u_2} Complex V) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.1",
+  "packet_id": "align-1225",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1225"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter2/Problem2.16.1",
+  "source_text": "\n**Problem 2.16.1** (Lie's theorem). The **commutant** $K(\\mathfrak{g})$ of a Lie algebra $\\mathfrak{g}$ is the linear span of elements $[x, y]$, $x, y \\in \\mathfrak{g}$. This is an ideal in $\\mathfrak{g}$ (i.e., it is a subrepresentation of the adjoint representation). A\nfinite dimensional Lie algebra $\\mathfrak{g}$ over a field $k$ is said to be **solvable** if there exists $n$ such that $K^n(\\mathfrak{g}) = 0$. Prove the Lie theorem: if $k = \\mathbb{C}$ and $V$ is a finite dimensional irreducible representation of a solvable Lie algebra $\\mathfrak{g}$, then $V$ is 1-dimensional.\n\nHint: Prove the result by induction in dimension. By the induction assumption, $K(\\mathfrak{g})$ has a common eigenvector $v$ in $V$; that is, there is a linear function $\\chi : K(\\mathfrak{g}) \\to \\mathbb{C}$ such that $av = \\chi(a)v$ for any $a \\in K(\\mathfrak{g})$. Show that $\\mathfrak{g}$ preserves common eigenspaces of $K(\\mathfrak{g})$. (For this you will need to show that $\\chi([x, a]) = 0$ for $x \\in \\mathfrak{g}$ and $a \\in K(\\mathfrak{g})$. To prove this, consider the smallest subspace $U$ containing $v$ and invariant under $x$. This subspace is invariant under $K(\\mathfrak{g})$ and any $a \\in K(\\mathfrak{g})$ acts with trace $\\dim(U)\\chi(a)$ in this subspace. In particular $0 = \\operatorname{Tr}([x, a]) = \\dim(U)\\chi([x, a])$.)\n\n"
+}

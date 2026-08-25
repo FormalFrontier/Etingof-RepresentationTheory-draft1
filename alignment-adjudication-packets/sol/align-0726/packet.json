@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8dcfe04e3ba9cbdb924a",
+      "declaration": "Etingof.Problem4_12_7.qmatHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) x)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:5b3383b27cd8227d9d67",
+      "declaration": "Etingof.Problem4_12_7.qmatHom_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Problem4_12_7.qmatHom)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:2bdf49033a1cfaf7f164",
+      "declaration": "Etingof.Problem4_12_7.qmatHom_surjective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Problem4_12_7.qmatHom)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:431cf3daeb9cfd49e7b2",
+      "declaration": "Etingof.Problem4_12_7.unit_quaternions_mulEquiv_SU2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) x)\n    (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.7",
+  "packet_id": "align-0726",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0726"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.7:part_e",
+  "source_text": "Part (e): identify the unit quaternions with SU(2)."
+}

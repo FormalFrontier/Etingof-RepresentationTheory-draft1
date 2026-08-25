@@ -1,0 +1,30 @@
+{
+  "declarations": [
+    {
+      "docstring": "States that the tensor-product linear-map construction is compatible with a morphism in the first module factor.",
+      "new_name": "tensorProductLinearMap_comp_map_left",
+      "temporary_id": "decl-020148"
+    },
+    {
+      "docstring": "States that the tensor-product linear-map construction is compatible with a morphism in the second module factor.",
+      "new_name": "tensorProductLinearMap_comp_map_right",
+      "temporary_id": "decl-020149"
+    },
+    {
+      "docstring": "The linear equivalence between maps out of a tensor product and the tensor product of linear-map modules for finite projective factors.",
+      "new_name": "tensorProductLinearMapEquiv",
+      "temporary_id": "decl-022402"
+    },
+    {
+      "docstring": "An isomorphism of k-modules between a linear-map module over the tensor-product algebra and the tensor product of the corresponding factorwise linear-map modules.",
+      "new_name": "tensorProductLinearMapIso",
+      "temporary_id": "decl-022411"
+    },
+    {
+      "docstring": "Provides the scalar-tower structure from the base field through a tensor-product algebra to a tensor product of modules.",
+      "new_name": "tensorProductModuleIsScalarTower",
+      "temporary_id": "decl-024264"
+    }
+  ],
+  "module_name": "TensorProduct.LinearMapModuleEquiv"
+}

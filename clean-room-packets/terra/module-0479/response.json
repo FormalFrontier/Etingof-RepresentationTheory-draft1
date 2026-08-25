@@ -1,0 +1,10 @@
+{
+  "module_name": "AuxiliaryUnavailableStatement",
+  "declarations": [
+    {
+      "temporary_id": "decl-016654",
+      "new_name": "auxiliary_theorem",
+      "docstring": "An auxiliary result whose formal statement is unavailable."
+    }
+  ]
+}

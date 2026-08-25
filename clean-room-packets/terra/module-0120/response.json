@@ -1,0 +1,18 @@
+{
+  "module_name": "LieAlgebra.ModuleProducts",
+  "declarations": [
+    {"temporary_id": "decl-015810", "new_name": "consPiLieModuleEquiv", "docstring": "Reassociates a dependent family indexed by a cons into its head component and tail family as a Lie-module equivalence."},
+    {"temporary_id": "decl-015825", "new_name": "auxiliary_exists_isAtom", "docstring": "Under the displayed nontrivial finite-dimensional module hypotheses, there exists an object satisfying `IsAtom`."},
+    {"temporary_id": "decl-015881", "new_name": "piLieModule", "docstring": "The dependent product of Lie modules carries the componentwise Lie-module structure."},
+    {"temporary_id": "decl-015882", "new_name": "piLieRingModule", "docstring": "Equips a dependent product with the componentwise Lie-ring-module action."},
+    {"temporary_id": "decl-015886", "new_name": "prodLieModule", "docstring": "The product of two Lie modules carries the componentwise Lie-module structure."},
+    {"temporary_id": "decl-015887", "new_name": "prodLieRingModule", "docstring": "Equips a product with the componentwise Lie-ring-module action."},
+    {"temporary_id": "decl-015911", "new_name": "isIrreducible_of_isAtom", "docstring": "An atomic Lie submodule is irreducible with its induced module structure."},
+    {"temporary_id": "decl-015952", "new_name": "prodOfComplementLieModuleEquiv", "docstring": "Complementary Lie submodules yield a Lie-module equivalence from their product to the ambient module."},
+    {"temporary_id": "decl-016022", "new_name": "bracket_pi_apply", "docstring": "Evaluation of the bracket on a dependent product equals the bracket in the selected component."},
+    {"temporary_id": "decl-016023", "new_name": "prodCongrLieModuleEquiv", "docstring": "A pair of Lie-module equivalences induces a Lie-module equivalence between the corresponding products."},
+    {"temporary_id": "decl-016029", "new_name": "bracket_prod_fst", "docstring": "The first projection of the bracket on a product is the bracket of the first projection."},
+    {"temporary_id": "decl-016030", "new_name": "bracket_prod_snd", "docstring": "The second projection of the bracket on a product is the bracket of the second projection."},
+    {"temporary_id": "decl-016066", "new_name": "nonempty_lieModuleEquiv_pi_of_finiteDimensional", "docstring": "A finite-dimensional module over the displayed Lie algebra admits a Lie-module equivalence to a finite dependent product of complex coordinate-function spaces."}
+  ]
+}

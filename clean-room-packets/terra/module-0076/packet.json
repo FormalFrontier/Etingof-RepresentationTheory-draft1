@@ -1,0 +1,103 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k]\n  {c :\n    (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192 k},\n  decl-007348.{u_1, u_1, u_1} k c \u2192\n    \u2200 (a b : Nat),\n      Eq.{u_1 + 1}\n        (c (decl-008012.{u_1} k (decl-007394 a 1))\n          (decl-008012.{u_1} k (decl-007394 b 1)))\n        (decl-007599.{u_1} c a b)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-007348",
+      "project_type_dependencies": [
+        "decl-007348",
+        "decl-007394",
+        "decl-007599",
+        "decl-008012",
+        "decl-008023"
+      ],
+      "structural_type_hash": "937242459",
+      "temporary_id": "decl-007353"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k]\n  {c :\n    (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192 k},\n  decl-007348.{u_1, u_1, u_1} k c \u2192\n    \u2200 (a b d : Nat),\n      Eq.{u_1 + 1} (decl-007599.{u_1} c (HAdd.hAdd.{0, 0, 0} a b) d)\n        (HMul.hMul.{u_1, u_1, u_1} 2\n          (HSub.hSub.{u_1, u_1, u_1}\n            (decl-008105.{u_1} c a (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} b d) 1))\n            (decl-008105.{u_1} c (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} a d) 1) b)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-007348",
+      "project_type_dependencies": [
+        "decl-007348",
+        "decl-007599",
+        "decl-008023",
+        "decl-008105"
+      ],
+      "structural_type_hash": "3440282044",
+      "temporary_id": "decl-007354"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {L : Type u_2} {M : Type u_3} [inst : CommRing.{u_1} k] [inst_1 : LieRing.{u_2} L]\n  [inst_2 : LieAlgebra.{u_1, u_2} k L] [inst_3 : AddCommGroup.{u_3} M] [inst_4 : Module.{u_1, u_3} k M] {c : L \u2192 L \u2192 M},\n  decl-007348.{u_1, u_2, u_3} k c \u2192\n    \u2200 (a b : L), Eq.{u_3 + 1} (c (Neg.neg.{u_2} a) b) (Neg.neg.{u_3} (c a b))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-007348",
+      "project_type_dependencies": [
+        "decl-007348"
+      ],
+      "structural_type_hash": "333583405",
+      "temporary_id": "decl-007359"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {L : Type u_2} {M : Type u_3} [inst : CommRing.{u_1} k] [inst_1 : LieRing.{u_2} L]\n  [inst_2 : LieAlgebra.{u_1, u_2} k L] [inst_3 : AddCommGroup.{u_3} M] [inst_4 : Module.{u_1, u_3} k M] {c : L \u2192 L \u2192 M},\n  decl-007348.{u_1, u_2, u_3} k c \u2192 \u2200 (a b : L), Eq.{u_3 + 1} (c a b) (Neg.neg.{u_3} (c b a))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-007348",
+      "project_type_dependencies": [
+        "decl-007348"
+      ],
+      "structural_type_hash": "2967561792",
+      "temporary_id": "decl-007363"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    ((Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192\n        (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192 k) \u2192\n      Nat \u2192 Nat \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008023"
+      ],
+      "structural_type_hash": "1808576673",
+      "temporary_id": "decl-007599"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    ((Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192\n        (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192 k) \u2192\n      Nat \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008023"
+      ],
+      "structural_type_hash": "641059161",
+      "temporary_id": "decl-007732"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    ((Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192\n        (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-008023.{u_1} k) x) \u2192 k) \u2192\n      Nat \u2192 Nat \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008023"
+      ],
+      "structural_type_hash": "1808576673",
+      "temporary_id": "decl-008105"
+    }
+  ],
+  "module_temporary_id": "module-0076",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

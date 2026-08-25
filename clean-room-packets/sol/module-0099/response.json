@@ -1,0 +1,145 @@
+{
+  "module_name": "Algebra.FiniteOrderShiftWeightEquivalences",
+  "declarations": [
+    {
+      "temporary_id": "decl-009014",
+      "new_name": "ThreeUnitParameterType",
+      "docstring": "An auxiliary type parameterized by three complex units."
+    },
+    {
+      "temporary_id": "decl-009027",
+      "new_name": "cyclicShiftEnd_pow_mul_diagonalWeightEnd",
+      "docstring": "A power of the cyclic shift intertwines diagonal weight endomorphisms whose weight parameters differ by the corresponding power of the first unit parameter."
+    },
+    {
+      "temporary_id": "decl-009032",
+      "new_name": "cyclicShiftUnit_pow_mul_cyclicShiftUnit",
+      "docstring": "Every power of the cyclic shift unit commutes with the cyclic shift unit."
+    },
+    {
+      "temporary_id": "decl-009033",
+      "new_name": "cyclicShiftUnit_pow_mul_diagonalWeightUnit",
+      "docstring": "A power of the cyclic shift unit intertwines diagonal weight units whose weight parameters differ by the corresponding power of the first unit parameter."
+    },
+    {
+      "temporary_id": "decl-009057",
+      "new_name": "parameters_eq_of_moduleLinearEquiv",
+      "docstring": "A module-linear equivalence between two instances forces equality of their second unit parameters and equality of the order-th powers of their third unit parameters."
+    },
+    {
+      "temporary_id": "decl-009073",
+      "new_name": "exists_orbitExponent_of_pow_eq",
+      "docstring": "If a complex unit has order `N`, equality of the `N`-th powers of two further units yields an exponent relating them by a power of the first unit."
+    },
+    {
+      "temporary_id": "decl-009075",
+      "new_name": "moduleLinearEquivOfUnitPowerRelation",
+      "docstring": "A power relation between two third unit parameters gives a module-linear equivalence between the corresponding instances with the same first and second parameters."
+    },
+    {
+      "temporary_id": "decl-009091",
+      "new_name": "threeUnitParameterModule",
+      "docstring": "The displayed algebra module structure on the type parameterized by three complex units."
+    },
+    {
+      "temporary_id": "decl-009095",
+      "new_name": "finrank_threeUnitParameterType",
+      "docstring": "The complex finrank of the three-unit-parameter type equals the order of its first unit parameter."
+    },
+    {
+      "temporary_id": "decl-009097",
+      "new_name": "nonempty_moduleLinearEquiv_iff",
+      "docstring": "Two instances are module-linearly equivalent exactly when their second unit parameters agree and the order-th powers of their third unit parameters agree."
+    },
+    {
+      "temporary_id": "decl-009098",
+      "new_name": "threeUnitParameter_smul_eq_representation_apply",
+      "docstring": "The displayed algebra action agrees with evaluation of the representation determined by the corresponding cyclic shift and diagonal weight units."
+    },
+    {
+      "temporary_id": "decl-009099",
+      "new_name": "firstGenerator_smul_threeUnitParameterType",
+      "docstring": "The first distinguished generator acts on the three-unit-parameter type by the cyclic shift endomorphism."
+    },
+    {
+      "temporary_id": "decl-009100",
+      "new_name": "firstGenerator_orderExponent_smul_threeUnitParameterType",
+      "docstring": "The distinguished element with first exponent equal to the first unit parameter order acts by the shift parameter."
+    },
+    {
+      "temporary_id": "decl-009101",
+      "new_name": "secondGenerator_smul_threeUnitParameterType",
+      "docstring": "The second distinguished generator acts on the three-unit-parameter type by the diagonal weight endomorphism."
+    },
+    {
+      "temporary_id": "decl-009102",
+      "new_name": "secondGenerator_orderExponent_smul_threeUnitParameterType",
+      "docstring": "The distinguished element with second exponent equal to the first unit parameter order acts by the corresponding power of the weight parameter."
+    },
+    {
+      "temporary_id": "decl-009105",
+      "new_name": "threeUnitParameterAddCommGroup",
+      "docstring": "The additive commutative group structure on the three-unit-parameter type."
+    },
+    {
+      "temporary_id": "decl-009125",
+      "new_name": "threeUnitParameterIsScalarTower",
+      "docstring": "The complex scalar action and displayed algebra action on the three-unit-parameter type form a scalar tower."
+    },
+    {
+      "temporary_id": "decl-009126",
+      "new_name": "threeUnitParameterComplexModule",
+      "docstring": "The complex module structure on the three-unit-parameter type."
+    },
+    {
+      "temporary_id": "decl-009134",
+      "new_name": "threeUnitParameter_nontrivial",
+      "docstring": "The three-unit-parameter type is nontrivial when the order of its first unit parameter is nonzero."
+    },
+    {
+      "temporary_id": "decl-009138",
+      "new_name": "isPrimitiveRoot_of_orderOf_eq",
+      "docstring": "A complex unit whose order is `N` is a primitive `N`-th root."
+    },
+    {
+      "temporary_id": "decl-009155",
+      "new_name": "pow_fin_nsmul_one_val",
+      "docstring": "When a complex unit has order `N`, exponentiation by the finite residue of a natural number agrees with exponentiation by that natural number."
+    },
+    {
+      "temporary_id": "decl-009156",
+      "new_name": "pow_sub_val_mul_pow_val",
+      "docstring": "For finite indices modulo the order of a complex unit, the power at their difference times the power at the second index equals the power at the first index."
+    },
+    {
+      "temporary_id": "decl-009158",
+      "new_name": "auxiliaryEndomorphismUnit",
+      "docstring": "An auxiliary unit of the complex endomorphism algebra of the finite function space, parameterized by a natural exponent."
+    },
+    {
+      "temporary_id": "decl-009160",
+      "new_name": "auxiliaryEndomorphismUnit_apply_inv_apply",
+      "docstring": "Applying the auxiliary endomorphism unit after its inverse leaves every vector unchanged."
+    },
+    {
+      "temporary_id": "decl-009161",
+      "new_name": "auxiliaryEndomorphismUnit_inv_apply_apply",
+      "docstring": "Applying the inverse of the auxiliary endomorphism unit after the unit leaves every vector unchanged."
+    },
+    {
+      "temporary_id": "decl-009171",
+      "new_name": "diagonalWeightCoeff_sub_nsmul_eq",
+      "docstring": "Shifting the index of a diagonal weight coefficient matches changing the weight parameter by the corresponding first-unit-parameter power."
+    },
+    {
+      "temporary_id": "decl-014816",
+      "new_name": "auxiliaryIndexedUnit_conj",
+      "docstring": "The displayed unit indexed by two integers and evaluated on conjugated endomorphism units is the conjugate of its value on the original units."
+    },
+    {
+      "temporary_id": "decl-014850",
+      "new_name": "representation_apply_eq_conj_of_intertwines_generators",
+      "docstring": "If a unit intertwines each of two pairs of generators satisfying the same displayed commutation relation, then it conjugates the associated representations on every algebra element."
+    }
+  ]
+}

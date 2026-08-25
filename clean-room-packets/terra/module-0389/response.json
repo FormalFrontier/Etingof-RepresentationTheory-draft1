@@ -1,0 +1,15 @@
+{
+  "module_name": "SymmetricGroup.PartitionSubmodules",
+  "declarations": [
+    {
+      "temporary_id": "decl-022863",
+      "new_name": "partitionSubmodule",
+      "docstring": "Associates a submodule of the ambient module to each partition of a natural number."
+    },
+    {
+      "temporary_id": "decl-022865",
+      "new_name": "exists_equivariantMap",
+      "docstring": "For every partition, there is a function compatible with the action of each finite permutation."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e12ef75e9cb801f56871",
+      "declaration": "Etingof.BookPathAlgebra.IsDirectSumRealization",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/69/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  (Q : Type v) \u2192\n    [inst : Field.{u} k] \u2192\n      [inst_1 : Quiver.{q, v} Q] \u2192\n        [inst_2 : DecidableEq.{v + 1} Q] \u2192\n          [inst_3 : Fintype.{v} Q] \u2192\n            Etingof.QuiverRepresentation.{u, v, u_1, q} k Q \u2192\n              Etingof.BookPathAlgebra.PathModule.{u, v, u_2, q} k Q \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection"
+    },
+    {
+      "association_id": "association:0e9bb3c143731cba8f4a",
+      "declaration": "Etingof.BookPathAlgebra.pathEnd",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/69/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  (Q : Type v) \u2192\n    [inst : Field.{u} k] \u2192\n      [inst_1 : Quiver.{q, v} Q] \u2192\n        [DecidableEq.{v + 1} Q] \u2192\n          (R : Etingof.QuiverRepresentation.{u, v, u_1, q} k Q) \u2192\n            Etingof.QuiverPathIndex.{v, q} Q \u2192\n              Module.End.{u, max u_1 v} k (DirectSum.{v, u_1} Q (Etingof.QuiverRepresentation.obj.{u, v, u_1, q} R))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection"
+    },
+    {
+      "association_id": "association:2cf55c31a1b58e4fe73f",
+      "declaration": "Etingof.BookPathAlgebra.pathMap",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/69/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  (Q : Type v) \u2192\n    [inst : Field.{u} k] \u2192\n      [inst_1 : Quiver.{q, v} Q] \u2192\n        (R : Etingof.QuiverRepresentation.{u, v, u_1, q} k Q) \u2192\n          {i j : Q} \u2192\n            Quiver.Path.{q, v} i j \u2192\n              LinearMap.{u, u, u_1, u_1} (RingHom.id.{u} k) (Etingof.QuiverRepresentation.obj.{u, v, u_1, q} R i)\n                (Etingof.QuiverRepresentation.obj.{u, v, u_1, q} R j)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_quiver_rep_bijection",
+  "packet_id": "align-0253",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0253"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4b98e32a921c54a6ecde",
+  "source_text": "A Q-representation determines a P_Q-module on the direct sum of its vertex spaces, with a path acting by the composite arrow map and by zero on other summands."
+}

@@ -1,0 +1,7 @@
+{
+  "packet_id": "align-0042",
+  "associations": [
+    {"association_id": "association:6fc3139ed3a63881175e", "role": "primary", "rationale": "A simple module is directly exhibited as a quotient of A by a coatom, which gives the asserted cyclic form."},
+    {"association_id": "association:6c8eb1a0b1b393622f9c", "role": "primary", "rationale": "This instance directly proves a simple module over a finite-dimensional algebra is finite-dimensional."}
+  ]
+}

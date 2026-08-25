@@ -1,0 +1,25 @@
+{
+  "module_name": "AuxiliaryIntegralQuadraticFormMaps",
+  "declarations": [
+    {
+      "temporary_id": "decl-020867",
+      "new_name": "auxiliary_property_of_exists_eq",
+      "docstring": "Under the displayed matrix hypothesis, a nonzero nonnegative integer vector has the auxiliary property whenever the stated existential equality holds."
+    },
+    {
+      "temporary_id": "decl-021006",
+      "new_name": "auxiliary_list_map_preserves_quadratic_form",
+      "docstring": "For a symmetric integer matrix with the stated diagonal values, the displayed map indexed by a finite list preserves the associated quadratic form."
+    },
+    {
+      "temporary_id": "decl-022857",
+      "new_name": "auxiliary_vector_map_preserves_quadratic_form",
+      "docstring": "For a symmetric integer matrix, the displayed map associated with a vector of quadratic value two preserves the quadratic form."
+    },
+    {
+      "temporary_id": "decl-023191",
+      "new_name": "auxiliary_index_map_preserves_quadratic_form",
+      "docstring": "For a symmetric integer matrix whose selected coordinate vector has quadratic value two, the corresponding displayed map preserves the quadratic form."
+    }
+  ]
+}

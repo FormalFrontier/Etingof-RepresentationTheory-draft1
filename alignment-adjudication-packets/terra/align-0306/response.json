@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0306",
+  "associations": [
+    {
+      "association_id": "association:4fc971dd62a57c5bd2a6",
+      "rationale": "The formal type directly combines irreducibility of external tensor products with the converse decomposition of every irreducible representation of the product group, matching the stated two-direction classification.",
+      "role": "primary"
+    }
+  ]
+}

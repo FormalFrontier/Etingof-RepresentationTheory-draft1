@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:82384940d330c0722a74",
+      "declaration": "Etingof.Problem4_12_11.skewSub_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/240/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (U : Submodule.{0, 0} Real Etingof.Problem4_12_11.EndV),\n  LE.le.{0} U Etingof.Problem4_12_11.skewSub \u2192\n    (\u2200 (A : Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem4_12_11.SO3 x) (M : Etingof.Problem4_12_11.EndV),\n        Membership.mem.{0, 0} U M \u2192\n          Membership.mem.{0, 0} U\n            (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Problem4_12_11.conjRep A) M)) \u2192\n      Or (Eq.{1} U Bot.bot.{0}) (Eq.{1} U Etingof.Problem4_12_11.skewSub)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_11"
+    },
+    {
+      "association_id": "association:209ed0b948eb035f2863",
+      "declaration": "Etingof.Problem4_12_11.tracelessSymSub_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/240/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (U : Submodule.{0, 0} Real Etingof.Problem4_12_11.EndV),\n  LE.le.{0} U Etingof.Problem4_12_11.tracelessSymSub \u2192\n    (\u2200 (A : Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem4_12_11.SO3 x) (M : Etingof.Problem4_12_11.EndV),\n        Membership.mem.{0, 0} U M \u2192\n          Membership.mem.{0, 0} U\n            (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Problem4_12_11.conjRep A) M)) \u2192\n      Or (Eq.{1} U Bot.bot.{0}) (Eq.{1} U Etingof.Problem4_12_11.tracelessSymSub)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_11"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.11",
+  "packet_id": "align-0706",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0706"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.11:part_b_real",
+  "source_text": "Part (b): prove the standard and five-dimensional summands irreducible over R."
+}

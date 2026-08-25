@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0106",
+  "associations": [
+    {
+      "association_id": "association:28a1933f26541893a48f",
+      "role": "primary",
+      "rationale": "This implication is exactly the converse Maschke statement that semisimplicity forces the group order to be invertible."
+    }
+  ]
+}

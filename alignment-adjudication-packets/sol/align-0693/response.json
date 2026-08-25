@@ -1,0 +1,65 @@
+{
+  "packet_id": "align-0693",
+  "associations": [
+    {
+      "association_id": "association:33d9d0431e69793a8e06",
+      "rationale": "The type only constructs a linear map from the dual space to endomorphisms of Spinor; it does not expose that the operators are contraction or state the proof claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f9775f78318659f57311",
+      "rationale": "The type supplies the creation-operator map into End(Spinor), a construction used in the concrete model, but does not itself state the claimed contraction action or irreducibility.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:5e559f1edc9a6845f689",
+      "rationale": "The type constructs an even-dimensional Clifford algebra action on Spinor; it is a representation construction rather than a statement of the requested proof's irreducibility conclusion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a7cb12ba36e6e972dedc",
+      "rationale": "The type directly states simplicity of the transported even-dimensional Spinor module, but this is only the irreducibility component and does not state the full construction, contraction, and odd-parity-actions claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d4c8bb791c1f96f31748",
+      "rationale": "The type constructs the hyperbolic Clifford action on Spinor, which is part of the concrete model but does not itself assert irreducibility.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0055ce950e8b3c3998a4",
+      "rationale": "The type directly states simplicity of the hyperbolic Spinor module, but this is only the irreducibility component and does not state the full construction, contraction, and odd-parity-actions claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:aa3c734633f2af80beb2",
+      "rationale": "The type constructs one odd-dimensional Clifford action on Spinor, serving as one of the parity-action constructions rather than a theorem stating the full source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9e789d77b6683474779e",
+      "rationale": "The type constructs the other odd-dimensional Clifford action on Spinor, serving as the companion parity-action construction rather than stating the full proof claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b1147c81fcd151fc6062",
+      "rationale": "The type asserts simplicity for an odd Spinor module, but the displayed conclusion does not identify a minus parity module and is an additional result beyond merely constructing the two parity actions.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:aa5e8acab10ff2eae5a2",
+      "rationale": "The type asserts simplicity for an odd Spinor module, but the displayed conclusion does not identify a plus parity module and is an additional result beyond merely constructing the two parity actions.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4f15e299913e6cac9845",
+      "rationale": "The type states that SpinorPlus and SpinorMinus admit no module linear equivalence; their nonisomorphism is a consequence beyond the source's construction of the two actions.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2eb8ec9e14900bd6ea89",
+      "rationale": "The type classifies every simple odd Clifford module as isomorphic to one of the two spinors, a stronger classification consequence rather than the construction-and-irreducibility proof described by the source.",
+      "role": "supporting"
+    }
+  ]
+}

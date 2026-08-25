@@ -1,0 +1,10 @@
+{
+  "declarations": [
+    {
+      "docstring": "If the average of a nonempty finite family of complex roots of unity is integral over the integers, then the family is constant or its sum vanishes.",
+      "new_name": "rootsOfUnity_all_eq_or_sum_eq_zero_of_average_integral",
+      "temporary_id": "decl-005507"
+    }
+  ],
+  "module_name": "Complex.RootsOfUnity.AverageIntegral"
+}

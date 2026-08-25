@@ -1,0 +1,35 @@
+{
+  "packet_id": "align-0556",
+  "associations": [
+    {
+      "association_id": "association:a6533ab156215b459e7c",
+      "rationale": "This only declares the opaque index type LoopIdx and does not display the claimed basis vectors or their loop degrees.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b4e7ca1491ea824a5e19",
+      "rationale": "The type counts three opaque indices in each positive even degree, but does not itself identify the indexed elements as basis vectors of g_4.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:073b2c497950a6857119",
+      "rationale": "The type counts five opaque indices in each odd degree, but does not itself identify the indexed elements as basis vectors of g_4.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:29707d78f0a173a1c6ea",
+      "rationale": "The type counts one opaque index in degree zero, but does not display that its basis element is y.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:72b88777f57d2f6733aa",
+      "rationale": "The type gives a characteristic-zero basis of g_4 indexed by opaque LoopIdx, without displaying the vectors or the asserted degree distribution.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a077ed7d9e3bc565b43e",
+      "rationale": "This is only an opaque family of elements indexed by LoopIdx and does not state that it is the claimed basis or expose its members and degrees.",
+      "role": "supporting"
+    }
+  ]
+}

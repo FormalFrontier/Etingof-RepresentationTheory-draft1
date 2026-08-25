@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.8.11",
+    "kind": "exercise",
+    "title": "Hilbert series of graded algebras",
+    "node_id": "chapter-02/section-2-8",
+    "order": 76,
+    "slug": "problem2-8-11",
+    "span": {
+      "start": {
+        "page": "21",
+        "line": 17
+      },
+      "end": {
+        "page": "22",
+        "line": 11
+      }
+    },
+    "source_sha256": "1755bce2dc740ede7232cc8a4732a9381475831cf9491e159702c3de84f0c936",
+    "features": {
+      "line_count": 16,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2811",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

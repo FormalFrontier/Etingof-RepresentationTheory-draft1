@@ -1,0 +1,91 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{u, u} R] \u2192 {S : ModuleCat.{u, u} R} \u2192 Type (u + 1)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "804404625",
+      "temporary_id": "decl-013993"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192 [Field.{u} k] \u2192 Type (u + 1)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "528128068",
+      "temporary_id": "decl-013994"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [Small.{u, u} R] (k : Type u) [inst_2 : Field.{u} k] [inst_3 : Algebra.{u, u} k R]\n  [inst_4 : FiniteDimensional.{u, u} k R] {S : ModuleCat.{u, u} R}\n  (hS : IsSimpleModule.{u, u} R (ModuleCat.carrier.{u, u} S)) [IsSemisimpleRing.{u} R],\n  IsSimpleRing.{u} (decl-013992.{u} R (decl-014097.{u, u, u} R k hS))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013992",
+        "decl-014097",
+        "decl-014125",
+        "decl-014129"
+      ],
+      "structural_type_hash": "1468247408",
+      "temporary_id": "decl-014139"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    [inst_1 : Small.{u, u} R] \u2192\n      (k : Type u) \u2192\n        [inst_2 : Field.{u} k] \u2192\n          [inst_3 : Algebra.{u, u} k R] \u2192\n            [FiniteDimensional.{u, u} k R] \u2192\n              {S : ModuleCat.{u, u} R} \u2192\n                IsSimpleModule.{u, u} R (ModuleCat.carrier.{u, u} S) \u2192\n                  [IsAlgClosed.{u} k] \u2192\n                    [IsSemisimpleRing.{u} R] \u2192\n                      CategoryTheory.Equivalence.{u, u, u + 1, u + 1} (ModuleCat.{u, u} k)\n                        (decl-013990.{u, u} R S)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004834",
+        "decl-013990"
+      ],
+      "structural_type_hash": "729089929",
+      "temporary_id": "decl-014186"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    [inst_1 : Small.{u, u} R] \u2192\n      (k : Type u) \u2192\n        [inst_2 : Field.{u} k] \u2192\n          [inst_3 : Algebra.{u, u} k R] \u2192\n            [FiniteDimensional.{u, u} k R] \u2192\n              {S : ModuleCat.{u, u} R} \u2192\n                IsSimpleModule.{u, u} R (ModuleCat.carrier.{u, u} S) \u2192\n                  [IsAlgClosed.{u} k] \u2192\n                    [IsSemisimpleRing.{u} R] \u2192\n                      CategoryTheory.Equivalence.{u, u, u + 1, u + 1} (decl-013994.{u} k)\n                        (decl-013993.{u} R)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004834",
+        "decl-013993",
+        "decl-013994"
+      ],
+      "structural_type_hash": "1514100512",
+      "temporary_id": "decl-014187"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    [Small.{u, u} R] \u2192\n      (k : Type u) \u2192\n        [inst_2 : Field.{u} k] \u2192\n          [inst_3 : Algebra.{u, u} k R] \u2192\n            [inst_4 : FiniteDimensional.{u, u} k R] \u2192\n              {S : ModuleCat.{u, u} R} \u2192\n                (hS : IsSimpleModule.{u, u} R (ModuleCat.carrier.{u, u} S)) \u2192\n                  [IsAlgClosed.{u} k] \u2192\n                    [IsSemisimpleRing.{u} R] \u2192\n                      CategoryTheory.Equivalence.{u, u, u + 1, u + 1} (ModuleCat.{u, u} k)\n                        (ModuleCat.{u, u}\n                          (decl-013992.{u} R\n                            (decl-014097.{u, u, u} R k hS)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013992",
+        "decl-014097",
+        "decl-014125",
+        "decl-014129"
+      ],
+      "structural_type_hash": "2157967384",
+      "temporary_id": "decl-014190"
+    }
+  ],
+  "module_temporary_id": "module-0716",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

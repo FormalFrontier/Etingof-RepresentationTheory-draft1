@@ -1,0 +1,10 @@
+{
+  "module_name": "Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-003959",
+      "new_name": "auxiliary",
+      "docstring": "Auxiliary result."
+    }
+  ]
+}

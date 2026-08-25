@@ -1,0 +1,41 @@
+/-
+Copyright (c) 2026 American Mathematical Society. All rights reserved.
+-/
+
+import VersoManual
+import RepresentationTheory
+
+open Verso.Genre Manual
+
+namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition781
+
+#doc (Manual) "Complex, differentials, cohomology, exact sequence" =>
+
+# Complex, differentials, cohomology, exact sequence
+%%%
+tag := "Chapter7/Definition7.8.1"
+number := false
+%%%
+
+*Definition 7.8.1.* A sequence of objects $`C_i, i \in \mathbb{Z}`, of an abelian category $`\mathcal{C}` and morphisms $`d_i : C_i \to C_{i+1}` is said to be *a complex* if the composition of any two consecutive arrows is zero. The morphisms $`d_i` are called the *differentials*.[^differentials] The *cohomology* of this complex is
+
+[^differentials]: A famous example of a complex is the *de Rham complex*, in which $`C_m` is the space of differential $`m`-forms on a Euclidean space or, more generally, a manifold, and $`d_m` is the exterior differential of differential forms. This explains the term "differential".
+$`H^i = \operatorname{Ker}(d_i)/\operatorname{Im}(d_{i-1})`. The complex is said to be *exact* in the $`i`th term if $`H^i = 0` and is said to be *an exact sequence* if it is exact in all terms.
+
+## Formalization
+%%%
+tag := "Chapter7/Definition7.8.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CochainComplex.IntIndexed}
+
+{Manual.docstring RepresentationTheory.CochainComplex.IntIndexed.degreeObject}
+
+{Manual.docstring RepresentationTheory.CochainComplex.IntIndexed.degreeProperty}
+
+{Manual.docstring RepresentationTheory.CochainComplex.IntIndexed.nextDifferential}
+
+{Manual.docstring RepresentationTheory.CochainComplex.IntIndexed.property}

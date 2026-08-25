@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0249",
+  "associations": [
+    {
+      "association_id": "association:00a3ee792adb199db4ac",
+      "role": "primary",
+      "rationale": "It directly identifies the permutation-module character value with the indicated coefficient of the cycle-type power-sum product."
+    },
+    {
+      "association_id": "association:a023719b33653f5d8450",
+      "role": "supporting",
+      "rationale": "It identifies that coefficient with the cardinality of monochromatic colorings, serving as an intermediate comparison rather than stating the character formula."
+    },
+    {
+      "association_id": "association:cc5d8802e91a8439892d",
+      "role": "supporting",
+      "rationale": "It identifies the permutation character with the same coloring cardinality, serving as the other intermediate comparison rather than stating the coefficient formula."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:748412e31bb7469f2a1c",
+      "declaration": "Etingof.Problem946.cartanMatrix_pathAlgebra_eq_pathCount",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/564/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {Q : Type u} [inst_1 : Quiver.{u + 1, u} Q] [inst_2 : Fintype.{u} Q]\n  [inst_3 : DecidableEq.{u + 1} Q],\n  (\u2200 (i : Q) (p : Quiver.Path.{u + 1, u} i i), Eq.{u + 2} p Quiver.Path.nil.{u + 1, u}) \u2192\n    \u2200 [\u2200 (i j : Q), Finite.{u + 2} (Quiver.Hom.{u + 1, u} i j)] (P : Q \u2192 Type u_1)\n      [inst_5 : (i : Q) \u2192 AddCommGroup.{u_1} (P i)]\n      [inst_6 : (i : Q) \u2192 Module.{u + 1, u_1} (Etingof.PathAlgebra.{u, u, u + 1} k Q) (P i)]\n      [inst_7 : (i : Q) \u2192 Module.{u, u_1} k (P i)]\n      [inst_8 : \u2200 (i : Q), SMulCommClass.{u + 1, u, u_1} (Etingof.PathAlgebra.{u, u, u + 1} k Q) k (P i)],\n      (\u2200 (i j : Q),\n          Nonempty.{max (u + 2) (u_1 + 1)}\n            (LinearEquiv.{u, u, u_1, u + 1} (RingHom.id.{u} k)\n              (LinearMap.{u + 1, u + 1, u_1, u_1} (RingHom.id.{u + 1} (Etingof.PathAlgebra.{u, u, u + 1} k Q)) (P i)\n                (P j))\n              (Finsupp.{u + 1, u} (Quiver.Path.{u + 1, u} i j) k))) \u2192\n        Eq.{u + 1} (Etingof.algebraCartanMatrix.{u, u + 1, u, u_1} P) (Etingof.Problem946.pathCountMatrix.{u, u + 1} Q)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.4.6",
+  "packet_id": "align-0872",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0872"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.4.6:part_ii",
+  "source_text": "Part (ii): compute the acyclic path-algebra Cartan matrix from path counts using the actual projective covers."
+}

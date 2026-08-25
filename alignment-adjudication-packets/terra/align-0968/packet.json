@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0f4fc5ccfa936207d280",
+      "declaration": "Etingof.SymmetricAlgebraDef",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/109/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192 [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} k V] \u2192 Type (max u_1 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_12_1"
+    },
+    {
+      "association_id": "association:5fc3d91d312a72cf6243",
+      "declaration": "Etingof.symmetricAlgebra_generators_commute",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/109/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] (x y : V),\n  Eq.{max (u + 1) (v + 1)}\n    (HMul.hMul.{max u v, max u v, max u v}\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (SymmetricAlgebra.\u03b9.{u, v} k V) x)\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (SymmetricAlgebra.\u03b9.{u, v} k V) y))\n    (HMul.hMul.{max u v, max u v, max u v}\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (SymmetricAlgebra.\u03b9.{u, v} k V) y)\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (SymmetricAlgebra.\u03b9.{u, v} k V) x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_12_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.12.1",
+  "packet_id": "align-0968",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0968"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b4c2f22d93718632a62d",
+  "source_text": "S(V) is the quotient of T(V) imposing commutativity of degree-one generators."
+}

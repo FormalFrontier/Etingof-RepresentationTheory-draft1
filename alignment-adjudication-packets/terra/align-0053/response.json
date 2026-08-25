@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0053",
+  "associations": [
+    {
+      "association_id": "association:de2eca229a055de9a054",
+      "role": "supporting",
+      "rationale": "The displayed type is only an opaque Prop-valued signature and does not expose nonzeroness or the classification of subrepresentations."
+    }
+  ]
+}

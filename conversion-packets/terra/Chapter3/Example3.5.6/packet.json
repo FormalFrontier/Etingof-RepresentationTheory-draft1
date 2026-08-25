@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Example3.5.6",
+    "kind": "example",
+    "title": "Radicals of k[x]/(x^n) and upper triangular matrices",
+    "node_id": "chapter-03/section-3-5",
+    "order": 154,
+    "slug": "example3-5-6",
+    "span": {
+      "start": {
+        "page": "51",
+        "line": 5
+      },
+      "end": {
+        "page": "51",
+        "line": 8
+      }
+    },
+    "source_sha256": "fe1ca9b7db60a5d948c999e749e527fbbc0a7d12328a7843155247a125442fc6",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Example356",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

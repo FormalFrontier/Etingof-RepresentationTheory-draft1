@@ -1,0 +1,90 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u0393 : Type u_2} [inst_1 : Group.{u_2} \u0393] [inst_2 : Fintype.{u_2} \u0393]\n  [inst_3 : Invertible.{u_1} (Nat.cast.{u_1} (Fintype.card.{u_2} \u0393))] {W : Type u_3} [inst_4 : AddCommGroup.{u_3} W]\n  [inst_5 : Module.{u_1, u_3} k W] (\u03c3 : Representation.{u_1, u_2, u_3} k \u0393 W) (w : W),\n  Eq.{u_3 + 1} (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (Representation.averageMap.{u_1, u_2, u_3} \u03c3) w)\n    (HSMul.hSMul.{u_1, u_3, u_3} (Inv.inv.{u_1} (Nat.cast.{u_1} (Fintype.card.{u_2} \u0393)))\n      (Finset.sum.{u_2, u_3} Finset.univ.{u_2} fun h =>\n        DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c3 h) w))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "654326890",
+      "temporary_id": "decl-017259"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u0393 : Type u_2} [inst_1 : Group.{u_2} \u0393] [inst_2 : Fintype.{u_2} \u0393]\n  [inst_3 : Invertible.{u_1} (Nat.cast.{u_1} (Fintype.card.{u_2} \u0393))] {W : Type u_3} [inst_4 : AddCommGroup.{u_3} W]\n  [inst_5 : Module.{u_1, u_3} k W] (\u03c3 : Representation.{u_1, u_2, u_3} k \u0393 W),\n  Eq.{u_3 + 1} (Representation.averageMap.{u_1, u_2, u_3} \u03c3)\n    (HSMul.hSMul.{u_1, u_3, u_3} (Inv.inv.{u_1} (Nat.cast.{u_1} (Fintype.card.{u_2} \u0393)))\n      (Finset.sum.{u_2, u_3} Finset.univ.{u_2} fun h => DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c3 h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2208875202",
+      "temporary_id": "decl-017260"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u0393 : Type u_2} [inst_1 : Group.{u_2} \u0393] {W : Type u_3}\n  [inst_2 : AddCommGroup.{u_3} W] [inst_3 : Module.{u_1, u_3} k W] (\u03c3 : Representation.{u_1, u_2, u_3} k \u0393 W)\n  (\u03a6 : Representation.IntertwiningMap.{u_1, u_2, u_3, u_3} \u03c3 \u03c3) (x : W),\n  Membership.mem.{u_3, u_3} (Representation.invariants.{u_1, u_2, u_3} \u03c3) x \u2192\n    Membership.mem.{u_3, u_3} (Representation.invariants.{u_1, u_2, u_3} \u03c3)\n      (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (Representation.IntertwiningMap.toLinearMap.{u_1, u_2, u_3, u_3} \u03a6) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1218756175",
+      "temporary_id": "decl-020699"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u0393 : Type u_2} [inst_1 : Group.{u_2} \u0393] [inst_2 : Fintype.{u_2} \u0393]\n  [inst_3 : Invertible.{u_1} (Nat.cast.{u_1} (Fintype.card.{u_2} \u0393))] {W : Type u_3} [inst_4 : AddCommGroup.{u_3} W]\n  [inst_5 : Module.{u_1, u_3} k W] (\u03c3 : Representation.{u_1, u_2, u_3} k \u0393 W),\n  Eq.{u_3 + 1} (LinearMap.ker.{u_1, u_1, u_3, u_3} (Representation.averageMap.{u_1, u_2, u_3} \u03c3))\n    (Representation.Coinvariants.ker.{u_1, u_2, u_3} \u03c3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1620510107",
+      "temporary_id": "decl-021017"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2860372292",
+      "temporary_id": "decl-023570"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u0393 : Type u_2} [inst_1 : Group.{u_2} \u0393] [inst_2 : Fintype.{u_2} \u0393]\n  [Invertible.{u_1} (Nat.cast.{u_1} (Fintype.card.{u_2} \u0393))] {W : Type u_3} [inst_4 : AddCommGroup.{u_3} W]\n  [inst_5 : Module.{u_1, u_3} k W] [Module.Finite.{u_1, u_3} k W] (\u03c3 : Representation.{u_1, u_2, u_3} k \u0393 W)\n  (\u03a6 : Representation.IntertwiningMap.{u_1, u_2, u_3, u_3} \u03c3 \u03c3),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_3 + 1, u_1 + 1}\n      (LinearMap.trace.{u_1, u_3} k (Representation.Coinvariants.{u_1, u_2, u_3} \u03c3))\n      (Representation.Coinvariants.map.{u_1, u_2, u_3, u_3} \u03c3 \u03c3 \u03a6))\n    (HMul.hMul.{u_1, u_1, u_1} (Inv.inv.{u_1} (Nat.cast.{u_1} (Fintype.card.{u_2} \u0393)))\n      (Finset.sum.{u_2, u_1} Finset.univ.{u_2} fun h =>\n        DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_3 + 1, u_1 + 1} (LinearMap.trace.{u_1, u_3} k W)\n          (LinearMap.comp.{u_1, u_1, u_1, u_3, u_3, u_3} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c3 h)\n            (Representation.IntertwiningMap.toLinearMap.{u_1, u_2, u_3, u_3} \u03a6))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4221789351",
+      "temporary_id": "decl-024287"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_4} [inst : Field.{u_4} k] {\u03b9 : Type u_5} [inst_1 : Fintype.{u_5} \u03b9] [inst_2 : DecidableEq.{u_5 + 1} \u03b9]\n  (\u03c6 : \u03b9 \u2192 \u03b9),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), max (u_4 + 1) (u_5 + 1), u_4 + 1}\n      (LinearMap.trace.{u_4, max u_4 u_5} k (Finsupp.{u_5, u_4} \u03b9 k)) (Finsupp.lmapDomain.{u_5, u_4, u_4, u_5} k k \u03c6))\n    (Finset.sum.{u_5, u_4} Finset.univ.{u_5} fun x => ite.{u_4 + 1} (Eq.{u_5 + 1} (\u03c6 x) x) 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1502851594",
+      "temporary_id": "decl-024297"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_4} [inst : Field.{u_4} k] {\u03b9 : Type u_5} [Monoid.{u_5} \u03b9] [inst_2 : Fintype.{u_5} \u03b9]\n  [inst_3 : DecidableEq.{u_5 + 1} \u03b9] (\u03c6 : \u03b9 \u2192 \u03b9),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), max (u_4 + 1) (u_5 + 1), u_4 + 1}\n      (LinearMap.trace.{u_4, max u_5 u_4} k (MonoidAlgebra.{u_4, u_5} k \u03b9))\n      (MonoidAlgebra.mapDomainLinearMap.{u_4, u_4, u_5, u_5} k k \u03c6))\n    (Finset.sum.{u_5, u_4} Finset.univ.{u_5} fun x => ite.{u_4 + 1} (Eq.{u_5 + 1} (\u03c6 x) x) 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2471956254",
+      "temporary_id": "decl-024299"
+    }
+  ],
+  "module_temporary_id": "module-0481",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

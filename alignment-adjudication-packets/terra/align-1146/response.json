@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1146",
+  "associations": [
+    {
+      "association_id": "association:d494e70001db6f77427f",
+      "role": "supporting",
+      "rationale": "It establishes fixation of the orthogonal hyperplane, one component of the combined reflection claim."
+    },
+    {
+      "association_id": "association:7f9d38d895e68202c3c2",
+      "role": "supporting",
+      "rationale": "It establishes negation of the root, one component of the combined reflection claim."
+    },
+    {
+      "association_id": "association:c7d253ebbe0bfbff2233",
+      "role": "supporting",
+      "rationale": "It establishes preservation of the Cartan form, one component of the combined reflection claim."
+    }
+  ]
+}

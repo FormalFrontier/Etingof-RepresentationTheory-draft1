@@ -1,0 +1,45 @@
+{
+  "module_name": "Quiver.AuxiliaryAtVertex",
+  "declarations": [
+    {
+      "temporary_id": "decl-014724",
+      "new_name": "Quiver.auxiliary_or_after_auxiliary",
+      "docstring": "Under the displayed field, quiver, free, and finite hypotheses, the first auxiliary proposition on ρ implies one of two auxiliary propositions on the result of the displayed construction."
+    },
+    {
+      "temporary_id": "decl-014731",
+      "new_name": "Quiver.auxiliary_or_after_auxiliary_of_fintype",
+      "docstring": "Under the displayed field, quiver, free, finite, and Fintype hypotheses, the first auxiliary proposition on ρ implies one of two auxiliary propositions on the result of the displayed construction."
+    },
+    {
+      "temporary_id": "decl-014926",
+      "new_name": "AuxiliaryProperty",
+      "docstring": "An auxiliary proposition on an object of the displayed type, parameterized by a commutative semiring and a quiver."
+    },
+    {
+      "temporary_id": "decl-017230",
+      "new_name": "Quiver.auxiliary_hom_to_vertex",
+      "docstring": "Produces a quiver hom from the first projection of an auxiliary sigma element to the selected vertex."
+    },
+    {
+      "temporary_id": "decl-017235",
+      "new_name": "Quiver.auxiliary_hom_from_vertex",
+      "docstring": "Produces a quiver hom from the selected vertex to the first projection of an auxiliary sigma element."
+    },
+    {
+      "temporary_id": "decl-017242",
+      "new_name": "Quiver.auxiliary_sigma_fst_ne_vertex",
+      "docstring": "Under the given vertex condition, the first projection of every element of the auxiliary sigma type differs from the selected vertex."
+    },
+    {
+      "temporary_id": "decl-022497",
+      "new_name": "Quiver.auxiliary_evaluation_eq_component",
+      "docstring": "The two displayed evaluations are equal: the auxiliary composite on the left and the direct-sum component on the right, applied to the displayed value."
+    },
+    {
+      "temporary_id": "decl-022744",
+      "new_name": "Quiver.auxiliary_apply_hom_eq_sigma_snd",
+      "docstring": "The displayed auxiliary construction applied to the quiver hom obtained from a sigma element equals that element's second projection."
+    }
+  ]
+}

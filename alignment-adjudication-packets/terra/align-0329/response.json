@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0329",
+  "associations": [
+    {
+      "association_id": "association:307cd955214488524754",
+      "rationale": "Assuming the Leibniz rule for D, the formal type states multiplicativity of exp(tD), but not the source's additional unitality assertion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9870b320efd3a10bb902",
+      "rationale": "Assuming the Leibniz rule for D, the formal type states that exp(tD) sends one to one, but not the source's additional multiplicativity assertion.",
+      "role": "supporting"
+    }
+  ]
+}

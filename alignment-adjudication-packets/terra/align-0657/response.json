@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0657",
+  "associations": [
+    {
+      "association_id": "association:990e6dc7dc2e764cf821",
+      "rationale": "The displayed type only introduces IsCocycle as a proposition on the ambient linear maps; it supports the definition of the cocycle space without itself stating that the cocycles form that space.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:05f45a3ca07cdd90c30d",
+      "rationale": "The declaration directly packages cocycles as a k-submodule of the space of linear maps A → Hom_k(W,V), which states that the 1-cocycles form a vector space.",
+      "role": "primary"
+    }
+  ]
+}

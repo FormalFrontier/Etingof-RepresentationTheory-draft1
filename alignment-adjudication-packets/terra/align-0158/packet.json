@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:44aca1902593bf134ea6",
+      "declaration": "Etingof.QuiverSubrepresentation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/71/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (Q : Type u_2) \u2192\n    [inst : CommSemiring.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192 Etingof.QuiverRepresentation.{u_1, u_2, u_4, u_3} k Q \u2192 Type (max u_2 u_4)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_8"
+    },
+    {
+      "association_id": "association:9f1b389eda43c5282606",
+      "declaration": "Etingof.QuiverSubrepresentation.toRepresentation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/71/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommSemiring.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        {\u03c1 : Etingof.QuiverRepresentation.{u_1, u_2, u_4, u_3} k Q} \u2192\n          Etingof.QuiverSubrepresentation.{u_1, u_2, u_3, u_4} k Q \u03c1 \u2192\n            Etingof.QuiverRepresentation.{u_1, u_2, u_4, u_3} k Q",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_8"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.8.8",
+  "packet_id": "align-0158",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0158"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:314d7f6e2dfa73f6ed5d",
+  "source_text": "A subrepresentation consists of subspaces W_i\u2286V_i preserved by every x_h, with arrow maps x'_h equal to the restrictions of x_h."
+}

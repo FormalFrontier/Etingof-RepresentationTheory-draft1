@@ -1,0 +1,2859 @@
+{
+  "schema_version": 1,
+  "work_id": "EtingofEtAl-IntroductionToRepresentationTheory",
+  "title": "Introduction to Representation Theory",
+  "authors": [
+    "Pavel Etingof",
+    "Oleg Golberg",
+    "Sebastian Hensel",
+    "Tiankai Liu",
+    "Alex Schwendner",
+    "Dmitry Vaintrob",
+    "Elena Yudovina"
+  ],
+  "nodes": [
+    {
+      "node_id": "frontmatter",
+      "kind": "frontmatter",
+      "parent_id": null,
+      "number": null,
+      "title": "Frontmatter",
+      "slug": "frontmatter",
+      "start": {
+        "page": "frontmatter-1",
+        "line": 1
+      },
+      "heading_sources": [],
+      "item_ids": [
+        "Frontmatter/TitlePage",
+        "Frontmatter/BlankPage1",
+        "Frontmatter/TableOfContents",
+        "Frontmatter/BlankPage2"
+      ]
+    },
+    {
+      "node_id": "chapter-01",
+      "kind": "chapter",
+      "parent_id": null,
+      "number": "1",
+      "title": "Introduction",
+      "slug": "chapter-01",
+      "start": {
+        "page": "1",
+        "line": 1
+      },
+      "heading_sources": [],
+      "item_ids": [
+        "Chapter1/Introduction",
+        "Chapter1/Discussion_BookOrganization",
+        "Chapter1/Acknowledgments"
+      ]
+    },
+    {
+      "node_id": "chapter-02",
+      "kind": "chapter",
+      "parent_id": null,
+      "number": "2",
+      "title": "Basic notions of representation theory",
+      "slug": "chapter-02",
+      "start": {
+        "page": "5",
+        "line": 1
+      },
+      "heading_sources": [],
+      "item_ids": []
+    },
+    {
+      "node_id": "chapter-02/section-2-1",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.1",
+      "title": "What is representation theory?",
+      "slug": "section-2-1",
+      "start": {
+        "page": "5",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "5",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Introduction",
+        "Chapter2/Discussion_2.1_overview",
+        "Chapter2/Discussion_2.1_irreducible_indecomposable",
+        "Chapter2/Theorem2.1.1",
+        "Chapter2/Discussion_after_Theorem2.1.1",
+        "Chapter2/Theorem2.1.2",
+        "Chapter2/Discussion_after_Theorem2.1.2"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-2",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.2",
+      "title": "Algebras",
+      "slug": "section-2-2",
+      "start": {
+        "page": "8",
+        "line": 11
+      },
+      "heading_sources": [
+        {
+          "page": "8",
+          "line": 11,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.2_intro",
+        "Chapter2/Definition2.2.1",
+        "Chapter2/Definition2.2.2",
+        "Chapter2/Proposition2.2.3",
+        "Chapter2/Discussion_after_Proposition2.2.3",
+        "Chapter2/Example2.2.4",
+        "Chapter2/Definition2.2.5",
+        "Chapter2/Discussion_commutativity_examples",
+        "Chapter2/Definition2.2.6"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-3",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.3",
+      "title": "Representations",
+      "slug": "section-2-3",
+      "start": {
+        "page": "10",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "10",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Definition2.3.1",
+        "Chapter2/Remark2.3.2",
+        "Chapter2/Discussion_examples_intro",
+        "Chapter2/Example2.3.3",
+        "Chapter2/Definition2.3.4",
+        "Chapter2/Definition2.3.5",
+        "Chapter2/Definition2.3.6",
+        "Chapter2/Definition2.3.7",
+        "Chapter2/Definition2.3.8",
+        "Chapter2/Discussion_irreducible_vs_indecomposable",
+        "Chapter2/Discussion_Schur_intro",
+        "Chapter2/Proposition2.3.9",
+        "Chapter2/Corollary2.3.10",
+        "Chapter2/Remark2.3.11",
+        "Chapter2/Discussion_proof_Corollary2.3.10",
+        "Chapter2/Corollary2.3.12",
+        "Chapter2/Remark2.3.13",
+        "Chapter2/Discussion_proof_Corollary2.3.12",
+        "Chapter2/Example2.3.14",
+        "Chapter2/Example2.3.14_continued",
+        "Chapter2/Problem2.3.15",
+        "Chapter2/Problem2.3.16",
+        "Chapter2/Problem2.3.17",
+        "Chapter2/Problem2.3.18"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-4",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.4",
+      "title": "Ideals",
+      "slug": "section-2-4",
+      "start": {
+        "page": "15",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "15",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.4_heading",
+        "Chapter2/Problem2.4.1"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-5",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.5",
+      "title": "Quotients",
+      "slug": "section-2-5",
+      "start": {
+        "page": "15",
+        "line": 17
+      },
+      "heading_sources": [
+        {
+          "page": "15",
+          "line": 17,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.5_heading",
+        "Chapter2/Discussion_2.5_well_defined",
+        "Chapter2/Problem2.5.1",
+        "Chapter2/Problem2.5.2"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-6",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.6",
+      "title": "Algebras defined by generators and relations",
+      "slug": "section-2-6",
+      "start": {
+        "page": "17",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "17",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.6"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-7",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.7",
+      "title": "Examples of algebras",
+      "slug": "section-2-7",
+      "start": {
+        "page": "17",
+        "line": 5
+      },
+      "heading_sources": [
+        {
+          "page": "17",
+          "line": 5,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.7_intro",
+        "Chapter2/Proposition2.7.1",
+        "Chapter2/Remark2.7.2",
+        "Chapter2/Definition2.7.3",
+        "Chapter2/Discussion_faithful_example",
+        "Chapter2/Problem2.7.4",
+        "Chapter2/Problem2.7.5"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-8",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.8",
+      "title": "Quivers",
+      "slug": "section-2-8",
+      "start": {
+        "page": "19",
+        "line": 21
+      },
+      "heading_sources": [
+        {
+          "page": "19",
+          "line": 21,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Definition2.8.1",
+        "Chapter2/Example2.8.2",
+        "Chapter2/Discussion_quiver_notation",
+        "Chapter2/Definition2.8.3",
+        "Chapter2/Discussion_path_algebra_intro",
+        "Chapter2/Definition2.8.4",
+        "Chapter2/Remark2.8.5",
+        "Chapter2/Problem2.8.6",
+        "Chapter2/Discussion_quiver_rep_bijection",
+        "Chapter2/Remark2.8.7",
+        "Chapter2/Definition2.8.8",
+        "Chapter2/Definition2.8.9",
+        "Chapter2/Discussion_quiver_irreducible_indecomposable",
+        "Chapter2/Definition2.8.10",
+        "Chapter2/Problem2.8.11"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-9",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.9",
+      "title": "Lie algebras",
+      "slug": "section-2-9",
+      "start": {
+        "page": "22",
+        "line": 13
+      },
+      "heading_sources": [
+        {
+          "page": "22",
+          "line": 13,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.9_heading",
+        "Chapter2/Definition2.9.1",
+        "Chapter2/Example2.9.2",
+        "Chapter2/Example2.9.2_continued",
+        "Chapter2/Remark2.9.3",
+        "Chapter2/Remark2.9.4",
+        "Chapter2/Discussion_concrete_Lie_examples",
+        "Chapter2/Discussion_concrete_Lie_examples_continued",
+        "Chapter2/Exercise2.9.5",
+        "Chapter2/Definition2.9.6",
+        "Chapter2/Definition2.9.7",
+        "Chapter2/Example2.9.8",
+        "Chapter2/Definition2.9.9",
+        "Chapter2/Remark2.9.10",
+        "Chapter2/Exercise2.9.11",
+        "Chapter2/Example2.9.12",
+        "Chapter2/Example2.9.13",
+        "Chapter2/Remark2.9.14",
+        "Chapter2/Discussion_2.9_Lie_groups"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-10",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.10",
+      "title": "Historical interlude: Sophus Lie's trials and transformations",
+      "slug": "section-2-10",
+      "start": {
+        "page": "26",
+        "line": 7
+      },
+      "heading_sources": [
+        {
+          "page": "26",
+          "line": 7,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.10_heading",
+        "Chapter2/Discussion_2.10_continued"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-11",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.11",
+      "title": "Tensor products",
+      "slug": "section-2-11",
+      "start": {
+        "page": "31",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "31",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.11_heading",
+        "Chapter2/Definition2.11.1",
+        "Chapter2/Exercise2.11.2",
+        "Chapter2/Discussion_pure_tensors",
+        "Chapter2/Discussion_tensors_type",
+        "Chapter2/Discussion_tensor_product_maps",
+        "Chapter2/Problem2.11.3",
+        "Chapter2/Remark2.11.4",
+        "Chapter2/Exercise2.11.5",
+        "Chapter2/Problem2.11.6",
+        "Chapter2/Exercise2.11.7"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-12",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.12",
+      "title": "The tensor algebra",
+      "slug": "section-2-12",
+      "start": {
+        "page": "35",
+        "line": 29
+      },
+      "heading_sources": [
+        {
+          "page": "35",
+          "line": 29,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.12_heading",
+        "Chapter2/Definition2.12.1"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-13",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.13",
+      "title": "Hilbert's third problem",
+      "slug": "section-2-13",
+      "start": {
+        "page": "36",
+        "line": 17
+      },
+      "heading_sources": [
+        {
+          "page": "36",
+          "line": 17,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.13_heading",
+        "Chapter2/Problem2.13.1"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-14",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.14",
+      "title": "Tensor products and duals of representations of Lie algebras",
+      "slug": "section-2-14",
+      "start": {
+        "page": "37",
+        "line": 9
+      },
+      "heading_sources": [
+        {
+          "page": "37",
+          "line": 9,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.14_heading",
+        "Chapter2/Definition2.14.1",
+        "Chapter2/Definition2.14.2",
+        "Chapter2/Problem2.14.3"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-15",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.15",
+      "title": "Representations of $\\mathfrak{sl}(2)$",
+      "slug": "section-2-15",
+      "start": {
+        "page": "37",
+        "line": 21
+      },
+      "heading_sources": [
+        {
+          "page": "37",
+          "line": 21,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.15_heading",
+        "Chapter2/Problem2.15.1"
+      ]
+    },
+    {
+      "node_id": "chapter-02/section-2-16",
+      "kind": "section",
+      "parent_id": "chapter-02",
+      "number": "2.16",
+      "title": "Problems on Lie algebras",
+      "slug": "section-2-16",
+      "start": {
+        "page": "39",
+        "line": 17
+      },
+      "heading_sources": [
+        {
+          "page": "39",
+          "line": 17,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter2/Discussion_2.16_heading",
+        "Chapter2/Problem2.16.1",
+        "Chapter2/Problem2.16.2",
+        "Chapter2/Problem2.16.3",
+        "Chapter2/Problem2.16.4",
+        "Chapter2/Problem2.16.5"
+      ]
+    },
+    {
+      "node_id": "chapter-03",
+      "kind": "chapter",
+      "parent_id": null,
+      "number": "3",
+      "title": "General results of representation theory",
+      "slug": "chapter-03",
+      "start": {
+        "page": "43",
+        "line": 1
+      },
+      "heading_sources": [],
+      "item_ids": []
+    },
+    {
+      "node_id": "chapter-03/section-3-1",
+      "kind": "section",
+      "parent_id": "chapter-03",
+      "number": "3.1",
+      "title": "Subrepresentations in semisimple representations",
+      "slug": "section-3-1",
+      "start": {
+        "page": "43",
+        "line": 5
+      },
+      "heading_sources": [
+        {
+          "page": "43",
+          "line": 5,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter3/Introduction",
+        "Chapter3/Definition3.1.1",
+        "Chapter3/Example3.1.2",
+        "Chapter3/Remark3.1.3",
+        "Chapter3/Discussion_before_Proposition3.1.4",
+        "Chapter3/Proposition3.1.4",
+        "Chapter3/Remark3.1.5",
+        "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
+        "Chapter3/Lemma3.1.6",
+        "Chapter3/Discussion_after_Lemma3.1.6"
+      ]
+    },
+    {
+      "node_id": "chapter-03/section-3-2",
+      "kind": "section",
+      "parent_id": "chapter-03",
+      "number": "3.2",
+      "title": "The density theorem",
+      "slug": "section-3-2",
+      "start": {
+        "page": "45",
+        "line": 23
+      },
+      "heading_sources": [
+        {
+          "page": "45",
+          "line": 23,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter3/Introduction_to_3.2",
+        "Chapter3/Corollary3.2.1",
+        "Chapter3/Theorem3.2.2"
+      ]
+    },
+    {
+      "node_id": "chapter-03/section-3-3",
+      "kind": "section",
+      "parent_id": "chapter-03",
+      "number": "3.3",
+      "title": "Representations of direct sums of matrix algebras",
+      "slug": "section-3-3",
+      "start": {
+        "page": "47",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "47",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter3/Introduction_to_3.3",
+        "Chapter3/Theorem3.3.1",
+        "Chapter3/Discussion_before_Definition3.3.2",
+        "Chapter3/Definition3.3.2",
+        "Chapter3/Discussion_proof_of_Theorem3.3.1",
+        "Chapter3/Problem3.3.3",
+        "Chapter3/Remark3.3.4"
+      ]
+    },
+    {
+      "node_id": "chapter-03/section-3-4",
+      "kind": "section",
+      "parent_id": "chapter-03",
+      "number": "3.4",
+      "title": "Filtrations",
+      "slug": "section-3-4",
+      "start": {
+        "page": "49",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "49",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter3/Introduction_to_3.4",
+        "Chapter3/Definition3.4.1",
+        "Chapter3/Lemma3.4.2"
+      ]
+    },
+    {
+      "node_id": "chapter-03/section-3-5",
+      "kind": "section",
+      "parent_id": "chapter-03",
+      "number": "3.5",
+      "title": "Finite dimensional algebras",
+      "slug": "section-3-5",
+      "start": {
+        "page": "49",
+        "line": 13
+      },
+      "heading_sources": [
+        {
+          "page": "49",
+          "line": 13,
+          "primary": true
+        },
+        {
+          "page": "51",
+          "line": 1,
+          "primary": false
+        }
+      ],
+      "item_ids": [
+        "Chapter3/Introduction_to_3.5",
+        "Chapter3/Definition3.5.1",
+        "Chapter3/Proposition3.5.2",
+        "Chapter3/Proposition3.5.3",
+        "Chapter3/Theorem3.5.4",
+        "Chapter3/Corollary3.5.5",
+        "Chapter3/Example3.5.6",
+        "Chapter3/Definition3.5.7",
+        "Chapter3/Proposition3.5.8"
+      ]
+    },
+    {
+      "node_id": "chapter-03/section-3-6",
+      "kind": "section",
+      "parent_id": "chapter-03",
+      "number": "3.6",
+      "title": "Characters of representations",
+      "slug": "section-3-6",
+      "start": {
+        "page": "52",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "52",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter3/Introduction_to_3.6",
+        "Chapter3/Exercise3.6.1",
+        "Chapter3/Theorem3.6.2"
+      ]
+    },
+    {
+      "node_id": "chapter-03/section-3-7",
+      "kind": "section",
+      "parent_id": "chapter-03",
+      "number": "3.7",
+      "title": "The Jordan-Holder theorem",
+      "slug": "section-3-7",
+      "start": {
+        "page": "53",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "53",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter3/Introduction_to_3.7",
+        "Chapter3/Theorem3.7.1",
+        "Chapter3/Discussion_after_Theorem3.7.1"
+      ]
+    },
+    {
+      "node_id": "chapter-03/section-3-8",
+      "kind": "section",
+      "parent_id": "chapter-03",
+      "number": "3.8",
+      "title": "The Krull-Schmidt theorem",
+      "slug": "section-3-8",
+      "start": {
+        "page": "54",
+        "line": 9
+      },
+      "heading_sources": [
+        {
+          "page": "54",
+          "line": 9,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter3/Introduction_to_3.8",
+        "Chapter3/Theorem3.8.1",
+        "Chapter3/Lemma3.8.2",
+        "Chapter3/Discussion_proof_of_Theorem3.8.1",
+        "Chapter3/Problem3.8.3",
+        "Chapter3/Problem3.8.4",
+        "Chapter3/Problem3.8.5",
+        "Chapter3/Remark3.8.6"
+      ]
+    },
+    {
+      "node_id": "chapter-03/section-3-9",
+      "kind": "section",
+      "parent_id": "chapter-03",
+      "number": "3.9",
+      "title": "Problems",
+      "slug": "section-3-9",
+      "start": {
+        "page": "56",
+        "line": 13
+      },
+      "heading_sources": [
+        {
+          "page": "56",
+          "line": 13,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter3/Introduction_to_3.9",
+        "Chapter3/Problem3.9.1",
+        "Chapter3/Problem3.9.2",
+        "Chapter3/Problem3.9.3",
+        "Chapter3/Problem3.9.4",
+        "Chapter3/Problem3.9.5"
+      ]
+    },
+    {
+      "node_id": "chapter-03/section-3-10",
+      "kind": "section",
+      "parent_id": "chapter-03",
+      "number": "3.10",
+      "title": "Representations of tensor products",
+      "slug": "section-3-10",
+      "start": {
+        "page": "59",
+        "line": 5
+      },
+      "heading_sources": [
+        {
+          "page": "59",
+          "line": 5,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter3/Introduction_to_3.10",
+        "Chapter3/Exercise3.10.1",
+        "Chapter3/Discussion_before_Theorem3.10.2",
+        "Chapter3/Theorem3.10.2",
+        "Chapter3/Remark3.10.3",
+        "Chapter3/Discussion_proof_of_Theorem3.10.2"
+      ]
+    },
+    {
+      "node_id": "chapter-04",
+      "kind": "chapter",
+      "parent_id": null,
+      "number": "4",
+      "title": "Representations of finite groups: Basic results",
+      "slug": "chapter-04",
+      "start": {
+        "page": "61",
+        "line": 1
+      },
+      "heading_sources": [],
+      "item_ids": [
+        "Chapter4/Introduction"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-1",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.1",
+      "title": "Maschke's theorem",
+      "slug": "section-4-1",
+      "start": {
+        "page": "61",
+        "line": 9
+      },
+      "heading_sources": [
+        {
+          "page": "61",
+          "line": 9,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Theorem4.1.1",
+        "Chapter4/Discussion_before_Proposition4.1.2",
+        "Chapter4/Proposition4.1.2",
+        "Chapter4/Example4.1.3",
+        "Chapter4/Problem4.1.4"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-2",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.2",
+      "title": "Characters",
+      "slug": "section-4-2",
+      "start": {
+        "page": "63",
+        "line": 17
+      },
+      "heading_sources": [
+        {
+          "page": "63",
+          "line": 17,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Introduction_4.2",
+        "Chapter4/Theorem4.2.1",
+        "Chapter4/Corollary4.2.2",
+        "Chapter4/Exercise4.2.3",
+        "Chapter4/Corollary4.2.4"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-3",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.3",
+      "title": "Examples",
+      "slug": "section-4-3",
+      "start": {
+        "page": "64",
+        "line": 17
+      },
+      "heading_sources": [
+        {
+          "page": "64",
+          "line": 17,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Introduction_4.3",
+        "Chapter4/Example4.3_FiniteAbelianGroups",
+        "Chapter4/Example4.3_S3",
+        "Chapter4/Example4.3_Q8",
+        "Chapter4/Exercise4.3.1",
+        "Chapter4/Example4.3_S4"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-4",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.4",
+      "title": "Duals and tensor products of representations",
+      "slug": "section-4-4",
+      "start": {
+        "page": "67",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "67",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Discussion_4.4"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-5",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.5",
+      "title": "Orthogonality of characters",
+      "slug": "section-4-5",
+      "start": {
+        "page": "67",
+        "line": 25
+      },
+      "heading_sources": [
+        {
+          "page": "67",
+          "line": 25,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Introduction_4.5",
+        "Chapter4/Theorem4.5.1",
+        "Chapter4/Discussion_after_Theorem4.5.1",
+        "Chapter4/Problem4.5.2",
+        "Chapter4/Remark4.5.3",
+        "Chapter4/Discussion_before_Theorem4.5.4",
+        "Chapter4/Theorem4.5.4",
+        "Chapter4/Remark4.5.5"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-6",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.6",
+      "title": "Unitary representations. Another proof of Maschke's theorem for complex representations",
+      "slug": "section-4-6",
+      "start": {
+        "page": "71",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "71",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Introduction_4.6",
+        "Chapter4/Definition4.6.1",
+        "Chapter4/Theorem4.6.2",
+        "Chapter4/Discussion_after_Theorem4.6.2",
+        "Chapter4/Theorem4.6.3",
+        "Chapter4/Discussion_after_Theorem4.6.3",
+        "Chapter4/Remark4.6.4"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-7",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.7",
+      "title": "Orthogonality of matrix elements",
+      "slug": "section-4-7",
+      "start": {
+        "page": "72",
+        "line": 11
+      },
+      "heading_sources": [
+        {
+          "page": "72",
+          "line": 11,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Introduction_4.7",
+        "Chapter4/Proposition4.7.1"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-8",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.8",
+      "title": "Character tables, examples",
+      "slug": "section-4-8",
+      "start": {
+        "page": "73",
+        "line": 25
+      },
+      "heading_sources": [
+        {
+          "page": "73",
+          "line": 25,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Introduction_4.8",
+        "Chapter4/Example4.8.1"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-9",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.9",
+      "title": "Computing tensor product multiplicities using character tables",
+      "slug": "section-4-9",
+      "start": {
+        "page": "77",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "77",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Introduction_4.9",
+        "Chapter4/Example4.9.1"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-10",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.10",
+      "title": "Frobenius determinant",
+      "slug": "section-4-10",
+      "start": {
+        "page": "78",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "78",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Introduction_4.10",
+        "Chapter4/Definition4.10.1",
+        "Chapter4/Discussion_before_Theorem4.10.2",
+        "Chapter4/Theorem4.10.2",
+        "Chapter4/Discussion_before_Lemma4.10.3",
+        "Chapter4/Lemma4.10.3",
+        "Chapter4/Discussion_proof_Theorem4.10.2"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-11",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.11",
+      "title": "Historical interlude: Georg Frobenius's \"Principle of Horse Trade\"",
+      "slug": "section-4-11",
+      "start": {
+        "page": "79",
+        "line": 21
+      },
+      "heading_sources": [
+        {
+          "page": "79",
+          "line": 21,
+          "primary": true
+        },
+        {
+          "page": "81",
+          "line": 1,
+          "primary": false
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Discussion_4.11"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-12",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.12",
+      "title": "Problems",
+      "slug": "section-4-12",
+      "start": {
+        "page": "83",
+        "line": 7
+      },
+      "heading_sources": [
+        {
+          "page": "83",
+          "line": 7,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Introduction_4.12",
+        "Chapter4/Problem4.12.1",
+        "Chapter4/Problem4.12.2",
+        "Chapter4/Problem4.12.3",
+        "Chapter4/Problem4.12.4",
+        "Chapter4/Problem4.12.5",
+        "Chapter4/Problem4.12.6",
+        "Chapter4/Problem4.12.7",
+        "Chapter4/Problem4.12.8",
+        "Chapter4/Problem4.12.9",
+        "Chapter4/Problem4.12.10",
+        "Chapter4/Problem4.12.11"
+      ]
+    },
+    {
+      "node_id": "chapter-04/section-4-13",
+      "kind": "section",
+      "parent_id": "chapter-04",
+      "number": "4.13",
+      "title": "Historical interlude: William Rowan Hamilton's quaternion of geometry, algebra, metaphysics, and poetry",
+      "slug": "section-4-13",
+      "start": {
+        "page": "88",
+        "line": 13
+      },
+      "heading_sources": [
+        {
+          "page": "88",
+          "line": 13,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter4/Discussion_4.13"
+      ]
+    },
+    {
+      "node_id": "chapter-05",
+      "kind": "chapter",
+      "parent_id": null,
+      "number": "5",
+      "title": "Representations of finite groups: Further results",
+      "slug": "chapter-05",
+      "start": {
+        "page": "93",
+        "line": 1
+      },
+      "heading_sources": [],
+      "item_ids": []
+    },
+    {
+      "node_id": "chapter-05/section-5-1",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.1",
+      "title": "Frobenius-Schur indicator",
+      "slug": "section-5-1",
+      "start": {
+        "page": "93",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "93",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction",
+        "Chapter5/Definition5.1.1",
+        "Chapter5/Discussion_after_Definition5.1.1",
+        "Chapter5/Problem5.1.2",
+        "Chapter5/Example5.1.3",
+        "Chapter5/Definition5.1.4",
+        "Chapter5/Theorem5.1.5",
+        "Chapter5/Corollary5.1.6",
+        "Chapter5/Exercise5.1.7"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-2",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.2",
+      "title": "Algebraic numbers and algebraic integers",
+      "slug": "section-5-2",
+      "start": {
+        "page": "95",
+        "line": 25
+      },
+      "heading_sources": [
+        {
+          "page": "95",
+          "line": 25,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.2",
+        "Chapter5/Definition5.2.1",
+        "Chapter5/Definition5.2.2",
+        "Chapter5/Proposition5.2.3",
+        "Chapter5/Discussion_after_Proposition5.2.3",
+        "Chapter5/Proposition5.2.4",
+        "Chapter5/Proposition5.2.5",
+        "Chapter5/Discussion_after_Proposition5.2.5",
+        "Chapter5/Lemma5.2.6",
+        "Chapter5/Problem5.2.7",
+        "Chapter5/Remark5.2.8"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-3",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.3",
+      "title": "Frobenius divisibility",
+      "slug": "section-5-3",
+      "start": {
+        "page": "98",
+        "line": 13
+      },
+      "heading_sources": [
+        {
+          "page": "98",
+          "line": 13,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.3",
+        "Chapter5/Theorem5.3.1",
+        "Chapter5/Proposition5.3.2",
+        "Chapter5/Discussion_proof_of_Theorem5.3.1",
+        "Chapter5/Exercise5.3.3"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-4",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.4",
+      "title": "Burnside's theorem",
+      "slug": "section-5-4",
+      "start": {
+        "page": "100",
+        "line": 5
+      },
+      "heading_sources": [
+        {
+          "page": "100",
+          "line": 5,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.4",
+        "Chapter5/Definition5.4.1",
+        "Chapter5/Remark5.4.2",
+        "Chapter5/Theorem5.4.3",
+        "Chapter5/Discussion_after_Theorem5.4.3",
+        "Chapter5/Theorem5.4.4",
+        "Chapter5/Discussion_before_Lemma5.4.5",
+        "Chapter5/Lemma5.4.5",
+        "Chapter5/Discussion_proof_of_Theorem5.4.4",
+        "Chapter5/Theorem5.4.6",
+        "Chapter5/Lemma5.4.7",
+        "Chapter5/Discussion_proof_of_Theorem5.4.6",
+        "Chapter5/Discussion_proof_of_Theorem5.4.3"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-5",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.5",
+      "title": "Historical interlude: William Burnside and intellectual harmony in mathematics",
+      "slug": "section-5-5",
+      "start": {
+        "page": "102",
+        "line": 19
+      },
+      "heading_sources": [
+        {
+          "page": "102",
+          "line": 19,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.5",
+        "Chapter5/Discussion_5.5"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-6",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.6",
+      "title": "Representations of products",
+      "slug": "section-5-6",
+      "start": {
+        "page": "107",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "107",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.6",
+        "Chapter5/Theorem5.6.1"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-7",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.7",
+      "title": "Virtual representations",
+      "slug": "section-5-7",
+      "start": {
+        "page": "107",
+        "line": 7
+      },
+      "heading_sources": [
+        {
+          "page": "107",
+          "line": 7,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.7",
+        "Chapter5/Definition5.7.1",
+        "Chapter5/Discussion_before_Lemma5.7.2",
+        "Chapter5/Lemma5.7.2"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-8",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.8",
+      "title": "Induced representations",
+      "slug": "section-5-8",
+      "start": {
+        "page": "107",
+        "line": 17
+      },
+      "heading_sources": [
+        {
+          "page": "107",
+          "line": 17,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.8",
+        "Chapter5/Definition5.8.1",
+        "Chapter5/Remark5.8.2",
+        "Chapter5/Discussion_verification_of_Ind",
+        "Chapter5/Remark5.8.3",
+        "Chapter5/Problem5.8.4",
+        "Chapter5/Exercise5.8.5"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-9",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.9",
+      "title": "The Frobenius formula for the character of an induced representation",
+      "slug": "section-5-9",
+      "start": {
+        "page": "109",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "109",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.9",
+        "Chapter5/Theorem5.9.1",
+        "Chapter5/Remark5.9.2",
+        "Chapter5/Discussion_proof_of_Theorem5.9.1"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-10",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.10",
+      "title": "Frobenius reciprocity",
+      "slug": "section-5-10",
+      "start": {
+        "page": "110",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "110",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.10",
+        "Chapter5/Theorem5.10.1",
+        "Chapter5/Problem5.10.2",
+        "Chapter5/Discussion_Problem5.10.2_parts"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-11",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.11",
+      "title": "Examples",
+      "slug": "section-5-11",
+      "start": {
+        "page": "112",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "112",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.11",
+        "Chapter5/Discussion_5.11_examples",
+        "Chapter5/Problem5.11.1"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-12",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.12",
+      "title": "Representations of $S_n$",
+      "slug": "section-5-12",
+      "start": {
+        "page": "112",
+        "line": 25
+      },
+      "heading_sources": [
+        {
+          "page": "112",
+          "line": 25,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.12",
+        "Chapter5/Definition5.12.1",
+        "Chapter5/Discussion_Young_projectors",
+        "Chapter5/Theorem5.12.2",
+        "Chapter5/Example5.12.3",
+        "Chapter5/Corollary5.12.4",
+        "Chapter5/Problem5.12.5"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-13",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.13",
+      "title": "Proof of the classification theorem for representations of $S_n$",
+      "slug": "section-5-13",
+      "start": {
+        "page": "114",
+        "line": 13
+      },
+      "heading_sources": [
+        {
+          "page": "114",
+          "line": 13,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.13",
+        "Chapter5/Lemma5.13.1",
+        "Chapter5/Discussion_end_of_Lemma5.13.1_proof",
+        "Chapter5/Discussion_lexicographic_ordering",
+        "Chapter5/Lemma5.13.2",
+        "Chapter5/Lemma5.13.3",
+        "Chapter5/Lemma5.13.4",
+        "Chapter5/Discussion_proof_of_Lemma5.13.4",
+        "Chapter5/Discussion_proof_of_Theorem5.12.2"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-14",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.14",
+      "title": "Induced representations for $S_n$",
+      "slug": "section-5-14",
+      "start": {
+        "page": "116",
+        "line": 9
+      },
+      "heading_sources": [
+        {
+          "page": "116",
+          "line": 9,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.14",
+        "Chapter5/Proposition5.14.1",
+        "Chapter5/Definition5.14.2",
+        "Chapter5/Discussion_proof_of_Proposition5.14.1",
+        "Chapter5/Discussion_character_computation_setup",
+        "Chapter5/Theorem5.14.3"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-15",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.15",
+      "title": "The Frobenius character formula",
+      "slug": "section-5-15",
+      "start": {
+        "page": "118",
+        "line": 11
+      },
+      "heading_sources": [
+        {
+          "page": "118",
+          "line": 11,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.15",
+        "Chapter5/Theorem5.15.1",
+        "Chapter5/Remark5.15.2",
+        "Chapter5/Discussion_proof_of_Theorem5.15.1",
+        "Chapter5/Discussion_proof_of_Frobenius_character_formula",
+        "Chapter5/Lemma5.15.3",
+        "Chapter5/Discussion_footnote_5.15",
+        "Chapter5/Discussion_proof_of_Lemma5.15.3",
+        "Chapter5/Corollary5.15.4",
+        "Chapter5/Remark5.15.5"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-16",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.16",
+      "title": "Problems",
+      "slug": "section-5-16",
+      "start": {
+        "page": "120",
+        "line": 17
+      },
+      "heading_sources": [
+        {
+          "page": "120",
+          "line": 17,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.16",
+        "Chapter5/Problem5.16.1",
+        "Chapter5/Problem5.16.2",
+        "Chapter5/Problem5.16.3"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-17",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.17",
+      "title": "The hook length formula",
+      "slug": "section-5-17",
+      "start": {
+        "page": "121",
+        "line": 9
+      },
+      "heading_sources": [
+        {
+          "page": "121",
+          "line": 9,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.17",
+        "Chapter5/Discussion_hook_length_derivation",
+        "Chapter5/Theorem5.17.1"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-18",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.18",
+      "title": "Schur-Weyl duality for $\\mathfrak{gl}(V)$",
+      "slug": "section-5-18",
+      "start": {
+        "page": "122",
+        "line": 17
+      },
+      "heading_sources": [
+        {
+          "page": "122",
+          "line": 17,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.18",
+        "Chapter5/Theorem5.18.1",
+        "Chapter5/Discussion_before_Theorem5.18.2",
+        "Chapter5/Theorem5.18.2",
+        "Chapter5/Lemma5.18.3",
+        "Chapter5/Discussion_Theorem5.18.2_proof_end",
+        "Chapter5/Discussion_before_Theorem5.18.4",
+        "Chapter5/Theorem5.18.4"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-19",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.19",
+      "title": "Schur-Weyl duality for $GL(V)$",
+      "slug": "section-5-19",
+      "start": {
+        "page": "124",
+        "line": 17
+      },
+      "heading_sources": [
+        {
+          "page": "124",
+          "line": 17,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.19",
+        "Chapter5/Proposition5.19.1",
+        "Chapter5/Corollary5.19.2",
+        "Chapter5/Example5.19.3"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-20",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.20",
+      "title": "Historical interlude: Hermann Weyl at the intersection of limitation and freedom",
+      "slug": "section-5-20",
+      "start": {
+        "page": "125",
+        "line": 5
+      },
+      "heading_sources": [
+        {
+          "page": "125",
+          "line": 5,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.20",
+        "Chapter5/Discussion_5.20"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-21",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.21",
+      "title": "Schur polynomials",
+      "slug": "section-5-21",
+      "start": {
+        "page": "131",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "131",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.21",
+        "Chapter5/Discussion_Schur_polynomials",
+        "Chapter5/Proposition5.21.1",
+        "Chapter5/Discussion_before_Proposition5.21.2",
+        "Chapter5/Proposition5.21.2"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-22",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.22",
+      "title": "The characters of $L_\\lambda$",
+      "slug": "section-5-22",
+      "start": {
+        "page": "132",
+        "line": 15
+      },
+      "heading_sources": [
+        {
+          "page": "132",
+          "line": 15,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.22",
+        "Chapter5/Discussion_computing_characters_of_L_lambda",
+        "Chapter5/Theorem5.22.1",
+        "Chapter5/Discussion_after_Theorem5.22.1",
+        "Chapter5/Proposition5.22.2"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-23",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.23",
+      "title": "Algebraic representations of $GL(V)$",
+      "slug": "section-5-23",
+      "start": {
+        "page": "133",
+        "line": 7
+      },
+      "heading_sources": [
+        {
+          "page": "133",
+          "line": 7,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.23",
+        "Chapter5/Definition5.23.1",
+        "Chapter5/Discussion_after_Definition5.23.1",
+        "Chapter5/Theorem5.23.2",
+        "Chapter5/Discussion_proof_of_Theorem5.23.2",
+        "Chapter5/Remark5.23.3"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-24",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.24",
+      "title": "Problems",
+      "slug": "section-5-24",
+      "start": {
+        "page": "135",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "135",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.24",
+        "Chapter5/Problem5.24.1",
+        "Chapter5/Problem5.24.2"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-25",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.25",
+      "title": "Representations of $GL_2(\\mathbb{F}_q)$",
+      "slug": "section-5-25",
+      "start": {
+        "page": "135",
+        "line": 19
+      },
+      "heading_sources": [
+        {
+          "page": "135",
+          "line": 19,
+          "primary": true
+        },
+        {
+          "page": "135",
+          "line": 21,
+          "primary": false
+        },
+        {
+          "page": "137",
+          "line": 35,
+          "primary": false
+        },
+        {
+          "page": "138",
+          "line": 41,
+          "primary": false
+        },
+        {
+          "page": "139",
+          "line": 1,
+          "primary": false
+        },
+        {
+          "page": "141",
+          "line": 37,
+          "primary": false
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.25"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-25/subsection-5-25-1",
+      "kind": "subsection",
+      "parent_id": "chapter-05/section-5-25",
+      "number": "5.25.1",
+      "title": "Conjugacy classes",
+      "slug": "subsection-5-25-1",
+      "start": {
+        "page": "135",
+        "line": 21
+      },
+      "heading_sources": [
+        {
+          "page": "135",
+          "line": 21,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Discussion_5.25.1"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-25/subsection-5-25-2",
+      "kind": "subsection",
+      "parent_id": "chapter-05/section-5-25",
+      "number": "5.25.2",
+      "title": "1-dimensional representations",
+      "slug": "subsection-5-25-2",
+      "start": {
+        "page": "137",
+        "line": 35
+      },
+      "heading_sources": [
+        {
+          "page": "137",
+          "line": 35,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Discussion_5.25.2",
+        "Chapter5/Proposition5.25.1",
+        "Chapter5/Discussion_1dim_reps"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-25/subsection-5-25-3",
+      "kind": "subsection",
+      "parent_id": "chapter-05/section-5-25",
+      "number": "5.25.3",
+      "title": "Principal series",
+      "slug": "subsection-5-25-3",
+      "start": {
+        "page": "138",
+        "line": 41
+      },
+      "heading_sources": [
+        {
+          "page": "138",
+          "line": 41,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Discussion_5.25.3",
+        "Chapter5/Theorem5.25.2",
+        "Chapter5/Discussion_principal_series_name"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-25/subsection-5-25-4",
+      "kind": "subsection",
+      "parent_id": "chapter-05/section-5-25",
+      "number": "5.25.4",
+      "title": "Complementary series",
+      "slug": "subsection-5-25-4",
+      "start": {
+        "page": "141",
+        "line": 37
+      },
+      "heading_sources": [
+        {
+          "page": "141",
+          "line": 37,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Discussion_5.25.4",
+        "Chapter5/Lemma5.25.3",
+        "Chapter5/Discussion_complementary_series_summary"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-26",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.26",
+      "title": "Artin's theorem",
+      "slug": "section-5-26",
+      "start": {
+        "page": "144",
+        "line": 23
+      },
+      "heading_sources": [
+        {
+          "page": "144",
+          "line": 23,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.26",
+        "Chapter5/Theorem5.26.1",
+        "Chapter5/Remark5.26.2",
+        "Chapter5/Discussion_proof_of_Theorem5.26.1",
+        "Chapter5/Corollary5.26.3"
+      ]
+    },
+    {
+      "node_id": "chapter-05/section-5-27",
+      "kind": "section",
+      "parent_id": "chapter-05",
+      "number": "5.27",
+      "title": "Representations of semidirect products",
+      "slug": "section-5-27",
+      "start": {
+        "page": "145",
+        "line": 9
+      },
+      "heading_sources": [
+        {
+          "page": "145",
+          "line": 9,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter5/Introduction_5.27",
+        "Chapter5/Discussion_semidirect_products",
+        "Chapter5/Theorem5.27.1",
+        "Chapter5/Exercise5.27.2",
+        "Chapter5/Exercise5.27.3"
+      ]
+    },
+    {
+      "node_id": "chapter-06",
+      "kind": "chapter",
+      "parent_id": null,
+      "number": "6",
+      "title": "Quiver representations",
+      "slug": "chapter-06",
+      "start": {
+        "page": "149",
+        "line": 1
+      },
+      "heading_sources": [],
+      "item_ids": [
+        "Chapter6/Introduction"
+      ]
+    },
+    {
+      "node_id": "chapter-06/section-6-1",
+      "kind": "section",
+      "parent_id": "chapter-06",
+      "number": "6.1",
+      "title": "Problems",
+      "slug": "section-6-1",
+      "start": {
+        "page": "149",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "149",
+          "line": 3,
+          "primary": true
+        },
+        {
+          "page": "153",
+          "line": 1,
+          "primary": false
+        }
+      ],
+      "item_ids": [
+        "Chapter6/Section6.1_heading",
+        "Chapter6/Problem6.1.1",
+        "Chapter6/Problem6.1.2",
+        "Chapter6/Problem6.1.3",
+        "Chapter6/Definition6.1.4",
+        "Chapter6/Discussion_after_Definition6.1.4",
+        "Chapter6/Theorem_Dynkin_classification",
+        "Chapter6/Problem6.1.3_continued_E7_E8",
+        "Chapter6/Problem6.1.3_continued_tildeE",
+        "Chapter6/Problem6.1.5",
+        "Chapter6/Problem6.1.5_theorem",
+        "Chapter6/Problem6.1.5_parts",
+        "Chapter6/Problem6.1.6"
+      ]
+    },
+    {
+      "node_id": "chapter-06/section-6-2",
+      "kind": "section",
+      "parent_id": "chapter-06",
+      "number": "6.2",
+      "title": "Indecomposable representations of the quivers $A_1$, $A_2$, $A_3$",
+      "slug": "section-6-2",
+      "start": {
+        "page": "154",
+        "line": 7
+      },
+      "heading_sources": [
+        {
+          "page": "154",
+          "line": 7,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter6/Section6.2_heading",
+        "Chapter6/Remark6.2.1",
+        "Chapter6/Example6.2.2",
+        "Chapter6/Example6.2.3",
+        "Chapter6/Example6.2.4"
+      ]
+    },
+    {
+      "node_id": "chapter-06/section-6-3",
+      "kind": "section",
+      "parent_id": "chapter-06",
+      "number": "6.3",
+      "title": "Indecomposable representations of the quiver $D_4$",
+      "slug": "section-6-3",
+      "start": {
+        "page": "158",
+        "line": 11
+      },
+      "heading_sources": [
+        {
+          "page": "158",
+          "line": 11,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter6/Section6.3_heading",
+        "Chapter6/Example6.3.1",
+        "Chapter6/Discussion_after_Example6.3.1"
+      ]
+    },
+    {
+      "node_id": "chapter-06/section-6-4",
+      "kind": "section",
+      "parent_id": "chapter-06",
+      "number": "6.4",
+      "title": "Roots",
+      "slug": "section-6-4",
+      "start": {
+        "page": "164",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "164",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter6/Section6.4_heading",
+        "Chapter6/Definition6.4.1",
+        "Chapter6/Lemma6.4.2",
+        "Chapter6/Definition6.4.3",
+        "Chapter6/Remark6.4.4",
+        "Chapter6/Definition6.4.5",
+        "Chapter6/Lemma6.4.6",
+        "Chapter6/Definition6.4.7",
+        "Chapter6/Remark6.4.8",
+        "Chapter6/Example6.4.9",
+        "Chapter6/Definition6.4.10",
+        "Chapter6/Remark6.4.11"
+      ]
+    },
+    {
+      "node_id": "chapter-06/section-6-5",
+      "kind": "section",
+      "parent_id": "chapter-06",
+      "number": "6.5",
+      "title": "Gabriel's theorem",
+      "slug": "section-6-5",
+      "start": {
+        "page": "167",
+        "line": 38
+      },
+      "heading_sources": [
+        {
+          "page": "167",
+          "line": 38,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter6/Section6.5_heading",
+        "Chapter6/Definition6.5.1",
+        "Chapter6/Discussion_before_Theorem6.5.2",
+        "Chapter6/Theorem6.5.2"
+      ]
+    },
+    {
+      "node_id": "chapter-06/section-6-6",
+      "kind": "section",
+      "parent_id": "chapter-06",
+      "number": "6.6",
+      "title": "Reflection functors",
+      "slug": "section-6-6",
+      "start": {
+        "page": "168",
+        "line": 3
+      },
+      "heading_sources": [
+        {
+          "page": "168",
+          "line": 3,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter6/Section6.6_heading",
+        "Chapter6/Definition6.6.1",
+        "Chapter6/Definition6.6.2",
+        "Chapter6/Discussion_before_Definition6.6.3",
+        "Chapter6/Definition6.6.3",
+        "Chapter6/Definition6.6.3_maps",
+        "Chapter6/Definition6.6.4",
+        "Chapter6/Proposition6.6.5",
+        "Chapter6/Proposition6.6.6",
+        "Chapter6/Proposition6.6.7",
+        "Chapter6/Proposition6.6.8"
+      ]
+    },
+    {
+      "node_id": "chapter-06/section-6-7",
+      "kind": "section",
+      "parent_id": "chapter-06",
+      "number": "6.7",
+      "title": "Coxeter elements",
+      "slug": "section-6-7",
+      "start": {
+        "page": "173",
+        "line": 13
+      },
+      "heading_sources": [
+        {
+          "page": "173",
+          "line": 13,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter6/Section6.7_heading",
+        "Chapter6/Definition6.7.1",
+        "Chapter6/Lemma6.7.2"
+      ]
+    },
+    {
+      "node_id": "chapter-06/section-6-8",
+      "kind": "section",
+      "parent_id": "chapter-06",
+      "number": "6.8",
+      "title": "Proof of Gabriel's theorem",
+      "slug": "section-6-8",
+      "start": {
+        "page": "174",
+        "line": 27
+      },
+      "heading_sources": [
+        {
+          "page": "174",
+          "line": 27,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter6/Section6.8_heading",
+        "Chapter6/Theorem6.8.1",
+        "Chapter6/Discussion_after_Theorem6.8.1",
+        "Chapter6/Corollary6.8.2",
+        "Chapter6/Corollary6.8.3",
+        "Chapter6/Discussion_after_Corollary6.8.3",
+        "Chapter6/Corollary6.8.4",
+        "Chapter6/Example6.8.5"
+      ]
+    },
+    {
+      "node_id": "chapter-06/section-6-9",
+      "kind": "section",
+      "parent_id": "chapter-06",
+      "number": "6.9",
+      "title": "Problems",
+      "slug": "section-6-9",
+      "start": {
+        "page": "177",
+        "line": 29
+      },
+      "heading_sources": [
+        {
+          "page": "177",
+          "line": 29,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter6/Section6.9_heading",
+        "Chapter6/Problem6.9.1",
+        "Chapter6/Problem6.9.2",
+        "Chapter6/Problem6.9.3"
+      ]
+    },
+    {
+      "node_id": "chapter-07",
+      "kind": "chapter",
+      "parent_id": null,
+      "number": "7",
+      "title": "Introduction to categories",
+      "slug": "chapter-07",
+      "start": {
+        "page": "181",
+        "line": 1
+      },
+      "heading_sources": [],
+      "item_ids": [
+        "Chapter7/Introduction"
+      ]
+    },
+    {
+      "node_id": "chapter-07/section-7-1",
+      "kind": "section",
+      "parent_id": "chapter-07",
+      "number": "7.1",
+      "title": "The definition of a category",
+      "slug": "section-7-1",
+      "start": {
+        "page": "181",
+        "line": 5
+      },
+      "heading_sources": [
+        {
+          "page": "181",
+          "line": 5,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter7/Introduction_7.1",
+        "Chapter7/Definition7.1.1",
+        "Chapter7/Remark7.1.2",
+        "Chapter7/Example7.1.3",
+        "Chapter7/Discussion_after_Example7.1.3",
+        "Chapter7/Definition7.1.4",
+        "Chapter7/Example7.1.5",
+        "Chapter7/Discussion_after_Example7.1.5",
+        "Chapter7/Example7.1.6"
+      ]
+    },
+    {
+      "node_id": "chapter-07/section-7-2",
+      "kind": "section",
+      "parent_id": "chapter-07",
+      "number": "7.2",
+      "title": "Functors",
+      "slug": "section-7-2",
+      "start": {
+        "page": "183",
+        "line": 11
+      },
+      "heading_sources": [
+        {
+          "page": "183",
+          "line": 11,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter7/Introduction_7.2",
+        "Chapter7/Definition7.2.1",
+        "Chapter7/Discussion_after_Definition7.2.1",
+        "Chapter7/Example7.2.2"
+      ]
+    },
+    {
+      "node_id": "chapter-07/section-7-3",
+      "kind": "section",
+      "parent_id": "chapter-07",
+      "number": "7.3",
+      "title": "Morphisms of functors",
+      "slug": "section-7-3",
+      "start": {
+        "page": "185",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "185",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter7/Introduction_7.3",
+        "Chapter7/Definition7.3.1",
+        "Chapter7/Example7.3.2"
+      ]
+    },
+    {
+      "node_id": "chapter-07/section-7-4",
+      "kind": "section",
+      "parent_id": "chapter-07",
+      "number": "7.4",
+      "title": "Equivalence of categories",
+      "slug": "section-7-4",
+      "start": {
+        "page": "186",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "186",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter7/Introduction_7.4",
+        "Chapter7/Definition7.4.1",
+        "Chapter7/Discussion_after_Definition7.4.1"
+      ]
+    },
+    {
+      "node_id": "chapter-07/section-7-5",
+      "kind": "section",
+      "parent_id": "chapter-07",
+      "number": "7.5",
+      "title": "Representable functors",
+      "slug": "section-7-5",
+      "start": {
+        "page": "187",
+        "line": 15
+      },
+      "heading_sources": [
+        {
+          "page": "187",
+          "line": 15,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter7/Introduction_7.5",
+        "Chapter7/Lemma7.5.1",
+        "Chapter7/Remark7.5.2",
+        "Chapter7/Example7.5.3"
+      ]
+    },
+    {
+      "node_id": "chapter-07/section-7-6",
+      "kind": "section",
+      "parent_id": "chapter-07",
+      "number": "7.6",
+      "title": "Adjoint functors",
+      "slug": "section-7-6",
+      "start": {
+        "page": "188",
+        "line": 9
+      },
+      "heading_sources": [
+        {
+          "page": "188",
+          "line": 9,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter7/Introduction_7.6",
+        "Chapter7/Definition7.6.1",
+        "Chapter7/Discussion_after_Definition7.6.1",
+        "Chapter7/Remark7.6.2",
+        "Chapter7/Example7.6.3",
+        "Chapter7/Discussion_after_Example7.6.3"
+      ]
+    },
+    {
+      "node_id": "chapter-07/section-7-7",
+      "kind": "section",
+      "parent_id": "chapter-07",
+      "number": "7.7",
+      "title": "Abelian categories",
+      "slug": "section-7-7",
+      "start": {
+        "page": "190",
+        "line": 13
+      },
+      "heading_sources": [
+        {
+          "page": "190",
+          "line": 13,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter7/Introduction_7.7",
+        "Chapter7/Definition7.7.1",
+        "Chapter7/Example7.7.2",
+        "Chapter7/Problem7.7.3",
+        "Chapter7/Discussion_after_Problem7.7.3",
+        "Chapter7/Remark7.7.4",
+        "Chapter7/Discussion_after_Remark7.7.4"
+      ]
+    },
+    {
+      "node_id": "chapter-07/section-7-8",
+      "kind": "section",
+      "parent_id": "chapter-07",
+      "number": "7.8",
+      "title": "Complexes and cohomology",
+      "slug": "section-7-8",
+      "start": {
+        "page": "191",
+        "line": 13
+      },
+      "heading_sources": [
+        {
+          "page": "191",
+          "line": 13,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter7/Introduction_7.8",
+        "Chapter7/Definition7.8.1",
+        "Chapter7/Discussion_after_Definition7.8.1",
+        "Chapter7/Definition7.8.2",
+        "Chapter7/Example7.8.3",
+        "Chapter7/Exercise7.8.4",
+        "Chapter7/Problem7.8.5",
+        "Chapter7/Definition7.8.6",
+        "Chapter7/Problem7.8.7"
+      ]
+    },
+    {
+      "node_id": "chapter-07/section-7-9",
+      "kind": "section",
+      "parent_id": "chapter-07",
+      "number": "7.9",
+      "title": "Exact functors",
+      "slug": "section-7-9",
+      "start": {
+        "page": "194",
+        "line": 19
+      },
+      "heading_sources": [
+        {
+          "page": "194",
+          "line": 19,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter7/Introduction_7.9",
+        "Chapter7/Definition7.9.1",
+        "Chapter7/Discussion_after_Definition7.9.1",
+        "Chapter7/Example7.9.2",
+        "Chapter7/Definition7.9.3",
+        "Chapter7/Definition7.9.4",
+        "Chapter7/Example7.9.5",
+        "Chapter7/Discussion_after_Example7.9.5",
+        "Chapter7/Example7.9.6",
+        "Chapter7/Exercise7.9.7",
+        "Chapter7/Exercise7.9.8"
+      ]
+    },
+    {
+      "node_id": "chapter-07/section-7-10",
+      "kind": "section",
+      "parent_id": "chapter-07",
+      "number": "7.10",
+      "title": "Historical interlude: Eilenberg, Mac Lane, and \"general abstract nonsense\"",
+      "slug": "section-7-10",
+      "start": {
+        "page": "196",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "196",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter7/Introduction_7.10",
+        "Chapter7/Discussion_7.10"
+      ]
+    },
+    {
+      "node_id": "chapter-08",
+      "kind": "chapter",
+      "parent_id": null,
+      "number": "8",
+      "title": "Homological algebra",
+      "slug": "chapter-08",
+      "start": {
+        "page": "205",
+        "line": 1
+      },
+      "heading_sources": [],
+      "item_ids": [
+        "Chapter8/Introduction"
+      ]
+    },
+    {
+      "node_id": "chapter-08/section-8-1",
+      "kind": "section",
+      "parent_id": "chapter-08",
+      "number": "8.1",
+      "title": "Projective and injective modules",
+      "slug": "section-8-1",
+      "start": {
+        "page": "205",
+        "line": 7
+      },
+      "heading_sources": [
+        {
+          "page": "205",
+          "line": 7,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter8/Introduction_8.1",
+        "Chapter8/Theorem8.1.1",
+        "Chapter8/Definition8.1.2",
+        "Chapter8/Problem8.1.3",
+        "Chapter8/Exercise8.1.4",
+        "Chapter8/Discussion_after_Exercise8.1.4",
+        "Chapter8/Theorem8.1.5",
+        "Chapter8/Definition8.1.6",
+        "Chapter8/Example8.1.7",
+        "Chapter8/Discussion_after_Example8.1.7",
+        "Chapter8/Definition8.1.8"
+      ]
+    },
+    {
+      "node_id": "chapter-08/section-8-2",
+      "kind": "section",
+      "parent_id": "chapter-08",
+      "number": "8.2",
+      "title": "Tor and Ext functors",
+      "slug": "section-8-2",
+      "start": {
+        "page": "207",
+        "line": 27
+      },
+      "heading_sources": [
+        {
+          "page": "207",
+          "line": 27,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter8/Introduction_8.2",
+        "Chapter8/Definition8.2.1",
+        "Chapter8/Exercise8.2.2",
+        "Chapter8/Definition8.2.3",
+        "Chapter8/Definition8.2.4",
+        "Chapter8/Problem8.2.5",
+        "Chapter8/Problem8.2.6",
+        "Chapter8/Problem8.2.7",
+        "Chapter8/Problem8.2.8",
+        "Chapter8/Discussion_after_Problem8.2.8",
+        "Chapter8/Exercise8.2.9",
+        "Chapter8/Problem8.2.10"
+      ]
+    },
+    {
+      "node_id": "chapter-09",
+      "kind": "chapter",
+      "parent_id": null,
+      "number": "9",
+      "title": "Structure of finite dimensional algebras",
+      "slug": "chapter-09",
+      "start": {
+        "page": "213",
+        "line": 1
+      },
+      "heading_sources": [],
+      "item_ids": [
+        "Chapter9/Introduction"
+      ]
+    },
+    {
+      "node_id": "chapter-09/section-9-1",
+      "kind": "section",
+      "parent_id": "chapter-09",
+      "number": "9.1",
+      "title": "Lifting of idempotents",
+      "slug": "section-9-1",
+      "start": {
+        "page": "213",
+        "line": 5
+      },
+      "heading_sources": [
+        {
+          "page": "213",
+          "line": 5,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter9/Introduction_9.1",
+        "Chapter9/Proposition9.1.1",
+        "Chapter9/Definition9.1.2",
+        "Chapter9/Corollary9.1.3"
+      ]
+    },
+    {
+      "node_id": "chapter-09/section-9-2",
+      "kind": "section",
+      "parent_id": "chapter-09",
+      "number": "9.2",
+      "title": "Projective covers",
+      "slug": "section-9-2",
+      "start": {
+        "page": "214",
+        "line": 11
+      },
+      "heading_sources": [
+        {
+          "page": "214",
+          "line": 11,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter9/Introduction_9.2",
+        "Chapter9/Theorem9.2.1",
+        "Chapter9/Definition9.2.2",
+        "Chapter9/Proposition9.2.3"
+      ]
+    },
+    {
+      "node_id": "chapter-09/section-9-3",
+      "kind": "section",
+      "parent_id": "chapter-09",
+      "number": "9.3",
+      "title": "The Cartan matrix of a finite dimensional algebra",
+      "slug": "section-9-3",
+      "start": {
+        "page": "216",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "216",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter9/Introduction_9.3",
+        "Chapter9/Definition9.3.1",
+        "Chapter9/Problem9.3.2"
+      ]
+    },
+    {
+      "node_id": "chapter-09/section-9-4",
+      "kind": "section",
+      "parent_id": "chapter-09",
+      "number": "9.4",
+      "title": "Homological dimension",
+      "slug": "section-9-4",
+      "start": {
+        "page": "216",
+        "line": 11
+      },
+      "heading_sources": [
+        {
+          "page": "216",
+          "line": 11,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter9/Introduction_9.4",
+        "Chapter9/Definition9.4.1",
+        "Chapter9/Problem9.4.2",
+        "Chapter9/Definition9.4.3",
+        "Chapter9/Example9.4.4",
+        "Chapter9/Problem9.4.5",
+        "Chapter9/Problem9.4.6"
+      ]
+    },
+    {
+      "node_id": "chapter-09/section-9-5",
+      "kind": "section",
+      "parent_id": "chapter-09",
+      "number": "9.5",
+      "title": "Blocks",
+      "slug": "section-9-5",
+      "start": {
+        "page": "217",
+        "line": 15
+      },
+      "heading_sources": [
+        {
+          "page": "217",
+          "line": 15,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter9/Introduction_9.5",
+        "Chapter9/Definition9.5.1",
+        "Chapter9/Example9.5.2",
+        "Chapter9/Problem9.5.3"
+      ]
+    },
+    {
+      "node_id": "chapter-09/section-9-6",
+      "kind": "section",
+      "parent_id": "chapter-09",
+      "number": "9.6",
+      "title": "Finite abelian categories",
+      "slug": "section-9-6",
+      "start": {
+        "page": "218",
+        "line": 13
+      },
+      "heading_sources": [
+        {
+          "page": "218",
+          "line": 13,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter9/Introduction_9.6",
+        "Chapter9/Definition9.6.1",
+        "Chapter9/Definition9.6.2",
+        "Chapter9/Exercise9.6.3",
+        "Chapter9/Discussion_before_Theorem9.6.4",
+        "Chapter9/Theorem9.6.4",
+        "Chapter9/Problem9.6.5"
+      ]
+    },
+    {
+      "node_id": "chapter-09/section-9-7",
+      "kind": "section",
+      "parent_id": "chapter-09",
+      "number": "9.7",
+      "title": "Morita equivalence",
+      "slug": "section-9-7",
+      "start": {
+        "page": "220",
+        "line": 1
+      },
+      "heading_sources": [
+        {
+          "page": "220",
+          "line": 1,
+          "primary": true
+        }
+      ],
+      "item_ids": [
+        "Chapter9/Introduction_9.7",
+        "Chapter9/Definition9.7.1",
+        "Chapter9/Discussion_after_Definition9.7.1",
+        "Chapter9/Definition9.7.2",
+        "Chapter9/Corollary9.7.3"
+      ]
+    },
+    {
+      "node_id": "backmatter",
+      "kind": "backmatter",
+      "parent_id": null,
+      "number": null,
+      "title": "Backmatter",
+      "slug": "backmatter",
+      "start": {
+        "page": "221",
+        "line": 1
+      },
+      "heading_sources": [],
+      "item_ids": [
+        "Backmatter/ReferencesHistorical",
+        "Backmatter/MathematicalReferences"
+      ]
+    }
+  ]
+}

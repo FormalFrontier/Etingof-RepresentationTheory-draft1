@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0942",
+  "associations": [
+    {
+      "association_id": "association:3cf9ed80b11df779d04b",
+      "role": "supporting",
+      "rationale": "It equates character values on xy and yx, supporting a commutator argument but not itself stating the kernel inclusion."
+    },
+    {
+      "association_id": "association:5f8287a4c05cb93f3d5b",
+      "role": "primary",
+      "rationale": "It directly states that the commutator submodule is contained in the kernel of the character."
+    }
+  ]
+}

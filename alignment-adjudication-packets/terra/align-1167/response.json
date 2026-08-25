@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1167",
+  "associations": [
+    {
+      "association_id": "association:e62b4b7655e8528a4373",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable; enough projectives is context for the claim rather than displayed direct evidence of the full statement."
+    },
+    {
+      "association_id": "association:482f24363949ac830630",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable; a projective-resolution declaration supports the claim but does not display the stated Tor and Ext conclusion."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_verification_of_Ind",
+    "kind": "discussion",
+    "title": "Verification that Ind_H^G V is a well-defined representation",
+    "node_id": "chapter-05/section-5-8",
+    "order": 292,
+    "slug": "discussion-verification-of-ind",
+    "span": {
+      "start": {
+        "page": "108",
+        "line": 9
+      },
+      "end": {
+        "page": "108",
+        "line": 18
+      }
+    },
+    "source_sha256": "f10f7c67bce0b5d747a97b2a2eca37b8a32147874d71a4dd1f91d6ae4ce9597a",
+    "features": {
+      "line_count": 10,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionVerificationOfInd",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

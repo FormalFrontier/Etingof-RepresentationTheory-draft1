@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:eae8e3a0d8d43a223d95",
+      "declaration": "Etingof.Theorem_2_1_1_i_unique",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/10/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (d : PNat) (V W : Type) [inst : AddCommGroup.{0} V] [inst_1 : Module.{0, 0} Complex V]\n  [FiniteDimensional.{0, 0} Complex V]\n  [inst_3 : LieRingModule.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V]\n  [LieModule.{0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V]\n  [inst_5 : AddCommGroup.{0} W] [inst_6 : Module.{0, 0} Complex W] [FiniteDimensional.{0, 0} Complex W]\n  [inst_8 : LieRingModule.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) W]\n  [LieModule.{0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) W],\n  Eq.{1} (Module.finrank.{0, 0} Complex V) d.val \u2192\n    LieModule.IsIrreducible.{0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V \u2192\n      Eq.{1} (Module.finrank.{0, 0} Complex W) d.val \u2192\n        LieModule.IsIrreducible.{0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) W \u2192\n          Nonempty.{1}\n            (LieModuleEquiv.{0, 0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Theorem2.1.1",
+  "packet_id": "align-0251",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0251"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4b62965e9992247423b7",
+  "source_text": "Any two irreducible complex sl(2)-representations of the same positive dimension d are equivalent."
+}

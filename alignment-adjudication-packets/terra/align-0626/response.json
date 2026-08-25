@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0626",
+  "associations": [
+    {
+      "association_id": "association:b8cbcf64efe412fba5d2",
+      "rationale": "The formal type constructs coordinate idempotent projection linear maps for modules over the product algebra, but it does not itself state that a finite direct sum of algebras is modeled by that product algebra.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+name = "EtingofRepresentationTheoryReleaseStaging"
+version = "0.0.0-private"
+defaultTargets = ["EtingofRepresentationTheory"]
+
+[leanOptions]
+pp.unicode.fun = true
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+weak.backward.isDefEq.respectTransparency = false
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.32.2"
+
+[[lean_lib]]
+name = "EtingofRepresentationTheory"
+
+[[lean_exe]]
+name = "export_declaration_types"
+root = "Release.ExportDeclarationTypes"

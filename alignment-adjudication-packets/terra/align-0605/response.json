@@ -1,0 +1,20 @@
+{
+  "associations": [
+    {
+      "association_id": "association:7044b3f09f30e4411625",
+      "rationale": "The result produces parameters and a nonempty ToFamEquiv, but that custom type is opaque in the displayed evidence, so the claimed isomorphism classification is not directly stated there.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:aaa88b91f9dade6deb22",
+      "rationale": "The formal type states that the generic carrier Fin p to k has finrank p, but it does not itself identify that carrier with the parameterized modules V(alpha,c), so it only supports their p-dimensionality.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d760626dd1c6a4dbfafb",
+      "rationale": "The formal type asserts irreducibility of the parameterized family, but it does not itself state its p-dimensionality or the classification of all finite-dimensional irreducibles, so it covers only one component of the complete claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0605"
+}

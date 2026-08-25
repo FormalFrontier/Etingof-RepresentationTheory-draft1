@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:491abb58bb4584d2a64e",
+      "declaration": "Etingof.Problem965.balancedRelation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/575/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : Etingof.IsFiniteAbelianCategory.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : Etingof.IsFiniteAbelianCategoryOverField.{w, u, v} k C] \u2192\n              (P : C) \u2192\n                (X : FGModuleCat.{v, v} (Etingof.Problem965.endOp.{u, v} P)) \u2192\n                  Quiver.Hom.{v, u}\n                    (Etingof.Problem965.finiteCopower.{u, v, w} P\n                      (TensorProduct.{w, v, v} k (Etingof.Problem965.endOp.{u, v} P) (FGModuleCat.carrier.{v, v} X)))\n                    (Etingof.Problem965.finiteCopower.{u, v, w} P (FGModuleCat.carrier.{v, v} X))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_6_5"
+    },
+    {
+      "association_id": "association:953d2e29f4445a15f2a5",
+      "declaration": "Etingof.Problem965.balancedTensor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/575/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : Etingof.IsFiniteAbelianCategory.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [Etingof.IsFiniteAbelianCategoryOverField.{w, u, v} k C] \u2192\n              (P : C) \u2192 FGModuleCat.{v, v} (Etingof.Problem965.endOp.{u, v} P) \u2192 C",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_6_5"
+    },
+    {
+      "association_id": "association:59ebe716b074484d8fb1",
+      "declaration": "Etingof.Problem965.balancedTensorFunctor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/575/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : Etingof.IsFiniteAbelianCategory.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [Etingof.IsFiniteAbelianCategoryOverField.{w, u, v} k C] \u2192\n              (P : C) \u2192\n                CategoryTheory.Functor.{v, v, v + 1, u} (FGModuleCat.{v, v} (Etingof.Problem965.endOp.{u, v} P)) C",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_6_5"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.6.5",
+  "packet_id": "align-0878",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0878"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.6.5:construction",
+  "source_text": "Construct the genuine balanced tensor/cokernel functor G(X)=P tensor_B X and its balancing morphism."
+}

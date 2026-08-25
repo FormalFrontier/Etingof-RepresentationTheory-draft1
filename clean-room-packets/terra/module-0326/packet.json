@@ -1,0 +1,99 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (N : Nat) (i : Fin N) (t : Units.{u_2} k),\n  Eq.{u_2 + 1} (Inv.inv.{u_2} (decl-018377.{u_2} k N i t)) (decl-018377.{u_2} k N i (Inv.inv.{u_2} t))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018377"
+      ],
+      "structural_type_hash": "2431060561",
+      "temporary_id": "decl-018383"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (N d : Nat) {W : Type u_3} [inst_1 : AddCommGroup.{u_3} W]\n  [inst_2 : Module.{u_2, u_3} k W]\n  (\u03c3 : Representation.{u_2, u_2, u_3} k (Matrix.GeneralLinearGroup.{0, u_2} (Fin N) k) W)\n  (b : Module.Basis.{0, u_2, u_3} (Fin d) k W) (wt : Fin d \u2192 Fin N \u2192 Int),\n  (\u2200 (c : Fin d) (i : Fin N) (t : Units.{u_2} k),\n      Eq.{u_3 + 1}\n        (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c3 (decl-018377.{u_2} k N i t))\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), 1, u_3 + 1} b c))\n        (HSMul.hSMul.{u_2, u_3, u_3} (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} t (wt c i)))\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), 1, u_3 + 1} b c))) \u2192\n    \u2200 (c : Fin d) (i : Fin N) (t : Units.{u_2} k),\n      Eq.{max (u_2 + 1) (u_3 + 1)}\n        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, max (u_2 + 1) (u_3 + 1)}\n            (Representation.dual.{u_2, u_2, u_3} \u03c3) (decl-018377.{u_2} k N i t))\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), 1, max (u_2 + 1) (u_3 + 1)} (Module.Basis.dualBasis.{u_2, u_3, 0} b)\n            c))\n        (HSMul.hSMul.{u_2, max u_2 u_3, max u_2 u_3}\n          (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} t (Neg.neg.{0} (wt c i))))\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), 1, max (u_2 + 1) (u_3 + 1)} (Module.Basis.dualBasis.{u_2, u_3, 0} b)\n            c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018377"
+      ],
+      "structural_type_hash": "2991998049",
+      "temporary_id": "decl-018472"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] [CharZero.{u_2} k] {a b : Int},\n  Ne.{1} a b \u2192\n    Exists.{u_2 + 1} fun t =>\n      Ne.{u_2 + 1} (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} t a)) (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} t b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3391296184",
+      "temporary_id": "decl-018970"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] [CharZero.{u_2} k] (N d : Nat) {W : Type u_3} [inst_2 : AddCommGroup.{u_3} W]\n  [inst_3 : Module.{u_2, u_3} k W]\n  (\u03c3 : Representation.{u_2, u_2, u_3} k (Matrix.GeneralLinearGroup.{0, u_2} (Fin N) k) W)\n  (b : Module.Basis.{0, u_2, u_3} (Fin d) k W) (wt : Fin d \u2192 Fin N \u2192 Int),\n  (\u2200 (c : Fin d) (i : Fin N) (t : Units.{u_2} k),\n      Eq.{u_3 + 1}\n        (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c3 (decl-018377.{u_2} k N i t))\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), 1, u_3 + 1} b c))\n        (HSMul.hSMul.{u_2, u_3, u_3} (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} t (wt c i)))\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), 1, u_3 + 1} b c))) \u2192\n    \u2200 (\u03bc : Fin N \u2192 Int),\n      Eq.{1}\n        (Module.finrank.{u_2, max u_2 u_3} k\n          (Subtype.{(max u_2 u_3) + 1} fun x =>\n            Membership.mem.{max u_2 u_3, max u_2 u_3}\n              (decl-005339.{u_2, max u_2 u_3} k N (Representation.dual.{u_2, u_2, u_3} \u03c3)\n                \u03bc)\n              x))\n        (Module.finrank.{u_2, u_3} k\n          (Subtype.{u_3 + 1} fun x =>\n            Membership.mem.{u_3, u_3}\n              (decl-005339.{u_2, u_3} k N \u03c3 fun i => Neg.neg.{0} (\u03bc i)) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005339",
+        "decl-018377"
+      ],
+      "structural_type_hash": "1178921497",
+      "temporary_id": "decl-019433"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] [CharZero.{u_2} k] (N d : Nat) {W : Type u_3} [inst_2 : AddCommGroup.{u_3} W]\n  [inst_3 : Module.{u_2, u_3} k W]\n  (\u03c3 : Representation.{u_2, u_2, u_3} k (Matrix.GeneralLinearGroup.{0, u_2} (Fin N) k) W)\n  (b : Module.Basis.{0, u_2, u_3} (Fin d) k W) (wt : Fin d \u2192 Fin N \u2192 Int),\n  (\u2200 (c : Fin d) (i : Fin N) (t : Units.{u_2} k),\n      Eq.{u_3 + 1}\n        (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c3 (decl-018377.{u_2} k N i t))\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), 1, u_3 + 1} b c))\n        (HSMul.hSMul.{u_2, u_3, u_3} (Units.val.{u_2} (HPow.hPow.{u_2, 0, u_2} t (wt c i)))\n          (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), 1, u_3 + 1} b c))) \u2192\n    \u2200 (\u03bd : Fin N \u2192 Int),\n      Eq.{1}\n        (Module.finrank.{u_2, u_3} k\n          (Subtype.{u_3 + 1} fun x =>\n            Membership.mem.{u_3, u_3} (decl-005339.{u_2, u_3} k N \u03c3 \u03bd) x))\n        (Finset.card.{0} (Finset.filter.{0} (fun c => Eq.{1} (wt c) \u03bd) Finset.univ.{0}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005339",
+        "decl-018377"
+      ],
+      "structural_type_hash": "748944161",
+      "temporary_id": "decl-019438"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat)\n  (M : FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)),\n  Eq.{1} (iSup.{0, 1} fun \u03bc => decl-019844.{0} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i) Top.top.{0} \u2192\n    \u2200 (\u03bc : Finsupp.{0, 0} (Fin N) Nat),\n      Eq.{1}\n        (MvPolynomial.coeff.{0, 0} \u03bc\n          (decl-019511.{0} k N (FDRep.of.{0, 0} (Representation.dual.{0, 0, 0} (FDRep.\u03c1.{0, 0} M)))))\n        (Nat.cast.{0}\n          (Module.finrank.{0, 0} k\n            (Subtype.{1} fun x =>\n              Membership.mem.{0, 0}\n                (decl-005339.{0, 0} k N (FDRep.\u03c1.{0, 0} M) fun i =>\n                  Neg.neg.{0} (Nat.cast.{0} (DFunLike.coe.{1, 1, 1} \u03bc i)))\n                x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005339",
+        "decl-019511",
+        "decl-019844"
+      ],
+      "structural_type_hash": "907430561",
+      "temporary_id": "decl-019526"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] [inst_1 : IsAlgClosed.{u_2} k] (N : Nat)\n  (M : FDRep.{u_2, u_2} k (Matrix.GeneralLinearGroup.{0, u_2} (Fin N) k)) (\u03bc : Fin N \u2192 Nat),\n  Eq.{u_2 + 1} (decl-019844.{u_2} k N M fun i => \u03bc i)\n    (decl-005339.{u_2, u_2} k N (FDRep.\u03c1.{u_2, u_2} M) fun i => Nat.cast.{0} (\u03bc i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005339",
+        "decl-019844"
+      ],
+      "structural_type_hash": "602569070",
+      "temporary_id": "decl-019860"
+    }
+  ],
+  "module_temporary_id": "module-0326",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

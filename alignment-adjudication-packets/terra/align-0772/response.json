@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0772",
+  "associations": [
+    {
+      "association_id": "association:e977be6680a83019d25a",
+      "role": "supporting",
+      "rationale": "This is an isomorphism for a definition of induction and a function-space model, not the induction-in-stages assertion."
+    },
+    {
+      "association_id": "association:1665a96b7272bd53a9de",
+      "role": "supporting",
+      "rationale": "The type gives an existential witness satisfying an intertwining equation, but the witness's type is elided; it does not visibly state a natural representation isomorphism for induction in stages."
+    }
+  ]
+}

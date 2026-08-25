@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c5dc0ee36426b9b0240d",
+      "declaration": "FreeAlgebra.lift",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/26/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.FreeAlgebra"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.3.3",
+  "packet_id": "align-0308",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0308"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:5bf1ed9fccdaa79e4768",
+  "source_text": "Representations of the free algebra on n generators are equivalent to n arbitrary linear endomorphisms."
+}

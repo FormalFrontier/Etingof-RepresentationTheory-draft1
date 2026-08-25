@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a12cdb191a66787379d4",
+      "declaration": "Etingof.Exercise7_8_4_split",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/505/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} k)),\n  CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S \u2192\n    Nonempty.{u + 1} (CategoryTheory.ShortComplex.Splitting.{u, u + 1} S)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Exercise7_8_4"
+    }
+  ],
+  "canonical_reference": "Chapter7/Exercise7.8.4",
+  "packet_id": "align-0811",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0811"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter7/Exercise7.8.4:short_exact_split",
+  "source_text": "In particular every short exact sequence of vector spaces splits."
+}

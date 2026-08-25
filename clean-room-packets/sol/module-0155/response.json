@@ -1,0 +1,150 @@
+{
+  "module_name": "Analysis.ContinuousMap.StableModuleEquivalence",
+  "declarations": [
+    {
+      "temporary_id": "decl-009489",
+      "new_name": "auxiliaryBinaryMap",
+      "docstring": "An auxiliary binary map from pairs of elements of the function module to the function algebra."
+    },
+    {
+      "temporary_id": "decl-009492",
+      "new_name": "auxiliaryLinearMapFamily",
+      "docstring": "A family of linear maps from the auxiliary function module to its auxiliary function algebra, indexed by module elements."
+    },
+    {
+      "temporary_id": "decl-009495",
+      "new_name": "auxiliaryBinaryMap_apply",
+      "docstring": "The value of the auxiliary binary map is the pointwise product of the values of its two function arguments."
+    },
+    {
+      "temporary_id": "decl-009496",
+      "new_name": "auxiliaryFunctionModule",
+      "docstring": "An auxiliary submodule of real-valued continuous functions over the auxiliary function algebra."
+    },
+    {
+      "temporary_id": "decl-009501",
+      "new_name": "eq_sum_auxiliaryCoefficients",
+      "docstring": "Every element of the auxiliary function module equals a sum formed from two distinguished elements and coefficients supplied by the auxiliary binary map."
+    },
+    {
+      "temporary_id": "decl-009502",
+      "new_name": "auxiliaryProperty_auxiliaryFunctionModule",
+      "docstring": "The auxiliary function module satisfies the displayed imported module predicate."
+    },
+    {
+      "temporary_id": "decl-009503",
+      "new_name": "firstAuxiliaryElement",
+      "docstring": "A distinguished element of the auxiliary function module."
+    },
+    {
+      "temporary_id": "decl-009504",
+      "new_name": "coe_firstAuxiliaryElement",
+      "docstring": "The underlying continuous map of the first distinguished module element is the first auxiliary continuous map."
+    },
+    {
+      "temporary_id": "decl-009505",
+      "new_name": "firstAuxiliaryMap",
+      "docstring": "An auxiliary continuous real-valued map."
+    },
+    {
+      "temporary_id": "decl-009507",
+      "new_name": "firstAuxiliaryMap_apply",
+      "docstring": "The first auxiliary continuous map evaluates at x as the cosine of pi times x."
+    },
+    {
+      "temporary_id": "decl-009508",
+      "new_name": "firstAuxiliaryMap_mem_auxiliaryFunctionModule",
+      "docstring": "The first auxiliary continuous map belongs to the auxiliary function module."
+    },
+    {
+      "temporary_id": "decl-009509",
+      "new_name": "firstAuxiliaryMap_sq_add_secondAuxiliaryMap_sq",
+      "docstring": "The pointwise sum of the squares of the two auxiliary continuous maps equals one."
+    },
+    {
+      "temporary_id": "decl-009510",
+      "new_name": "auxiliaryFunctionAlgebra",
+      "docstring": "An auxiliary real subalgebra of the algebra of real-valued continuous functions."
+    },
+    {
+      "temporary_id": "decl-009517",
+      "new_name": "idempotent_eq_zero_or_eq_one",
+      "docstring": "Every idempotent of the auxiliary function algebra is either zero or one."
+    },
+    {
+      "temporary_id": "decl-009521",
+      "new_name": "auxiliaryProperty_auxiliaryFunctionAlgebra",
+      "docstring": "The auxiliary function algebra, viewed as a module over itself, satisfies the displayed imported module predicate."
+    },
+    {
+      "temporary_id": "decl-009522",
+      "new_name": "isEmpty_linearEquiv_auxiliaryFunctionModule",
+      "docstring": "There is no linear equivalence from the auxiliary function algebra to the auxiliary function module."
+    },
+    {
+      "temporary_id": "decl-009523",
+      "new_name": "nonempty_prod_linearEquiv",
+      "docstring": "The product of two copies of the auxiliary function algebra is linearly equivalent to the product of two copies of the auxiliary function module."
+    },
+    {
+      "temporary_id": "decl-009524",
+      "new_name": "forwardAuxiliaryLinearMap",
+      "docstring": "An auxiliary linear map from a pair of auxiliary algebra elements to a pair of auxiliary module elements."
+    },
+    {
+      "temporary_id": "decl-009530",
+      "new_name": "forwardAuxiliaryLinearMap_apply",
+      "docstring": "The forward auxiliary linear map sends a pair to the displayed linear combinations formed with the two distinguished module elements."
+    },
+    {
+      "temporary_id": "decl-009531",
+      "new_name": "forwardAuxiliaryLinearMap_reverseAuxiliaryLinearMap_apply",
+      "docstring": "Applying the forward auxiliary linear map after the reverse auxiliary linear map returns the original pair of module elements."
+    },
+    {
+      "temporary_id": "decl-009532",
+      "new_name": "reverseAuxiliaryLinearMap",
+      "docstring": "An auxiliary linear map from a pair of auxiliary module elements to a pair of auxiliary algebra elements."
+    },
+    {
+      "temporary_id": "decl-009536",
+      "new_name": "reverseAuxiliaryLinearMap_apply",
+      "docstring": "The reverse auxiliary linear map sends a pair to the displayed sum and difference formed by the auxiliary binary map and the two distinguished elements."
+    },
+    {
+      "temporary_id": "decl-009537",
+      "new_name": "reverseAuxiliaryLinearMap_forwardAuxiliaryLinearMap_apply",
+      "docstring": "Applying the reverse auxiliary linear map after the forward auxiliary linear map returns the original pair of algebra elements."
+    },
+    {
+      "temporary_id": "decl-009538",
+      "new_name": "secondAuxiliaryElement",
+      "docstring": "A second distinguished element of the auxiliary function module."
+    },
+    {
+      "temporary_id": "decl-009539",
+      "new_name": "coe_secondAuxiliaryElement",
+      "docstring": "The underlying continuous map of the second distinguished module element is the second auxiliary continuous map."
+    },
+    {
+      "temporary_id": "decl-009540",
+      "new_name": "secondAuxiliaryMap",
+      "docstring": "A second auxiliary continuous real-valued map."
+    },
+    {
+      "temporary_id": "decl-009542",
+      "new_name": "secondAuxiliaryMap_apply",
+      "docstring": "The second auxiliary continuous map evaluates at x as the sine of pi times x."
+    },
+    {
+      "temporary_id": "decl-009543",
+      "new_name": "secondAuxiliaryMap_mem_auxiliaryFunctionModule",
+      "docstring": "The second auxiliary continuous map belongs to the auxiliary function module."
+    },
+    {
+      "temporary_id": "decl-009544",
+      "new_name": "smul_apply",
+      "docstring": "Scalar multiplication of an auxiliary module function by an auxiliary algebra function is pointwise multiplication."
+    }
+  ]
+}

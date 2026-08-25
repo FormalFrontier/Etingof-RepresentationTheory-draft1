@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0187",
+  "associations": [
+    {
+      "association_id": "association:f381ae845871720bca18",
+      "role": "supporting",
+      "rationale": "The packet supplies no formal type, so preservation of the covariance condition cannot be verified as directly stated."
+    },
+    {
+      "association_id": "association:2b58e45a7c643b08ee66",
+      "role": "supporting",
+      "rationale": "The packet supplies no formal type, so preservation of the induced function space cannot be verified as directly stated."
+    }
+  ]
+}

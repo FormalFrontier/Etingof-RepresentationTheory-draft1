@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0696",
+  "associations": [
+    {
+      "association_id": "association:3c8a9d4c81631db8af1a",
+      "rationale": "The type directly states that when the group order is zero in the field, the number of irreducible classes is strictly less than the number of conjugacy classes.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:8a8ce1223116bc0ee4b7",
+      "rationale": "The type proves the same strict inequality only under the additional algebraically closed hypothesis, making it the restricted helper form for the unrestricted exercise statement.",
+      "role": "supporting"
+    }
+  ]
+}

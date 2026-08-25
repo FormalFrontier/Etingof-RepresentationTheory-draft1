@@ -1,0 +1,150 @@
+{
+  "module_name": "LieAlgebra.TwoByTwoMatrixRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-008590",
+      "new_name": "coordinateVector",
+      "docstring": "The coordinate vector at a specified index of a finite function space over a field."
+    },
+    {
+      "temporary_id": "decl-008592",
+      "new_name": "coordinateVector_apply",
+      "docstring": "A coordinate vector is one at its distinguished index and zero at every other index."
+    },
+    {
+      "temporary_id": "decl-008593",
+      "new_name": "eq_top_of_lieStable_of_exists_ne_zero",
+      "docstring": "In an irreducible Lie module, a Lie-stable submodule containing a nonzero vector is the whole module."
+    },
+    {
+      "temporary_id": "decl-008594",
+      "new_name": "not_forall_finrank_lt_characteristic",
+      "docstring": "Over an algebraically closed field of prime characteristic greater than two, not every finite-dimensional irreducible module has finrank strictly below the characteristic."
+    },
+    {
+      "temporary_id": "decl-008596",
+      "new_name": "finrank_le_characteristic",
+      "docstring": "Over an algebraically closed field of prime characteristic greater than two, every finite-dimensional irreducible module has finrank at most the characteristic."
+    },
+    {
+      "temporary_id": "decl-008616",
+      "new_name": "finrank_le_of_span_range_fin_eq_top",
+      "docstring": "If the vectors indexed by `Fin p` span a module, then its finrank is at most `p`."
+    },
+    {
+      "temporary_id": "decl-008617",
+      "new_name": "lieModule_finFunction",
+      "docstring": "The Lie module structure on functions from a finite type to the base field."
+    },
+    {
+      "temporary_id": "decl-008618",
+      "new_name": "lieRingModule_finFunction",
+      "docstring": "The Lie ring module structure on functions from a finite type to the base field."
+    },
+    {
+      "temporary_id": "decl-008619",
+      "new_name": "finrank_finFunction",
+      "docstring": "The finrank of the field-valued functions on a nonempty `Fin d` is `d`."
+    },
+    {
+      "temporary_id": "decl-008620",
+      "new_name": "isIrreducible_finFunction_of_le_characteristic",
+      "docstring": "The finite-function Lie module of positive dimension at most the characteristic is irreducible when the characteristic is greater than two."
+    },
+    {
+      "temporary_id": "decl-008634",
+      "new_name": "lieStable_of_stable_generators",
+      "docstring": "A submodule stable under the raising, lowering, and weight elements is stable under every element of the matrix Lie subalgebra."
+    },
+    {
+      "temporary_id": "decl-008635",
+      "new_name": "bracket_raisingEnd_loweringEnd",
+      "docstring": "The bracket of the raising and lowering endomorphisms is the weight endomorphism."
+    },
+    {
+      "temporary_id": "decl-008649",
+      "new_name": "bracket_weightEnd_raisingEnd",
+      "docstring": "The bracket of the weight and raising endomorphisms is twice the raising endomorphism."
+    },
+    {
+      "temporary_id": "decl-008650",
+      "new_name": "bracket_weightEnd_loweringEnd",
+      "docstring": "The bracket of the weight and lowering endomorphisms is minus twice the lowering endomorphism."
+    },
+    {
+      "temporary_id": "decl-008652",
+      "new_name": "exists_scalar_action_eq_of_commutes_lieAction",
+      "docstring": "An endomorphism of a finite-dimensional irreducible Lie module over an algebraically closed field that commutes with the Lie action acts by a scalar."
+    },
+    {
+      "temporary_id": "decl-008653",
+      "new_name": "bracket_raising_lowering",
+      "docstring": "The bracket of the raising and lowering elements is the weight element."
+    },
+    {
+      "temporary_id": "decl-008654",
+      "new_name": "bracket_weight_raising",
+      "docstring": "The bracket of the weight and raising elements is twice the raising element."
+    },
+    {
+      "temporary_id": "decl-008655",
+      "new_name": "bracket_weight_lowering",
+      "docstring": "The bracket of the weight and lowering elements is minus twice the lowering element."
+    },
+    {
+      "temporary_id": "decl-008656",
+      "new_name": "raisingEnd",
+      "docstring": "The raising endomorphism of the field-valued functions on `Fin d`."
+    },
+    {
+      "temporary_id": "decl-008660",
+      "new_name": "loweringEnd",
+      "docstring": "The lowering endomorphism of the field-valued functions on `Fin d`."
+    },
+    {
+      "temporary_id": "decl-008666",
+      "new_name": "weightEnd",
+      "docstring": "The weight endomorphism of the field-valued functions on `Fin d`."
+    },
+    {
+      "temporary_id": "decl-008671",
+      "new_name": "finFunctionRepresentation",
+      "docstring": "The Lie algebra representation on field-valued functions on `Fin d`."
+    },
+    {
+      "temporary_id": "decl-008679",
+      "new_name": "twoByTwoMatrixLieSubalgebra",
+      "docstring": "A Lie subalgebra of two-by-two matrices over a field."
+    },
+    {
+      "temporary_id": "decl-008680",
+      "new_name": "eq_linearCombination_raising_lowering_weight",
+      "docstring": "Every element of the matrix Lie subalgebra is the indicated linear combination of the raising, lowering, and weight elements."
+    },
+    {
+      "temporary_id": "decl-008681",
+      "new_name": "raisingElement",
+      "docstring": "The raising element of the matrix Lie subalgebra."
+    },
+    {
+      "temporary_id": "decl-008686",
+      "new_name": "loweringElement",
+      "docstring": "The lowering element of the matrix Lie subalgebra."
+    },
+    {
+      "temporary_id": "decl-008689",
+      "new_name": "weightElement",
+      "docstring": "The weight element of the matrix Lie subalgebra."
+    },
+    {
+      "temporary_id": "decl-008691",
+      "new_name": "entry_one_one_eq_neg_entry_zero_zero",
+      "docstring": "For a matrix in the Lie subalgebra, the lower-right entry is the negative of the upper-left entry."
+    },
+    {
+      "temporary_id": "decl-008692",
+      "new_name": "map_mem_span_of_forall_mem_span",
+      "docstring": "A linear endomorphism that sends every member of a set into its span preserves that span."
+    }
+  ]
+}

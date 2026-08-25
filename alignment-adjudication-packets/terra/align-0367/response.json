@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0367",
+  "associations": [
+    {
+      "association_id": "association:88283f3fb9c8151e86c1",
+      "role": "primary",
+      "rationale": "The biconditional directly states that a rational number viewed in the complex numbers is integral exactly when it is the cast of an integer."
+    }
+  ]
+}

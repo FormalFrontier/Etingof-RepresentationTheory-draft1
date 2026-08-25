@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_Problem5.10.2_parts",
+    "kind": "exercise",
+    "title": "Problem 5.10.2 parts (a)-(f): tensor products over k-algebras for Ind and Res",
+    "node_id": "chapter-05/section-5-10",
+    "order": 303,
+    "slug": "discussion-problem5-10-2-parts",
+    "span": {
+      "start": {
+        "page": "111",
+        "line": 1
+      },
+      "end": {
+        "page": "112",
+        "line": 1
+      }
+    },
+    "source_sha256": "781eb3deb3bab588c6843d9c1b91df1f98443b96ec571fb8a3071497a90b73fe",
+    "features": {
+      "line_count": 24,
+      "crosses_page": true,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProblem5102Parts",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

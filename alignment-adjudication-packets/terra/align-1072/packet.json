@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:bc9906ed9888e548354a",
+      "declaration": "GL2.card_conjClasses_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} (Nat.card.{0} (ConjClasses.{0} (GL2'\u271d p n)))\n        (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_5.25.1",
+  "packet_id": "align-1072",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1072"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d26945d4a1f0ed2dfc4b",
+  "source_text": "GL\u2082(F_q) has q\u00b2\u22121 conjugacy classes."
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0444",
+  "associations": [
+    {
+      "association_id": "association:8a27a46f7c7a3bab835d",
+      "role": "primary",
+      "rationale": "The declaration directly gives an algebra equivalence from the basis-dependent presentation to the coordinate-free universal enveloping algebra."
+    }
+  ]
+}

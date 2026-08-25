@@ -1,0 +1,8 @@
+{
+  "packet_id": "align-0028",
+  "associations": [
+    {"association_id": "association:db1a07c2c115c3903447", "role": "supporting", "rationale": "The formal type is null, so the packet does not display a declaration type directly asserting commutativity of either source example."},
+    {"association_id": "association:3a266e0a8cb6507f1f7b", "role": "supporting", "rationale": "CommRing is the ambient structure for commutative examples, rather than a declaration of either specified example."},
+    {"association_id": "association:02064a8621afa61b419c", "role": "supporting", "rationale": "MvPolynomial constructs the polynomial-algebra object, but its declaration alone does not assert the source commutativity claim."}
+  ]
+}

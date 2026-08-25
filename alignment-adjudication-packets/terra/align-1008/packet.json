@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e9cd426f0e9a6832f274",
+      "declaration": "Etingof.SchurModuleP_onePlusOne_dim_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/366/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Etingof.SchurModulePSubmodule.{0} Complex 1 Etingof.onePlusOne) Bot.bot.{0}",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SchurModuleVanishing"
+    },
+    {
+      "association_id": "association:8d549910f90740314681",
+      "declaration": "Etingof.SchurModuleP_onePlusOne_dim_two",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/366/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Ne.{1} (Etingof.SchurModulePSubmodule.{0} Complex 2 Etingof.onePlusOne) Bot.bot.{0}",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SchurModuleVanishing"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.22.1",
+  "packet_id": "align-1008",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1008"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c12874e6a79fc7e94cec",
+  "source_text": "Both vanishing and nonvanishing branches have concrete regression witnesses."
+}

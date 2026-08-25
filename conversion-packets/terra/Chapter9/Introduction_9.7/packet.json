@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Introduction_9.7",
+    "kind": "introduction",
+    "title": "Section 9.7: Morita equivalence",
+    "node_id": "chapter-09/section-9-7",
+    "order": 577,
+    "slug": "introduction-9-7",
+    "span": {
+      "start": {
+        "page": "220",
+        "line": 1
+      },
+      "end": {
+        "page": "220",
+        "line": 6
+      }
+    },
+    "source_sha256": "27a78688fea50f59861a8b274b07c92b8a78f2861a57c70f08d2182581541ecb",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Introduction97",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

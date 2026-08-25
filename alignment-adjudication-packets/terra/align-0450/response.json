@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0450",
+  "associations": [
+    {
+      "association_id": "association:ba3e2dcabbf93ca5ca5b",
+      "role": "supporting",
+      "rationale": "The theorem states the bracket relation between e and f as h, but it does not itself state the two h-bracket relations required by the complete source claim."
+    },
+    {
+      "association_id": "association:6ec8dc3176bf365bc604",
+      "role": "supporting",
+      "rationale": "The theorem states the bracket relation between h and e as twice e, but it does not itself state the h-f and e-f relations required by the complete source claim."
+    },
+    {
+      "association_id": "association:fa7fb5c67481f1abd232",
+      "role": "supporting",
+      "rationale": "The formal type failed to print, so the packet cannot confirm that this declaration directly states the remaining h-f bracket relation."
+    }
+  ]
+}

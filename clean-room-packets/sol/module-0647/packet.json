@@ -1,0 +1,311 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) (n : Nat),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.inl.{v, u}\n      (decl-020340.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n))\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (HomologicalComplex.Hom.f.{v, u, 0} (decl-020363.{v, u} \u03c6 P\u2081 Q\u2081) n)\n      CategoryTheory.Limits.biprod.inl.{v, u})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020340",
+        "decl-020363"
+      ],
+      "structural_type_hash": "492578504",
+      "temporary_id": "decl-017464"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) (n : Nat) {Z : C}\n  (h :\n    Quiver.Hom.{v, u}\n      (CategoryTheory.Limits.biprod.{v, u}\n        (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2081) n)\n        (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2083) n))\n      Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.inl.{v, u}\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020340.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (HomologicalComplex.Hom.f.{v, u, 0} (decl-020363.{v, u} \u03c6 P\u2081 Q\u2081) n)\n      (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.inl.{v, u} h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020340",
+        "decl-020363"
+      ],
+      "structural_type_hash": "2963087686",
+      "temporary_id": "decl-017465"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) (n : Nat),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.inr.{v, u}\n      (decl-020340.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n))\n    (HAdd.hAdd.{v, v, v}\n      (CategoryTheory.CategoryStruct.comp.{v, u}\n        (HomologicalComplex.Hom.f.{v, u, 0} (decl-020364.{v, u} \u03c6 P\u2083 Q\u2083) n)\n        CategoryTheory.Limits.biprod.inr.{v, u})\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020350.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n)\n        CategoryTheory.Limits.biprod.inl.{v, u}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020340",
+        "decl-020350",
+        "decl-020364"
+      ],
+      "structural_type_hash": "2803085892",
+      "temporary_id": "decl-017466"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) (n : Nat) {Z : C}\n  (h :\n    Quiver.Hom.{v, u}\n      (CategoryTheory.Limits.biprod.{v, u}\n        (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2081) n)\n        (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2083) n))\n      Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.inr.{v, u}\n      (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020340.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (HAdd.hAdd.{v, v, v}\n        (CategoryTheory.CategoryStruct.comp.{v, u}\n          (HomologicalComplex.Hom.f.{v, u, 0} (decl-020364.{v, u} \u03c6 P\u2083 Q\u2083) n)\n          CategoryTheory.Limits.biprod.inr.{v, u})\n        (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020350.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n)\n          CategoryTheory.Limits.biprod.inl.{v, u}))\n      h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020340",
+        "decl-020350",
+        "decl-020364"
+      ],
+      "structural_type_hash": "2022103923",
+      "temporary_id": "decl-017467"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      {S T : CategoryTheory.ShortComplex.{v, u} C} \u2192\n        (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S) \u2192\n          (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) \u2192\n            Quiver.Hom.{v, max u v} S T \u2192\n              (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S)) \u2192\n                (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S)) \u2192\n                  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T)) \u2192\n                    (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) \u2192\n                      Quiver.Hom.{v, max u v} (decl-020402.{v, u} hS P\u2081 P\u2083)\n                        (decl-020402.{v, u} hT Q\u2081 Q\u2083)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020402"
+      ],
+      "structural_type_hash": "1899357280",
+      "temporary_id": "decl-020305"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020354"
+      ],
+      "structural_type_hash": "2825575186",
+      "temporary_id": "decl-020309"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      {S T : CategoryTheory.ShortComplex.{v, u} C} \u2192\n        CategoryTheory.ShortComplex.ShortExact.{v, u} S \u2192\n          CategoryTheory.ShortComplex.ShortExact.{v, u} T \u2192\n            Quiver.Hom.{v, max u v} S T \u2192\n              (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S)) \u2192\n                CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T) \u2192\n                  Quiver.Hom.{v, u}\n                    (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} P\u2083) 0)\n                    (CategoryTheory.ShortComplex.X\u2082.{v, u} T)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "45003412",
+      "temporary_id": "decl-020325"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      {S T : CategoryTheory.ShortComplex.{v, u} C} \u2192\n        CategoryTheory.ShortComplex.ShortExact.{v, u} S \u2192\n          CategoryTheory.ShortComplex.ShortExact.{v, u} T \u2192\n            Quiver.Hom.{v, max u v} S T \u2192\n              CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S) \u2192\n                (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S)) \u2192\n                  CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T) \u2192\n                    CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T) \u2192\n                      Quiver.Hom.{v, u}\n                        (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} P\u2083) 0)\n                        (CategoryTheory.ShortComplex.X\u2081.{v, u} T)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4248804684",
+      "temporary_id": "decl-020331"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020331.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083)\n      (CategoryTheory.ShortComplex.f.{v, u} T))\n    (decl-020325.{v, u} hS hT \u03c6 P\u2083 Q\u2083)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020325",
+        "decl-020331"
+      ],
+      "structural_type_hash": "571970578",
+      "temporary_id": "decl-020336"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) {Z : C}\n  (h : Quiver.Hom.{v, u} (CategoryTheory.ShortComplex.X\u2082.{v, u} T) Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020331.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083)\n      (CategoryTheory.CategoryStruct.comp.{v, u} (CategoryTheory.ShortComplex.f.{v, u} T) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020325.{v, u} hS hT \u03c6 P\u2083 Q\u2083) h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020325",
+        "decl-020331"
+      ],
+      "structural_type_hash": "98853454",
+      "temporary_id": "decl-020337"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020325.{v, u} hS hT \u03c6 P\u2083 Q\u2083)\n      (CategoryTheory.ShortComplex.g.{v, u} T))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020325"
+      ],
+      "structural_type_hash": "1772429881",
+      "temporary_id": "decl-020338"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      {S T : CategoryTheory.ShortComplex.{v, u} C} \u2192\n        (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S) \u2192\n          (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) \u2192\n            Quiver.Hom.{v, max u v} S T \u2192\n              (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S)) \u2192\n                (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S)) \u2192\n                  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T)) \u2192\n                    (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) \u2192\n                      Quiver.Hom.{v, max u v} (decl-020365.{v, u} hS P\u2081 P\u2083)\n                        (decl-020365.{v, u} hT Q\u2081 Q\u2083)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020365"
+      ],
+      "structural_type_hash": "3721534553",
+      "temporary_id": "decl-020339"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      {S T : CategoryTheory.ShortComplex.{v, u} C} \u2192\n        CategoryTheory.ShortComplex.ShortExact.{v, u} S \u2192\n          CategoryTheory.ShortComplex.ShortExact.{v, u} T \u2192\n            Quiver.Hom.{v, max u v} S T \u2192\n              (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S)) \u2192\n                (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S)) \u2192\n                  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T)) \u2192\n                    (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) \u2192\n                      (n : Nat) \u2192\n                        Quiver.Hom.{v, u}\n                          (CategoryTheory.Limits.biprod.{v, u}\n                            (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} P\u2081) n)\n                            (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} P\u2083) n))\n                          (CategoryTheory.Limits.biprod.{v, u}\n                            (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2081) n)\n                            (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2083) n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "261698301",
+      "temporary_id": "decl-020340"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) (n : Nat),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020340.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n)\n      CategoryTheory.Limits.biprod.fst.{v, u})\n    (HAdd.hAdd.{v, v, v}\n      (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.fst.{v, u}\n        (HomologicalComplex.Hom.f.{v, u, 0} (decl-020363.{v, u} \u03c6 P\u2081 Q\u2081) n))\n      (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.snd.{v, u}\n        (decl-020350.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020340",
+        "decl-020350",
+        "decl-020363"
+      ],
+      "structural_type_hash": "3342424088",
+      "temporary_id": "decl-020344"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) (n : Nat) {Z : C}\n  (h : Quiver.Hom.{v, u} (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2081) n) Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020340.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n)\n      (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.fst.{v, u} h))\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (HAdd.hAdd.{v, v, v}\n        (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.fst.{v, u}\n          (HomologicalComplex.Hom.f.{v, u, 0} (decl-020363.{v, u} \u03c6 P\u2081 Q\u2081) n))\n        (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.snd.{v, u}\n          (decl-020350.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n)))\n      h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020340",
+        "decl-020350",
+        "decl-020363"
+      ],
+      "structural_type_hash": "3622462990",
+      "temporary_id": "decl-020345"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) (n : Nat),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020340.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n)\n      CategoryTheory.Limits.biprod.snd.{v, u})\n    (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.snd.{v, u}\n      (HomologicalComplex.Hom.f.{v, u, 0} (decl-020364.{v, u} \u03c6 P\u2083 Q\u2083) n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020340",
+        "decl-020364"
+      ],
+      "structural_type_hash": "2564208955",
+      "temporary_id": "decl-020346"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) (n : Nat) {Z : C}\n  (h : Quiver.Hom.{v, u} (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2083) n) Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020340.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n)\n      (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.snd.{v, u} h))\n    (CategoryTheory.CategoryStruct.comp.{v, u} CategoryTheory.Limits.biprod.snd.{v, u}\n      (CategoryTheory.CategoryStruct.comp.{v, u}\n        (HomologicalComplex.Hom.f.{v, u, 0} (decl-020364.{v, u} \u03c6 P\u2083 Q\u2083) n) h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020340",
+        "decl-020364"
+      ],
+      "structural_type_hash": "2028351779",
+      "temporary_id": "decl-020347"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) (n : Nat),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (decl-020340.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 (HAdd.hAdd.{0, 0, 0} n 1))\n      (HomologicalComplex.d.{v, u, 0} (decl-020365.{v, u} hT Q\u2081 Q\u2083) (HAdd.hAdd.{0, 0, 0} n 1) n))\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (HomologicalComplex.d.{v, u, 0} (decl-020365.{v, u} hS P\u2081 P\u2083) (HAdd.hAdd.{0, 0, 0} n 1) n)\n      (decl-020340.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020340",
+        "decl-020365"
+      ],
+      "structural_type_hash": "629978857",
+      "temporary_id": "decl-020348"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      {S T : CategoryTheory.ShortComplex.{v, u} C} \u2192\n        CategoryTheory.ShortComplex.ShortExact.{v, u} S \u2192\n          CategoryTheory.ShortComplex.ShortExact.{v, u} T \u2192\n            Quiver.Hom.{v, max u v} S T \u2192\n              CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S) \u2192\n                (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S)) \u2192\n                  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T)) \u2192\n                    CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T) \u2192\n                      (n : Nat) \u2192\n                        Quiver.Hom.{v, u}\n                          (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} P\u2083) n)\n                          (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2081) n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3039109384",
+      "temporary_id": "decl-020350"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) (n : Nat),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (decl-020350.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 (HAdd.hAdd.{0, 0, 0} n 1))\n      (HomologicalComplex.d.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2081) (HAdd.hAdd.{0, 0, 0} n 1)\n        n))\n    (decl-020354.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n\n      (decl-020350.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020350",
+        "decl-020354"
+      ],
+      "structural_type_hash": "2034603991",
+      "temporary_id": "decl-020352"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) (n : Nat),\n  Eq.{v + 1} (decl-020350.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 (HAdd.hAdd.{0, 0, 0} n 1))\n    (PSigma.fst.{v + 1, 0} (PSigma.snd.{v + 1, v + 1} (decl-020309.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 n)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020309",
+        "decl-020350",
+        "decl-020354"
+      ],
+      "structural_type_hash": "3180741164",
+      "temporary_id": "decl-020353"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      {S T : CategoryTheory.ShortComplex.{v, u} C} \u2192\n        CategoryTheory.ShortComplex.ShortExact.{v, u} S \u2192\n          CategoryTheory.ShortComplex.ShortExact.{v, u} T \u2192\n            Quiver.Hom.{v, max u v} S T \u2192\n              CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S) \u2192\n                (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S)) \u2192\n                  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T)) \u2192\n                    CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T) \u2192\n                      (n : Nat) \u2192\n                        Quiver.Hom.{v, u}\n                            (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} P\u2083) n)\n                            (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2081) n) \u2192\n                          Quiver.Hom.{v, u}\n                            (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} P\u2083)\n                              (HAdd.hAdd.{0, 0, 0} n 1))\n                            (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2081) n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1410062834",
+      "temporary_id": "decl-020354"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u}\n      (decl-020354.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083 0\n        (decl-020358.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083))\n      (HomologicalComplex.Hom.f.{v, u, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{v, u} Q\u2081) 0))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020354",
+        "decl-020358"
+      ],
+      "structural_type_hash": "3762376275",
+      "temporary_id": "decl-020356"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      {S T : CategoryTheory.ShortComplex.{v, u} C} \u2192\n        CategoryTheory.ShortComplex.ShortExact.{v, u} S \u2192\n          CategoryTheory.ShortComplex.ShortExact.{v, u} T \u2192\n            Quiver.Hom.{v, max u v} S T \u2192\n              CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S) \u2192\n                (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S)) \u2192\n                  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T)) \u2192\n                    CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T) \u2192\n                      Quiver.Hom.{v, u}\n                        (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} P\u2083) 0)\n                        (HomologicalComplex.X.{v, u, 0} (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2081) 0)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3288707572",
+      "temporary_id": "decl-020358"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020358.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083)\n      (HomologicalComplex.Hom.f.{v, u, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{v, u} Q\u2081) 0))\n    (decl-020331.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020331",
+        "decl-020358"
+      ],
+      "structural_type_hash": "1888015174",
+      "temporary_id": "decl-020361"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {S T : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S)\n  (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T) (\u03c6 : Quiver.Hom.{v, max u v} S T)\n  (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S))\n  (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n  (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n  (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) {Z : C}\n  (h :\n    Quiver.Hom.{v, u}\n      (HomologicalComplex.X.{v, u, 0}\n        (CategoryTheory.Functor.obj.{v, v, u, max u v} (ChainComplex.single\u2080.{v, u} C)\n          (CategoryTheory.ShortComplex.X\u2081.{v, u} T))\n        0)\n      Z),\n  Eq.{v + 1}\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020358.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083)\n      (CategoryTheory.CategoryStruct.comp.{v, u}\n        (HomologicalComplex.Hom.f.{v, u, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{v, u} Q\u2081) 0) h))\n    (CategoryTheory.CategoryStruct.comp.{v, u} (decl-020331.{v, u} hS hT \u03c6 P\u2081 P\u2083 Q\u2081 Q\u2083) h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020331",
+        "decl-020358"
+      ],
+      "structural_type_hash": "1971326993",
+      "temporary_id": "decl-020362"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      {S T : CategoryTheory.ShortComplex.{v, u} C} \u2192\n        Quiver.Hom.{v, max u v} S T \u2192\n          (P\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} S)) \u2192\n            (Q\u2081 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2081.{v, u} T)) \u2192\n              Quiver.Hom.{v, max u v} (CategoryTheory.ProjectiveResolution.complex.{v, u} P\u2081)\n                (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2081)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1868900951",
+      "temporary_id": "decl-020363"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      {S T : CategoryTheory.ShortComplex.{v, u} C} \u2192\n        Quiver.Hom.{v, max u v} S T \u2192\n          (P\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} S)) \u2192\n            (Q\u2083 : CategoryTheory.ProjectiveResolution.{v, u} (CategoryTheory.ShortComplex.X\u2083.{v, u} T)) \u2192\n              Quiver.Hom.{v, max u v} (CategoryTheory.ProjectiveResolution.complex.{v, u} P\u2083)\n                (CategoryTheory.ProjectiveResolution.complex.{v, u} Q\u2083)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "285863954",
+      "temporary_id": "decl-020364"
+    }
+  ],
+  "module_temporary_id": "module-0647",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

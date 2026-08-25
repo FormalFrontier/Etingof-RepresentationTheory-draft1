@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0642",
+  "associations": [
+    {
+      "association_id": "association:ef6a8e02d7ef37c62e1b",
+      "rationale": "Over an arbitrary field, the formal type gives the endomorphism lemma, but it does not itself state the Krull-Schmidt existence and uniqueness theorem required by the complete claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4dc1cc37280c9bfaba7a",
+      "rationale": "Over an arbitrary field, the formal type gives existence of an indecomposable decomposition, but it does not itself state uniqueness or the endomorphism lemma, so it covers only part of the complete claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:285d1925686da5854e49",
+      "rationale": "Over an arbitrary field, the formal type gives uniqueness of indecomposable decompositions, but it does not itself state existence or the endomorphism lemma, so it covers only part of the complete claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d84b0609cbc22b7dcc7c",
+      "rationale": "The formal type proves that a finite sum of nilpotent endomorphisms of an indecomposable module is nilpotent; this is a helper result rather than the arbitrary-field lemma or Krull-Schmidt statement itself.",
+      "role": "supporting"
+    }
+  ]
+}

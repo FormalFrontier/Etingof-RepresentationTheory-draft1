@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_tensors_type",
+    "kind": "discussion",
+    "title": "Tensors of type (m,n), basis of tensor spaces, Einstein summation",
+    "node_id": "chapter-02/section-2-11",
+    "order": 102,
+    "slug": "discussion-tensors-type",
+    "span": {
+      "start": {
+        "page": "32",
+        "line": 4
+      },
+      "end": {
+        "page": "32",
+        "line": 19
+      }
+    },
+    "source_sha256": "be0f286be70fe2faaab9942a8d32533eb3748988d2b26e21fa889e0db4f7e3fc",
+    "features": {
+      "line_count": 16,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionTensorsType",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

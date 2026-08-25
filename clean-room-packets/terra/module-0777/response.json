@@ -1,0 +1,30 @@
+{
+  "module_name": "FGModuleCat.FiniteLengthAndSubmoduleComplexes",
+  "declarations": [
+    {
+      "temporary_id": "decl-019899",
+      "new_name": "fgModuleProperty_of_isNoetherianRing_of_isArtinianRing",
+      "docstring": "Finitely generated modules over a Noetherian Artinian ring have the designated module property."
+    },
+    {
+      "temporary_id": "decl-019900",
+      "new_name": "fgModuleProperty_of_isFiniteLength",
+      "docstring": "A finite module of finite length has the designated property when regarded as a finitely generated module."
+    },
+    {
+      "temporary_id": "decl-020929",
+      "new_name": "isZero_fgModule_of_subsingleton",
+      "docstring": "A finite module with at most one element defines a zero object in the category of finitely generated modules."
+    },
+    {
+      "temporary_id": "decl-023460",
+      "new_name": "shortComplexOfSubmodule",
+      "docstring": "A short complex determined by a finite submodule of a finite module."
+    },
+    {
+      "temporary_id": "decl-023463",
+      "new_name": "shortExact_shortComplexOfSubmodule",
+      "docstring": "The short complex attached to a finite submodule is short exact over a Noetherian ring."
+    }
+  ]
+}

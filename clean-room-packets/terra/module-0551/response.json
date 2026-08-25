@@ -1,0 +1,30 @@
+{
+  "module_name": "Quiver.AdjacencyQuadraticForm",
+  "declarations": [
+    {
+      "temporary_id": "decl-017229",
+      "new_name": "arrow_count_add_reverse_eq_adjacency_entry",
+      "docstring": "For a quiver compatible with a symmetric zero-one adjacency matrix, the number of arrows from one vertex to another plus the number in the reverse direction equals the corresponding adjacency entry."
+    },
+    {
+      "temporary_id": "decl-019924",
+      "new_name": "quadratic_pos_on_nonnegative_int_vectors_of_arrow_sum_lt_square_sum",
+      "docstring": "For a quiver compatible with a symmetric zero-one adjacency matrix, assume every nonzero natural dimension vector has arrow-weighted product sum strictly smaller than its coordinate square sum. Then the quadratic form associated with twice the identity minus the adjacency matrix is positive on every nonzero coordinatewise nonnegative integer vector."
+    },
+    {
+      "temporary_id": "decl-020829",
+      "new_name": "Auxiliary.statement020829",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-020831",
+      "new_name": "Auxiliary.statement020831",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024128",
+      "new_name": "two_identity_sub_adjacency_quadratic_eq_twice_quiver_form",
+      "docstring": "For every natural dimension vector of a quiver compatible with a symmetric zero-one adjacency matrix, evaluating twice the identity minus the adjacency matrix on that vector gives twice the difference between the coordinate square sum and the arrow-weighted product sum."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "module_name": "GeneralLinearGroup.DiagonalAction",
+  "declarations": [
+    {
+      "temporary_id": "decl-005209",
+      "new_name": "IsAuxiliaryEndomorphismFamily",
+      "docstring": "An auxiliary property of a family of linear endomorphisms indexed by a general linear group."
+    },
+    {
+      "temporary_id": "decl-005211",
+      "new_name": "toAuxiliaryCondition",
+      "docstring": "This auxiliary endomorphism-family property implies the specified dependent condition."
+    },
+    {
+      "temporary_id": "decl-005698",
+      "new_name": "MvPolynomial.eq_zero_of_eval_eq_zero_on_nonzero",
+      "docstring": "A multivariate polynomial over an infinite field is zero if it vanishes whenever every coordinate is nonzero."
+    },
+    {
+      "temporary_id": "decl-018374",
+      "new_name": "diagonalUnitMatrix_mul",
+      "docstring": "The diagonal unit matrix associated to a pointwise product is the product of the associated diagonal unit matrices."
+    },
+    {
+      "temporary_id": "decl-018375",
+      "new_name": "diagonalUnitMatrix_one",
+      "docstring": "The diagonal unit matrix associated to the constant-one function is one."
+    },
+    {
+      "temporary_id": "decl-018376",
+      "new_name": "coe_diagonalUnitMatrix",
+      "docstring": "The underlying matrix of the diagonal unit matrix has the given units along its diagonal."
+    },
+    {
+      "temporary_id": "decl-018382",
+      "new_name": "coordinateUnit_eq_diagonalUnitMatrix_update",
+      "docstring": "The unit associated to one coordinate equals the diagonal unit matrix obtained by updating that coordinate of the constant-one function."
+    },
+    {
+      "temporary_id": "decl-021571",
+      "new_name": "matrixCoefficients_eq_zero_of_eval_eq_zero_on_nonzero",
+      "docstring": "Finitely supported matrix coefficients are zero if their monomial sum vanishes at every tuple with nonzero coordinates."
+    },
+    {
+      "temporary_id": "decl-021572",
+      "new_name": "matrixCoefficients_eq_zero_of_eval_eq_zero_on_units",
+      "docstring": "Finitely supported matrix coefficients are zero if their monomial sum vanishes at every tuple of units."
+    },
+    {
+      "temporary_id": "decl-022077",
+      "new_name": "iSup_indexedFamily_eq_top_of_isAuxiliaryEndomorphismFamily",
+      "docstring": "If the general-linear-group-indexed endomorphism family of a finite-dimensional representation satisfies the auxiliary property, the supremum of the specified naturally indexed family is top."
+    },
+    {
+      "temporary_id": "decl-025183",
+      "new_name": "MvPolynomial.eval_aeval",
+      "docstring": "Evaluating after polynomial substitution equals evaluation at the values obtained by evaluating each substituted polynomial."
+    }
+  ]
+}

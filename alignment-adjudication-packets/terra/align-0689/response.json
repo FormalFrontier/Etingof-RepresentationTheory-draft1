@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0689",
+  "associations": [
+    {
+      "association_id": "association:2a48f70240405990838e",
+      "rationale": "The type constructs a basis indexed by finite subsets, but it does not itself expose the basis elements as ordered Clifford monomials or state the spanning and dimension clauses of the complete claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4e3ecf18e0f62d6d8e72",
+      "rationale": "The theorem states the finrank formula 2^N, but it does not itself state the ordered-monomial basis or spanning clauses, so it covers only the dimension component.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c94f020f4ffebd6f1ef8",
+      "rationale": "The theorem states that the range of the opaque family e spans the Clifford algebra, but it does not itself identify ordered Clifford monomials as a basis or state the dimension formula.",
+      "role": "supporting"
+    }
+  ]
+}

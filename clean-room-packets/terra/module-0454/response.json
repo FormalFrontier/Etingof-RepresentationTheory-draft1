@@ -1,0 +1,45 @@
+{
+  "module_name": "AuxiliarySubmodules",
+  "declarations": [
+    {
+      "temporary_id": "decl-022866",
+      "new_name": "product_sq_eq_smul",
+      "docstring": "There exists a nonzero scalar such that the square of the displayed product equals its scalar multiple."
+    },
+    {
+      "temporary_id": "decl-023336",
+      "new_name": "auxiliarySubmodule_eq_span_product",
+      "docstring": "The auxiliary submodule equals the span of the singleton containing the displayed product."
+    },
+    {
+      "temporary_id": "decl-023337",
+      "new_name": "auxiliarySubmoduleLinearEquivProductSpan",
+      "docstring": "A linear equivalence from the auxiliary submodule to the span of the singleton containing the displayed product."
+    },
+    {
+      "temporary_id": "decl-023340",
+      "new_name": "auxiliarySubmoduleLinearEquivIndexedSubmodule",
+      "docstring": "A linear equivalence from the auxiliary submodule to the indexed submodule."
+    },
+    {
+      "temporary_id": "decl-024567",
+      "new_name": "indexedSubmodule",
+      "docstring": "A submodule indexed by a natural number and a partition of that number."
+    },
+    {
+      "temporary_id": "decl-024569",
+      "new_name": "indexedSubmodule_eq_span_product",
+      "docstring": "The indexed submodule equals the span of the singleton containing the displayed product."
+    },
+    {
+      "temporary_id": "decl-024570",
+      "new_name": "indexedSubmodule_isSimple",
+      "docstring": "The module carried by the indexed submodule is simple."
+    },
+    {
+      "temporary_id": "decl-024574",
+      "new_name": "auxiliaryElement_ne_zero",
+      "docstring": "The displayed auxiliary element does not vanish."
+    }
+  ]
+}

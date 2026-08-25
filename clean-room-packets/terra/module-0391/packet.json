@@ -1,0 +1,99 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k N n : Nat) (slot : Fin n \u2192 Fin k) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Membership.mem.{0, 0} (Algebra.adjoin.{0, 0} Complex (Set.range.{0, 1} (decl-024280 k N)))\n    (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot)\n      (LinearEquiv.toLinearMap.{0, 0, 0, 0} (decl-023613.{0, 0} Complex (decl-001059 N) n \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473",
+        "decl-018588",
+        "decl-023613",
+        "decl-024280"
+      ],
+      "structural_type_hash": "1653187466",
+      "temporary_id": "decl-018599"
+    },
+    {
+      "formal_type": "\u2200 (k : Nat) (d : Finsupp.{0, 0} (Fin k) Nat),\n  Exists.{1} fun n =>\n    Exists.{1} fun slot =>\n      \u2200 (i : Fin k),\n        Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun j => Eq.{1} (slot j) i) Finset.univ.{0}))\n          (DFunLike.coe.{1, 1, 1} d i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "160686818",
+      "temporary_id": "decl-018935"
+    },
+    {
+      "formal_type": "\u2200 (k N : Nat),\n  Eq.{1} (Algebra.adjoin.{0, 0} Complex (Set.range.{0, 1} (decl-024280 k N))) (decl-020749 k N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658",
+        "decl-020749",
+        "decl-024280"
+      ],
+      "structural_type_hash": "338213657",
+      "temporary_id": "decl-020751"
+    },
+    {
+      "formal_type": "\u2200 (k N : Nat),\n  LE.le.{0} (decl-020749 k N) (Algebra.adjoin.{0, 0} Complex (Set.range.{0, 1} (decl-024280 k N)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658",
+        "decl-020749",
+        "decl-024280"
+      ],
+      "structural_type_hash": "1191793731",
+      "temporary_id": "decl-020752"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (\u03c3 : Equiv.Perm.{1} (Fin n)) (letter : Fin n \u2192 Fin k) (r : Fin n),\n  Membership.mem.{0, 0} (Set.range.{0, 1} (decl-024280 k N))\n    (Matrix.trace.{0, 0} (decl-021553.{0, 0} \u03c3 (fun i => decl-019798 k N (letter i)) r))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658",
+        "decl-019798",
+        "decl-021553",
+        "decl-024280"
+      ],
+      "structural_type_hash": "3580587190",
+      "temporary_id": "decl-024298"
+    },
+    {
+      "formal_type": "\u2200 (k N : Nat) (d : Finsupp.{0, 0} (Fin k) Nat) {p : decl-005658 k N},\n  MvPolynomial.IsWeightedHomogeneous.{0, 0, 0} (decl-021565 k N) p d \u2192\n    Membership.mem.{0, 0} (decl-020749 k N) p \u2192\n      Membership.mem.{0, 0} (Algebra.adjoin.{0, 0} Complex (Set.range.{0, 1} (decl-024280 k N))) p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658",
+        "decl-020749",
+        "decl-021565",
+        "decl-024280"
+      ],
+      "structural_type_hash": "3577031711",
+      "temporary_id": "decl-024512"
+    }
+  ],
+  "module_temporary_id": "module-0391",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

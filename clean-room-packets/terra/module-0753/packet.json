@@ -1,0 +1,85 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {S : ModuleCat.{v, u} R},\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S) \u2192\n    \u2200 {Y : Type v} [inst_2 : AddCommGroup.{v} Y] [inst_3 : Module.{u, v} R Y],\n      IsFiniteLength.{u, v} R Y \u2192\n        (\u2200 (V : ModuleCat.{v, u} R),\n            decl-005131.{v, u} R (ModuleCat.of.{v, u} R Y) V \u2192 Not (decl-000621.{v, u} R S V)) \u2192\n          Subsingleton.{v + 1} (CategoryTheory.Abelian.Ext.{v, v, max u (v + 1)} S (ModuleCat.of.{v, u} R Y) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621",
+        "decl-005131"
+      ],
+      "structural_type_hash": "2956179613",
+      "temporary_id": "decl-019248"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {X Y : ModuleCat.{v, u} R},\n  IsFiniteLength.{u, v} R (ModuleCat.carrier.{v, u} X) \u2192\n    IsFiniteLength.{u, v} R (ModuleCat.carrier.{v, u} Y) \u2192\n      (\u2200 (U V : ModuleCat.{v, u} R),\n          decl-005131.{v, u} R X U \u2192\n            decl-005131.{v, u} R Y V \u2192 Not (decl-000621.{v, u} R U V)) \u2192\n        Subsingleton.{v + 1} (CategoryTheory.Abelian.Ext.{v, v, max u (v + 1)} X Y 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621",
+        "decl-005131"
+      ],
+      "structural_type_hash": "1949571017",
+      "temporary_id": "decl-019249"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {Y : ModuleCat.{v, u} R},\n  IsFiniteLength.{u, v} R (ModuleCat.carrier.{v, u} Y) \u2192\n    \u2200 {X : Type v} [inst_2 : AddCommGroup.{v} X] [inst_3 : Module.{u, v} R X],\n      IsFiniteLength.{u, v} R X \u2192\n        (\u2200 (U V : ModuleCat.{v, u} R),\n            decl-005131.{v, u} R (ModuleCat.of.{v, u} R X) U \u2192\n              decl-005131.{v, u} R Y V \u2192 Not (decl-000621.{v, u} R U V)) \u2192\n          Subsingleton.{v + 1} (CategoryTheory.Abelian.Ext.{v, v, max u (v + 1)} (ModuleCat.of.{v, u} R X) Y 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621",
+        "decl-005131"
+      ],
+      "structural_type_hash": "3542729530",
+      "temporary_id": "decl-019250"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {S : ModuleCat.{v, u} R},\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S) \u2192 decl-005131.{v, u} R S S",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005131"
+      ],
+      "structural_type_hash": "59545511",
+      "temporary_id": "decl-020822"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {Z Y : ModuleCat.{v, u} R},\n  CategoryTheory.Limits.IsZero.{v, max u (v + 1)} Z \u2192\n    \u2200 (n : Nat), Subsingleton.{v + 1} (CategoryTheory.Abelian.Ext.{v, v, max u (v + 1)} Z Y n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "728949382",
+      "temporary_id": "decl-023481"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {X Z : ModuleCat.{v, u} R},\n  CategoryTheory.Limits.IsZero.{v, max u (v + 1)} Z \u2192\n    \u2200 (n : Nat), Subsingleton.{v + 1} (CategoryTheory.Abelian.Ext.{v, v, max u (v + 1)} X Z n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "980025023",
+      "temporary_id": "decl-023482"
+    }
+  ],
+  "module_temporary_id": "module-0753",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

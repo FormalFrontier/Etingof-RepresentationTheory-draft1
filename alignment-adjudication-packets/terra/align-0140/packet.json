@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:68617fc015d162a4f1ba",
+      "declaration": "Etingof.Theorem5_15_1_general",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/332/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n N : Nat} (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  LE.le.{0} (List.length.{0} la.sortedParts) N \u2192\n    Eq.{1}\n      (HSMul.hSMul.{0, 0, 0} (Units.val.{0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} Fin.revPerm))\n        (Etingof.spechtModuleCharacter n la \u03c3))\n      (MvPolynomial.coeff.{0, 0} (HAdd.hAdd.{0, 0, 0} (Etingof.Nat.Partition.toFinsuppN N la) (Etingof.rhoShift N))\n        (HMul.hMul.{0, 0, 0} (Etingof.vandermondePoly N) (Etingof.cycleTypePsumProductN N n \u03c3)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_15_1_General"
+    },
+    {
+      "association_id": "association:cd901beafa053c8f8464",
+      "declaration": "Etingof.alternating_kostka_eq_delta",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/332/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
+    },
+    {
+      "association_id": "association:3d24f0a2582a8b98840e",
+      "declaration": "Etingof.specht_char_inner",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/332/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (\u03bd \u03bc : n.Partition),\n  Eq.{1}\n    (Finset.sum.{0, 0} Finset.univ.{0} fun \u03c3 =>\n      HMul.hMul.{0, 0, 0} (Etingof.spechtModuleCharacter n \u03bd \u03c3) (Etingof.spechtModuleCharacter n \u03bc (Inv.inv.{0} \u03c3)))\n    (HMul.hMul.{0, 0, 0} (Nat.cast.{0} n.factorial) (ite.{1} (Eq.{1} \u03bd \u03bc) 1 0))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_proof_of_Frobenius_character_formula",
+  "packet_id": "align-0140",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0140"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2c1670d3a8347770c77a",
+  "source_text": "Character orthogonality and the Cauchy coefficient computation force the triangular class function to equal chi_lambda."
+}

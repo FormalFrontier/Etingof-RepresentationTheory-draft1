@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0934",
+  "associations": [
+    {
+      "association_id": "association:5320e6f9e30c1a614484",
+      "role": "supporting",
+      "rationale": "It establishes the A5 case, one component of the three-group claim."
+    },
+    {
+      "association_id": "association:154d7a385cb1ae834b29",
+      "role": "supporting",
+      "rationale": "It establishes the S3 case, one component of the three-group claim."
+    },
+    {
+      "association_id": "association:61ce23dd12f4ea5ce762",
+      "role": "supporting",
+      "rationale": "It establishes the S4 case, one component of the three-group claim."
+    }
+  ]
+}

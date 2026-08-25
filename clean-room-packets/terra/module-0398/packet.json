@@ -1,0 +1,48 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [Infinite.{u_1 + 1} k] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{u_1, u_2} k V] [Module.Finite.{u_1, u_2} k V] (n : Nat),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (Submodule.span.{u_1, max u_2 u_1} k\n      (Set.range.{max u_2 u_1, u_2 + 1} fun g =>\n        PiTensorProduct.map.{0, u_1, u_2, u_2} fun x => LinearEquiv.toLinearMap.{u_1, u_1, u_2, u_2} g))\n    (DFunLike.coe.{(max u_1 u_2) + 1, (max u_1 u_2) + 1, (max u_1 u_2) + 1} Subalgebra.toSubmodule.{u_1, max u_1 u_2}\n      (decl-018384.{u_1, u_2} k V n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-018384"
+      ],
+      "structural_type_hash": "3401217237",
+      "temporary_id": "decl-014640"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [CharZero.{u_1} k] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{u_1, u_2} k V] [Module.Finite.{u_1, u_2} k V] (n : Nat),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (Submodule.span.{u_1, max u_2 u_1} k\n      (Set.range.{max u_2 u_1, u_2 + 1} fun g =>\n        PiTensorProduct.map.{0, u_1, u_2, u_2} fun x => LinearEquiv.toLinearMap.{u_1, u_1, u_2, u_2} g))\n    (DFunLike.coe.{(max u_1 u_2) + 1, (max u_1 u_2) + 1, (max u_1 u_2) + 1} Subalgebra.toSubmodule.{u_1, max u_1 u_2}\n      (Subalgebra.centralizer.{u_1, max u_1 u_2} k\n        (SetLike.coe.{max u_1 u_2, max u_1 u_2} (decl-023627.{u_1, u_2} k V n))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627"
+      ],
+      "structural_type_hash": "2836203482",
+      "temporary_id": "decl-014641"
+    }
+  ],
+  "module_temporary_id": "module-0398",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

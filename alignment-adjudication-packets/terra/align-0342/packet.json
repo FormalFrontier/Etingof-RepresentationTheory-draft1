@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:754ae6142a72ba9239f4",
+      "declaration": "Etingof.Theorem5_12_2_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/309/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  IsSimpleModule.{0, 0} (Etingof.SymGroupAlgebra n)\n    (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n la) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.12.2",
+  "packet_id": "align-0342",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0342"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6a14a4d2ce6871cb5374",
+  "source_text": "The left ideal C[S_n]c_lambda is an irreducible Specht module."
+}

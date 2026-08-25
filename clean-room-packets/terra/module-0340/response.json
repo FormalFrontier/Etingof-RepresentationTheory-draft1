@@ -1,0 +1,120 @@
+{
+  "module_name": "Auxiliary.GeneralLinearGroupPolynomialEvaluation",
+  "declarations": [
+    {
+      "temporary_id": "decl-005110",
+      "new_name": "auxiliary_det_smul",
+      "docstring": "Shows that the displayed property is preserved after scaling each linear map by the determinant of its matrix argument."
+    },
+    {
+      "temporary_id": "decl-005111",
+      "new_name": "auxiliary_dual",
+      "docstring": "Transfers the displayed property from a representation to its dual representation."
+    },
+    {
+      "temporary_id": "decl-005113",
+      "new_name": "auxiliary_of_linearEquiv",
+      "docstring": "Transfers the displayed property along a linear equivalence intertwining two matrix-indexed families of linear maps."
+    },
+    {
+      "temporary_id": "decl-005116",
+      "new_name": "auxiliaryElidedStatement005116",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-018335",
+      "new_name": "auxiliaryPolynomial",
+      "docstring": "Defines a multivariate polynomial over a field with the displayed index type."
+    },
+    {
+      "temporary_id": "decl-018654",
+      "new_name": "evaluate_C",
+      "docstring": "Evaluating a constant polynomial at a general linear matrix returns that constant."
+    },
+    {
+      "temporary_id": "decl-018655",
+      "new_name": "evaluate_X_entry",
+      "docstring": "Evaluating the variable indexed by a pair of finite indices returns the corresponding matrix entry."
+    },
+    {
+      "temporary_id": "decl-018656",
+      "new_name": "evaluate_X_unit",
+      "docstring": "Evaluating the variable indexed by a unit returns the inverse determinant of the matrix."
+    },
+    {
+      "temporary_id": "decl-018657",
+      "new_name": "evaluate_adjugate",
+      "docstring": "Evaluation commutes with taking the specified entry of an adjugate matrix built from polynomial variables."
+    },
+    {
+      "temporary_id": "decl-018658",
+      "new_name": "evaluate_bind",
+      "docstring": "Evaluating a polynomial after the displayed variable substitution agrees with evaluating the original polynomial at the inverse matrix."
+    },
+    {
+      "temporary_id": "decl-018659",
+      "new_name": "evaluate_auxiliaryPolynomial",
+      "docstring": "Evaluating the auxiliary polynomial at a general linear matrix returns its determinant."
+    },
+    {
+      "temporary_id": "decl-018660",
+      "new_name": "evaluate_eq_eval",
+      "docstring": "Identifies the displayed evaluation map with multivariate-polynomial evaluation at the associated variable assignment."
+    },
+    {
+      "temporary_id": "decl-018662",
+      "new_name": "evaluate_mul",
+      "docstring": "Evaluation at a general linear matrix preserves multiplication."
+    },
+    {
+      "temporary_id": "decl-018664",
+      "new_name": "evaluate_prod",
+      "docstring": "Evaluation at a general linear matrix commutes with a finite product of polynomials."
+    },
+    {
+      "temporary_id": "decl-018666",
+      "new_name": "evaluate_sum",
+      "docstring": "Evaluation at a general linear matrix commutes with a finite sum of polynomials."
+    },
+    {
+      "temporary_id": "decl-018667",
+      "new_name": "auxiliaryEvaluationValue",
+      "docstring": "Defines a scalar-valued function of a general linear matrix and an element of the displayed index type."
+    },
+    {
+      "temporary_id": "decl-019837",
+      "new_name": "auxiliaryRepresentation_property",
+      "docstring": "Establishes the first displayed predicate for the given matrix-indexed linear representation."
+    },
+    {
+      "temporary_id": "decl-019838",
+      "new_name": "auxiliaryRepresentation_property_two",
+      "docstring": "Establishes the second displayed predicate for the given representation."
+    },
+    {
+      "temporary_id": "decl-020744",
+      "new_name": "auxiliarySubstitution",
+      "docstring": "Defines a map from the displayed index type to multivariate polynomials."
+    },
+    {
+      "temporary_id": "decl-022634",
+      "new_name": "action_basis_repr_apply",
+      "docstring": "Computes a coordinate of the displayed action in the given basis as a finite product of matrix entries."
+    },
+    {
+      "temporary_id": "decl-023002",
+      "new_name": "auxiliaryFDRep_property",
+      "docstring": "Establishes the first displayed predicate for the representation obtained from the given field-dependent data."
+    },
+    {
+      "temporary_id": "decl-023003",
+      "new_name": "auxiliaryFDRep_property_two",
+      "docstring": "Establishes the second displayed predicate for the representation obtained from the given field-dependent data."
+    },
+    {
+      "temporary_id": "decl-023752",
+      "new_name": "auxiliaryBasis",
+      "docstring": "Defines a basis indexed by functions from `Fin n` to `Fin N` for the displayed module."
+    }
+  ]
+}

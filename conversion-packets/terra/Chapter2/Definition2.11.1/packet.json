@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.11.1",
+    "kind": "definition",
+    "title": "Tensor product of vector spaces",
+    "node_id": "chapter-02/section-2-11",
+    "order": 99,
+    "slug": "definition2-11-1",
+    "span": {
+      "start": {
+        "page": "31",
+        "line": 7
+      },
+      "end": {
+        "page": "31",
+        "line": 22
+      }
+    },
+    "source_sha256": "f193d5a779fab9e4375adb3091551fb556a240c4372cca20ae9e338456fe54f4",
+    "features": {
+      "line_count": 16,
+      "crosses_page": false,
+      "display_math_delimiters": 8,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition2111",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

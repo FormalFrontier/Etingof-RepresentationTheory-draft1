@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:07348c2c338c3dbb4a2c",
+      "declaration": "Etingof.Problem2_11_3.TensorPow",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/100/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (V : Type u_2) \u2192 [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} k V] \u2192 Nat \u2192 Type (max u_2 u_1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow"
+    },
+    {
+      "association_id": "association:c76be57185ce1f000926",
+      "declaration": "PiTensorProduct",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/100/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.LinearAlgebra.PiTensorProduct.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_pure_tensors",
+  "packet_id": "align-0978",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0978"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b861ebeedc1b7fb4d593",
+  "source_text": "Finite n-fold tensor products V\u2081 \u2297 \u22ef \u2297 V\u2099, and in particular V^{\u2297 n}, are defined."
+}

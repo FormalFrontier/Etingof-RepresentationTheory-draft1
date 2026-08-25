@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Discussion_proof_of_Theorem3.10.2",
+    "kind": "discussion",
+    "title": "Proof of Theorem 3.10.2",
+    "node_id": "chapter-03/section-3-10",
+    "order": 182,
+    "slug": "discussion-proof-of-theorem3-10-2",
+    "span": {
+      "start": {
+        "page": "59",
+        "line": 19
+      },
+      "end": {
+        "page": "60",
+        "line": 7
+      }
+    },
+    "source_sha256": "31f9843446213eafad2fd05be78510f402ee761c69a47c42076adfb346810135",
+    "features": {
+      "line_count": 14,
+      "crosses_page": true,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.DiscussionProofOfTheorem3102",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

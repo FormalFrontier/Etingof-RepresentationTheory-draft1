@@ -1,0 +1,20 @@
+{
+  "module_name": "RingTheory.SimpleModuleAnnihilator",
+  "declarations": [
+    {
+      "temporary_id": "decl-015214",
+      "new_name": "simpleModuleAnnihilator",
+      "docstring": "The ideal of ring elements that act as zero on every simple module."
+    },
+    {
+      "temporary_id": "decl-021590",
+      "new_name": "mem_simpleModuleAnnihilator_iff",
+      "docstring": "An element belongs to the simple-module annihilator exactly when it annihilates every vector in every simple module of the same universe."
+    },
+    {
+      "temporary_id": "decl-022286",
+      "new_name": "simpleModuleAnnihilator_smul_eq_zero",
+      "docstring": "An element of the simple-module annihilator acts as zero on every simple module, without a universe restriction."
+    }
+  ]
+}

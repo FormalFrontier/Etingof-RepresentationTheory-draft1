@@ -1,0 +1,30 @@
+{
+  "declarations": [
+    {
+      "docstring": "A property of a functor between preadditive categories.",
+      "new_name": "PreadditiveProperty",
+      "temporary_id": "decl-000488"
+    },
+    {
+      "docstring": "The comparison isomorphism from the image of a binary biproduct to the binary biproduct of the images under an additive functor.",
+      "new_name": "binaryBiproductComparisonIso",
+      "temporary_id": "decl-000489"
+    },
+    {
+      "docstring": "The forward morphism of the binary biproduct comparison is the lift of the images of the two projections.",
+      "new_name": "binaryBiproductComparisonIso_hom",
+      "temporary_id": "decl-000491"
+    },
+    {
+      "docstring": "An additive functor between preadditive categories preserves each binary biproduct.",
+      "new_name": "preservesBinaryBiproduct",
+      "temporary_id": "decl-000492"
+    },
+    {
+      "docstring": "A property of a functor between preadditive categories with linear structures over a semiring.",
+      "new_name": "LinearProperty",
+      "temporary_id": "decl-005581"
+    }
+  ],
+  "module_name": "Preadditive.FunctorProperties"
+}

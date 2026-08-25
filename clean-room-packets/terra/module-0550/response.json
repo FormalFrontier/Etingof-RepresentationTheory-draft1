@@ -1,0 +1,20 @@
+{
+  "module_name": "Algebra.TranscendenceDegree.PolynomialScaling",
+  "declarations": [
+    {
+      "temporary_id": "decl-012820",
+      "new_name": "card_lt_of_injective_mvPolynomial_algHom_of_scaled_element_of_fixed_generators",
+      "docstring": "Let an infinite field's multivariate polynomial algebra on a finite variable type embed into a field extension. If a unit-indexed family of algebra automorphisms fixes the embedded variables and sends some nonzero element to its scalar multiple by the indexing unit, then every finite cardinal bound on the extension's transcendence degree is strictly larger than the number of source variables."
+    },
+    {
+      "temporary_id": "decl-012823",
+      "new_name": "card_lt_of_injective_mvPolynomial_algHom_to_fractionRing_of_scaled_element_of_fixed_generators",
+      "docstring": "Over an infinite field, suppose a polynomial algebra on a finite variable type embeds into the fraction field of a polynomial algebra on another finite variable type. If algebra automorphisms indexed by scalar units fix all embedded variables while scaling a fixed nonzero fraction by their indexing units, then the source variable type has strictly smaller cardinality than the target variable type."
+    },
+    {
+      "temporary_id": "decl-012885",
+      "new_name": "trdeg_fractionRing_mvPolynomial_eq_card",
+      "docstring": "The fraction field of a multivariate polynomial ring over a field has transcendence degree equal to the number of variables when the variable type is finite."
+    }
+  ]
+}

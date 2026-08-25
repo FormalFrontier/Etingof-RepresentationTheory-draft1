@@ -1,0 +1,42 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192 (L : Type u_2) \u2192 [CommRing.{u_1} k] \u2192 [LieRing.{u_2} L] \u2192 Type (max u_1 u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3907068409",
+      "temporary_id": "decl-005575"
+    },
+    {
+      "formal_type": "\u2200 {L : Type u_2} [inst : LieRing.{u_2} L] (a b c : L),\n  Eq.{u_2 + 1}\n    (HAdd.hAdd.{u_2, u_2, u_2}\n      (HAdd.hAdd.{u_2, u_2, u_2} (Bracket.bracket.{u_2, u_2} (Bracket.bracket.{u_2, u_2} a b) c)\n        (Bracket.bracket.{u_2, u_2} (Bracket.bracket.{u_2, u_2} b c) a))\n      (Bracket.bracket.{u_2, u_2} (Bracket.bracket.{u_2, u_2} c a) b))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3189467671",
+      "temporary_id": "decl-021008"
+    }
+  ],
+  "module_temporary_id": "module-0024",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0049",
+  "associations": [
+    {
+      "association_id": "association:bfaa37737be92efa28e3",
+      "role": "primary",
+      "rationale": "Its type directly states that a finite sum of nilpotent A-linear endomorphisms of an indecomposable module is nilpotent, which is the sum result whose proof the source describes."
+    },
+    {
+      "association_id": "association:291bb53262be58750b50",
+      "role": "supporting",
+      "rationale": "This generic lemma supplies the proof fact that one minus a nilpotent element is a unit; it is an input to the induction, not the sum-of-endomorphisms statement itself."
+    }
+  ]
+}

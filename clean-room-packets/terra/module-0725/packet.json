@@ -1,0 +1,116 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : CommRing.{u} R] \u2192\n    (N : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} N] \u2192\n        [inst_2 : Module.{u, u} R N] \u2192\n          LinearMap.{u, u, u, u} (RingHom.id.{u} R) (TensorProduct.{u, u, u} R (Polynomial.{u} R) N)\n            (Finsupp.{0, u} Nat N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1170622226",
+      "temporary_id": "decl-032758"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : CommRing.{u} R] \u2192\n    (N : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} N] \u2192\n        [inst_2 : Module.{u, u} R N] \u2192\n          LinearMap.{u, u, u, u} (RingHom.id.{u} R) (Finsupp.{0, u} Nat N)\n            (TensorProduct.{u, u, u} R (Polynomial.{u} R) N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "810969779",
+      "temporary_id": "decl-032772"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R] (N : Type u) [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} R N],\n  Function.Bijective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-032758.{u} N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-032758"
+      ],
+      "structural_type_hash": "3688269757",
+      "temporary_id": "decl-032776"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R] (N : Type u) [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} R N],\n  Function.Injective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-032758.{u} N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-032758"
+      ],
+      "structural_type_hash": "1214915535",
+      "temporary_id": "decl-032777"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R] (N : Type u) [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} R N],\n  Function.LeftInverse.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-032772.{u} N))\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-032758.{u} N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-032758",
+        "decl-032772"
+      ],
+      "structural_type_hash": "3709032939",
+      "temporary_id": "decl-032778"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R] (N : Type u) [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} R N],\n  Function.RightInverse.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-032772.{u} N))\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-032758.{u} N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-032758",
+        "decl-032772"
+      ],
+      "structural_type_hash": "2089509192",
+      "temporary_id": "decl-032779"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R] {M : Type u} [inst_1 : AddCommGroup.{u} M] [inst_2 : Module.{u, u} R M]\n  (\u03c6 : LinearMap.{u, u, u, u} (RingHom.id.{u} R) M M) (f : Finsupp.{0, u} Nat M) (B : Nat),\n  (\u2200 (n : Nat), Membership.mem.{0, 0} (Finsupp.support.{0, u} f) n \u2192 LT.lt.{0} n B) \u2192\n    Eq.{u + 1}\n      (HAdd.hAdd.{u, u, u} (DFunLike.coe.{u + 1, 1, u + 1} f 0)\n        (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c6\n          (Finset.sum.{0, u} (Finset.range (HAdd.hAdd.{0, 0, 0} B 1)) fun j =>\n            DFunLike.coe.{u + 1, u + 1, u + 1} (HPow.hPow.{u, 0, u} \u03c6 j)\n              (DFunLike.coe.{u + 1, 1, u + 1} f (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} 0 1) j)))))\n      (Finsupp.sum.{0, u, u} f fun k m => DFunLike.coe.{u + 1, u + 1, u + 1} (HPow.hPow.{u, 0, u} \u03c6 k) m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2588253936",
+      "temporary_id": "decl-032858"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u} [inst : AddCommGroup.{u} M] (g : M \u2192 M),\n  Eq.{u + 1} (g 0) 0 \u2192\n    \u2200 (f : Finsupp.{0, u} Nat M),\n      (\u2200 (k : Nat),\n          Eq.{u + 1} (DFunLike.coe.{u + 1, 1, u + 1} f k)\n            (g (DFunLike.coe.{u + 1, 1, u + 1} f (HAdd.hAdd.{0, 0, 0} k 1)))) \u2192\n        Eq.{u + 1} f 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2155472562",
+      "temporary_id": "decl-032862"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R],\n  Eq.{u + 1}\n    (ModuleCat.isModule.{u, u}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (ModuleCat.restrictScalars.{u, u, u} Polynomial.C.{u})\n        (ModuleCat.of.{u, u} (Polynomial.{u} R) (Polynomial.{u} R))))\n    Polynomial.module.{u, u}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2844757506",
+      "temporary_id": "decl-032923"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R] {N : Type u} [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} R N]\n  (xAct : LinearMap.{u, u, u, u} (RingHom.id.{u} R) N N),\n  Function.Injective.{u + 1, u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (HSub.hSub.{u, u, u} (HSMul.hSMul.{u, u, u} Polynomial.X.{u} LinearMap.id.{u, u})\n        (PolynomialModule.map.{u, u, u, u} R xAct)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2758001353",
+      "temporary_id": "decl-032962"
+    }
+  ],
+  "module_temporary_id": "module-0725",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

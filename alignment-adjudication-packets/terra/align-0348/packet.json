@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:bb60ea771f8673c45a8c",
+      "declaration": "HomotopyTopCat",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/467/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Type (u_1 + 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_1_3"
+    },
+    {
+      "association_id": "association:2cdcd70b3feb66d43326",
+      "declaration": "homotopyRel",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/467/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "HomRel.{u_1 + 1, u_1} TopCat.{u_1}",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_1_3"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.1.3",
+  "packet_id": "align-0348",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0348"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6bf03172e9d781ceea3a",
+  "source_text": "Sets, groups, rings, vector spaces, modules, topological spaces, and the homotopy quotient are categories."
+}

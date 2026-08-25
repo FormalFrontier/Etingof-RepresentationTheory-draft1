@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Example7.1.6",
+    "kind": "example",
+    "title": "Rep(A) enriched over k-vector spaces",
+    "node_id": "chapter-07/section-7-1",
+    "order": 473,
+    "slug": "example7-1-6",
+    "span": {
+      "start": {
+        "page": "183",
+        "line": 9
+      },
+      "end": {
+        "page": "183",
+        "line": 10
+      }
+    },
+    "source_sha256": "42035500da39527e3d77abccb631c0319fd55378ed009d4987d5b865dd672330",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example716",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

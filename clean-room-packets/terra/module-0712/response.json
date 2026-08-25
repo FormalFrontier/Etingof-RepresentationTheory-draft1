@@ -1,0 +1,17 @@
+{
+  "module_name": "CategoryTheory.LinearAlgebra.Auxiliary",
+  "declarations": [
+    {"temporary_id": "decl-017468", "new_name": "biproductHomLinearEquiv", "docstring": "The linear equivalence between morphisms of finite biproducts and families of component morphisms."},
+    {"temporary_id": "decl-017748", "new_name": "familyPairNat", "docstring": "A natural-number-valued quantity assigned to an ordered pair of indices in a family of objects."},
+    {"temporary_id": "decl-018884", "new_name": "exists_noncommuting_elements_of_ne", "docstring": "For distinct indices in a finite type, there exist two elements whose products in opposite orders are unequal."},
+    {"temporary_id": "decl-019413", "new_name": "finrank_biproductHom", "docstring": "The dimension of morphisms between finite biproducts is the double sum of the component dimensions."},
+    {"temporary_id": "decl-019414", "new_name": "auxiliaryFinrankOpEndEqWeightedFamilyPairSum", "docstring": "Expresses the dimension of the indicated opposite endomorphism space as a multiplicity-weighted sum of the natural-number-valued pair function."},
+    {"temporary_id": "decl-019415", "new_name": "auxiliaryFinrankOpEndEqFamilyPairSumIff", "docstring": "Under the displayed lower bounds, the opposite endomorphism dimension equals the unweighted pair-function sum exactly when every multiplicity is one."},
+    {"temporary_id": "decl-019419", "new_name": "auxiliaryFinrankOpEndOneEqFamilyPairSum", "docstring": "For constant multiplicity one, the opposite endomorphism dimension is the sum of all values of the natural-number-valued pair function."},
+    {"temporary_id": "decl-019426", "new_name": "auxiliaryFinrankEndEqSumHomFinrank", "docstring": "Computes the dimension of the endomorphism object as a sum over pairs of indexed summands."},
+    {"temporary_id": "decl-021567", "new_name": "matrix_mul_comm_of_subsingleton", "docstring": "Square matrices over a subsingleton finite index type commute under multiplication."},
+    {"temporary_id": "decl-021812", "new_name": "one_le_familyPairNat_self", "docstring": "Nontrivial endomorphisms at an indexed object force the corresponding diagonal value of the pair function to be at least one."},
+    {"temporary_id": "decl-023071", "new_name": "forall_matrix_mul_comm_iff", "docstring": "With positive dimensions, all displayed square matrix products commute exactly when every dimension is one."},
+    {"temporary_id": "decl-023531", "new_name": "auxiliaryFamilyPairSumLeFinrankOpEnd", "docstring": "For positive multiplicities, the unweighted pair-function sum is bounded by the indicated opposite endomorphism dimension."}
+  ]
+}

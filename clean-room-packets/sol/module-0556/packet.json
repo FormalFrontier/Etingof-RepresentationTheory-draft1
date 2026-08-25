@@ -1,0 +1,511 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(Fin 8 \u2192 Rat) \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "674794895",
+      "temporary_id": "decl-013013"
+    },
+    {
+      "formal_type": "(Fin 8 \u2192 Rat) \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "674794895",
+      "temporary_id": "decl-013014"
+    },
+    {
+      "formal_type": "Set.{0} (Fin 8 \u2192 Rat)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4083154403",
+      "temporary_id": "decl-013015"
+    },
+    {
+      "formal_type": "Eq.{1} (Set.ncard.{0} (decl-013134 decl-013015)) 72",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013015",
+        "decl-013134"
+      ],
+      "structural_type_hash": "663515558",
+      "temporary_id": "decl-013027"
+    },
+    {
+      "formal_type": "Set.{0} (Fin 8 \u2192 Rat)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4083154403",
+      "temporary_id": "decl-013033"
+    },
+    {
+      "formal_type": "Eq.{1} (Set.ncard.{0} (decl-013134 decl-013033)) 126",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013033",
+        "decl-013134"
+      ],
+      "structural_type_hash": "1940320914",
+      "temporary_id": "decl-013046"
+    },
+    {
+      "formal_type": "Set.{0} (Fin 8 \u2192 Rat)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4083154403",
+      "temporary_id": "decl-013052"
+    },
+    {
+      "formal_type": "Eq.{1} (Set.ncard.{0} (decl-013134 decl-013052)) 240",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013052",
+        "decl-013134"
+      ],
+      "structural_type_hash": "3475450257",
+      "temporary_id": "decl-013054"
+    },
+    {
+      "formal_type": "(Fin 8 \u2192 Rat) \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "674794895",
+      "temporary_id": "decl-013060"
+    },
+    {
+      "formal_type": "Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-013061"
+    },
+    {
+      "formal_type": "Finset.{0} (Fin 8 \u2192 Rat)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1534621005",
+      "temporary_id": "decl-013074"
+    },
+    {
+      "formal_type": "\u2200 (s : Fin 8 \u2192 Bool), decl-013013 (decl-013096 s)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013013",
+        "decl-013096"
+      ],
+      "structural_type_hash": "2073513763",
+      "temporary_id": "decl-013075"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 8) (a b : Bool), decl-013014 (decl-013115 i j a b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013014",
+        "decl-013115"
+      ],
+      "structural_type_hash": "3773533100",
+      "temporary_id": "decl-013076"
+    },
+    {
+      "formal_type": "Fin 8 \u2192 Fin 8 \u2192 Bool \u2192 Bool \u2192 Fin 8 \u2192 Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4168233516",
+      "temporary_id": "decl-013077"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013077"
+      ],
+      "structural_type_hash": "4166875759",
+      "temporary_id": "decl-013079"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013077"
+      ],
+      "structural_type_hash": "3548521666",
+      "temporary_id": "decl-013080"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 8) (a b : Bool) (k : Fin 8), Ne.{1} k i \u2192 Ne.{1} k j \u2192 Eq.{1} (decl-013077 i j a b k) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013077"
+      ],
+      "structural_type_hash": "4103162948",
+      "temporary_id": "decl-013081"
+    },
+    {
+      "formal_type": "decl-013061 \u2192 Fin 8 \u2192 Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013061"
+      ],
+      "structural_type_hash": "3974054671",
+      "temporary_id": "decl-013082"
+    },
+    {
+      "formal_type": "Fin 8 \u2192 Fin 8 \u2192 Rat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2973746189",
+      "temporary_id": "decl-013084"
+    },
+    {
+      "formal_type": "\u2200 (s : Fin 8 \u2192 Bool),\n  Even.{0} (decl-013126 s) \u2192 decl-013060 (decl-013096 s)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013060",
+        "decl-013096",
+        "decl-013126"
+      ],
+      "structural_type_hash": "2326778546",
+      "temporary_id": "decl-013088"
+    },
+    {
+      "formal_type": "\u2200 (s : Fin 8 \u2192 Bool),\n  Iff (decl-013060 (decl-013096 s)) (Even.{0} (decl-013126 s))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013060",
+        "decl-013096",
+        "decl-013126"
+      ],
+      "structural_type_hash": "1060314154",
+      "temporary_id": "decl-013089"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 8) (a b : Bool), decl-013060 (decl-013115 i j a b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013060",
+        "decl-013115"
+      ],
+      "structural_type_hash": "554549293",
+      "temporary_id": "decl-013091"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 8) (a b : Bool),\n  Even.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun k => decl-013077 i j a b k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013077"
+      ],
+      "structural_type_hash": "1703424955",
+      "temporary_id": "decl-013092"
+    },
+    {
+      "formal_type": "Fin 8 \u2192 Fin 8 \u2192 Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1010941488",
+      "temporary_id": "decl-013093"
+    },
+    {
+      "formal_type": "\u2200 (x : Fin 8 \u2192 Rat),\n  decl-013013 x \u2192\n    Eq.{1} (decl-013101 x x) 2 \u2192 Exists.{1} fun s => Eq.{1} x (decl-013096 s)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013013",
+        "decl-013096",
+        "decl-013101"
+      ],
+      "structural_type_hash": "1536868453",
+      "temporary_id": "decl-013095"
+    },
+    {
+      "formal_type": "(Fin 8 \u2192 Bool) \u2192 Fin 8 \u2192 Rat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3414138823",
+      "temporary_id": "decl-013096"
+    },
+    {
+      "formal_type": "\u2200 (s : Fin 8 \u2192 Bool) (k l : Fin 8),\n  Iff (Eq.{1} (decl-013096 s k) (decl-013096 s l)) (Eq.{1} (s k) (s l))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013096"
+      ],
+      "structural_type_hash": "1932533909",
+      "temporary_id": "decl-013098"
+    },
+    {
+      "formal_type": "Function.Injective.{1, 1} decl-013096",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013096"
+      ],
+      "structural_type_hash": "27639545",
+      "temporary_id": "decl-013099"
+    },
+    {
+      "formal_type": "\u2200 (s : Fin 8 \u2192 Bool),\n  Even.{0} (decl-013126 s) \u2192\n    Membership.mem.{0, 0} (decl-013134 decl-013052) (decl-013096 s)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013052",
+        "decl-013096",
+        "decl-013126",
+        "decl-013134"
+      ],
+      "structural_type_hash": "279472750",
+      "temporary_id": "decl-013100"
+    },
+    {
+      "formal_type": "(Fin 8 \u2192 Rat) \u2192 (Fin 8 \u2192 Rat) \u2192 Rat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3404294222",
+      "temporary_id": "decl-013101"
+    },
+    {
+      "formal_type": "\u2200 (s : Fin 8 \u2192 Bool),\n  Eq.{1} (decl-013101 (decl-013096 s) (decl-013096 s)) 2",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013096",
+        "decl-013101"
+      ],
+      "structural_type_hash": "4038940776",
+      "temporary_id": "decl-013105"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 8) (a b : Bool),\n  Ne.{1} i j \u2192\n    Eq.{1} (decl-013101 (decl-013115 i j a b) (decl-013115 i j a b)) 2",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013101",
+        "decl-013115"
+      ],
+      "structural_type_hash": "2403117784",
+      "temporary_id": "decl-013106"
+    },
+    {
+      "formal_type": "\u2200 (x : Fin 8 \u2192 Rat),\n  decl-013014 x \u2192\n    Eq.{1} (decl-013101 x x) 2 \u2192\n      Exists.{1} fun i =>\n        Exists.{1} fun j =>\n          Exists.{1} fun a => Exists.{1} fun b => And (LT.lt.{0} i j) (Eq.{1} x (decl-013115 i j a b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013014",
+        "decl-013101",
+        "decl-013115"
+      ],
+      "structural_type_hash": "603679952",
+      "temporary_id": "decl-013112"
+    },
+    {
+      "formal_type": "Fin 8 \u2192 Fin 8 \u2192 Bool \u2192 Bool \u2192 Fin 8 \u2192 Rat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3346308880",
+      "temporary_id": "decl-013115"
+    },
+    {
+      "formal_type": "decl-013061 \u2192 Fin 8 \u2192 Rat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013061"
+      ],
+      "structural_type_hash": "2121813598",
+      "temporary_id": "decl-013116"
+    },
+    {
+      "formal_type": "Set.InjOn.{0, 0} decl-013116\n  (setOf.{0} fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.fst.{0, 0} (Prod.snd.{0, 0} p)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013061",
+        "decl-013116"
+      ],
+      "structural_type_hash": "2184889285",
+      "temporary_id": "decl-013118"
+    },
+    {
+      "formal_type": "\u2200 (p : decl-013061),\n  LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.fst.{0, 0} (Prod.snd.{0, 0} p)) \u2192\n    Membership.mem.{0, 0} (decl-013134 decl-013052) (decl-013116 p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013052",
+        "decl-013061",
+        "decl-013116",
+        "decl-013134"
+      ],
+      "structural_type_hash": "2488195309",
+      "temporary_id": "decl-013122"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 8) (a b : Bool) (s : Fin 8 \u2192 Bool),\n  Ne.{1} (decl-013115 i j a b) (decl-013096 s)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013096",
+        "decl-013115"
+      ],
+      "structural_type_hash": "2332440492",
+      "temporary_id": "decl-013124"
+    },
+    {
+      "formal_type": "(Fin 8 \u2192 Bool) \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2351171301",
+      "temporary_id": "decl-013126"
+    },
+    {
+      "formal_type": "Set.{0} (Fin 8 \u2192 Rat) \u2192 Set.{0} (Fin 8 \u2192 Rat)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "52559521",
+      "temporary_id": "decl-013134"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1176201557",
+      "temporary_id": "decl-013143"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 8) (a b : Bool),\n  Ne.{1} i j \u2192\n    Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun k => HPow.hPow.{0, 0, 0} (decl-013077 i j a b k) 2) 2",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013077"
+      ],
+      "structural_type_hash": "778336630",
+      "temporary_id": "decl-013146"
+    },
+    {
+      "formal_type": "\u2200 (s : Fin 8 \u2192 Bool),\n  Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun k => decl-013096 s k)\n    (HSub.hSub.{0, 0, 0} (Nat.cast.{0} (decl-013126 s)) 4)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013096",
+        "decl-013126"
+      ],
+      "structural_type_hash": "2626148895",
+      "temporary_id": "decl-013147"
+    },
+    {
+      "formal_type": "Fin 8 \u2192 Fin 8 \u2192 Rat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2973746189",
+      "temporary_id": "decl-013148"
+    },
+    {
+      "formal_type": "And (decl-005140 8 decl-013093)\n  (Exists.{1} fun \u03c3 =>\n    \u2200 (i j : Fin 8),\n      Eq.{1} (decl-013093 (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j))\n        (decl-001882.adj i j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001882",
+        "decl-001887",
+        "decl-005140",
+        "decl-013093"
+      ],
+      "structural_type_hash": "2699084089",
+      "temporary_id": "decl-013161"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013101",
+        "decl-013148"
+      ],
+      "structural_type_hash": "3331359622",
+      "temporary_id": "decl-013162"
+    },
+    {
+      "formal_type": "And\n  (\u2200 (x : Fin 8 \u2192 Rat),\n    Membership.mem.{0, 0} decl-013052 x \u2192\n      Exists.{1} fun c =>\n        Eq.{1} x\n          (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n            HSMul.hSMul.{0, 0, 0} (Int.cast.{0} (c i)) (decl-013148 i)))\n  (\u2200 (c : Fin 8 \u2192 Int),\n    Membership.mem.{0, 0} decl-013052\n      (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n        HSMul.hSMul.{0, 0, 0} (Int.cast.{0} (c i)) (decl-013148 i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013052",
+        "decl-013148"
+      ],
+      "structural_type_hash": "2708142737",
+      "temporary_id": "decl-013163"
+    },
+    {
+      "formal_type": "\u2200 (c : Fin 8 \u2192 Int),\n  Eq.{1}\n      (Finset.sum.{0, 0} Finset.univ.{0} fun i => HSMul.hSMul.{0, 0, 0} (Int.cast.{0} (c i)) (decl-013148 i))\n      0 \u2192\n    Eq.{1} c 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013148"
+      ],
+      "structural_type_hash": "23458424",
+      "temporary_id": "decl-013164"
+    },
+    {
+      "formal_type": "\u2200 (i : Fin 8), Eq.{1} (decl-013101 (decl-013148 i) (decl-013148 i)) 2",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013101",
+        "decl-013148"
+      ],
+      "structural_type_hash": "395021676",
+      "temporary_id": "decl-013167"
+    }
+  ],
+  "module_temporary_id": "module-0556",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

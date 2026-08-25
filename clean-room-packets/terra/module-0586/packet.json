@@ -1,0 +1,36 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] [inst_2 : CategoryTheory.Abelian.{u_3, u_1} C]\n  [inst_3 : CategoryTheory.Abelian.{u_4, u_2} D],\n  decl-005288.{u_1, u_3} C \u2192\n    \u2200 (F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D)\n      [inst_4 : CategoryTheory.Functor.Additive.{u_3, u_1, u_4, u_2} F] (S : CategoryTheory.ShortComplex.{u_3, u_1} C),\n      CategoryTheory.ShortComplex.ShortExact.{u_3, u_1} S \u2192\n        CategoryTheory.ShortComplex.ShortExact.{u_4, u_2} (CategoryTheory.ShortComplex.map.{u_3, u_1, u_4, u_2} S F)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005288"
+      ],
+      "structural_type_hash": "2172256059",
+      "temporary_id": "decl-017133"
+    }
+  ],
+  "module_temporary_id": "module-0586",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

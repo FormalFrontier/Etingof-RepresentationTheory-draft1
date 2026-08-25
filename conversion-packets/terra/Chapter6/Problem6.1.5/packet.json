@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Problem6.1.5",
+    "kind": "exercise",
+    "title": "Problem 6.1.5: Finite type quivers",
+    "node_id": "chapter-06/section-6-1",
+    "order": 410,
+    "slug": "problem6-1-5",
+    "span": {
+      "start": {
+        "page": "152",
+        "line": 35
+      },
+      "end": {
+        "page": "152",
+        "line": 37
+      }
+    },
+    "source_sha256": "1bd3632a17e255726edfdfe2a6b38549f2ec29706d1257a70a1c6f46181258ae",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem615",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

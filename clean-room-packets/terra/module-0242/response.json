@@ -1,0 +1,25 @@
+{
+  "module_name": "CategoryTheory.FullFunctorConsequences",
+  "declarations": [
+    {
+      "temporary_id": "decl-020947",
+      "new_name": "CategoryTheory.mapIsoClassQuotient",
+      "docstring": "A functor sends an isomorphism class of objects in its source category to an isomorphism class in its target category."
+    },
+    {
+      "temporary_id": "decl-020951",
+      "new_name": "CategoryTheory.injective_mapIsoClassQuotient_of_full_faithful",
+      "docstring": "The map on object isomorphism classes induced by a full and faithful functor is injective."
+    },
+    {
+      "temporary_id": "decl-021704",
+      "new_name": "natCard_auxiliaryType_le_of_surjective_ringHom",
+      "docstring": "A surjective ring homomorphism from a finite algebra bounds the cardinality of the target auxiliary type by that of the source auxiliary type."
+    },
+    {
+      "temporary_id": "decl-025160",
+      "new_name": "ModuleCat.full_restrictScalars_of_surjective",
+      "docstring": "Restriction of scalars along a surjective ring homomorphism is a full functor."
+    }
+  ]
+}

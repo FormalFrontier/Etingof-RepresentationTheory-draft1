@@ -1,0 +1,95 @@
+{
+  "module_name": "DerivedFunctorExactness",
+  "declarations": [
+    {
+      "temporary_id": "decl-014394",
+      "new_name": "AuxiliaryDegreeZeroAddEquiv",
+      "docstring": "Provides an additive equivalence from the displayed degree-zero construction to module morphisms."
+    },
+    {
+      "temporary_id": "decl-014395",
+      "new_name": "AuxiliaryDegreeZeroIso",
+      "docstring": "Relates the displayed degree-zero object to an additive commutative group object."
+    },
+    {
+      "temporary_id": "decl-014396",
+      "new_name": "AuxiliaryDegreeOneAddEquiv",
+      "docstring": "Provides the stated additive equivalence at degree one for the module data."
+    },
+    {
+      "temporary_id": "decl-014397",
+      "new_name": "covariantSequence_exact",
+      "docstring": "Shows that the covariant sequence associated to a short exact complex is exact at adjacent indices."
+    },
+    {
+      "temporary_id": "decl-014411",
+      "new_name": "AuxiliaryCovariantExactSequence",
+      "docstring": "Obtains an exact five-arrow sequence from a short exact complex and the displayed module data."
+    },
+    {
+      "temporary_id": "decl-014419",
+      "new_name": "AuxiliaryLeftDerivedIso",
+      "docstring": "Exhibits an isomorphism between the displayed object and a left-derived functor value."
+    },
+    {
+      "temporary_id": "decl-014420",
+      "new_name": "contravariantSequence_exact",
+      "docstring": "Shows that the contravariant sequence associated to a short exact complex is exact at adjacent indices."
+    },
+    {
+      "temporary_id": "decl-014430",
+      "new_name": "AuxiliaryContravariantExactSequence",
+      "docstring": "Obtains an exact five-arrow sequence from a short exact complex using the displayed functors."
+    },
+    {
+      "temporary_id": "decl-017276",
+      "new_name": "leftDerivedZeroIso",
+      "docstring": "Defines the comparison isomorphism from degree zero to the left-derived functor value."
+    },
+    {
+      "temporary_id": "decl-017286",
+      "new_name": "leftDerivedZeroIso_naturality",
+      "docstring": "States naturality of the degree-zero comparison isomorphism with respect to a morphism."
+    },
+    {
+      "temporary_id": "decl-017301",
+      "new_name": "AuxiliaryCocycleOfComposedZero",
+      "docstring": "Builds a degree-one cocycle from a morphism whose displayed composite vanishes."
+    },
+    {
+      "temporary_id": "decl-019029",
+      "new_name": "AuxiliaryDegreeOneExtAddEquiv",
+      "docstring": "Defines the displayed additive equivalence between the degree-one constructions."
+    },
+    {
+      "temporary_id": "decl-019036",
+      "new_name": "AuxiliaryDegreeOneExtAddEquiv_apply",
+      "docstring": "Describes the value of the displayed degree-one additive equivalence on an element."
+    },
+    {
+      "temporary_id": "decl-019037",
+      "new_name": "AuxiliaryDegreeOneExtAddEquiv_extMk",
+      "docstring": "Computes the displayed degree-one equivalence on an extension built from a cocycle."
+    },
+    {
+      "temporary_id": "decl-019718",
+      "new_name": "leftDerivedZero_naturality",
+      "docstring": "States commutativity of the natural comparison square at degree zero."
+    },
+    {
+      "temporary_id": "decl-020964",
+      "new_name": "exactFiveIso",
+      "docstring": "Constructs an isomorphism between the middle objects of an exact five-arrow diagram with zero outer objects."
+    },
+    {
+      "temporary_id": "decl-024084",
+      "new_name": "AuxiliaryShortComplexHom_comp",
+      "docstring": "Shows that the displayed morphisms associated to a short complex have zero composite."
+    },
+    {
+      "temporary_id": "decl-024194",
+      "new_name": "AuxiliaryLeftDerivedExactSequence",
+      "docstring": "Obtains an exact five-arrow sequence by applying the displayed left-derived maps to a short exact complex."
+    }
+  ]
+}

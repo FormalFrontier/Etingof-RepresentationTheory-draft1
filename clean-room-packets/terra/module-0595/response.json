@@ -1,0 +1,50 @@
+{
+  "module_name": "CategoryTheory.LinearFunctors",
+  "declarations": [
+    {
+      "temporary_id": "decl-020083",
+      "new_name": "linearCoyoneda_obj_additive",
+      "docstring": "The linear co-Yoneda functor evaluated at a representation is additive."
+    },
+    {
+      "temporary_id": "decl-020084",
+      "new_name": "linearCoyoneda_obj_linear",
+      "docstring": "The linear co-Yoneda functor evaluated at a representation is linear over the coefficient field."
+    },
+    {
+      "temporary_id": "decl-020511",
+      "new_name": "indFunctor_additive",
+      "docstring": "Induction along a group homomorphism is an additive functor."
+    },
+    {
+      "temporary_id": "decl-020513",
+      "new_name": "indFunctor_linear",
+      "docstring": "Induction along a group homomorphism is linear over the coefficient field."
+    },
+    {
+      "temporary_id": "decl-021457",
+      "new_name": "leftAdjoint_linear_of_rightAdjoint_additive_linear",
+      "docstring": "A left adjoint is linear when its right adjoint is both additive and linear."
+    },
+    {
+      "temporary_id": "decl-022643",
+      "new_name": "resFunctor_additive",
+      "docstring": "Restriction along a group homomorphism is an additive functor."
+    },
+    {
+      "temporary_id": "decl-022645",
+      "new_name": "resFunctor_linear",
+      "docstring": "Restriction along a group homomorphism is linear over the coefficient field."
+    },
+    {
+      "temporary_id": "decl-022691",
+      "new_name": "restrictScalars_additive",
+      "docstring": "Restriction of scalars along a ring homomorphism is an additive functor."
+    },
+    {
+      "temporary_id": "decl-022693",
+      "new_name": "restrictScalars_linear",
+      "docstring": "Restriction of scalars along an algebra homomorphism is linear over the base semiring."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:172efb12edb23d148d96",
+      "declaration": "Etingof.Sl2Irrep.clebsch_gordan_charPoly",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/14/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (lam mu : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Etingof.Sl2Irrep.charPoly lam) (Etingof.Sl2Irrep.charPoly mu))\n    (Finset.sum.{0, 0} (Finset.range (HAdd.hAdd.{0, 0, 0} (Min.min.{0} lam mu) 1)) fun k =>\n      HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} Polynomial.X.{0} k)\n        (Etingof.Sl2Irrep.charPoly (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} lam mu) (HMul.hMul.{0, 0, 0} 2 k))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m"
+    },
+    {
+      "association_id": "association:abb8fb2ab6ba238efdeb",
+      "declaration": "Etingof.Sl2Irrep.clebsch_gordan_module_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/14/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (lam mu : Nat),\n  Nonempty.{1}\n    (LieModuleEquiv.{0, 0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x)\n      (TensorProduct.{0, 0, 0} Complex (Fin (HAdd.hAdd.{0, 0, 0} lam 1) \u2192 Complex)\n        (Fin (HAdd.hAdd.{0, 0, 0} mu 1) \u2192 Complex))\n      (DirectSum.{0, 0} (Fin (HAdd.hAdd.{0, 0, 0} (Min.min.{0} lam mu) 1)) fun k =>\n        Fin (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} lam mu) (HMul.hMul.{0, 0, 0} 2 k.val)) 1) \u2192\n          Complex))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.15.1",
+  "packet_id": "align-0539",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0539"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.15.1:claim-15",
+  "source_text": "Part (m): V_lambda tensor V_mu decomposes as the direct sum of V_(lambda+mu-2k), for 0<=k<=min(lambda,mu)."
+}

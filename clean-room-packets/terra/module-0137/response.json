@@ -1,0 +1,45 @@
+{
+  "module_name": "Module.EndomorphismEvaluation",
+  "declarations": [
+    {
+      "temporary_id": "decl-018564",
+      "new_name": "endApplyFinBasisLinearEquiv",
+      "docstring": "Evaluation on the canonical finite basis gives a linear equivalence from module endomorphisms to finite families of vectors."
+    },
+    {
+      "temporary_id": "decl-018567",
+      "new_name": "endApplyBasisLinearEquiv",
+      "docstring": "Evaluation on a finite basis gives a linear equivalence from module endomorphisms to basis-indexed families of vectors."
+    },
+    {
+      "temporary_id": "decl-018569",
+      "new_name": "endApplyBasisLinearEquiv_apply",
+      "docstring": "The basis-evaluation linear equivalence sends an endomorphism to its values on the basis vectors."
+    },
+    {
+      "temporary_id": "decl-018570",
+      "new_name": "endApplyFinBasisLinearEquiv_apply",
+      "docstring": "The canonical finite-basis equivalence sends an endomorphism to its values on the canonical basis vectors."
+    },
+    {
+      "temporary_id": "decl-018603",
+      "new_name": "endomorphismModule_isSemisimple",
+      "docstring": "The endomorphism space of a finite-dimensional simple module is semisimple as a module over the acting algebra."
+    },
+    {
+      "temporary_id": "decl-018702",
+      "new_name": "endApplyBasisLinearMap",
+      "docstring": "Evaluation on a basis defines a linear map from module endomorphisms to basis-indexed families of vectors."
+    },
+    {
+      "temporary_id": "decl-018706",
+      "new_name": "endApplyBasisLinearMap_apply",
+      "docstring": "The basis-evaluation linear map sends an endomorphism to its value on each basis vector."
+    },
+    {
+      "temporary_id": "decl-018707",
+      "new_name": "endApplyBasisLinearMap_bijective",
+      "docstring": "For a finite index type, evaluation on a basis is a bijection from module endomorphisms to basis-indexed families of vectors."
+    }
+  ]
+}

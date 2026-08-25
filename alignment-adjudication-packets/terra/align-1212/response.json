@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1212",
+  "associations": [
+    {
+      "association_id": "association:5c9bdffdc05b78991196",
+      "rationale": "The formal type constructs F_i^+ as a category-theoretic Functor on quiver representations, directly packaging its object action, morphism action, and the required functor laws.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:4f7616d17bda9a44a573",
+      "rationale": "The type constructs the action of F_i^+ on a representation homomorphism, but does not itself state preservation of identities or composition, so it supports rather than states the full functor-law claim.",
+      "role": "supporting"
+    }
+  ]
+}

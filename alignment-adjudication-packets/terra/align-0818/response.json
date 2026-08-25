@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0818",
+  "associations": [
+    {
+      "association_id": "association:e2ba87a48ee2b1a709bd",
+      "role": "primary",
+      "rationale": "From a short exact sequence, the formal type directly asserts exactness of the consecutive homology maps and connecting morphism, which is the stated long-sequence exactness result."
+    },
+    {
+      "association_id": "association:93c36e763ae2bfc5bd2c",
+      "role": "primary",
+      "rationale": "The formal type directly asserts exactness of the three consecutive map pairs for a subcomplex, its quotient, and the concrete connecting map, so it states the resulting long-sequence exactness claim."
+    }
+  ]
+}

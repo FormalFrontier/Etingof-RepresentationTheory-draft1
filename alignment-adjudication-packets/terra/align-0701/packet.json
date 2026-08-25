@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c8b636677f293f6a1364",
+      "declaration": "Etingof.Problem4_12_10",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/239/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [FiniteDimensional.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  Function.Injective.{u_1 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1) \u2192\n    \u2200 {W : Type u_3} [inst_5 : AddCommGroup.{u_3} W] [inst_6 : Module.{0, u_3} Complex W]\n      [FiniteDimensional.{0, u_3} Complex W] (\u03c3 : Representation.{0, u_1, u_3} Complex G W),\n      IsSimpleModule.{u_1, u_3} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_3} \u03c3) \u2192\n        Exists.{1} fun n =>\n          Exists.{max (u_2 + 1) (u_3 + 1)} fun \u03c6 =>\n            And (Ne.{max (u_2 + 1) (u_3 + 1)} \u03c6 0)\n              (\u2200 (g : G),\n                Eq.{max (u_2 + 1) (u_3 + 1)}\n                  (LinearMap.comp.{0, 0, 0, u_3, u_3, u_2} \u03c6\n                    (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_1 + 1, u_3 + 1} \u03c3 g))\n                  (LinearMap.comp.{0, 0, 0, u_3, u_2, u_2}\n                    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (diagTensorPow.{0, u_1, u_2} \u03c1 n) g) \u03c6))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_10"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.10",
+  "packet_id": "align-0701",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0701"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.10:tensor_power",
+  "source_text": "Consequently every irreducible occurs in some tensor power."
+}

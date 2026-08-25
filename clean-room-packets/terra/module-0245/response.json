@@ -1,0 +1,30 @@
+{
+  "module_name": "FiniteGroup.ClassFunctions",
+  "declarations": [
+    {
+      "temporary_id": "decl-016494",
+      "new_name": "FiniteGroup.ClassFunction.mem_span_simple_characters",
+      "docstring": "A conjugation-invariant function on a finite group lies in the span of the characters of simple finite-dimensional representations."
+    },
+    {
+      "temporary_id": "decl-016498",
+      "new_name": "FiniteGroup.auxiliaryFunctionToMonoidAlgebra",
+      "docstring": "An auxiliary construction sending a field-valued function on a finite group to an element of its group algebra."
+    },
+    {
+      "temporary_id": "decl-016500",
+      "new_name": "FiniteGroup.auxiliarySubtypeValLinearIndependent",
+      "docstring": "An auxiliary linear-independence result for the displayed subtype inclusion over the coefficient field."
+    },
+    {
+      "temporary_id": "decl-016503",
+      "new_name": "FiniteGroup.span_simple_characters_eq_auxiliarySubmodule",
+      "docstring": "The span of the characters of simple finite-dimensional representations equals the displayed auxiliary submodule of functions on the group."
+    },
+    {
+      "temporary_id": "decl-017965",
+      "new_name": "FiniteGroup.ClassFunction.eq_zero_of_characterPairing_eq_zero",
+      "docstring": "A conjugation-invariant function is zero if its sum against the inverse character of every simple finite-dimensional representation vanishes."
+    }
+  ]
+}

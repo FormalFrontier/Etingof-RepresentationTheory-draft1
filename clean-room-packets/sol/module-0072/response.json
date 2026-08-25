@@ -1,0 +1,105 @@
+{
+  "module_name": "LieAlgebra.BigradedComponents",
+  "declarations": [
+    {
+      "temporary_id": "decl-007372",
+      "new_name": "bideg",
+      "docstring": "Assigns a pair of natural-number degrees to each index."
+    },
+    {
+      "temporary_id": "decl-007374",
+      "new_name": "bideg_injective",
+      "docstring": "The bidegree assignment is injective."
+    },
+    {
+      "temporary_id": "decl-007474",
+      "new_name": "base_bideg",
+      "docstring": "The base index has bidegree `(0, 1)`."
+    },
+    {
+      "temporary_id": "decl-007475",
+      "new_name": "family3_bideg",
+      "docstring": "The three-member family has bidegree `(2m + 2, 4m + 3 + i)`."
+    },
+    {
+      "temporary_id": "decl-007476",
+      "new_name": "family3_one_bideg",
+      "docstring": "The member indexed by one has bidegree `(2m + 2, 4m + 4)`."
+    },
+    {
+      "temporary_id": "decl-007478",
+      "new_name": "family5_bideg",
+      "docstring": "The five-member family has bidegree `(2m + 1, 4m + i)`."
+    },
+    {
+      "temporary_id": "decl-007539",
+      "new_name": "shiftSecond_mem_component",
+      "docstring": "The indexed operation shifts the second component of bidegree by `j`."
+    },
+    {
+      "temporary_id": "decl-007548",
+      "new_name": "shiftSecondOne_mem_component",
+      "docstring": "The unary indexed operation raises the second bidegree by one."
+    },
+    {
+      "temporary_id": "decl-007606",
+      "new_name": "shiftBoth_mem_component",
+      "docstring": "The specified operation raises the two bidegrees by one and three."
+    },
+    {
+      "temporary_id": "decl-007611",
+      "new_name": "distinguished_mem_component",
+      "docstring": "The distinguished element belongs to bidegree `(2m + 2, 4m + 3)`."
+    },
+    {
+      "temporary_id": "decl-007633",
+      "new_name": "component_eq_bot_of_unclassified_bidegree",
+      "docstring": "Under the stated characteristic assumptions, every unclassified bidegree component is zero."
+    },
+    {
+      "temporary_id": "decl-007640",
+      "new_name": "component_le_span_pair",
+      "docstring": "The exceptional bidegree component is contained in the span of the displayed pair."
+    },
+    {
+      "temporary_id": "decl-007642",
+      "new_name": "component_le_span_of_generators",
+      "docstring": "A set spanning every matching indexed generator spans the whole bidegree component."
+    },
+    {
+      "temporary_id": "decl-007643",
+      "new_name": "component_le_span_singleton",
+      "docstring": "A nonexceptional indexed bidegree component is spanned by its distinguished generator."
+    },
+    {
+      "temporary_id": "decl-007644",
+      "new_name": "component_le_span_of_relation_eq_zero",
+      "docstring": "If the displayed relation vanishes, the exceptional component is spanned by the shifted generator."
+    },
+    {
+      "temporary_id": "decl-008020",
+      "new_name": "indexedElement_mem_component",
+      "docstring": "Each indexed element belongs to the component specified by its bidegree."
+    },
+    {
+      "temporary_id": "decl-008117",
+      "new_name": "diagonalShift_mem_component",
+      "docstring": "The displayed operation raises both bidegrees by one."
+    },
+    {
+      "temporary_id": "decl-008223",
+      "new_name": "relation_eq_zero_of_component_le_span",
+      "docstring": "Containment of the exceptional component in the indicated span forces the displayed relation to vanish."
+    },
+    {
+      "temporary_id": "decl-008226",
+      "new_name": "relation_mem_component",
+      "docstring": "The relation element belongs to bidegree `(2m + 2, 4m + 4)`."
+    },
+    {
+      "temporary_id": "decl-008235",
+      "new_name": "secondaryElement_mem_component",
+      "docstring": "The secondary distinguished element belongs to bidegree `(2m + 1, 4m)`."
+    }
+  ]
+}

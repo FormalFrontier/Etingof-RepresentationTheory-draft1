@@ -1,0 +1,130 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Subgroup.{0} (Equiv.Perm.{1} (Fin 5))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "401382996",
+      "temporary_id": "decl-002751"
+    },
+    {
+      "formal_type": "Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-002751 x)) 60",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751"
+      ],
+      "structural_type_hash": "374170269",
+      "temporary_id": "decl-002781"
+    },
+    {
+      "formal_type": "(Subtype.{1} fun x => Membership.mem.{0, 0} decl-002751 x) \u2192 Fin 5",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751"
+      ],
+      "structural_type_hash": "2178365186",
+      "temporary_id": "decl-002785"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0} (Finset.filter.{0} (fun g => Eq.{1} (decl-002785 g) j) Finset.univ.{0}))\n    (Matrix.vecCons.{0} 1\n      (Matrix.vecCons.{0} 20\n        (Matrix.vecCons.{0} 15 (Matrix.vecCons.{0} 12 (Matrix.vecCons.{0} 12 Matrix.vecEmpty.{0}))))\n      j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785"
+      ],
+      "structural_type_hash": "2926448859",
+      "temporary_id": "decl-002786"
+    },
+    {
+      "formal_type": "\u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} decl-002751 x),\n  Exists.{1} fun c =>\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0}\n        (HMul.hMul.{0, 0, 0} c (decl-002788 (decl-002785 g)))\n        (Inv.inv.{0} c))\n      g",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002788"
+      ],
+      "structural_type_hash": "3112727360",
+      "temporary_id": "decl-002787"
+    },
+    {
+      "formal_type": "Fin 5 \u2192 Subtype.{1} fun x => Membership.mem.{0, 0} decl-002751 x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751"
+      ],
+      "structural_type_hash": "3303884487",
+      "temporary_id": "decl-002788"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Exists.{1} fun c =>\n    Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} c (decl-002788 j)) (Inv.inv.{0} c))\n      (Inv.inv.{0} (decl-002788 j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788"
+      ],
+      "structural_type_hash": "2205276569",
+      "temporary_id": "decl-002793"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 5),\n  Eq.{1}\n    (decl-002975 60 decl-003207 (decl-003195 i)\n      (decl-003195 j))\n    (ite.{1} (Eq.{1} i j) 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002959",
+        "decl-002972",
+        "decl-002975",
+        "decl-003195",
+        "decl-003207"
+      ],
+      "structural_type_hash": "3491727139",
+      "temporary_id": "decl-002958"
+    },
+    {
+      "formal_type": "Fin 5 \u2192 Fin 5 \u2192 decl-002959",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002959"
+      ],
+      "structural_type_hash": "1254612413",
+      "temporary_id": "decl-003195"
+    },
+    {
+      "formal_type": "Fin 5 \u2192 Rat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3178691119",
+      "temporary_id": "decl-003207"
+    }
+  ],
+  "module_temporary_id": "module-0198",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1226",
+  "associations": [
+    {
+      "association_id": "association:e7adabf604bd4ca2f895",
+      "rationale": "The type supplies a basis for g_4, but it does not itself state the requested dimensions of g_1, g_2, and g_3 or that g_4 is infinite-dimensional.",
+      "role": "supporting"
+    }
+  ]
+}

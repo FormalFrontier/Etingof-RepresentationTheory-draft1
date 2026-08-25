@@ -1,0 +1,140 @@
+{
+  "module_name": "Module.Corepresentability",
+  "declarations": [
+    {
+      "temporary_id": "decl-003543",
+      "new_name": "freeModuleCoyonedaToForget",
+      "docstring": "The natural transformation from the coyoneda functor of the free rank-one module to the forgetful functor."
+    },
+    {
+      "temporary_id": "decl-003544",
+      "new_name": "freeModuleCoyonedaToForget_app",
+      "docstring": "The component of the comparison transformation sends a homomorphism to its value at one."
+    },
+    {
+      "temporary_id": "decl-003545",
+      "new_name": "freeModuleCoyonedaToForget_app_forgetToFreeModuleCoyoneda",
+      "docstring": "Evaluating the homomorphism constructed from a module element recovers that element."
+    },
+    {
+      "temporary_id": "decl-003546",
+      "new_name": "freeModuleCoyonedaToForget_comp_forgetToFreeModuleCoyoneda",
+      "docstring": "The two comparison transformations compose to the identity on the coyoneda functor."
+    },
+    {
+      "temporary_id": "decl-003547",
+      "new_name": "hom_apply_one_comp",
+      "docstring": "Evaluation at one commutes with postcomposition of module homomorphisms."
+    },
+    {
+      "temporary_id": "decl-003548",
+      "new_name": "exists_dualEigenspace_eq_bot",
+      "docstring": "Over an infinite field, a finite-dimensional endomorphism has a scalar whose dual eigenspace is trivial."
+    },
+    {
+      "temporary_id": "decl-003550",
+      "new_name": "forgetCorepresentableByFreeModule",
+      "docstring": "A chosen corepresentation of the module forgetful functor by the free rank-one module."
+    },
+    {
+      "temporary_id": "decl-003552",
+      "new_name": "forgetCorepresentableByFreeModule_homEquiv",
+      "docstring": "The hom equivalence of the chosen corepresentation is evaluation of a map from the free module at one."
+    },
+    {
+      "temporary_id": "decl-003553",
+      "new_name": "forgetCorepresentableByFreeModule_homEquiv_eq",
+      "docstring": "The corepresenting hom equivalence agrees with the standard hom and linear-map equivalences."
+    },
+    {
+      "temporary_id": "decl-003554",
+      "new_name": "freeModuleCoyonedaIsoForget",
+      "docstring": "The coyoneda functor of the free rank-one module is naturally isomorphic to the forgetful functor."
+    },
+    {
+      "temporary_id": "decl-003555",
+      "new_name": "freeModuleCoyonedaIsoForget_hom",
+      "docstring": "The forward map of the natural isomorphism is the evaluation comparison transformation."
+    },
+    {
+      "temporary_id": "decl-003556",
+      "new_name": "freeModuleCoyonedaIsoForget_inv",
+      "docstring": "The inverse map of the natural isomorphism constructs a homomorphism from a module element."
+    },
+    {
+      "temporary_id": "decl-003557",
+      "new_name": "dualEigenspace",
+      "docstring": "The submodule of linear functionals that are eigenvectors for precomposition by an endomorphism."
+    },
+    {
+      "temporary_id": "decl-003561",
+      "new_name": "dualEigenspace_eq_bot_of_not_hasEigenvalue",
+      "docstring": "The dual eigenspace is trivial when the corresponding scalar is not an eigenvalue."
+    },
+    {
+      "temporary_id": "decl-003562",
+      "new_name": "not_forall_finrank_dualEigenspace_eq_one",
+      "docstring": "A finite-dimensional endomorphism over an infinite field cannot have every dual eigenspace of dimension one."
+    },
+    {
+      "temporary_id": "decl-003563",
+      "new_name": "freeModuleHomEquiv",
+      "docstring": "Equivalence between maps from the free rank-one module and elements of the target module."
+    },
+    {
+      "temporary_id": "decl-003565",
+      "new_name": "freeModuleHomEquiv_apply",
+      "docstring": "The equivalence from free-module homomorphisms to module elements is evaluation at one."
+    },
+    {
+      "temporary_id": "decl-003566",
+      "new_name": "freeModuleHomEquiv_symm_apply",
+      "docstring": "The inverse equivalence sends an element to the homomorphism determined by that element."
+    },
+    {
+      "temporary_id": "decl-003567",
+      "new_name": "forget_isCorepresentable",
+      "docstring": "The forgetful functor from modules is corepresentable."
+    },
+    {
+      "temporary_id": "decl-003568",
+      "new_name": "mem_dualEigenspace_iff",
+      "docstring": "A linear functional lies in the dual eigenspace exactly when precomposition scales it by the chosen scalar."
+    },
+    {
+      "temporary_id": "decl-003571",
+      "new_name": "forgetToFreeModuleCoyoneda",
+      "docstring": "The natural transformation from the forgetful functor to the coyoneda functor of the free rank-one module."
+    },
+    {
+      "temporary_id": "decl-003572",
+      "new_name": "forgetToFreeModuleCoyoneda_app",
+      "docstring": "The reverse comparison transformation sends an element to its associated homomorphism from the free module."
+    },
+    {
+      "temporary_id": "decl-003573",
+      "new_name": "forgetToFreeModuleCoyoneda_app_freeModuleCoyonedaToForget",
+      "docstring": "Constructing a homomorphism from its value at one returns the original homomorphism."
+    },
+    {
+      "temporary_id": "decl-003574",
+      "new_name": "forgetToFreeModuleCoyoneda_comp_freeModuleCoyonedaToForget",
+      "docstring": "The two comparison transformations compose to the identity on the forgetful functor."
+    },
+    {
+      "temporary_id": "decl-003575",
+      "new_name": "freeModuleHomOf_apply_naturality",
+      "docstring": "The homomorphism associated to an image element is obtained by postcomposing the associated homomorphism."
+    },
+    {
+      "temporary_id": "decl-003576",
+      "new_name": "corepresentingObjectIsoFreeModule",
+      "docstring": "Any object corepresenting the module forgetful functor is isomorphic to the free rank-one module."
+    },
+    {
+      "temporary_id": "decl-019507",
+      "new_name": "linearMapFromRingEquiv",
+      "docstring": "Linear maps from a semiring to a module are linearly equivalent to elements of that module."
+    }
+  ]
+}

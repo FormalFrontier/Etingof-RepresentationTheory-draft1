@@ -1,0 +1,10 @@
+{
+  "module_name": "Representation.DualCompatibility",
+  "declarations": [
+    {
+      "temporary_id": "decl-018471",
+      "new_name": "dual_construction_eq_construction_inv_dual",
+      "docstring": "Dualizing the displayed representation construction equals applying it to the inverse unit-valued character and the dual representation."
+    }
+  ]
+}

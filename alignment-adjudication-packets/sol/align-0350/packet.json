@@ -1,0 +1,98 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:709e51ffc033b8cbeed7",
+      "declaration": "Etingof.UpperTriangularSimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Type u_1 \u2192 (n : Nat) \u2192 Fin n \u2192 Type u_1",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    },
+    {
+      "association_id": "association:4ab781e350c37c955378",
+      "declaration": "Etingof.UpperTriangularSimple.smul_def",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {n : Nat} (i : Fin n)\n  (s : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Etingof.upperTriangularSubalgebra.{u_1} k n) x)\n  (v : Etingof.UpperTriangularSimple.{u_1} k n i),\n  Eq.{u_1 + 1} (HSMul.hSMul.{u_1, u_1, u_1} s v)\n    (HMul.hMul.{u_1, u_1, u_1}\n      (have this := Subtype.val.{u_1 + 1} s i i;\n      this)\n      (have this := v;\n      this))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    },
+    {
+      "association_id": "association:1a8b882d103670433cd0",
+      "declaration": "Etingof.exists_linearEquiv_upperTriangularSimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {n : Nat} (M : Type u_2) [inst_1 : AddCommGroup.{u_2} M]\n  [inst_2 :\n    Module.{u_1, u_2}\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Etingof.upperTriangularSubalgebra.{u_1} k n) x) M]\n  [IsSimpleModule.{u_1, u_2}\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Etingof.upperTriangularSubalgebra.{u_1} k n) x) M],\n  Exists.{1} fun i =>\n    Nonempty.{max (u_1 + 1) (u_2 + 1)}\n      (LinearEquiv.{u_1, u_1, u_2, u_1}\n        (RingHom.id.{u_1}\n          (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Etingof.upperTriangularSubalgebra.{u_1} k n) x))\n        M (Etingof.UpperTriangularSimple.{u_1} k n i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    },
+    {
+      "association_id": "association:62bb3d4befe442a6576e",
+      "declaration": "Etingof.finrank_upperTriangularSimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (n : Nat) (i : Fin n),\n  Eq.{1} (Module.finrank.{u_1, u_1} k (Etingof.UpperTriangularSimple.{u_1} k n i)) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    },
+    {
+      "association_id": "association:2c48deceb9cbdf0ac568",
+      "declaration": "Etingof.isSimpleModule_upperTriangularSimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (n : Nat) (i : Fin n),\n  IsSimpleModule.{u_1, u_1}\n    (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Etingof.upperTriangularSubalgebra.{u_1} k n) x)\n    (Etingof.UpperTriangularSimple.{u_1} k n i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    },
+    {
+      "association_id": "association:73075e94f1a498c249d2",
+      "declaration": "Etingof.not_nonempty_linearEquiv_upperTriangularSimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (n : Nat) {i j : Fin n},\n  Ne.{1} i j \u2192\n    Not\n      (Nonempty.{u_1 + 1}\n        (LinearEquiv.{u_1, u_1, u_1, u_1}\n          (RingHom.id.{u_1}\n            (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Etingof.upperTriangularSubalgebra.{u_1} k n) x))\n          (Etingof.UpperTriangularSimple.{u_1} k n i) (Etingof.UpperTriangularSimple.{u_1} k n j)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    }
+  ],
+  "canonical_reference": "Chapter3/Example3.5.6",
+  "packet_id": "align-0350",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0350"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6d2cb77ef9a7e66a22e9",
+  "source_text": "The irreducible representations of upper-triangular n \u00d7 n matrices are exactly the n pairwise-nonisomorphic one-dimensional diagonal characters V\u1d62, with x acting by x\u1d62\u1d62."
+}

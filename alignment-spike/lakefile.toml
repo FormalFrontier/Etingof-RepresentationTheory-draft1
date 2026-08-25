@@ -1,0 +1,14 @@
+name = "alignment-spike"
+version = "0.1.0"
+defaultTargets = ["BookRef", "book_ref_tests", "export_book_refs"]
+
+[[lean_lib]]
+name = "BookRef"
+
+[[lean_exe]]
+name = "book_ref_tests"
+root = "Tests"
+
+[[lean_exe]]
+name = "export_book_refs"
+root = "Main"

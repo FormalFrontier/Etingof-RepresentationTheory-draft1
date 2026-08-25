@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0442",
+  "associations": [
+    {
+      "association_id": "association:497cd6287836238401f9",
+      "role": "supporting",
+      "rationale": "The theorem gives the final equality and permutation matching for two decompositions, but does not itself state the intermediate isomorphism between the sums remaining after one match."
+    }
+  ]
+}

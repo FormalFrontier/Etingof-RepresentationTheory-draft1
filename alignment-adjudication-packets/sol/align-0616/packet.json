@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b2e247ff09468a288c4b",
+      "declaration": "Etingof.Problem2_8_11.finrank_freeAlgebra_degreePiece",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (m n : Nat),\n  Eq.{1}\n    (Module.finrank.{u_1, u_1} k\n      (Subtype.{u_1 + 1} fun x =>\n        Membership.mem.{u_1, u_1} (Etingof.Problem2_8_11.freeAlgebraDegreePiece.{u_1} k m n) x))\n    (HPow.hPow.{0, 0, 0} m n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    },
+    {
+      "association_id": "association:2336f5b7e2010001b1ea",
+      "declaration": "Etingof.Problem2_8_11.freeAlgebraDegreePiece",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192 (m : Nat) \u2192 Nat \u2192 Submodule.{u_1, u_1} k (MonoidAlgebra.{u_1, 0} k (FreeMonoid.{0} (Fin m)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    },
+    {
+      "association_id": "association:b23cda5720376deb4f20",
+      "declaration": "Etingof.Problem2_8_11.freeAlgebraWordEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (m : Nat) \u2192\n      AlgEquiv.{u_1, u_1, u_1} k (FreeAlgebra.{u_1, 0} k (Fin m)) (MonoidAlgebra.{u_1, 0} k (FreeMonoid.{0} (Fin m)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    },
+    {
+      "association_id": "association:15bc318fc1de34cefef8",
+      "declaration": "Etingof.Problem2_8_11.hilbertSeries_freeAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (m : Nat),\n  Eq.{u_1 + 1}\n    (HMul.hMul.{u_1, u_1, u_1} (HSub.hSub.{u_1, u_1, u_1} 1 (HSMul.hSMul.{0, u_1, u_1} m PowerSeries.X.{u_1}))\n      (PowerSeries.mk.{u_1} fun n => Nat.cast.{u_1} (HPow.hPow.{0, 0, 0} m n)))\n    1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.8.11",
+  "packet_id": "align-0616",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0616"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.8.11:claim-03",
+  "source_text": "For k\u27e8x_1,\u2026,x_m\u27e9, dim A[n]=m^n and h_A(t)=1/(1-mt)."
+}

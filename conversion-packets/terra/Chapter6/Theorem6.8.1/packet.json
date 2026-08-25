@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Theorem6.8.1",
+    "kind": "theorem",
+    "title": "Theorem 6.8.1: Dimension vector eventually becomes alpha_p",
+    "node_id": "chapter-06/section-6-8",
+    "order": 453,
+    "slug": "theorem6-8-1",
+    "span": {
+      "start": {
+        "page": "175",
+        "line": 1
+      },
+      "end": {
+        "page": "175",
+        "line": 28
+      }
+    },
+    "source_sha256": "ff96f838c69c9a5b015d278ed6638cfc00e34c563db4a517a1f3d4e1dd645cb5",
+    "features": {
+      "line_count": 28,
+      "crosses_page": false,
+      "display_math_delimiters": 8,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Theorem681",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

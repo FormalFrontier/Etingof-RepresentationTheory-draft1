@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Definition3.4.1",
+    "kind": "definition",
+    "title": "Filtration of a representation",
+    "node_id": "chapter-03/section-3-4",
+    "order": 146,
+    "slug": "definition3-4-1",
+    "span": {
+      "start": {
+        "page": "49",
+        "line": 7
+      },
+      "end": {
+        "page": "49",
+        "line": 8
+      }
+    },
+    "source_sha256": "b36736014b6b94f909fdd9f41ab64d1ec92a4eb78adfed485f8b9a1859951407",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Definition341",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

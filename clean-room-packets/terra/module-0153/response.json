@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.Module.TensorEquivDescent",
+  "declarations": [
+    {
+      "temporary_id": "decl-009455",
+      "new_name": "exists_equiv_of_tensorEquiv",
+      "docstring": "An equivalence after tensor extension yields an equivalence before tensor extension under finite-dimensionality hypotheses."
+    }
+  ]
+}

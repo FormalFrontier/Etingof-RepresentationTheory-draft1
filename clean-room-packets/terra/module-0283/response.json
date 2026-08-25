@@ -1,0 +1,15 @@
+{
+  "module_name": "YoungDiagram.PartitionConstructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-005362",
+      "new_name": "auxiliaryPartitionPairNat",
+      "docstring": "An auxiliary natural-valued function of two partitions of the same natural number."
+    },
+    {
+      "temporary_id": "decl-025225",
+      "new_name": "auxiliaryYoungDiagramOfPartition",
+      "docstring": "Assigns an auxiliary Young diagram to each partition of a natural number."
+    }
+  ]
+}

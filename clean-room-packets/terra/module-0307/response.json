@@ -1,0 +1,22 @@
+{
+  "module_name": "GeneralLinearGroupTwoIrreps",
+  "declarations": [
+    {"temporary_id": "decl-004372", "new_name": "AuxiliaryIndexFamily", "docstring": "An auxiliary index type associated to a finite field."},
+    {"temporary_id": "decl-004374", "new_name": "AuxiliaryIndexType", "docstring": "An auxiliary type depending on the displayed finite-field data."},
+    {"temporary_id": "decl-004412", "new_name": "card_auxiliaryIndexType", "docstring": "Computes the cardinality of the auxiliary index type."},
+    {"temporary_id": "decl-004414", "new_name": "exists_auxiliaryType_card", "docstring": "There exists a type with cardinality one less than the square of the field cardinality."},
+    {"temporary_id": "decl-004486", "new_name": "card_conjClasses_generalLinearGroup_two", "docstring": "Computes the number of conjugacy classes of the two-dimensional general linear group."},
+    {"temporary_id": "decl-004487", "new_name": "auxiliaryRepresentation", "docstring": "An auxiliary finite-dimensional complex representation indexed by the auxiliary type."},
+    {"temporary_id": "decl-004493", "new_name": "auxiliaryRepresentation_iso_injective", "docstring": "Isomorphic representations in the indexed family have equal indices."},
+    {"temporary_id": "decl-004494", "new_name": "auxiliaryRepresentation_simple", "docstring": "Every representation in the indexed family is simple."},
+    {"temporary_id": "decl-004495", "new_name": "simple_isIso_of_complete_family", "docstring": "A suitably sized pairwise nonisomorphic simple family contains every simple representation up to isomorphism."},
+    {"temporary_id": "decl-004496", "new_name": "sub_one_add_twice_div_eq_sq_sub_one", "docstring": "Expresses `q^2 - 1` as `q - 1` plus twice a quotient."},
+    {"temporary_id": "decl-004498", "new_name": "eq_auxiliaryExpression_of_eq_card_conjClasses", "docstring": "A supplied conjugacy-class count equals the displayed auxiliary expression."},
+    {"temporary_id": "decl-004499", "new_name": "existsUnique_auxiliaryRepresentation_iso", "docstring": "Every simple representation is isomorphic to a unique member of the indexed family."},
+    {"temporary_id": "decl-004500", "new_name": "exists_groupAlgebra_matrixDecomposition", "docstring": "There is a matrix-algebra decomposition indexed by a type of the displayed cardinality."},
+    {"temporary_id": "decl-004548", "new_name": "exists_completeSimpleFamily_card", "docstring": "There exists a complete pairwise nonisomorphic family of simple representations of the stated size."},
+    {"temporary_id": "decl-004568", "new_name": "HasAuxiliaryProperty", "docstring": "An auxiliary property of finite fields."},
+    {"temporary_id": "decl-004569", "new_name": "galoisField_hasAuxiliaryProperty", "docstring": "The finite field satisfies the auxiliary property under the displayed assumptions."},
+    {"temporary_id": "decl-004647", "new_name": "auxiliaryRepresentation_sumComponents_nonisomorphic", "docstring": "Representations indexed by the two displayed sum components are not isomorphic."}
+  ]
+}

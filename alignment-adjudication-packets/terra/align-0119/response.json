@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0119",
+  "associations": [
+    {
+      "association_id": "association:a1d54c3fa0e75fa90b4f",
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so the stated characteristic-p identity cannot be verified from the isolated evidence."
+    }
+  ]
+}

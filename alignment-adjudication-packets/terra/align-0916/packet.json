@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2b03e098b5dc3096fb95",
+      "declaration": "Etingof.Example5_12_3.Example5_12_3_dim_21",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/310/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1}\n  (Module.finrank.{0, 0} Complex\n    (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule 3 Etingof.Example5_12_3.p_21) x))\n  2",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_12_3"
+    },
+    {
+      "association_id": "association:142fdd0234d9fd9902d2",
+      "declaration": "Etingof.Example5_12_3.Example5_12_3_dim_22",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/310/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1}\n  (Module.finrank.{0, 0} Complex\n    (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule 4 Etingof.Example5_12_3.p_22) x))\n  2",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_12_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Example5.12.3",
+  "packet_id": "align-0916",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0916"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a640e6b73c6bc7ee56a2",
+  "source_text": "For n=3, V_(2,1) has dimension 2; for n=4, V_(2,2) has dimension 2."
+}

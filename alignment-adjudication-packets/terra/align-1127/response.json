@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1127",
+  "associations": [
+    {
+      "association_id": "association:e7f78016906d1187e14b",
+      "role": "supporting",
+      "rationale": "No formal type is displayed, so the packet does not directly show preservation of the representation space or restriction of the action along H → G."
+    }
+  ]
+}

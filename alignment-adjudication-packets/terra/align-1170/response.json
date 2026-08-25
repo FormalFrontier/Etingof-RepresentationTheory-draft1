@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1170",
+  "associations": [
+    {
+      "association_id": "association:396e42483acec0d8dc6f",
+      "role": "supporting",
+      "rationale": "This gives the cardinality of an excluded hook set as hookLength minus one, a consequence rather than the full hook description and cardinality claim."
+    },
+    {
+      "association_id": "association:44f71a11f46a341cd185",
+      "role": "supporting",
+      "rationale": "The displayed function type alone does not state which cells comprise the hook."
+    },
+    {
+      "association_id": "association:8294790770978d9153b7",
+      "role": "supporting",
+      "rationale": "The displayed function type alone does not state that hook length is the hook's cardinality."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0060",
+  "associations": [
+    {
+      "association_id": "association:51548966c7156afe1301",
+      "role": "primary",
+      "rationale": "Its type directly states that every orientation of a Dynkin diagram has an admissible ordering."
+    },
+    {
+      "association_id": "association:bd4547177122243bc385",
+      "role": "primary",
+      "rationale": "Its type directly states that repeated copies, followed by a prefix, of an admissible ordering continue to select sinks."
+    }
+  ]
+}

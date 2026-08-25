@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1157",
+  "associations": [
+    {
+      "association_id": "association:c264883b623bc5d000a5",
+      "role": "supporting",
+      "rationale": "It proves the stated iteration property under an explicit Dynkin-diagram hypothesis absent from the displayed source claim."
+    }
+  ]
+}

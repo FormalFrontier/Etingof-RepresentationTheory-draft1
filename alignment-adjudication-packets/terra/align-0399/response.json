@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0399",
+  "associations": [
+    {
+      "association_id": "association:8fbc8d5c4e662d6334cd",
+      "role": "primary",
+      "rationale": "The formal type directly gives a representation equivalence between the `slRestrict` images of the constant-shifted and original dominant weights."
+    }
+  ]
+}

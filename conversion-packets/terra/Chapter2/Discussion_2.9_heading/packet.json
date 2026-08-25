@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_2.9_heading",
+    "kind": "discussion",
+    "title": "Section 2.9: Lie algebras \u2014 heading and skew-symmetric bilinear map",
+    "node_id": "chapter-02/section-2-9",
+    "order": 77,
+    "slug": "discussion-2-9-heading",
+    "span": {
+      "start": {
+        "page": "22",
+        "line": 12
+      },
+      "end": {
+        "page": "22",
+        "line": 15
+      }
+    },
+    "source_sha256": "b85aa92119e20042cb0e6d8f3f5463247cb5b556b62c57e579d78934e1534f20",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion29Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,32 @@
+{
+  "counts": {
+    "alignment_edges": 2525,
+    "declarations": 33051,
+    "source_nodes": 1949
+  },
+  "files": {
+    "alignment_edges": "alignment-edges.jsonl",
+    "declarations": "declarations.jsonl",
+    "source_nodes": "source-nodes.jsonl"
+  },
+  "hashes": {
+    "alignment_edges": "9d1c440d0e6b1fc0d5eed367caac0a15fa46eca28efb5263a47101354cbb746b",
+    "declarations": "ff81a8e7346a05cbd7fb8a170587654c97e86fd10bff219d3ad06f2aa438d462",
+    "source_nodes": "caf6baa44867da8f30773dde725f6cbe8b3842c654cc72b3c29e41fa0671a245"
+  },
+  "release_gate": "blocked_until_all_pending_adjudication_edges_and_renames_are_resolved",
+  "roles": [
+    "primary",
+    "supporting",
+    "pending_adjudication"
+  ],
+  "schema_version": "etingof-alignment-migration/v1",
+  "snapshot": {
+    "commit": "2712420950ca8da299737f1d21d5c395ec9e27b4",
+    "decl_providers_sha256": "a0d8193a95295568e37420fd6512c44d8a2752311726b1fe569f87f609e604d7",
+    "lean_toolchain": "leanprover/lean4:v4.32.2",
+    "progress_items_sha256": "c622772b5909709926a947e49ef9e5d542658ad3aaf7f15fdd9b3a980896c0a5",
+    "raw_extraction_archive_sha256": "92ed1ddc3063a604302d556779e4d6af0596ca638d5b1e56eb7740eedc6707cc",
+    "stage34_sha256": "45f62c79e31c7d196452d08e05f12db5b67a118f3fa39b2087e5dc4417a6043f"
+  }
+}

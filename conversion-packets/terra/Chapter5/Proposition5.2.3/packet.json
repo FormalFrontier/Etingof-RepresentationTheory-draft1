@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Proposition5.2.3",
+    "kind": "proposition",
+    "title": "Equivalence of Definitions 5.2.1 and 5.2.2",
+    "node_id": "chapter-05/section-5-2",
+    "order": 255,
+    "slug": "proposition5-2-3",
+    "span": {
+      "start": {
+        "page": "96",
+        "line": 3
+      },
+      "end": {
+        "page": "96",
+        "line": 14
+      }
+    },
+    "source_sha256": "701a8c60b10f61075b75e31dd1d1de2b86bd76d20b47f7ef28ebcae0f825636d",
+    "features": {
+      "line_count": 12,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition523",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

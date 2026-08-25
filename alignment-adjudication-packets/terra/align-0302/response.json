@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0302",
+  "associations": [
+    {
+      "association_id": "association:2ff778a020dd2a58f89a",
+      "role": "supporting",
+      "rationale": "The displayed type only exposes a type-valued construction on an object of an abelian category; it does not reveal the exact augmented complex or projectivity conditions in the source definition."
+    }
+  ]
+}

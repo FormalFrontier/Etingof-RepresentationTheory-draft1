@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0137",
+  "associations": [
+    {"association_id": "association:e2ca0908489695a3aad6", "role": "supporting", "rationale": "This constructs a candidate A-linear map into a dual module, but its displayed type does not state injectivity."},
+    {"association_id": "association:c87a028c6e4a7e95a316", "role": "supporting", "rationale": "This proves injectivity of the named embedding but the displayed type alone does not state the source's dualizing construction or target identification."},
+    {"association_id": "association:1af48571b99fb6bb73a3", "role": "supporting", "rationale": "This defines the dual map associated to an arbitrary linear map, a construction used in the dualization argument."},
+    {"association_id": "association:3624cc106f63dcd868d4", "role": "supporting", "rationale": "This derives injectivity of a dual map from surjectivity, a helper implication rather than the displayed embedding itself."},
+    {"association_id": "association:73eca2faae8a58cf731e", "role": "supporting", "rationale": "This is the finite-dimensional evaluation equivalence with the double dual, a prerequisite for the asserted embedding."}
+  ]
+}

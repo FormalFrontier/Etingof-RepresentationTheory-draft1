@@ -1,0 +1,80 @@
+{
+  "module_name": "GaloisFieldAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-004477",
+      "new_name": "auxiliaryPredicate_of_mem_of_notAuxiliaryCondition_of_conjugate_mem",
+      "docstring": "Derives the auxiliary predicate from membership, a negated auxiliary condition, and conjugate membership."
+    },
+    {
+      "temporary_id": "decl-004546",
+      "new_name": "auxiliaryPredicate_of_mem",
+      "docstring": "Membership in the auxiliary set implies the auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-004570",
+      "new_name": "auxiliaryElement",
+      "docstring": "An auxiliary element depending on a prime and a natural parameter."
+    },
+    {
+      "temporary_id": "decl-004580",
+      "new_name": "auxiliaryElidedStatement004580",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-004584",
+      "new_name": "auxiliaryElement_inv_eq",
+      "docstring": "The inverse of the auxiliary element equals itself."
+    },
+    {
+      "temporary_id": "decl-004585",
+      "new_name": "auxiliaryPredicate_auxiliaryElement",
+      "docstring": "The auxiliary element satisfies the auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-004587",
+      "new_name": "mem_auxiliarySet_conjugate_by_auxiliaryElement",
+      "docstring": "Auxiliary-set membership is preserved by conjugation with the auxiliary element."
+    },
+    {
+      "temporary_id": "decl-004588",
+      "new_name": "auxiliaryElement_not_mem_auxiliarySet",
+      "docstring": "The auxiliary element does not belong to the auxiliary set."
+    },
+    {
+      "temporary_id": "decl-004596",
+      "new_name": "auxiliaryElement_sq_eq_one",
+      "docstring": "The square of the auxiliary element is one."
+    },
+    {
+      "temporary_id": "decl-004600",
+      "new_name": "auxiliaryElement_sq_mem_auxiliarySet",
+      "docstring": "The square of the auxiliary element belongs to the auxiliary set."
+    },
+    {
+      "temporary_id": "decl-004603",
+      "new_name": "auxiliaryPredicate",
+      "docstring": "A predicate on the displayed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-004609",
+      "new_name": "card_auxiliaryPredicate_eq_two_mul_card_auxiliarySet",
+      "docstring": "The filtered cardinality of the auxiliary predicate is twice the auxiliary-set cardinality."
+    },
+    {
+      "temporary_id": "decl-004623",
+      "new_name": "auxiliaryPredicate_auxiliaryElement_mul_of_mem",
+      "docstring": "Left multiplication of an auxiliary-set member by the auxiliary element satisfies the auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-004631",
+      "new_name": "mem_auxiliarySet_or_exists_auxiliaryElement_mul_of_auxiliaryPredicate",
+      "docstring": "An auxiliary-predicate element is in the auxiliary set or has the displayed auxiliary-element factorization."
+    },
+    {
+      "temporary_id": "decl-017862",
+      "new_name": "mem_auxiliarySet_of_commutes_with_nonAuxiliaryCondition_mem",
+      "docstring": "An element commuting with a member outside the auxiliary condition belongs to the auxiliary set."
+    }
+  ]
+}

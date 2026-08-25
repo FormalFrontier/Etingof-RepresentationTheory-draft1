@@ -1,0 +1,15 @@
+{
+  "module_name": "Representation.Character.AuxiliaryVanishing",
+  "declarations": [
+    {
+      "temporary_id": "decl-019684",
+      "new_name": "auxiliaryStatement",
+      "docstring": "Auxiliary declaration whose formal type could not be displayed."
+    },
+    {
+      "temporary_id": "decl-019685",
+      "new_name": "auxiliaryValue_eq_zero_of_character_not_inversionInvariant",
+      "docstring": "For a simple complex representation whose character is not invariant under inversion, an associated auxiliary value vanishes."
+    }
+  ]
+}

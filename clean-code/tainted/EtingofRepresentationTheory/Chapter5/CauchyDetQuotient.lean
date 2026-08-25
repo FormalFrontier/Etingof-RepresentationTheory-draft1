@@ -1,0 +1,145 @@
+import Mathlib
+import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime
+import EtingofRepresentationTheory.Chapter5.Theorem5_23_2Core
+import EtingofRepresentationTheory.Chapter5.DetShiftIso
+import EtingofRepresentationTheory.Chapter5.CauchyDetQuotientGrading
+import EtingofRepresentationTheory.Chapter5.CauchyDetQuotientDegree
+import EtingofRepresentationTheory.Chapter5.QuotDetDegreeAlgebraic
+import EtingofRepresentationTheory.Chapter5.CleanConstituentExtraction
+
+/-!
+# Cauchy decomposition of the determinant quotient: constituents have `ν_N = 0`
+
+This file states the part (a) result of the kernel-lemma-K′ core: the
+`GL_N × GL_N`-equivariant Cauchy content pinning the last highest-weight
+coordinate of every irreducible constituent of the determinant quotient
+
+  `A/det = k[Xᵢⱼ]/(det)`     (`quotDetRep`, `KernelLemmaKPrime.lean`)
+
+to `ν_N = 0`. The sibling part (b) consumes this to realize a
+negative lowest weight after the `χ⁻ʳ` twist and discharge
+`quotDetTwist_nonzero_subrep_has_neg_weight` (`KernelLemmaKPrime.lean`).
+
+## The statement and how part (b) consumes it
+
+`quotDetRep_irreducible_constituent_lastWeight_zero` says: an irreducible
+finite-dimensional `GL_N`-representation `L` that embeds `GL_N`-equivariantly
+into `A/det = k[Xᵢⱼ]/(det)` has formal character `schurPoly N ν` for a partition
+`ν` (antitone, `ν ∈ ℕ^N`) whose last coordinate is `0`. Equivalently, in the
+highest-weight classification of polynomial `GL_N`-irreps via formal characters
+(`iso_of_formalCharacter_eq_schurPoly`, `SchurWeylFormalCharacterIso.lean`), the
+highest weight `ν` of `L` satisfies `ν_N = 0`.
+
+The interface is phrased exactly as the project's other highest-weight
+classification statements (`schurWeyl_simples_formalCharacter_classification_core`,
+`SchurWeylSimplesClassification.lean`):
+
+* irreducibility of `L` is
+  `IsSimpleModule (MonoidAlgebra k (GL (Fin N) k)) (Representation.asModule L.ρ)`;
+* the highest weight is read off as `formalCharacter k N L = schurPoly N ν`,
+  with the extra arithmetic datum `(0 : ℕ) ∈ Set.range ν`. For an antitone
+  `ν : Fin N → ℕ` (`N ≥ 1`) the minimum entry is the last one and all entries are
+  `≥ 0`, so `0 ∈ Set.range ν` is exactly the route-doc condition `ν_N = 0`. (We
+  avoid `ν (Fin.last N)` since `Fin.last N : Fin (N + 1)` does not index a
+  `Fin N`-weight for a variable `N`.)
+
+The embedding of `L` as a constituent of the infinite-dimensional quotient
+`A/det` is a `GL_N`-equivariant injection `φ : L →ₗ[k] (A/det)` (we cannot use
+`FDRep.of (quotDetRep …)` because `A/det` is not finite-dimensional). Part (b)
+extracts such an `L` and `φ` from a finite-dimensional subrepresentation by
+complete reducibility (`Theorem5_23_2_i`).
+
+## Why the torus alone is insufficient
+
+`Theorem5_23_2_ii` is rank-only (`nonempty_linearEquiv_of_rank_eq`): it
+carries no weight or `GL × GL`-equivariance data and cannot read off the weight
+structure of constituents. The forbidden shortcuts (column-sum `≥ r`, rank-only
+Peter–Weyl, one- or two-sided torus nonnegativity) are each defeated by the
+`N = 2, r = 1` example `α X₁₁X₂₂ + β X₁₂X₂₁`. The real content is the
+`GL_N × GL_N`-equivariant Cauchy decomposition
+
+  `k[Xᵢⱼ] = ⊕_{ν ∈ ℕ^N dom} V_ν^* ⊠ V_ν`    (each `ν` with multiplicity one)
+
+together with the highest-weight shift `det · A ≅ A ⊗ χ`
+(`detShiftLinearEquiv_intertwine`, `DetShiftIso.lean`):
+multiplication by `det` raises every constituent's highest weight by `(1,…,1)`,
+so the constituents of `A/det = A / (det · A)` are exactly the `ν` not of the
+form `μ + (1,…,1)`, i.e. those with `ν_N = 0`.
+
+## The three infrastructure pieces
+
+The proof rests on three pieces of infrastructure:
+
+1. a `GL_N`-representation structure on `AlgIrrepGL` (which is otherwise a bare
+   `k`-module, `Theorem5_23_2.lean`);
+2. the right-`GL_N` homogeneous grading of `k[Xᵢⱼ]` (each total-degree component
+   is a subrepresentation; `det` is homogeneous of degree `N`), giving the
+   per-degree short exact sequence `0 → A_{d-N} ⊗ χ → A_d → (A/det)_d → 0`;
+3. the `GL_N × GL_N`-equivariant Cauchy multiplicity-one decomposition of
+   `k[Xᵢⱼ]`.
+
+The theorem below combines (1), (2), and (3) with the det-shift.
+-/
+
+namespace Etingof.KernelLemmaKPrime
+
+open MvPolynomial Etingof Etingof.PolynomialGLAction
+
+/-- **(K′) part (a): constituents of `A/det` have last highest-weight coordinate
+`ν_N = 0`.** Let `L` be an irreducible finite-dimensional `GL_N`-representation
+that embeds `GL_N`-equivariantly into the determinant quotient
+`A/det = k[Xᵢⱼ]/(det)` (`quotDetRep`). Then `L` is a polynomial irrep: its
+formal character is `schurPoly N ν` for an antitone `ν : Fin N → ℕ`, and moreover
+the last (= smallest, by antitonicity) coordinate vanishes, recorded as
+`(0 : ℕ) ∈ Set.range ν`.
+
+This is the `GL_N × GL_N`-equivariant Cauchy decomposition of `k[Xᵢⱼ]`
+together with the `det · A ≅ A ⊗ χ` highest-weight shift
+(`detShiftLinearEquiv_intertwine`): every constituent of `A` has a
+dominant highest weight `ν ∈ ℕ^N` appearing with multiplicity one, and
+multiplication by `det` shifts `ν ↦ ν + (1,…,1)`, so `A/det = A / (det·A)` keeps
+exactly the constituents with `ν_N = 0`.
+
+The sibling result (part (b)) consumes this, together with lowest-weight
+realization (the lowest weight of an irrep of highest weight `ν` is `w₀ν`, with
+last coordinate `ν_1`, and the relevant negative coordinate comes from the `χ⁻ʳ`
+twist subtracting `r ≥ 1` from `ν_N = 0`), to discharge
+`quotDetTwist_nonzero_subrep_has_neg_weight`.
+
+See the file docstring for the three infrastructure pieces the proof rests on.
+
+`k` is fixed at `Type` (universe 0) rather than `Type*` because the proof uses
+the constituent-character extractor
+`clean_simple_constituent_formalCharacter_eq_schurPoly_mem`, whose Schur-Weyl /
+Specht / double-centralizer classification foundation is small-universe. The
+whole kernel-lemma consumer chain above this theorem
+(`KernelLemmaKPrimeAssembly`, `KernelLemmaK`, `DetInvElim`,
+`PolynomialRepEmbedding`, `PolynomialGLDecomposition`) is correspondingly
+specialized to `Type`; `k` is always a concrete algebraically-closed char-0
+field, so the universe polymorphism is unused. -/
+theorem quotDetRep_irreducible_constituent_lastWeight_zero
+    (k : Type) [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ)
+    (L : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (hLsimp : IsSimpleModule
+      (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+      (Representation.asModule L.ρ))
+    (φ : L →ₗ[k] (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N))
+    (hφ_inj : Function.Injective φ)
+    (hφ_equiv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : L),
+      φ (L.ρ g v) = quotDetRep k N g (φ v)) :
+    ∃ ν : Fin N → ℕ, Antitone ν ∧ (0 : ℕ) ∈ Set.range ν ∧
+      formalCharacter k N L = schurPoly N ν := by
+  classical
+  obtain ⟨d, ψ, hψ_inj, hψ_equiv⟩ :=
+    Etingof.CauchyDetQuotient.exists_degree_embedding_of_simple k N L hLsimp φ hφ_inj hφ_equiv
+  obtain ⟨S, c, hS0, hchar⟩ :=
+    Etingof.CauchyDetQuotient.quotDetDegree_char_as_antitone_sum (k := k) N d
+  obtain ⟨ν, hνS, _hcpos, hcharL⟩ :=
+    clean_simple_constituent_formalCharacter_eq_schurPoly_mem k N
+      (Etingof.CauchyDetQuotient.quotDetDegreeFDRep k N d)
+      (Etingof.quotDetDegreeFDRep_isAlgebraic k N d)
+      (Etingof.CauchyDetQuotient.quotDetDegree_iSup_glWeightSpace_eq_top (k := k) (N := N) d)
+      S c hchar L hLsimp ψ hψ_inj hψ_equiv
+  exact ⟨ν.val, ν.property, hS0 ν hνS, hcharL⟩
+
+end Etingof.KernelLemmaKPrime

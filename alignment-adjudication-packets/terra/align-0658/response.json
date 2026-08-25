@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0658",
+  "associations": [
+    {
+      "association_id": "association:35e4067416b727ac9580",
+      "rationale": "The displayed type constructs from X a linear map A → Hom_k(W,V), but its opaque body does not directly display the stated coboundary formula.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:5d9e0df657d03700915f",
+      "rationale": "The formal type asserts the opaque predicate IsCocycle for the opaque construction coboundaryOf X, but it does not itself display the stated formula dX(a)=ρ_V(a)X-Xρ_W(a).",
+      "role": "supporting"
+    }
+  ]
+}

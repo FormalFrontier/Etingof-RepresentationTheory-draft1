@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0061",
+  "associations": [
+    {
+      "association_id": "association:008421e8a37b13a4e1e5",
+      "role": "supporting",
+      "rationale": "The type gives a decomposition into the opaque family YoungRuleKostkaCopies, but does not expose those summands or their multiplicities as Kostka copies."
+    },
+    {
+      "association_id": "association:fbf25e67b5214077fd93",
+      "role": "primary",
+      "rationale": "Its type directly identifies each Young-rule multiplicity with the corresponding Kostka number."
+    }
+  ]
+}

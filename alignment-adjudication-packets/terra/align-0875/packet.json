@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:10dbaf35509fdde305de",
+      "declaration": "Etingof.Problem953.hom_subsingleton_of_not_linked",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/568/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {S T : ModuleCat.{v, u} R},\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} T) \u2192\n      \u2200 {M N : ModuleCat.{v, u} R},\n        Etingof.InBlock.{v, u} R S M \u2192\n          Etingof.InBlock.{v, u} R T N \u2192\n            Not (Etingof.AreLinked.{v, u} R S T) \u2192 Subsingleton.{v + 1} (Quiver.Hom.{v, max u (v + 1)} M N)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.5.3",
+  "packet_id": "align-0875",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0875"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.5.3:part_ii_hom",
+  "source_text": "Part (ii): Hom spaces between different blocks vanish."
+}

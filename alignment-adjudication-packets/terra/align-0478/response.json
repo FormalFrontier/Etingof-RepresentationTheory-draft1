@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0478",
+  "associations": [
+    {
+      "association_id": "association:cb1bed00dbe064e0bfa7",
+      "role": "supporting",
+      "rationale": "The displayed type supplies a decomposition evaluation formula and equivariance for a centralizer action, but it does not directly expose simplicity and pairwise distinctness for both families of factors."
+    },
+    {
+      "association_id": "association:403f4b8975560004be40",
+      "role": "supporting",
+      "rationale": "The theorem visibly produces a direct-sum tensor decomposition and pairwise distinct multiplicity factors, but the displayed type does not directly state all simplicity, distinctness, and two-action equivariance assertions in the source claim."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0134",
+  "associations": [
+    {
+      "association_id": "association:e6572c0ea7b95158b1ce",
+      "role": "supporting",
+      "rationale": "The displayed type is only an opaque Prop-valued predicate and does not expose nonzeroness or the direct-sum condition."
+    },
+    {
+      "association_id": "association:9bafb6f0d59786137093",
+      "role": "primary",
+      "rationale": "This theorem directly states the absence of two nonzero complementary submodules."
+    }
+  ]
+}

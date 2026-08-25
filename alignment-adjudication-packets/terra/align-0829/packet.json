@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ac04e981a80fb472621c",
+      "declaration": "Etingof.Problem_8_1_3_i",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/526/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (M : Type u) [inst_1 : AddCommGroup.{u} M]\n  [inst_2 : Module.{u, u} (MulOpposite.{u} A) M] [Module.Projective.{u, u} (MulOpposite.{u} A) M],\n  Etingof.IsFlat.{u} A M",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_1_3"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.1.3",
+  "packet_id": "align-0829",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0829"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.1.3:part_i",
+  "source_text": "Part (i): every projective right module is flat in the exact-functor sense."
+}

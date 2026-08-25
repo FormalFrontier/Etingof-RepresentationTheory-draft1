@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0487",
+  "associations": [
+    {
+      "association_id": "association:e00b8afd4cf3a9236c9d",
+      "rationale": "The formal type proves irreducibility of the finite-dimensional model, but it does not state its polynomial realization or the three displayed differential actions.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:83bbdc6aafd325bed789",
+      "rationale": "The formal type supplies a polynomial-model equivalence and states the actions of h, e, and f by the displayed differential operators, but it does not itself assert that this d-dimensional model is irreducible.",
+      "role": "supporting"
+    }
+  ]
+}

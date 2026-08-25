@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1121",
+  "associations": [
+    {
+      "association_id": "association:b1178ef18d47931087b8",
+      "role": "primary",
+      "rationale": "The formal type directly concludes linear independence of the characters for a finite family of pairwise nonisomorphic finite-dimensional simple A-modules."
+    }
+  ]
+}

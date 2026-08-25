@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1bc728157803f24430c3",
+      "declaration": "Etingof.Exercise963.isProgenerator_iff_hom_simple_ne_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/572/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : Etingof.IsFiniteAbelianCategory.{u, v} C] (P : C)\n  [CategoryTheory.Projective.{v, u} P],\n  Iff (Nonempty.{0} (Etingof.IsProgenerator.{u, v} P))\n    (\u2200 (L : C), CategoryTheory.Simple.{v, u} L \u2192 Exists.{v + 1} fun f => Ne.{v + 1} f 0)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Exercise9_6_3"
+    }
+  ],
+  "canonical_reference": "Chapter9/Exercise9.6.3",
+  "packet_id": "align-0857",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0857"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Exercise9.6.3:characterization",
+  "source_text": "A projective object is a generator exactly when it maps nontrivially to every simple object."
+}

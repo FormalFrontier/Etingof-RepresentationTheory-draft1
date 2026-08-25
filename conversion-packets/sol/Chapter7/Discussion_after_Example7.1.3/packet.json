@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Discussion_after_Example7.1.3",
+    "kind": "discussion",
+    "title": "Sets vs classes; locally small categories",
+    "node_id": "chapter-07/section-7-1",
+    "order": 469,
+    "slug": "discussion-after-example7-1-3",
+    "span": {
+      "start": {
+        "page": "182",
+        "line": 29
+      },
+      "end": {
+        "page": "183",
+        "line": 2
+      }
+    },
+    "source_sha256": "efa5b14f8185c6fe81a9e810d5549780f28389d0beb3487eedf426dcf8c1cca8",
+    "features": {
+      "line_count": 3,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.DiscussionAfterExample713",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

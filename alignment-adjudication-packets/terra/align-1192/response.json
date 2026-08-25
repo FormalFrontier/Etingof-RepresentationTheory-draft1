@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:649b91360f367b5edd2d",
+      "rationale": "It gives the dimension-one conclusion under additional algebraic-closedness and commutativity hypotheses, but does not display the source's stated irreducibility-and-nonzeroness reasoning."
+      ,"role": "supporting"
+    }
+  ],
+  "packet_id": "align-1192"
+}

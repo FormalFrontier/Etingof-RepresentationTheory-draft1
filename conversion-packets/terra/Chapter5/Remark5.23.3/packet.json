@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Remark5.23.3",
+    "kind": "remark",
+    "title": "Extension to sl(V) and SL(V); recovery of sl(2) representation theory",
+    "node_id": "chapter-05/section-5-23",
+    "order": 375,
+    "slug": "remark5-23-3",
+    "span": {
+      "start": {
+        "page": "134",
+        "line": 5
+      },
+      "end": {
+        "page": "134",
+        "line": 7
+      }
+    },
+    "source_sha256": "c3542d82f57b84306fb4c24fcbfb3d9a332eb00c181d3959eea058bb726ab2d2",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Remark5233",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

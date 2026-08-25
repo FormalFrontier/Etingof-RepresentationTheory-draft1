@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0751",
+  "associations": [
+    {
+      "association_id": "association:a47a1e84390913c302da",
+      "role": "supporting",
+      "rationale": "This defines the real G-endomorphism algebra being computed but does not identify it with the quaternions."
+    },
+    {
+      "association_id": "association:105873443f705ad7ad0c",
+      "role": "primary",
+      "rationale": "For an irreducible quaternionic-type representation, this directly gives a real-algebra equivalence between the real G-endomorphism algebra and the quaternions."
+    }
+  ]
+}

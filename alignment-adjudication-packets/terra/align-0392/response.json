@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0392",
+  "associations": [
+    {
+      "association_id": "association:4986dc00ee92075e3799",
+      "role": "supporting",
+      "rationale": "The candidate has no displayed formal type and its evidence says the claim is covered elsewhere, so it cannot be primary packet-only evidence."
+    }
+  ]
+}

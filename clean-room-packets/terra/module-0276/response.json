@@ -1,0 +1,15 @@
+{
+  "module_name": "PartitionModels",
+  "declarations": [
+    {
+      "temporary_id": "decl-001450",
+      "new_name": "exists_partition_model_with_equivariant_complexification",
+      "docstring": "Every simple module over the displayed algebra admits a partition-indexed model whose rational permutation module is simple and whose complex scalar extension intertwines the permutation action."
+    },
+    {
+      "temporary_id": "decl-016121",
+      "new_name": "exists_perm_equivariant_complexification",
+      "docstring": "For each partition, there exists a map from the complex scalar extension of the associated rational module that intertwines the permutation action."
+    }
+  ]
+}

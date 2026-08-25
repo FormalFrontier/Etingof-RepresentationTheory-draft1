@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1031",
+  "associations": [
+    {
+      "association_id": "association:cd902fa38d234bbdd0aa",
+      "role": "primary",
+      "rationale": "The displayed type directly rules out simple modules over any subsingleton ring, which is the zero-algebra claim."
+    }
+  ]
+}

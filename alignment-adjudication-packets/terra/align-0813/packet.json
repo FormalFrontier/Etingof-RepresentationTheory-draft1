@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5380b6fd4d0279d3e800",
+      "declaration": "Etingof.Exercise7_9_7",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/518/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] [inst_2 : CategoryTheory.Abelian.{u_3, u_1} C]\n  [inst_3 : CategoryTheory.Abelian.{u_4, u_2} D] (F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D)\n  (G : CategoryTheory.Functor.{u_4, u_3, u_2, u_1} D C) [CategoryTheory.Functor.Additive.{u_3, u_1, u_4, u_2} F]\n  [CategoryTheory.Functor.Additive.{u_4, u_2, u_3, u_1} G] (adj : CategoryTheory.Adjunction.{u_3, u_4, u_1, u_2} F G),\n  And (Etingof.RightExactFunctor.{u_1, u_2, u_3, u_4} F) (Etingof.LeftExactFunctor.{u_2, u_1, u_4, u_3} G)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Exercise7_9_7"
+    }
+  ],
+  "canonical_reference": "Chapter7/Exercise7.9.7",
+  "packet_id": "align-0813",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0813"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter7/Exercise7.9.7:right_adjoint",
+  "source_text": "An additive right adjoint between abelian categories is left exact."
+}

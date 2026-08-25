@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0702",
+  "associations": [
+    {
+      "association_id": "association:25acb55b8c578c5fe344",
+      "rationale": "The type states only that the three named subspaces form an internal direct sum; it does not itself state their dimensions or identify all three as the modules described in the complete source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:51a49fdbf7e1b42ad852",
+      "rationale": "The type supplies only the one-dimensionality of the scalar summand, one component of the full three-summand module decomposition.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:122651b06f0946fae6fe",
+      "rationale": "The type supplies only the dimension of the skew summand, one component of the full three-summand module decomposition.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:230761fb95df8e65cbe9",
+      "rationale": "The type supplies only the dimension of the traceless-symmetric summand, one component of the full three-summand module decomposition.",
+      "role": "supporting"
+    }
+  ]
+}

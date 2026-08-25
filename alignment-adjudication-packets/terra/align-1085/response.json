@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1085",
+  "associations": [
+    {
+      "association_id": "association:83c041ec1d4c752ceaed",
+      "rationale": "No formal type is displayed, so the candidate cannot itself be verified as stating the claimed word-indexed basis.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:00c4f61da1ca40075e7d",
+      "rationale": "No formal type is displayed, so the candidate cannot itself be verified as stating that the free algebra is a k-algebra.",
+      "role": "supporting"
+    }
+  ]
+}

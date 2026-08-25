@@ -1,0 +1,30 @@
+{
+  "module_name": "GL.Weights",
+  "declarations": [
+    {
+      "temporary_id": "decl-005318",
+      "new_name": "map_mem_weightSpace_of_mem",
+      "docstring": "Applying the displayed map to an element of the indicated subtype sends source weight-space membership to target weight-space membership for the same weight."
+    },
+    {
+      "temporary_id": "decl-005319",
+      "new_name": "mem_range_algebraMap_of_weight_and_span_stable",
+      "docstring": "If a finite family of weight vectors has a span stable under the general linear group action, then every member of the family lies in the image of the displayed algebra map."
+    },
+    {
+      "temporary_id": "decl-005321",
+      "new_name": "exists_polynomial_eval_matrixEntries_of_weight_and_span_stable",
+      "docstring": "Under the stated weight and span-stability assumptions, for each index there is a polynomial whose evaluation at the entries of any invertible matrix equals the displayed expression involving that matrix and family member."
+    },
+    {
+      "temporary_id": "decl-005322",
+      "new_name": "exists_polynomial_eval_apply_of_weight_and_span_stable",
+      "docstring": "Under the stated weight and span-stability assumptions, for each index there is a polynomial whose evaluation at the entries of any invertible matrix equals the displayed function associated with that family member."
+    },
+    {
+      "temporary_id": "decl-005323",
+      "new_name": "mem_weightSpace_iff_forall_apply_eq_smul",
+      "docstring": "A vector lies in the specified weight space exactly when, for every coordinate and unit, the representation of the displayed group element sends it to scalar multiplication by that unit raised to the corresponding weight."
+    }
+  ]
+}

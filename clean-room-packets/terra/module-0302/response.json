@@ -1,0 +1,55 @@
+{
+  "module_name": "GroupTheory.ZMod.ComplexCharacters",
+  "declarations": [
+    {
+      "temporary_id": "decl-001624",
+      "new_name": "card_complex_characters",
+      "docstring": "The character group from the multiplicative form of integers modulo a nonzero natural number to the complex units has cardinality that natural number."
+    },
+    {
+      "temporary_id": "decl-001625",
+      "new_name": "card_non_self_inverse_complex_characters_div_two",
+      "docstring": "Half the number of complex characters not fixed by inversion equals half the difference between the modulus and its greatest common divisor with two."
+    },
+    {
+      "temporary_id": "decl-001626",
+      "new_name": "card_non_self_inverse_complex_characters",
+      "docstring": "The number of complex characters not fixed by inversion is the modulus minus its greatest common divisor with two."
+    },
+    {
+      "temporary_id": "decl-001627",
+      "new_name": "card_self_inverse_complex_characters",
+      "docstring": "The number of complex characters fixed by inversion is the greatest common divisor of the modulus and two."
+    },
+    {
+      "temporary_id": "decl-001628",
+      "new_name": "complex_characters_mulEquiv",
+      "docstring": "The complex character group of the multiplicative form of integers modulo a nonzero natural number is multiplicatively equivalent to that cyclic group."
+    },
+    {
+      "temporary_id": "decl-001630",
+      "new_name": "finite_complex_characters",
+      "docstring": "The complex character group of the multiplicative form of integers modulo a nonzero natural number is finite."
+    },
+    {
+      "temporary_id": "decl-001631",
+      "new_name": "isCyclic_complex_characters",
+      "docstring": "The complex character group of the multiplicative form of integers modulo a nonzero natural number is cyclic."
+    },
+    {
+      "temporary_id": "decl-001632",
+      "new_name": "exponent_cast_neZero",
+      "docstring": "The cast of the exponent of the multiplicative form of integers modulo a nonzero natural number is nonzero."
+    },
+    {
+      "temporary_id": "decl-001633",
+      "new_name": "two_dvd_card_ne_fixed_of_involutive",
+      "docstring": "For an involution of a finite type, two divides the number of elements that are not fixed."
+    },
+    {
+      "temporary_id": "decl-001635",
+      "new_name": "two_dvd_card_non_self_inverse_complex_characters",
+      "docstring": "Two divides the number of complex characters that are not fixed by inversion."
+    }
+  ]
+}

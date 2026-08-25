@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:dfbad4617b1992f1abb4",
+      "declaration": "Etingof.compositionFactor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/160/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{A : Type u_1} \u2192\n  {V : Type u_2} \u2192\n    [inst : Ring.{u_1} A] \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} A V] \u2192\n          (s : CompositionSeries.{u_2} (Submodule.{u_1, u_2} A V)) \u2192 Fin (RelSeries.length.{u_2} s) \u2192 Type u_2",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_7_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Theorem3.7.1",
+  "packet_id": "align-1205",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1205"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:fdd00e403926b132cec5",
+  "source_text": "Each W_i is the genuine successive quotient V_i/V_(i-1), and similarly for the primed series."
+}

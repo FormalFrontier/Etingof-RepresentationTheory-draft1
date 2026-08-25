@@ -1,0 +1,140 @@
+{
+  "module_name": "AuxiliaryEquivariantDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-005143",
+      "new_name": "Auxiliary.IsRepresentationRelation",
+      "docstring": "An auxiliary predicate on two representations and a linear equivalence."
+    },
+    {
+      "temporary_id": "decl-005145",
+      "new_name": "symm",
+      "docstring": "Equivariance of a linear equivalence is preserved by taking its inverse."
+    },
+    {
+      "temporary_id": "decl-016596",
+      "new_name": "auxiliary_nonempty_representationRelation",
+      "docstring": "The displayed representations and linear equivalence satisfy the indicated auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-017174",
+      "new_name": "auxiliary_isSimpleModule",
+      "docstring": "The auxiliary representation gives a simple module."
+    },
+    {
+      "temporary_id": "decl-018692",
+      "new_name": "auxiliary_contractLeft_map",
+      "docstring": "An auxiliary contraction is compatible with the displayed group action."
+    },
+    {
+      "temporary_id": "decl-018819",
+      "new_name": "auxiliary_exists_equivariantLinearEquiv",
+      "docstring": "An auxiliary indexed object admits an equivariant linear equivalence under the stated monotonicity condition."
+    },
+    {
+      "temporary_id": "decl-018822",
+      "new_name": "auxiliary_exists_range_eq_of_isSimpleModule",
+      "docstring": "A simple auxiliary subrepresentation is the range of a compatible linear map."
+    },
+    {
+      "temporary_id": "decl-020571",
+      "new_name": "directSumToModule_injective_of_iSupIndep",
+      "docstring": "The map from a direct sum is injective when the component maps are injective and their ranges are independent."
+    },
+    {
+      "temporary_id": "decl-021521",
+      "new_name": "auxiliary_range_mem_action",
+      "docstring": "The range of an auxiliary map is closed under the displayed action."
+    },
+    {
+      "temporary_id": "decl-021522",
+      "new_name": "auxiliary_iSupRange_mem_action",
+      "docstring": "The supremum of the auxiliary map ranges is closed under the displayed action."
+    },
+    {
+      "temporary_id": "decl-021726",
+      "new_name": "auxiliary_nonempty_representationRelation_of_bijective",
+      "docstring": "Bijectivity of the auxiliary direct-sum map yields the indicated auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-022002",
+      "new_name": "auxiliaryDirectSumMap",
+      "docstring": "The auxiliary linear map from an indexed direct sum to the displayed localization."
+    },
+    {
+      "temporary_id": "decl-022005",
+      "new_name": "auxiliaryDirectSumMap_bijective",
+      "docstring": "The auxiliary direct-sum map is bijective."
+    },
+    {
+      "temporary_id": "decl-022006",
+      "new_name": "auxiliaryDirectSumMap_intertwines",
+      "docstring": "The auxiliary direct-sum map commutes with the displayed pair action."
+    },
+    {
+      "temporary_id": "decl-022007",
+      "new_name": "auxiliaryDirectSumMap_injective",
+      "docstring": "The auxiliary direct-sum map is injective."
+    },
+    {
+      "temporary_id": "decl-022008",
+      "new_name": "auxiliaryDirectSumMap_of",
+      "docstring": "On each direct-sum component, the auxiliary map agrees with the corresponding displayed map."
+    },
+    {
+      "temporary_id": "decl-022009",
+      "new_name": "auxiliaryDirectSumMap_surjective",
+      "docstring": "The auxiliary direct-sum map is surjective."
+    },
+    {
+      "temporary_id": "decl-022010",
+      "new_name": "auxiliaryTensorDirectSumRepresentation",
+      "docstring": "An auxiliary representation on a direct sum of tensor products."
+    },
+    {
+      "temporary_id": "decl-022011",
+      "new_name": "auxiliaryTensorDirectSumRepresentation_apply",
+      "docstring": "The auxiliary tensor direct-sum representation acts componentwise."
+    },
+    {
+      "temporary_id": "decl-022016",
+      "new_name": "auxiliary_component_eq_zero_of_sum_eq_zero",
+      "docstring": "If a finite auxiliary sum vanishes, then every indexed summand vanishes."
+    },
+    {
+      "temporary_id": "decl-022017",
+      "new_name": "auxiliary_iSup_range_eq_top",
+      "docstring": "The supremum of the auxiliary map ranges is the whole target."
+    },
+    {
+      "temporary_id": "decl-022018",
+      "new_name": "auxiliary_injective",
+      "docstring": "Each displayed auxiliary map is injective."
+    },
+    {
+      "temporary_id": "decl-022019",
+      "new_name": "auxiliary_map_intertwines",
+      "docstring": "Each auxiliary component map commutes with the displayed action."
+    },
+    {
+      "temporary_id": "decl-022020",
+      "new_name": "auxiliary_iSupIndep_range",
+      "docstring": "The ranges of the auxiliary component maps form an independent family."
+    },
+    {
+      "temporary_id": "decl-022297",
+      "new_name": "directSumToModule_range",
+      "docstring": "The range of a direct-sum map is the supremum of its component ranges."
+    },
+    {
+      "temporary_id": "decl-022790",
+      "new_name": "auxiliary_submodule_le_iSup",
+      "docstring": "The indicated auxiliary submodule lies below the supremum of the component ranges."
+    },
+    {
+      "temporary_id": "decl-023206",
+      "new_name": "auxiliary_subrepresentation_le_iSup_of_isSimpleModule",
+      "docstring": "A simple auxiliary subrepresentation lies below the supremum of the component ranges."
+    }
+  ]
+}

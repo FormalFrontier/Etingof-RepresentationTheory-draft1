@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Theorem2.1.1",
+    "kind": "theorem",
+    "title": "Classification of irreducible representations of U(sl(2))",
+    "node_id": "chapter-02/section-2-1",
+    "order": 11,
+    "slug": "theorem2-1-1",
+    "span": {
+      "start": {
+        "page": "6",
+        "line": 18
+      },
+      "end": {
+        "page": "6",
+        "line": 25
+      }
+    },
+    "source_sha256": "2054605c73fc95caab1fe7f3d30b54a3495ab384300ae766b7e28442b79cec9f",
+    "features": {
+      "line_count": 8,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Theorem211",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

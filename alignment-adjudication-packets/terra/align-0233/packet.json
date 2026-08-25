@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9354e9118842b2b3558a",
+      "declaration": "Etingof.forgetfulEndRingEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/479/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type v) \u2192\n  (A : Type u) \u2192\n    [inst : CommRing.{v} k] \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{v, u} k A] \u2192\n          RingEquiv.{u + 1, u} (CategoryTheory.End.{u + 1, max (u + 1) v} (Etingof.forgetfulFunctor.{u, v} k A)) A",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_3_2"
+    },
+    {
+      "association_id": "association:b8f61036cb4107d7249a",
+      "declaration": "Etingof.idFunctorEndRingEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/479/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    RingEquiv.{u + 1, u} (CategoryTheory.End.{u + 1, u + 1} (CategoryTheory.Functor.id.{u, u + 1} (ModuleCat.{u, u} A)))\n      (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Subring.center.{u} A) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_3_2"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.3.2",
+  "packet_id": "align-0233",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0233"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4647bc02886bd93d4755",
+  "source_text": "Endomorphisms of the module forgetful functor form A, and endomorphisms of the identity functor form the center of A."
+}

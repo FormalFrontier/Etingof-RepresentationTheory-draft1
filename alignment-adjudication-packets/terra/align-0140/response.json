@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0140",
+  "associations": [
+    {
+      "association_id": "association:68617fc015d162a4f1ba",
+      "role": "primary",
+      "rationale": "This coefficient formula directly identifies the triangular class function with the Specht character."
+    },
+    {
+      "association_id": "association:cd901beafa053c8f8464",
+      "role": "supporting",
+      "rationale": "This alternating-Kostka identity is an ingredient in the triangularity part of the coefficient argument."
+    },
+    {
+      "association_id": "association:3d24f0a2582a8b98840e",
+      "role": "supporting",
+      "rationale": "This Specht-character inner-product formula supplies the character-orthogonality ingredient."
+    }
+  ]
+}

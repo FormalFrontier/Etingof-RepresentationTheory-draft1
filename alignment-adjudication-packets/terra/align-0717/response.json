@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0717",
+  "associations": [
+    {
+      "association_id": "association:5cb0941ba238b3152280",
+      "rationale": "This identifies the modeled thirty-point action up to equivariant bijection, but does not decompose its permutation representation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:fcd5a3c65906cc0f5898",
+      "rationale": "The theorem directly gives an internal irreducible decomposition of the edge permutation representation with dimensions 1, 3, 3, 4, 4, 5, 5, and 5.",
+      "role": "primary"
+    }
+  ]
+}

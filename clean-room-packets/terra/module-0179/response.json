@@ -1,0 +1,3 @@
+{"module_name":"Algebra.Semisimplicity.EndomorphismProduct","declarations":[
+{"temporary_id":"decl-023439","new_name":"nonempty_algEquiv_quotient_endProduct","docstring":"Under the displayed finite-dimensional simple-module hypotheses, the indicated quotient algebra is equivalent to a product of endomorphism algebras."}
+]}

@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e7cb1d802235e86c277d",
+      "declaration": "Etingof.CochainComplex'",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/501/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(C : Type u_1) \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192 Type (max u_1 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_8_1"
+    },
+    {
+      "association_id": "association:4475ed8d74434e01a0ee",
+      "declaration": "Etingof.ExactAt",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/501/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192 Etingof.CochainComplex'.{u_1, u_2} C \u2192 Int \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_8_1"
+    },
+    {
+      "association_id": "association:7bf762ecd21d99566381",
+      "declaration": "Etingof.IsExactSequence",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/501/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192 Etingof.CochainComplex'.{u_1, u_2} C \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_8_1"
+    },
+    {
+      "association_id": "association:b5304fc7a0a1f6591ac1",
+      "declaration": "Etingof.cohomology",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/501/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C] \u2192 Etingof.CochainComplex'.{u_1, u_2} C \u2192 Int \u2192 C",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_8_1"
+    },
+    {
+      "association_id": "association:e9747d6cfce2d2e80d13",
+      "declaration": "Etingof.differential",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/501/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192\n      (K : Etingof.CochainComplex'.{u_1, u_2} C) \u2192\n        (i : Int) \u2192\n          Quiver.Hom.{u_2, u_1} (HomologicalComplex.X.{u_2, u_1, 0} K i)\n            (HomologicalComplex.X.{u_2, u_1, 0} K (HAdd.hAdd.{0, 0, 0} i 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_8_1"
+    }
+  ],
+  "canonical_reference": "Chapter7/Definition7.8.1",
+  "packet_id": "align-1004",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1004"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c0c33e3c975e30fbc68d",
+  "source_text": "A complex has square-zero differentials; cohomology is kernel modulo image, and exactness is vanishing cohomology."
+}

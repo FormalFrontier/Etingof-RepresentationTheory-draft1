@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0046",
+  "associations": [
+    {
+      "association_id": "association:1b51b4c2cbd3dbb259cb",
+      "role": "supporting",
+      "rationale": "This declaration supplies the classification type used by the direct predicate, but its opaque type alone does not state that the listed graphs are simply laced Dynkin diagrams."
+    },
+    {
+      "association_id": "association:57c142b2d97dd2ce7099",
+      "role": "supporting",
+      "rationale": "The displayed type is only an opaque predicate signature on matrices; it neither lists graphs nor states that any are simply laced Dynkin diagrams."
+    }
+  ]
+}

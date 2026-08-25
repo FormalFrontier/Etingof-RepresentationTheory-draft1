@@ -1,0 +1,42 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u} {G : Type v} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{v} G] [inst_3 : Fintype.{v} G]\n  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{v} G))] {N : Nat} (W : Fin N \u2192 FDRep.{u, v} k G),\n  (\u2200 (i : Fin N), CategoryTheory.Simple.{u, max (u + 1) v} (W i)) \u2192\n    (\u2200 (i j : Fin N), Nonempty.{u + 1} (CategoryTheory.Iso.{u, max (u + 1) v} (W i) (W j)) \u2192 Eq.{1} i j) \u2192\n      Eq.{1} N (Nat.card.{v} (ConjClasses.{v} G)) \u2192\n        \u2200 (U : FDRep.{u, v} k G),\n          CategoryTheory.Simple.{u, max (u + 1) v} U \u2192\n            Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, max (u + 1) v} U (W i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4058593905",
+      "temporary_id": "decl-018752"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} {G : Type v} [inst : Field.{u} k] [inst_1 : Group.{v} G] {n N : Nat} (V : Fin n \u2192 FDRep.{u, v} k G),\n  (\u2200 (U : FDRep.{u, v} k G),\n      CategoryTheory.Simple.{u, max (u + 1) v} U \u2192\n        Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, max (u + 1) v} U (V i))) \u2192\n    \u2200 (W : Fin N \u2192 FDRep.{u, v} k G),\n      (\u2200 (i : Fin N), CategoryTheory.Simple.{u, max (u + 1) v} (W i)) \u2192\n        (\u2200 (i j : Fin N), Nonempty.{u + 1} (CategoryTheory.Iso.{u, max (u + 1) v} (W i) (W j)) \u2192 Eq.{1} i j) \u2192\n          Eq.{1} N n \u2192\n            \u2200 (U : FDRep.{u, v} k G),\n              CategoryTheory.Simple.{u, max (u + 1) v} U \u2192\n                Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, max (u + 1) v} U (W i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2717149561",
+      "temporary_id": "decl-018753"
+    }
+  ],
+  "module_temporary_id": "module-0770",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

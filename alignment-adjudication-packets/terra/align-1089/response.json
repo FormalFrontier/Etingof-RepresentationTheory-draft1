@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1089",
+  "associations": [
+    {
+      "association_id": "association:07f3ed67fe0d66912dbd",
+      "rationale": "The displayed equality supports the power-sum/Schur expansion, but the type does not visibly establish that the summation ranges over partitions with at most N parts.",
+      "role": "supporting"
+    }
+  ]
+}

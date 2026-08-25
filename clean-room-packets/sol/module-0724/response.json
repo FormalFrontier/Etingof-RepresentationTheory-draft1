@@ -1,0 +1,140 @@
+{
+  "declarations": [
+    {
+      "docstring": "Conjugation by an isomorphism gives a ring equivalence between the endomorphism rings of its source and target.",
+      "new_name": "CategoryTheory.Iso.endRingEquiv",
+      "temporary_id": "decl-000304"
+    },
+    {
+      "docstring": "The endomorphism ring equivalence induced by an isomorphism sends a morphism to its conjugate by that isomorphism.",
+      "new_name": "CategoryTheory.Iso.endRingEquiv_apply",
+      "temporary_id": "decl-000307"
+    },
+    {
+      "docstring": "An auxiliary type family attached to a finite family of objects and a family of natural-number multiplicities.",
+      "new_name": "auxiliaryTypeFamily",
+      "temporary_id": "decl-000899"
+    },
+    {
+      "docstring": "The auxiliary property is transported along an equivalence of preadditive categories with finite biproducts.",
+      "new_name": "mapEquivalence",
+      "temporary_id": "decl-005259"
+    },
+    {
+      "docstring": "An auxiliary hypothesis produces an object with the auxiliary property whose opposite endomorphism algebra is equivalent to the given algebra.",
+      "new_name": "existsObjectAlgEquivOppositeEnd",
+      "temporary_id": "decl-005312"
+    },
+    {
+      "docstring": "When both algebras are finitely generated as modules over the field, one auxiliary relation implies the other.",
+      "new_name": "ofModuleFinite",
+      "temporary_id": "decl-005314"
+    },
+    {
+      "docstring": "An auxiliary ring hypothesis produces an object with the auxiliary property whose opposite endomorphism ring is equivalent to the given ring.",
+      "new_name": "existsObjectRingEquivOppositeEnd",
+      "temporary_id": "decl-005676"
+    },
+    {
+      "docstring": "An auxiliary relation between rings implies an auxiliary relation between their algebra structures.",
+      "new_name": "toAlgebra",
+      "temporary_id": "decl-005679"
+    },
+    {
+      "docstring": "Given the stated module-category equivalences for auxiliary objects, an auxiliary ring relation yields another auxiliary relation.",
+      "new_name": "ofModuleCatEquivalence",
+      "temporary_id": "decl-005680"
+    },
+    {
+      "docstring": "The given algebra is equivalent to the opposite endomorphism algebra of the finitely generated module associated to its underlying ring.",
+      "new_name": "fgModuleOfRingAlgEquivOppositeEnd",
+      "temporary_id": "decl-017154"
+    },
+    {
+      "docstring": "A linear equivalence of preadditive categories induces an algebra equivalence between the endomorphism algebras of an object and its image.",
+      "new_name": "CategoryTheory.Equivalence.endAlgEquiv",
+      "temporary_id": "decl-018622"
+    },
+    {
+      "docstring": "An equivalence of preadditive categories induces a ring equivalence between the endomorphism rings of an object and its image.",
+      "new_name": "CategoryTheory.Equivalence.endRingEquiv",
+      "temporary_id": "decl-018626"
+    },
+    {
+      "docstring": "A finitely generated module object associated to a ring.",
+      "new_name": "fgModuleOfRing",
+      "temporary_id": "decl-019354"
+    },
+    {
+      "docstring": "The categorical endomorphism algebra of the finitely generated module associated to a ring is equivalent to its algebra of linear endomorphisms.",
+      "new_name": "fgModuleOfRingEndAlgEquivModuleEnd",
+      "temporary_id": "decl-019356"
+    },
+    {
+      "docstring": "The categorical endomorphism ring of the finitely generated module associated to a ring is equivalent to its ring of module endomorphisms.",
+      "new_name": "fgModuleOfRingEndRingEquivModuleEnd",
+      "temporary_id": "decl-019360"
+    },
+    {
+      "docstring": "The finitely generated module associated to a ring satisfies the auxiliary object property.",
+      "new_name": "fgModuleOfRingAuxiliary",
+      "temporary_id": "decl-019366"
+    },
+    {
+      "docstring": "An equivalence between categories of finitely generated modules yields an auxiliary object whose opposite endomorphism ring is equivalent to the source ring.",
+      "new_name": "existsAuxiliaryObjectRingEquivOfFGModuleCatEquivalence",
+      "temporary_id": "decl-019489"
+    },
+    {
+      "docstring": "The image of the regular finitely generated module under an equivalence satisfies two auxiliary properties and has the expected opposite endomorphism ring.",
+      "new_name": "auxiliaryPropertiesOfFGModuleCatEquivalence",
+      "temporary_id": "decl-019491"
+    },
+    {
+      "docstring": "A linear equivalence between categories of finitely generated modules yields an auxiliary object whose opposite endomorphism algebra is equivalent to the source algebra.",
+      "new_name": "existsAuxiliaryObjectAlgEquivOfLinearFGModuleCatEquivalence",
+      "temporary_id": "decl-019492"
+    },
+    {
+      "docstring": "When both algebras are finitely generated as modules over the field, the two auxiliary relations are equivalent.",
+      "new_name": "auxiliaryModuleFiniteIff",
+      "temporary_id": "decl-021016"
+    },
+    {
+      "docstring": "Under the stated projective and indecomposable hypotheses, an auxiliary ring relation is characterized by positive multiplicities and a ring equivalence to the associated auxiliary type.",
+      "new_name": "auxiliaryRingClassification",
+      "temporary_id": "decl-021674"
+    },
+    {
+      "docstring": "For algebras over a field, the two auxiliary relations are equivalent.",
+      "new_name": "auxiliaryAlgebraIffRing",
+      "temporary_id": "decl-021675"
+    },
+    {
+      "docstring": "Under the stated auxiliary and projectivity assumptions, the category is equivalent to finitely generated modules over the auxiliary type determined by positive multiplicities.",
+      "new_name": "equivalenceFGModuleCatAuxiliaryType",
+      "temporary_id": "decl-021725"
+    },
+    {
+      "docstring": "Under the stated projective and indecomposable classification assumptions, an equivalence from finitely generated modules is characterized by a ring equivalence to an auxiliary type with positive multiplicities.",
+      "new_name": "fgModuleCatEquivalenceIffExistsAuxiliaryRingEquiv",
+      "temporary_id": "decl-021727"
+    },
+    {
+      "docstring": "Auxiliary types arising from two positive multiplicity families have equivalent categories of finitely generated modules under the stated hypotheses.",
+      "new_name": "fgModuleCatAuxiliaryTypesEquivalent",
+      "temporary_id": "decl-021728"
+    },
+    {
+      "docstring": "Under the stated projective and indecomposable classification assumptions, an opposite endomorphism-ring presentation is equivalent to a presentation by an auxiliary type with positive multiplicities.",
+      "new_name": "existsAuxiliaryObjectRingEquivIffExistsAuxiliaryTypeRingEquiv",
+      "temporary_id": "decl-022843"
+    },
+    {
+      "docstring": "A ring is equivalent to the opposite endomorphism ring of its associated finitely generated module.",
+      "new_name": "fgModuleOfRingRingEquivOppositeEnd",
+      "temporary_id": "decl-022844"
+    }
+  ],
+  "module_name": "Algebra.Category.ModuleCat.EndomorphismEquivalences"
+}

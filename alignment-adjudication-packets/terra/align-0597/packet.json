@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b188f82192e3b7fcaa31",
+      "declaration": "Etingof.Coregular",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/52/claim_coverage/claims/7/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192 [inst : CommRing.{u_1} k] \u2192 [inst_1 : Ring.{u_2} A] \u2192 [Algebra.{u_1, u_2} k A] \u2192 Type (max u_2 u_1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_5_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.5.2",
+  "packet_id": "align-0597",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0597"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.5.2:claim-08",
+  "source_text": "The coregular representation has underlying vector space A*."
+}

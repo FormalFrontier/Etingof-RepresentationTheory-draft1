@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1137",
+  "associations": [
+    {
+      "association_id": "association:198d23e1c231e435647b",
+      "role": "primary",
+      "rationale": "Under the partition-length bound, the formal type identifies the formal character of the Schur module with the corresponding Schur polynomial, directly stating the claimed character formula on that branch."
+    }
+  ]
+}

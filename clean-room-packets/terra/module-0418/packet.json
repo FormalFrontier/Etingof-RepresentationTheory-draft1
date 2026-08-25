@@ -1,0 +1,132 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    [inst : CommSemiring.{u_1} k] \u2192\n      [inst_1 : Monoid.{u_2} G] \u2192\n        {V : Type u_3} \u2192\n          {W : Type u_4} \u2192\n            [inst_2 : AddCommMonoid.{u_3} V] \u2192\n              [inst_3 : Module.{u_1, u_3} k V] \u2192\n                [inst_4 : AddCommMonoid.{u_4} W] \u2192\n                  [inst_5 : Module.{u_1, u_4} k W] \u2192\n                    {\u03c1 : Representation.{u_1, u_2, u_3} k G V} \u2192\n                      {\u03c3 : Representation.{u_1, u_2, u_4} k G W} \u2192\n                        (f : LinearEquiv.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} k) V W) \u2192\n                          (\u2200 (g : G) (x : V),\n                              Eq.{u_4 + 1}\n                                (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f\n                                  (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n                                    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g) x))\n                                (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1}\n                                  (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} \u03c3 g)\n                                  (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f x))) \u2192\n                            LinearEquiv.{max u_1 u_2, max u_1 u_2, u_3, u_4}\n                              (RingHom.id.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G))\n                              (Representation.asModule.{u_1, u_2, u_3} \u03c1) (Representation.asModule.{u_1, u_2, u_4} \u03c3)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4270679731",
+      "temporary_id": "decl-025525"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : CommSemiring.{u_1} k] [inst_1 : Monoid.{u_2} G] {V : Type u_3} {W : Type u_4}\n  [inst_2 : AddCommMonoid.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] [inst_4 : AddCommMonoid.{u_4} W]\n  [inst_5 : Module.{u_1, u_4} k W] {\u03c1 : Representation.{u_1, u_2, u_3} k G V} {\u03c3 : Representation.{u_1, u_2, u_4} k G W}\n  (f : LinearEquiv.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} k) V W)\n  (hf :\n    \u2200 (g : G) (x : V),\n      Eq.{u_4 + 1}\n        (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f\n          (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g) x))\n        (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1} (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} \u03c3 g)\n          (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f x)))\n  (x : Representation.asModule.{u_1, u_2, u_3} \u03c1),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1}\n      (decl-025525.{u_1, u_2, u_3, u_4} f hf) x)\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025525"
+      ],
+      "structural_type_hash": "428592995",
+      "temporary_id": "decl-025531"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    [inst : CommSemiring.{u_1} k] \u2192\n      [inst_1 : Monoid.{u_2} G] \u2192\n        {V : Type u_3} \u2192\n          {W : Type u_4} \u2192\n            [inst_2 : AddCommMonoid.{u_3} V] \u2192\n              [inst_3 : Module.{u_1, u_3} k V] \u2192\n                [inst_4 : AddCommMonoid.{u_4} W] \u2192\n                  [inst_5 : Module.{u_1, u_4} k W] \u2192\n                    {\u03c1 : Representation.{u_1, u_2, u_3} k G V} \u2192\n                      {\u03c3 : Representation.{u_1, u_2, u_4} k G W} \u2192\n                        (f : LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} k) V W) \u2192\n                          (\u2200 (g : G) (x : V),\n                              Eq.{u_4 + 1}\n                                (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f\n                                  (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n                                    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g) x))\n                                (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1}\n                                  (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} \u03c3 g)\n                                  (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f x))) \u2192\n                            LinearMap.{max u_1 u_2, max u_1 u_2, u_3, u_4}\n                              (RingHom.id.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G))\n                              (Representation.asModule.{u_1, u_2, u_3} \u03c1) (Representation.asModule.{u_1, u_2, u_4} \u03c3)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1219217692",
+      "temporary_id": "decl-025532"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : CommSemiring.{u_1} k] [inst_1 : Monoid.{u_2} G] {V : Type u_3} {W : Type u_4}\n  [inst_2 : AddCommMonoid.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] [inst_4 : AddCommMonoid.{u_4} W]\n  [inst_5 : Module.{u_1, u_4} k W] {\u03c1 : Representation.{u_1, u_2, u_3} k G V} {\u03c3 : Representation.{u_1, u_2, u_4} k G W}\n  (f : LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} k) V W)\n  (hf :\n    \u2200 (g : G) (x : V),\n      Eq.{u_4 + 1}\n        (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f\n          (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g) x))\n        (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1} (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} \u03c3 g)\n          (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f x)))\n  (x : Representation.asModule.{u_1, u_2, u_3} \u03c1),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1}\n      (decl-025532.{u_1, u_2, u_3, u_4} f hf) x)\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025532"
+      ],
+      "structural_type_hash": "4075974711",
+      "temporary_id": "decl-025536"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    [inst : CommSemiring.{u_1} k] \u2192\n      [inst_1 : Monoid.{u_2} G] \u2192\n        {\u03b9 : Type u_3} \u2192\n          {V : \u03b9 \u2192 Type u_4} \u2192\n            [inst_2 : (i : \u03b9) \u2192 AddCommMonoid.{u_4} (V i)] \u2192\n              [inst_3 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (V i)] \u2192\n                (\u03c1s : (i : \u03b9) \u2192 Representation.{u_1, u_2, u_4} k G (V i)) \u2192\n                  LinearEquiv.{max u_1 u_2, max u_1 u_2, max u_4 u_3, max u_4 u_3}\n                    (RingHom.id.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G))\n                    (Representation.asModule.{u_1, u_2, max u_4 u_3} (Representation.directSum.{u_1, u_2, u_3, u_4} \u03c1s))\n                    (DirectSum.{u_3, u_4} \u03b9 fun i => Representation.asModule.{u_1, u_2, u_4} (\u03c1s i))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "826609101",
+      "temporary_id": "decl-025537"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    {S : Type u_3} \u2192\n      {W : Type u_4} \u2192\n        [inst : CommRing.{u_1} k] \u2192\n          [inst_1 : Monoid.{u_2} G] \u2192\n            [inst_2 : AddCommGroup.{u_3} S] \u2192\n              [inst_3 : Module.{u_1, u_3} k S] \u2192\n                [inst_4 : AddCommGroup.{u_4} W] \u2192\n                  [inst_5 : Module.{u_1, u_4} k W] \u2192\n                    {\u03b2 : Type u_5} \u2192\n                      [Fintype.{u_5} \u03b2] \u2192\n                        [DecidableEq.{u_5 + 1} \u03b2] \u2192\n                          Module.Basis.{u_5, u_1, u_3} \u03b2 k S \u2192\n                            (\u03c3 : Representation.{u_1, u_2, u_4} k G W) \u2192\n                              LinearEquiv.{max u_1 u_2, max u_1 u_2, max u_3 u_4, max u_4 u_5}\n                                (RingHom.id.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G))\n                                (Representation.asModule.{u_1, u_2, max u_3 u_4}\n                                  (Representation.tprod.{u_1, u_2, u_3, u_4}\n                                    (Representation.trivial.{u_1, u_2, u_3} k G S) \u03c3))\n                                (DirectSum.{u_5, u_4} \u03b2 fun x => Representation.asModule.{u_1, u_2, u_4} \u03c3)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "667695904",
+      "temporary_id": "decl-025543"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    {S : Type u_3} \u2192\n      {W : Type u_4} \u2192\n        [inst : CommRing.{u_1} k] \u2192\n          [inst_1 : Monoid.{u_2} G] \u2192\n            [inst_2 : AddCommGroup.{u_3} S] \u2192\n              [inst_3 : Module.{u_1, u_3} k S] \u2192\n                [inst_4 : AddCommGroup.{u_4} W] \u2192\n                  [inst_5 : Module.{u_1, u_4} k W] \u2192\n                    {\u03b2 : Type u_5} \u2192\n                      [Fintype.{u_5} \u03b2] \u2192\n                        [DecidableEq.{u_5 + 1} \u03b2] \u2192\n                          Module.Basis.{u_5, u_1, u_3} \u03b2 k S \u2192\n                            (\u03c3 : Representation.{u_1, u_2, u_4} k G W) \u2192\n                              LinearEquiv.{max u_1 u_2, max u_1 u_2, max u_3 u_4, max u_4 u_5}\n                                (RingHom.id.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G))\n                                (Representation.asModule.{u_1, u_2, max u_3 u_4}\n                                  (Representation.tprod.{u_1, u_2, u_3, u_4}\n                                    (Representation.trivial.{u_1, u_2, u_3} k G S) \u03c3))\n                                (Representation.asModule.{u_1, u_2, max u_4 u_5}\n                                  (Representation.directSum.{u_1, u_2, u_5, u_4} fun x => \u03c3))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4277332997",
+      "temporary_id": "decl-025546"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {S : Type u_3} {W : Type u_4} [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_3} S]\n  [inst_2 : Module.{u_1, u_3} k S] [inst_3 : AddCommGroup.{u_4} W] [inst_4 : Module.{u_1, u_4} k W] {\u03b2 : Type u_5}\n  [inst_5 : Fintype.{u_5} \u03b2] [inst_6 : DecidableEq.{u_5 + 1} \u03b2] (b : Module.Basis.{u_5, u_1, u_3} \u03b2 k S) (s : S)\n  (w : W),\n  Eq.{max (u_4 + 1) (u_5 + 1)}\n    (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), max (u_4 + 1) (u_5 + 1), max (u_4 + 1) (u_5 + 1)}\n      (DirectSum.linearEquivFunOnFintype.{u_1, u_5, u_4} k \u03b2 fun x => W)\n      (DFunLike.coe.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), max (u_3 + 1) (u_4 + 1), max (u_4 + 1) (u_5 + 1)}\n        (decl-025571.{u_1, u_3, u_4, u_5} b) (TensorProduct.tmul.{u_1, u_3, u_4} k s w)))\n    fun i =>\n    HSMul.hSMul.{u_1, u_4, u_4}\n      (DFunLike.coe.{max (u_1 + 1) (u_5 + 1), u_5 + 1, u_1 + 1}\n        (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_5 + 1), u_3 + 1, max (u_1 + 1) (u_5 + 1)}\n          (Module.Basis.repr.{u_5, u_1, u_3} b) s)\n        i)\n      w",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025571"
+      ],
+      "structural_type_hash": "3492780614",
+      "temporary_id": "decl-025563"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : CommSemiring.{u_1} k] [inst_1 : Monoid.{u_2} G] {\u03b9 : Type u_3}\n  {V : \u03b9 \u2192 Type u_4} [inst_2 : (i : \u03b9) \u2192 AddCommMonoid.{u_4} (V i)] [inst_3 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (V i)]\n  (\u03c1s : (i : \u03b9) \u2192 Representation.{u_1, u_2, u_4} k G (V i)) (g : G) (t : k)\n  (y : DirectSum.{u_3, u_4} \u03b9 fun i => Representation.asModule.{u_1, u_2, u_4} (\u03c1s i)),\n  Eq.{max (u_3 + 1) (u_4 + 1)}\n    (HSMul.hSMul.{max u_1 u_2, max u_3 u_4, max u_3 u_4} (MonoidAlgebra.single.{u_1, u_2} g t) y)\n    (HSMul.hSMul.{u_1, max u_3 u_4, max u_3 u_4} t\n      (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1)}\n        (DirectSum.lmap.{u_1, u_3, u_4, u_4} fun i => DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} (\u03c1s i) g)\n        y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3003110046",
+      "temporary_id": "decl-025569"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {S : Type u_3} \u2192\n    {W : Type u_4} \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_3} S] \u2192\n          [inst_2 : Module.{u_1, u_3} k S] \u2192\n            [inst_3 : AddCommGroup.{u_4} W] \u2192\n              [inst_4 : Module.{u_1, u_4} k W] \u2192\n                {\u03b2 : Type u_5} \u2192\n                  [Fintype.{u_5} \u03b2] \u2192\n                    [DecidableEq.{u_5 + 1} \u03b2] \u2192\n                      Module.Basis.{u_5, u_1, u_3} \u03b2 k S \u2192\n                        LinearEquiv.{u_1, u_1, max u_4 u_3, max u_4 u_5} (RingHom.id.{u_1} k)\n                          (TensorProduct.{u_1, u_3, u_4} k S W) (DirectSum.{u_5, u_4} \u03b2 fun x => W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1137289531",
+      "temporary_id": "decl-025571"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} {S : Type u_3} {W : Type u_4} [inst : CommRing.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  [inst_2 : AddCommGroup.{u_3} S] [inst_3 : Module.{u_1, u_3} k S] [inst_4 : AddCommGroup.{u_4} W]\n  [inst_5 : Module.{u_1, u_4} k W] {\u03b2 : Type u_5} [inst_6 : Fintype.{u_5} \u03b2] [inst_7 : DecidableEq.{u_5 + 1} \u03b2]\n  (b : Module.Basis.{u_5, u_1, u_3} \u03b2 k S) (\u03c3 : Representation.{u_1, u_2, u_4} k G W) (g : G)\n  (x : TensorProduct.{u_1, u_3, u_4} k S W),\n  Eq.{max (u_4 + 1) (u_5 + 1)}\n    (DFunLike.coe.{max (max (u_3 + 1) (u_5 + 1)) (u_4 + 1), max (u_3 + 1) (u_4 + 1), max (u_5 + 1) (u_4 + 1)}\n      (decl-025571.{u_1, u_3, u_4, u_5} b)\n      (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1)}\n        (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), u_2 + 1, max (u_3 + 1) (u_4 + 1)}\n          (Representation.tprod.{u_1, u_2, u_3, u_4} (Representation.trivial.{u_1, u_2, u_3} k G S) \u03c3) g)\n        x))\n    (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), max (u_4 + 1) (u_5 + 1), max (u_4 + 1) (u_5 + 1)}\n      (DFunLike.coe.{max (max (u_2 + 1) (u_4 + 1)) (u_5 + 1), u_2 + 1, max (u_4 + 1) (u_5 + 1)}\n        (Representation.directSum.{u_1, u_2, u_5, u_4} fun x => \u03c3) g)\n      (DFunLike.coe.{max (max (u_3 + 1) (u_5 + 1)) (u_4 + 1), max (u_3 + 1) (u_4 + 1), max (u_5 + 1) (u_4 + 1)}\n        (decl-025571.{u_1, u_3, u_4, u_5} b) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025571"
+      ],
+      "structural_type_hash": "3993006909",
+      "temporary_id": "decl-025575"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {S : Type u_3} {W : Type u_4} [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_3} S]\n  [inst_2 : Module.{u_1, u_3} k S] [inst_3 : AddCommGroup.{u_4} W] [inst_4 : Module.{u_1, u_4} k W] {\u03b2 : Type u_5}\n  [inst_5 : Fintype.{u_5} \u03b2] [inst_6 : DecidableEq.{u_5 + 1} \u03b2] (b : Module.Basis.{u_5, u_1, u_3} \u03b2 k S) (s : S) (w : W)\n  (i : \u03b2),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (u_5 + 1) (u_4 + 1), u_5 + 1, u_4 + 1}\n      (DFunLike.coe.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), max (u_3 + 1) (u_4 + 1), max (u_4 + 1) (u_5 + 1)}\n        (decl-025571.{u_1, u_3, u_4, u_5} b) (TensorProduct.tmul.{u_1, u_3, u_4} k s w))\n      i)\n    (HSMul.hSMul.{u_1, u_4, u_4}\n      (DFunLike.coe.{max (u_1 + 1) (u_5 + 1), u_5 + 1, u_1 + 1}\n        (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_5 + 1), u_3 + 1, max (u_1 + 1) (u_5 + 1)}\n          (Module.Basis.repr.{u_5, u_1, u_3} b) s)\n        i)\n      w)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025571"
+      ],
+      "structural_type_hash": "1501911991",
+      "temporary_id": "decl-025576"
+    }
+  ],
+  "module_temporary_id": "module-0418",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

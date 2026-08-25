@@ -1,0 +1,87 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (M : ModuleCat.{u, u} (MulOpposite.{u} A)),\n  CategoryTheory.Functor.Additive.{u, u + 1, u, u + 1} (decl-023916.{u} A M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023916"
+      ],
+      "structural_type_hash": "669604007",
+      "temporary_id": "decl-020574"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    ModuleCat.{u, u} (MulOpposite.{u} A) \u2192\n      CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} A) AddCommGrpCat.{u}",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1556148070",
+      "temporary_id": "decl-023916"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    {N N' : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} N] \u2192\n        [inst_2 : Module.{u, u} A N] \u2192\n          [inst_3 : AddCommGroup.{u} N'] \u2192\n            [inst_4 : Module.{u, u} A N'] \u2192\n              LinearMap.{u, u, u, u} (RingHom.id.{u} A) N N' \u2192\n                Quiver.Hom.{u + 1, u + 1} (decl-024058.{u} A N) (decl-024058.{u} A N')",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024058"
+      ],
+      "structural_type_hash": "2509851407",
+      "temporary_id": "decl-024080"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    {N N' : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} N] \u2192\n        [inst_2 : Module.{u, u} A N] \u2192\n          [inst_3 : AddCommGroup.{u} N'] \u2192\n            [inst_4 : Module.{u, u} A N'] \u2192\n              LinearMap.{u, u, u, u} (RingHom.id.{u} A) N N' \u2192\n                (M : ModuleCat.{u, u} (MulOpposite.{u} A)) \u2192\n                  AddMonoidHom.{u, u} (decl-023968.{u} A N (ModuleCat.carrier.{u, u} M))\n                    (decl-023968.{u} A N' (ModuleCat.carrier.{u, u} M))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-023968"
+      ],
+      "structural_type_hash": "713063545",
+      "temporary_id": "decl-024086"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] {N N' : Type u} [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} A N]\n  [inst_3 : AddCommGroup.{u} N'] [inst_4 : Module.{u, u} A N'] (g : LinearMap.{u, u, u, u} (RingHom.id.{u} A) N N')\n  (M : ModuleCat.{u, u} (MulOpposite.{u} A)) (m : ModuleCat.carrier.{u, u} M) (n : N),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024086.{u} A g M)\n      (QuotientAddGroup.mk.{u} (TensorProduct.tmul.{0, u, u} Int m n)))\n    (QuotientAddGroup.mk.{u} (TensorProduct.tmul.{0, u, u} Int m (DFunLike.coe.{u + 1, u + 1, u + 1} g n)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017273",
+        "decl-023968",
+        "decl-024086"
+      ],
+      "structural_type_hash": "3234067391",
+      "temporary_id": "decl-024089"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    {N N' : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} N] \u2192\n        [inst_2 : Module.{u, u} A N] \u2192\n          [inst_3 : AddCommGroup.{u} N'] \u2192\n            [inst_4 : Module.{u, u} A N'] \u2192\n              LinearMap.{u, u, u, u} (RingHom.id.{u} A) N N' \u2192\n                (n : Nat) \u2192\n                  (M : ModuleCat.{u, u} (MulOpposite.{u} A)) \u2192\n                    Quiver.Hom.{u, u + 1} (decl-016764.{u} A N M n) (decl-016764.{u} A N' M n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764"
+      ],
+      "structural_type_hash": "1866155244",
+      "temporary_id": "decl-024231"
+    }
+  ],
+  "module_temporary_id": "module-0667",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

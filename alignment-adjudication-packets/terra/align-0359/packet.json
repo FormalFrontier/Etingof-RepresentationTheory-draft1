@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:22e5fc0ea16bfb8706e2",
+      "declaration": "Etingof.Representation.mul_smul_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/23/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} {V : Type u_2} [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  (a b : A) (v : V),\n  Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} (HMul.hMul.{u_1, u_1, u_1} a b) v)\n    (HSMul.hSMul.{u_1, u_2, u_2} a (HSMul.hSMul.{u_1, u_2, u_2} b v))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_1"
+    },
+    {
+      "association_id": "association:52046035c47ac180a144",
+      "declaration": "Etingof.Representation.right_smul_mul_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/23/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} {V : Type u_2} [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) V] (a b : A) (v : V),\n  Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} (MulOpposite.op.{u_1} (HMul.hMul.{u_1, u_1, u_1} a b)) v)\n    (HSMul.hSMul.{u_1, u_2, u_2} (MulOpposite.op.{u_1} b) (HSMul.hSMul.{u_1, u_2, u_2} (MulOpposite.op.{u_1} a) v))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.3.1",
+  "packet_id": "align-0359",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0359"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6ee452b9f75dcefd38d9",
+  "source_text": "The abbreviated left and right actions satisfy (ab)v = a(bv) and (va)b = v(ab)."
+}

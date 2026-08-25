@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Backmatter/ReferencesHistorical",
+    "kind": "bibliography",
+    "title": "References for historical interludes",
+    "node_id": "backmatter",
+    "order": 582,
+    "slug": "referenceshistorical",
+    "span": {
+      "start": {
+        "page": "221",
+        "line": 1
+      },
+      "end": {
+        "page": "225",
+        "line": 11
+      }
+    },
+    "source_sha256": "5d2028640de016f1c515639dde0d886ebff84f38ab75d03138c5c02e6151cd3e",
+    "features": {
+      "line_count": 119,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Backmatter.ReferencesHistorical",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

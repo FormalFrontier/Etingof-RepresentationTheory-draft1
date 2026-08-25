@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0791",
+  "associations": [
+    {
+      "association_id": "association:5ce54fbcac823c5f453d",
+      "role": "primary",
+      "rationale": "The formal type directly states that every McKay multiplicity satisfies mult W i j = mult W j i, exactly the asserted symmetry."
+    }
+  ]
+}

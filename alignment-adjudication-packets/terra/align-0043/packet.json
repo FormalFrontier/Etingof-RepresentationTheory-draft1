@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0fc116db8c7bb4227b25",
+      "declaration": "Etingof.Theorem4_10_2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/227/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k G : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [inst_4 : DecidableEq.{u + 1} G] [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))],\n  Exists.{1} fun r =>\n    Exists.{u + 1} fun P =>\n      And (\u2200 (j : Fin r), Irreducible.{u} (P j))\n        (And (\u2200 (i j : Fin r), Ne.{1} i j \u2192 Not (Associated.{u} (P i) (P j)))\n          (And\n            (Eq.{u + 1} (Etingof.FrobeniusDeterminant.{u, u} k G)\n              (Finset.prod.{0, u} Finset.univ.{0} fun j =>\n                HPow.hPow.{u, 0, u} (P j) (MvPolynomial.totalDegree.{u, u} (P j))))\n            (Eq.{1} r (Fintype.card.{u} (ConjClasses.{u} G)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Theorem4_10_2"
+    }
+  ],
+  "canonical_reference": "Chapter4/Discussion_proof_Theorem4.10.2",
+  "packet_id": "align-0043",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0043"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0c060f8fe40ae5782fca",
+  "source_text": "Each block determinant is irreducible and different blocks yield nonproportional factors."
+}

@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:721adb9c887e96660f8e",
+      "declaration": "Etingof.Problem4_12_11.scalarSub_finrank",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/240/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Module.finrank.{0, 0} Real (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem4_12_11.scalarSub x)) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_11"
+    },
+    {
+      "association_id": "association:74718454b9103651b45e",
+      "declaration": "Etingof.Problem4_12_11.symSub_eq_scalar_sup_tracelessSym",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/240/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And\n  (Eq.{1} (Max.max.{0} Etingof.Problem4_12_11.scalarSub Etingof.Problem4_12_11.tracelessSymSub)\n    Etingof.Problem4_12_11.symSub)\n  (Eq.{1} (Min.min.{0} Etingof.Problem4_12_11.scalarSub Etingof.Problem4_12_11.tracelessSymSub) Bot.bot.{0})",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_11"
+    },
+    {
+      "association_id": "association:e822ebba93513ff7842e",
+      "declaration": "Etingof.Problem4_12_11.tracelessSymSub_finrank",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/240/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1}\n  (Module.finrank.{0, 0} Real (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem4_12_11.tracelessSymSub x)) 5",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_11"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.11",
+  "packet_id": "align-0703",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0703"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.11:part_a_sym",
+  "source_text": "Part (a): identify S2(R3) with the trivial plus traceless-symmetric summands."
+}

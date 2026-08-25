@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:779ba78be641622ec117",
+      "declaration": "Etingof.Problem6_1_3_E7E8.det_cartan_E6",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/407/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Matrix.det.{0, 0} (Etingof.Problem6_1_3_E7E8.cartan Etingof.DynkinType.E6)) 3",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_E7_E8"
+    },
+    {
+      "association_id": "association:952962e4044c1960fde7",
+      "declaration": "Etingof.Problem6_1_3_E7E8.det_cartan_E7",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/407/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Matrix.det.{0, 0} (Etingof.Problem6_1_3_E7E8.cartan Etingof.DynkinType.E7)) 2",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_E7_E8"
+    },
+    {
+      "association_id": "association:74a23e62c391ccf343c1",
+      "declaration": "Etingof.Problem6_1_3_E7E8.det_cartan_E8",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/407/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Matrix.det.{0, 0} (Etingof.Problem6_1_3_E7E8.cartan Etingof.DynkinType.E8)) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_E7_E8"
+    },
+    {
+      "association_id": "association:65be61baf6fec468ddbd",
+      "declaration": "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_E",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/407/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And (Etingof.IsDynkinDiagram Etingof.DynkinType.E6.rank Etingof.DynkinType.E6.adj)\n  (And (Etingof.IsDynkinDiagram Etingof.DynkinType.E7.rank Etingof.DynkinType.E7.adj)\n    (Etingof.IsDynkinDiagram Etingof.DynkinType.E8.rank Etingof.DynkinType.E8.adj))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_E7_E8"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.3_continued_E7_E8",
+  "packet_id": "align-0780",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0780"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.1.3_continued_E7_E8:part_b",
+  "source_text": "Part (b): compute E6, E7, E8 determinants and prove positivity."
+}

@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:a245487902a78d351076",
+      "rationale": "The displayed type only presents IsCyclic as an opaque Prop-valued predicate and does not state its equivalence with admitting a cyclic vector.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0591"
+}

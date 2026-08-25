@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0206",
+  "associations": [
+    {
+      "association_id": "association:8ad8db4ad937788e9c62",
+      "role": "primary",
+      "rationale": "It directly derives invertibility of the group order in k from semisimplicity of k[G], the formal characteristic version of nondivisibility."
+    }
+  ]
+}

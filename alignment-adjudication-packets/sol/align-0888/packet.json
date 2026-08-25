@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9f2064e744c619bccaf9",
+      "declaration": "Etingof.tensorLieLeftAdjunction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/491/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          (V : Etingof.FDLieRep.{u} k L) \u2192\n            CategoryTheory.Adjunction.{u, u, u + 1, u + 1} (Etingof.tensorLieLeftFunctor.{u} (Etingof.lieDual.{u} V))\n              (Etingof.tensorLieLeftFunctor.{u} V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_6_3"
+    },
+    {
+      "association_id": "association:556a197263e4cc8c149f",
+      "declaration": "Etingof.tensorLieRightAdjunction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/491/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          (V : Etingof.FDLieRep.{u} k L) \u2192\n            CategoryTheory.Adjunction.{u, u, u + 1, u + 1} (Etingof.tensorLieLeftFunctor.{u} V)\n              (Etingof.tensorLieLeftFunctor.{u} (Etingof.lieDual.{u} V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_6_3"
+    },
+    {
+      "association_id": "association:86705783e50c6240da02",
+      "declaration": "Etingof.tensor_dual_adjunction_left",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/491/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  (G : Type v) \u2192\n    [inst : Field.{u} k] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (V : FDRep.{u, v} k G) \u2192\n          CategoryTheory.Adjunction.{u, u, max (u + 1) v, max (u + 1) v}\n            (CategoryTheory.MonoidalCategory.tensorLeft.{u, max (u + 1) v}\n              (CategoryTheory.HasRightDual.rightDual.{u, max (u + 1) v} V))\n            (CategoryTheory.MonoidalCategory.tensorLeft.{u, max (u + 1) v} V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_6_3"
+    },
+    {
+      "association_id": "association:6be242f79dba826a6e31",
+      "declaration": "Etingof.tensor_dual_adjunction_right",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/491/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  (G : Type v) \u2192\n    [inst : Field.{u} k] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (V : FDRep.{u, v} k G) \u2192\n          CategoryTheory.Adjunction.{u, u, max (u + 1) v, max (u + 1) v}\n            (CategoryTheory.MonoidalCategory.tensorLeft.{u, max (u + 1) v} V)\n            (CategoryTheory.MonoidalCategory.tensorLeft.{u, max (u + 1) v}\n              (CategoryTheory.HasRightDual.rightDual.{u, max (u + 1) v} V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_6_3"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.6.3",
+  "packet_id": "align-0888",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0888"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a1967e5ef7747c2d9452",
+  "source_text": "Tensoring by a finite-dimensional representation has tensoring by its dual as both adjoints."
+}

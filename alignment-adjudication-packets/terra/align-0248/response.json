@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0248",
+  "associations": [
+    {
+      "association_id": "association:a577feb9f0c24fca49a8",
+      "role": "supporting",
+      "rationale": "The displayed type only presents IsUnit as an opaque predicate from A to Prop; it does not expose the asserted left- and right-identity conditions."
+    }
+  ]
+}

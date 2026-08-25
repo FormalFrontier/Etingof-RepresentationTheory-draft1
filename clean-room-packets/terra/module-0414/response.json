@@ -1,0 +1,80 @@
+{
+  "module_name": "FiniteGroup.CharacterArithmetic",
+  "declarations": [
+    {
+      "temporary_id": "decl-015409",
+      "new_name": "character_pairing_product_not_rat_between_zero_one",
+      "docstring": "The product of character values paired with inverse group elements cannot be a rational number strictly between zero and one."
+    },
+    {
+      "temporary_id": "decl-015410",
+      "new_name": "character_eq_sum_of_card_roots",
+      "docstring": "A finite group character value is a sum of complex roots whose orders divide the group cardinality."
+    },
+    {
+      "temporary_id": "decl-015411",
+      "new_name": "character_pairing_product_is_rat",
+      "docstring": "The product of character values over nonidentity elements, paired with their inverses, is rational."
+    },
+    {
+      "temporary_id": "decl-015412",
+      "new_name": "map_character_eq_character_pow",
+      "docstring": "A complex ring endomorphism that acts as a fixed power on the relevant roots sends character values to values on the corresponding group powers."
+    },
+    {
+      "temporary_id": "decl-015413",
+      "new_name": "eigenvalue_pow_eq_one_of_end_pow_eq_one",
+      "docstring": "Every eigenvalue of an endomorphism whose given power is the identity has that same power equal to one."
+    },
+    {
+      "temporary_id": "decl-015414",
+      "new_name": "isIntegral_star",
+      "docstring": "Complex conjugation preserves integrality over the integers."
+    },
+    {
+      "temporary_id": "decl-015415",
+      "new_name": "character_normSq_isIntegral",
+      "docstring": "The squared norm of every value of a finite group character is integral over the integers."
+    },
+    {
+      "temporary_id": "decl-015416",
+      "new_name": "character_normSq_product_isIntegral",
+      "docstring": "A finite product of squared norms of character values is integral over the integers."
+    },
+    {
+      "temporary_id": "decl-015417",
+      "new_name": "rat_not_between_zero_one_of_complex_isIntegral",
+      "docstring": "A rational number whose complex image is integral over the integers cannot lie strictly between zero and one."
+    },
+    {
+      "temporary_id": "decl-015419",
+      "new_name": "apply_pow_eq_smul_pow_of_mem_eigenspace",
+      "docstring": "Every natural power of an endomorphism acts on a vector in an eigenspace by the corresponding power of the eigenvalue."
+    },
+    {
+      "temporary_id": "decl-015420",
+      "new_name": "pow_bijective_of_card_coprime",
+      "docstring": "Raising elements of a group to an exponent coprime to its cardinality is bijective."
+    },
+    {
+      "temporary_id": "decl-015421",
+      "new_name": "pow_eq_one_iff_of_card_coprime",
+      "docstring": "For an exponent coprime to the group cardinality, an element has that power equal to one exactly when the element is one."
+    },
+    {
+      "temporary_id": "decl-015422",
+      "new_name": "prod_nonidentity_comp_pow_eq",
+      "docstring": "Composing a function with a coprime power map does not change its product over the nonidentity elements of a finite group."
+    },
+    {
+      "temporary_id": "decl-015425",
+      "new_name": "map_character_pairing_product_eq_of_card_coprime",
+      "docstring": "A ring endomorphism acting as a coprime power on the relevant roots fixes the character pairing product over nonidentity elements."
+    },
+    {
+      "temporary_id": "decl-015426",
+      "new_name": "trace_pow_eq_sum_eigenvalue_pow_of_end_pow_eq_one",
+      "docstring": "For a finite-dimensional endomorphism of finite order, the trace of each power is the sum of eigenvalue powers weighted by eigenspace dimensions."
+    }
+  ]
+}

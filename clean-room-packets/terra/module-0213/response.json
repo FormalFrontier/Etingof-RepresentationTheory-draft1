@@ -1,0 +1,25 @@
+{
+  "module_name": "GroupTheory.ConjugacyClassCardinalityBounds",
+  "declarations": [
+    {
+      "temporary_id": "decl-021699",
+      "new_name": "auxiliaryCard_le_card_conjClasses",
+      "docstring": "The cardinality of an auxiliary type is bounded by the number of conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-021700",
+      "new_name": "auxiliaryCard_le_card_conjClasses_algClosed",
+      "docstring": "Over an algebraically closed field, the cardinality of an auxiliary type is bounded by the conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-021701",
+      "new_name": "auxiliaryCard_le_auxiliaryCard_of_algebra",
+      "docstring": "An algebra extension gives a cardinality bound between the associated auxiliary types."
+    },
+    {
+      "temporary_id": "decl-024278",
+      "new_name": "auxiliaryFamily_linearIndependent",
+      "docstring": "The maps associated to an auxiliary family are linearly independent."
+    }
+  ]
+}

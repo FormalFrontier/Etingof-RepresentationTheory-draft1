@@ -1,0 +1,124 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {K : Type u_1} {A : Type u_2} {V : Type u_3} {L : Type u_4} [inst : Field.{u_1} K] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} K A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} K V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} K A V] [inst_7 : Field.{u_4} L]\n  [inst_8 : Algebra.{u_1, u_4} K L] [FiniteDimensional.{u_1, u_4} K L],\n  Nonempty.{max (u_3 + 1) ((max u_3 u_4) + 1)}\n    (LinearEquiv.{u_2, u_2, max u_3 u_4, u_3} (RingHom.id.{u_2} A) (TensorProduct.{u_1, u_4, u_3} K L V)\n      (Fin (Module.finrank.{u_1, u_4} K L) \u2192 V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009430"
+      ],
+      "structural_type_hash": "1363136305",
+      "temporary_id": "decl-009428"
+    },
+    {
+      "formal_type": "{K : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      {L : Type u_4} \u2192\n        [inst : Field.{u_1} K] \u2192\n          [inst_1 : Ring.{u_2} A] \u2192\n            [inst_2 : Algebra.{u_1, u_2} K A] \u2192\n              [inst_3 : AddCommGroup.{u_3} V] \u2192\n                [inst_4 : Module.{u_1, u_3} K V] \u2192\n                  [inst_5 : Module.{u_2, u_3} A V] \u2192\n                    [IsScalarTower.{u_1, u_2, u_3} K A V] \u2192\n                      [inst_7 : Field.{u_4} L] \u2192\n                        [inst_8 : Algebra.{u_1, u_4} K L] \u2192\n                          Module.{u_2, max u_3 u_4} A (TensorProduct.{u_1, u_4, u_3} K L V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3046375708",
+      "temporary_id": "decl-009430"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u_1} {A : Type u_2} {V : Type u_3} {L : Type u_4} [inst : Field.{u_1} K] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} K A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} K V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} K A V] [inst_7 : Field.{u_4} L]\n  [inst_8 : Algebra.{u_1, u_4} K L] (a : A) (x : TensorProduct.{u_1, u_4, u_3} K L V),\n  Eq.{max (u_3 + 1) (u_4 + 1)} (HSMul.hSMul.{u_2, max u_3 u_4, max u_3 u_4} a x)\n    (HSMul.hSMul.{max u_2 u_4, max u_3 u_4, max u_3 u_4}\n      (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, max (u_2 + 1) (u_4 + 1)}\n        Algebra.TensorProduct.includeRight.{u_1, u_4, u_2} a)\n      x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009429",
+        "decl-009430"
+      ],
+      "structural_type_hash": "3804071748",
+      "temporary_id": "decl-009431"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u_1} {A : Type u_2} {V : Type u_3} {L : Type u_4} [inst : Field.{u_1} K] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} K A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} K V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} K A V] [inst_7 : Field.{u_4} L]\n  [inst_8 : Algebra.{u_1, u_4} K L] (a : A) (l : L) (v : V),\n  Eq.{max (u_3 + 1) (u_4 + 1)}\n    (HSMul.hSMul.{u_2, max u_3 u_4, max u_3 u_4} a (TensorProduct.tmul.{u_1, u_4, u_3} K l v))\n    (TensorProduct.tmul.{u_1, u_4, u_3} K l (HSMul.hSMul.{u_2, u_3, u_3} a v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009430"
+      ],
+      "structural_type_hash": "2436293417",
+      "temporary_id": "decl-009432"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u_1} {A : Type u_2} {V : Type u_3} {L : Type u_4} [inst : Field.{u_1} K] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} K A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} K V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} K A V] [inst_7 : Field.{u_4} L]\n  [inst_8 : Algebra.{u_1, u_4} K L] (y : TensorProduct.{u_1, u_4, u_2} K L A) (x : TensorProduct.{u_1, u_4, u_3} K L V),\n  Eq.{max (u_3 + 1) (u_4 + 1)} (HSMul.hSMul.{max u_2 u_4, max u_3 u_4, max u_3 u_4} y x)\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1)}\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (u_2 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1)}\n        decl-009469.{u_1, u_2, u_3, u_4} y)\n      x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009429",
+        "decl-009469"
+      ],
+      "structural_type_hash": "1954206878",
+      "temporary_id": "decl-009433"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u_1} {A : Type u_2} {V : Type u_3} {L : Type u_4} [inst : Field.{u_1} K] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} K A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} K V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} K A V] [inst_7 : Field.{u_4} L]\n  [inst_8 : Algebra.{u_1, u_4} K L] (a : A) (l : L) (v : V),\n  Eq.{max (u_3 + 1) (u_4 + 1)}\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1)}\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (u_2 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1)}\n        decl-009469.{u_1, u_2, u_3, u_4} (TensorProduct.tmul.{u_1, u_4, u_2} K 1 a))\n      (TensorProduct.tmul.{u_1, u_4, u_3} K l v))\n    (TensorProduct.tmul.{u_1, u_4, u_3} K l (HSMul.hSMul.{u_2, u_3, u_3} a v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009469"
+      ],
+      "structural_type_hash": "1819273692",
+      "temporary_id": "decl-009475"
+    },
+    {
+      "formal_type": "{K : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      {L : Type u_4} \u2192\n        [inst : Field.{u_1} K] \u2192\n          [inst_1 : Ring.{u_2} A] \u2192\n            [inst_2 : Algebra.{u_1, u_2} K A] \u2192\n              [inst_3 : AddCommGroup.{u_3} V] \u2192\n                [inst_4 : Module.{u_1, u_3} K V] \u2192\n                  [inst_5 : Module.{u_2, u_3} A V] \u2192\n                    [inst_6 : IsScalarTower.{u_1, u_2, u_3} K A V] \u2192\n                      [inst_7 : Field.{u_4} L] \u2192\n                        [inst_8 : Algebra.{u_1, u_4} K L] \u2192\n                          {n : Nat} \u2192\n                            Module.Basis.{0, u_1, u_4} (Fin n) K L \u2192\n                              LinearEquiv.{u_2, u_2, max u_3 u_4, u_3} (RingHom.id.{u_2} A)\n                                (TensorProduct.{u_1, u_4, u_3} K L V) (Fin n \u2192 V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009430"
+      ],
+      "structural_type_hash": "3335455086",
+      "temporary_id": "decl-009476"
+    },
+    {
+      "formal_type": "{K : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      {L : Type u_4} \u2192\n        [inst : Field.{u_1} K] \u2192\n          [inst_1 : Ring.{u_2} A] \u2192\n            [inst_2 : Algebra.{u_1, u_2} K A] \u2192\n              [inst_3 : AddCommGroup.{u_3} V] \u2192\n                [inst_4 : Module.{u_1, u_3} K V] \u2192\n                  [inst_5 : Module.{u_2, u_3} A V] \u2192\n                    [inst_6 : IsScalarTower.{u_1, u_2, u_3} K A V] \u2192\n                      [inst_7 : Field.{u_4} L] \u2192\n                        [inst_8 : Algebra.{u_1, u_4} K L] \u2192\n                          {n : Nat} \u2192\n                            Module.Basis.{0, u_1, u_4} (Fin n) K L \u2192\n                              LinearMap.{u_2, u_2, max u_3 u_4, u_3} (RingHom.id.{u_2} A)\n                                (TensorProduct.{u_1, u_4, u_3} K L V) (Fin n \u2192 V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009430"
+      ],
+      "structural_type_hash": "4265443833",
+      "temporary_id": "decl-009479"
+    },
+    {
+      "formal_type": "{K : Type u_1} \u2192\n  {V : Type u_3} \u2192\n    {L : Type u_4} \u2192\n      [inst : Field.{u_1} K] \u2192\n        [inst_1 : AddCommGroup.{u_3} V] \u2192\n          [inst_2 : Module.{u_1, u_3} K V] \u2192\n            [inst_3 : Field.{u_4} L] \u2192\n              [inst_4 : Algebra.{u_1, u_4} K L] \u2192\n                {n : Nat} \u2192\n                  Module.Basis.{0, u_1, u_4} (Fin n) K L \u2192\n                    LinearEquiv.{u_1, u_1, max u_3 u_4, u_3} (RingHom.id.{u_1} K) (TensorProduct.{u_1, u_4, u_3} K L V)\n                      (Fin n \u2192 V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3279838881",
+      "temporary_id": "decl-009482"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u_1} {V : Type u_3} {L : Type u_4} [inst : Field.{u_1} K] [inst_1 : AddCommGroup.{u_3} V]\n  [inst_2 : Module.{u_1, u_3} K V] [inst_3 : Field.{u_4} L] [inst_4 : Algebra.{u_1, u_4} K L] {n : Nat}\n  (b : Module.Basis.{0, u_1, u_4} (Fin n) K L) (l : L) (v : V),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{max (u_4 + 1) (u_3 + 1), max (u_4 + 1) (u_3 + 1), u_3 + 1}\n      (decl-009482.{u_1, u_3, u_4} b) (TensorProduct.tmul.{u_1, u_4, u_3} K l v))\n    fun i =>\n    HSMul.hSMul.{u_1, u_3, u_3}\n      (DFunLike.coe.{u_1 + 1, 1, u_1 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_4 + 1), u_4 + 1, u_1 + 1} (Module.Basis.repr.{0, u_1, u_4} b) l) i)\n      v",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009482"
+      ],
+      "structural_type_hash": "185555920",
+      "temporary_id": "decl-009488"
+    }
+  ],
+  "module_temporary_id": "module-0154",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

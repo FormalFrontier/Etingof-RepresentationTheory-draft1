@@ -1,0 +1,146 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{C : Type u} \u2192 [inst : CategoryTheory.Category.{v, u} C] \u2192 [CategoryTheory.Abelian.{v, u} C] \u2192 C \u2192 Prop",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1641162550",
+      "temporary_id": "decl-004727"
+    },
+    {
+      "formal_type": "(k : Type w) \u2192\n  [inst : Field.{w} k] \u2192\n    (C : Type u) \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : decl-005147.{u, v} C] \u2192 [CategoryTheory.Linear.{w, v, u} k C] \u2192 Prop",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "588115879",
+      "temporary_id": "decl-005167"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} {inst : Field.{w} k} {C : Type u} {inst_1 : CategoryTheory.Category.{v, u} C}\n  {inst_2 : decl-005147.{u, v} C} {inst_3 : CategoryTheory.Linear.{w, v, u} k C}\n  [self : decl-005167.{w, u, v} k C] (X : C),\n  CategoryTheory.Simple.{v, u} X \u2192 Nonempty.{max (w + 1) (v + 1)} (AlgEquiv.{w, v, w} k (CategoryTheory.End.{v, u} X) k)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005167",
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167"
+      ],
+      "structural_type_hash": "2933195145",
+      "temporary_id": "decl-005169"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [hCat : decl-005167.{w, u, v} k C] (X : C),\n  CategoryTheory.Simple.{v, u} X \u2192 FiniteDimensional.{w, v} k (Quiver.Hom.{v, u} X X)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005167",
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167"
+      ],
+      "structural_type_hash": "653545044",
+      "temporary_id": "decl-005170"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [hCat : decl-005167.{w, u, v} k C] (X Y : C),\n  FiniteDimensional.{w, v} k (Quiver.Hom.{v, u} X Y)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005167",
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167"
+      ],
+      "structural_type_hash": "3266091520",
+      "temporary_id": "decl-005171"
+    },
+    {
+      "formal_type": "\u2200 (k : Type w) {inst : Field.{w} k} {C : Type u} {inst_1 : CategoryTheory.Category.{v, u} C}\n  {inst_2 : decl-005147.{u, v} C} {inst_3 : CategoryTheory.Linear.{w, v, u} k C}\n  [self : decl-005167.{w, u, v} k C] (X : C), decl-004727.{u, v} X",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005167",
+      "project_type_dependencies": [
+        "decl-004727",
+        "decl-005147",
+        "decl-005164",
+        "decl-005167"
+      ],
+      "structural_type_hash": "808458265",
+      "temporary_id": "decl-005172"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : CategoryTheory.Abelian.{v, u} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (Y : C)\n  {S : CategoryTheory.ShortComplex.{v, u} C},\n  CategoryTheory.ShortComplex.ShortExact.{v, u} S \u2192\n    Function.Exact.{v, v, v}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (CategoryTheory.Linear.leftComp.{w, v, u} k Y (CategoryTheory.ShortComplex.g.{v, u} S)))\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (CategoryTheory.Linear.leftComp.{w, v, u} k Y (CategoryTheory.ShortComplex.f.{v, u} S)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3344896002",
+      "temporary_id": "decl-018739"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : CategoryTheory.Abelian.{v, u} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C] (X : C)\n  {S : CategoryTheory.ShortComplex.{v, u} C},\n  CategoryTheory.ShortComplex.ShortExact.{v, u} S \u2192\n    Function.Exact.{v, v, v}\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (CategoryTheory.Linear.rightComp.{w, v, u} k X (CategoryTheory.ShortComplex.f.{v, u} S)))\n      (DFunLike.coe.{v + 1, v + 1, v + 1}\n        (CategoryTheory.Linear.rightComp.{w, v, u} k X (CategoryTheory.ShortComplex.g.{v, u} S)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4069666736",
+      "temporary_id": "decl-018745"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : CategoryTheory.Abelian.{v, u} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C],\n  (\u2200 (Z : C), CategoryTheory.Simple.{v, u} Z \u2192 FiniteDimensional.{w, v} k (Quiver.Hom.{v, u} Z Z)) \u2192\n    (\u2200 (Z : C), decl-004727.{u, v} Z) \u2192\n      \u2200 (Y : C) {X : C}, decl-004727.{u, v} X \u2192 FiniteDimensional.{w, v} k (Quiver.Hom.{v, u} X Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004727"
+      ],
+      "structural_type_hash": "665965685",
+      "temporary_id": "decl-019396"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : CategoryTheory.Abelian.{v, u} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C],\n  (\u2200 (Z : C), CategoryTheory.Simple.{v, u} Z \u2192 FiniteDimensional.{w, v} k (Quiver.Hom.{v, u} Z Z)) \u2192\n    \u2200 {X Y : C},\n      CategoryTheory.Simple.{v, u} X \u2192\n        CategoryTheory.Simple.{v, u} Y \u2192 FiniteDimensional.{w, v} k (Quiver.Hom.{v, u} X Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "926426263",
+      "temporary_id": "decl-019397"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : CategoryTheory.Abelian.{v, u} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C],\n  (\u2200 (Z : C), CategoryTheory.Simple.{v, u} Z \u2192 FiniteDimensional.{w, v} k (Quiver.Hom.{v, u} Z Z)) \u2192\n    \u2200 {X : C},\n      CategoryTheory.Simple.{v, u} X \u2192\n        \u2200 {Y : C}, decl-004727.{u, v} Y \u2192 FiniteDimensional.{w, v} k (Quiver.Hom.{v, u} X Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004727"
+      ],
+      "structural_type_hash": "603384746",
+      "temporary_id": "decl-019398"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {A : Type u_1} {B : Type u_2} {D : Type u_3} [inst_1 : AddCommGroup.{u_1} A]\n  [inst_2 : AddCommGroup.{u_2} B] [inst_3 : AddCommGroup.{u_3} D] [inst_4 : Module.{w, u_1} k A]\n  [inst_5 : Module.{w, u_2} k B] [inst_6 : Module.{w, u_3} k D] {f : LinearMap.{w, w, u_1, u_2} (RingHom.id.{w} k) A B}\n  {g : LinearMap.{w, w, u_2, u_3} (RingHom.id.{w} k) B D},\n  Function.Exact.{u_1, u_2, u_3} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} f)\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} g) \u2192\n    \u2200 [FiniteDimensional.{w, u_1} k A] [FiniteDimensional.{w, u_3} k D], FiniteDimensional.{w, u_2} k B",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2217241704",
+      "temporary_id": "decl-019399"
+    }
+  ],
+  "module_temporary_id": "module-0722",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

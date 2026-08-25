@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9dd5e46688baa2f1835f",
+      "declaration": "Etingof.Theorem5_27_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/395/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_27_1"
+    },
+    {
+      "association_id": "association:f2fbbf3957196f12d430",
+      "declaration": "Etingof.inducedRepV_basepoint_independent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/395/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G A : Type} [inst : Group.{0} G] [inst_1 : CommGroup.{0} A] [inst_2 : Fintype.{0} G]\n  (\u03c6 : MonoidHom.{0, 0} G (MulAut.{0} A)) {\u03c7\u2081 \u03c7\u2082 : MonoidHom.{0, 0} A (Units.{0} Complex)} {g : G}\n  (hg : Eq.{1} (dualSmulAux\u271d \u03c6 g \u03c7\u2081) \u03c7\u2082)\n  (U : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (stabAux\u271d \u03c6 \u03c7\u2081) x)),\n  Nonempty.{1} (CategoryTheory.Iso.{0, 1} (inducedRepV\u271d \u03c6 \u03c7\u2082 (transportRep\u271d \u03c6 hg U)) (inducedRepV\u271d \u03c6 \u03c7\u2081 U))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_27_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_semidirect_products",
+  "packet_id": "align-1248",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1248"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Discussion_semidirect_products",
+  "source_text": "Let $G, A$ be groups and let $\\phi : G \\to \\operatorname{Aut}(A)$ be a homomorphism. For $a \\in A$, denote $\\phi(g)a$ by $g(a)$. The **semidirect product** $G \\ltimes A$ is defined to be the product $A \\times G$ with multiplication law\n\n$$(a_1, g_1)(a_2, g_2) = (a_1 g_1(a_2), g_1 g_2).$$\n\nClearly, $G$ and $A$ are subgroups of $G \\ltimes A$ in a natural way.\n\nWe would like to study irreducible complex representations of $G \\ltimes A$. For simplicity, let us do it when $A$ is abelian.\n\nIn this case, irreducible representations of $A$ are 1-dimensional and form the character group $A^\\vee$, which carries an action of $G$. Let $O$ be an orbit of this action, $x \\in O$ a chosen element, and $G_x$ the\nstabilizer of $x$ in $G$. Let $U$ be an irreducible representation of $G_x$. Then we define a representation $V_{(O,U)}$ of $G \\ltimes A$ as follows.\n\nAs a representation of $G$, we set\n\n$$\nV_{(O,x,U)} = \\operatorname{Ind}_{G_x}^G U = \\{f : G \\to U | f(hg) = hf(g), h \\in G_x\\}.\n$$\n\nNext, we introduce an additional action of $A$ on this space by $(af)(g) = x(g(a))f(g)$. Then it is easy to check that these two actions combine into an action of $G \\ltimes A$. Also, it is clear that this representation does not really depend on the choice of $x$, in the following sense. Let $x, y \\in O$ and $g \\in G$ be such that $gx = y$, and let $g(U)$ be the representation of $G_y$ obtained from the representation $U$ of $G_x$ by the action of $g$. Then $V_{(O,x,U)}$ is (naturally) isomorphic to $V_{(O,y,g(U))}$. Thus we will denote $V_{(O,x,U)}$ by $V_{(O,U)}$ (remembering, however, that $x$ has been fixed).\n\n"
+}

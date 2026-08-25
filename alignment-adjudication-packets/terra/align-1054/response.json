@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1054",
+  "associations": [
+    {
+      "association_id": "association:ae4a496843916ce301f2",
+      "rationale": "It establishes even-valuedness, one component of the combined positive-definite and even-valued claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:fc9d38882c1d040b150c",
+      "rationale": "It establishes positive definiteness, one component of the combined positive-definite and even-valued claim.",
+      "role": "supporting"
+    }
+  ]
+}

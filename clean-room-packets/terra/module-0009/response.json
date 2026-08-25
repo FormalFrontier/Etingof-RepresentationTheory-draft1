@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.AuxiliaryFieldCommRingType",
+  "declarations": [
+    {
+      "temporary_id": "decl-001315",
+      "new_name": "AuxiliaryFieldCommRingType",
+      "docstring": "An auxiliary type depending on a field and a commutative ring."
+    }
+  ]
+}

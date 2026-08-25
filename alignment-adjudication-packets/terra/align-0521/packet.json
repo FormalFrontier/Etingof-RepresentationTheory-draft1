@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e177fac28ee023068919",
+      "declaration": "Etingof.Problem2_13_1.irrational_arccos_third_div_pi",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/111/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_13_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.13.1",
+  "packet_id": "align-0521",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0521"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.13.1:claim-07",
+  "source_text": "The number arccos(1/3)/\u03c0 is irrational."
+}

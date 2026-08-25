@@ -1,0 +1,50 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (P : Type u) [inst : AddCommGroup.{u} P] [Finite.{u + 1} P],\n  (\u2200 (Q\u2081 Q\u2082 : Type u) [inst_2 : AddCommGroup.{u} Q\u2081] [Finite.{u + 1} Q\u2081] [inst_4 : AddCommGroup.{u} Q\u2082]\n      [Finite.{u + 1} Q\u2082] (f : AddMonoidHom.{u, u} Q\u2081 Q\u2082) (g : AddMonoidHom.{u, u} P Q\u2082),\n      Function.Surjective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} f) \u2192\n        Exists.{u + 1} fun h =>\n          \u2200 (x : P),\n            Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} f (DFunLike.coe.{u + 1, u + 1, u + 1} h x))\n              (DFunLike.coe.{u + 1, u + 1, u + 1} g x)) \u2192\n    Subsingleton.{u + 1} P",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "46342266",
+      "temporary_id": "decl-004103"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (P : Type u) [inst_1 : AddCommGroup.{u} P]\n  [inst_2 : Module.{u, u} (Polynomial.{u} k) P] [inst_3 : Module.{u, u} k P]\n  [IsScalarTower.{u, u, u} k (Polynomial.{u} k) P] [FiniteDimensional.{u, u} k P],\n  (\u2200 (Q\u2081 Q\u2082 : Type u) [inst_6 : AddCommGroup.{u} Q\u2081] [inst_7 : Module.{u, u} (Polynomial.{u} k) Q\u2081]\n      [inst_8 : Module.{u, u} k Q\u2081] [IsScalarTower.{u, u, u} k (Polynomial.{u} k) Q\u2081] [FiniteDimensional.{u, u} k Q\u2081]\n      [inst_11 : AddCommGroup.{u} Q\u2082] [inst_12 : Module.{u, u} (Polynomial.{u} k) Q\u2082] [inst_13 : Module.{u, u} k Q\u2082]\n      [IsScalarTower.{u, u, u} k (Polynomial.{u} k) Q\u2082] [FiniteDimensional.{u, u} k Q\u2082]\n      (f : LinearMap.{u, u, u, u} (RingHom.id.{u} (Polynomial.{u} k)) Q\u2081 Q\u2082)\n      (g : LinearMap.{u, u, u, u} (RingHom.id.{u} (Polynomial.{u} k)) P Q\u2082),\n      Function.Surjective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} f) \u2192\n        Exists.{u + 1} fun h =>\n          \u2200 (x : P),\n            Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} f (DFunLike.coe.{u + 1, u + 1, u + 1} h x))\n              (DFunLike.coe.{u + 1, u + 1, u + 1} g x)) \u2192\n    Subsingleton.{u + 1} P",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "852263775",
+      "temporary_id": "decl-004107"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : CommRing.{u} A] [Algebra.FiniteType.{0, u} Int A] (M : Type u) [inst_2 : AddCommGroup.{u} M]\n  [inst_3 : Module.{u, u} A M] [Module.Finite.{u, u} A M],\n  Exists.{1} fun n => Exists.{u + 1} fun f => Function.Surjective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2204710624",
+      "temporary_id": "decl-004110"
+    }
+  ],
+  "module_temporary_id": "module-0629",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

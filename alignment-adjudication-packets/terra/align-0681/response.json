@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0681",
+  "associations": [
+    {
+      "association_id": "association:186305a92c87b2d8dcd3",
+      "rationale": "The formal type gives a dimension-two indecomposability alternative involving two distinct vertices and a bijective arrow map, but it does not state preservation of supported vertices under isomorphism or the full parameter classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8c8269213d2845d32635",
+      "rationale": "The declaration name suggests a vertex-preservation lemma, but the formal type is opaque because pretty-printing failed, so the packet does not expose a direct statement of the source claim.",
+      "role": "supporting"
+    }
+  ]
+}

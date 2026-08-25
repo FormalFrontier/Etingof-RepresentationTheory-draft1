@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0622",
+  "associations": [
+    {
+      "association_id": "association:a185280d65dfc9422155",
+      "rationale": "The formal type states the first printed relation, but it does not itself state the zero-product relation at all other vertices, so it covers only one component of the complete claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:532ddd3cf2082d3f22df",
+      "rationale": "The formal type states the zero-product relation at vertices distinct from the target, but it does not itself state the identity relation at the target, so it covers only one component of the complete claim.",
+      "role": "supporting"
+    }
+  ]
+}

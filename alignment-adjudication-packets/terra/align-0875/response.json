@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:10dbaf35509fdde305de",
+      "rationale": "The type gives Hom subsingletonness only for blocks whose simple representatives satisfy the additional displayed Not AreLinked condition; it does not directly state vanishing for every pair of different blocks.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0875"
+}

@@ -1,0 +1,18 @@
+{
+  "module_name": "LinearAlgebra.KernelDimensionProfiles",
+  "declarations": [
+    {"temporary_id": "decl-015614", "new_name": "auxiliaryMultisetFunction1", "docstring": "A first auxiliary natural-valued function of a multiset and a natural number."},
+    {"temporary_id": "decl-015616", "new_name": "auxiliaryMultisetFunction1_cons", "docstring": "On a cons, the first auxiliary function adds one exactly when the parameter is at most the new entry."},
+    {"temporary_id": "decl-015617", "new_name": "auxiliaryMultisetFunction1_eq_count_add_succ", "docstring": "The first auxiliary function at a value equals its multiplicity plus the function at the successor."},
+    {"temporary_id": "decl-015625", "new_name": "auxiliaryMultisetFunction2", "docstring": "A second auxiliary natural-valued function of a multiset and a natural number."},
+    {"temporary_id": "decl-015627", "new_name": "auxiliaryMultisetFunction2_cons", "docstring": "On a cons, the second auxiliary function adds the minimum of the parameter and the new entry."},
+    {"temporary_id": "decl-015628", "new_name": "auxiliaryMultisetFunction2_succ", "docstring": "At a successor, the second auxiliary function adds the first auxiliary function at that successor."},
+    {"temporary_id": "decl-015939", "new_name": "piKernelLinearEquiv", "docstring": "Identifies the kernel of a pointwise family map with the dependent product of its component kernels."},
+    {"temporary_id": "decl-016008", "new_name": "multiset_eq_of_auxiliaryMultisetFunction2_eq", "docstring": "Two multisets not containing zero are equal when the second auxiliary function agrees at every natural number."},
+    {"temporary_id": "decl-016017", "new_name": "finrank_piMap_kernel", "docstring": "The rank of the kernel of a finite pointwise family is the sum of the ranks of the component kernels."},
+    {"temporary_id": "decl-016018", "new_name": "piMap_mul", "docstring": "Multiplication of pointwise families of endomorphisms is computed componentwise."},
+    {"temporary_id": "decl-016019", "new_name": "piMap_pow", "docstring": "Powers of a pointwise family of endomorphisms are computed componentwise."},
+    {"temporary_id": "decl-016020", "new_name": "finrank_piMap_pow_kernel", "docstring": "The rank of the kernel of a power of a finite pointwise family is the sum of the corresponding component-kernel ranks."},
+    {"temporary_id": "decl-016021", "new_name": "finrank_piMap_auxiliary_pow_kernel", "docstring": "For the displayed auxiliary component family, the kernel rank of a power is the sum of `min k (n i)` over the finite index type."}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0473",
+  "associations": [
+    {
+      "association_id": "association:96c2d84f9c7f6d11d831",
+      "role": "primary",
+      "rationale": "Under the Artinian and Noetherian hypotheses expressing finite length, the theorem directly produces finitely many indecomposable submodules whose supremum is the whole module and which are independent."
+    }
+  ]
+}

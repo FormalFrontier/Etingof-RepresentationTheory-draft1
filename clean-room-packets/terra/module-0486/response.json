@@ -1,0 +1,50 @@
+{
+  "module_name": "AuxiliaryPartitionDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-017038",
+      "new_name": "auxiliaryFamily",
+      "docstring": "An auxiliary type indexed by a natural number and two partitions of that number."
+    },
+    {
+      "temporary_id": "decl-017039",
+      "new_name": "auxiliarySubmodule",
+      "docstring": "An auxiliary partition-indexed submodule of the displayed module."
+    },
+    {
+      "temporary_id": "decl-017041",
+      "new_name": "auxiliaryNatValue",
+      "docstring": "An auxiliary natural-number value associated with a pair of partitions."
+    },
+    {
+      "temporary_id": "decl-024602",
+      "new_name": "auxiliaryFamily_subsingleton_of_not_relation",
+      "docstring": "When the displayed relation between two partitions fails, the corresponding auxiliary type is a subsingleton."
+    },
+    {
+      "temporary_id": "decl-024603",
+      "new_name": "auxiliaryDirectSumLinearEquiv",
+      "docstring": "An auxiliary linear equivalence from the displayed module to a direct sum indexed by partitions."
+    },
+    {
+      "temporary_id": "decl-024607",
+      "new_name": "auxiliaryDiagonalLinearEquiv",
+      "docstring": "An auxiliary linear equivalence between a diagonal component and the displayed submodule."
+    },
+    {
+      "temporary_id": "decl-024624",
+      "new_name": "auxiliarySubmoduleLinearEquiv",
+      "docstring": "An auxiliary linear equivalence between the displayed submodule and the corresponding partition-indexed type."
+    },
+    {
+      "temporary_id": "decl-024636",
+      "new_name": "auxiliaryNatValue_self",
+      "docstring": "The auxiliary natural-number value of a partition paired with itself is one."
+    },
+    {
+      "temporary_id": "decl-024643",
+      "new_name": "auxiliaryNatValue_eq_zero_of_not_relation",
+      "docstring": "The auxiliary natural-number value is zero when the displayed relation between the partitions fails."
+    }
+  ]
+}

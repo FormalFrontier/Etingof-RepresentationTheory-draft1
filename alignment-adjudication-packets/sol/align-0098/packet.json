@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f4cf0a56b2c7c60b3b2e",
+      "declaration": "Etingof.QuiverArrow",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/63/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(Q : Type u_1) \u2192 [Quiver.{u_2, u_1} Q] \u2192 Type (max u_2 u_1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_notation"
+    },
+    {
+      "association_id": "association:87d9720a2843d9d2c124",
+      "declaration": "Etingof.QuiverArrow.hom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/63/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{Q : Type u_1} \u2192\n  [inst : Quiver.{u_2, u_1} Q] \u2192\n    (h : Etingof.QuiverArrow.{u_1, u_2} Q) \u2192\n      Quiver.Hom.{u_2, u_1} (Etingof.QuiverArrow.src.{u_1, u_2} h) (Etingof.QuiverArrow.tgt.{u_1, u_2} h)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_notation"
+    },
+    {
+      "association_id": "association:0648f6ef5be7c2dff9e6",
+      "declaration": "Etingof.QuiverArrow.src",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/63/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{Q : Type u_1} \u2192 [inst : Quiver.{u_2, u_1} Q] \u2192 Etingof.QuiverArrow.{u_1, u_2} Q \u2192 Q",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_notation"
+    },
+    {
+      "association_id": "association:81d8842feec9095d803a",
+      "declaration": "Etingof.QuiverArrow.tgt",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/63/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{Q : Type u_1} \u2192 [inst : Quiver.{u_2, u_1} Q] \u2192 Etingof.QuiverArrow.{u_1, u_2} Q \u2192 Q",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_notation"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_quiver_notation",
+  "packet_id": "align-0098",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0098"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:1f0be3be8302998ac201",
+  "source_text": "The vertex set is denoted I, the total edge set E, and every edge h has a source h' and target h''."
+}

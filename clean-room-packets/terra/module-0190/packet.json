@@ -1,0 +1,34 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [CharZero.{u} k] [inst_3 : Group.{u} G]\n  [inst_4 : Fintype.{u} G] [inst_5 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (V : FDRep.{u, u} k G),\n  Iff (CategoryTheory.Simple.{u, u + 1} V)\n    (Eq.{u + 1}\n      (HSMul.hSMul.{u, u, u} (Invertible.invOf.{u} (Nat.cast.{u} (Fintype.card.{u} G)))\n        (Finset.sum.{u, u} Finset.univ.{u} fun g =>\n          HMul.hMul.{u, u, u} (FDRep.character.{u, u} V g) (FDRep.character.{u, u} V (Inv.inv.{u} g))))\n      1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2086510997",
+      "temporary_id": "decl-001831"
+    }
+  ],
+  "module_temporary_id": "module-0190",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

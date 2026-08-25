@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0697",
+  "associations": [
+    {
+      "association_id": "association:ca9d3cdb412859e12725",
+      "rationale": "The type states only the dimension-two component; it does not itself state that the subspace is invariant and irreducible, so it does not state the complete claimed representation model.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:221b64c30635965f9468",
+      "rationale": "The type states only invariance under the right-regular action; it does not itself state the dimension-two and irreducibility components of the complete claimed representation model.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:549df858886f8864195f",
+      "rationale": "The type states only the irreducibility component for invariant submodules; it does not itself state the dimension-two and right-regular-subrepresentation components of the complete claimed model.",
+      "role": "supporting"
+    }
+  ]
+}

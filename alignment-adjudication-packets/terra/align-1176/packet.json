@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d244715d202718eae0da",
+      "declaration": "Etingof.IsAlgebraicCoefficientFamily",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/370/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (n : Nat) \u2192\n      {Y : Type u_2} \u2192\n        [inst_1 : AddCommGroup.{u_2} Y] \u2192\n          [inst_2 : Module.{u_1, u_2} k Y] \u2192\n            [Module.Finite.{u_1, u_2} k Y] \u2192\n              (Matrix.GeneralLinearGroup.{0, u_1} (Fin n) k \u2192 LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} k) Y Y) \u2192\n                Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_23_1"
+    },
+    {
+      "association_id": "association:dfcbbe32bb30e348ae1f",
+      "declaration": "Etingof.exists_algebraicCoefficientFamily_not_representation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/370/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (n : Nat) {Y : Type u_2} [inst_1 : AddCommGroup.{u_2} Y]\n  [inst_2 : Module.{u_1, u_2} k Y] [inst_3 : Module.Finite.{u_1, u_2} k Y] [Nontrivial.{u_2} Y],\n  Exists.{max (u_1 + 1) (u_2 + 1)} fun \u03c1 =>\n    And (Etingof.IsAlgebraicCoefficientFamily.{u_1, u_2} n \u03c1) (Ne.{u_2 + 1} (\u03c1 1) LinearMap.id.{u_1, u_2})",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_23_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Definition5.23.1",
+  "packet_id": "align-1176",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1176"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f4e108161a873e59bf11",
+  "source_text": "Coefficient regularity alone is distinguished from the representation laws."
+}

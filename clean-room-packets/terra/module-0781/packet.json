@@ -1,0 +1,252 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004869"
+      ],
+      "structural_type_hash": "3855045890",
+      "temporary_id": "decl-004835"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    (H : Subgroup.{0} G) \u2192\n      MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex) \u2192\n        (s : G) \u2192\n          Membership.mem.{0, 0} (Subgroup.normalizer.{0} (SetLike.coe.{0, 0} H)) s \u2192\n            MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1745489921",
+      "temporary_id": "decl-004836"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    (H : Subgroup.{0} G) \u2192\n      (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) \u2192\n        (s : G) \u2192\n          (hs : Membership.mem.{0, 0} (Subgroup.normalizer.{0} (SetLike.coe.{0, 0} H)) s) \u2192\n            LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n              (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004909 H lam) x)\n              (Subtype.{1} fun x =>\n                Membership.mem.{0, 0}\n                  (decl-004909 H (decl-004836 H lam s hs)) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004836",
+        "decl-004909"
+      ],
+      "structural_type_hash": "3860021197",
+      "temporary_id": "decl-004849"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (H : Subgroup.{0} G)\n  (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) (s : G)\n  (hs : Membership.mem.{0, 0} (Subgroup.normalizer.{0} (SetLike.coe.{0, 0} H)) s)\n  (f : Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004909 H lam) x) (g : G),\n  Eq.{1} (Subtype.val.{1} (DFunLike.coe.{1, 1, 1} (decl-004849 H lam s hs) f) g)\n    (Subtype.val.{1} f (HMul.hMul.{0, 0, 0} s g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004836",
+        "decl-004849",
+        "decl-004909"
+      ],
+      "structural_type_hash": "2993136179",
+      "temporary_id": "decl-004860"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (H : Subgroup.{0} G)\n  (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) [inst_1 : Fintype.{0} G]\n  [inst_2 : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1}\n    (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (decl-004869 H lam))))\n    (HDiv.hDiv.{0, 0, 0} (Fintype.card.{0} G) (Fintype.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004869"
+      ],
+      "structural_type_hash": "3041395835",
+      "temporary_id": "decl-004861"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    (H : Subgroup.{0} G) \u2192\n      MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex) \u2192\n        [Fintype.{0} G] \u2192 FDRep.{0, 0} Complex G",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2971678447",
+      "temporary_id": "decl-004869"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    (H : Subgroup.{0} G) \u2192\n      (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) \u2192\n        [inst_1 : Fintype.{0} G] \u2192\n          (s : G) \u2192\n            (hs : Membership.mem.{0, 0} (Subgroup.normalizer.{0} (SetLike.coe.{0, 0} H)) s) \u2192\n              CategoryTheory.Iso.{0, 1} (decl-004869 H lam)\n                (decl-004869 H (decl-004836 H lam s hs))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004836",
+        "decl-004869"
+      ],
+      "structural_type_hash": "486094046",
+      "temporary_id": "decl-004871"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (H : Subgroup.{0} G)\n  (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) (f : G \u2192 Complex),\n  Iff (Membership.mem.{0, 0} (decl-004909 H lam) f)\n    (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x) (g : G),\n      Eq.{1} (f (HMul.hMul.{0, 0, 0} (Subtype.val.{1} h) g))\n        (HMul.hMul.{0, 0, 0} (Units.val.{0} (DFunLike.coe.{1, 1, 1} lam h)) (f g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004909"
+      ],
+      "structural_type_hash": "2820411252",
+      "temporary_id": "decl-004874"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    (H : Subgroup.{0} G) \u2192\n      MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex) \u2192\n        [Fintype.{0} G] \u2192\n          [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x] \u2192\n            LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex) (G \u2192 Complex) (G \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2754657016",
+      "temporary_id": "decl-004875"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    (H : Subgroup.{0} G) \u2192\n      (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) \u2192\n        [Fintype.{0} G] \u2192\n          [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x] \u2192\n            G \u2192\n              LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex) (G \u2192 Complex)\n                (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004909 H lam) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004909"
+      ],
+      "structural_type_hash": "387510466",
+      "temporary_id": "decl-004878"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (H : Subgroup.{0} G)\n  (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) [inst_1 : Fintype.{0} G]\n  [inst_2 : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x] (a : G),\n  Eq.{1}\n    (LinearMap.comp.{0, 0, 0, 0, 0, 0} (decl-004878 H lam a)\n      (Submodule.subtype.{0, 0} (decl-004909 H lam)))\n    (DFunLike.coe.{1, 1, 1} (decl-004885 H lam) a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004878",
+        "decl-004885",
+        "decl-004909"
+      ],
+      "structural_type_hash": "1325732326",
+      "temporary_id": "decl-004881"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (H : Subgroup.{0} G)\n  (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) [inst_1 : Fintype.{0} G]\n  [inst_2 : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x] (f : G \u2192 Complex) (g : G),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-004875 H lam) f g)\n    (HMul.hMul.{0, 0, 0}\n      (Inv.inv.{0} (Nat.cast.{0} (Fintype.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x))))\n      (Finset.sum.{0, 0} Finset.univ.{0} fun h =>\n        HMul.hMul.{0, 0, 0} (Units.val.{0} (Inv.inv.{0} (DFunLike.coe.{1, 1, 1} lam h)))\n          (f (HMul.hMul.{0, 0, 0} (Subtype.val.{1} h) g))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004875"
+      ],
+      "structural_type_hash": "3073140581",
+      "temporary_id": "decl-004882"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (H : Subgroup.{0} G)\n  (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) [inst_1 : Fintype.{0} G]\n  [inst_2 : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x] {f : G \u2192 Complex},\n  Membership.mem.{0, 0} (decl-004909 H lam) f \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-004875 H lam) f) f",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004875",
+        "decl-004909"
+      ],
+      "structural_type_hash": "2193976416",
+      "temporary_id": "decl-004883"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (H : Subgroup.{0} G)\n  (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) [inst_1 : Fintype.{0} G]\n  [inst_2 : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x] (f : G \u2192 Complex),\n  Membership.mem.{0, 0} (decl-004909 H lam)\n    (DFunLike.coe.{1, 1, 1} (decl-004875 H lam) f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004875",
+        "decl-004909"
+      ],
+      "structural_type_hash": "4103383287",
+      "temporary_id": "decl-004884"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    (H : Subgroup.{0} G) \u2192\n      (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) \u2192\n        Representation.{0, 0, 0} Complex G\n          (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004909 H lam) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004909"
+      ],
+      "structural_type_hash": "2599814395",
+      "temporary_id": "decl-004885"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (H : Subgroup.{0} G)\n  (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) (a : G)\n  (f : Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004909 H lam) x) (g : G),\n  Eq.{1} (Subtype.val.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-004885 H lam) a) f) g)\n    (Subtype.val.{1} f (HMul.hMul.{0, 0, 0} g a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004885",
+        "decl-004909"
+      ],
+      "structural_type_hash": "283890557",
+      "temporary_id": "decl-004903"
+    },
+    {
+      "formal_type": "{G : Type} \u2192 [Group.{0} G] \u2192 G \u2192 LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex) (G \u2192 Complex) (G \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1634779559",
+      "temporary_id": "decl-004904"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (a : G) (f : G \u2192 Complex) (g : G),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-004904 a) f g) (f (HMul.hMul.{0, 0, 0} g a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004904"
+      ],
+      "structural_type_hash": "3835452627",
+      "temporary_id": "decl-004907"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (H : Subgroup.{0} G)\n  (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) {f : G \u2192 Complex},\n  Membership.mem.{0, 0} (decl-004909 H lam) f \u2192\n    \u2200 (a : G),\n      Membership.mem.{0, 0} (decl-004909 H lam)\n        (DFunLike.coe.{1, 1, 1} (decl-004904 a) f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004904",
+        "decl-004909"
+      ],
+      "structural_type_hash": "404974297",
+      "temporary_id": "decl-004908"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    (H : Subgroup.{0} G) \u2192\n      MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex) \u2192\n        Submodule.{0, 0} Complex (G \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1676210755",
+      "temporary_id": "decl-004909"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (H : Subgroup.{0} G)\n  (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) [inst_1 : Fintype.{0} G]\n  [inst_2 : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x] (a : G),\n  Eq.{1}\n    (LinearMap.comp.{0, 0, 0, 0, 0, 0} (Submodule.subtype.{0, 0} (decl-004909 H lam))\n      (decl-004878 H lam a))\n    (LinearMap.comp.{0, 0, 0, 0, 0, 0} (decl-004875 H lam) (decl-004904 a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004875",
+        "decl-004878",
+        "decl-004904",
+        "decl-004909"
+      ],
+      "structural_type_hash": "2039043904",
+      "temporary_id": "decl-004913"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (H : Subgroup.{0} G)\n  (lam : MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x) (Units.{0} Complex)) [inst_1 : Fintype.{0} G]\n  [inst_2 : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x] (a : G),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1}\n      (LinearMap.trace.{0, 0} Complex\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004909 H lam) x))\n      (DFunLike.coe.{1, 1, 1} (decl-004885 H lam) a))\n    (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (G \u2192 Complex))\n      (LinearMap.comp.{0, 0, 0, 0, 0, 0} (decl-004875 H lam) (decl-004904 a)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004875",
+        "decl-004885",
+        "decl-004904",
+        "decl-004909"
+      ],
+      "structural_type_hash": "2638548802",
+      "temporary_id": "decl-004914"
+    }
+  ],
+  "module_temporary_id": "module-0781",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

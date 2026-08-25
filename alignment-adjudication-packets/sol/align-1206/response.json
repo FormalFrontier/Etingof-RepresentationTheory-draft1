@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-1206",
+  "associations": [
+    {
+      "association_id": "association:44d9062cf48a9f1b1c6e",
+      "rationale": "The displayed type exposes HasAbelianSeries only as an opaque proposition on groups, so it does not directly state the finite normal-series and abelian-quotient characterization.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2280b520ae3fc39b613e",
+      "rationale": "The type derives normality of one step from a commutator containment, a prerequisite for the claimed normal series rather than the full solvability characterization.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f0f29bb5dd51ed03f9f2",
+      "rationale": "The type equates commutativity of one successive quotient with a commutator containment, supporting the abelian-quotient condition but not the finite series or derived-series termination claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9ce0cc86962c586eb92c",
+      "rationale": "The type identifies the opaque HasAbelianSeries predicate with the opaque IsSolvable predicate; without either definition displayed, it does not directly state the entire normal-series and derived-series characterization.",
+      "role": "supporting"
+    }
+  ]
+}

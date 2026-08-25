@@ -1,0 +1,60 @@
+{
+  "module_name": "AuxiliaryTensorProductRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-005201",
+      "new_name": "IsAuxiliary",
+      "docstring": "An auxiliary property of a representation."
+    },
+    {
+      "temporary_id": "decl-016653",
+      "new_name": "auxiliary_tensorProduct_characterization",
+      "docstring": "Over an algebraically closed field, the auxiliary representation property is characterized by the displayed tensor-product construction and decomposition."
+    },
+    {
+      "temporary_id": "decl-018834",
+      "new_name": "auxiliary_exists_tensorProduct",
+      "docstring": "An auxiliary representation of a product group admits the displayed tensor-product description."
+    },
+    {
+      "temporary_id": "decl-019234",
+      "new_name": "tensorProductRepresentation",
+      "docstring": "The representation of a product monoid on the tensor product of two representation spaces."
+    },
+    {
+      "temporary_id": "decl-019237",
+      "new_name": "tensorProductRepresentation_apply",
+      "docstring": "The tensor-product representation acts through the two components of a product element."
+    },
+    {
+      "temporary_id": "decl-019238",
+      "new_name": "isAuxiliary_tensorProductRepresentation",
+      "docstring": "The tensor-product representation has the auxiliary property when both factors do."
+    },
+    {
+      "temporary_id": "decl-020846",
+      "new_name": "isAuxiliary_of_isSimpleModule",
+      "docstring": "The representation associated with a simple module has the auxiliary property."
+    },
+    {
+      "temporary_id": "decl-020903",
+      "new_name": "isSimpleModule_of_isAuxiliary",
+      "docstring": "A representation with the auxiliary property gives a simple module."
+    },
+    {
+      "temporary_id": "decl-021527",
+      "new_name": "representationOfMonoidAlgebra_toLinearMap",
+      "docstring": "The representation induced by a monoid-algebra module sends a monoid element to the action of its singleton."
+    },
+    {
+      "temporary_id": "decl-021791",
+      "new_name": "representationOfMonoidAlgebra",
+      "docstring": "The representation induced by a module over a monoid algebra."
+    },
+    {
+      "temporary_id": "decl-021801",
+      "new_name": "representationOfMonoidAlgebra_apply",
+      "docstring": "The monoid-algebra-induced representation acts by the corresponding singleton element."
+    }
+  ]
+}

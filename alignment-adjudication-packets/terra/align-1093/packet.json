@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5bda4922d8c2aec42b2b",
+      "declaration": "Etingof.dualRepresentation_smul_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/140/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : AddCommGroup.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] [inst_4 : Module.{u_2, u_3} A V]\n  [inst_5 : SMulCommClass.{u_2, u_1, u_3} A k V] (a : MulOpposite.{u_2} A) (f : Module.Dual.{u_1, u_3} k V) (v : V),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_3 + 1, u_1 + 1} (HSMul.hSMul.{u_2, max u_1 u_3, max u_1 u_3} a f) v)\n    (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_3 + 1, u_1 + 1} f\n      (HSMul.hSMul.{u_2, u_3, u_3} (MulOpposite.unop.{u_2} a) v))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Definition3_3_2"
+    }
+  ],
+  "canonical_reference": "Chapter3/Definition3.3.2",
+  "packet_id": "align-1093",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1093"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d819498b773c6a033329",
+  "source_text": "The contragredient action satisfies (f \u00b7 a)(v) = f(a v)."
+}

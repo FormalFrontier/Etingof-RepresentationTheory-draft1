@@ -1,0 +1,10 @@
+{
+  "module_name": "GraphSpectrumSymmetry",
+  "declarations": [
+    {"temporary_id":"decl-010976","new_name":"not_squarefree_charpoly_of_noncommuting_automorphisms","docstring":"Noncommuting graph automorphisms force the adjacency characteristic polynomial to be non-squarefree."},
+    {"temporary_id":"decl-010978","new_name":"adjMatrix_mul_automorphismMatrix","docstring":"The adjacency matrix commutes with the permutation matrix of a graph automorphism."},
+    {"temporary_id":"decl-010980","new_name":"commute_of_commute_hermitian_squarefree","docstring":"Matrices commuting with a Hermitian matrix of squarefree characteristic polynomial commute with each other."},
+    {"temporary_id":"decl-010981","new_name":"eq_diagonal_of_commute_diagonal_injective","docstring":"A matrix commuting with a diagonal matrix having distinct entries is diagonal."},
+    {"temporary_id":"decl-010982","new_name":"injective_of_squarefree_diagonal_charpoly","docstring":"Squarefreeness of the product of diagonal linear factors implies distinct diagonal entries."}
+  ]
+}

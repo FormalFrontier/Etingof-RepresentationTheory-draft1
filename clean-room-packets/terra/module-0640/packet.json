@@ -1,0 +1,95 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {A\u2081 A\u2082 : Type u} [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] {M\u2081 : ModuleCat.{u, u} (MulOpposite.{u} A\u2081)}\n  {M\u2082 : ModuleCat.{u, u} (MulOpposite.{u} A\u2082)} (P\u2081 : decl-014585.{u + 1, u} M\u2081)\n  (P\u2082 : decl-014585.{u + 1, u} M\u2082) (n : Nat),\n  CategoryTheory.Projective.{u, u + 1} (HomologicalComplex.X.{u, u + 1, 0} (decl-019094.{u} P\u2081 P\u2082) n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585",
+        "decl-019094"
+      ],
+      "structural_type_hash": "2631044998",
+      "temporary_id": "decl-019115"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {A\u2081 A\u2082 : Type u} \u2192\n      [inst_1 : Ring.{u} A\u2081] \u2192\n        [inst_2 : Ring.{u} A\u2082] \u2192\n          [inst_3 : Algebra.{u, u} k A\u2081] \u2192\n            [inst_4 : Algebra.{u, u} k A\u2082] \u2192\n              {M\u2081 : ModuleCat.{u, u} (MulOpposite.{u} A\u2081)} \u2192\n                {M\u2082 : ModuleCat.{u, u} (MulOpposite.{u} A\u2082)} \u2192\n                  decl-014585.{u + 1, u} M\u2081 \u2192\n                    decl-014585.{u + 1, u} M\u2082 \u2192\n                      decl-014585.{u + 1, u}\n                        (ModuleCat.of.{u, u} (MulOpposite.{u} (TensorProduct.{u, u, u} k A\u2081 A\u2082))\n                          (TensorProduct.{u, u, u} k (ModuleCat.carrier.{u, u} M\u2081) (ModuleCat.carrier.{u, u} M\u2082)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585",
+        "decl-019024",
+        "decl-022688"
+      ],
+      "structural_type_hash": "290563103",
+      "temporary_id": "decl-019179"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {R : Type u} [inst_1 : Ring.{u} R] {N : ModuleCat.{u, u} R}\n  (Q : decl-014585.{u + 1, u} N)\n  (F : CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} R) (ModuleCat.{u, u} k))\n  [inst_2 : CategoryTheory.Functor.Additive.{u, u + 1, u, u + 1} F]\n  [CategoryTheory.Functor.PreservesHomology.{u, u + 1, u, u + 1} F] (n : Nat),\n  CategoryTheory.Limits.IsZero.{u, u + 1}\n    (HomologicalComplex.homology.{u, u + 1, 0}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n        (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1} F (ComplexShape.down.{0} Nat))\n        (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q))\n      (HAdd.hAdd.{0, 0, 0} n 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585"
+      ],
+      "structural_type_hash": "2317043820",
+      "temporary_id": "decl-020281"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {A\u2081 A\u2082 : Type u} [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] {M\u2081 : ModuleCat.{u, u} (MulOpposite.{u} A\u2081)}\n  {M\u2082 : ModuleCat.{u, u} (MulOpposite.{u} A\u2082)} (P\u2081 : decl-014585.{u + 1, u} M\u2081)\n  (P\u2082 : decl-014585.{u + 1, u} M\u2082) (n : Nat),\n  CategoryTheory.Limits.IsZero.{u, u + 1}\n    (HomologicalComplex.homology.{u, u + 1, 0}\n      (HomologicalComplex.tensorObj.{u, u + 1, 0} (decl-022706.{u} P\u2081) (decl-022715.{u} P\u2082))\n      (HAdd.hAdd.{0, 0, 0} n 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585",
+        "decl-022706",
+        "decl-022715"
+      ],
+      "structural_type_hash": "4269152632",
+      "temporary_id": "decl-020284"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {C\u2081 C\u2082 : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat} \u2192\n      [inst_1 : HomologicalComplex.HasTensor.{u, u + 1, 0} C\u2081 C\u2082] \u2192\n        {N\u2081 N\u2082 : ModuleCat.{u, u} k} \u2192\n          {p\u2081 : Quiver.Hom.{u, u + 1} (HomologicalComplex.X.{u, u + 1, 0} C\u2081 0) N\u2081} \u2192\n            {p\u2082 : Quiver.Hom.{u, u + 1} (HomologicalComplex.X.{u, u + 1, 0} C\u2082 0) N\u2082} \u2192\n              (hp\u2081comm :\n                  Eq.{u + 1}\n                    (CategoryTheory.CategoryStruct.comp.{u, u + 1} (HomologicalComplex.d.{u, u + 1, 0} C\u2081 1 0) p\u2081) 0) \u2192\n                (hp\u2082comm :\n                    Eq.{u + 1}\n                      (CategoryTheory.CategoryStruct.comp.{u, u + 1} (HomologicalComplex.d.{u, u + 1, 0} C\u2082 1 0) p\u2082)\n                      0) \u2192\n                  CategoryTheory.Limits.IsColimit.{0, u, 0, u + 1}\n                      (CategoryTheory.Limits.CokernelCofork.of\u03c0.{u, u + 1} p\u2081 hp\u2081comm) \u2192\n                    CategoryTheory.Limits.IsColimit.{0, u, 0, u + 1}\n                        (CategoryTheory.Limits.CokernelCofork.of\u03c0.{u, u + 1} p\u2082 hp\u2082comm) \u2192\n                      {q :\n                          Quiver.Hom.{u, u + 1}\n                            (HomologicalComplex.X.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C\u2081 C\u2082) 0)\n                            (CategoryTheory.MonoidalCategoryStruct.tensorObj.{u, u + 1} N\u2081 N\u2082)} \u2192\n                        (hqcomm :\n                            Eq.{u + 1}\n                              (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n                                (HomologicalComplex.d.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C\u2081 C\u2082) 1\n                                  0)\n                                q)\n                              0) \u2192\n                          Eq.{u + 1}\n                              (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n                                (HomologicalComplex.\u03b9TensorObj.{u, u + 1, 0} C\u2081 C\u2082 0 0 0 \u22ef) q)\n                              (CategoryTheory.MonoidalCategoryStruct.tensorHom.{u, u + 1} p\u2081 p\u2082) \u2192\n                            CategoryTheory.Limits.IsColimit.{0, u, 0, u + 1}\n                              (CategoryTheory.Limits.CokernelCofork.of\u03c0.{u, u + 1} q hqcomm)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4028640641",
+      "temporary_id": "decl-020786"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} V] [inst_1 : CategoryTheory.Abelian.{u_2, u_1} V]\n  {K : ChainComplex.{u_2, u_1, 0} V Nat} {N : V}\n  (\u03c6 :\n    Quiver.Hom.{u_2, max u_1 u_2} K\n      (CategoryTheory.Functor.obj.{u_2, u_2, u_1, max u_1 u_2} (ChainComplex.single\u2080.{u_2, u_1} V) N))\n  (hc :\n    CategoryTheory.Limits.IsColimit.{0, u_2, 0, u_1}\n      (CategoryTheory.Limits.CokernelCofork.of\u03c0.{u_2, u_1} (HomologicalComplex.Hom.f.{u_2, u_1, 0} \u03c6 0) \u22ef)),\n  QuasiIsoAt.{u_2, u_1, 0} \u03c6 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3789584042",
+      "temporary_id": "decl-022254"
+    },
+    {
+      "formal_type": "\u2200 {R S : Type u} [inst : Ring.{u} R] [inst_1 : Ring.{u} S] (f : RingHom.{u, u} R S),\n  CategoryTheory.Functor.PreservesHomology.{u, u + 1, u, u + 1} (ModuleCat.restrictScalars.{u, u, u} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "72206943",
+      "temporary_id": "decl-022696"
+    }
+  ],
+  "module_temporary_id": "module-0640",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

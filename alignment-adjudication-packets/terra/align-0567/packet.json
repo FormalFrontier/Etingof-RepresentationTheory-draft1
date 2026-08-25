@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4763793c04b8e8e67c2b",
+      "declaration": "Etingof.Problem2_16_5.epow_orderOf_isScalar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/7/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (Etingof.Problem2_16_5.Uqsl2 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (Etingof.Problem2_16_5.Uqsl2 q) V],\n  Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n    \u2200 [FiniteDimensional.{0, u_1} Complex V] [IsSimpleModule.{0, u_1} (Etingof.Problem2_16_5.Uqsl2 q) V],\n      Exists.{1} fun \u03b1 =>\n        \u2200 (v : V),\n          Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (HPow.hPow.{0, 0, 0} (Etingof.Problem2_16_5.e q) (orderOf.{0} q)) v)\n            (HSMul.hSMul.{0, u_1, u_1} \u03b1 v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    },
+    {
+      "association_id": "association:224d2c64b80211f72063",
+      "declaration": "Etingof.Problem2_16_5.finrank_irreducible_le_of_isOfFinOrder",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/7/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  IsOfFinOrder.{0} q \u2192\n    Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n      \u2200 (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n        [inst_2 : Module.{0, u_1} (Etingof.Problem2_16_5.Uqsl2 q) V]\n        [IsScalarTower.{0, 0, u_1} Complex (Etingof.Problem2_16_5.Uqsl2 q) V] [FiniteDimensional.{0, u_1} Complex V]\n        [IsSimpleModule.{0, u_1} (Etingof.Problem2_16_5.Uqsl2 q) V],\n        LE.le.{0} (Module.finrank.{0, u_1} Complex V) (orderOf.{0} q)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    },
+    {
+      "association_id": "association:ecf72bc8d034a7bb6315",
+      "declaration": "Etingof.Problem2_16_5.fpow_orderOf_isScalar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/7/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (Etingof.Problem2_16_5.Uqsl2 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (Etingof.Problem2_16_5.Uqsl2 q) V],\n  Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n    \u2200 [FiniteDimensional.{0, u_1} Complex V] [IsSimpleModule.{0, u_1} (Etingof.Problem2_16_5.Uqsl2 q) V],\n      Exists.{1} fun \u03b1 =>\n        \u2200 (v : V),\n          Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (HPow.hPow.{0, 0, 0} (Etingof.Problem2_16_5.f q) (orderOf.{0} q)) v)\n            (HSMul.hSMul.{0, u_1, u_1} \u03b1 v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.5",
+  "packet_id": "align-0567",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0567"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.5:claim-08",
+  "source_text": "For q\u00b2 \u2260 1 at a root of unity, e^ord(q) and f^ord(q) act as scalars and every finite-dimensional simple module has dimension at most ord(q)."
+}

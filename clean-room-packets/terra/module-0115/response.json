@@ -1,0 +1,50 @@
+{
+  "module_name": "Analysis.Algebra.DerivationExponential",
+  "declarations": [
+    {
+      "temporary_id": "decl-015222",
+      "new_name": "derivationExponentialEquiv",
+      "docstring": "The one-parameter family of algebra automorphisms obtained by exponentiating a continuous derivation of a finite-dimensional real normed algebra."
+    },
+    {
+      "temporary_id": "decl-015231",
+      "new_name": "derivationExponentialEquiv_apply",
+      "docstring": "The algebra automorphism defined by a derivation acts as the exponential of the scaled continuous linear map."
+    },
+    {
+      "temporary_id": "decl-015232",
+      "new_name": "exp_add_smul",
+      "docstring": "Exponentials of two scalar multiples of the same continuous linear map multiply to the exponential of the sum of the scalars."
+    },
+    {
+      "temporary_id": "decl-015233",
+      "new_name": "exp_smul_comp_apply",
+      "docstring": "Successive application of two scaled exponentials agrees with applying the exponential scaled by the sum."
+    },
+    {
+      "temporary_id": "decl-015234",
+      "new_name": "exp_smul_map_mul",
+      "docstring": "The exponential of a scaled derivation preserves multiplication."
+    },
+    {
+      "temporary_id": "decl-015235",
+      "new_name": "exp_smul_apply_one",
+      "docstring": "The exponential of a scaled derivation fixes the multiplicative identity."
+    },
+    {
+      "temporary_id": "decl-015236",
+      "new_name": "exp_zero_smul",
+      "docstring": "The exponential of the zero scalar multiple of a continuous linear map is the identity."
+    },
+    {
+      "temporary_id": "decl-015237",
+      "new_name": "derivation_of_hasDerivAt_multiplicativeCurve",
+      "docstring": "The derivative at zero of a differentiable curve of multiplicative linear maps starting at the identity satisfies the Leibniz rule."
+    },
+    {
+      "temporary_id": "decl-015238",
+      "new_name": "derivation_apply_one",
+      "docstring": "A continuous linear map satisfying the Leibniz rule sends the multiplicative identity to zero."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0162",
+  "associations": [
+    {
+      "association_id": "association:80c33f685094a4376356",
+      "role": "supporting",
+      "rationale": "This supplies one induction-model representation used in the claimed canonical comparison."
+    },
+    {
+      "association_id": "association:cb0853bca3e0006c60ee",
+      "role": "primary",
+      "rationale": "This isomorphism directly states canonical agreement with the function-space model."
+    },
+    {
+      "association_id": "association:b652f757791750ffe6a2",
+      "role": "supporting",
+      "rationale": "This supplies the tensor/coinvariant induction-model representation used by the comparison."
+    }
+  ]
+}

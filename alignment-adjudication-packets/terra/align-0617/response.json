@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0617",
+  "associations": [
+    {
+      "association_id": "association:c3fe6ca58bfe6ae1f316",
+      "rationale": "The type states the nth exterior-power dimension formula, but it does not itself state the Hilbert-series formula, so it covers only one component of the complete claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1ececb19f8d6214e266e",
+      "rationale": "The type states the exterior-algebra Hilbert series, but it does not itself state the graded-piece dimension formula, so it covers only one component of the complete claim.",
+      "role": "supporting"
+    }
+  ]
+}

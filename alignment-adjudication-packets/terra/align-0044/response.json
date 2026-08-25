@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0044",
+  "associations": [
+    {
+      "association_id": "association:e098f424ec3e289014f2",
+      "role": "supporting",
+      "rationale": "Its type is Maschke's semisimplicity conclusion for a finite-group algebra when the group order is invertible, so it supplies one prerequisite named by the source rather than stating the source theorem itself."
+    },
+    {
+      "association_id": "association:1a25c0eff2f4621a05cc",
+      "role": "supporting",
+      "rationale": "Its type states the semisimple-algebra spanning result for irreducible characters, providing the other algebraic proof input identified by the source rather than the resulting group-character claim."
+    }
+  ]
+}

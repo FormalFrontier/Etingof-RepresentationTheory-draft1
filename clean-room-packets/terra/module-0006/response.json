@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.Lie.AuxiliarySingleModuleType",
+  "declarations": [
+    {
+      "temporary_id": "decl-005578",
+      "new_name": "AuxiliaryLieModuleType",
+      "docstring": "An auxiliary type depending on a Lie algebra and one of its modules."
+    },
+    {
+      "temporary_id": "decl-021478",
+      "new_name": "auxiliary_lie_bracket_apply",
+      "docstring": "Evaluating the bracket of a Lie element with an auxiliary element gives the negated evaluation at the bracket of that Lie element with the vector."
+    }
+  ]
+}

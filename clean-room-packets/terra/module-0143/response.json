@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.Module.Filtrations",
+  "declarations": [
+    {
+      "temporary_id": "decl-018809",
+      "new_name": "exists_relSeries_bot_top",
+      "docstring": "A finite-dimensional module admits a relation series with bottom head and top last term."
+    },
+    {
+      "temporary_id": "decl-018838",
+      "new_name": "exists_auxiliaryData_simple_quotients",
+      "docstring": "There exists auxiliary data whose associated relation series has simple displayed successive quotients."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "module_name": "FDRep.Biproduct",
+  "declarations": [
+    {
+      "temporary_id": "decl-032688",
+      "new_name": "biprodCarrierComplexLinearEquiv",
+      "docstring": "A linear equivalence from the underlying module of a binary biproduct representation to the product of the underlying modules of its summands."
+    },
+    {
+      "temporary_id": "decl-032712",
+      "new_name": "character_biprod_complex",
+      "docstring": "The character of a binary biproduct representation is the pointwise sum of the characters of its summands."
+    },
+    {
+      "temporary_id": "decl-032835",
+      "new_name": "hom_commutes_action",
+      "docstring": "A morphism of finite-dimensional representations commutes with the action of every group element."
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "declarations": [
+    {
+      "temporary_id": "decl-006015",
+      "new_name": "homOfTensorHom",
+      "docstring": "Constructs a morphism from the tensor construction using its value on unit tensors."
+    },
+    {
+      "temporary_id": "decl-006018",
+      "new_name": "homOfTensorHom_apply",
+      "docstring": "Evaluates the constructed morphism at an element of the source module."
+    },
+    {
+      "temporary_id": "decl-006019",
+      "new_name": "tensorHomOfHom",
+      "docstring": "Constructs a tensor-construction morphism from a morphism after scalar restriction."
+    },
+    {
+      "temporary_id": "decl-006022",
+      "new_name": "tensorHomOfHom_tmul",
+      "docstring": "Describes the constructed morphism on pure tensors."
+    },
+    {
+      "temporary_id": "decl-006060",
+      "new_name": "map",
+      "docstring": "Maps a module morphism through the tensor construction."
+    },
+    {
+      "temporary_id": "decl-006062",
+      "new_name": "map_tmul",
+      "docstring": "The induced map sends a pure tensor by applying the original morphism to its second factor."
+    },
+    {
+      "temporary_id": "decl-006063",
+      "new_name": "functor",
+      "docstring": "The functor from modules over the function ring to modules over the target algebra."
+    },
+    {
+      "temporary_id": "decl-006066",
+      "new_name": "obj",
+      "docstring": "Forms the target-algebra module associated with a module over the function ring."
+    },
+    {
+      "temporary_id": "decl-006067",
+      "new_name": "adjunction",
+      "docstring": "The adjunction between the displayed functor and scalar restriction."
+    },
+    {
+      "temporary_id": "decl-006177",
+      "new_name": "moduleStructure",
+      "docstring": "The module structure of the target algebra over the function ring."
+    },
+    {
+      "temporary_id": "decl-006213",
+      "new_name": "smulCommClass",
+      "docstring": "Scalar multiplication by functions commutes with multiplication in the target algebra."
+    },
+    {
+      "temporary_id": "decl-006341",
+      "new_name": "projective_obj",
+      "docstring": "Objects produced by the functor are projective."
+    },
+    {
+      "temporary_id": "decl-006355",
+      "new_name": "hom_apply_smul",
+      "docstring": "A morphism after scalar restriction preserves the transported function action."
+    },
+    {
+      "temporary_id": "decl-006495",
+      "new_name": "actionMap",
+      "docstring": "Packages a scalar-restricted morphism as an additive map from algebra elements to maps of carriers."
+    },
+    {
+      "temporary_id": "decl-006504",
+      "new_name": "actionMap_apply",
+      "docstring": "The packaged map sends an algebra element and a module element to the scalar action on the morphism value."
+    },
+    {
+      "temporary_id": "decl-006505",
+      "new_name": "actionMap_smul",
+      "docstring": "The packaged action map is balanced with respect to function scalars."
+    },
+    {
+      "temporary_id": "decl-006533",
+      "new_name": "toOppositeRingHom",
+      "docstring": "The ring homomorphism from the function ring into the opposite target algebra."
+    },
+    {
+      "temporary_id": "decl-006535",
+      "new_name": "scalarImages_commute",
+      "docstring": "Images of functions under the displayed map commute."
+    },
+    {
+      "temporary_id": "decl-006550",
+      "new_name": "smul_eq_mul_image",
+      "docstring": "Function scalar multiplication on the algebra equals right multiplication by the corresponding image."
+    }
+  ],
+  "module_name": "TensorAdjunction"
+}

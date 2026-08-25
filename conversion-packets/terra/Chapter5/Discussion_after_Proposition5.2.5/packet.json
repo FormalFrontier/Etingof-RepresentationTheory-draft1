@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_after_Proposition5.2.5",
+    "kind": "discussion",
+    "title": "Minimal polynomial, algebraic conjugates, and Vieta's theorem",
+    "node_id": "chapter-05/section-5-2",
+    "order": 259,
+    "slug": "discussion-after-proposition5-2-5",
+    "span": {
+      "start": {
+        "page": "97",
+        "line": 23
+      },
+      "end": {
+        "page": "97",
+        "line": 28
+      }
+    },
+    "source_sha256": "92ee4872ca8aefbc582be019c581852dcf0f713844b39dd0a9f730d236290176",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionAfterProposition525",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

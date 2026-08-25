@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ded48ac160a0fb988f2e",
+      "declaration": "Etingof.Theorem5_25_2_part3a",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/384/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat)\n  (mu nu : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)),\n  Iff (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (Etingof.GL2.complementW p n mu) (Etingof.GL2.complementW p n nu)))\n    (Eq.{1} mu nu)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
+    },
+    {
+      "association_id": "association:c6046ca3302b598da261",
+      "declaration": "Etingof.Theorem5_25_2_part3b",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/384/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [NeZero.{0} n]\n  (chi1 chi2 chi1' chi2' : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)),\n  Ne.{1} chi1 chi2 \u2192\n    Ne.{1} chi1' chi2' \u2192\n      Iff\n        (Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (Etingof.GL2.principalSeries p n chi1 chi2)\n            (Etingof.GL2.principalSeries p n chi1' chi2')))\n        (Eq.{1} (Insert.insert.{0, 0} chi1 (Singleton.singleton.{0, 0} chi2))\n          (Insert.insert.{0, 0} chi1' (Singleton.singleton.{0, 0} chi2')))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.25.2",
+  "packet_id": "align-1019",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1019"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c2f6b18208d18b5b2962",
+  "source_text": "For distinct characters, V(\u03c7\u2081,\u03c7\u2082) is simple and its isomorphism class depends exactly on the unordered pair."
+}

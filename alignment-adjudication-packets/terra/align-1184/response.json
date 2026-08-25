@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1184",
+  "associations": [
+    {
+      "association_id": "association:0bfee99b30ea875b16bb",
+      "rationale": "The displayed type computes one initial nested simpleReflection expression as the vector (1,1,1,1), but it does not expose reflection functors or evolving orientations and is only part of the source sequence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bb701ff6873dd758aac3",
+      "rationale": "The displayed type computes a further nested simpleReflection expression as the vector (1,1,1,2), but it does not expose the claimed reflection functors through evolving orientations.",
+      "role": "supporting"
+    }
+  ]
+}

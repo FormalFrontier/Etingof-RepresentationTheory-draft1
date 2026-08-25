@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0425",
+  "associations": [
+    {
+      "association_id": "association:18fcd79e70961963dd18",
+      "role": "supporting",
+      "rationale": "The displayed type is an opaque proposition on a finite-dimensional algebra and does not expose either semisimplicity or the radical-zero condition."
+    },
+    {
+      "association_id": "association:19de146e0f2695886923",
+      "role": "supporting",
+      "rationale": "The theorem identifies the opaque predicate with IsSemisimpleRing, but its displayed type does not state that the Jacobson radical is zero."
+    }
+  ]
+}

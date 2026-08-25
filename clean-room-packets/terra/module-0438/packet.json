@@ -1,0 +1,71 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] [IsAlgClosed.{u_2} k] [CharZero.{u_2} k] (N : Nat)\n  {W :\n    Submodule.{u_2, u_2} k\n      (HasQuotient.Quotient.{u_2, u_2} (MvPolynomial.{0, u_2} (Prod.{0, 0} (Fin N) (Fin N)) k)\n        (decl-005335.{u_2} k N))},\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, u_2} (Fin N) k)\n      (w :\n        HasQuotient.Quotient.{u_2, u_2} (MvPolynomial.{0, u_2} (Prod.{0, 0} (Fin N) (Fin N)) k)\n          (decl-005335.{u_2} k N)),\n      Membership.mem.{u_2, u_2} W w \u2192\n        Membership.mem.{u_2, u_2} W\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n            (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-005351.{u_2} k N) g) w)) \u2192\n    Ne.{u_2 + 1} W Bot.bot.{u_2} \u2192\n      Exists.{u_2 + 2} fun L =>\n        Exists.{u_2 + 1} fun \u03c6 =>\n          And\n            (IsSimpleModule.{u_2, u_2} (MonoidAlgebra.{u_2, u_2} k (Matrix.GeneralLinearGroup.{0, u_2} (Fin N) k))\n              (Representation.asModule.{u_2, u_2, u_2} (FDRep.\u03c1.{u_2, u_2} L)))\n            (And (Function.Injective.{u_2 + 1, u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} \u03c6))\n              (And\n                (\u2200 (g : Matrix.GeneralLinearGroup.{0, u_2} (Fin N) k)\n                  (v : FGModuleCat.carrier.{u_2, u_2} (Action.V.{u_2, u_2 + 1, u_2} L)),\n                  Eq.{u_2 + 1}\n                    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} \u03c6\n                      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n                        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (FDRep.\u03c1.{u_2, u_2} L) g) v))\n                    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n                      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-005351.{u_2} k N) g)\n                      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} \u03c6 v)))\n                (LE.le.{u_2} (Set.range.{u_2, u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} \u03c6))\n                  (SetLike.coe.{u_2, u_2} W))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005335",
+        "decl-005351"
+      ],
+      "structural_type_hash": "805468667",
+      "temporary_id": "decl-005338"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k) (D : Nat)\n  {f : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k},\n  Membership.mem.{u_1, u_1} (MvPolynomial.restrictTotalDegree.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k D) f \u2192\n    Membership.mem.{u_1, u_1} (MvPolynomial.restrictTotalDegree.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k D)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-006673.{u_1} k N) g) f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006673"
+      ],
+      "structural_type_hash": "4242869875",
+      "temporary_id": "decl-005348"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  [inst_2 : AddCommGroup.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] (\u03c1 : Representation.{u_1, u_2, u_3} k G V)\n  (W : Submodule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_3} \u03c1))\n  [Module.Finite.{u_1, u_3} k (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} W x)],\n  Ne.{u_3 + 1} W Bot.bot.{u_3} \u2192\n    Exists.{u_3 + 1} fun S =>\n      And\n        (IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G)\n          (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} S x))\n        (LE.le.{u_3} S W)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3397353579",
+      "temporary_id": "decl-018880"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  [inst_2 : AddCommGroup.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] {\u03c1 : Representation.{u_1, u_2, u_3} k G V}\n  (\u03c3 : Subrepresentation.{u_1, u_2, u_3} \u03c1),\n  IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G)\n      (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (Subrepresentation.asSubmodule.{u_1, u_2, u_3} \u03c3) x) \u2192\n    IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G)\n      (Representation.asModule.{u_1, u_2, u_3} (Subrepresentation.toRepresentation.{u_1, u_2, u_3} \u03c3))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3292220519",
+      "temporary_id": "decl-020913"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Monoid.{u_2} G] \u2192\n          [inst_2 : AddCommGroup.{u_3} V] \u2192\n            [inst_3 : Module.{u_1, u_3} k V] \u2192\n              {\u03c1 : Representation.{u_1, u_2, u_3} k G V} \u2192\n                (\u03c3 : Subrepresentation.{u_1, u_2, u_3} \u03c1) \u2192\n                  LinearEquiv.{max u_1 u_2, max u_1 u_2, u_3, u_3}\n                    (RingHom.id.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G))\n                    (Representation.asModule.{u_1, u_2, u_3} (Subrepresentation.toRepresentation.{u_1, u_2, u_3} \u03c3))\n                    (Subtype.{u_3 + 1} fun x =>\n                      Membership.mem.{u_3, u_3} (Subrepresentation.asSubmodule.{u_1, u_2, u_3} \u03c3) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1076127905",
+      "temporary_id": "decl-024149"
+    }
+  ],
+  "module_temporary_id": "module-0438",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

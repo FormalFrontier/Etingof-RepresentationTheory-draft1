@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0051",
+  "associations": [
+    {
+      "association_id": "association:861197e1b7f480464417",
+      "role": "primary",
+      "rationale": "Its type directly states that the product of the path-algebra elements associated to p and q is zero whenever the endpoint of p differs from the startpoint of q."
+    }
+  ]
+}

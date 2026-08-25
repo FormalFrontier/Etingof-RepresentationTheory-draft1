@@ -1,0 +1,65 @@
+{
+  "module_name": "CategoryTheory.Indecomposable",
+  "declarations": [
+    {
+      "temporary_id": "decl-017759",
+      "new_name": "moduleCat_indecomposable_of_module_property",
+      "docstring": "Turns the stated module-side property into indecomposability of the associated ModuleCat object."
+    },
+    {
+      "temporary_id": "decl-018629",
+      "new_name": "equivalence_hom_linear_equiv",
+      "docstring": "Constructs the linear equivalence between hom spaces induced by the given linear additive equivalence."
+    },
+    {
+      "temporary_id": "decl-018872",
+      "new_name": "exists_simple_representatives",
+      "docstring": "Provides a family containing exactly one representative, up to isomorphism, of every simple object."
+    },
+    {
+      "temporary_id": "decl-018929",
+      "new_name": "exists_simple_family_with_finrank_hom",
+      "docstring": "Produces simple representatives whose hom spaces from the supplied projective objects have finrank one at matching indices and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-019449",
+      "new_name": "equivalence_finrank_hom",
+      "docstring": "A linear additive equivalence gives equal finrank values for corresponding morphism spaces."
+    },
+    {
+      "temporary_id": "decl-020533",
+      "new_name": "indecomposable_map_of_equivalence",
+      "docstring": "The functor of the given equivalence sends an indecomposable object to an indecomposable object."
+    },
+    {
+      "temporary_id": "decl-020534",
+      "new_name": "indecomposable_map_of_preadditive_equivalence",
+      "docstring": "An equivalence between the displayed preadditive categories with binary biproducts preserves indecomposable objects."
+    },
+    {
+      "temporary_id": "decl-020535",
+      "new_name": "indecomposable_of_map_of_full_faithful",
+      "docstring": "Reflects indecomposability along a full and faithful functor preserving the stated zero and biproduct structure."
+    },
+    {
+      "temporary_id": "decl-020536",
+      "new_name": "indecomposable_projective_iso_family_object",
+      "docstring": "Under the stated hypotheses, an indecomposable projective object is isomorphic to an object in the given finite family."
+    },
+    {
+      "temporary_id": "decl-020844",
+      "new_name": "module_property_of_moduleCat_indecomposable",
+      "docstring": "Recovers the stated module-side property from indecomposability of its associated ModuleCat object."
+    },
+    {
+      "temporary_id": "decl-022197",
+      "new_name": "projective_iso_of_nonzero_hom_to_simple",
+      "docstring": "Two indecomposable projective objects with nonzero morphisms to the same simple object are isomorphic."
+    },
+    {
+      "temporary_id": "decl-023215",
+      "new_name": "simple_map_of_equivalence",
+      "docstring": "The functor of an equivalence carries a simple object to a simple object."
+    }
+  ]
+}

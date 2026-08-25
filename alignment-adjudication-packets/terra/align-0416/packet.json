@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:197169ac8118e87f2c1d",
+      "declaration": "Chapter5.Footnote_5_15.laVec_eq_shifted_sub_perm_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/332/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} (la : N.Partition) (\u03c3 : Equiv.Perm.{1} (Fin N)),\n  Iff\n    (Eq.{1} (DFunLike.coe.{1, 1, 1} toLex.{0} (Chapter5.Footnote_5_15.laVec la))\n      (DFunLike.coe.{1, 1, 1} toLex.{0} fun i =>\n        HSub.hSub.{0, 0, 0}\n          (HAdd.hAdd.{0, 0, 0} (Chapter5.Footnote_5_15.laVec la i) (Chapter5.Footnote_5_15.rhoVec N i))\n          (Function.comp.{1, 1, 1} (Chapter5.Footnote_5_15.rhoVec N) (DFunLike.coe.{1, 1, 1} \u03c3) i)))\n    (Eq.{1} \u03c3 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_footnote_5_15"
+    },
+    {
+      "association_id": "association:229e20b1e0fcd38521f4",
+      "declaration": "Chapter5.Footnote_5_15.rhoVec_comp_perm_eq_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/332/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} (\u03c3 : Equiv.Perm.{1} (Fin N)),\n  Iff\n    (Eq.{1}\n      (DFunLike.coe.{1, 1, 1} toLex.{0}\n        (Function.comp.{1, 1, 1} (Chapter5.Footnote_5_15.rhoVec N) (DFunLike.coe.{1, 1, 1} \u03c3)))\n      (DFunLike.coe.{1, 1, 1} toLex.{0} (Chapter5.Footnote_5_15.rhoVec N)))\n    (Eq.{1} \u03c3 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_footnote_5_15"
+    },
+    {
+      "association_id": "association:ccff0c8dbf2d675df58d",
+      "declaration": "Chapter5.Footnote_5_15.rhoVec_comp_perm_le",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/332/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} (\u03c3 : Equiv.Perm.{1} (Fin N)),\n  LE.le.{0}\n    (DFunLike.coe.{1, 1, 1} toLex.{0}\n      (Function.comp.{1, 1, 1} (Chapter5.Footnote_5_15.rhoVec N) (DFunLike.coe.{1, 1, 1} \u03c3)))\n    (DFunLike.coe.{1, 1, 1} toLex.{0} (Chapter5.Footnote_5_15.rhoVec N))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_footnote_5_15"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_proof_of_Frobenius_character_formula",
+  "packet_id": "align-0416",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0416"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:8617bb14d51033187ed1",
+  "source_text": "The shifted-permutation terms are above lambda, with equality only for the identity permutation in the source convention."
+}

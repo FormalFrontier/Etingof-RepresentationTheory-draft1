@@ -1,0 +1,339 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(K : Type u) \u2192 (G : Type v) \u2192 [Field.{u} K] \u2192 [Group.{v} G] \u2192 Type (max u v)",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1231884576",
+      "temporary_id": "decl-016122"
+    },
+    {
+      "formal_type": "{K : Type u} \u2192\n  {G : Type v} \u2192\n    [inst : Field.{u} K] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (D : decl-016122.{u, v} K G) \u2192 Fin (decl-016185.{u, v} D) \u2192 Type u",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016185"
+      ],
+      "structural_type_hash": "686724146",
+      "temporary_id": "decl-016123"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [IsAlgClosed.{u} K] [inst_2 : Group.{v} G] [Fintype.{v} G]\n  (D : decl-016122.{u, v} K G) (i j : Fin (decl-016185.{u, v} D)),\n  Nonempty.{u + 1}\n      (LinearEquiv.{max u v, max u v, u, u} (RingHom.id.{max v u} (MonoidAlgebra.{u, v} K G))\n        (decl-016123.{u, v} D i) (decl-016123.{u, v} D j)) \u2192\n    Eq.{1} i j",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016123",
+        "decl-016136",
+        "decl-016167",
+        "decl-016185"
+      ],
+      "structural_type_hash": "2295071697",
+      "temporary_id": "decl-016124"
+    },
+    {
+      "formal_type": "{K : Type u} \u2192\n  {G : Type v} \u2192\n    [inst : Field.{u} K] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (D : decl-016122.{u, v} K G) \u2192\n          (i : Fin (decl-016185.{u, v} D)) \u2192\n            AlgHom.{u, max v u, u} K (MonoidAlgebra.{u, v} K G)\n              (Matrix.{0, 0, u} (Fin (decl-016133.{u, v} D i))\n                (Fin (decl-016133.{u, v} D i)) K)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016133",
+        "decl-016185"
+      ],
+      "structural_type_hash": "862495666",
+      "temporary_id": "decl-016127"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [IsAlgClosed.{u} K] [inst_2 : Group.{v} G] [Fintype.{v} G]\n  (D : decl-016122.{u, v} K G) (i : Fin (decl-016185.{u, v} D)),\n  Function.Surjective.{max (u + 1) (v + 1), u + 1}\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1}\n      (decl-016127.{u, v} D i))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016127",
+        "decl-016133",
+        "decl-016185"
+      ],
+      "structural_type_hash": "94123591",
+      "temporary_id": "decl-016129"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [IsAlgClosed.{u} K] [inst_2 : Group.{v} G] [Fintype.{v} G]\n  (D : decl-016122.{u, v} K G),\n  Eq.{1} (Nat.card.{max (u + 1) v u} (decl-015611.{u, max v u} (MonoidAlgebra.{u, v} K G)))\n    (decl-016185.{u, v} D)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-015611",
+        "decl-016122",
+        "decl-016185"
+      ],
+      "structural_type_hash": "1138946877",
+      "temporary_id": "decl-016130"
+    },
+    {
+      "formal_type": "{K : Type u} \u2192\n  {G : Type v} \u2192\n    [inst : Field.{u} K] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (self : decl-016122.{u, v} K G) \u2192 Fin (decl-016185.{u, v} self) \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016185"
+      ],
+      "structural_type_hash": "3933280024",
+      "temporary_id": "decl-016133"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [inst_1 : Group.{v} G]\n  (self : decl-016122.{u, v} K G) (i : Fin (decl-016185.{u, v} self)),\n  NeZero.{0} (decl-016133.{u, v} self i)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016133",
+        "decl-016185"
+      ],
+      "structural_type_hash": "3548129619",
+      "temporary_id": "decl-016134"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [IsAlgClosed.{u} K] [inst_2 : Group.{v} G] [Fintype.{v} G]\n  (D : decl-016122.{u, v} K G) (M : Type u) [inst_4 : AddCommGroup.{u} M]\n  [inst_5 : Module.{max v u, u} (MonoidAlgebra.{u, v} K G) M]\n  [IsSimpleModule.{max v u, u} (MonoidAlgebra.{u, v} K G) M],\n  Exists.{1} fun i =>\n    Nonempty.{u + 1}\n      (LinearEquiv.{max u v, max u v, u, u} (RingHom.id.{max v u} (MonoidAlgebra.{u, v} K G)) M\n        (decl-016123.{u, v} D i))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016123",
+        "decl-016136",
+        "decl-016167",
+        "decl-016185"
+      ],
+      "structural_type_hash": "2436584217",
+      "temporary_id": "decl-016135"
+    },
+    {
+      "formal_type": "{K : Type u} \u2192\n  {G : Type v} \u2192\n    [inst : Field.{u} K] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (D : decl-016122.{u, v} K G) \u2192\n          (i : Fin (decl-016185.{u, v} D)) \u2192\n            AddCommGroup.{u} (decl-016123.{u, v} D i)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016123",
+        "decl-016185"
+      ],
+      "structural_type_hash": "2996973358",
+      "temporary_id": "decl-016136"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [inst_1 : Group.{v} G] (D : decl-016122.{u, v} K G)\n  (i : Fin (decl-016185.{u, v} D)),\n  Module.Finite.{u, u} K (decl-016123.{u, v} D i)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016123",
+        "decl-016136",
+        "decl-016168",
+        "decl-016185"
+      ],
+      "structural_type_hash": "2196790072",
+      "temporary_id": "decl-016154"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [inst_1 : Group.{v} G] (D : decl-016122.{u, v} K G)\n  (i : Fin (decl-016185.{u, v} D)),\n  IsScalarTower.{u, u, u} K\n    (Matrix.{0, 0, u} (Fin (decl-016133.{u, v} D i))\n      (Fin (decl-016133.{u, v} D i)) K)\n    (decl-016123.{u, v} D i)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016123",
+        "decl-016133",
+        "decl-016136",
+        "decl-016159",
+        "decl-016168",
+        "decl-016185"
+      ],
+      "structural_type_hash": "1973988955",
+      "temporary_id": "decl-016156"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [inst_1 : Group.{v} G] (D : decl-016122.{u, v} K G)\n  (i : Fin (decl-016185.{u, v} D)),\n  IsScalarTower.{u, max v u, u} K (MonoidAlgebra.{u, v} K G) (decl-016123.{u, v} D i)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016123",
+        "decl-016136",
+        "decl-016167",
+        "decl-016168",
+        "decl-016185"
+      ],
+      "structural_type_hash": "3074859098",
+      "temporary_id": "decl-016158"
+    },
+    {
+      "formal_type": "{K : Type u} \u2192\n  {G : Type v} \u2192\n    [inst : Field.{u} K] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (D : decl-016122.{u, v} K G) \u2192\n          (i : Fin (decl-016185.{u, v} D)) \u2192\n            Module.{u, u}\n              (Matrix.{0, 0, u} (Fin (decl-016133.{u, v} D i))\n                (Fin (decl-016133.{u, v} D i)) K)\n              (decl-016123.{u, v} D i)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016123",
+        "decl-016133",
+        "decl-016136",
+        "decl-016185"
+      ],
+      "structural_type_hash": "1415014347",
+      "temporary_id": "decl-016159"
+    },
+    {
+      "formal_type": "{K : Type u} \u2192\n  {G : Type v} \u2192\n    [inst : Field.{u} K] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (D : decl-016122.{u, v} K G) \u2192\n          (i : Fin (decl-016185.{u, v} D)) \u2192\n            Module.{max v u, u} (MonoidAlgebra.{u, v} K G) (decl-016123.{u, v} D i)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016123",
+        "decl-016136",
+        "decl-016185"
+      ],
+      "structural_type_hash": "790051681",
+      "temporary_id": "decl-016167"
+    },
+    {
+      "formal_type": "{K : Type u} \u2192\n  {G : Type v} \u2192\n    [inst : Field.{u} K] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (D : decl-016122.{u, v} K G) \u2192\n          (i : Fin (decl-016185.{u, v} D)) \u2192\n            Module.{u, u} K (decl-016123.{u, v} D i)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016123",
+        "decl-016136",
+        "decl-016185"
+      ],
+      "structural_type_hash": "2486409969",
+      "temporary_id": "decl-016168"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [IsAlgClosed.{u} K] [inst_2 : Group.{v} G] [Fintype.{v} G]\n  (D : decl-016122.{u, v} K G) (i : Fin (decl-016185.{u, v} D)),\n  IsSimpleModule.{max v u, u} (MonoidAlgebra.{u, v} K G) (decl-016123.{u, v} D i)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016123",
+        "decl-016136",
+        "decl-016167",
+        "decl-016185"
+      ],
+      "structural_type_hash": "548667828",
+      "temporary_id": "decl-016176"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] [IsSimpleRing.{u_1} R] [IsArtinianRing.{u_1} R] (M : Type u_2) (N : Type u_3)\n  [inst_3 : AddCommGroup.{u_2} M] [inst_4 : Module.{u_1, u_2} R M] [IsSimpleModule.{u_1, u_2} R M]\n  [inst_6 : AddCommGroup.{u_3} N] [inst_7 : Module.{u_1, u_3} R N] [IsSimpleModule.{u_1, u_3} R N],\n  Nonempty.{max (u_3 + 1) (u_2 + 1)} (LinearEquiv.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} R) M N)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [],
+      "structural_type_hash": "3595751867",
+      "temporary_id": "decl-016178"
+    },
+    {
+      "formal_type": "{K : Type u} \u2192\n  {G : Type v} \u2192 [inst : Field.{u} K] \u2192 [inst_1 : Group.{v} G] \u2192 decl-016122.{u, v} K G \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122"
+      ],
+      "structural_type_hash": "2772181601",
+      "temporary_id": "decl-016185"
+    },
+    {
+      "formal_type": "{K : Type u} \u2192\n  {G : Type v} \u2192\n    [inst : Field.{u} K] \u2192\n      [IsAlgClosed.{u} K] \u2192 [inst_2 : Group.{v} G] \u2192 [Fintype.{v} G] \u2192 decl-016122.{u, v} K G",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122"
+      ],
+      "structural_type_hash": "2196516708",
+      "temporary_id": "decl-016188"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [IsAlgClosed.{u} K] [inst_2 : Group.{v} G] [Fintype.{v} G]\n  (D : decl-016122.{u, v} K G) (i : Fin (decl-016185.{u, v} D))\n  (x : MonoidAlgebra.{u, v} K G) (v : decl-016123.{u, v} D i),\n  Eq.{u + 1} (HSMul.hSMul.{max u v, u, u} x v)\n    (HSMul.hSMul.{u, u, u}\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1}\n        (decl-016127.{u, v} D i) x)\n      v)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016123",
+        "decl-016127",
+        "decl-016133",
+        "decl-016136",
+        "decl-016159",
+        "decl-016167",
+        "decl-016185"
+      ],
+      "structural_type_hash": "403810277",
+      "temporary_id": "decl-016201"
+    },
+    {
+      "formal_type": "{K : Type u} \u2192\n  {G : Type v} \u2192\n    [inst : Field.{u} K] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (self : decl-016122.{u, v} K G) \u2192\n          AlgHom.{u, max v u, u} K (MonoidAlgebra.{u, v} K G)\n            ((i : Fin (decl-016185.{u, v} self)) \u2192\n              Matrix.{0, 0, u} (Fin (decl-016133.{u, v} self i))\n                (Fin (decl-016133.{u, v} self i)) K)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016133",
+        "decl-016185"
+      ],
+      "structural_type_hash": "267171305",
+      "temporary_id": "decl-016202"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [inst_1 : Group.{v} G]\n  (self : decl-016122.{u, v} K G),\n  Eq.{max (u + 1) (v + 1)}\n    (RingHom.ker.{max u v, u, max u v}\n      (AlgHom.toRingHom.{u, max u v, u} (decl-016202.{u, v} self)))\n    (Ring.jacobson.{max v u} (MonoidAlgebra.{u, v} K G))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016133",
+        "decl-016185",
+        "decl-016202"
+      ],
+      "structural_type_hash": "3335910710",
+      "temporary_id": "decl-016203"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [inst_1 : Group.{v} G]\n  (self : decl-016122.{u, v} K G),\n  Function.Surjective.{max (u + 1) (v + 1), u + 1}\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1} (decl-016202.{u, v} self))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016122",
+      "project_type_dependencies": [
+        "decl-016122",
+        "decl-016133",
+        "decl-016185",
+        "decl-016202"
+      ],
+      "structural_type_hash": "1576047592",
+      "temporary_id": "decl-016204"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u) (G : Type v) [inst : Field.{u} K] [IsAlgClosed.{u} K] [inst_2 : Group.{v} G] [Fintype.{v} G],\n  Exists.{max (u + 1) (v + 1)} fun D =>\n    Eq.{1} (Nat.card.{max (u + 1) v u} (decl-015611.{u, max v u} (MonoidAlgebra.{u, v} K G)))\n      (decl-016185.{u, v} D)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015611",
+        "decl-016122",
+        "decl-016185"
+      ],
+      "structural_type_hash": "1212448333",
+      "temporary_id": "decl-016205"
+    }
+  ],
+  "module_temporary_id": "module-0215",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

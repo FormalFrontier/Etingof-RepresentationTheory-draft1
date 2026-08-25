@@ -1,0 +1,65 @@
+{
+  "module_name": "CategoryTheory.Abelian.FiniteLength",
+  "declarations": [
+    {
+      "temporary_id": "decl-004727",
+      "new_name": "HasFiniteLength",
+      "docstring": "Inductive predicate identifying finite-length objects in an abelian category."
+    },
+    {
+      "temporary_id": "decl-005167",
+      "new_name": "SchurFiniteLengthCategory",
+      "docstring": "A condition on a linear category over a field with finite-length objects and scalar simple-object endomorphisms."
+    },
+    {
+      "temporary_id": "decl-005169",
+      "new_name": "simpleEndAlgEquiv",
+      "docstring": "In a Schur finite-length category, the endomorphism algebra of a simple object is equivalent to the base field."
+    },
+    {
+      "temporary_id": "decl-005170",
+      "new_name": "finiteDimensional_end",
+      "docstring": "The endomorphism space of a simple object is finite-dimensional in a Schur finite-length category."
+    },
+    {
+      "temporary_id": "decl-005171",
+      "new_name": "finiteDimensional_hom",
+      "docstring": "Every morphism space in a Schur finite-length category is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-005172",
+      "new_name": "hasFiniteLength",
+      "docstring": "Every object in a Schur finite-length category has finite length."
+    },
+    {
+      "temporary_id": "decl-018739",
+      "new_name": "shortExact_leftComp_exact",
+      "docstring": "The maps obtained by left composition from a short exact complex form an exact pair."
+    },
+    {
+      "temporary_id": "decl-018745",
+      "new_name": "shortExact_rightComp_exact",
+      "docstring": "The maps obtained by right composition from a short exact complex form an exact pair."
+    },
+    {
+      "temporary_id": "decl-019396",
+      "new_name": "finiteDimensional_hom_of_hasFiniteLength",
+      "docstring": "Finite-length source objects have finite-dimensional morphism spaces under the stated simple-object hypotheses."
+    },
+    {
+      "temporary_id": "decl-019397",
+      "new_name": "finiteDimensional_hom_of_simple",
+      "docstring": "Morphisms between simple objects are finite-dimensional when simple endomorphisms are finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-019398",
+      "new_name": "finiteDimensional_hom_of_simple_of_hasFiniteLength",
+      "docstring": "Morphisms from a simple object to a finite-length object are finite-dimensional under the stated hypothesis."
+    },
+    {
+      "temporary_id": "decl-019399",
+      "new_name": "finiteDimensional_of_exact",
+      "docstring": "An exact sequence with finite-dimensional endpoints has a finite-dimensional middle space."
+    }
+  ]
+}

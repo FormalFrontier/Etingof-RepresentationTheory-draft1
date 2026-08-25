@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0488",
+  "associations": [
+    {
+      "association_id": "association:0aaa7216559f1c462151",
+      "rationale": "The displayed formal type only exposes an opaque vertex predicate and does not state that it means having no outgoing arrows.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1aec1da530120bffc435",
+      "rationale": "The displayed formal type only exposes an opaque vertex predicate and does not state that it means having no incoming arrows.",
+      "role": "supporting"
+    }
+  ]
+}

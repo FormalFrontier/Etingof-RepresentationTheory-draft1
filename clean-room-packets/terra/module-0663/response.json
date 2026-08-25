@@ -1,0 +1,60 @@
+{
+  "module_name": "HomologicalAlgebra.SymmetricAlgebra.ProjectiveDimension",
+  "declarations": [
+    {
+      "temporary_id": "decl-014377",
+      "new_name": "SymmetricAlgebra.auxiliary_property_iff_mvPolynomial_of_basis",
+      "docstring": "For a vector space with a finite basis, the specified indexed property holds for its symmetric algebra exactly when it holds for the corresponding multivariable polynomial ring."
+    },
+    {
+      "temporary_id": "decl-014378",
+      "new_name": "SymmetricAlgebra.ext_subsingleton_of_basis_of_lt",
+      "docstring": "Extension classes between modules over a symmetric algebra are subsingletons in degrees above the cardinality of a chosen basis."
+    },
+    {
+      "temporary_id": "decl-014379",
+      "new_name": "SymmetricAlgebra.ext_subsingleton_of_finrank_lt",
+      "docstring": "Extension classes between modules over the symmetric algebra of a finite-dimensional vector space are subsingletons in degrees above its rank."
+    },
+    {
+      "temporary_id": "decl-014380",
+      "new_name": "SymmetricAlgebra.auxiliary_homological_bounds_of_basis",
+      "docstring": "A finite basis supplies the displayed projective-dimension bound, subsingleton higher extension classes, and vanishing of the specified indexed objects."
+    },
+    {
+      "temporary_id": "decl-014381",
+      "new_name": "SymmetricAlgebra.auxiliary_homological_bounds_of_finiteDimensional",
+      "docstring": "Finite dimensionality supplies the displayed rank bound on projective dimension, subsingleton higher extension classes, and vanishing of the specified indexed objects."
+    },
+    {
+      "temporary_id": "decl-014386",
+      "new_name": "SymmetricAlgebra.auxiliary_bimodule_object_isZero_of_basis_of_lt",
+      "docstring": "Above the cardinality of a chosen basis, the specified indexed object associated with a right module and a left module is zero."
+    },
+    {
+      "temporary_id": "decl-014387",
+      "new_name": "SymmetricAlgebra.auxiliary_bimodule_object_isZero_of_finrank_lt",
+      "docstring": "Above the rank of a finite-dimensional vector space, the specified indexed object associated with a right module and a left module is zero."
+    },
+    {
+      "temporary_id": "decl-014388",
+      "new_name": "SymmetricAlgebra.auxiliary_module_object_isZero_of_basis_of_lt",
+      "docstring": "Above the cardinality of a chosen basis, the specified indexed object formed from two modules and the displayed functorial input is zero."
+    },
+    {
+      "temporary_id": "decl-014389",
+      "new_name": "SymmetricAlgebra.auxiliary_module_object_isZero_of_finrank_lt",
+      "docstring": "Above the rank of a finite-dimensional vector space, the specified indexed object formed from two modules and the displayed functorial input is zero."
+    },
+    {
+      "temporary_id": "decl-020933",
+      "new_name": "CategoryTheory.Functor.leftDerived_obj_isZero_of_projectiveDimensionLE_of_lt",
+      "docstring": "An additive functor's left-derived object at an object of projective dimension at most `d` is zero in every degree strictly greater than `d`."
+    },
+    {
+      "temporary_id": "decl-023719",
+      "new_name": "SymmetricAlgebra.auxiliary_property_of_basis",
+      "docstring": "A symmetric algebra on a vector space with a basis indexed by `Fin n` satisfies the specified predicate at index `n`."
+    }
+  ]
+}

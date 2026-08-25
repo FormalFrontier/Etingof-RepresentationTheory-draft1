@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3f010666f964fc5ce34a",
+      "declaration": "Etingof.symmetricAlgebraEquivDirectSumSymmetricPowers",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/109/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          {\u03b9 : Type w} \u2192\n            Module.Basis.{w, u, v} \u03b9 k V \u2192\n              LinearEquiv.{u, u, max v u, max v u} (RingHom.id.{u} k) (Etingof.SymmetricAlgebraDef.{u, v} k V)\n                (DirectSum.{0, max v u} Nat fun n => Etingof.Problem2_11_3.SymPow.{u, v} k V n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_12_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.12.1",
+  "packet_id": "align-0466",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0466"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:94950a0c0ce6081bf1ef",
+  "source_text": "The symmetric algebra decomposes as the direct sum of the symmetric powers S^n(V)."
+}

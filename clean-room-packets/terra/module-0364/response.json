@@ -1,0 +1,35 @@
+{
+  "module_name": "Centralizer.LinearMaps",
+  "declarations": [
+    {
+      "temporary_id": "decl-017838",
+      "new_name": "Subalgebra.centralizer.isScalarTower_linearMap",
+      "docstring": "The centralizer action on maps from an `A`-module to `E` is compatible with the scalar action of the base field."
+    },
+    {
+      "temporary_id": "decl-019978",
+      "new_name": "LinearEquiv.linearMapPrecomp",
+      "docstring": "Precomposition with an `R`-linear equivalence gives a `k`-linear equivalence between the corresponding spaces of `R`-linear maps into `E`."
+    },
+    {
+      "temporary_id": "decl-020912",
+      "new_name": "IsSimpleModule.restrictScalars_of_surjective",
+      "docstring": "A compatible scalar action through a surjective ring homomorphism transfers simplicity from the target ring to the source ring."
+    },
+    {
+      "temporary_id": "decl-021693",
+      "new_name": "Subalgebra.centralizer.linearMapEquiv_index_eq",
+      "docstring": "For a family of simple submodules with distinct equivalence classes, equivalence of the associated centralizer-linear map spaces forces the indices to agree."
+    },
+    {
+      "temporary_id": "decl-021694",
+      "new_name": "Subalgebra.centralizer.linearMapEquiv_implies_linearEquiv",
+      "docstring": "An equivalence between the centralizer-linear map spaces associated with two simple submodules yields a linear equivalence of those submodules."
+    },
+    {
+      "temporary_id": "decl-021695",
+      "new_name": "Subalgebra.centralizer.finrank_linearMap_eq",
+      "docstring": "A simple submodule and its centralizer-linear map space into `E` have equal dimension over the base field."
+    }
+  ]
+}

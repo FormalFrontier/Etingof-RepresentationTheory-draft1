@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Problem4.12.7",
+    "kind": "exercise",
+    "title": "SU(2), quaternion algebra, and SO(3)",
+    "node_id": "chapter-04/section-4-12",
+    "order": 237,
+    "slug": "problem4-12-7",
+    "span": {
+      "start": {
+        "page": "85",
+        "line": 9
+      },
+      "end": {
+        "page": "86",
+        "line": 4
+      }
+    },
+    "source_sha256": "05c3b1530120664cca38e9773a8b6cfde9ace68f9ec9308e78ccc472dc7384fb",
+    "features": {
+      "line_count": 19,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Problem4127",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

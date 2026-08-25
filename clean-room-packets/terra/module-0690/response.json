@@ -1,0 +1,75 @@
+{
+  "declarations": [
+    {
+      "docstring": "Provides a family of module-category functors indexed by natural numbers.",
+      "new_name": "auxiliaryIndexedModuleFunctor",
+      "temporary_id": "decl-016769"
+    },
+    {
+      "docstring": "Selects the k-module associated with a right-opposite module and an index.",
+      "new_name": "auxiliaryIndexedModuleFunctorObj",
+      "temporary_id": "decl-016772"
+    },
+    {
+      "docstring": "States that the right tensor functor preserves addition of morphisms.",
+      "new_name": "rightTensorFunctor_additive",
+      "temporary_id": "decl-020581"
+    },
+    {
+      "docstring": "States that the base-ring action commutes with the opposite-ring action on a module carrier.",
+      "new_name": "rightModuleCarrier_smulComm",
+      "temporary_id": "decl-020593"
+    },
+    {
+      "docstring": "Gives the base-ring module structure on the carrier of a module over the opposite ring.",
+      "new_name": "rightModuleCarrier_restrictScalars",
+      "temporary_id": "decl-020633"
+    },
+    {
+      "docstring": "States the scalar-tower compatibility on the carrier of a right module.",
+      "new_name": "rightModuleCarrier_isScalarTower",
+      "temporary_id": "decl-020680"
+    },
+    {
+      "docstring": "Maps right modules to k-modules by tensoring with a fixed left module.",
+      "new_name": "rightTensorFunctor",
+      "temporary_id": "decl-024064"
+    },
+    {
+      "docstring": "Compares the underlying additive-group functor of right tensoring with a related functor.",
+      "new_name": "rightTensorForgetIso",
+      "temporary_id": "decl-024067"
+    },
+    {
+      "docstring": "Describes the image of a pure tensor under the right tensor functor.",
+      "new_name": "rightTensorFunctor_map_tmul",
+      "temporary_id": "decl-024069"
+    },
+    {
+      "docstring": "Describes the value of the induced tensor map on a pure tensor.",
+      "new_name": "rightTensorMap_apply_tmul",
+      "temporary_id": "decl-024073"
+    },
+    {
+      "docstring": "States that the induced tensor map commutes with scalars from the base ring.",
+      "new_name": "rightTensorMap_smul",
+      "temporary_id": "decl-024074"
+    },
+    {
+      "docstring": "Constructs the base-linear map on tensor products induced by a module morphism.",
+      "new_name": "rightTensorMapLinear",
+      "temporary_id": "decl-024075"
+    },
+    {
+      "docstring": "Computes the induced base-linear tensor map on a pure tensor.",
+      "new_name": "rightTensorMapLinear_apply_tmul",
+      "temporary_id": "decl-024079"
+    },
+    {
+      "docstring": "Identifies an indexed tensor construction with homology of a mapped projective resolution.",
+      "new_name": "rightTensorProjectiveResolutionHomologyIso",
+      "temporary_id": "decl-024213"
+    }
+  ],
+  "module_name": "ModuleCat.RightTensor"
+}

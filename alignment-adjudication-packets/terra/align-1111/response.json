@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1111",
+  "associations": [
+    {
+      "association_id": "association:78d67830b48f5ba901b8",
+      "role": "supporting",
+      "rationale": "The displayed signature only supplies a proposition on abelian categories; it does not show the defining condition that every short exact sequence splits."
+    }
+  ]
+}

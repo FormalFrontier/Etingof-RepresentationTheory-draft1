@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0052",
+  "associations": [
+    {
+      "association_id": "association:4ffffbb3ccb0fa357abd",
+      "role": "supporting",
+      "rationale": "Its type constructs an N-coordinate finitely supported encoding of a partition, providing the variable-count-aware representation used by the formula but defining neither the Vandermonde polynomial nor rho itself."
+    },
+    {
+      "association_id": "association:427ef019534c3f8340c5",
+      "role": "supporting",
+      "rationale": "The type only gives a Fin n-indexed Finsupp family; it exposes the count parameter but does not state that its values form the staircase rho."
+    },
+    {
+      "association_id": "association:382fb79a69e9af7968fb",
+      "role": "supporting",
+      "rationale": "The type only gives an n-parameter polynomial with variables Fin n; it does not display the formula establishing that the polynomial is Vandermonde."
+    }
+  ]
+}

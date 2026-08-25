@@ -1,0 +1,129 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} (MvPolynomial.eval.{0, 0} fun x => 1) (decl-023030 N lam))\n      (HDiv.hDiv.{0, 0, 0}\n        (Finset.prod.{0, 0}\n          (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n          HSub.hSub.{0, 0, 0}\n            (HAdd.hAdd.{0, 0, 0}\n              (HSub.hSub.{0, 0, 0} (Nat.cast.{0} (lam (Prod.fst.{0, 0} p))) (Nat.cast.{0} (lam (Prod.snd.{0, 0} p))))\n              (Nat.cast.{0} (Prod.snd.{0, 0} p).val))\n            (Nat.cast.{0} (Prod.fst.{0, 0} p).val))\n        (Finset.prod.{0, 0}\n          (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n          HSub.hSub.{0, 0, 0} (Nat.cast.{0} (Prod.snd.{0, 0} p).val) (Nat.cast.{0} (Prod.fst.{0, 0} p).val)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023030"
+      ],
+      "structural_type_hash": "3265883290",
+      "temporary_id": "decl-014646"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat) (z : Rat),\n  LE.le.{0} 1 N \u2192\n    (\u2200 (i j : Fin N),\n        LT.lt.{0} i j \u2192\n          Ne.{1}\n            (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) i.val))\n              (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) j.val)))\n            0) \u2192\n      Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-018693 N z) (decl-023030 N lam))\n        (HDiv.hDiv.{0, 0, 0}\n          (Finset.prod.{0, 0}\n            (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n            HSub.hSub.{0, 0, 0}\n              (HPow.hPow.{0, 0, 0} z\n                (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (lam (Prod.fst.{0, 0} p)) N) 1)\n                  (Prod.fst.{0, 0} p).val))\n              (HPow.hPow.{0, 0, 0} z\n                (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (lam (Prod.snd.{0, 0} p)) N) 1)\n                  (Prod.snd.{0, 0} p).val)))\n          (Finset.prod.{0, 0}\n            (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n            HSub.hSub.{0, 0, 0}\n              (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) (Prod.fst.{0, 0} p).val))\n              (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) (Prod.snd.{0, 0} p).val))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018693",
+        "decl-023030"
+      ],
+      "structural_type_hash": "104209358",
+      "temporary_id": "decl-014660"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat) (z : Complex),\n  (\u2200 (i j : Fin N),\n      LT.lt.{0} i j \u2192\n        Ne.{1}\n          (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) i.val))\n            (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) j.val)))\n          0) \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-018695.{0} N Complex z) (decl-023030 N lam))\n      (HDiv.hDiv.{0, 0, 0}\n        (Finset.prod.{0, 0}\n          (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n          HSub.hSub.{0, 0, 0}\n            (HPow.hPow.{0, 0, 0} z\n              (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (lam (Prod.fst.{0, 0} p)) N) 1)\n                (Prod.fst.{0, 0} p).val))\n            (HPow.hPow.{0, 0, 0} z\n              (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (lam (Prod.snd.{0, 0} p)) N) 1)\n                (Prod.snd.{0, 0} p).val)))\n        (Finset.prod.{0, 0}\n          (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n          HSub.hSub.{0, 0, 0}\n            (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) (Prod.fst.{0, 0} p).val))\n            (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) (Prod.snd.{0, 0} p).val))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018695",
+        "decl-023030"
+      ],
+      "structural_type_hash": "2399672399",
+      "temporary_id": "decl-014661"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat) (z : Complex),\n  Ne.{1} z 0 \u2192\n    (\u2200 (i j : Fin N),\n        LT.lt.{0} i j \u2192\n          Ne.{1}\n            (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (Neg.neg.{0} (Nat.cast.{0} i.val)) 1))\n              (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (Neg.neg.{0} (Nat.cast.{0} j.val)) 1)))\n            0) \u2192\n      Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-018695.{0} N Complex z) (decl-023030 N lam))\n        (HDiv.hDiv.{0, 0, 0}\n          (Finset.prod.{0, 0}\n            (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n            HSub.hSub.{0, 0, 0}\n              (HPow.hPow.{0, 0, 0} z\n                (HSub.hSub.{0, 0, 0}\n                  (HSub.hSub.{0, 0, 0} (Nat.cast.{0} (lam (Prod.fst.{0, 0} p))) (Nat.cast.{0} (Prod.fst.{0, 0} p).val))\n                  1))\n              (HPow.hPow.{0, 0, 0} z\n                (HSub.hSub.{0, 0, 0}\n                  (HSub.hSub.{0, 0, 0} (Nat.cast.{0} (lam (Prod.snd.{0, 0} p))) (Nat.cast.{0} (Prod.snd.{0, 0} p).val))\n                  1)))\n          (Finset.prod.{0, 0}\n            (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n            HSub.hSub.{0, 0, 0}\n              (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (Neg.neg.{0} (Nat.cast.{0} (Prod.fst.{0, 0} p).val)) 1))\n              (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (Neg.neg.{0} (Nat.cast.{0} (Prod.snd.{0, 0} p).val)) 1))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018695",
+        "decl-023030"
+      ],
+      "structural_type_hash": "1963120973",
+      "temporary_id": "decl-014662"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u_1} [inst : Field.{u_1} K] [inst_1 : CharZero.{u_1} K] (N : Nat) (lam : Fin N \u2192 Nat) (z : K),\n  (\u2200 (i j : Fin N),\n      LT.lt.{0} i j \u2192\n        Ne.{u_1 + 1}\n          (HSub.hSub.{u_1, u_1, u_1} (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) i.val))\n            (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) j.val)))\n          0) \u2192\n    Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (decl-018695.{u_1} N K z) (decl-023030 N lam))\n      (HDiv.hDiv.{u_1, u_1, u_1}\n        (Finset.prod.{0, u_1}\n          (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n          HSub.hSub.{u_1, u_1, u_1}\n            (HPow.hPow.{u_1, 0, u_1} z\n              (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (lam (Prod.fst.{0, 0} p)) N) 1)\n                (Prod.fst.{0, 0} p).val))\n            (HPow.hPow.{u_1, 0, u_1} z\n              (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (lam (Prod.snd.{0, 0} p)) N) 1)\n                (Prod.snd.{0, 0} p).val)))\n        (Finset.prod.{0, u_1}\n          (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n          HSub.hSub.{u_1, u_1, u_1}\n            (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) (Prod.fst.{0, 0} p).val))\n            (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) (Prod.snd.{0, 0} p).val))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018695",
+        "decl-023030"
+      ],
+      "structural_type_hash": "3992464836",
+      "temporary_id": "decl-014663"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u_1} [inst : Field.{u_1} K] [inst_1 : CharZero.{u_1} K] (N : Nat) (lam : Fin N \u2192 Nat) (z : K),\n  Eq.{u_1 + 1}\n    (HMul.hMul.{u_1, u_1, u_1}\n      (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (decl-018695.{u_1} N K z) (decl-023030 N lam))\n      (Finset.prod.{0, u_1}\n        (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n        HSub.hSub.{u_1, u_1, u_1}\n          (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) (Prod.fst.{0, 0} p).val))\n          (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) (Prod.snd.{0, 0} p).val))))\n    (Finset.prod.{0, u_1}\n      (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n      HSub.hSub.{u_1, u_1, u_1}\n        (HPow.hPow.{u_1, 0, u_1} z\n          (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (lam (Prod.fst.{0, 0} p)) N) 1)\n            (Prod.fst.{0, 0} p).val))\n        (HPow.hPow.{u_1, 0, u_1} z\n          (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (lam (Prod.snd.{0, 0} p)) N) 1)\n            (Prod.snd.{0, 0} p).val)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018695",
+        "decl-023030"
+      ],
+      "structural_type_hash": "733658448",
+      "temporary_id": "decl-014666"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u_1} [inst : Field.{u_1} K] [inst_1 : CharZero.{u_1} K] (N : Nat) (lam : Fin N \u2192 Nat) (z : K),\n  Ne.{u_1 + 1} z 0 \u2192\n    (\u2200 (i j : Fin N),\n        LT.lt.{0} i j \u2192\n          Ne.{u_1 + 1}\n            (HSub.hSub.{u_1, u_1, u_1}\n              (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (Neg.neg.{0} (Nat.cast.{0} i.val)) 1))\n              (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (Neg.neg.{0} (Nat.cast.{0} j.val)) 1)))\n            0) \u2192\n      Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (decl-018695.{u_1} N K z) (decl-023030 N lam))\n        (HDiv.hDiv.{u_1, u_1, u_1}\n          (Finset.prod.{0, u_1}\n            (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n            HSub.hSub.{u_1, u_1, u_1}\n              (HPow.hPow.{u_1, 0, u_1} z\n                (HSub.hSub.{0, 0, 0}\n                  (HSub.hSub.{0, 0, 0} (Nat.cast.{0} (lam (Prod.fst.{0, 0} p))) (Nat.cast.{0} (Prod.fst.{0, 0} p).val))\n                  1))\n              (HPow.hPow.{u_1, 0, u_1} z\n                (HSub.hSub.{0, 0, 0}\n                  (HSub.hSub.{0, 0, 0} (Nat.cast.{0} (lam (Prod.snd.{0, 0} p))) (Nat.cast.{0} (Prod.snd.{0, 0} p).val))\n                  1)))\n          (Finset.prod.{0, u_1}\n            (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n            HSub.hSub.{u_1, u_1, u_1}\n              (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (Neg.neg.{0} (Nat.cast.{0} (Prod.fst.{0, 0} p).val)) 1))\n              (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (Neg.neg.{0} (Nat.cast.{0} (Prod.snd.{0, 0} p).val)) 1))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018695",
+        "decl-023030"
+      ],
+      "structural_type_hash": "661713981",
+      "temporary_id": "decl-014669"
+    },
+    {
+      "formal_type": "(N : Nat) \u2192 Rat \u2192 RingHom.{0, 0} (MvPolynomial.{0, 0} (Fin N) Rat) Rat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4032957410",
+      "temporary_id": "decl-018693"
+    },
+    {
+      "formal_type": "(N : Nat) \u2192\n  (K : Type u_1) \u2192\n    [inst : Field.{u_1} K] \u2192 [CharZero.{u_1} K] \u2192 K \u2192 RingHom.{0, u_1} (MvPolynomial.{0, 0} (Fin N) Rat) K",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3585052792",
+      "temporary_id": "decl-018695"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (z : Rat), Eq.{1} (decl-018695.{0} N Rat z) (decl-018693 N z)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018693",
+        "decl-018695"
+      ],
+      "structural_type_hash": "3120226657",
+      "temporary_id": "decl-018697"
+    }
+  ],
+  "module_temporary_id": "module-0400",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

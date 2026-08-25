@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0529",
+  "associations": [
+    {
+      "association_id": "association:0b8dc234e0ce16ef4e5d",
+      "rationale": "Squarefreeness of the named polynomial is a helper property, not a direct statement that H is diagonalizable on the selected space.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b16b0e5afe540b21765d",
+      "rationale": "Under the no-higher-weight hypothesis selecting lambda, the equality of its maximal generalized eigenspace with its eigenspace directly states that H has no nontrivial generalized part there.",
+      "role": "primary"
+    }
+  ]
+}

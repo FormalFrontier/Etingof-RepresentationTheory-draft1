@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c70d104b3a5bdeacac31",
+      "declaration": "LinearEquiv.symm",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/29/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Module.Equiv.Defs"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.3.6",
+  "packet_id": "align-0292",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0292"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:5809193965a8305fd87f",
+  "source_text": "The inverse of an isomorphism of representations is again an isomorphism."
+}

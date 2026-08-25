@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:015d241989a459a1191d",
+      "declaration": "Etingof.Problem2_16_2.charP_exists_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/120/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (p : Nat) [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  [IsAlgClosed.{u_2} k] (M : Type u_3) [inst_4 : AddCommGroup.{u_3} M] [inst_5 : Module.{u_2, u_3} k M]\n  [inst_6 :\n    LieRingModule.{u_2, u_3} (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x)\n      M]\n  [LieModule.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x) M]\n  [FiniteDimensional.{u_2, u_3} k M]\n  [LieModule.IsIrreducible.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x) M],\n  Or\n    (Exists.{u_2 + 1} fun \u03bc =>\n      Nonempty.{max (u_2 + 1) (u_3 + 1)}\n        (LieModuleEquiv.{u_2, u_2, u_3, u_2} k\n          (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x) M\n          (Etingof.Problem2_16_2.oneDimModule.{u_2} k \u03bc)))\n    (Exists.{u_2 + 1} fun \u03b3 =>\n      Exists.{u_2 + 1} fun a =>\n        Nonempty.{max (u_2 + 1) (u_3 + 1)}\n          (LieModuleEquiv.{u_2, u_2, u_3, u_2} k\n            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x) M\n            (Etingof.Problem2_16_2.Fam.{u_2} k p \u03b3 a)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2"
+    },
+    {
+      "association_id": "association:f8b2ed13839334fd670c",
+      "declaration": "Etingof.Problem2_16_2.charP_exists_unique_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/120/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (p : Nat) [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  [IsAlgClosed.{u_2} k] (M : Type u_3) [inst_4 : AddCommGroup.{u_3} M] [inst_5 : Module.{u_2, u_3} k M]\n  [inst_6 :\n    LieRingModule.{u_2, u_3} (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x)\n      M]\n  [LieModule.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x) M]\n  [FiniteDimensional.{u_2, u_3} k M]\n  [LieModule.IsIrreducible.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x) M],\n  Or\n    (ExistsUnique.{u_2 + 1} fun \u03bc =>\n      Nonempty.{max (u_2 + 1) (u_3 + 1)}\n        (LieModuleEquiv.{u_2, u_2, u_3, u_2} k\n          (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x) M\n          (Etingof.Problem2_16_2.oneDimModule.{u_2} k \u03bc)))\n    (Exists.{u_2 + 1} fun \u03b3 =>\n      Exists.{u_2 + 1} fun a =>\n        And\n          (Nonempty.{max (u_2 + 1) (u_3 + 1)}\n            (LieModuleEquiv.{u_2, u_2, u_3, u_2} k\n              (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x) M\n              (Etingof.Problem2_16_2.Fam.{u_2} k p \u03b3 a)))\n          (\u2200 (\u03b3' : Units.{u_2} k) (a' : k),\n            Nonempty.{max (u_2 + 1) (u_3 + 1)}\n                (LieModuleEquiv.{u_2, u_2, u_3, u_2} k\n                  (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x) M\n                  (Etingof.Problem2_16_2.Fam.{u_2} k p \u03b3' a')) \u2192\n              And (Eq.{u_2 + 1} \u03b3' \u03b3)\n                (Exists.{1} fun n =>\n                  Eq.{u_2 + 1} a'\n                    (HAdd.hAdd.{u_2, u_2, u_2} a\n                      (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (Etingof.Problem2_16_2.lam.{u_2} k p) n)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.2",
+  "packet_id": "align-0548",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0548"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.2:claim-05",
+  "source_text": "Every finite-dimensional irreducible in characteristic p occurs uniquely in the one-dimensional family or the p-dimensional family, with the stated parameter equivalence."
+}

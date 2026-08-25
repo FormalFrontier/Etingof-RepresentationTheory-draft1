@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e1b36ee1fa3cf220dcaf",
+      "declaration": "Etingof.PureTensors.t_not_pure",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/100/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (v w : Etingof.PureTensors.V), Ne.{1} Etingof.PureTensors.t (TensorProduct.tmul.{0, 0, 0} Rat v w)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_pure_tensors"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_pure_tensors",
+  "packet_id": "align-1016",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1016"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c2af0512e524c81e7a2f",
+  "source_text": "In general a tensor product contains tensors that are not pure."
+}

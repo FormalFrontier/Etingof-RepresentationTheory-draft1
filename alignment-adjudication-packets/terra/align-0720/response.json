@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0720",
+  "associations": [
+    {
+      "association_id": "association:4005d0d067c79cb78130",
+      "rationale": "The dimension dichotomy is a consequence constraining possible irreducibles, but it does not identify their isomorphism classes exhaustively.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:08ce90c4fe2c3ab93809",
+      "rationale": "Counting one-dimensional representations for fields of size at least three is a classification aid and does not cover every irreducible or the q=2 case.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6222ef5cb605b13f69f9",
+      "rationale": "This proves irreducibility of the zero-sum subrepresentation, supplying one constituent of the classification without stating that all irreducibles are exhausted by the displayed families.",
+      "role": "supporting"
+    }
+  ]
+}

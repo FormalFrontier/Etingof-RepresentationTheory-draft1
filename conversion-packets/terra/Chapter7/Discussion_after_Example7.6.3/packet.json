@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Discussion_after_Example7.6.3",
+    "kind": "discussion",
+    "title": "Ubiquity of adjoint functors",
+    "node_id": "chapter-07/section-7-6",
+    "order": 493,
+    "slug": "discussion-after-example7-6-3",
+    "span": {
+      "start": {
+        "page": "190",
+        "line": 11
+      },
+      "end": {
+        "page": "190",
+        "line": 12
+      }
+    },
+    "source_sha256": "0af902260fd683d76e08f6c9546dc2d749bc461547f2a72a8f6fc6527dc90fc8",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.DiscussionAfterExample763",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

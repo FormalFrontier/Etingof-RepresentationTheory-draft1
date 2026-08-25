@@ -1,0 +1,30 @@
+{
+  "module_name": "CategoryTheory.QuiverLinearDiagrams",
+  "declarations": [
+    {
+      "temporary_id": "decl-014909",
+      "new_name": "AuxiliaryQuiverModuleData",
+      "docstring": "An auxiliary inductive type associated with a quiver over a commutative semiring."
+    },
+    {
+      "temporary_id": "decl-014980",
+      "new_name": "addCommMonoid",
+      "docstring": "Supplies the additive commutative monoid structure on the type at a vertex."
+    },
+    {
+      "temporary_id": "decl-014985",
+      "new_name": "moduleInstance",
+      "docstring": "Supplies the scalar module structure on the type at a vertex."
+    },
+    {
+      "temporary_id": "decl-014986",
+      "new_name": "map",
+      "docstring": "Returns the linear map associated with a quiver arrow."
+    },
+    {
+      "temporary_id": "decl-014996",
+      "new_name": "obj",
+      "docstring": "Returns the type associated with a vertex."
+    }
+  ]
+}

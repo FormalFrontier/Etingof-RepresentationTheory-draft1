@@ -1,0 +1,280 @@
+{
+  "module_name": "Permutation.PartitionIndexedAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-001314",
+      "new_name": "permutationToAuxiliaryType_inv_mul_ne_objectValue",
+      "docstring": "For an auxiliary object and a nonidentity permutation in the indicated collection, the displayed two values of the partition-indexed auxiliary type are unequal."
+    },
+    {
+      "temporary_id": "decl-015219",
+      "new_name": "associatedSubgroup",
+      "docstring": "Associates a subgroup of permutations of `Fin n` with each member of an auxiliary type."
+    },
+    {
+      "temporary_id": "decl-015536",
+      "new_name": "eq_one_of_mem_two_auxiliarySets",
+      "docstring": "A permutation belonging to each of two indicated collections is the identity."
+    },
+    {
+      "temporary_id": "decl-016261",
+      "new_name": "partitionIndexedAuxiliaryType",
+      "docstring": "An auxiliary type parameterized by a natural number and a partition of it."
+    },
+    {
+      "temporary_id": "decl-016262",
+      "new_name": "partitionIndexedAuxiliaryType2",
+      "docstring": "A second auxiliary type parameterized by a natural number and a partition of it."
+    },
+    {
+      "temporary_id": "decl-016263",
+      "new_name": "permutationSetoid",
+      "docstring": "A setoid on permutations of `Fin n`, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-018074",
+      "new_name": "permutationRel_inv_mul_of_mem",
+      "docstring": "A permutation in the displayed collection relates the indicated permutation expression to its inverse left translate."
+    },
+    {
+      "temporary_id": "decl-018084",
+      "new_name": "permutationRelAux_inv_mul_of_mem_ne_one",
+      "docstring": "A nonidentity member of the displayed collection satisfies the second indicated permutation relation with the corresponding inverse left translate."
+    },
+    {
+      "temporary_id": "decl-018814",
+      "new_name": "exists_nonzero_mem_with_related_value_eq",
+      "docstring": "From a nonzero value on a member of a finite set, one can choose a nonzero member such that every related nonzero member has the same displayed auxiliary value."
+    },
+    {
+      "temporary_id": "decl-018817",
+      "new_name": "exists_mem_unique_of_related",
+      "docstring": "A nonempty finite set contains a member to which no distinct member of the set is related by the displayed relation."
+    },
+    {
+      "temporary_id": "decl-019462",
+      "new_name": "card_auxiliaryType_le_finrank",
+      "docstring": "The cardinality of the displayed finite auxiliary type is bounded by the complex finrank of the indicated subtype."
+    },
+    {
+      "temporary_id": "decl-019782",
+      "new_name": "Auxiliary.statement019782",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-019788",
+      "new_name": "permutationToAuxiliaryType2",
+      "docstring": "Maps a permutation of `Fin n` to the second partition-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-019790",
+      "new_name": "permutationToAuxiliaryType2_mul_eq_sign_smul",
+      "docstring": "Left multiplication by a permutation in the displayed collection scales the associated value by its sign."
+    },
+    {
+      "temporary_id": "decl-019794",
+      "new_name": "permutationToAuxiliaryType2_objectPermutation",
+      "docstring": "The value attached to the displayed permutation associated with an auxiliary object equals the value assigned directly to that object."
+    },
+    {
+      "temporary_id": "decl-020616",
+      "new_name": "partitionIndexedAuxiliaryTypeFintype",
+      "docstring": "Supplies a finite-type instance for the partition-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-021574",
+      "new_name": "mem_associatedSubgroup_iff_exists_conjugate",
+      "docstring": "Membership in the subgroup associated with an auxiliary object is characterized by a conjugate of a member of the displayed collection."
+    },
+    {
+      "temporary_id": "decl-022086",
+      "new_name": "objectToAuxiliaryType2",
+      "docstring": "Maps an element of an auxiliary type to the second partition-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-022088",
+      "new_name": "permutationRel_of_objectToAuxiliaryType2_apply_ne_zero",
+      "docstring": "A nonzero value of the map associated with an auxiliary object at a displayed permutation image implies the indicated relation."
+    },
+    {
+      "temporary_id": "decl-022089",
+      "new_name": "objectToAuxiliaryType2_apply_objectValue",
+      "docstring": "The map associated with an auxiliary object takes value one at its displayed associated value."
+    },
+    {
+      "temporary_id": "decl-022090",
+      "new_name": "linearIndependent_objectToAuxiliaryType2",
+      "docstring": "The displayed family indexed by the auxiliary type is linearly independent over the complex numbers."
+    },
+    {
+      "temporary_id": "decl-022091",
+      "new_name": "objectToAuxiliaryType2_mem_mappedSubmodule",
+      "docstring": "Each displayed value of the object map belongs to the image of the indicated scalar-restricted submodule under the displayed linear map."
+    },
+    {
+      "temporary_id": "decl-022092",
+      "new_name": "permutationRel_of_objectToAuxiliaryType2_apply_objectValue_ne_zero",
+      "docstring": "A nonzero value of the map associated with one auxiliary object at another object's displayed value implies the indicated relation between their displayed permutations."
+    },
+    {
+      "temporary_id": "decl-023741",
+      "new_name": "mem_auxiliarySet_of_mem_associatedSubgroup",
+      "docstring": "Conjugating a member of the associated subgroup by the displayed permutation expression gives a member of the indicated collection."
+    },
+    {
+      "temporary_id": "decl-023743",
+      "new_name": "auxiliaryObjectIndex",
+      "docstring": "Assigns a natural number to an auxiliary object and a finite index."
+    },
+    {
+      "temporary_id": "decl-023744",
+      "new_name": "objectToAuxiliaryType",
+      "docstring": "Maps an element of an auxiliary type to the partition-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-023746",
+      "new_name": "objectToAuxiliaryType_injective",
+      "docstring": "The displayed map from the auxiliary object type is injective."
+    },
+    {
+      "temporary_id": "decl-023755",
+      "new_name": "permutationToIndexedNatFunction",
+      "docstring": "A natural-valued function of a permutation, a finite index, and an additional natural-number argument, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-023757",
+      "new_name": "permutationToIndexedNatFunction_eq_of_auxiliaryValue_eq",
+      "docstring": "Permutations with equal displayed values in the partition-indexed auxiliary type have equal values of the indicated natural-valued function."
+    },
+    {
+      "temporary_id": "decl-023761",
+      "new_name": "permutationRel",
+      "docstring": "A binary relation on permutations of `Fin n`, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-023762",
+      "new_name": "permutationToAuxiliaryType_eq_of_rel_and_reverse",
+      "docstring": "If the displayed relation holds in both directions between two permutations, their displayed auxiliary values are equal."
+    },
+    {
+      "temporary_id": "decl-023763",
+      "new_name": "middle_auxiliaryValue_eq_of_rel_chain",
+      "docstring": "In a two-step chain of the displayed relation, equality of the first and final auxiliary values implies equality of the middle and final values."
+    },
+    {
+      "temporary_id": "decl-023785",
+      "new_name": "permutationRel_congr",
+      "docstring": "The permutation relation is preserved when either argument is replaced by a permutation with the same displayed auxiliary value."
+    },
+    {
+      "temporary_id": "decl-023786",
+      "new_name": "permutationRel_refl",
+      "docstring": "The permutation relation holds from every permutation to itself."
+    },
+    {
+      "temporary_id": "decl-023787",
+      "new_name": "permutationRel_trans",
+      "docstring": "The permutation relation is transitive on permutations."
+    },
+    {
+      "temporary_id": "decl-023788",
+      "new_name": "auxiliaryLinearMap",
+      "docstring": "A complex-linear map from the displayed auxiliary source to the second partition-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-023796",
+      "new_name": "auxiliaryLinearMap_apply_specifiedElement",
+      "docstring": "The displayed linear map sends the indicated source element to a cardinality scalar times the single-support value at the image of the identity permutation."
+    },
+    {
+      "temporary_id": "decl-023797",
+      "new_name": "eq_zero_of_mem_of_auxiliaryLinearMap_eq_zero",
+      "docstring": "Within the indicated set of source elements, an element with zero image under the displayed linear map is zero."
+    },
+    {
+      "temporary_id": "decl-023798",
+      "new_name": "auxiliaryLinearMap_mul_eq_zero",
+      "docstring": "If an element has zero image under the displayed linear map, then every displayed left multiple also has zero image."
+    },
+    {
+      "temporary_id": "decl-023799",
+      "new_name": "auxiliaryLinearMap_monomial_mul_eq_zero",
+      "docstring": "If an element has zero image under the displayed linear map, then so does its product with every displayed permutation monomial."
+    },
+    {
+      "temporary_id": "decl-023800",
+      "new_name": "auxiliaryLinearMap_monomial",
+      "docstring": "The displayed linear map maps a permutation monomial to the single-support value at the image of its inverse."
+    },
+    {
+      "temporary_id": "decl-023801",
+      "new_name": "auxiliaryLinearMap_monomial_mul",
+      "docstring": "Under the displayed linear map, multiplication by a permutation monomial corresponds to reindexing by the specified inverse map."
+    },
+    {
+      "temporary_id": "decl-023802",
+      "new_name": "auxiliaryLinearMap_monomial_mul_specifiedElement",
+      "docstring": "The displayed linear map sends the product of a permutation monomial and a specified source element to a cardinality scalar times the auxiliary value of the inverse permutation."
+    },
+    {
+      "temporary_id": "decl-023804",
+      "new_name": "auxiliaryLinearMap_specifiedElement_ne_zero",
+      "docstring": "The indicated source element has nonzero image under the displayed linear map."
+    },
+    {
+      "temporary_id": "decl-023808",
+      "new_name": "permutationAuxiliaryTypeMap",
+      "docstring": "Maps a permutation and an element of the partition-indexed auxiliary type to another element of that type."
+    },
+    {
+      "temporary_id": "decl-023819",
+      "new_name": "permutationAuxiliaryTypeMap_apply_permutation",
+      "docstring": "Applying the displayed map to the auxiliary value of a permutation gives the auxiliary value of the displayed product."
+    },
+    {
+      "temporary_id": "decl-023820",
+      "new_name": "permutationToNatFunction",
+      "docstring": "Maps each permutation to a natural-valued function on `Fin n`, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-023821",
+      "new_name": "permutationToNatFunction_eq_of_auxiliaryValue_eq",
+      "docstring": "Permutations with equal displayed auxiliary values have equal indicated natural-valued functions."
+    },
+    {
+      "temporary_id": "decl-023822",
+      "new_name": "permutationRelAux",
+      "docstring": "A second binary relation on permutations of `Fin n`, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-024162",
+      "new_name": "permutationToAuxiliaryType",
+      "docstring": "Maps a permutation to the partition-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-024163",
+      "new_name": "permutationToAuxiliaryType_eq_iff_mul_inv_mem",
+      "docstring": "The displayed values for two permutations are equal exactly when the product of the first with the inverse of the second belongs to the indicated collection."
+    },
+    {
+      "temporary_id": "decl-024164",
+      "new_name": "permutationToAuxiliaryType_eq_iff_coordinate_eq",
+      "docstring": "The displayed values for two permutations are equal exactly when the indicated coordinate values agree at every finite index."
+    },
+    {
+      "temporary_id": "decl-024165",
+      "new_name": "permutationToAuxiliaryType_eq_of_natFunction_eq",
+      "docstring": "Permutations with equal indicated natural-valued functions have equal displayed auxiliary values."
+    },
+    {
+      "temporary_id": "decl-024166",
+      "new_name": "permutationToAuxiliaryType_objectPermutation",
+      "docstring": "The displayed value of the permutation expression associated with an auxiliary object equals that object's displayed auxiliary value."
+    },
+    {
+      "temporary_id": "decl-024167",
+      "new_name": "permutationToAuxiliaryType_quotientOut",
+      "docstring": "Applying the displayed permutation map to a quotient representative recovers the original element."
+    }
+  ]
+}

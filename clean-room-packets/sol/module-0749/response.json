@@ -1,0 +1,195 @@
+{
+  "module_name": "RingTheory.Module.ParameterAssociated",
+  "declarations": [
+    {
+      "temporary_id": "decl-013990",
+      "new_name": "associatedModuleType",
+      "docstring": "The type produced from an R-module by the associated construction."
+    },
+    {
+      "temporary_id": "decl-013992",
+      "new_name": "parameterAssociatedType",
+      "docstring": "The type associated with an element of the opaque parameter space for R."
+    },
+    {
+      "temporary_id": "decl-014097",
+      "new_name": "simpleModuleParameter",
+      "docstring": "An opaque parameter associated with a simple module over a finite-dimensional algebra."
+    },
+    {
+      "temporary_id": "decl-014099",
+      "new_name": "simpleModuleParameter_value_eq",
+      "docstring": "The underlying value of the simple-module parameter equals that of the displayed comparison term."
+    },
+    {
+      "temporary_id": "decl-014105",
+      "new_name": "parameterModuleEquivalence",
+      "docstring": "An equivalence from a module category determined by the parameter to the category determined by the simple module."
+    },
+    {
+      "temporary_id": "decl-014106",
+      "new_name": "finiteLengthParameterEquivalence",
+      "docstring": "An equivalence between finite-length parameter-associated modules and finite-length modules satisfying the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014107",
+      "new_name": "parameterModuleEquivalence_functor_eq",
+      "docstring": "The forward functor of the parameter-module equivalence equals the displayed functor."
+    },
+    {
+      "temporary_id": "decl-014108",
+      "new_name": "parameterModuleEquivalence_obj_carrier",
+      "docstring": "Under the parameter-module equivalence, the underlying carrier of an object is unchanged."
+    },
+    {
+      "temporary_id": "decl-014120",
+      "new_name": "parameterTypeToBaseLinearMap",
+      "docstring": "The R-linear map from the parameter-associated type to R."
+    },
+    {
+      "temporary_id": "decl-014121",
+      "new_name": "parameterTypeToBaseLinearMap_injective",
+      "docstring": "The R-linear map from the parameter-associated type to R is injective."
+    },
+    {
+      "temporary_id": "decl-014122",
+      "new_name": "parameterTypeToBaseLinearMap_toParameterAssociatedRingHom",
+      "docstring": "Mapping an element into the parameter-associated type and back to R gives left multiplication by the underlying parameter."
+    },
+    {
+      "temporary_id": "decl-014123",
+      "new_name": "parameterTypeToBaseLinearMap_mul",
+      "docstring": "The linear map from the parameter-associated type to R preserves multiplication."
+    },
+    {
+      "temporary_id": "decl-014124",
+      "new_name": "parameterTypeToBaseLinearMap_one",
+      "docstring": "The image of one under the parameter-type-to-base linear map is the underlying parameter in R."
+    },
+    {
+      "temporary_id": "decl-014125",
+      "new_name": "parameterAssociatedIdeal",
+      "docstring": "The ideal associated with an element of the opaque parameter space for R."
+    },
+    {
+      "temporary_id": "decl-014129",
+      "new_name": "parameterAssociatedIdeal_isTwoSided",
+      "docstring": "The parameter-associated ideal is two-sided."
+    },
+    {
+      "temporary_id": "decl-014130",
+      "new_name": "toParameterAssociatedRingHom",
+      "docstring": "The ring homomorphism from R to the parameter-associated type."
+    },
+    {
+      "temporary_id": "decl-014132",
+      "new_name": "toParameterAssociatedRingHom_eq_iff",
+      "docstring": "Two elements have the same image under the homomorphism exactly when their left multiples by the parameter agree."
+    },
+    {
+      "temporary_id": "decl-014133",
+      "new_name": "toParameterAssociatedRingHom_surjective",
+      "docstring": "The homomorphism from R to the parameter-associated type is surjective."
+    },
+    {
+      "temporary_id": "decl-014134",
+      "new_name": "toParameterAssociatedRingHom_parameter",
+      "docstring": "The parameter-associated homomorphism sends the underlying parameter to one."
+    },
+    {
+      "temporary_id": "decl-014135",
+      "new_name": "parameterModuleFunctor",
+      "docstring": "The functor from modules over the parameter-associated type to the category associated with the chosen simple module."
+    },
+    {
+      "temporary_id": "decl-014137",
+      "new_name": "finiteLengthParameterModuleFunctor",
+      "docstring": "The functor between finite-length parameter-associated modules and finite-length modules satisfying the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014159",
+      "new_name": "restrictScalars_satisfies_condition",
+      "docstring": "Restricting scalars from the parameter-associated type yields a module satisfying the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014160",
+      "new_name": "finiteLengthParameterModuleFunctor_essSurj",
+      "docstring": "The finite-length parameter-module functor is essentially surjective."
+    },
+    {
+      "temporary_id": "decl-014161",
+      "new_name": "parameterModuleFunctor_essSurj",
+      "docstring": "The parameter-module functor is essentially surjective."
+    },
+    {
+      "temporary_id": "decl-014162",
+      "new_name": "finiteLengthParameterModuleFunctor_faithful",
+      "docstring": "The finite-length parameter-module functor is faithful."
+    },
+    {
+      "temporary_id": "decl-014163",
+      "new_name": "parameterModuleFunctor_faithful",
+      "docstring": "The parameter-module functor is faithful."
+    },
+    {
+      "temporary_id": "decl-014164",
+      "new_name": "finiteLengthParameterModuleFunctor_full",
+      "docstring": "The finite-length parameter-module functor is full."
+    },
+    {
+      "temporary_id": "decl-014165",
+      "new_name": "parameterModuleFunctor_full",
+      "docstring": "The parameter-module functor is full."
+    },
+    {
+      "temporary_id": "decl-014166",
+      "new_name": "finiteLengthParameterModuleFunctor_isEquivalence",
+      "docstring": "The finite-length parameter-module functor is an equivalence."
+    },
+    {
+      "temporary_id": "decl-014167",
+      "new_name": "parameterModuleFunctor_isEquivalence",
+      "docstring": "The parameter-module functor is an equivalence."
+    },
+    {
+      "temporary_id": "decl-014168",
+      "new_name": "toParameterAssociatedRingHom_ringHomSurjective",
+      "docstring": "The homomorphism to the parameter-associated type carries the surjective ring-homomorphism property."
+    },
+    {
+      "temporary_id": "decl-014169",
+      "new_name": "isFiniteLength_restrictScalars_iff",
+      "docstring": "Along a surjective ring homomorphism, a module has finite length exactly when its restriction of scalars does."
+    },
+    {
+      "temporary_id": "decl-014174",
+      "new_name": "isTorsionBy_parameterAssociatedIdeal_of_condition",
+      "docstring": "A module satisfying the displayed condition is torsion with respect to the parameter-associated ideal."
+    },
+    {
+      "temporary_id": "decl-014175",
+      "new_name": "mem_parameterAssociatedIdeal_iff",
+      "docstring": "An element belongs to the parameter-associated ideal exactly when its left multiple by the underlying parameter is zero."
+    },
+    {
+      "temporary_id": "decl-014177",
+      "new_name": "parameterAssociatedLinearMap",
+      "docstring": "The R-linear endomorphism associated with an opaque parameter."
+    },
+    {
+      "temporary_id": "decl-014181",
+      "new_name": "range_parameterTypeToBaseLinearMap",
+      "docstring": "The range of the parameter-type-to-base linear map consists exactly of left multiples by the underlying parameter."
+    },
+    {
+      "temporary_id": "decl-014182",
+      "new_name": "restrictScalarsCarrierLinearMap",
+      "docstring": "The scalar-compatible linear map from the carrier of a restricted module to its original carrier."
+    },
+    {
+      "temporary_id": "decl-014185",
+      "new_name": "restrictScalars_full_of_surjective",
+      "docstring": "Restriction of scalars along a surjective ring homomorphism is full."
+    }
+  ]
+}

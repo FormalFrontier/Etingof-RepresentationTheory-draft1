@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:795adefef4dfc55e020a",
+      "declaration": "Etingof.n_le_m_of_injective_to_rationalFunctions",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/401/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n m : Nat}\n  (f : AlgHom.{0, 0, 0} k (MvPolynomial.{0, 0} (Fin n) k) (FractionRing.{0} (MvPolynomial.{0, 0} (Fin m) k))),\n  Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} f) \u2192 LE.le.{0} n m",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_1"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.1",
+  "packet_id": "align-0774",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0774"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.1.1:polynomial_embedding",
+  "source_text": "An injection from n-variable polynomial algebra to an m-variable rational-function field forces n \u2264 m."
+}

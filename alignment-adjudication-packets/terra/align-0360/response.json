@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0360",
+  "associations": [
+    {
+      "association_id": "association:e5a00621e4a5028c6b66",
+      "role": "supporting",
+      "rationale": "The equality is stated for a supplied simple, pairwise-distinct real-type family; the displayed type does not state that this family exhausts every irreducible representation, relying instead on the opaque `IrrepDecomp` parameter."
+    }
+  ]
+}

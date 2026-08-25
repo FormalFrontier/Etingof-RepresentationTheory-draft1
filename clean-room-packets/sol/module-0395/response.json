@@ -1,0 +1,210 @@
+{
+  "module_name": "FiniteGroup.RationalForms",
+  "declarations": [
+    {
+      "temporary_id": "decl-012132",
+      "new_name": "FDRep.BasisIsAlgebraic",
+      "docstring": "A predicate on a basis of the underlying complex module of a finite-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-012134",
+      "new_name": "reindex",
+      "docstring": "The basis predicate is preserved when the basis is reindexed along an equivalence."
+    },
+    {
+      "temporary_id": "decl-012135",
+      "new_name": "FDRep.BasisIsDefinedOver",
+      "docstring": "A predicate, relative to an intermediate field of the complexes, on a basis of a representation."
+    },
+    {
+      "temporary_id": "decl-012137",
+      "new_name": "reindex",
+      "docstring": "The field-relative basis predicate is invariant under reindexing the basis."
+    },
+    {
+      "temporary_id": "decl-012138",
+      "new_name": "FDRep.IsAlgebraic",
+      "docstring": "A property of a finite-dimensional complex representation of a group."
+    },
+    {
+      "temporary_id": "decl-012139",
+      "new_name": "ofIso",
+      "docstring": "This representation property passes across an isomorphism."
+    },
+    {
+      "temporary_id": "decl-012140",
+      "new_name": "FDRep.IsDefinedOver",
+      "docstring": "A property asserting field-relative structure for a finite-dimensional complex representation."
+    },
+    {
+      "temporary_id": "decl-012144",
+      "new_name": "mono",
+      "docstring": "A representation defined over an intermediate field remains defined over any larger intermediate field."
+    },
+    {
+      "temporary_id": "decl-012145",
+      "new_name": "ofIso",
+      "docstring": "Being defined over a fixed intermediate field passes across an isomorphism of representations."
+    },
+    {
+      "temporary_id": "decl-012146",
+      "new_name": "AuxiliaryScalarType",
+      "docstring": "An auxiliary type."
+    },
+    {
+      "temporary_id": "decl-012147",
+      "new_name": "rationalAuxiliaryData",
+      "docstring": "Auxiliary data associated with a finite group over the auxiliary scalar type."
+    },
+    {
+      "temporary_id": "decl-012148",
+      "new_name": "FDRep.isAlgebraic_of_finite",
+      "docstring": "Every finite-dimensional complex representation of a finite group has the algebraicity property."
+    },
+    {
+      "temporary_id": "decl-012149",
+      "new_name": "FDRep.normSqCharacterProduct_mem_Ioo",
+      "docstring": "For a simple representation of dimension greater than one whose character never vanishes, the product of the squared character norms away from the identity lies strictly between zero and one."
+    },
+    {
+      "temporary_id": "decl-012150",
+      "new_name": "natCard_neZero",
+      "docstring": "The natural cardinality of a finite group is nonzero after the indicated cast."
+    },
+    {
+      "temporary_id": "decl-012151",
+      "new_name": "FDRep.exists_character_eq_zero_of_simple",
+      "docstring": "A simple finite-group representation of complex dimension greater than one has a group element at which its character vanishes."
+    },
+    {
+      "temporary_id": "decl-012152",
+      "new_name": "FDRep.exists_common_finiteGalois_fieldOfDefinition",
+      "docstring": "A finite family of algebraic representations of a finite group admits a common field of definition that is finite-dimensional and Galois over the rationals."
+    },
+    {
+      "temporary_id": "decl-012153",
+      "new_name": "FDRep.exists_universal_finiteGalois_fieldOfDefinition",
+      "docstring": "For a finite group, there is a finite-dimensional Galois intermediate field over the rationals over which every complex representation is defined."
+    },
+    {
+      "temporary_id": "decl-012154",
+      "new_name": "FDRep.exists_finiteGalois_fieldOfDefinition",
+      "docstring": "An algebraic representation of a finite group is defined over some finite-dimensional Galois intermediate field over the rationals."
+    },
+    {
+      "temporary_id": "decl-012155",
+      "new_name": "tensorProductMonoidAlgebraAlgEquiv",
+      "docstring": "Scalar extension of a monoid algebra along a field algebra is algebra-equivalent to the monoid algebra over the extended field."
+    },
+    {
+      "temporary_id": "decl-012163",
+      "new_name": "FDRep.isAlgebraic_iff_isDefinedOver_algebraicClosure",
+      "docstring": "A complex representation is algebraic exactly when it is defined over the algebraic closure of the rationals inside the complexes."
+    },
+    {
+      "temporary_id": "decl-012164",
+      "new_name": "FDRep.isAlgebraic_of_basis",
+      "docstring": "A representation is algebraic when it has a basis satisfying the corresponding basis predicate."
+    },
+    {
+      "temporary_id": "decl-012165",
+      "new_name": "FDRep.isAlgebraic_of_simple_representatives",
+      "docstring": "If a finite family gives pairwise nonisomorphic representatives of all simple representations and each representative is algebraic, then every representation is algebraic."
+    },
+    {
+      "temporary_id": "decl-012166",
+      "new_name": "FDRep.isAlgebraic_auxiliaryFamilyConstruction",
+      "docstring": "The representation produced by the indicated finite-family construction is algebraic when every member of the family is algebraic."
+    },
+    {
+      "temporary_id": "decl-012169",
+      "new_name": "AuxiliaryScalarType.isAlgClosed",
+      "docstring": "The auxiliary scalar type is algebraically closed."
+    },
+    {
+      "temporary_id": "decl-012170",
+      "new_name": "AuxiliaryScalarType.isAlgClosure",
+      "docstring": "The auxiliary scalar type is an algebraic closure of the rationals."
+    },
+    {
+      "temporary_id": "decl-012171",
+      "new_name": "FDRep.isAlgebraic_auxiliarySimple",
+      "docstring": "Each representation selected by the complex auxiliary data of a finite group is algebraic."
+    },
+    {
+      "temporary_id": "decl-012172",
+      "new_name": "complexAuxiliaryData",
+      "docstring": "Auxiliary data associated with a finite group over the complex numbers."
+    },
+    {
+      "temporary_id": "decl-012175",
+      "new_name": "complexBlockRepresentation",
+      "docstring": "A monoid homomorphism from a finite group to a family of square complex matrix algebras indexed by auxiliary data."
+    },
+    {
+      "temporary_id": "decl-012180",
+      "new_name": "complexGroupAlgebraBlockMap",
+      "docstring": "An algebra homomorphism from the complex group algebra to a family of square complex matrix algebras."
+    },
+    {
+      "temporary_id": "decl-012182",
+      "new_name": "complexGroupAlgebraBlockMap_toLinearMap",
+      "docstring": "The linear map underlying the block algebra homomorphism equals the linear map underlying the corresponding block equivalence."
+    },
+    {
+      "temporary_id": "decl-012183",
+      "new_name": "complexGroupAlgebraBlockMap_map_entry",
+      "docstring": "After extending coefficients from the auxiliary scalar type, each entry of the complex block map is the value of the corresponding auxiliary coordinate embedded in the complexes."
+    },
+    {
+      "temporary_id": "decl-012184",
+      "new_name": "complexGroupAlgebraBlockEquiv",
+      "docstring": "A complex-linear equivalence from the complex group algebra to a family of square complex matrix algebras."
+    },
+    {
+      "temporary_id": "decl-012189",
+      "new_name": "complexGroupAlgebraBlockEquiv_of_entry",
+      "docstring": "On a group element, each matrix entry of the complex block equivalence agrees with the embedded auxiliary coordinate."
+    },
+    {
+      "temporary_id": "decl-012190",
+      "new_name": "FDRep.isDefinedOver_of_basis",
+      "docstring": "A representation is defined over an intermediate field when it has a basis satisfying the field-relative basis predicate."
+    },
+    {
+      "temporary_id": "decl-012191",
+      "new_name": "FDRep.isDefinedOver_of_simple_representatives",
+      "docstring": "If a finite family gives pairwise nonisomorphic representatives of all simple representations and each is defined over a field, then every representation is defined over that field."
+    },
+    {
+      "temporary_id": "decl-012192",
+      "new_name": "FDRep.isDefinedOver_auxiliaryFamilyConstruction",
+      "docstring": "The representation produced by the indicated finite-family construction is defined over a field when every member of the family is defined over that field."
+    },
+    {
+      "temporary_id": "decl-012195",
+      "new_name": "tensorProductMatrixLinearEquiv",
+      "docstring": "A linear equivalence from scalar-extended square matrices over the auxiliary scalar type to square complex matrices."
+    },
+    {
+      "temporary_id": "decl-012202",
+      "new_name": "tensorProductMatrixLinearEquiv_tmul_entry",
+      "docstring": "The entry of the scalar-extension matrix equivalence on a pure tensor with scalar one is the corresponding auxiliary matrix entry embedded in the complexes."
+    },
+    {
+      "temporary_id": "decl-012203",
+      "new_name": "tensorProductMatrixPiLinearEquiv",
+      "docstring": "A linear equivalence between the scalar extension of a finite family of square auxiliary matrices and the corresponding family of complex matrices."
+    },
+    {
+      "temporary_id": "decl-012205",
+      "new_name": "AuxiliaryScalarType.natCard_neZero",
+      "docstring": "The cardinality of a finite group has nonzero cast in the auxiliary scalar type."
+    },
+    {
+      "temporary_id": "decl-012206",
+      "new_name": "FDRep.sum_character_mul_inv",
+      "docstring": "For a simple complex representation of a finite group, the sum of its character times its value at the inverse equals the group cardinality."
+    }
+  ]
+}

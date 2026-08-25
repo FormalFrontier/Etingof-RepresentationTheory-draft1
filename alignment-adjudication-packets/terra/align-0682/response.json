@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0682",
+  "associations": [
+    {
+      "association_id": "association:99c4c7b5748b4ceafb38",
+      "rationale": "The formal type only exposes a type-valued deformation construction and omits the sequence, constant-term, and Cauchy-product fields needed to state the source definition directly.",
+      "role": "supporting"
+    }
+  ]
+}

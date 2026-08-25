@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0936",
+  "associations": [
+    {
+      "association_id": "association:13873abd357e6e66a1b7",
+      "role": "supporting",
+      "rationale": "It gives simple quotients for an existentially elided filtration object, without directly displaying the full filtration claim."
+    }
+  ]
+}

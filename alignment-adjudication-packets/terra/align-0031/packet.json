@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2ceddfce148b0fde6088",
+      "declaration": "Etingof.Example_2_3_14.exists_equiv_pi_jordanRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/41/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (M : Type u_2) [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} k M]\n  [inst_3 : Module.{u_1, u_2} (Polynomial.{u_1} k) M] [IsScalarTower.{u_1, u_1, u_2} k (Polynomial.{u_1} k) M]\n  [IsAlgClosed.{u_1} k] [FiniteDimensional.{u_1, u_2} k M],\n  Exists.{1} fun m =>\n    Exists.{u_1 + 1} fun lam =>\n      Exists.{1} fun n =>\n        And (\u2200 (i : Fin m), LT.lt.{0} 0 (n i))\n          (Nonempty.{max (u_1 + 1) (u_2 + 1)}\n            (LinearEquiv.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} (Polynomial.{u_1} k)) M\n              ((i : Fin m) \u2192 Etingof.Example_2_3_14.jordanRep.{u_1} (lam i) (n i))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.3.14",
+  "packet_id": "align-0031",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0031"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:087113d03f83c692e48c",
+  "source_text": "Every finite-dimensional linear operator, equivalently every finite-dimensional k[x]-module, decomposes as a finite direct sum of Jordan blocks."
+}

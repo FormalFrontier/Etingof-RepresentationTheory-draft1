@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.3.1",
+    "kind": "definition",
+    "title": "Representation of an algebra (left A-module)",
+    "node_id": "chapter-02/section-2-3",
+    "order": 24,
+    "slug": "definition2-3-1",
+    "span": {
+      "start": {
+        "page": "10",
+        "line": 1
+      },
+      "end": {
+        "page": "10",
+        "line": 8
+      }
+    },
+    "source_sha256": "56bb69998b2cd0694923c0b405b02d4ae35ef455da9ec33a74f2a88ae0af5fe3",
+    "features": {
+      "line_count": 8,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition231",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0457",
+  "associations": [
+    {
+      "association_id": "association:f7feb624ae73f9d6acf7",
+      "role": "supporting",
+      "rationale": "This equivalence characterizes the generated left ideal as the least left ideal containing S, which supports but does not itself identify it with a stated one-sided span."
+    },
+    {
+      "association_id": "association:4a747cd0e9fd63dcb8b5",
+      "role": "supporting",
+      "rationale": "This equivalence characterizes the generated right ideal by its containment property, which supports but does not itself identify it with a stated one-sided span."
+    }
+  ]
+}

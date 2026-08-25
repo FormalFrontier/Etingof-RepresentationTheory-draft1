@@ -1,0 +1,46 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k G : Type u) [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G],\n  Eq.{u + 1} (Nat.cast.{u} (Fintype.card.{u} G)) 0 \u2192\n    LT.lt.{0} (Nat.card.{u + 1} (decl-005067.{u, u} k G)) (Nat.card.{u} (ConjClasses.{u} G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005067"
+      ],
+      "structural_type_hash": "493968542",
+      "temporary_id": "decl-003802"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u) (G : Type v) [inst : Field.{u} K] [IsAlgClosed.{u} K] [inst_2 : Group.{v} G] [inst_3 : Fintype.{v} G],\n  Eq.{u + 1} (Nat.cast.{u} (Fintype.card.{v} G)) 0 \u2192\n    LT.lt.{0} (Nat.card.{max v (u + 1)} (decl-005067.{u, v} K G)) (Nat.card.{v} (ConjClasses.{v} G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005067"
+      ],
+      "structural_type_hash": "1552920103",
+      "temporary_id": "decl-021702"
+    }
+  ],
+  "module_temporary_id": "module-0209",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

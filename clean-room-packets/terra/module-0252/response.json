@@ -1,0 +1,35 @@
+{
+  "module_name": "AuxiliaryRepresentationDecompositions",
+  "declarations": [
+    {
+      "temporary_id": "decl-018754",
+      "new_name": "auxiliary_existsUnique_representationParameter_of_simple",
+      "docstring": "A simple finite-dimensional general linear group representation satisfying the displayed auxiliary condition is equivalent to a uniquely parameterized displayed representation."
+    },
+    {
+      "temporary_id": "decl-018813",
+      "new_name": "auxiliary_exists_directSum_representation_decomposition",
+      "docstring": "A finite-dimensional general linear group representation satisfying the displayed auxiliary condition is equivalent to a finite direct sum of displayed representations."
+    },
+    {
+      "temporary_id": "decl-018820",
+      "new_name": "auxiliary_exists_representationParameter_of_simple",
+      "docstring": "A simple finite-dimensional general linear group representation satisfying the displayed auxiliary condition is equivalent to a displayed representation for some parameter."
+    },
+    {
+      "temporary_id": "decl-018821",
+      "new_name": "auxiliary_simpleSubmodule_exists_representationParameter",
+      "docstring": "A simple submodule of a representation satisfying the displayed auxiliary condition is equivalent to a displayed representation for some parameter."
+    },
+    {
+      "temporary_id": "decl-018830",
+      "new_name": "auxiliary_exists_map_satisfying_identity",
+      "docstring": "Given the displayed auxiliary condition and a linear functional, there exists an auxiliary map satisfying the displayed pointwise identity."
+    },
+    {
+      "temporary_id": "decl-021551",
+      "new_name": "auxiliaryMap_apply_representation_of_identity",
+      "docstring": "An auxiliary map satisfying the displayed identity sends each image under the representation to the image under the corresponding displayed target map."
+    }
+  ]
+}

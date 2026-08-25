@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0158",
+  "associations": [
+    {
+      "association_id": "association:44aca1902593bf134ea6",
+      "role": "supporting",
+      "rationale": "The displayed declaration is opaque and type-valued, so it does not expose preserved vertex subspaces or restricted arrow maps."
+    },
+    {
+      "association_id": "association:9f1b389eda43c5282606",
+      "role": "supporting",
+      "rationale": "The type only maps a subrepresentation to a representation; it does not display that its arrow maps are restrictions of the ambient arrows."
+    }
+  ]
+}

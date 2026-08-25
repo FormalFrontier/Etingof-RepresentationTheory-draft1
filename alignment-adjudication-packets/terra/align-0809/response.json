@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0809",
+  "associations": [
+    {
+      "association_id": "association:8952512b07b5e878298c",
+      "rationale": "The displayed type asserts existence of a short exact complex with no splitting, but its ambient category and the concrete abelian-group example are elided, so it does not directly display the full source claim.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0562",
+  "associations": [
+    {
+      "association_id": "association:e80939cf794fa2c88ae3",
+      "rationale": "This only declares the opaque type family Uqsl2 over units of the complex numbers and does not state the restrictions on q or the requested case split.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:de24f06e6a974f1a7b0e",
+      "rationale": "No formal type is displayed, so this declaration cannot directly state the root-of-unity versus non-root-of-unity setup.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4aef9d2749322120bc6f",
+      "declaration": "Etingof.Problem2_16_4.Reprise.exists_parameter_equiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/122/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] {p : Nat} [Fact (Nat.Prime p)] [inst_3 : CharP.{u} k p]\n  [inst_4 : Fact (LT.lt.{0} 2 p)] (M : Type u) [inst_5 : AddCommGroup.{u} M] [inst_6 : Module.{u, u} k M]\n  [inst_7 : LieRingModule.{u, u} (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Etingof.Problem2_16_4.sl2.{u} k) x) M]\n  [LieModule.{u, u, u} k (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Etingof.Problem2_16_4.sl2.{u} k) x) M]\n  [FiniteDimensional.{u, u} k M]\n  [LieModule.IsIrreducible.{u, u, u} k\n      (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Etingof.Problem2_16_4.sl2.{u} k) x) M],\n  Exists.{u + 1} fun a =>\n    Nonempty.{u + 1}\n      (LieModuleEquiv.{u, u, u, u} k\n        (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Etingof.Problem2_16_4.sl2.{u} k) x)\n        (Etingof.Problem2_16_4.Reprise.Carrier.{u} k a) M)",
+      "provider_module": "EtingofRepresentationTheory.Reprises.Problem2_16_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.4",
+  "packet_id": "align-0561",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0561"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.4:claim-05",
+  "source_text": "Every finite-dimensional irreducible sl(2,k)-module occurs in the parameter family."
+}

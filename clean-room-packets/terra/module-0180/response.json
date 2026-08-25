@@ -1,0 +1,7 @@
+{"module_name":"Algebra.Semisimplicity.SimpleQuotients","declarations":[
+{"temporary_id":"decl-018782","new_name":"exists_finite_coatomFamily","docstring":"A finite-dimensional algebra has a bounded finite family of pairwise inequivalent coatom quotients representing every simple module."},
+{"temporary_id":"decl-018839","new_name":"exists_finite_coatomFamily_of_coatoms","docstring":"A finite-dimensional algebra has a bounded finite family of pairwise inequivalent coatom quotients representing every coatom quotient."},
+{"temporary_id":"decl-018874","new_name":"exists_coatom_quotient_equiv","docstring":"Every simple module is equivalent to a quotient by a coatom submodule of the regular module."},
+{"temporary_id":"decl-018936","new_name":"exists_finite_coatomFamily_algEquiv_quotient","docstring":"A finite-dimensional algebra has the displayed coatom family together with an equivalence from the indicated quotient algebra to a product of endomorphism algebras."},
+{"temporary_id":"decl-019400","new_name":"finiteDimensional_quotient","docstring":"A quotient of a finite-dimensional algebra by a submodule is finite-dimensional."}
+]}

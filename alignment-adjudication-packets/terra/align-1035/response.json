@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1035",
+  "associations": [
+    {
+      "association_id": "association:52087c6521d40b2c1272",
+      "rationale": "The theorem explicitly includes a nonempty algebra equivalence from k[G] to the product of endomorphism algebras of irreducibles.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:e48222713f1cb2c923b9",
+      "rationale": "For an irreducible decomposition, this declaration itself gives the stated algebra equivalence from the group algebra to the family of endomorphism algebras.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "module_name": "VirtualRepresentations.CharacterCriteria",
+  "declarations": [
+    {
+      "temporary_id": "decl-016855",
+      "new_name": "character_eq_sum_univ",
+      "docstring": "A virtual character is the sum over all indexed simple representations of its coefficients times their characters."
+    },
+    {
+      "temporary_id": "decl-016875",
+      "new_name": "dim_eq_sum_univ",
+      "docstring": "The virtual dimension is the sum over all indexed simple representations of coefficient times finite dimension."
+    },
+    {
+      "temporary_id": "decl-016878",
+      "new_name": "eq_simpleMultiple_one_of_character_norm_one",
+      "docstring": "A positive-dimensional virtual representation whose normalized character self-sum is one is one copy of a simple representation."
+    },
+    {
+      "temporary_id": "decl-016879",
+      "new_name": "character_eq_simple_of_character_norm_one",
+      "docstring": "A positive-dimensional virtual representation whose normalized character self-sum is one has the character of a finite-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-016892",
+      "new_name": "support_index_eq_of_iso",
+      "docstring": "Two support indices are equal when their associated finite-dimensional representations are isomorphic."
+    }
+  ]
+}

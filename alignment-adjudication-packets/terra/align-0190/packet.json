@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d377195ea08fab1ef809",
+      "declaration": "Etingof.CochainComplex'",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/500/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(C : Type u_1) \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192 Type (max u_1 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_8_1"
+    },
+    {
+      "association_id": "association:b5708d08fc04b1d26825",
+      "declaration": "Etingof.cohomology",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/500/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C] \u2192 Etingof.CochainComplex'.{u_1, u_2} C \u2192 Int \u2192 C",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_8_1"
+    },
+    {
+      "association_id": "association:17565c6ca345b797cc8e",
+      "declaration": "Etingof.kunnethNatIso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/500/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (i : Int) \u2192 CategoryTheory.Iso.{u + 1, u + 1} (Etingof.kunnethSource.{u} i) (Etingof.kunnethTarget.{u} i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.KunnethIso"
+    }
+  ],
+  "canonical_reference": "Chapter7/Introduction_7.8",
+  "packet_id": "align-0190",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0190"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3a25c466c05b7a064b22",
+  "source_text": "The section develops complexes, cohomology, exact sequences, and the K\u00fcnneth formula."
+}

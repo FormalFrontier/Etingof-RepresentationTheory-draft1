@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Lemma5.7.2",
+    "kind": "lemma",
+    "title": "Virtual representation with inner product 1 and positive dimension is irreducible",
+    "node_id": "chapter-05/section-5-7",
+    "order": 288,
+    "slug": "lemma5-7-2",
+    "span": {
+      "start": {
+        "page": "107",
+        "line": 13
+      },
+      "end": {
+        "page": "107",
+        "line": 16
+      }
+    },
+    "source_sha256": "5065d9dc43584ccf43215525937c650a2daa2b8fb9c21f92c10db88a80fc56b3",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma572",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

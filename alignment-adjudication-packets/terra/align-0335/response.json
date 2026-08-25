@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0335",
+  "associations": [
+    {
+      "association_id": "association:5404e2e643d6e325890d",
+      "rationale": "The displayed type only exposes a natural-number-valued function on Young diagrams and does not show that its defining product ranges over all cells.",
+      "role": "supporting"
+    }
+  ]
+}

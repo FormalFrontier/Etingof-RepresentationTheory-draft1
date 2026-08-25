@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Introduction_to_3.5",
+    "kind": "introduction",
+    "title": "Section 3.5: Finite dimensional algebras \u2014 heading",
+    "node_id": "chapter-03/section-3-5",
+    "order": 148,
+    "slug": "introduction-to-3-5",
+    "span": {
+      "start": {
+        "page": "49",
+        "line": 13
+      },
+      "end": {
+        "page": "49",
+        "line": 14
+      }
+    },
+    "source_sha256": "4629c4c7ea5a9599722e6c6949e31a41f54d20f04c3c86672be0abec901b3c1e",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.IntroductionTo35",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

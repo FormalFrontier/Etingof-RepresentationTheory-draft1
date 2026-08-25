@@ -1,0 +1,55 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(G : Type u_1) \u2192\n  [Group.{u_1} G] \u2192\n    (V : Type u_2) \u2192\n      [inst : NormedAddCommGroup.{u_2} V] \u2192\n        [inst_1 : InnerProductSpace.{0, u_2} Complex V] \u2192 [FiniteDimensional.{0, u_2} Complex V] \u2192 Type (max u_1 u_2)",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1970607411",
+      "temporary_id": "decl-016800"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u_2} [inst_1 : NormedAddCommGroup.{u_2} V]\n  [inst_2 : InnerProductSpace.{0, u_2} Complex V] [inst_3 : FiniteDimensional.{0, u_2} Complex V]\n  (self : decl-016800.{u_1, u_2} G V) (g : G) (v w : V),\n  Eq.{1}\n    (Inner.inner.{0, u_2} Complex\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-016816.{u_1, u_2} self) g)\n        v)\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} (decl-016816.{u_1, u_2} self) g)\n        w))\n    (Inner.inner.{0, u_2} Complex v w)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016800",
+      "project_type_dependencies": [
+        "decl-016800",
+        "decl-016816"
+      ],
+      "structural_type_hash": "3047714417",
+      "temporary_id": "decl-016815"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : NormedAddCommGroup.{u_2} V] \u2192\n        [inst_2 : InnerProductSpace.{0, u_2} Complex V] \u2192\n          [inst_3 : FiniteDimensional.{0, u_2} Complex V] \u2192\n            decl-016800.{u_1, u_2} G V \u2192 Representation.{0, u_1, u_2} Complex G V",
+      "kind": "definition",
+      "owner_temporary_id": "decl-016800",
+      "project_type_dependencies": [
+        "decl-016800"
+      ],
+      "structural_type_hash": "1788156257",
+      "temporary_id": "decl-016816"
+    }
+  ],
+  "module_temporary_id": "module-0188",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

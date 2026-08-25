@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0704",
+  "associations": [
+    {
+      "association_id": "association:e70ae61e4f6fa201f3ff",
+      "rationale": "The type proves irreducibility only for the complexified skew summand; the source claim requires the corresponding result for both summands.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:11a1ca8c811f2d9d8e90",
+      "rationale": "The type proves irreducibility only for the complexified traceless-symmetric summand; the source claim requires the corresponding result for both summands.",
+      "role": "supporting"
+    }
+  ]
+}

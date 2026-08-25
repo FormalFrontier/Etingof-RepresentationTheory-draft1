@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0695",
+  "associations": [
+    {
+      "association_id": "association:b1f63eba3c6e7f41ee1f",
+      "rationale": "The type supplies a nondegenerate form and a surjective algebra map whose kernel is the Jacobson radical, but it does not visibly identify W with V/rad(B) or B' with the induced form; the existential map's target is also elided in the display.",
+      "role": "supporting"
+    }
+  ]
+}

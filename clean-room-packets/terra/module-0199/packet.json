@@ -1,0 +1,48 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (V : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x))\n  [CategoryTheory.Simple.{0, 1} V],\n  Exists.{1} fun i =>\n    \u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x),\n      Eq.{1} (FDRep.character.{0, 0} V g)\n        (decl-003006 (decl-003195 i (decl-002785 g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-003006",
+        "decl-003195"
+      ],
+      "structural_type_hash": "3217669585",
+      "temporary_id": "decl-002812"
+    },
+    {
+      "formal_type": "\u2200 (V : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x))\n  [CategoryTheory.Simple.{0, 1} V],\n  Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} V (decl-002816 i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002816"
+      ],
+      "structural_type_hash": "3795474821",
+      "temporary_id": "decl-002921"
+    }
+  ],
+  "module_temporary_id": "module-0199",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

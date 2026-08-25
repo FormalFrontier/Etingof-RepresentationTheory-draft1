@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter1/Introduction",
+    "kind": "introduction",
+    "title": "Chapter 1: Introduction",
+    "node_id": "chapter-01",
+    "order": 5,
+    "slug": "introduction",
+    "span": {
+      "start": {
+        "page": "1",
+        "line": 1
+      },
+      "end": {
+        "page": "2",
+        "line": 4
+      }
+    },
+    "source_sha256": "61216782d010587305e1d83aecc31e8d6f3edd7db7bf52b4342f5caf2de9aeda",
+    "features": {
+      "line_count": 11,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter1.Introduction",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

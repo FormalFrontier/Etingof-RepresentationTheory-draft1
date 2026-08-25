@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0919af36fa3e3791622a",
+      "declaration": "Etingof.ProjectiveModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/525/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(R : Type u_1) \u2192\n  (M : Type u_2) \u2192 [inst : Ring.{u_1} R] \u2192 [inst_1 : AddCommGroup.{u_2} M] \u2192 [Module.{u_1, u_2} R M] \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_1_2"
+    }
+  ],
+  "canonical_reference": "Chapter8/Definition8.1.2",
+  "packet_id": "align-0325",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0325"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:64cd1ce37383e03ce4f4",
+  "source_text": "A module satisfying the equivalent conditions of Theorem 8.1.1 is projective."
+}

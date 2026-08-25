@@ -1,0 +1,15 @@
+{
+  "module_name": "SimpleSymmetricGroupRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-019688",
+      "new_name": "simpleSymmetricGroupRepresentation_value_eq_one",
+      "docstring": "The value associated with a simple finite-dimensional complex representation of a symmetric group is equal to one."
+    },
+    {
+      "temporary_id": "decl-020878",
+      "new_name": "simpleSymmetricGroupRepresentation_property",
+      "docstring": "A simple finite-dimensional complex representation of a symmetric group satisfies the stated property."
+    }
+  ]
+}

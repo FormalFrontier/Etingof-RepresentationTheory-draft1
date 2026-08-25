@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f6b674ded3658e0ccf21",
+      "declaration": "Subspace.dual_finrank_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.LinearAlgebra.Dual.Lemmas"
+    },
+    {
+      "association_id": "association:8393bad2326697e71c2c",
+      "declaration": "Subspace.instModuleDualFiniteDimensional",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.LinearAlgebra.Dual.Lemmas"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.3.1",
+  "packet_id": "align-1052",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1052"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:cca75af79eace581b106",
+  "source_text": "For finite-dimensional X, the dual X* is finite-dimensional of the same dimension."
+}

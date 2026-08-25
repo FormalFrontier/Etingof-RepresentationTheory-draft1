@@ -1,0 +1,90 @@
+{
+  "module_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.Additivity",
+  "declarations": [
+    {
+      "temporary_id": "decl-000302",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.leftDerived_additive",
+      "docstring": "The left-derived functor of an additive functor is additive in every degree."
+    },
+    {
+      "temporary_id": "decl-000308",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.leftDerived_natTrans_add",
+      "docstring": "Deriving the sum of two natural transformations agrees with the sum of their derived transformations."
+    },
+    {
+      "temporary_id": "decl-000309",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.mapHomologicalComplex_natTrans_add",
+      "docstring": "Mapping homological complexes sends the sum of natural transformations to the sum of the induced transformations."
+    },
+    {
+      "temporary_id": "decl-000312",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.projectiveResolutions_additive",
+      "docstring": "The functor assigning projective resolutions is additive."
+    },
+    {
+      "temporary_id": "decl-024082",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToHom_add",
+      "docstring": "The morphism assigned to a sum of linear maps is the sum of the assigned morphisms."
+    },
+    {
+      "temporary_id": "decl-024083",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToHom_comp",
+      "docstring": "The morphism assigned to a composite of linear maps is the composite of the assigned morphisms."
+    },
+    {
+      "temporary_id": "decl-024085",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToHom_id",
+      "docstring": "The identity linear map is assigned the identity morphism."
+    },
+    {
+      "temporary_id": "decl-024195",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.objectConstruction_biprod",
+      "docstring": "An isomorphism between the value of the displayed object construction on a binary biproduct and the biproduct of its values."
+    },
+    {
+      "temporary_id": "decl-024199",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.objectFunctor_biproduct",
+      "docstring": "An isomorphism between the displayed object construction on a finite biproduct and the biproduct of the corresponding functor values."
+    },
+    {
+      "temporary_id": "decl-024211",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.objectFunctor_additive",
+      "docstring": "The displayed functor is additive."
+    },
+    {
+      "temporary_id": "decl-024215",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.objectConstruction_pi_biproduct",
+      "docstring": "An isomorphism between the displayed construction on a finite dependent function module and the biproduct of its values on the factors."
+    },
+    {
+      "temporary_id": "decl-024219",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.objectConstruction_prod_biprod",
+      "docstring": "An isomorphism between the displayed construction on a product of two modules and the biproduct of its values on the factors."
+    },
+    {
+      "temporary_id": "decl-024224",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToObjectHom",
+      "docstring": "An additive homomorphism from linear maps to morphisms between values of the displayed object construction."
+    },
+    {
+      "temporary_id": "decl-024235",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToObjectHom_add",
+      "docstring": "The objectwise morphism assigned to a sum of linear maps is the sum of the assigned morphisms."
+    },
+    {
+      "temporary_id": "decl-024236",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToObjectHom_comp",
+      "docstring": "The objectwise morphism assigned to a composite of linear maps is the composite of the assigned morphisms."
+    },
+    {
+      "temporary_id": "decl-024237",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToObjectHom_id",
+      "docstring": "The objectwise morphism assigned to the identity linear map is the identity morphism."
+    },
+    {
+      "temporary_id": "decl-024238",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToObjectHom_zero",
+      "docstring": "The objectwise morphism assigned to the zero linear map is zero."
+    }
+  ]
+}

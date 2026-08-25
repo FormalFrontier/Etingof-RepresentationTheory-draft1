@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:66eff63cdac550cf6043",
+      "declaration": "Etingof.Theorem5_23_2_ii_equivariant",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/372/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k],\n  Nonempty.{1}\n    (Subtype.{1} fun e =>\n      Etingof.IsEquivariantEquiv.{0, 0, 0, 0} (Etingof.LocalizationGLAction.localBiRep.{0} k n)\n        (Etingof.peterWeylRHS.{0} n k) e)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_23_2_PeterWeyl"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.23.2",
+  "packet_id": "align-0958",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0958"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b10e3a67d71297a8c3bc",
+  "source_text": "The coordinate ring decomposes GL_N x GL_N-equivariantly as the direct sum of L_lambda^* tensor L_lambda."
+}

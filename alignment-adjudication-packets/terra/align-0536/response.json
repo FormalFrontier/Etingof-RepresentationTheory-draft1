@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0536",
+  "associations": [
+    {
+      "association_id": "association:07f04158bb63de9c316c",
+      "rationale": "The complement-existence theorem is general structural evidence and does not state that the indicated ladder spans are subrepresentations or yield the claimed decomposition and contradiction.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f6af742804f0c51e37a6",
+      "rationale": "The displayed general decomposition into standard summands does not identify the source's ladder spans W_i or state the minimality contradiction.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,595 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Type",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-012309"
+    },
+    {
+      "formal_type": "(t : decl-012309) \u2192 Matrix.{0, 0, 0} (Fin t.rank) (Fin t.rank) Int",
+      "kind": "definition",
+      "owner_temporary_id": "decl-012309",
+      "project_type_dependencies": [
+        "decl-012309",
+        "decl-012396"
+      ],
+      "structural_type_hash": "2900605570",
+      "temporary_id": "decl-012335"
+    },
+    {
+      "formal_type": "\u2200 (t : decl-012309) (i j : Fin t.rank),\n  Exists.{1} fun path =>\n    And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n      (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n        (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n          Eq.{1} (t.adj (List.get.{0} path \u27e8k, \u22ef\u27e9) (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) 1))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-012309",
+      "project_type_dependencies": [
+        "decl-012309",
+        "decl-012335",
+        "decl-012342",
+        "decl-012396"
+      ],
+      "structural_type_hash": "644864719",
+      "temporary_id": "decl-012341"
+    },
+    {
+      "formal_type": "\u2200 (t : decl-012309) (i : Fin t.rank), Eq.{1} (t.adj i i) 0",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-012309",
+      "project_type_dependencies": [
+        "decl-012309",
+        "decl-012335",
+        "decl-012396"
+      ],
+      "structural_type_hash": "2363940116",
+      "temporary_id": "decl-012377"
+    },
+    {
+      "formal_type": "\u2200 (t : decl-012309), Matrix.IsSymm.{0, 0} t.adj",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-012309",
+      "project_type_dependencies": [
+        "decl-012309",
+        "decl-012335",
+        "decl-012396"
+      ],
+      "structural_type_hash": "2937422918",
+      "temporary_id": "decl-012382"
+    },
+    {
+      "formal_type": "\u2200 (t : decl-012309) (i j : Fin t.rank), Or (Eq.{1} (t.adj i j) 0) (Eq.{1} (t.adj i j) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-012309",
+      "project_type_dependencies": [
+        "decl-012309",
+        "decl-012335",
+        "decl-012396"
+      ],
+      "structural_type_hash": "1229470334",
+      "temporary_id": "decl-012383"
+    },
+    {
+      "formal_type": "(t : decl-012309) \u2192 Fin t.rank \u2192 Int",
+      "kind": "definition",
+      "owner_temporary_id": "decl-012309",
+      "project_type_dependencies": [
+        "decl-012309",
+        "decl-012396"
+      ],
+      "structural_type_hash": "2189863642",
+      "temporary_id": "decl-012388"
+    },
+    {
+      "formal_type": "decl-012309 \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": "decl-012309",
+      "project_type_dependencies": [
+        "decl-012309"
+      ],
+      "structural_type_hash": "3100569652",
+      "temporary_id": "decl-012396"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4050033041",
+      "temporary_id": "decl-012405"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      Exists.{1} fun w =>\n        And (\u2200 (i : Fin n), LT.lt.{0} 0 (w i))\n          (Eq.{1} (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj) w) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012405"
+      ],
+      "structural_type_hash": "2566517596",
+      "temporary_id": "decl-012408"
+    },
+    {
+      "formal_type": "\u2200 (p q r : Nat),\n  LE.le.{0} 1 p \u2192\n    LE.le.{0} p q \u2192\n      LE.le.{0} q r \u2192\n        Eq.{1}\n            (HAdd.hAdd.{0, 0, 0}\n              (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} q 1) (HAdd.hAdd.{0, 0, 0} r 1))\n                (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} p 1) (HAdd.hAdd.{0, 0, 0} r 1)))\n              (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} p 1) (HAdd.hAdd.{0, 0, 0} q 1)))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} p 1) (HAdd.hAdd.{0, 0, 0} q 1))\n              (HAdd.hAdd.{0, 0, 0} r 1)) \u2192\n          Or (And (Eq.{1} p 2) (And (Eq.{1} q 2) (Eq.{1} r 2)))\n            (Or (And (Eq.{1} p 1) (And (Eq.{1} q 3) (Eq.{1} r 3))) (And (Eq.{1} p 1) (And (Eq.{1} q 2) (Eq.{1} r 5))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1227478839",
+      "temporary_id": "decl-012413"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      (\u2200 (w : Fin n), LE.le.{0} (decl-024478 adj w) 3) \u2192\n        \u2200 (v : Fin n),\n          (\u2200 (w : Fin n), Eq.{1} (decl-024478 adj w) 3 \u2192 Eq.{1} w v) \u2192\n            \u2200 (S : Finset.{0} (Fin n)),\n              Not (Membership.mem.{0, 0} S v) \u2192\n                Finset.Nonempty.{0} S \u2192\n                  (\u2200 (a : Fin n),\n                      Membership.mem.{0, 0} S a \u2192\n                        \u2200 (b : Fin n),\n                          Membership.mem.{0, 0} S b \u2192\n                            Exists.{1} fun p =>\n                              And (Eq.{1} (List.head?.{0} p) (Option.some.{0} a))\n                                (And (Eq.{1} (List.getLast?.{0} p) (Option.some.{0} b))\n                                  (And (\u2200 (x : Fin n), Membership.mem.{0, 0} p x \u2192 Membership.mem.{0, 0} S x)\n                                    (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} p)),\n                                      Eq.{1} (adj (List.get.{0} p \u27e8k, \u22ef\u27e9) (List.get.{0} p \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9))\n                                        1)))) \u2192\n                    \u2200 (nb : Fin n),\n                      Membership.mem.{0, 0} S nb \u2192\n                        Eq.{1} (adj v nb) 1 \u2192\n                          (\u2200 (a : Fin n), Membership.mem.{0, 0} S a \u2192 Eq.{1} (adj v a) 1 \u2192 Eq.{1} a nb) \u2192\n                            Exists.{1} fun L =>\n                              Exists.{1} fun g =>\n                                And (LE.le.{0} 1 L)\n                                  (And (Eq.{1} (g 0) nb)\n                                    (And (\u2200 (k : Nat), LT.lt.{0} k L \u2192 Membership.mem.{0, 0} S (g k))\n                                      (And (Eq.{1} S (Finset.image.{0, 0} g (Finset.range L)))\n                                        (And\n                                          (\u2200 (k l : Nat),\n                                            LT.lt.{0} k L \u2192 LT.lt.{0} l L \u2192 Iff (Eq.{1} (g k) (g l)) (Eq.{1} k l))\n                                          (And (\u2200 (k : Nat), LT.lt.{0} k L \u2192 Iff (Eq.{1} (adj v (g k)) 1) (Eq.{1} k 0))\n                                            (\u2200 (k l : Nat),\n                                              LT.lt.{0} k L \u2192\n                                                LT.lt.{0} l L \u2192\n                                                  Iff (Eq.{1} (adj (g k) (g l)) 1)\n                                                    (Or (Eq.{1} (HAdd.hAdd.{0, 0, 0} k 1) l)\n                                                      (Eq.{1} (HAdd.hAdd.{0, 0, 0} l 1) k))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012405",
+        "decl-012406",
+        "decl-024478"
+      ],
+      "structural_type_hash": "91292879",
+      "temporary_id": "decl-012427"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      \u2200 (v : Fin n) (S : Finset.{0} (Fin n)),\n        Not (Membership.mem.{0, 0} S v) \u2192\n          Finset.Nonempty.{0} S \u2192\n            (\u2200 (a : Fin n),\n                Membership.mem.{0, 0} S a \u2192\n                  \u2200 (b : Fin n),\n                    Membership.mem.{0, 0} S b \u2192\n                      Exists.{1} fun p =>\n                        And (Eq.{1} (List.head?.{0} p) (Option.some.{0} a))\n                          (And (Eq.{1} (List.getLast?.{0} p) (Option.some.{0} b))\n                            (And (\u2200 (x : Fin n), Membership.mem.{0, 0} p x \u2192 Membership.mem.{0, 0} S x)\n                              (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} p)),\n                                Eq.{1} (adj (List.get.{0} p \u27e8k, \u22ef\u27e9) (List.get.{0} p \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9))\n                                  1)))) \u2192\n              \u2200 (nb : Fin n),\n                Membership.mem.{0, 0} S nb \u2192\n                  Eq.{1} (adj v nb) 1 \u2192\n                    (\u2200 (a : Fin n), Membership.mem.{0, 0} S a \u2192 Eq.{1} (adj v a) 1 \u2192 Eq.{1} a nb) \u2192\n                      (\u2200 (x : Fin n), Membership.mem.{0, 0} S x \u2192 LE.le.{0} (decl-024478 adj x) 2) \u2192\n                        Exists.{1} fun L =>\n                          Exists.{1} fun g =>\n                            And (LE.le.{0} 1 L)\n                              (And (Eq.{1} (g 0) nb)\n                                (And (\u2200 (k : Nat), LT.lt.{0} k L \u2192 Membership.mem.{0, 0} S (g k))\n                                  (And (Eq.{1} S (Finset.image.{0, 0} g (Finset.range L)))\n                                    (And\n                                      (\u2200 (k l : Nat),\n                                        LT.lt.{0} k L \u2192 LT.lt.{0} l L \u2192 Iff (Eq.{1} (g k) (g l)) (Eq.{1} k l))\n                                      (And (\u2200 (k : Nat), LT.lt.{0} k L \u2192 Iff (Eq.{1} (adj v (g k)) 1) (Eq.{1} k 0))\n                                        (\u2200 (k l : Nat),\n                                          LT.lt.{0} k L \u2192\n                                            LT.lt.{0} l L \u2192\n                                              Iff (Eq.{1} (adj (g k) (g l)) 1)\n                                                (Or (Eq.{1} (HAdd.hAdd.{0, 0, 0} k 1) l)\n                                                  (Eq.{1} (HAdd.hAdd.{0, 0, 0} l 1) k))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012405",
+        "decl-012406",
+        "decl-024478"
+      ],
+      "structural_type_hash": "2758782703",
+      "temporary_id": "decl-012428"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  decl-012405 n adj \u2192\n    \u2200 {y : Fin n \u2192 Int},\n      Eq.{1} (dotProduct.{0, 0} y (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj) y)) 0 \u2192\n        Eq.{1} (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj) y) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012405"
+      ],
+      "structural_type_hash": "16729532",
+      "temporary_id": "decl-012445"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      LE.le.{0} (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} n))\n          (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j) \u2192\n        Exists.{0} fun h3 =>\n          Exists.{1} fun \u03c3 =>\n            \u2200 (i j : Fin (decl-012310 n h3).rank),\n              Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j))\n                ((decl-012310 n h3).adj i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012310",
+        "decl-012335",
+        "decl-012396",
+        "decl-012405"
+      ],
+      "structural_type_hash": "3691327080",
+      "temporary_id": "decl-012447"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      Exists.{1} fun w =>\n        And (\u2200 (i : Fin n), LT.lt.{0} 0 (w i))\n          (Eq.{1}\n            (Finset.sum.{0, 0} Finset.univ.{0} fun j =>\n              HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Nat.cast.{0} (decl-024478 adj j)) 2) (w j))\n            0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012405",
+        "decl-024478"
+      ],
+      "structural_type_hash": "2887805109",
+      "temporary_id": "decl-012451"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      Or\n        (Exists.{1} fun \u03c3 =>\n          \u2200 (i j : Fin (decl-012317 4 \u22ef).rank),\n            Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j))\n              ((decl-012317 4 \u22ef).adj i j))\n        (\u2200 (v : Fin n), LE.le.{0} (decl-012307 adj v) 3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012307",
+        "decl-012317",
+        "decl-012335",
+        "decl-012396",
+        "decl-012405"
+      ],
+      "structural_type_hash": "2082305691",
+      "temporary_id": "decl-012452"
+    },
+    {
+      "formal_type": "\u2200 {k : Nat} (adj : Matrix.{0, 0, 0} (Fin (HAdd.hAdd.{0, 0, 0} k 1)) (Fin (HAdd.hAdd.{0, 0, 0} k 1)) Int),\n  decl-012405 (HAdd.hAdd.{0, 0, 0} k 1) adj \u2192\n    \u2200 (u : Fin (HAdd.hAdd.{0, 0, 0} k 1)),\n      Eq.{1} (decl-024478 adj u) 1 \u2192\n        decl-005140 k (Matrix.submatrix.{0, 0, 0, 0, 0} adj u.succAbove u.succAbove)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-012405",
+        "decl-024478"
+      ],
+      "structural_type_hash": "3794109444",
+      "temporary_id": "decl-012462"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    Iff (decl-012405 n adj)\n      (Exists.{1} fun t =>\n        Exists.{1} fun \u03c3 =>\n          \u2200 (i j : Fin t.rank), Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) (t.adj i j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012309",
+        "decl-012335",
+        "decl-012396",
+        "decl-012405"
+      ],
+      "structural_type_hash": "2875286089",
+      "temporary_id": "decl-012474"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      \u2200 {y : Fin n \u2192 Int},\n        Eq.{1} (dotProduct.{0, 0} y (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj) y))\n            0 \u2192\n          \u2200 {v : Fin n}, Eq.{1} (y v) 0 \u2192 Eq.{1} y 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012405"
+      ],
+      "structural_type_hash": "576542848",
+      "temporary_id": "decl-012475"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      LT.lt.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j)\n          (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} n)) \u2192\n        (\u2200 (v : Fin n), LE.le.{0} (decl-012307 adj v) 3) \u2192\n          \u2200 (v : Fin n),\n            Eq.{1} (decl-012307 adj v) 3 \u2192\n              (\u2200 (w : Fin n), Eq.{1} (decl-012307 adj w) 3 \u2192 Eq.{1} w v) \u2192\n                Exists.{1} fun p =>\n                  Exists.{1} fun q =>\n                    Exists.{1} fun r =>\n                      Exists.{1} fun \u03c3 =>\n                        And (LE.le.{0} 1 p)\n                          (And (LE.le.{0} p q)\n                            (And (LE.le.{0} q r)\n                              (And (Eq.{1} n (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} 1 p) q) r))\n                                (And (Eq.{1} (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} \u03c3) v).val p)\n                                  (\u2200 (i j : Fin n),\n                                    Iff (Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) 1)\n                                      (decl-012742 p q r i.val j.val))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012307",
+        "decl-012405",
+        "decl-012742"
+      ],
+      "structural_type_hash": "1217795684",
+      "temporary_id": "decl-012478"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      LT.lt.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j)\n          (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} n)) \u2192\n        (\u2200 (v : Fin n), LE.le.{0} (decl-012307 adj v) 3) \u2192\n          \u2200 (v : Fin n),\n            Eq.{1} (decl-012307 adj v) 3 \u2192\n              (\u2200 (w : Fin n), Eq.{1} (decl-012307 adj w) 3 \u2192 Eq.{1} w v) \u2192\n                Exists.{1} fun L =>\n                  Exists.{1} fun g =>\n                    And (\u2200 (t : Fin 3), LE.le.{0} 1 (L t))\n                      (And\n                        (Eq.{1} n (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} 1 (L 0)) (L 1)) (L 2)))\n                        (And (\u2200 (t : Fin 3) (k : Nat), LT.lt.{0} k (L t) \u2192 Ne.{1} (g t k) v)\n                          (And\n                            (\u2200 (t s : Fin 3) (k l : Nat),\n                              LT.lt.{0} k (L t) \u2192\n                                LT.lt.{0} l (L s) \u2192 Iff (Eq.{1} (g t k) (g s l)) (And (Eq.{1} t s) (Eq.{1} k l)))\n                            (And\n                              (\u2200 (w : Fin n),\n                                Ne.{1} w v \u2192\n                                  Exists.{1} fun t => Exists.{1} fun k => And (LT.lt.{0} k (L t)) (Eq.{1} (g t k) w))\n                              (And\n                                (\u2200 (t : Fin 3) (k : Nat),\n                                  LT.lt.{0} k (L t) \u2192 Iff (Eq.{1} (adj v (g t k)) 1) (Eq.{1} k 0))\n                                (\u2200 (t s : Fin 3) (k l : Nat),\n                                  LT.lt.{0} k (L t) \u2192\n                                    LT.lt.{0} l (L s) \u2192\n                                      Iff (Eq.{1} (adj (g t k) (g s l)) 1)\n                                        (And (Eq.{1} t s)\n                                          (Or (Eq.{1} (HAdd.hAdd.{0, 0, 0} k 1) l)\n                                            (Eq.{1} (HAdd.hAdd.{0, 0, 0} l 1) k)))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012307",
+        "decl-012405"
+      ],
+      "structural_type_hash": "1450709299",
+      "temporary_id": "decl-012541"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      \u2200 {m : Nat},\n        LE.le.{0} 1 m \u2192\n          \u2200 (e : Fin m \u2192 Fin n),\n            Function.Injective.{1, 1} e \u2192\n              \u2200 {v : Fin n},\n                (\u2200 (i : Fin m), Ne.{1} (e i) v) \u2192\n                  (\u2200 (i j : Fin m),\n                      Exists.{1} fun path =>\n                        And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n                          (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n                            (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n                              Eq.{1}\n                                (Matrix.submatrix.{0, 0, 0, 0, 0} adj e e (List.get.{0} path \u27e8k, \u22ef\u27e9)\n                                  (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9))\n                                1))) \u2192\n                    Exists.{1} fun t =>\n                      Exists.{1} fun \u03c3 =>\n                        \u2200 (i j : Fin t.rank),\n                          Eq.{1}\n                            (Matrix.submatrix.{0, 0, 0, 0, 0} adj e e (DFunLike.coe.{1, 1, 1} \u03c3 i)\n                              (DFunLike.coe.{1, 1, 1} \u03c3 j))\n                            (t.adj i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001861",
+        "decl-001887",
+        "decl-001899",
+        "decl-012405",
+        "decl-012556"
+      ],
+      "structural_type_hash": "2907325414",
+      "temporary_id": "decl-012554"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      \u2200 {m : Nat} (e : Fin m \u2192 Fin n),\n        Function.Injective.{1, 1} e \u2192\n          \u2200 {v : Fin n},\n            (\u2200 (i : Fin m), Ne.{1} (e i) v) \u2192\n              (\u2200 (i j : Fin m),\n                  Exists.{1} fun path =>\n                    And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n                      (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n                        (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n                          Eq.{1}\n                            (Matrix.submatrix.{0, 0, 0, 0, 0} adj e e (List.get.{0} path \u27e8k, \u22ef\u27e9)\n                              (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9))\n                            1))) \u2192\n                decl-005140 m (Matrix.submatrix.{0, 0, 0, 0, 0} adj e e)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-012405",
+        "decl-012556"
+      ],
+      "structural_type_hash": "2762861976",
+      "temporary_id": "decl-012555"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      \u2200 {m : Nat} (e : Fin m \u2192 Fin n),\n        Function.Injective.{1, 1} e \u2192\n          \u2200 {v : Fin n},\n            (\u2200 (i : Fin m), Ne.{1} (e i) v) \u2192\n              \u2200 (x : Fin m \u2192 Int),\n                Ne.{1} x 0 \u2192\n                  LT.lt.{0} 0\n                    (dotProduct.{0, 0} x\n                      (Matrix.mulVec.{0, 0, 0}\n                        (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) (Matrix.submatrix.{0, 0, 0, 0, 0} adj e e)) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012405"
+      ],
+      "structural_type_hash": "1467923503",
+      "temporary_id": "decl-012557"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      LT.lt.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j)\n          (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} n)) \u2192\n        (\u2200 (v : Fin n), LE.le.{0} (decl-012307 adj v) 3) \u2192\n          Or\n            (Exists.{1} fun v =>\n              And (Eq.{1} (decl-012307 adj v) 3)\n                (\u2200 (w : Fin n), Eq.{1} (decl-012307 adj w) 3 \u2192 Eq.{1} w v))\n            (Exists.{1} fun v =>\n              Exists.{1} fun w =>\n                And (Ne.{1} v w)\n                  (And (Eq.{1} (decl-012307 adj v) 3)\n                    (And (Eq.{1} (decl-012307 adj w) 3)\n                      (\u2200 (u : Fin n),\n                        Eq.{1} (decl-012307 adj u) 3 \u2192 Or (Eq.{1} u v) (Eq.{1} u w)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012307",
+        "decl-012405"
+      ],
+      "structural_type_hash": "1311343870",
+      "temporary_id": "decl-012559"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      LT.lt.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j)\n          (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} n)) \u2192\n        Exists.{1} fun t =>\n          Exists.{1} fun \u03c3 =>\n            \u2200 (i j : Fin t.rank), Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) (t.adj i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012309",
+        "decl-012335",
+        "decl-012396",
+        "decl-012405"
+      ],
+      "structural_type_hash": "1588866186",
+      "temporary_id": "decl-012575"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      LT.lt.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j)\n          (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} n)) \u2192\n        (\u2200 (v : Fin n), LE.le.{0} (decl-012307 adj v) 3) \u2192\n          Exists.{1} fun t =>\n            Exists.{1} fun \u03c3 =>\n              \u2200 (i j : Fin t.rank), Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) (t.adj i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012307",
+        "decl-012309",
+        "decl-012335",
+        "decl-012396",
+        "decl-012405"
+      ],
+      "structural_type_hash": "3310301296",
+      "temporary_id": "decl-012576"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      LT.lt.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j)\n          (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} n)) \u2192\n        (\u2200 (v : Fin n), LE.le.{0} (decl-024478 adj v) 3) \u2192\n          Exists.{1} fun v => Eq.{1} (decl-024478 adj v) 3",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012405",
+        "decl-024478"
+      ],
+      "structural_type_hash": "2979143438",
+      "temporary_id": "decl-012577"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      LT.lt.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j)\n          (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} n)) \u2192\n        (\u2200 (v : Fin n), LE.le.{0} (decl-012307 adj v) 3) \u2192\n          \u2200 (v : Fin n),\n            Eq.{1} (decl-012307 adj v) 3 \u2192\n              (\u2200 (w : Fin n), Eq.{1} (decl-012307 adj w) 3 \u2192 Eq.{1} w v) \u2192\n                Exists.{1} fun p =>\n                  Exists.{1} fun q =>\n                    Exists.{1} fun r =>\n                      Exists.{1} fun \u03c3 =>\n                        And (LE.le.{0} 1 p)\n                          (And (LE.le.{0} p q)\n                            (And (LE.le.{0} q r)\n                              (And (Eq.{1} n (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} 1 p) q) r))\n                                (And\n                                  (Eq.{1}\n                                    (HAdd.hAdd.{0, 0, 0}\n                                      (HAdd.hAdd.{0, 0, 0}\n                                        (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} q 1) (HAdd.hAdd.{0, 0, 0} r 1))\n                                        (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} p 1) (HAdd.hAdd.{0, 0, 0} r 1)))\n                                      (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} p 1) (HAdd.hAdd.{0, 0, 0} q 1)))\n                                    (HMul.hMul.{0, 0, 0}\n                                      (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} p 1) (HAdd.hAdd.{0, 0, 0} q 1))\n                                      (HAdd.hAdd.{0, 0, 0} r 1)))\n                                  (And (Eq.{1} (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} \u03c3) v).val p)\n                                    (\u2200 (i j : Fin n),\n                                      Iff (Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) 1)\n                                        (decl-012742 p q r i.val j.val)))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012307",
+        "decl-012405",
+        "decl-012742"
+      ],
+      "structural_type_hash": "4112904964",
+      "temporary_id": "decl-012579"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      LT.lt.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j)\n          (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} n)) \u2192\n        (\u2200 (v : Fin n), LE.le.{0} (decl-012307 adj v) 3) \u2192\n          \u2200 (v : Fin n),\n            Eq.{1} (decl-012307 adj v) 3 \u2192\n              (\u2200 (w : Fin n), Eq.{1} (decl-012307 adj w) 3 \u2192 Eq.{1} w v) \u2192\n                Exists.{1} fun t =>\n                  Exists.{1} fun \u03c3 =>\n                    \u2200 (i j : Fin t.rank),\n                      Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) (t.adj i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012307",
+        "decl-012309",
+        "decl-012335",
+        "decl-012396",
+        "decl-012405"
+      ],
+      "structural_type_hash": "4171163165",
+      "temporary_id": "decl-012642"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      LT.lt.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j)\n          (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} n)) \u2192\n        (\u2200 (v : Fin n), LE.le.{0} (decl-012307 adj v) 3) \u2192\n          \u2200 (v w : Fin n),\n            Ne.{1} v w \u2192\n              Eq.{1} (decl-012307 adj v) 3 \u2192\n                Eq.{1} (decl-012307 adj w) 3 \u2192\n                  (\u2200 (u : Fin n),\n                      Eq.{1} (decl-012307 adj u) 3 \u2192 Or (Eq.{1} u v) (Eq.{1} u w)) \u2192\n                    Exists.{1} fun t =>\n                      Exists.{1} fun \u03c3 =>\n                        \u2200 (i j : Fin t.rank),\n                          Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) (t.adj i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012307",
+        "decl-012309",
+        "decl-012335",
+        "decl-012396",
+        "decl-012405"
+      ],
+      "structural_type_hash": "955389111",
+      "temporary_id": "decl-012643"
+    },
+    {
+      "formal_type": "\u2200 {k : Nat} (adj : Matrix.{0, 0, 0} (Fin (HAdd.hAdd.{0, 0, 0} k 1)) (Fin (HAdd.hAdd.{0, 0, 0} k 1)) Int),\n  decl-012405 (HAdd.hAdd.{0, 0, 0} k 1) adj \u2192\n    LT.lt.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j)\n        (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} (HAdd.hAdd.{0, 0, 0} k 1))) \u2192\n      (\u2200 (x : Fin (HAdd.hAdd.{0, 0, 0} k 1)), LE.le.{0} (decl-012307 adj x) 3) \u2192\n        \u2200 (v w : Fin (HAdd.hAdd.{0, 0, 0} k 1)),\n          Ne.{1} v w \u2192\n            Eq.{1} (decl-012307 adj v) 3 \u2192\n              Eq.{1} (decl-012307 adj w) 3 \u2192\n                (\u2200 (u : Fin (HAdd.hAdd.{0, 0, 0} k 1)),\n                    Eq.{1} (decl-012307 adj u) 3 \u2192 Or (Eq.{1} u v) (Eq.{1} u w)) \u2192\n                  \u2200 (\u2113 : Fin (HAdd.hAdd.{0, 0, 0} k 1)),\n                    Eq.{1} (decl-012307 adj \u2113) 1 \u2192\n                      Eq.{1} (adj v \u2113) 1 \u2192\n                        Exists.{0} fun hk =>\n                          Exists.{1} fun v' =>\n                            And (Eq.{1} (\u2113.succAbove v') v)\n                              (Exists.{1} fun \u03c3' =>\n                                And\n                                  (\u2200 (i j : Fin (decl-001869 k hk).rank),\n                                    Eq.{1}\n                                      (Matrix.submatrix.{0, 0, 0, 0, 0} adj \u2113.succAbove \u2113.succAbove\n                                        (DFunLike.coe.{1, 1, 1} \u03c3' i) (DFunLike.coe.{1, 1, 1} \u03c3' j))\n                                      ((decl-001869 k hk).adj i j))\n                                  (Eq.{1} (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} \u03c3') v') \u27e81, \u22ef\u27e9))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001869",
+        "decl-001887",
+        "decl-001899",
+        "decl-012307",
+        "decl-012405",
+        "decl-012646"
+      ],
+      "structural_type_hash": "2218161152",
+      "temporary_id": "decl-012645"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      LT.lt.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j)\n          (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} n)) \u2192\n        (\u2200 (v : Fin n), LE.le.{0} (decl-012307 adj v) 3) \u2192\n          \u2200 (v w : Fin n),\n            Ne.{1} v w \u2192\n              Eq.{1} (decl-012307 adj v) 3 \u2192\n                Eq.{1} (decl-012307 adj w) 3 \u2192\n                  (\u2200 (u : Fin n),\n                      Eq.{1} (decl-012307 adj u) 3 \u2192 Or (Eq.{1} u v) (Eq.{1} u w)) \u2192\n                    Exists.{1} fun \u2113\u2081 =>\n                      Exists.{1} fun \u2113\u2082 =>\n                        And (Ne.{1} \u2113\u2081 \u2113\u2082)\n                          (And (Eq.{1} (adj w \u2113\u2081) 1)\n                            (And (Eq.{1} (adj w \u2113\u2082) 1)\n                              (And (Eq.{1} (decl-012307 adj \u2113\u2081) 1)\n                                (Eq.{1} (decl-012307 adj \u2113\u2082) 1))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012307",
+        "decl-012405"
+      ],
+      "structural_type_hash": "4012257802",
+      "temporary_id": "decl-012670"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    decl-012405 n adj \u2192\n      LT.lt.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => Finset.sum.{0, 0} Finset.univ.{0} fun j => adj i j)\n          (HMul.hMul.{0, 0, 0} 2 (Nat.cast.{0} n)) \u2192\n        (\u2200 (v : Fin n), LE.le.{0} (decl-012307 adj v) 3) \u2192\n          \u2200 (v w : Fin n),\n            Ne.{1} v w \u2192\n              Eq.{1} (decl-012307 adj v) 3 \u2192\n                Eq.{1} (decl-012307 adj w) 3 \u2192\n                  Exists.{1} fun \u2113 =>\n                    And (Eq.{1} (decl-012307 adj \u2113) 1)\n                      (Or (Eq.{1} (adj v \u2113) 1) (Eq.{1} (adj w \u2113) 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012307",
+        "decl-012405"
+      ],
+      "structural_type_hash": "4201135110",
+      "temporary_id": "decl-012708"
+    },
+    {
+      "formal_type": "\u2200 {k : Nat} (hk : LE.le.{0} 4 k)\n  (adj : Matrix.{0, 0, 0} (Fin (HAdd.hAdd.{0, 0, 0} k 1)) (Fin (HAdd.hAdd.{0, 0, 0} k 1)) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i : Fin (HAdd.hAdd.{0, 0, 0} k 1)), Eq.{1} (adj i i) 0) \u2192\n      (\u2200 (i j : Fin (HAdd.hAdd.{0, 0, 0} k 1)), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n        \u2200 (u : Fin (HAdd.hAdd.{0, 0, 0} k 1)) (v' : Fin k),\n          Eq.{1} (adj u (u.succAbove v')) 1 \u2192\n            (\u2200 (w : Fin (HAdd.hAdd.{0, 0, 0} k 1)), Eq.{1} (adj u w) 1 \u2192 Eq.{1} w (u.succAbove v')) \u2192\n              \u2200 (\u03c3' : Equiv.{1, 1} (Fin (decl-001869 k hk).rank) (Fin k)),\n                (\u2200 (i j : Fin (decl-001869 k hk).rank),\n                    Eq.{1}\n                      (Matrix.submatrix.{0, 0, 0, 0, 0} adj u.succAbove u.succAbove (DFunLike.coe.{1, 1, 1} \u03c3' i)\n                        (DFunLike.coe.{1, 1, 1} \u03c3' j))\n                      ((decl-001869 k hk).adj i j)) \u2192\n                  Eq.{1} (DFunLike.coe.{1, 1, 1} (Equiv.symm.{1, 1} \u03c3') v') \u27e81, \u22ef\u27e9 \u2192\n                    Exists.{1} fun \u03c3 =>\n                      \u2200 (i j : Fin (decl-012317 k hk).rank),\n                        Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j))\n                          ((decl-012317 k hk).adj i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001869",
+        "decl-001887",
+        "decl-001899",
+        "decl-012317",
+        "decl-012335",
+        "decl-012396",
+        "decl-012719"
+      ],
+      "structural_type_hash": "3930035006",
+      "temporary_id": "decl-012718"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  decl-012405 n adj \u2192\n    \u2200 (i : Fin n), LE.le.{0} (decl-012307 adj i) 4",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012307",
+        "decl-012405"
+      ],
+      "structural_type_hash": "712927430",
+      "temporary_id": "decl-012736"
+    },
+    {
+      "formal_type": "Nat \u2192 Nat \u2192 Nat \u2192 Nat \u2192 Nat \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4167315583",
+      "temporary_id": "decl-012742"
+    },
+    {
+      "formal_type": "\u2200 (t : decl-012309),\n  Eq.{1} (Matrix.det.{0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) t.adj)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012309",
+        "decl-012335",
+        "decl-012396"
+      ],
+      "structural_type_hash": "927212867",
+      "temporary_id": "decl-012744"
+    },
+    {
+      "formal_type": "\u2200 (t : decl-012309),\n  Eq.{1} (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) t.adj) t.marks) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012309",
+        "decl-012335",
+        "decl-012388",
+        "decl-012396"
+      ],
+      "structural_type_hash": "3768005360",
+      "temporary_id": "decl-012750"
+    },
+    {
+      "formal_type": "\u2200 (t : decl-001861) (x \u2113\u2081 \u2113\u2082 : Fin t.rank),\n  Ne.{1} \u2113\u2081 \u2113\u2082 \u2192\n    Eq.{1} (decl-012307 t.adj x) 3 \u2192\n      Eq.{1} (t.adj x \u2113\u2081) 1 \u2192\n        Eq.{1} (t.adj x \u2113\u2082) 1 \u2192\n          Eq.{1} (decl-012307 t.adj \u2113\u2081) 1 \u2192\n            Eq.{1} (decl-012307 t.adj \u2113\u2082) 1 \u2192\n              Exists.{1} fun n => Exists.{0} fun hn => Eq.{1} t (decl-001869 n hn)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001861",
+        "decl-001869",
+        "decl-001887",
+        "decl-001899",
+        "decl-012307"
+      ],
+      "structural_type_hash": "1953245306",
+      "temporary_id": "decl-012752"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    Iff (decl-005140 n adj)\n      (Exists.{1} fun t =>\n        Exists.{1} fun \u03c3 =>\n          \u2200 (i j : Fin t.rank), Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) (t.adj i j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001861",
+        "decl-001887",
+        "decl-001899",
+        "decl-005140"
+      ],
+      "structural_type_hash": "1297648458",
+      "temporary_id": "decl-012760"
+    },
+    {
+      "formal_type": "(p q r i j : Nat) \u2192 Decidable (decl-012742 p q r i j)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012742"
+      ],
+      "structural_type_hash": "2445805117",
+      "temporary_id": "decl-012761"
+    },
+    {
+      "formal_type": "\u2200 {n m : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int} {adj' : Matrix.{0, 0, 0} (Fin m) (Fin m) Int}\n  (\u03c3 : Equiv.{1, 1} (Fin n) (Fin m)),\n  (\u2200 (i j : Fin n), Eq.{1} (adj' (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) (adj i j)) \u2192\n    decl-012405 n adj \u2192 decl-012405 m adj'",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012405"
+      ],
+      "structural_type_hash": "2200083772",
+      "temporary_id": "decl-012762"
+    },
+    {
+      "formal_type": "\u2200 (t : decl-012309), decl-012405 t.rank t.adj",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012309",
+        "decl-012335",
+        "decl-012396",
+        "decl-012405"
+      ],
+      "structural_type_hash": "1096594705",
+      "temporary_id": "decl-012764"
+    },
+    {
+      "formal_type": "\u2200 (t : decl-012309) (i : Fin t.rank), LT.lt.{0} 0 (t.marks i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012309",
+        "decl-012388",
+        "decl-012396"
+      ],
+      "structural_type_hash": "2744921369",
+      "temporary_id": "decl-012772"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 Fin n \u2192 Fin n \u2192 Fin n",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4157015041",
+      "temporary_id": "decl-012773"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (A : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} A \u2192\n    (\u2200 (i j : Fin n), Ne.{1} i j \u2192 LE.le.{0} (A i j) 0) \u2192\n      \u2200 (m : Fin n \u2192 Int),\n        (\u2200 (i : Fin n), LT.lt.{0} 0 (m i)) \u2192\n          Eq.{1} (Matrix.mulVec.{0, 0, 0} A m) 0 \u2192\n            \u2200 (x : Fin n \u2192 Int), LE.le.{0} 0 (dotProduct.{0, 0} x (Matrix.mulVec.{0, 0, 0} A x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1711995822",
+      "temporary_id": "decl-012776"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (hn : LE.le.{0} 3 n) (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i : Fin n), Eq.{1} (adj i i) 0) \u2192\n      (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n        (\u2200 (i j : Fin n),\n            Exists.{1} fun path =>\n              And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n                (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n                  (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n                    Eq.{1} (adj (List.get.{0} path \u27e8k, \u22ef\u27e9) (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) 1))) \u2192\n          (\u2200 (v : Fin n), Eq.{1} (decl-024478 adj v) 2) \u2192\n            Exists.{1} fun \u03c3 =>\n              \u2200 (i j : Fin (decl-012310 n hn).rank),\n                Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j))\n                  ((decl-012310 n hn).adj i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012310",
+        "decl-012335",
+        "decl-012396",
+        "decl-012406",
+        "decl-024478"
+      ],
+      "structural_type_hash": "2888842734",
+      "temporary_id": "decl-012784"
+    }
+  ],
+  "module_temporary_id": "module-0541",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

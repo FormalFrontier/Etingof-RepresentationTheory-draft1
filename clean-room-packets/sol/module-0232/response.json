@@ -1,0 +1,530 @@
+{
+  "module_name": "QuaternionRotationMaps",
+  "declarations": [
+    {
+      "temporary_id": "decl-011456",
+      "new_name": "quaternionComplexMatrix",
+      "docstring": "The matrix-valued construction specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011458",
+      "new_name": "realUnitQuaternions",
+      "docstring": "The quaternion-valued construction specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011460",
+      "new_name": "membershipCharacterization_011460",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011463",
+      "new_name": "membershipCharacterization_011463",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011466",
+      "new_name": "membershipCharacterization_011466",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011469",
+      "new_name": "rotationAboutSecondAxis",
+      "docstring": "The matrix-valued construction specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011471",
+      "new_name": "rotationAboutThirdAxis",
+      "docstring": "The matrix-valued construction specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011473",
+      "new_name": "equivariantEndomorphismAlgebra",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011477",
+      "new_name": "membershipCharacterization_011477",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011478",
+      "new_name": "matrixAction_011478",
+      "docstring": "A matrix identity for the displayed action or transformation."
+    },
+    {
+      "temporary_id": "decl-011479",
+      "new_name": "membershipCharacterization_011479",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011480",
+      "new_name": "evaluationLinearMap",
+      "docstring": "The linear map specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011483",
+      "new_name": "membershipCharacterization_011483",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011484",
+      "new_name": "injective_011484",
+      "docstring": "Injectivity of the map displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011485",
+      "new_name": "surjective_011485",
+      "docstring": "Surjectivity of the map displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011486",
+      "new_name": "Auxiliary011486",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011488",
+      "new_name": "cardinalityFormula_011488",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011489",
+      "new_name": "cardinalityFormula_011489",
+      "docstring": "A cardinality or dimension identity for the displayed finite object."
+    },
+    {
+      "temporary_id": "decl-011490",
+      "new_name": "complexStructureEndomorphism",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011493",
+      "new_name": "valueFormula_011493",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011494",
+      "new_name": "membershipCharacterization_011494",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011495",
+      "new_name": "conjugateMatrixEndomorphism",
+      "docstring": "The construction specified by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-011498",
+      "new_name": "matrixAction_011498",
+      "docstring": "A matrix identity for the displayed action or transformation."
+    },
+    {
+      "temporary_id": "decl-011499",
+      "new_name": "membershipCharacterization_011499",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011500",
+      "new_name": "matrixAction_011500",
+      "docstring": "A matrix identity for the displayed action or transformation."
+    },
+    {
+      "temporary_id": "decl-011502",
+      "new_name": "quaternionNorm_011502",
+      "docstring": "A norm-square identity for the displayed quaternion expression."
+    },
+    {
+      "temporary_id": "decl-011503",
+      "new_name": "quaternionNorm_011503",
+      "docstring": "A norm-square identity for the displayed quaternion expression."
+    },
+    {
+      "temporary_id": "decl-011504",
+      "new_name": "quaternionNorm_011504",
+      "docstring": "A norm-square identity for the displayed quaternion expression."
+    },
+    {
+      "temporary_id": "decl-011505",
+      "new_name": "quaternionNorm_011505",
+      "docstring": "A norm-square identity for the displayed quaternion expression."
+    },
+    {
+      "temporary_id": "decl-011506",
+      "new_name": "quaternionNorm_011506",
+      "docstring": "A norm-square identity for the displayed quaternion expression."
+    },
+    {
+      "temporary_id": "decl-011507",
+      "new_name": "membershipCharacterization_011507",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011508",
+      "new_name": "quaternionI",
+      "docstring": "The quaternion-valued construction specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011510",
+      "new_name": "quaternionCoordinate_011510",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011511",
+      "new_name": "quaternionCoordinate_011511",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011512",
+      "new_name": "quaternionCoordinate_011512",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011513",
+      "new_name": "membershipCharacterization_011513",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011514",
+      "new_name": "Auxiliary011514",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011515",
+      "new_name": "valueFormula_011515",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011516",
+      "new_name": "valueFormula_011516",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011517",
+      "new_name": "quaternionCoordinate_011517",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011518",
+      "new_name": "quaternionJ",
+      "docstring": "The quaternion-valued construction specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011520",
+      "new_name": "quaternionCoordinate_011520",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011521",
+      "new_name": "quaternionCoordinate_011521",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011522",
+      "new_name": "quaternionCoordinate_011522",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011523",
+      "new_name": "membershipCharacterization_011523",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011524",
+      "new_name": "valueFormula_011524",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011525",
+      "new_name": "Auxiliary011525",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011526",
+      "new_name": "valueFormula_011526",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011527",
+      "new_name": "quaternionCoordinate_011527",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011528",
+      "new_name": "quaternionK",
+      "docstring": "The quaternion-valued construction specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011530",
+      "new_name": "quaternionCoordinate_011530",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011531",
+      "new_name": "quaternionCoordinate_011531",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011532",
+      "new_name": "quaternionCoordinate_011532",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011533",
+      "new_name": "membershipCharacterization_011533",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011534",
+      "new_name": "valueFormula_011534",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011535",
+      "new_name": "valueFormula_011535",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011536",
+      "new_name": "Auxiliary011536",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011537",
+      "new_name": "quaternionCoordinate_011537",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011538",
+      "new_name": "quaternionToMatrix",
+      "docstring": "The matrix-valued construction specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011540",
+      "new_name": "unitQuaternionToSpecialUnitary",
+      "docstring": "The monoid homomorphism specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011546",
+      "new_name": "injective_011546",
+      "docstring": "Injectivity of the map displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011547",
+      "new_name": "surjective_011547",
+      "docstring": "Surjectivity of the map displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011549",
+      "new_name": "quaternionCoordinate_011549",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011550",
+      "new_name": "quaternionCoordinate_011550",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011551",
+      "new_name": "quaternionCoordinate_011551",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011552",
+      "new_name": "quaternionCoordinate_011552",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011553",
+      "new_name": "matrixAction_011553",
+      "docstring": "A matrix identity for the displayed action or transformation."
+    },
+    {
+      "temporary_id": "decl-011554",
+      "new_name": "quaternionNorm_011554",
+      "docstring": "A norm-square identity for the displayed quaternion expression."
+    },
+    {
+      "temporary_id": "decl-011555",
+      "new_name": "injective_011555",
+      "docstring": "Injectivity of the map displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011556",
+      "new_name": "valueFormula_011556",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011557",
+      "new_name": "Auxiliary011557",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011558",
+      "new_name": "valueFormula_011558",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011559",
+      "new_name": "quaternionBasis",
+      "docstring": "The quaternion-valued construction specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011560",
+      "new_name": "valueFormula_011560",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011561",
+      "new_name": "valueFormula_011561",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011562",
+      "new_name": "valueFormula_011562",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011563",
+      "new_name": "valueFormula_011563",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011564",
+      "new_name": "matrixAction_011564",
+      "docstring": "A matrix identity for the displayed action or transformation."
+    },
+    {
+      "temporary_id": "decl-011565",
+      "new_name": "unitQuaternionToRotation",
+      "docstring": "The monoid homomorphism specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011571",
+      "new_name": "membershipCharacterization_011571",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011572",
+      "new_name": "surjective_011572",
+      "docstring": "Surjectivity of the map displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011573",
+      "new_name": "quaternionRotationMatrix",
+      "docstring": "The matrix-valued construction specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011575",
+      "new_name": "quaternionCoordinate_011575",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011576",
+      "new_name": "quaternionCoordinate_011576",
+      "docstring": "A coordinate identity for the displayed quaternion."
+    },
+    {
+      "temporary_id": "decl-011577",
+      "new_name": "Auxiliary011577",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011578",
+      "new_name": "quaternionNorm_011578",
+      "docstring": "A norm-square identity for the displayed quaternion expression."
+    },
+    {
+      "temporary_id": "decl-011579",
+      "new_name": "valueFormula_011579",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011580",
+      "new_name": "valueFormula_011580",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011581",
+      "new_name": "Auxiliary011581",
+      "docstring": "Auxiliary result whose proposition is not displayed in the packet."
+    },
+    {
+      "temporary_id": "decl-011582",
+      "new_name": "valueFormula_011582",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011583",
+      "new_name": "matrixAction_011583",
+      "docstring": "A matrix identity for the displayed action or transformation."
+    },
+    {
+      "temporary_id": "decl-011584",
+      "new_name": "matrixAction_011584",
+      "docstring": "A matrix identity for the displayed action or transformation."
+    },
+    {
+      "temporary_id": "decl-011585",
+      "new_name": "valueFormula_011585",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011586",
+      "new_name": "matrixAction_011586",
+      "docstring": "A matrix identity for the displayed action or transformation."
+    },
+    {
+      "temporary_id": "decl-011587",
+      "new_name": "valueFormula_011587",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011588",
+      "new_name": "membershipCharacterization_011588",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011596",
+      "new_name": "valueFormula_011596",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011597",
+      "new_name": "valueFormula_011597",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011598",
+      "new_name": "valueFormula_011598",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011599",
+      "new_name": "valueFormula_011599",
+      "docstring": "The equality displayed in the formal statement."
+    },
+    {
+      "temporary_id": "decl-011600",
+      "new_name": "specialUnitaryEndomorphism",
+      "docstring": "The matrix-valued construction specified by the displayed formal signature."
+    },
+    {
+      "temporary_id": "decl-011603",
+      "new_name": "matrixAction_011603",
+      "docstring": "A matrix identity for the displayed action or transformation."
+    },
+    {
+      "temporary_id": "decl-011604",
+      "new_name": "membershipCharacterization_011604",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011605",
+      "new_name": "membershipCharacterization_011605",
+      "docstring": "A membership statement for the displayed set, submodule, or subgroup."
+    },
+    {
+      "temporary_id": "decl-011606",
+      "new_name": "multiplicativeEquivalence_011606",
+      "docstring": "Existence of the displayed multiplicative equivalence under the stated hypotheses."
+    }
+  ]
+}

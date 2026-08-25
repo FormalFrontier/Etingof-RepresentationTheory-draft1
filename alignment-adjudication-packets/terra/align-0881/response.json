@@ -1,0 +1,20 @@
+{
+  "associations": [
+    {
+      "association_id": "association:89ef06283ca69482f62c",
+      "rationale": "States that the kernel of the evaluation map is zero, the kernel-argument component rather than the evaluation-isomorphism claim itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bb08cca0cd13ad2f18e1",
+      "rationale": "States an abstract equivalence of categories, but its displayed type neither identifies it with evaluation nor specifies the claimed quasi-inverse.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:dc00ad72581b44c10904",
+      "rationale": "States that the opaque morphism ξ is an isomorphism, but the displayed formal type does not identify ξ with the evaluation map from the source claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0881"
+}

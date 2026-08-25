@@ -1,0 +1,10 @@
+{
+  "module_name": "AuxiliaryIntegerMatrixVectorProperty",
+  "declarations": [
+    {
+      "temporary_id": "decl-005281",
+      "new_name": "IsAuxiliaryForMatrix",
+      "docstring": "An auxiliary property of an integer-valued finite vector relative to a square integer matrix."
+    }
+  ]
+}

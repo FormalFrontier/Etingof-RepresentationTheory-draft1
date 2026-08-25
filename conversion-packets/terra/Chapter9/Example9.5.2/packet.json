@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Example9.5.2",
+    "kind": "example",
+    "title": "Blocks of semisimple, local, and specific algebras",
+    "node_id": "chapter-09/section-9-5",
+    "order": 568,
+    "slug": "example9-5-2",
+    "span": {
+      "start": {
+        "page": "218",
+        "line": 5
+      },
+      "end": {
+        "page": "218",
+        "line": 6
+      }
+    },
+    "source_sha256": "60005d70fbadaa78e0e684ba5bc44510b04059fb8ffb862b64525fc0c2cacdc3",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Example952",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

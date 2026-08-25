@@ -1,0 +1,35 @@
+{
+  "module_name": "FieldTheory.IsAlgClosed.Basic",
+  "declarations": [
+    {
+      "temporary_id": "decl-017198",
+      "new_name": "AlgebraicClosure.zmod_charP",
+      "docstring": "The algebraic closure of integers modulo a prime has the corresponding characteristic."
+    },
+    {
+      "temporary_id": "decl-017199",
+      "new_name": "AlgebraicClosure.zmod_isAlgClosed",
+      "docstring": "The algebraic closure of integers modulo a prime is algebraically closed."
+    },
+    {
+      "temporary_id": "decl-017747",
+      "new_name": "ZMod.card_eq_prime",
+      "docstring": "The finite type cardinality of integers modulo a prime equals that prime."
+    },
+    {
+      "temporary_id": "decl-018142",
+      "new_name": "Complex.isAlgClosed",
+      "docstring": "The complex numbers form an algebraically closed field."
+    },
+    {
+      "temporary_id": "decl-020772",
+      "new_name": "isAlgClosed_iff_nonconstant_root",
+      "docstring": "A field is algebraically closed exactly when every polynomial of nonzero degree has a root."
+    },
+    {
+      "temporary_id": "decl-024713",
+      "new_name": "ZMod.fieldOfPrime",
+      "docstring": "A primality witness equips integers modulo that number with a field structure."
+    }
+  ]
+}

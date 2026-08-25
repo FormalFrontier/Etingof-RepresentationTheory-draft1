@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1006",
+  "associations": [
+    {
+      "association_id": "association:5a6aea2ae9e33b890fa6",
+      "rationale": "It directly provides a Module structure for every ring A on PUnit, the formal carrier used for the zero representation.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "module_name": "TensorProduct.RightLinearMap",
+  "declarations": [
+    {
+      "temporary_id": "decl-021542",
+      "new_name": "tensorProductMap_smul",
+      "docstring": "The tensor product of right-linear maps respects the right action induced by tensor-product scalars."
+    },
+    {
+      "temporary_id": "decl-022339",
+      "new_name": "auxiliaryTensorProductNaturality",
+      "docstring": "The displayed maps and comparison equivalences commute with the tensor-product construction."
+    },
+    {
+      "temporary_id": "decl-022680",
+      "new_name": "rightLinearMapToLinearMap",
+      "docstring": "Views a map linear over an opposite algebra as a map linear over the base field."
+    },
+    {
+      "temporary_id": "decl-022684",
+      "new_name": "rightLinearMapToLinearMap_apply",
+      "docstring": "The base-field-linear view has the same value as the original map."
+    },
+    {
+      "temporary_id": "decl-022685",
+      "new_name": "rightLinearMapToLinearMap_smul",
+      "docstring": "The base-field-linear view still commutes with the displayed right scalar action."
+    },
+    {
+      "temporary_id": "decl-023987",
+      "new_name": "auxiliaryTensorProductMap",
+      "docstring": "Maps the first component of an integer tensor product into the displayed auxiliary target."
+    },
+    {
+      "temporary_id": "decl-023991",
+      "new_name": "auxiliaryTensorProductMap_eq_zero_of_mem",
+      "docstring": "The auxiliary tensor-product map vanishes on members of the displayed relation."
+    },
+    {
+      "temporary_id": "decl-023995",
+      "new_name": "auxiliaryTensorProductMap_smul",
+      "docstring": "The auxiliary tensor-product map commutes with multiplication by base-field scalars."
+    },
+    {
+      "temporary_id": "decl-023996",
+      "new_name": "auxiliaryTensorProductMap_tmul",
+      "docstring": "On a pure tensor, the auxiliary map applies its input map to the first component."
+    },
+    {
+      "temporary_id": "decl-023997",
+      "new_name": "auxiliaryTensorProductMapInduced",
+      "docstring": "Constructs the induced base-field-linear map between the displayed auxiliary targets."
+    },
+    {
+      "temporary_id": "decl-024000",
+      "new_name": "auxiliaryTensorProductMapInduced_mk_tmul",
+      "docstring": "The induced map sends the class of a pure tensor to the class with its first component mapped."
+    }
+  ]
+}

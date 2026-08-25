@@ -1,0 +1,303 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Monoid.{0} G] {\u03b9 : Type} [inst_2 : Fintype.{0} \u03b9]\n  (V : \u03b9 \u2192 FDRep.{0, 0} k G) (g : G),\n  Eq.{1} (FDRep.character.{0, 0} (decl-004227 V) g)\n    (Finset.sum.{0, 0} Finset.univ.{0} fun i => FDRep.character.{0, 0} (V i) g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004227"
+      ],
+      "structural_type_hash": "3542093861",
+      "temporary_id": "decl-004195"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Monoid.{0} G] {\u03b9 : Type} [Finite.{1} \u03b9]\n  (V : \u03b9 \u2192 FDRep.{0, 0} k G), CategoryTheory.Limits.HasBiproduct.{0, 0, 1} V",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4023116981",
+      "temporary_id": "decl-004204"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192\n      [inst_1 : Monoid.{0} G] \u2192\n        (X Y : FDRep.{0, 0} k G) \u2192\n          AddMonoidHom.{0, 0} (Quiver.Hom.{0, 1} X Y)\n            (LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} X))\n              (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} Y)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2895475755",
+      "temporary_id": "decl-004205"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Monoid.{0} G],\n  CategoryTheory.Limits.HasFiniteBiproducts.{0, 1} (FDRep.{0, 0} k G)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4193784095",
+      "temporary_id": "decl-004216"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192\n      [inst_1 : Monoid.{0} G] \u2192\n        (V W : FDRep.{0, 0} k G) \u2192\n          (f :\n              LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))\n                (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} W))) \u2192\n            (\u2200 (g : G) (v : FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V)),\n                Eq.{1}\n                  (DFunLike.coe.{1, 1, 1} f (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} V) g) v))\n                  (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} W) g) (DFunLike.coe.{1, 1, 1} f v))) \u2192\n              Quiver.Hom.{0, 1} V W",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4011332022",
+      "temporary_id": "decl-004220"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Monoid.{0} G] (V W : FDRep.{0, 0} k G)\n  (f :\n    LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))\n      (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} W)))\n  (hf :\n    \u2200 (g : G) (v : FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V)),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} f (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} V) g) v))\n        (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} W) g) (DFunLike.coe.{1, 1, 1} f v)))\n  (v : FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V)),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1}\n      (ModuleCat.Hom.hom.{0, 0}\n        (CategoryTheory.InducedCategory.Hom.hom.{0, 1, 1} (Action.Hom.hom.{0, 1, 0} (decl-004220 V W f hf))))\n      v)\n    (DFunLike.coe.{1, 1, 1} f v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004220"
+      ],
+      "structural_type_hash": "537707158",
+      "temporary_id": "decl-004223"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192 [inst_1 : Monoid.{0} G] \u2192 {\u03b9 : Type} \u2192 [Fintype.{0} \u03b9] \u2192 (\u03b9 \u2192 FDRep.{0, 0} k G) \u2192 FDRep.{0, 0} k G",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2985848757",
+      "temporary_id": "decl-004227"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192\n      [inst_1 : Monoid.{0} G] \u2192\n        {\u03b9 : Type} \u2192\n          [Fintype.{0} \u03b9] \u2192 [DecidableEq.{1} \u03b9] \u2192 (V : \u03b9 \u2192 FDRep.{0, 0} k G) \u2192 CategoryTheory.Limits.Bicone.{0, 0, 1} V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3895102992",
+      "temporary_id": "decl-004229"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192\n      [inst_1 : Monoid.{0} G] \u2192\n        {\u03b9 : Type} \u2192\n          [inst_2 : Fintype.{0} \u03b9] \u2192\n            [inst_3 : DecidableEq.{1} \u03b9] \u2192\n              (V : \u03b9 \u2192 FDRep.{0, 0} k G) \u2192 CategoryTheory.Limits.Bicone.IsBilimit.{0, 0, 1} (decl-004229 V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004229"
+      ],
+      "structural_type_hash": "868866767",
+      "temporary_id": "decl-004232"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192\n      [inst_1 : Monoid.{0} G] \u2192\n        {\u03b9 : Type} \u2192\n          [inst_2 : Fintype.{0} \u03b9] \u2192\n            [DecidableEq.{1} \u03b9] \u2192\n              (V : \u03b9 \u2192 FDRep.{0, 0} k G) \u2192\n                CategoryTheory.Iso.{0, 1} (decl-004227 V) (CategoryTheory.Limits.biproduct.{0, 0, 1} V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004204",
+        "decl-004227"
+      ],
+      "structural_type_hash": "4028000284",
+      "temporary_id": "decl-004233"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Monoid.{0} G] {\u03b9 : Type} [inst_2 : Fintype.{0} \u03b9]\n  [inst_3 : DecidableEq.{1} \u03b9] (V : \u03b9 \u2192 FDRep.{0, 0} k G),\n  Eq.{1}\n    (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n      CategoryTheory.CategoryStruct.comp.{0, 1} (decl-004242 V i) (decl-004237 V i))\n    (CategoryTheory.CategoryStruct.id.{0, 1} (decl-004227 V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004227",
+        "decl-004237",
+        "decl-004242"
+      ],
+      "structural_type_hash": "2526540778",
+      "temporary_id": "decl-004235"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Monoid.{0} G] {\u03b9 : Type} [inst_2 : Fintype.{0} \u03b9]\n  (V : \u03b9 \u2192 FDRep.{0, 0} k G) (g : G) (x : FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (decl-004227 V))) (i : \u03b9),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} (decl-004227 V)) g) x i)\n    (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} (V i)) g) (x i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004227"
+      ],
+      "structural_type_hash": "560501098",
+      "temporary_id": "decl-004236"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192\n      [inst_1 : Monoid.{0} G] \u2192\n        {\u03b9 : Type} \u2192\n          [inst_2 : Fintype.{0} \u03b9] \u2192\n            [DecidableEq.{1} \u03b9] \u2192 (V : \u03b9 \u2192 FDRep.{0, 0} k G) \u2192 (i : \u03b9) \u2192 Quiver.Hom.{0, 1} (V i) (decl-004227 V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004227"
+      ],
+      "structural_type_hash": "229099219",
+      "temporary_id": "decl-004237"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Monoid.{0} G] {\u03b9 : Type} [inst_2 : Fintype.{0} \u03b9]\n  [inst_3 : DecidableEq.{1} \u03b9] (V : \u03b9 \u2192 FDRep.{0, 0} k G) (i : \u03b9)\n  (v : FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (V i))),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1}\n      (ModuleCat.Hom.hom.{0, 0}\n        (CategoryTheory.InducedCategory.Hom.hom.{0, 1, 1} (Action.Hom.hom.{0, 1, 0} (decl-004237 V i))))\n      v)\n    (Pi.single.{0, 0} i v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004227",
+        "decl-004237"
+      ],
+      "structural_type_hash": "202835394",
+      "temporary_id": "decl-004239"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Monoid.{0} G] {\u03b9 : Type} [inst_2 : Fintype.{0} \u03b9]\n  [inst_3 : DecidableEq.{1} \u03b9] (V : \u03b9 \u2192 FDRep.{0, 0} k G) {i j : \u03b9},\n  Ne.{1} i j \u2192 Eq.{1} (CategoryTheory.CategoryStruct.comp.{0, 1} (decl-004237 V i) (decl-004242 V j)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004227",
+        "decl-004237",
+        "decl-004242"
+      ],
+      "structural_type_hash": "656626769",
+      "temporary_id": "decl-004240"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Monoid.{0} G] {\u03b9 : Type} [inst_2 : Fintype.{0} \u03b9]\n  [inst_3 : DecidableEq.{1} \u03b9] (V : \u03b9 \u2192 FDRep.{0, 0} k G) (i : \u03b9),\n  Eq.{1} (CategoryTheory.CategoryStruct.comp.{0, 1} (decl-004237 V i) (decl-004242 V i))\n    (CategoryTheory.CategoryStruct.id.{0, 1} (V i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004227",
+        "decl-004237",
+        "decl-004242"
+      ],
+      "structural_type_hash": "322160109",
+      "temporary_id": "decl-004241"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192\n      [inst_1 : Monoid.{0} G] \u2192\n        {\u03b9 : Type} \u2192\n          [inst_2 : Fintype.{0} \u03b9] \u2192 (V : \u03b9 \u2192 FDRep.{0, 0} k G) \u2192 (i : \u03b9) \u2192 Quiver.Hom.{0, 1} (decl-004227 V) (V i)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004227"
+      ],
+      "structural_type_hash": "273060793",
+      "temporary_id": "decl-004242"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Monoid.{0} G] {\u03b9 : Type} [inst_2 : Fintype.{0} \u03b9]\n  (V : \u03b9 \u2192 FDRep.{0, 0} k G) (i : \u03b9) (x : FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (decl-004227 V))),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1}\n      (ModuleCat.Hom.hom.{0, 0}\n        (CategoryTheory.InducedCategory.Hom.hom.{0, 1, 1} (Action.Hom.hom.{0, 1, 0} (decl-004242 V i))))\n      x)\n    (x i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004227",
+        "decl-004242"
+      ],
+      "structural_type_hash": "1077511148",
+      "temporary_id": "decl-004244"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192\n      [inst_1 : Monoid.{0} G] \u2192\n        {\u03b9 : Type} \u2192\n          {M : \u03b9 \u2192 Type} \u2192\n            [inst_2 : (i : \u03b9) \u2192 AddCommGroup.{0} (M i)] \u2192\n              [inst_3 : (i : \u03b9) \u2192 Module.{0, 0} k (M i)] \u2192\n                ((i : \u03b9) \u2192 Representation.{0, 0, 0} k G (M i)) \u2192 Representation.{0, 0, 0} k G ((i : \u03b9) \u2192 M i)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [],
+      "structural_type_hash": "78889181",
+      "temporary_id": "decl-015450"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Monoid.{0} G] {\u03b9 : Type} {M : \u03b9 \u2192 Type}\n  [inst_2 : (i : \u03b9) \u2192 AddCommGroup.{0} (M i)] [inst_3 : (i : \u03b9) \u2192 Module.{0, 0} k (M i)]\n  (\u03c1 : (i : \u03b9) \u2192 Representation.{0, 0, 0} k G (M i)) (g : G) (x : (i : \u03b9) \u2192 M i) (i : \u03b9),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-015450 \u03c1) g) x i)\n    (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (\u03c1 i) g) (x i))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [
+        "decl-015450"
+      ],
+      "structural_type_hash": "2790417186",
+      "temporary_id": "decl-015453"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {\u03b9 : Type} \u2192\n      {M : \u03b9 \u2192 Type} \u2192\n        [inst_1 : (i : \u03b9) \u2192 AddCommGroup.{0} (M i)] \u2192\n          [inst_2 : (i : \u03b9) \u2192 Module.{0, 0} k (M i)] \u2192\n            ((i : \u03b9) \u2192 LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) (M i) (M i)) \u2192\n              LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) ((i : \u03b9) \u2192 M i) ((i : \u03b9) \u2192 M i)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1048685510",
+      "temporary_id": "decl-022021"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {\u03b9 : Type} {M : \u03b9 \u2192 Type} [inst_1 : (i : \u03b9) \u2192 AddCommGroup.{0} (M i)]\n  [inst_2 : (i : \u03b9) \u2192 Module.{0, 0} k (M i)] (f : (i : \u03b9) \u2192 LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) (M i) (M i))\n  (x : (i : \u03b9) \u2192 M i) (i : \u03b9),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-022021 f) x i) (DFunLike.coe.{1, 1, 1} (f i) (x i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022021"
+      ],
+      "structural_type_hash": "2380062799",
+      "temporary_id": "decl-022023"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {\u03b9 : Type} {M : \u03b9 \u2192 Type} [inst_1 : (i : \u03b9) \u2192 AddCommGroup.{0} (M i)]\n  [inst_2 : (i : \u03b9) \u2192 Module.{0, 0} k (M i)] (f g : (i : \u03b9) \u2192 LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) (M i) (M i)),\n  Eq.{1} (decl-022021 fun i => LinearMap.comp.{0, 0, 0, 0, 0, 0} (f i) (g i))\n    (LinearMap.comp.{0, 0, 0, 0, 0, 0} (decl-022021 f) (decl-022021 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022021"
+      ],
+      "structural_type_hash": "101784674",
+      "temporary_id": "decl-022024"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {\u03b9 : Type} {M : \u03b9 \u2192 Type} [inst_1 : (i : \u03b9) \u2192 AddCommGroup.{0} (M i)]\n  [inst_2 : (i : \u03b9) \u2192 Module.{0, 0} k (M i)] [inst_3 : Fintype.{0} \u03b9] [inst_4 : DecidableEq.{1} \u03b9]\n  (f : (i : \u03b9) \u2192 LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) (M i) (M i)),\n  Eq.{1} (decl-022021 f)\n    (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n      LinearMap.comp.{0, 0, 0, 0, 0, 0} (LinearMap.single.{0, 0, 0} k M i)\n        (LinearMap.comp.{0, 0, 0, 0, 0, 0} (f i) (LinearMap.proj.{0, 0, 0} i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022021"
+      ],
+      "structural_type_hash": "3841799874",
+      "temporary_id": "decl-022025"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {\u03b9 : Type} {M : \u03b9 \u2192 Type} [inst_1 : (i : \u03b9) \u2192 AddCommGroup.{0} (M i)]\n  [inst_2 : (i : \u03b9) \u2192 Module.{0, 0} k (M i)], Eq.{1} (decl-022021 fun i => LinearMap.id.{0, 0}) LinearMap.id.{0, 0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022021"
+      ],
+      "structural_type_hash": "3716674984",
+      "temporary_id": "decl-022026"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {\u03b9 : Type} {M : \u03b9 \u2192 Type} [inst_1 : (i : \u03b9) \u2192 AddCommGroup.{0} (M i)]\n  [inst_2 : (i : \u03b9) \u2192 Module.{0, 0} k (M i)] [inst_3 : DecidableEq.{1} \u03b9] (i : \u03b9),\n  Eq.{1} (LinearMap.comp.{0, 0, 0, 0, 0, 0} (LinearMap.proj.{0, 0, 0} i) (LinearMap.single.{0, 0, 0} k M i))\n    LinearMap.id.{0, 0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3792019339",
+      "temporary_id": "decl-022179"
+    },
+    {
+      "formal_type": "\u2200 {\u03b1 : Type} [inst : AddCommGroup.{0} \u03b1] [inst_1 : Fintype.{0} \u03b1] [inst_2 : DecidableEq.{1} \u03b1]\n  [inst_3 : Fintype.{0} (MonoidHom.{0, 0} (Multiplicative.{0} \u03b1) (Units.{0} Complex))] (x : \u03b1),\n  Eq.{1}\n    (Finset.sum.{0, 0} Finset.univ.{0} fun f =>\n      Units.val.{0} (DFunLike.coe.{1, 1, 1} f (DFunLike.coe.{1, 1, 1} Multiplicative.ofAdd.{0} x)))\n    (ite.{1} (Eq.{1} x 0) (Nat.cast.{0} (Fintype.card.{0} \u03b1)) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "218257024",
+      "temporary_id": "decl-023532"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {\u03b9 : Type} {M : \u03b9 \u2192 Type} [inst_1 : (i : \u03b9) \u2192 AddCommGroup.{0} (M i)]\n  [inst_2 : (i : \u03b9) \u2192 Module.{0, 0} k (M i)] [inst_3 : Fintype.{0} \u03b9] [\u2200 (i : \u03b9), FiniteDimensional.{0, 0} k (M i)]\n  (f : (i : \u03b9) \u2192 LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) (M i) (M i)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} k ((i : \u03b9) \u2192 M i)) (decl-022021 f))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun i => DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} k (M i)) (f i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022021"
+      ],
+      "structural_type_hash": "95276956",
+      "temporary_id": "decl-024300"
+    },
+    {
+      "formal_type": "{A : Type} \u2192 [inst : Group.{0} A] \u2192 Equiv.{1, 1} (MonoidHom.{0, 0} A (Units.{0} Complex)) (MonoidHom.{0, 0} A Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4283945001",
+      "temporary_id": "decl-024437"
+    }
+  ],
+  "module_temporary_id": "module-0774",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1235",
+  "associations": [
+    {
+      "association_id": "association:4614f67e383abb2965f8",
+      "rationale": "The type directly states Noether-Deuring: a splitting after scalar extension descends to a splitting over the base field.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:622fae19b09938b460e3",
+      "rationale": "The type directly states that an isomorphism after base change implies an isomorphism of the original A-modules.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "module_name": "FDRep.GroupAlgebraDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-024836",
+      "new_name": "simple_fdRep_of_isSimpleModule",
+      "docstring": "A finite-dimensional representation whose group-algebra module is simple is a simple categorical representation."
+    },
+    {
+      "temporary_id": "decl-025031",
+      "new_name": "DecompositionData",
+      "docstring": "Auxiliary decomposition data for representations of a finite group over an algebraically closed field."
+    },
+    {
+      "temporary_id": "decl-025052",
+      "new_name": "representation",
+      "docstring": "The finite-dimensional representation indexed by an entry of the decomposition data."
+    },
+    {
+      "temporary_id": "decl-025055",
+      "new_name": "representation_index_eq_of_iso",
+      "docstring": "Isomorphic indexed representations in the decomposition data have equal indices."
+    },
+    {
+      "temporary_id": "decl-025057",
+      "new_name": "simple_representation",
+      "docstring": "Every representation indexed by the decomposition data is simple."
+    },
+    {
+      "temporary_id": "decl-025058",
+      "new_name": "exists_iso_representation_of_simple",
+      "docstring": "Every simple finite-dimensional representation is isomorphic to an indexed representation from the decomposition data."
+    },
+    {
+      "temporary_id": "decl-025068",
+      "new_name": "coordinateRepresentation",
+      "docstring": "A representation on the coordinate space whose size is the indexed natural number in the decomposition data."
+    },
+    {
+      "temporary_id": "decl-025074",
+      "new_name": "dimension",
+      "docstring": "The natural number assigned to an index of the decomposition data."
+    },
+    {
+      "temporary_id": "decl-025076",
+      "new_name": "exists_reindex_dimension_eq_finrank",
+      "docstring": "A pairwise nonisomorphic simple family indexed by the decomposition count admits a reindexing matching the stored dimensions with its dimensions."
+    },
+    {
+      "temporary_id": "decl-025077",
+      "new_name": "dimension_neZero",
+      "docstring": "Every indexed dimension in the decomposition data is nonzero."
+    },
+    {
+      "temporary_id": "decl-025084",
+      "new_name": "groupAlgebraEquivRepresentationEnd",
+      "docstring": "The group algebra is equivalent to the family of endomorphism algebras of the indexed representations."
+    },
+    {
+      "temporary_id": "decl-025099",
+      "new_name": "finrank_representation",
+      "docstring": "The dimension of an indexed representation equals its stored natural number."
+    },
+    {
+      "temporary_id": "decl-025101",
+      "new_name": "isSimpleModule_coordinateRepresentation",
+      "docstring": "The group-algebra module associated with each coordinate representation is simple."
+    },
+    {
+      "temporary_id": "decl-025104",
+      "new_name": "groupAlgebraEquivMatrix",
+      "docstring": "The group algebra is equivalent to a family of square matrix algebras with the stored dimensions."
+    },
+    {
+      "temporary_id": "decl-025106",
+      "new_name": "default",
+      "docstring": "An auxiliary decomposition datum available under the finite-group field assumptions."
+    },
+    {
+      "temporary_id": "decl-025117",
+      "new_name": "count",
+      "docstring": "The number of indices associated with the decomposition data."
+    },
+    {
+      "temporary_id": "decl-025119",
+      "new_name": "exists_completeSimpleFamily",
+      "docstring": "There exists an indexed family of simple, pairwise nonisomorphic representations containing every simple representation up to isomorphism."
+    },
+    {
+      "temporary_id": "decl-025122",
+      "new_name": "matrixBlockHom",
+      "docstring": "A ring homomorphism from the group algebra to the square matrix algebra at an index of the decomposition data."
+    },
+    {
+      "temporary_id": "decl-025124",
+      "new_name": "matrixBlockHom_surjective",
+      "docstring": "Each indexed homomorphism from the group algebra to its matrix algebra is surjective."
+    },
+    {
+      "temporary_id": "decl-025130",
+      "new_name": "sum_finrank_sq_eq_card_of_simple_pairwise",
+      "docstring": "For an indexed pairwise nonisomorphic simple family of the decomposition count, the sum of squared dimensions equals the group cardinality."
+    },
+    {
+      "temporary_id": "decl-025131",
+      "new_name": "sum_dimension_sq_eq_card",
+      "docstring": "The sum of the squares of the stored dimensions equals the cardinality of the group."
+    },
+    {
+      "temporary_id": "decl-025133",
+      "new_name": "isSimpleModule_restrictScalars_of_surjective",
+      "docstring": "Restricting a simple module along a surjective ring homomorphism preserves simplicity."
+    },
+    {
+      "temporary_id": "decl-025149",
+      "new_name": "isSimpleModule_matrix_fin",
+      "docstring": "The standard coordinate module is simple over the square matrix ring of nonzero size."
+    },
+    {
+      "temporary_id": "decl-025169",
+      "new_name": "finrank_monoidAlgebra",
+      "docstring": "The dimension of the monoid-algebra space over its field equals the cardinality of its finite indexing type."
+    },
+    {
+      "temporary_id": "decl-025170",
+      "new_name": "finiteDimensional_monoidAlgebra",
+      "docstring": "The monoid-algebra space indexed by a finite type is finite-dimensional over the field."
+    },
+    {
+      "temporary_id": "decl-025171",
+      "new_name": "isSemisimpleRing_monoidAlgebra",
+      "docstring": "The group algebra of a finite group is semisimple when its cardinality is nonzero in the field."
+    },
+    {
+      "temporary_id": "decl-025180",
+      "new_name": "exists_groupAlgebraEquiv_pi_matrix",
+      "docstring": "A finite group algebra over an algebraically closed field is equivalent to a finite family of nonzero square matrix algebras."
+    },
+    {
+      "temporary_id": "decl-032834",
+      "new_name": "exists_completeSimpleFamily_sum_finrank_sq_eq_card",
+      "docstring": "There exists a complete pairwise nonisomorphic simple family whose squared dimensions sum to the group cardinality."
+    },
+    {
+      "temporary_id": "decl-032857",
+      "new_name": "finrank_pi_matrix",
+      "docstring": "The dimension of a finite family of square matrix algebras is the sum of the squares of their sizes."
+    },
+    {
+      "temporary_id": "decl-033006",
+      "new_name": "sum_finrank_sq_eq_card_of_completeSimpleFamily",
+      "docstring": "For a complete pairwise nonisomorphic simple family, the sum of squared dimensions equals the group cardinality."
+    }
+  ]
+}

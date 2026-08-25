@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0643",
+  "associations": [
+    {
+      "association_id": "association:9052d8f3795cba416a84",
+      "rationale": "The formal type directly states that an equivalence between the scalar extensions of finite-dimensional A-modules V and W along any field extension L/K implies an A-linear equivalence V ≃ W.",
+      "role": "primary"
+    }
+  ]
+}

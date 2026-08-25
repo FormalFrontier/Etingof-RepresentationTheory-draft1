@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:63819edf5082216b7df5",
+      "declaration": "Etingof.Problem3_3_3.simpleModule_prod_iff_factor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/142/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V],\n  Iff (IsSimpleModule.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V)\n    (Exists.{1} fun i =>\n      And\n        (IsSimpleModule.{u_1, u_2} (\ud835\udc9c i)\n          (Subtype.{u_2 + 1} fun x =>\n            Membership.mem.{u_2, u_2}\n              (LinearMap.range.{u_1, u_1, u_2, u_2} (Etingof.Problem3_3_3.idemProj.{u_1, u_2} \ud835\udc9c V i)) x))\n        (\u2200 (j : Fin r),\n          Ne.{1} j i \u2192\n            Eq.{u_2 + 1} (LinearMap.range.{u_1, u_1, u_2, u_2} (Etingof.Problem3_3_3.idemProj.{u_1, u_2} \ud835\udc9c V j))\n              Bot.bot.{u_2}))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_3_3"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.3.3",
+  "packet_id": "align-0631",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0631"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.3.3:claim-07",
+  "source_text": "An A-representation V is irreducible exactly when 1_i V is irreducible over A_i for exactly one i and every other 1_j V vanishes."
+}

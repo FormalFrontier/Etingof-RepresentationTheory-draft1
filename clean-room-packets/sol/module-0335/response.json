@@ -1,0 +1,140 @@
+{
+  "module_name": "GaloisFieldCharacters",
+  "declarations": [
+    {
+      "temporary_id": "decl-004371",
+      "new_name": "GaloisField.AuxiliaryIndex",
+      "docstring": "Auxiliary index type over a finite Galois field"
+    },
+    {
+      "temporary_id": "decl-004411",
+      "new_name": "GaloisField.natCard_auxiliaryIndex",
+      "docstring": "Cardinality of the auxiliary index type"
+    },
+    {
+      "temporary_id": "decl-004427",
+      "new_name": "GaloisField.fdRep_character_apply_eq_unit_add_card_pow",
+      "docstring": "Character value as a unit value plus its finite-field-cardinality power"
+    },
+    {
+      "temporary_id": "decl-004434",
+      "new_name": "GaloisField.characterCardPow",
+      "docstring": "Finite-field-cardinality power transform on complex unit-valued characters"
+    },
+    {
+      "temporary_id": "decl-004435",
+      "new_name": "GaloisField.characterCardPow_apply",
+      "docstring": "Evaluation of the finite-field-cardinality power transform"
+    },
+    {
+      "temporary_id": "decl-004436",
+      "new_name": "GaloisField.characterCardPow_comp_auxiliaryHom",
+      "docstring": "Invariance of character restriction under the cardinality-power transform"
+    },
+    {
+      "temporary_id": "decl-004438",
+      "new_name": "GaloisField.characterOfExponent",
+      "docstring": "Complex unit-valued character associated to a modular exponent"
+    },
+    {
+      "temporary_id": "decl-004439",
+      "new_name": "GaloisField.characterCardPow_ne_iff_exponent_ne",
+      "docstring": "Nonfixed character criterion in terms of its modular exponent"
+    },
+    {
+      "temporary_id": "decl-004440",
+      "new_name": "GaloisField.characterExponentEquiv",
+      "docstring": "Multiplicative equivalence between complex unit-valued characters and modular exponents"
+    },
+    {
+      "temporary_id": "decl-004445",
+      "new_name": "GaloisField.characterExponentEquiv_characterCardPow",
+      "docstring": "Cardinality-power transform transported to modular exponents"
+    },
+    {
+      "temporary_id": "decl-004446",
+      "new_name": "GaloisField.characterExponentEquiv_characterOfExponent",
+      "docstring": "Modular exponent of its associated character"
+    },
+    {
+      "temporary_id": "decl-004447",
+      "new_name": "GaloisField.fdRepOfAuxiliaryIndex",
+      "docstring": "Finite-dimensional complex representation associated to an auxiliary index"
+    },
+    {
+      "temporary_id": "decl-004450",
+      "new_name": "GaloisField.finrank_fdRepOfAuxiliaryIndex",
+      "docstring": "Finite rank of the representation associated to an auxiliary index"
+    },
+    {
+      "temporary_id": "decl-004451",
+      "new_name": "GaloisField.eq_of_fdRepOfAuxiliaryIndex_iso",
+      "docstring": "Equality of auxiliary indices determined by isomorphic associated representations"
+    },
+    {
+      "temporary_id": "decl-004453",
+      "new_name": "GaloisField.simple_fdRepOfAuxiliaryIndex",
+      "docstring": "Simplicity of the representation associated to an auxiliary index"
+    },
+    {
+      "temporary_id": "decl-004454",
+      "new_name": "GaloisField.characterOfAuxiliaryIndex",
+      "docstring": "Complex unit-valued character associated to an auxiliary index"
+    },
+    {
+      "temporary_id": "decl-004457",
+      "new_name": "GaloisField.exists_characterOfAuxiliaryIndex_cardPow_ne",
+      "docstring": "Existence of a nonfixed value of an auxiliary-index character under cardinality powering"
+    },
+    {
+      "temporary_id": "decl-004461",
+      "new_name": "GaloisField.auxiliaryValue_characterCardPow",
+      "docstring": "Invariance of an auxiliary value under the cardinality-power character transform"
+    },
+    {
+      "temporary_id": "decl-004462",
+      "new_name": "GaloisField.auxiliaryValue_apply_eq_neg_unit_add_card_pow",
+      "docstring": "Auxiliary value as the negative sum of a unit value and its cardinality power"
+    },
+    {
+      "temporary_id": "decl-004470",
+      "new_name": "GaloisField.auxiliaryIso_characterCardPow",
+      "docstring": "Isomorphism between auxiliary objects indexed by a character and its cardinality-power transform"
+    },
+    {
+      "temporary_id": "decl-004473",
+      "new_name": "GaloisField.auxiliaryIso_iff_eq_or_eq_characterCardPow",
+      "docstring": "Isomorphism criterion for auxiliary objects indexed by nonfixed characters"
+    },
+    {
+      "temporary_id": "decl-004474",
+      "new_name": "GaloisField.eq_or_eq_characterCardPow_of_auxiliaryIso",
+      "docstring": "Character equality up to cardinality-power transform from an auxiliary isomorphism"
+    },
+    {
+      "temporary_id": "decl-004485",
+      "new_name": "auxiliaryElidedStatement004485",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-004542",
+      "new_name": "GaloisField.fdRepIso_characterCardPow",
+      "docstring": "Isomorphism of finite-dimensional representations under the cardinality-power character transform"
+    },
+    {
+      "temporary_id": "decl-004545",
+      "new_name": "GaloisField.isCyclic_auxiliarySubgroup",
+      "docstring": "Cyclicity of the auxiliary subgroup for nonzero extension degree"
+    },
+    {
+      "temporary_id": "decl-004547",
+      "new_name": "GaloisField.exists_pairwise_nonisomorphic_simple_family",
+      "docstring": "Family of pairwise nonisomorphic simple objects with prescribed index cardinality"
+    },
+    {
+      "temporary_id": "decl-004586",
+      "new_name": "GaloisField.auxiliaryElement_mem_normalizer",
+      "docstring": "Normalizer membership of an auxiliary element for nonzero extension degree"
+    }
+  ]
+}

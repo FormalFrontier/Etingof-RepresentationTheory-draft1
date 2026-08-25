@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1132",
+  "associations": [
+    {
+      "association_id": "association:00c14282a86dc6238eb5",
+      "role": "supporting",
+      "rationale": "The type gives the double-dual equivalence, but it does not itself state the evaluation formula or the noncanonical equivalence with the single dual also included in the source claim."
+    },
+    {
+      "association_id": "association:e07f9fd1f0588e5f6e18",
+      "role": "supporting",
+      "rationale": "The type states the evaluation formula for the double-dual map, but it does not itself assert either of the dual equivalences in the full source claim."
+    },
+    {
+      "association_id": "association:b5dab8264e042b5d4dda",
+      "role": "supporting",
+      "rationale": "The type states the noncanonical equivalence with the single dual, but it does not itself state the canonical double-dual equivalence by evaluation."
+    }
+  ]
+}

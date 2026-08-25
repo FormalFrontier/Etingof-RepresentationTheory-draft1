@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4cb9085471fe70412779",
+      "declaration": "Etingof.Problem2_5_2.cyclic_iff_isoQuotient",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/52/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] (V : Type u_2) [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  [Nontrivial.{u_2} V],\n  Iff (Etingof.Problem2_5_2.IsCyclic.{u_1, u_2} V)\n    (Exists.{u_1 + 1} fun I =>\n      Nonempty.{max (u_1 + 1) (u_2 + 1)}\n        (LinearEquiv.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} A) V (HasQuotient.Quotient.{u_1, u_1} A I)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_5_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.5.2",
+  "packet_id": "align-0593",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0593"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.5.2:claim-04",
+  "source_text": "For a nonzero representation V, cyclicity is equivalent to A-linear isomorphism with A/I for some left ideal I."
+}

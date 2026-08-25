@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0198",
+  "associations": [
+    {
+      "association_id": "association:025e864892490271852c",
+      "role": "supporting",
+      "rationale": "It proves the stronger solvability theorem for all groups of the indicated order, rather than the minimal-counterexample simplicity argument."
+    }
+  ]
+}

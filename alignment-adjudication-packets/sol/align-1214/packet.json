@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:aabac13124a5cb3ccc6d",
+      "declaration": "Etingof.algIrrepGLRep\u03c1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/587/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192\n  (lam : Etingof.DominantWeight n) \u2192\n    (k : Type u_2) \u2192\n      [inst : Field.{u_2} k] \u2192\n        [inst_1 : IsAlgClosed.{u_2} k] \u2192\n          Representation.{u_2, u_2, u_2} k (Matrix.GeneralLinearGroup.{0, u_2} (Fin n) k)\n            (Etingof.AlgIrrepGL.{u_2} n lam k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep"
+    },
+    {
+      "association_id": "association:3ff3de4d845000ebca33",
+      "declaration": "Etingof.algIrrepGLRep\u03c1_isSimpleModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/587/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k]\n  (lam : Etingof.DominantWeight n),\n  IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k))\n    (Representation.asModule.{0, 0, 0} (Etingof.algIrrepGLRep\u03c1.{0} n lam k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_23_2_PeterWeyl"
+    },
+    {
+      "association_id": "association:75cc0ab19a3039ca9d57",
+      "declaration": "Etingof.algIrrepGLRep\u03c1_iso_iff_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/587/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k]\n  {lam mu : Etingof.DominantWeight n},\n  Iff\n    (Nonempty.{1}\n      (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k)))\n        (Representation.asModule.{0, 0, 0} (Etingof.algIrrepGLRep\u03c1.{0} n lam k))\n        (Representation.asModule.{0, 0, 0} (Etingof.algIrrepGLRep\u03c1.{0} n mu k))))\n    (Eq.{1} lam mu)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.AlgIrrepGLNonIso"
+    },
+    {
+      "association_id": "association:ee6343ca82f4b38aabd3",
+      "declaration": "Etingof.schurModule_isSimple_general",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/587/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n      (Representation.asModule.{0, 0, 0} (FDRep.\u03c1.{0, 0} (Etingof.SchurModule.{0} k N lam)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.CleanCharacterExtractionBase"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_after_Definition5.23.1/Derived01",
+  "packet_id": "align-1214",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1214"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "derived:324049d4dee19fffa762",
+  "source_text": "For any weakly decreasing integer sequence \u03bb\u2081 \u2265 \u2026 \u2265 \u03bb_N, there is a unique irreducible algebraic representation L_\u03bb of GL_N with highest weight \u03bb; it is constructed as (Schur module L_{\u03bb+r\u00b71^N}) \u2297 (det^*)^r for r \u226b 0"
+}

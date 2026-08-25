@@ -1,0 +1,45 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [CharZero.{u} k] {V : Type v} [inst_3 : AddCommGroup.{v} V]\n  [inst_4 : Module.{u, v} k V] [Module.Finite.{u, v} k V] (n : Nat),\n  Exists.{2} fun iota =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{max (u + 1) (v + 1)} fun S =>\n          Exists.{1} fun label =>\n            Exists.{max (u + 1) (v + 1)} fun specht =>\n              And\n                (\u2200 (p : n.Partition), Subsingleton.{1} (Subtype.{1} fun i => Eq.{1} (DFunLike.coe.{1, 1, 1} label i) p))\n                (And\n                  (\u2200 (i : iota),\n                    IsSimpleModule.{max u v, max (max v u) u v}\n                      (Subtype.{(max u v) + 1} fun x =>\n                        Membership.mem.{max u v, max u v}\n                          (Subalgebra.centralizer.{u, max u v} k\n                            (SetLike.coe.{max u v, max u v} (decl-023627.{u, v} k V n)))\n                          x)\n                      (LinearMap.{max u v, max u v, max u v, max v u}\n                        (RingHom.id.{max u v}\n                          (Subtype.{(max u v) + 1} fun x =>\n                            Membership.mem.{max u v, max u v} (decl-023627.{u, v} k V n) x))\n                        (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                        (decl-016473.{u, v} k V n)))\n                  (And\n                    (\u2200 (i j : iota),\n                      Nonempty.{(max (max v u) u v) + 1}\n                          (LinearEquiv.{max u v, max u v, max (max v u) u v, max (max v u) u v}\n                            (RingHom.id.{max u v}\n                              (Subtype.{(max u v) + 1} fun x =>\n                                Membership.mem.{max u v, max u v}\n                                  (Subalgebra.centralizer.{u, max u v} k\n                                    (SetLike.coe.{max u v, max u v} (decl-023627.{u, v} k V n)))\n                                  x))\n                            (LinearMap.{max u v, max u v, max u v, max v u}\n                              (RingHom.id.{max u v}\n                                (Subtype.{(max u v) + 1} fun x =>\n                                  Membership.mem.{max u v, max u v} (decl-023627.{u, v} k V n) x))\n                              (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                              (decl-016473.{u, v} k V n))\n                            (LinearMap.{max u v, max u v, max u v, max v u}\n                              (RingHom.id.{max u v}\n                                (Subtype.{(max u v) + 1} fun x =>\n                                  Membership.mem.{max u v, max u v} (decl-023627.{u, v} k V n) x))\n                              (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S j) x)\n                              (decl-016473.{u, v} k V n))) \u2192\n                        Eq.{1} i j)\n                    (And\n                      (\u2200 (i : iota) (a : MonoidAlgebra.{u, 0} k (Equiv.Perm.{1} (Fin n)))\n                        (x : Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x),\n                        Eq.{u + 1}\n                          (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1} (specht i)\n                            (HSMul.hSMul.{max u v, max u v, max u v}\n                              (DFunLike.coe.{max (u + 1) (v + 1), u + 1, max (u + 1) (v + 1)}\n                                (decl-023620.{u, v} k V n) a)\n                              x))\n                          (HSMul.hSMul.{u, u, u} a\n                            (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1} (specht i) x)))\n                      (Exists.{max (u + 1) (v + 1)} fun e =>\n                        \u2200\n                          (b :\n                            Subtype.{(max u v) + 1} fun x =>\n                              Membership.mem.{max u v, max u v} (decl-018384.{u, v} k V n) x)\n                          (x_1 : decl-016473.{u, v} k V n),\n                          Eq.{max (u + 1) (v + 1)}\n                            (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                              (decl-005818.{u, max u v, 0} e)\n                              (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                                (Subtype.val.{max (u + 1) (v + 1)} b) x_1))\n                            (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                              (decl-021882.{u, max u v, 0} k n S label\n                                (Subtype.mk.{max (u + 1) (v + 1)} (Subtype.val.{max (u + 1) (v + 1)} b) \u22ef))\n                              (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                                (decl-005818.{u, max u v, 0} e) x_1))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005801",
+        "decl-005818",
+        "decl-016118",
+        "decl-016473",
+        "decl-017816",
+        "decl-018384",
+        "decl-018386",
+        "decl-021882",
+        "decl-023620",
+        "decl-023627"
+      ],
+      "structural_type_hash": "1492620794",
+      "temporary_id": "decl-001452"
+    }
+  ],
+  "module_temporary_id": "module-0278",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

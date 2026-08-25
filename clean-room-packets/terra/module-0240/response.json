@@ -1,0 +1,90 @@
+{
+  "module_name": "ConjugacyClassCharacterMatrix",
+  "declarations": [
+    {
+      "temporary_id": "decl-015322",
+      "new_name": "auxiliaryConjugacyClassMatrix",
+      "docstring": "Associates a complex matrix indexed by conjugacy classes to a conjugacy-class-indexed family of representations."
+    },
+    {
+      "temporary_id": "decl-015324",
+      "new_name": "auxiliaryConjugacyClassMatrix_entry_mul_star_entry",
+      "docstring": "Rewrites the product of an entry of the auxiliary matrix with the conjugate of another entry as a quotient involving character values and an auxiliary natural number."
+    },
+    {
+      "temporary_id": "decl-015325",
+      "new_name": "auxiliaryGroupElementNat",
+      "docstring": "An auxiliary natural-number-valued function on a group."
+    },
+    {
+      "temporary_id": "decl-015327",
+      "new_name": "auxiliaryGroupElementNat_pos",
+      "docstring": "The auxiliary natural number assigned to an element of a finite group is positive."
+    },
+    {
+      "temporary_id": "decl-015328",
+      "new_name": "star_character_eq_character_inv",
+      "docstring": "Complex conjugation of a finite-group character value equals the character value at the inverse element."
+    },
+    {
+      "temporary_id": "decl-015329",
+      "new_name": "conjTranspose_auxiliaryConjugacyClassMatrix_mul_eq_one",
+      "docstring": "The conjugate transpose of the auxiliary conjugacy-class matrix is a left inverse when the indexed simple representations are pairwise nonisomorphic."
+    },
+    {
+      "temporary_id": "decl-015330",
+      "new_name": "auxiliaryConjugacyClassMatrix_mul_conjTranspose_eq_one",
+      "docstring": "The conjugate transpose of the auxiliary conjugacy-class matrix is a right inverse when the indexed simple representations are pairwise nonisomorphic."
+    },
+    {
+      "temporary_id": "decl-015338",
+      "new_name": "sum_character_inv_mul_character",
+      "docstring": "Sums products of character values over the indexed simple representations, giving the auxiliary natural number attached to a representative when the conjugacy classes are equal and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-015339",
+      "new_name": "conjugacyClassCard_mul_auxiliaryGroupElementNat",
+      "docstring": "The number of elements in a conjugacy class multiplied by the auxiliary natural number assigned to a representative equals the group cardinality."
+    },
+    {
+      "temporary_id": "decl-015341",
+      "new_name": "mk_out_conjugacyClass",
+      "docstring": "The conjugacy class of a chosen representative of a quotient class is that class."
+    },
+    {
+      "temporary_id": "decl-015342",
+      "new_name": "auxiliaryConjugacyClassComplex",
+      "docstring": "An auxiliary complex-valued function on the conjugacy classes of a group."
+    },
+    {
+      "temporary_id": "decl-015344",
+      "new_name": "auxiliaryConjugacyClassComplex_sq",
+      "docstring": "The square of the auxiliary complex number attached to a conjugacy class is the cast of the auxiliary natural number assigned to a representative."
+    },
+    {
+      "temporary_id": "decl-015345",
+      "new_name": "auxiliaryConjugacyClassComplex_ne_zero",
+      "docstring": "The auxiliary complex number attached to a conjugacy class of a finite group is nonzero."
+    },
+    {
+      "temporary_id": "decl-015346",
+      "new_name": "natCast_auxiliaryGroupElementNat_sqrt_pos",
+      "docstring": "The square root of the cast auxiliary natural number assigned to a conjugacy-class representative is positive."
+    },
+    {
+      "temporary_id": "decl-015347",
+      "new_name": "star_auxiliaryConjugacyClassMatrix_entry_mul_entry",
+      "docstring": "Expresses a conjugated auxiliary-matrix entry times another entry as a quotient of character values by two auxiliary complex numbers attached to conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-015348",
+      "new_name": "star_auxiliaryConjugacyClassComplex",
+      "docstring": "The auxiliary complex number attached to a conjugacy class is fixed by complex conjugation."
+    },
+    {
+      "temporary_id": "decl-015349",
+      "new_name": "sum_conjClasses_div_auxiliaryGroupElementNat",
+      "docstring": "For a conjugation-invariant complex function, the sum over conjugacy classes divided by the auxiliary natural numbers of representatives equals the group sum scaled by the inverse of the group cardinality."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e1290df8628ec51a1162",
+      "declaration": "Etingof.Exercise7_9_8_exactness",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/519/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_4, u_2} Q] {i : Q} (hi : Etingof.IsSource.{u_2, u_4} Q i)\n  [inst_2 : Fintype.{max u_4 u_2} (Etingof.ArrowsOutOf.{u_2, u_4} Q i)],\n  And\n    (Etingof.RightExactFunctor.{max (max (max u_1 (u_3 + 1)) (u_4 + 1)) (u_2 + 1),\n        max (max (max u_1 (u_3 + 1)) (u_4 + 1)) (u_2 + 1), max (max u_3 u_4) u_2, max (max u_3 u_4) u_2}\n      (Etingof.reflectionFunctorMinusAdjunctionLeft.{u_1, u_2, u_4, u_3} hi))\n    (Etingof.LeftExactFunctor.{max (max (max u_1 (u_5 + 1)) (u_4 + 1)) (u_2 + 1),\n        max (max (max u_1 (u_5 + 1)) (u_4 + 1)) (u_2 + 1), max (max u_5 u_4) u_2, max (max u_5 u_4) u_2}\n      (Etingof.reflectionFunctorPlusAdjunctionRight.{u_1, u_2, u_4, u_5} hi))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Exercise7_9_8_Adjunction"
+    },
+    {
+      "association_id": "association:55cbf93bdbc8352f813b",
+      "declaration": "Etingof.reflectionFunctorMinus_rightExact",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/519/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_4, u_2} Q] {i : Q} (hi : Etingof.IsSource.{u_2, u_4} Q i)\n  [inst_2 : Fintype.{max u_4 u_2} (Etingof.ArrowsOutOf.{u_2, u_4} Q i)],\n  Etingof.RightExactFunctor.{max (max (max u_1 (u_3 + 1)) (u_4 + 1)) (u_2 + 1),\n      max (max (max u_1 (u_3 + 1)) (u_4 + 1)) (u_2 + 1), max (max u_3 u_4) u_2, max (max u_3 u_4) u_2}\n    (Etingof.reflectionFunctorMinusAdjunctionLeft.{u_1, u_2, u_4, u_3} hi)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Exercise7_9_8_Adjunction"
+    },
+    {
+      "association_id": "association:78667f3b9147d4b77e76",
+      "declaration": "Etingof.reflectionFunctorPlus_leftExact",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/519/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_4, u_2} Q] {i : Q} (hi : Etingof.IsSource.{u_2, u_4} Q i)\n  [Fintype.{max u_4 u_2} (Etingof.ArrowsOutOf.{u_2, u_4} Q i)],\n  Etingof.LeftExactFunctor.{max (max (max u_1 (u_3 + 1)) (u_4 + 1)) (u_2 + 1),\n      max (max (max u_1 (u_3 + 1)) (u_4 + 1)) (u_2 + 1), max (max u_3 u_4) u_2, max (max u_3 u_4) u_2}\n    (Etingof.reflectionFunctorPlusAdjunctionRight.{u_1, u_2, u_4, u_3} hi)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Exercise7_9_8_Adjunction"
+    }
+  ],
+  "canonical_reference": "Chapter7/Exercise7.9.8",
+  "packet_id": "align-0815",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0815"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter7/Exercise7.9.8:part_b",
+  "source_text": "Part (b): deduce left/right exactness from that adjunction."
+}

@@ -1,0 +1,105 @@
+{
+  "module_name": "QuiverRepresentationAuxiliaryFunctor",
+  "declarations": [
+    {
+      "temporary_id": "decl-022465",
+      "new_name": "auxiliaryDirectSumMap_component_apply",
+      "docstring": "Projecting the auxiliary direct-sum map to one summand amounts to applying the corresponding component of the representation morphism."
+    },
+    {
+      "temporary_id": "decl-022466",
+      "new_name": "auxiliaryDirectSumMap",
+      "docstring": "The linear map between the indexed direct sums obtained by applying a representation morphism on every summand."
+    },
+    {
+      "temporary_id": "decl-022468",
+      "new_name": "auxiliaryDirectSumMap_comp_apply",
+      "docstring": "The auxiliary direct-sum map associated to a composite acts by the two induced maps in succession."
+    },
+    {
+      "temporary_id": "decl-022469",
+      "new_name": "auxiliaryDirectSumMap_id_apply",
+      "docstring": "The auxiliary direct-sum map induced by an identity morphism fixes every element."
+    },
+    {
+      "temporary_id": "decl-022470",
+      "new_name": "auxiliaryDirectSumMap_lof_apply",
+      "docstring": "On an element inserted into a single summand, the auxiliary direct-sum map applies the matching component morphism and reinserts the result."
+    },
+    {
+      "temporary_id": "decl-022481",
+      "new_name": "auxiliaryVertexMap",
+      "docstring": "The linear map on an auxiliary vertex module induced by a morphism of quiver representations."
+    },
+    {
+      "temporary_id": "decl-022482",
+      "new_name": "auxiliaryVertexMap_comp_apply",
+      "docstring": "The auxiliary vertex map for a composite morphism acts as the successive auxiliary vertex maps."
+    },
+    {
+      "temporary_id": "decl-022483",
+      "new_name": "auxiliaryVertexMap_self_compat",
+      "docstring": "At the distinguished vertex, the auxiliary vertex map is compatible with the comparison to the induced map between kernels."
+    },
+    {
+      "temporary_id": "decl-022484",
+      "new_name": "auxiliaryVertexMap_ne_compat",
+      "docstring": "Away from the distinguished vertex, the auxiliary vertex map agrees with the corresponding component of the representation morphism under the comparison maps."
+    },
+    {
+      "temporary_id": "decl-022485",
+      "new_name": "auxiliaryVertexMap_id_apply",
+      "docstring": "The auxiliary vertex map induced by an identity morphism fixes every element."
+    },
+    {
+      "temporary_id": "decl-022486",
+      "new_name": "auxiliaryVertexMap_transition",
+      "docstring": "Auxiliary vertex maps commute with the transition maps between the associated vertex modules."
+    },
+    {
+      "temporary_id": "decl-022487",
+      "new_name": "auxiliaryKernelMap",
+      "docstring": "The linear map between the kernels of the structural maps induced by a representation morphism at a vertex."
+    },
+    {
+      "temporary_id": "decl-022490",
+      "new_name": "auxiliaryKernelMap_coe",
+      "docstring": "The underlying value of the induced kernel map is the auxiliary direct-sum map applied to the underlying vector."
+    },
+    {
+      "temporary_id": "decl-022504",
+      "new_name": "auxiliaryDirectSumMap_structural",
+      "docstring": "The auxiliary direct-sum map commutes with the structural linear maps and the component of the representation morphism."
+    },
+    {
+      "temporary_id": "decl-022537",
+      "new_name": "auxiliaryRepresentationFunctor",
+      "docstring": "The endofunctor on quiver representations obtained from the auxiliary construction at a distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-022540",
+      "new_name": "auxiliaryRepresentationFunctor_map",
+      "docstring": "The functorial action on a representation morphism is the associated auxiliary representation morphism."
+    },
+    {
+      "temporary_id": "decl-022541",
+      "new_name": "auxiliaryRepresentationFunctor_obj",
+      "docstring": "The object assigned by the auxiliary functor is the corresponding auxiliary representation."
+    },
+    {
+      "temporary_id": "decl-022542",
+      "new_name": "auxiliaryRepresentationMap",
+      "docstring": "The morphism between auxiliary representations induced by a morphism of the original representations."
+    },
+    {
+      "temporary_id": "decl-022544",
+      "new_name": "auxiliaryRepresentationMap_self",
+      "docstring": "At the distinguished vertex, the induced auxiliary representation morphism is compatible with the comparison to the kernel map."
+    },
+    {
+      "temporary_id": "decl-022545",
+      "new_name": "auxiliaryRepresentationMap_of_ne",
+      "docstring": "At any other vertex, the induced auxiliary representation morphism agrees with the original component under the comparison maps."
+    }
+  ]
+}

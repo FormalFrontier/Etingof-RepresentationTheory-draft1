@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Remark6.4.11",
+    "kind": "remark",
+    "title": "Remark 6.4.11: Weyl group",
+    "node_id": "chapter-06/section-6-4",
+    "order": 433,
+    "slug": "remark6-4-11",
+    "span": {
+      "start": {
+        "page": "167",
+        "line": 30
+      },
+      "end": {
+        "page": "167",
+        "line": 37
+      }
+    },
+    "source_sha256": "37c13b9fb2de0dbda63d0c10398c3d02426980edb6709f181e8716ffacb69afb",
+    "features": {
+      "line_count": 8,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Remark6411",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

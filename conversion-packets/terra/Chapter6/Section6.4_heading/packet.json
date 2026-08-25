@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Section6.4_heading",
+    "kind": "discussion",
+    "title": "Section 6.4 heading and setup",
+    "node_id": "chapter-06/section-6-4",
+    "order": 422,
+    "slug": "section6-4-heading",
+    "span": {
+      "start": {
+        "page": "164",
+        "line": 3
+      },
+      "end": {
+        "page": "164",
+        "line": 6
+      }
+    },
+    "source_sha256": "a0dd9a50cf86f84b4e49ef41e0c93da39e63be27c998d6714b3a02a6e907f240",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section64Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

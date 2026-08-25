@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0965",
+  "associations": [
+    {
+      "association_id": "association:4bc6f79dbe193fe7f0dc",
+      "role": "supporting",
+      "rationale": "It characterizes injectivity by splitting injective linear maps, not by duality with projective modules."
+    },
+    {
+      "association_id": "association:051dbd36abdd9e0a766a",
+      "role": "supporting",
+      "rationale": "It gives another homological characterization of injectivity, but does not state the injective-projective duality claim."
+    }
+  ]
+}

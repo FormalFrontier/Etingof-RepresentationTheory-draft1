@@ -1,0 +1,6 @@
+{
+  "packet_id": "align-0026",
+  "associations": [
+    {"association_id": "association:6acff6cacd227bd831ee", "role": "primary", "rationale": "The stated iff precisely characterizes a complex algebraic integer as an eigenvalue of an integer matrix via its characteristic polynomial."}
+  ]
+}

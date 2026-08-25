@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:da7123028625f4374258",
+      "declaration": "Etingof.Problem2_7_4.center_charP",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/59/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (p : Nat) [Fact (Nat.Prime p)] [CharP.{u_1} k p],\n  Eq.{u_1 + 1} (Subalgebra.center.{u_1, u_1} k (Etingof.WeylAlgebra.{u_1} k))\n    (Algebra.adjoin.{u_1, u_1} k\n      (Insert.insert.{u_1, u_1} (HPow.hPow.{u_1, 0, u_1} (Etingof.WeylAlgebra.x.{u_1} k) p)\n        (Singleton.singleton.{u_1, u_1} (HPow.hPow.{u_1, 0, u_1} (Etingof.WeylAlgebra.y.{u_1} k) p))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.7.4",
+  "packet_id": "align-0603",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0603"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.7.4:claim-04",
+  "source_text": "In characteristic p the center is k[x^p,y^p]."
+}

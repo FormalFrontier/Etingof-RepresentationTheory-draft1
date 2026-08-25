@@ -1,0 +1,10 @@
+{
+  "module_name": "CategoryTheory.Yoneda",
+  "declarations": [
+    {
+      "temporary_id": "decl-024556",
+      "new_name": "yonedaIsoLiftUnique",
+      "docstring": "Every isomorphism between representable Yoneda functors is induced by a unique isomorphism of the represented objects."
+    }
+  ]
+}

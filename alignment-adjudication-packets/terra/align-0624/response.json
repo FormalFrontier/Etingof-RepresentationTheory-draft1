@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0624",
+  "associations": [
+    {
+      "association_id": "association:b84e24f552c500d3bd9f",
+      "rationale": "The formal type asserts a k-algebra equivalence between the tensor product of the m-by-m and n-by-n matrix algebras and the mn-by-mn matrix algebra, directly matching the claim.",
+      "role": "primary"
+    }
+  ]
+}

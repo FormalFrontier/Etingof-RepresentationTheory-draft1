@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-1247",
+  "associations": [
+    {
+      "association_id": "association:6da11b877bb66b7f7952",
+      "rationale": "This implication relates dominance to LexLe, a consequence involving another order, rather than giving the source's first-differing-part definition.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f3bf1e52b7563044b418",
+      "rationale": "The type only exposes LexLe as an opaque binary proposition and does not display the lexicographic comparison defined in the source.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ac8b79caaaf56f1ae15a",
+      "rationale": "Nat.Partition.LexLt is the named strict lexicographic relation introduced by the source, so this declaration directly formalizes that definition and is primary.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:474cce3c4471e81b42af",
+      "rationale": "The non-dominance implication is a consequence of lexicographic comparison and does not state the definition introduced by the source.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:44739a8bfc9eb9d9579c",
+      "rationale": "Existence of some lexicographically ordered pair is merely a consequence and leaves the ordering criterion opaque.",
+      "role": "supporting"
+    }
+  ]
+}

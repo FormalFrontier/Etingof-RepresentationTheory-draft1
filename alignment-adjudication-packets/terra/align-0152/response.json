@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0152",
+  "associations": [
+    {
+      "association_id": "association:af2b9b03d0d06e8c0ec7",
+      "role": "supporting",
+      "rationale": "This declaration supplies the direct-sum carrier on which the componentwise action is defined."
+    },
+    {
+      "association_id": "association:1aca00ebc6eec0a74328",
+      "role": "primary",
+      "rationale": "Its equality directly states componentwise scalar action on the direct sum."
+    }
+  ]
+}

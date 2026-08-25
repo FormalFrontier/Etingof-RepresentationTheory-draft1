@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.17.1",
+    "kind": "theorem",
+    "title": "Hook length formula: dim V_lambda = n! / product of hook lengths",
+    "node_id": "chapter-05/section-5-17",
+    "order": 345,
+    "slug": "theorem5-17-1",
+    "span": {
+      "start": {
+        "page": "122",
+        "line": 3
+      },
+      "end": {
+        "page": "122",
+        "line": 16
+      }
+    },
+    "source_sha256": "9bbc46635c76fea8c4debcf9e42686d52b67caad03dbe98ab71d3bfa80f86abc",
+    "features": {
+      "line_count": 14,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5171",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

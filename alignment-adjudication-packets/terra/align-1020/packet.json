@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6652a3eded4aeba1906f",
+      "declaration": "Etingof.WeylAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/54/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 [CommRing.{u_1} k] \u2192 Type u_1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Proposition2_7_1"
+    },
+    {
+      "association_id": "association:2e130dd2fac45a957736",
+      "declaration": "Etingof.WeylAlgebra.yx_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/54/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (Etingof.WeylAlgebra.y.{u_1} k) (Etingof.WeylAlgebra.x.{u_1} k))\n    (HAdd.hAdd.{u_1, u_1, u_1}\n      (HMul.hMul.{u_1, u_1, u_1} (Etingof.WeylAlgebra.x.{u_1} k) (Etingof.WeylAlgebra.y.{u_1} k)) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Proposition2_7_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.7_intro",
+  "packet_id": "align-1020",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1020"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c2f9b4895951afa20e5a",
+  "source_text": "The Weyl algebra is k\u27e8x,y\u27e9/\u27e8yx-xy-1\u27e9."
+}

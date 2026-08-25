@@ -1,0 +1,10 @@
+{
+  "module_name": "Auxiliary.LinearIndependence",
+  "declarations": [
+    {
+      "temporary_id": "decl-019535",
+      "new_name": "auxiliaryLinearIndependentOfInjectiveParameterization",
+      "docstring": "Auxiliary linear-independence statement from the displayed injectivity and pointwise equality hypotheses."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "module_name": "Quiver.FiniteOrbitDimensionBounds",
+  "declarations": [
+    {
+      "temporary_id": "decl-012824",
+      "new_name": "Quiver.card_representation_coordinates_le_card_vertex_endomorphism_coordinates_of_finite_orbits",
+      "docstring": "For a finite quiver over an infinite field, a finite base-change orbit space bounds the number of representation coordinates by the number of vertex-endomorphism coordinates."
+    },
+    {
+      "temporary_id": "decl-012825",
+      "new_name": "Quiver.card_representation_coordinates_lt_card_vertex_endomorphism_coordinates_of_finite_orbits",
+      "docstring": "For a nonzero dimension vector with finitely many base-change orbits, the representation-coordinate index type is strictly smaller than the vertex-endomorphism-coordinate index type."
+    },
+    {
+      "temporary_id": "decl-012831",
+      "new_name": "MvPolynomial.card_le_card_of_injective_algHom_to_localization",
+      "docstring": "An embedding of a polynomial algebra into a localization of another polynomial algebra cannot increase the number of algebraically independent variables."
+    },
+    {
+      "temporary_id": "decl-012859",
+      "new_name": "MvPolynomial.uniformUnitScalingAlgEquiv",
+      "docstring": "The algebra automorphism that multiplies every coordinate variable associated with a dimension vector by a chosen unit."
+    },
+    {
+      "temporary_id": "decl-012863",
+      "new_name": "MvPolynomial.uniformUnitScalingAlgEquiv_apply_X",
+      "docstring": "Uniform unit scaling sends each coordinate indeterminate to the chosen scalar times that indeterminate."
+    },
+    {
+      "temporary_id": "decl-012864",
+      "new_name": "MvPolynomial.uniformUnitScalingFractionRingAlgEquiv",
+      "docstring": "The fraction-field automorphism obtained by extending uniform unit scaling of the coordinate polynomial ring."
+    },
+    {
+      "temporary_id": "decl-012869",
+      "new_name": "MvPolynomial.uniformUnitScalingFractionRingAlgEquiv_algebraMap",
+      "docstring": "On embedded coordinate polynomials, fraction-field scaling agrees with polynomial scaling followed by the canonical inclusion."
+    },
+    {
+      "temporary_id": "decl-012875",
+      "new_name": "Matrix.map_mul_mul_inv_eq_self_of_common_unit_scaling",
+      "docstring": "A ring endomorphism fixes the matrix product A V C⁻¹ when it fixes V, scales A and C by the same unit, and C is invertible."
+    },
+    {
+      "temporary_id": "decl-012883",
+      "new_name": "Quiver.finrank_representation_space_le_finrank_vertex_endomorphisms_of_finite_orbits",
+      "docstring": "For representations of a finite quiver over an infinite field, a finite base-change orbit space bounds the dimension of the representation space by that of the product of vertex endomorphism spaces."
+    },
+    {
+      "temporary_id": "decl-012884",
+      "new_name": "Quiver.finrank_representation_space_lt_finrank_vertex_endomorphisms_of_finite_orbits",
+      "docstring": "For a nonzero dimension vector with finitely many base-change orbits, the representation space has strictly smaller dimension than the product of the vertex endomorphism spaces."
+    }
+  ]
+}

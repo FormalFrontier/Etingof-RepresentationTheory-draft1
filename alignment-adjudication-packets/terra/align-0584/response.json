@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0584",
+  "associations": [
+    {
+      "association_id": "association:e52ec284572684005408",
+      "rationale": "No formal type is displayed, so the candidate does not directly state either the properness condition or the characterization of strictly larger ideals required by the source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:10754a6046821f1eac60",
+      "rationale": "IsCoatom.lt_iff is a characterization lemma for strict inequalities above a coatom, supporting rather than defining the maximal-ideal notion.",
+      "role": "supporting"
+    }
+  ]
+}

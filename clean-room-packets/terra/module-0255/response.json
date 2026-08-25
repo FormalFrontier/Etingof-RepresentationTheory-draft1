@@ -1,0 +1,35 @@
+{
+  "module_name": "GeneralLinear.WeightedPolynomialIndexShift",
+  "declarations": [
+    {
+      "temporary_id": "decl-017351",
+      "new_name": "auxiliaryIncreaseIndex",
+      "docstring": "Maps an auxiliary object indexed by `d - N` to one indexed by `d` when `N ≤ d`."
+    },
+    {
+      "temporary_id": "decl-017355",
+      "new_name": "auxiliaryDecreaseIndex",
+      "docstring": "Lowers the natural-number index by `N` for an auxiliary object whose parts never take the value zero."
+    },
+    {
+      "temporary_id": "decl-017360",
+      "new_name": "auxiliaryIndexedObject_ext_parts",
+      "docstring": "Two auxiliary indexed objects are equal whenever their `parts` functions are equal."
+    },
+    {
+      "temporary_id": "decl-017770",
+      "new_name": "weightedPolynomialSum_mul_prod_variables",
+      "docstring": "Multiplying the weighted polynomial sum by the product of all variables gives the corresponding sum over indices whose parts avoid zero."
+    },
+    {
+      "temporary_id": "decl-018735",
+      "new_name": "evalOne_prod_variables",
+      "docstring": "Evaluating every variable at one sends their finite product to one."
+    },
+    {
+      "temporary_id": "decl-018736",
+      "new_name": "evalOne_auxiliaryIncreaseIndex",
+      "docstring": "The polynomial evaluations at one agree before and after applying the auxiliary index-increasing map."
+    }
+  ]
+}

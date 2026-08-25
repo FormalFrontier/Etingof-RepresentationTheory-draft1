@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Proposition3.1.4",
+    "kind": "proposition",
+    "title": "Classification of subrepresentations in semisimple representations",
+    "node_id": "chapter-03/section-3-1",
+    "order": 130,
+    "slug": "proposition3-1-4",
+    "span": {
+      "start": {
+        "page": "44",
+        "line": 3
+      },
+      "end": {
+        "page": "44",
+        "line": 8
+      }
+    },
+    "source_sha256": "84b20e3dccf8b4a7c8aecc6dea9eb23fd41435ca3fea611e39fc8078e17d84b1",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Proposition314",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Definition6.6.1",
+    "kind": "definition",
+    "title": "Definition 6.6.1: Sink and source",
+    "node_id": "chapter-06/section-6-6",
+    "order": 439,
+    "slug": "definition6-6-1",
+    "span": {
+      "start": {
+        "page": "168",
+        "line": 5
+      },
+      "end": {
+        "page": "168",
+        "line": 16
+      }
+    },
+    "source_sha256": "0735f5fe81f71096e6107e63522282d0263181ee67037790e44d278eb0dbde62",
+    "features": {
+      "line_count": 12,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition661",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

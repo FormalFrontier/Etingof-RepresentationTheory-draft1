@@ -1,0 +1,31 @@
+/-
+Copyright (c) 2026 American Mathematical Society. All rights reserved.
+-/
+
+import VersoManual
+import RepresentationTheory
+
+open Verso.Genre Manual
+
+namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2161
+
+#doc (Manual) "Lie's theorem: irreducible representations of solvable Lie algebras" =>
+# Lie's theorem: irreducible representations of solvable Lie algebras
+%%%
+tag := "Chapter2/Problem2.16.1"
+number := false
+%%%
+**Problem 2.16.1** (Lie's theorem). The **commutant** $`K(\mathfrak{g})` of a Lie algebra $`\mathfrak{g}` is the linear span of elements $`[x, y]`, $`x, y \in \mathfrak{g}`. This is an ideal in $`\mathfrak{g}` (i.e., it is a subrepresentation of the adjoint representation). A
+finite dimensional Lie algebra $`\mathfrak{g}` over a field $`k` is said to be **solvable** if there exists $`n` such that $`K^n(\mathfrak{g}) = 0`. Prove the Lie theorem: if $`k = \mathbb{C}` and $`V` is a finite dimensional irreducible representation of a solvable Lie algebra $`\mathfrak{g}`, then $`V` is 1-dimensional.
+
+Hint: Prove the result by induction in dimension. By the induction assumption, $`K(\mathfrak{g})` has a common eigenvector $`v` in $`V`; that is, there is a linear function $`\chi : K(\mathfrak{g}) \to \mathbb{C}` such that $`av = \chi(a)v` for any $`a \in K(\mathfrak{g})`. Show that $`\mathfrak{g}` preserves common eigenspaces of $`K(\mathfrak{g})`. (For this you will need to show that $`\chi([x, a]) = 0` for $`x \in \mathfrak{g}` and $`a \in K(\mathfrak{g})`. To prove this, consider the smallest subspace $`U` containing $`v` and invariant under $`x`. This subspace is invariant under $`K(\mathfrak{g})` and any $`a \in K(\mathfrak{g})` acts with trace $`\dim(U)\chi(a)` in this subspace. In particular $`0 = \operatorname{Tr}([x, a]) = \dim(U)\chi([x, a])`.)
+
+## Formalization
+%%%
+tag := "Chapter2/Problem2.16.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.SolvableSimpleModules.finrank_eq_one_of_isSimpleOrder}

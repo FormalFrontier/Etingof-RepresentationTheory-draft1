@@ -1,0 +1,250 @@
+{
+  "module_name": "Algebra.Module.FiniteFamilySemisimplicity",
+  "declarations": [
+    {
+      "temporary_id": "decl-020763",
+      "new_name": "auxiliaryAlgebra_simpleModule_classification",
+      "docstring": "The displayed coordinate modules over the auxiliary algebra are simple, exhaust its finite-dimensional simple modules, and every module over it is semisimple."
+    },
+    {
+      "temporary_id": "decl-025139",
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary type depending on a type, a finite index, and a family of natural numbers."
+    },
+    {
+      "temporary_id": "decl-032714",
+      "new_name": "toMatrixLinearMap",
+      "docstring": "A module-linear map from the auxiliary algebra to the square matrix-valued function space at a selected index."
+    },
+    {
+      "temporary_id": "decl-032716",
+      "new_name": "toColumnLinearMap",
+      "docstring": "A module-linear map from the auxiliary algebra to a coordinate-vector space at two selected indices."
+    },
+    {
+      "temporary_id": "decl-032804",
+      "new_name": "dualMap_injective_of_surjective",
+      "docstring": "The dual map of a surjective linear map between vector spaces is injective."
+    },
+    {
+      "temporary_id": "decl-032805",
+      "new_name": "dualPiLinearEquivPiDual",
+      "docstring": "The module-linear equivalence between the dual of a finite family over the displayed algebra and the corresponding family of duals."
+    },
+    {
+      "temporary_id": "decl-032811",
+      "new_name": "dualPiLinearEquiv",
+      "docstring": "The module-linear equivalence from the dual of a finite family of elements of the displayed algebra to such a family."
+    },
+    {
+      "temporary_id": "decl-032832",
+      "new_name": "exists_linearEquiv_directSum_columnModules",
+      "docstring": "Every finite-dimensional module over the displayed algebra is equivalent to a direct sum of finite families of coordinate-vector modules."
+    },
+    {
+      "temporary_id": "decl-032833",
+      "new_name": "simpleModule_linearEquiv_columnModule",
+      "docstring": "Every finite-dimensional simple module over the displayed algebra is equivalent to one of its coordinate-vector modules."
+    },
+    {
+      "temporary_id": "decl-032863",
+      "new_name": "toIndexedScalarsLinearMap",
+      "docstring": "A module-linear map from a finite family over the displayed algebra to a doubly indexed family of scalars."
+    },
+    {
+      "temporary_id": "decl-032864",
+      "new_name": "toIndexedScalarsLinearMap_apply",
+      "docstring": "The indexed-scalar map evaluates by unpairing its combined index and reading the displayed entry."
+    },
+    {
+      "temporary_id": "decl-032865",
+      "new_name": "piAuxiliaryLinearEquivDirectSum",
+      "docstring": "A module-linear equivalence from a finite family over the displayed algebra to the indicated direct sum of coordinate-vector families."
+    },
+    {
+      "temporary_id": "decl-032867",
+      "new_name": "toDualLinearMap",
+      "docstring": "A module-linear map from the displayed algebra to its base-field dual."
+    },
+    {
+      "temporary_id": "decl-032871",
+      "new_name": "toDualLinearMap_apply",
+      "docstring": "The displayed map to the dual evaluates as the sum of traces of products of transposed first components with second components."
+    },
+    {
+      "temporary_id": "decl-032872",
+      "new_name": "toDualLinearMap_bijective",
+      "docstring": "The displayed module-linear map from the auxiliary algebra to its dual is bijective."
+    },
+    {
+      "temporary_id": "decl-032873",
+      "new_name": "toDualLinearMap_injective",
+      "docstring": "The displayed module-linear map from the auxiliary algebra to its dual is injective."
+    },
+    {
+      "temporary_id": "decl-032874",
+      "new_name": "toDual",
+      "docstring": "A function assigning an element of the displayed algebra a linear functional on that algebra."
+    },
+    {
+      "temporary_id": "decl-032877",
+      "new_name": "toDual_apply",
+      "docstring": "The displayed functional evaluates as the sum of componentwise traces of a transposed matrix times the argument matrix."
+    },
+    {
+      "temporary_id": "decl-032895",
+      "new_name": "column_isScalarTower",
+      "docstring": "The base-field and displayed-algebra actions on the selected coordinate-vector space form a scalar tower."
+    },
+    {
+      "temporary_id": "decl-032899",
+      "new_name": "moduleDualModule",
+      "docstring": "A module structure over the displayed algebra on the base-field dual of a module."
+    },
+    {
+      "temporary_id": "decl-032900",
+      "new_name": "moduleDual_isScalarTower",
+      "docstring": "The base-field action and displayed-algebra action on the dual module form a scalar tower."
+    },
+    {
+      "temporary_id": "decl-032918",
+      "new_name": "isSemisimpleModule_auxiliaryAlgebra",
+      "docstring": "Every module over the displayed auxiliary algebra is semisimple."
+    },
+    {
+      "temporary_id": "decl-032919",
+      "new_name": "column_isSimpleModule",
+      "docstring": "Each selected coordinate-vector module over the displayed algebra is simple when all indicated sizes are nonzero."
+    },
+    {
+      "temporary_id": "decl-032924",
+      "new_name": "algebraSmulLinearMap",
+      "docstring": "The base-field-linear endomorphism of a scalar-tower module given by the action of an algebra element."
+    },
+    {
+      "temporary_id": "decl-032927",
+      "new_name": "algebraSmulLinearMap_apply",
+      "docstring": "The linear endomorphism associated to an algebra element evaluates as scalar multiplication by that element."
+    },
+    {
+      "temporary_id": "decl-032928",
+      "new_name": "auxiliaryLinearEquivDual",
+      "docstring": "A module-linear equivalence between the displayed auxiliary algebra and its base-field dual."
+    },
+    {
+      "temporary_id": "decl-032929",
+      "new_name": "ringEquivOpposite",
+      "docstring": "A ring equivalence from the displayed auxiliary algebra to its opposite ring."
+    },
+    {
+      "temporary_id": "decl-032930",
+      "new_name": "ringEquivOpposite_apply",
+      "docstring": "After removing the opposite-ring wrapper, the displayed equivalence acts componentwise by matrix transpose."
+    },
+    {
+      "temporary_id": "decl-032931",
+      "new_name": "ringEquivOpposite_smul",
+      "docstring": "The displayed equivalence commutes with scalar multiplication after removing the opposite-ring wrapper."
+    },
+    {
+      "temporary_id": "decl-032932",
+      "new_name": "ringEquivOpposite_apply_apply",
+      "docstring": "Applying the displayed equivalence twice and removing both opposite-ring wrappers returns the original element."
+    },
+    {
+      "temporary_id": "decl-032933",
+      "new_name": "matrixAlgEquivOpposite",
+      "docstring": "An algebra equivalence from a square matrix algebra to its opposite algebra."
+    },
+    {
+      "temporary_id": "decl-032957",
+      "new_name": "piOppositeRingEquiv",
+      "docstring": "The ring equivalence between a family of opposite semirings and the opposite of the corresponding product semiring."
+    },
+    {
+      "temporary_id": "decl-032975",
+      "new_name": "auxiliaryLinearEquivDirectSumColumns",
+      "docstring": "A module-linear equivalence from the displayed auxiliary algebra to the indicated direct sum of coordinate-vector spaces."
+    },
+    {
+      "temporary_id": "decl-032980",
+      "new_name": "auxiliaryLinearEquivDirectSumColumns_apply",
+      "docstring": "The direct-sum equivalence sends an element to the displayed entries with the two coordinate indices exchanged."
+    },
+    {
+      "temporary_id": "decl-033007",
+      "new_name": "toDualPiLinearMap",
+      "docstring": "A module-linear map from a finite-dimensional module to the dual of a finite family over the displayed algebra."
+    },
+    {
+      "temporary_id": "decl-033012",
+      "new_name": "toDualPiLinearMap_injective",
+      "docstring": "The displayed map from a finite-dimensional module to the indicated dual is injective."
+    },
+    {
+      "temporary_id": "decl-033013",
+      "new_name": "basisLinearCombination",
+      "docstring": "The module-linear map sending coefficients from the displayed algebra to the corresponding linear combination of a basis of the dual module."
+    },
+    {
+      "temporary_id": "decl-033017",
+      "new_name": "basisLinearCombination_apply",
+      "docstring": "The basis linear-combination map evaluates as the finite sum of each coefficient acting on its corresponding basis vector."
+    },
+    {
+      "temporary_id": "decl-033018",
+      "new_name": "basisLinearCombination_surjective",
+      "docstring": "The module-linear map forming combinations of a basis of the dual module is surjective."
+    },
+    {
+      "temporary_id": "decl-033024",
+      "new_name": "moduleDualMap",
+      "docstring": "The module-linear dual map associated with a module-linear map between modules over the displayed algebra."
+    },
+    {
+      "temporary_id": "decl-033029",
+      "new_name": "moduleDualMap_injective_of_surjective",
+      "docstring": "The module-linear dual map of a surjective module homomorphism is injective."
+    },
+    {
+      "temporary_id": "decl-033030",
+      "new_name": "moduleDualOfRingEquivOpposite",
+      "docstring": "A module structure on a base-field dual induced by a ring equivalence from the acting algebra to its opposite."
+    },
+    {
+      "temporary_id": "decl-033038",
+      "new_name": "moduleDualOfRingEquivOpposite_smul_apply",
+      "docstring": "The induced action on a dual functional evaluates by applying the functional after the opposite-ring image acts on its argument."
+    },
+    {
+      "temporary_id": "decl-033039",
+      "new_name": "moduleDualOfRingEquivOpposite_isScalarTower",
+      "docstring": "A scalar-compatible equivalence to the opposite ring makes the base-field and induced dual actions into a scalar tower."
+    },
+    {
+      "temporary_id": "decl-033040",
+      "new_name": "toDoubleDualLinearEquiv",
+      "docstring": "The module-linear equivalence from a finite-dimensional module over the displayed algebra to its base-field double dual."
+    },
+    {
+      "temporary_id": "decl-033047",
+      "new_name": "columnModule_aux1",
+      "docstring": "A first auxiliary module structure over the displayed algebra on a selected coordinate-vector space."
+    },
+    {
+      "temporary_id": "decl-033048",
+      "new_name": "columnModule_aux2",
+      "docstring": "A second auxiliary module structure over the displayed algebra on a selected coordinate-vector space."
+    },
+    {
+      "temporary_id": "decl-033049",
+      "new_name": "columnModule_aux1_equiv_imp_eq",
+      "docstring": "Equivalent coordinate-vector spaces carrying the first auxiliary module structure have equal indices when all indicated sizes are nonzero."
+    },
+    {
+      "temporary_id": "decl-033050",
+      "new_name": "columnModule_aux1_smul",
+      "docstring": "The displayed-algebra action from the first auxiliary module structure is the action of the selected component."
+    }
+  ]
+}

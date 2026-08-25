@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Theorem9.2.1",
+    "kind": "theorem",
+    "title": "Classification of indecomposable projective modules",
+    "node_id": "chapter-09/section-9-2",
+    "order": 553,
+    "slug": "theorem9-2-1",
+    "span": {
+      "start": {
+        "page": "214",
+        "line": 17
+      },
+      "end": {
+        "page": "215",
+        "line": 10
+      }
+    },
+    "source_sha256": "77e8d8fea8f864d3eb0feb1d5a72706019e3668fd870d9ab7bc878e42a538396",
+    "features": {
+      "line_count": 15,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Theorem921",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

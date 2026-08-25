@@ -1,0 +1,72 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] [inst_1 : IsNoetherianRing.{u} A] [IsArtinianRing.{u} A] (X : FGModuleCat.{u, u} A),\n  decl-004727.{u + 1, u} X",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004727"
+      ],
+      "structural_type_hash": "736719316",
+      "temporary_id": "decl-019899"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] [inst_1 : IsNoetherianRing.{u} A] {M : Type u} [inst_2 : AddCommGroup.{u} M]\n  [inst_3 : Module.{u, u} A M],\n  IsFiniteLength.{u, u} A M \u2192\n    \u2200 [inst_4 : Module.Finite.{u, u} A M], decl-004727.{u + 1, u} (FGModuleCat.of.{u, u} A M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004727"
+      ],
+      "structural_type_hash": "1009072211",
+      "temporary_id": "decl-019900"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] (M : Type u) [inst_1 : AddCommGroup.{u} M] [inst_2 : Module.{u, u} A M]\n  [inst_3 : Module.Finite.{u, u} A M] [Subsingleton.{u + 1} M],\n  CategoryTheory.Limits.IsZero.{u, u + 1} (FGModuleCat.of.{u, u} A M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3632957643",
+      "temporary_id": "decl-020929"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : Ring.{u} A] \u2192\n    {M : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} M] \u2192\n        [inst_2 : Module.{u, u} A M] \u2192\n          [Module.Finite.{u, u} A M] \u2192\n            (N : Submodule.{u, u} A M) \u2192\n              [Module.Finite.{u, u} A (Subtype.{u + 1} fun x => Membership.mem.{u, u} N x)] \u2192\n                CategoryTheory.ShortComplex.{u, u + 1} (FGModuleCat.{u, u} A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1411422955",
+      "temporary_id": "decl-023460"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] [IsNoetherianRing.{u} A] {M : Type u} [inst_2 : AddCommGroup.{u} M]\n  [inst_3 : Module.{u, u} A M] [inst_4 : Module.Finite.{u, u} A M] (N : Submodule.{u, u} A M)\n  [inst_5 : Module.Finite.{u, u} A (Subtype.{u + 1} fun x => Membership.mem.{u, u} N x)],\n  CategoryTheory.ShortComplex.ShortExact.{u, u + 1} (decl-023460.{u} N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023460"
+      ],
+      "structural_type_hash": "2129769207",
+      "temporary_id": "decl-023463"
+    }
+  ],
+  "module_temporary_id": "module-0777",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

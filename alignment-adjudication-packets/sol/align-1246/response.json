@@ -1,0 +1,65 @@
+{
+  "packet_id": "align-1246",
+  "associations": [
+    {
+      "association_id": "association:63d78307f981b6a57592",
+      "rationale": "The formal equality only computes the cardinality of ConstructedIndex as the sum of the three displayed numbers; it does not itself identify those indices with distinct irreducible representations.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:47212f68f48943caa540",
+      "rationale": "The type only asserts the existence of an unspecified type Irrep with cardinality q^2-1; it does not say that its elements classify the irreducible representations discussed in the source.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7200a6e5ca2ee784537d",
+      "rationale": "The formal equality directly identifies the displayed total of the three constructed-family counts with the number of conjugacy classes, exactly the comparison made in the source.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:12f385228279103395ae",
+      "rationale": "This type constructs an indexed representation family but does not itself state simplicity, pairwise distinction, the family counts, or completeness.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:88047e24f2ac3b76a4a8",
+      "rationale": "The implication from isomorphism to equality of indices directly asserts that the constructed representations are pairwise distinct, as required by the source's count.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:de8fefd4a70582e6a3f3",
+      "rationale": "The formal conclusion directly asserts that every constructed family member is simple, matching the source's treatment of the constructed representations as irreducible.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:26ea96179aa40c051df1",
+      "rationale": "This is a general exhaustiveness criterion conditional on a simple, pairwise distinct family having the displayed cardinality, so it formalizes the source's proof strategy rather than directly naming the constructed classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ed2d4ff342ec48bbd77b",
+      "rationale": "The theorem derives an equality of numerical counts from a conjugacy-class count hypothesis; it does not itself assert that every irreducible representation belongs to the constructed families.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c87d5630a6fcfcc57103",
+      "rationale": "The formal type directly says every simple representation is isomorphic to a unique member of the constructed family, exactly the source's conclusion that all irreducibles have been found.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:369b46a6400d9757445a",
+      "rationale": "The existential Wedderburn decomposition and its resulting cardinality are indirect structural and counting evidence; the displayed type does not identify its index with the constructed representation family.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:24165ae118e86be541e8",
+      "rationale": "The type directly gives a pairwise nonisomorphic exhaustive family of simple representations with q^2-1 members, matching the source's complete irreducible count.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:cdcc4dd571552108116e",
+      "rationale": "The conclusion is the opaque predicate foundAllIrreducibles, whose displayed type reveals no definition connecting it to the source's count or exhaustiveness statement.",
+      "role": "supporting"
+    }
+  ]
+}

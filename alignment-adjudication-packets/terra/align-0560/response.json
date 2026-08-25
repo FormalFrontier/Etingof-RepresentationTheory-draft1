@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0560",
+  "associations": [
+    {
+      "association_id": "association:8b5ee913c43260e11cdd",
+      "rationale": "The quotient equivalence is contextual classification evidence, but its opaque setoids do not directly display the criterion for when two parameterized modules are isomorphic.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:dcd4e2bbcf0496a982f5",
+      "rationale": "The type reduces isomorphism of the parameterized family to the opaque predicate SameInvariant, but it does not display what invariant condition determines isomorphism, so it does not directly state the complete classification criterion.",
+      "role": "supporting"
+    }
+  ]
+}

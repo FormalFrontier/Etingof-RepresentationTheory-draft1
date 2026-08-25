@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1ef8da0dad0a8c23f9c4",
+      "declaration": "Etingof.Example5_1_3_ZMod_classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/246/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} [NeZero.{0} n] (S : FDRep.{0, 0} Complex (Multiplicative.{0} (ZMod n))) [CategoryTheory.Simple.{0, 1} S],\n  Exists.{1} fun \u03be => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (Etingof.AbelianFDRep.charFDRep \u03be))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_1_3"
+    },
+    {
+      "association_id": "association:12710f1a4ee2d62bd7db",
+      "declaration": "Etingof.Example5_1_3_ZMod_isComplexType_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/246/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} [inst : NeZero.{0} n] (\u03be : MonoidHom.{0, 0} (Multiplicative.{0} (ZMod n)) (Units.{0} Complex)),\n  Iff (Etingof.IsComplexType.{0, 0} (Etingof.AbelianFDRep.charRep \u03be))\n    (And (Ne.{1} \u03be 1) (\u2200 (hn : Dvd.dvd.{0} 2 n), Ne.{1} \u03be (Etingof.ZModSignChar hn)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_1_3"
+    },
+    {
+      "association_id": "association:530764ecdbaad9d3ca07",
+      "declaration": "Etingof.Example5_1_3_ZMod_isRealType_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/246/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} [inst : NeZero.{0} n] (\u03be : MonoidHom.{0, 0} (Multiplicative.{0} (ZMod n)) (Units.{0} Complex)),\n  Iff (Etingof.IsRealType.{0, 0} (Etingof.AbelianFDRep.charRep \u03be))\n    (Or (Eq.{1} \u03be 1) (Exists.{0} fun hn => Eq.{1} \u03be (Etingof.ZModSignChar hn)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_1_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Example5.1.3",
+  "packet_id": "align-0999",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0999"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:bf4a8363386ea73ef2ff",
+  "source_text": "For Z/n, all irreducibles are characters; exactly the trivial and, for even n, sign characters are real type, while every other character is complex type."
+}

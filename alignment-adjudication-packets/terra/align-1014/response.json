@@ -1,0 +1,1 @@
+{"packet_id":"align-1014","associations":[{"association_id":"association:7b2a9a0f1b9be94d12c1","role":"supporting","rationale":"The type exposes that tensorTypeBasis returns a basis, but not the displayed elementary mixed-tensor construction or its dual-basis indexing."}]}

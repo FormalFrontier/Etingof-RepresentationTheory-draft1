@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0067",
+  "associations": [
+    {"association_id": "association:2fe9df6ca9b03e930b60", "role": "supporting", "rationale": "This describes the outer automorphism's action on class indices, contextual evidence rather than the representation exchange itself."},
+    {"association_id": "association:e3305325792f826bd25b", "role": "supporting", "rationale": "Non-innerness contextualizes the automorphism but does not state either representation assertion."},
+    {"association_id": "association:86c6d2f89820fc3ac9ea", "role": "primary", "rationale": "The isomorphism directly states that the outer twist of one three-dimensional representation is the other."},
+    {"association_id": "association:e2a90c767f462c30380d", "role": "supporting", "rationale": "This only gives the type of repC4; it does not state that it is a deleted permutation representation."},
+    {"association_id": "association:afd743923ed16993f01d", "role": "supporting", "rationale": "This only gives the type of repC5; it does not state that it is a deleted permutation representation."}
+  ]
+}

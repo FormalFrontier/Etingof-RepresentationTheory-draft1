@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:198d23e1c231e435647b",
+      "declaration": "Etingof.formalCharacter_SchurModuleP",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/366/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k] [inst_2 : IsAlgClosed.{u_1} k] (N : Nat) {n : Nat}\n  (la : n.Partition),\n  LE.le.{0} (Multiset.card.{0} la.parts) N \u2192\n    Eq.{1} (Etingof.formalCharacter.{u_1} k N (Etingof.SchurModuleP.{u_1} k N la))\n      (Etingof.schurPoly N (Etingof.partWeight N la))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SchurModuleVanishing"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.22.1",
+  "packet_id": "align-1137",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1137"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e8156ba2675a3db2892e",
+  "source_text": "On the nonvanishing branch its formal character is the Schur polynomial."
+}

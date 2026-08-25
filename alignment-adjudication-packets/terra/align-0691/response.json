@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0691",
+  "associations": [
+    {
+      "association_id": "association:26835808b2abb3f9ba7e",
+      "rationale": "The type directly gives the matrix-algebra equivalence and dim S = 2^n, but it does not state the claim's one-irreducible-representation conclusion; that conclusion is a consequence of the displayed equivalence.",
+      "role": "supporting"
+    }
+  ]
+}

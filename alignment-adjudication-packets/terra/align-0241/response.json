@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0241",
+  "associations": [
+    {
+      "association_id": "association:13668ef57cd23afa500b",
+      "role": "primary",
+      "rationale": "It directly states that an isomorphism between the represented Yoneda functors is the image of a unique isomorphism between the representing objects."
+    }
+  ]
+}

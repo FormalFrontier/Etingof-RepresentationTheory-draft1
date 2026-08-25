@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0906",
+  "associations": [
+    {
+      "association_id": "association:a042ed5dd87b3dbab95e",
+      "rationale": "The declaration directly states that the Young projector for every partition is nonzero.",
+      "role": "primary"
+    }
+  ]
+}

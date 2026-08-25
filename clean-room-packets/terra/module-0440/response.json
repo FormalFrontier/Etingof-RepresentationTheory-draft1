@@ -1,0 +1,20 @@
+{
+  "module_name": "SimpleModuleTraceIdentities",
+  "declarations": [
+    {
+      "temporary_id": "decl-023203",
+      "new_name": "Auxiliary.statement023203",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-023207",
+      "new_name": "Auxiliary.statement023207",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024302",
+      "new_name": "Auxiliary.statement024302",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    }
+  ]
+}

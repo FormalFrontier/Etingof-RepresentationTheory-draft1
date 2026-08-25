@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0632",
+  "associations": [
+    {
+      "association_id": "association:b714594b65a953bcbc7d",
+      "rationale": "The formal type lifts an equivalence of factor modules at a fixed index to an equivalence of their inflations; it supports the classification but does not state it.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:745ffcdeb442f5e0ffe0",
+      "rationale": "The formal type shows that equivalent inflated modules have equal factor indices under a nontriviality hypothesis, covering only the index-uniqueness component.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3551453330af62898d95",
+      "rationale": "The formal type states that an inflation is simple iff its factor module is simple, a prerequisite for the claimed classification rather than the whole classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:fb4d0a2bd9ab7f0b9be4",
+      "rationale": "The formal type recovers a factor-module equivalence from an equivalence of inflations at the same index, supporting factor-isomorphism uniqueness without stating the full claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:870f2883e773c49fbe2d",
+      "rationale": "The formal type gives, from a simple product-ring module, an index with a simple idempotent range and an equivalence to its inflation; it states the existence direction only.",
+      "role": "supporting"
+    }
+  ]
+}

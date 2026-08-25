@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:02fd21181624fb38383e",
+      "declaration": "Etingof.jacobson_le_radTensorSum",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/181/claim_coverage/claims/8/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {B : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Ring.{u_3} B]\n  [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : Algebra.{u_1, u_3} k B],\n  IsSemisimpleRing.{max u_3 u_2}\n      (TensorProduct.{u_1, u_2, u_3} k (HasQuotient.Quotient.{u_2, u_2} A (Ring.jacobson.{u_2} A))\n        (HasQuotient.Quotient.{u_3, u_3} B (Ring.jacobson.{u_3} B))) \u2192\n    LE.le.{max u_2 u_3} (Ring.jacobson.{max u_3 u_2} (TensorProduct.{u_1, u_2, u_3} k A B))\n      (Etingof.radTensorSum.{u_1, u_2, u_3} k A B)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:e2b9c811ca2781ba7bfa",
+      "declaration": "Etingof.jacobson_tensorProduct_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/181/claim_coverage/claims/8/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {B : Type u_3} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u_2} A]\n  [inst_3 : Ring.{u_3} B] [inst_4 : Algebra.{u_1, u_2} k A] [inst_5 : Algebra.{u_1, u_3} k B]\n  [FiniteDimensional.{u_1, u_2} k A] [FiniteDimensional.{u_1, u_3} k B],\n  Eq.{max (u_2 + 1) (u_3 + 1)} (Ring.jacobson.{max u_3 u_2} (TensorProduct.{u_1, u_2, u_3} k A B))\n    (Etingof.radTensorSum.{u_1, u_2, u_3} k A B)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.10.2",
+  "packet_id": "align-0034",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0034"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0973de8afe8993a28834",
+  "source_text": "Semisimplicity of the quotient gives Rad(A \u2297 B) \u2286 J, completing the radical equality."
+}

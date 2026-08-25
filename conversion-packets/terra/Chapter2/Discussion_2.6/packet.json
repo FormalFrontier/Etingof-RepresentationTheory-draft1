@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_2.6",
+    "kind": "discussion",
+    "title": "Section 2.6: Algebras defined by generators and relations",
+    "node_id": "chapter-02/section-2-6",
+    "order": 54,
+    "slug": "discussion-2-6",
+    "span": {
+      "start": {
+        "page": "17",
+        "line": 1
+      },
+      "end": {
+        "page": "17",
+        "line": 4
+      }
+    },
+    "source_sha256": "d53c6975041e5ad469bfccddd47337f84dd9f12e82235f2a7ff4098ec1710aaf",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion26",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

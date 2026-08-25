@@ -1,0 +1,80 @@
+{
+  "module_name": "Subgroup.HomAdjunction",
+  "declarations": [
+    {
+      "temporary_id": "decl-016514",
+      "new_name": "ambientSubgroupHomFunctorIso",
+      "docstring": "An isomorphism between the two displayed module-valued Hom functors on ambient and subgroup representations."
+    },
+    {
+      "temporary_id": "decl-016516",
+      "new_name": "ambientSubgroupAdjunction",
+      "docstring": "The ambient-to-subgroup functor is left adjoint to the subgroup-to-ambient functor."
+    },
+    {
+      "temporary_id": "decl-016517",
+      "new_name": "ambientSubgroupHomEquiv_apply",
+      "docstring": "Under the displayed Hom-space equivalence, a morphism is evaluated at a vector by taking its value at the identity element."
+    },
+    {
+      "temporary_id": "decl-016518",
+      "new_name": "ambientSubgroupHomEquiv",
+      "docstring": "A linear equivalence between morphisms into a subgroup-to-ambient image and morphisms from an ambient-to-subgroup image."
+    },
+    {
+      "temporary_id": "decl-016519",
+      "new_name": "ambientSubgroupHomFunctorIso_app",
+      "docstring": "The component of the Hom-functor isomorphism at an ambient representation is the corresponding fixed-representation isomorphism."
+    },
+    {
+      "temporary_id": "decl-016520",
+      "new_name": "ambientSubgroupHomFunctorIso_app_apply",
+      "docstring": "At an ambient representation and a subgroup representation, the functor-isomorphism component acts by the inverse restriction-coinduction Hom equivalence."
+    },
+    {
+      "temporary_id": "decl-016521",
+      "new_name": "nonemptyResCoindHomEquiv",
+      "docstring": "There exists a linear equivalence between morphisms into a coinduced representation and morphisms from the corresponding restricted representation."
+    },
+    {
+      "temporary_id": "decl-019670",
+      "new_name": "ambientSubgroupHomIso",
+      "docstring": "For a fixed ambient representation, an isomorphism between the two resulting module-valued functors on subgroup representations."
+    },
+    {
+      "temporary_id": "decl-019673",
+      "new_name": "ambientSubgroupHomIso_app_apply",
+      "docstring": "The fixed-representation isomorphism acts on a morphism by the inverse restriction-coinduction Hom equivalence."
+    },
+    {
+      "temporary_id": "decl-020085",
+      "new_name": "subgroupToAmbientHomFunctor",
+      "docstring": "Forms modules of morphisms from an ambient representation into subgroup-to-ambient images of subgroup representations."
+    },
+    {
+      "temporary_id": "decl-020086",
+      "new_name": "subgroupToAmbientHomFunctor_obj",
+      "docstring": "Its value at an ambient representation and a subgroup representation is the module of morphisms into the corresponding subgroup-to-ambient image."
+    },
+    {
+      "temporary_id": "decl-020136",
+      "new_name": "ambientToSubgroupHomFunctor",
+      "docstring": "Forms modules of morphisms from ambient-to-subgroup images of ambient representations into subgroup representations."
+    },
+    {
+      "temporary_id": "decl-020137",
+      "new_name": "ambientToSubgroupHomFunctor_obj",
+      "docstring": "Its value at an ambient representation and a subgroup representation is the module of morphisms from the corresponding ambient-to-subgroup image."
+    },
+    {
+      "temporary_id": "decl-020518",
+      "new_name": "subgroupToAmbientFunctor",
+      "docstring": "A functor from representations of a subgroup to representations of its ambient group."
+    },
+    {
+      "temporary_id": "decl-022648",
+      "new_name": "ambientToSubgroupFunctor",
+      "docstring": "A functor from representations of an ambient group to representations of a subgroup."
+    }
+  ]
+}

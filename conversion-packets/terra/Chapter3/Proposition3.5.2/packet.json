@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Proposition3.5.2",
+    "kind": "proposition",
+    "title": "Rad(A) is a two-sided ideal",
+    "node_id": "chapter-03/section-3-5",
+    "order": 150,
+    "slug": "proposition3-5-2",
+    "span": {
+      "start": {
+        "page": "49",
+        "line": 17
+      },
+      "end": {
+        "page": "49",
+        "line": 20
+      }
+    },
+    "source_sha256": "8cad952bbf513b61838426f708b92cb65f78bcbee0bab0cf2525871082dc4f6b",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Proposition352",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

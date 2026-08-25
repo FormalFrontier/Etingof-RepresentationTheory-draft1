@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0303",
+  "associations": [
+    {
+      "association_id": "association:26bb2b1053c136e20622",
+      "role": "primary",
+      "rationale": "The theorem directly states linear independence of the characters of a finite pairwise nonisomorphic family of simple modules over an algebraically closed field."
+    }
+  ]
+}

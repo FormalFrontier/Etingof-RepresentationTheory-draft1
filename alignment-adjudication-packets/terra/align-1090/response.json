@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1090",
+  "associations": [
+    {
+      "association_id": "association:734e6e7c03d922b9ec42",
+      "rationale": "The root-of-unity-sum result supports the cyclotomic-field assertion, but the displayed type does not itself visibly state membership in a cyclotomic field.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ceae36dcf1ba9e1a4a0f",
+      "rationale": "The conditional character-power equality supports the claimed Galois-action behavior, but the displayed type does not itself identify sigma as that Galois action.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:60e1335dcc6256b2621d",
+      "rationale": "The displayed type states only that a particular product of character values is fixed by the ring homomorphism; it does not identify that product as beta.",
+      "role": "supporting"
+    }
+  ]
+}

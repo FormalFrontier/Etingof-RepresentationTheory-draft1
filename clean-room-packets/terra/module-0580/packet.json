@@ -1,0 +1,58 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  {\u03b9 : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} C] \u2192\n      [inst_1 : CategoryTheory.Abelian.{u_3, u_1} C] \u2192\n        {c : ComplexShape.{u_2} \u03b9} \u2192\n          {S :\n              CategoryTheory.ShortComplex.{max u_2 u_3, max (max u_2 u_1) u_3}\n                (HomologicalComplex.{u_3, u_1, u_2} C c)} \u2192\n            CategoryTheory.ShortComplex.ShortExact.{max u_2 u_3, max (max u_1 u_2) u_3} S \u2192\n              (i j : \u03b9) \u2192\n                ComplexShape.Rel.{u_2} c i j \u2192\n                  Quiver.Hom.{u_3, u_1}\n                    (HomologicalComplex.homology.{u_3, u_1, u_2}\n                      (CategoryTheory.ShortComplex.X\u2083.{max u_2 u_3, max (max u_1 u_2) u_3} S) i)\n                    (HomologicalComplex.homology.{u_3, u_1, u_2}\n                      (CategoryTheory.ShortComplex.X\u2081.{max u_2 u_3, max (max u_1 u_2) u_3} S) j)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3601000855",
+      "temporary_id": "decl-018185"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {\u03b9 : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Abelian.{u_3, u_1} C] {c : ComplexShape.{u_2} \u03b9}\n  {S : CategoryTheory.ShortComplex.{max u_2 u_3, max (max u_2 u_1) u_3} (HomologicalComplex.{u_3, u_1, u_2} C c)}\n  (hS : CategoryTheory.ShortComplex.ShortExact.{max u_2 u_3, max (max u_1 u_2) u_3} S) (i j : \u03b9)\n  (hij : ComplexShape.Rel.{u_2} c i j),\n  CategoryTheory.ShortComplex.Exact.{u_3, u_1}\n    (CategoryTheory.ShortComplex.mk.{u_3, u_1} (CategoryTheory.ShortComplex.ShortExact.\u03b4.{u_3, u_1, u_2} hS i j hij)\n      (HomologicalComplex.homologyMap.{u_3, u_1, u_2}\n        (CategoryTheory.ShortComplex.f.{max u_2 u_3, max (max u_1 u_2) u_3} S) j)\n      \u22ef)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2870518202",
+      "temporary_id": "decl-021524"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {\u03b9 : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Abelian.{u_3, u_1} C] {c : ComplexShape.{u_2} \u03b9}\n  {S : CategoryTheory.ShortComplex.{max u_2 u_3, max (max u_2 u_1) u_3} (HomologicalComplex.{u_3, u_1, u_2} C c)},\n  CategoryTheory.ShortComplex.ShortExact.{max u_2 u_3, max (max u_1 u_2) u_3} S \u2192\n    \u2200 (i : \u03b9),\n      CategoryTheory.ShortComplex.Exact.{u_3, u_1}\n        (CategoryTheory.ShortComplex.mk.{u_3, u_1}\n          (HomologicalComplex.homologyMap.{u_3, u_1, u_2}\n            (CategoryTheory.ShortComplex.f.{max u_2 u_3, max (max u_1 u_2) u_3} S) i)\n          (HomologicalComplex.homologyMap.{u_3, u_1, u_2}\n            (CategoryTheory.ShortComplex.g.{max u_2 u_3, max (max u_1 u_2) u_3} S) i)\n          \u22ef)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2715831999",
+      "temporary_id": "decl-021525"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {\u03b9 : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Abelian.{u_3, u_1} C] {c : ComplexShape.{u_2} \u03b9}\n  {S : CategoryTheory.ShortComplex.{max u_2 u_3, max (max u_2 u_1) u_3} (HomologicalComplex.{u_3, u_1, u_2} C c)}\n  (hS : CategoryTheory.ShortComplex.ShortExact.{max u_2 u_3, max (max u_1 u_2) u_3} S) (i j : \u03b9)\n  (hij : ComplexShape.Rel.{u_2} c i j),\n  CategoryTheory.ShortComplex.Exact.{u_3, u_1}\n    (CategoryTheory.ShortComplex.mk.{u_3, u_1}\n      (HomologicalComplex.homologyMap.{u_3, u_1, u_2}\n        (CategoryTheory.ShortComplex.g.{max u_2 u_3, max (max u_1 u_2) u_3} S) i)\n      (CategoryTheory.ShortComplex.ShortExact.\u03b4.{u_3, u_1, u_2} hS i j hij) \u22ef)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2687799302",
+      "temporary_id": "decl-021526"
+    }
+  ],
+  "module_temporary_id": "module-0580",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,25 @@
+{
+  "module_name": "FunctionRingHom",
+  "declarations": [
+    {
+      "temporary_id": "decl-006216",
+      "new_name": "functionRing_isSemisimpleRing",
+      "docstring": "The ring of functions from a finite type to a field is semisimple."
+    },
+    {
+      "temporary_id": "decl-006297",
+      "new_name": "auxiliary_nilPath_mul",
+      "docstring": "The product of the displayed elements indexed by nil paths is the first element when the quiver indices agree and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-006528",
+      "new_name": "functionRingHom",
+      "docstring": "A ring homomorphism from vertex-indexed field-valued functions to the displayed algebra."
+    },
+    {
+      "temporary_id": "decl-006534",
+      "new_name": "functionRingHom_apply",
+      "docstring": "The function-ring homomorphism sends a function to the sum of singleton terms on the trivial paths, weighted by its vertex values."
+    }
+  ]
+}

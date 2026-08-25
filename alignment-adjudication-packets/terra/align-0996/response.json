@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0996",
+  "associations": [
+    {
+      "association_id": "association:15f68e1bf9d1c8788905",
+      "role": "supporting",
+      "rationale": "The displayed type only presents AdditiveFunctor as a Prop-valued predicate on functors between preadditive categories; it does not display the additive-on-Hom-groups condition itself."
+    },
+    {
+      "association_id": "association:ba8c01f39edd4b085282",
+      "role": "supporting",
+      "rationale": "The displayed type only presents LinearFunctor as a Prop-valued predicate on functors between linear categories; it does not display the linear-on-Hom-spaces condition itself."
+    }
+  ]
+}

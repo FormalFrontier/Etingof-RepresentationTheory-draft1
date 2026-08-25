@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0521",
+  "associations": [
+    {
+      "association_id": "association:e177fac28ee023068919",
+      "rationale": "The formal type failed to print, so the displayed evidence does not directly state the irrationality claim.",
+      "role": "supporting"
+    }
+  ]
+}

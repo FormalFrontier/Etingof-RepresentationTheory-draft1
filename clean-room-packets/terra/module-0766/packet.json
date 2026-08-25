@@ -1,0 +1,132 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u) \u2192 [Field.{u} k] \u2192 Nat \u2192 Type u",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1545820693",
+      "temporary_id": "decl-016774"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (n : Nat),\n  LT.lt.{0} 1 n \u2192 Eq.{1} (decl-020179.{u} (decl-016774.{u} k n)) Top.top.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016774",
+        "decl-020179"
+      ],
+      "structural_type_hash": "251217662",
+      "temporary_id": "decl-016775"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    Eq.{u + 1}\n      (LinearMap.ker.{u, u, u, u}\n        (LinearMap.mulLeft.{u, u} (decl-016774.{u} k n) (decl-016791.{u} k n)))\n      (LinearMap.range.{u, u, u, u}\n        (LinearMap.mulLeft.{u, u} (decl-016774.{u} k n)\n          (HPow.hPow.{u, 0, u} (decl-016791.{u} k n) (HSub.hSub.{0, 0, 0} n 1))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016774",
+        "decl-016791"
+      ],
+      "structural_type_hash": "2494855927",
+      "temporary_id": "decl-016777"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    Eq.{u + 1}\n      (LinearMap.ker.{u, u, u, u}\n        (LinearMap.mulLeft.{u, u} (decl-016774.{u} k n)\n          (HPow.hPow.{u, 0, u} (decl-016791.{u} k n) (HSub.hSub.{0, 0, 0} n 1))))\n      (LinearMap.range.{u, u, u, u}\n        (LinearMap.mulLeft.{u, u} (decl-016774.{u} k n) (decl-016791.{u} k n)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016774",
+        "decl-016791"
+      ],
+      "structural_type_hash": "1080816477",
+      "temporary_id": "decl-016780"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (n : Nat),\n  LT.lt.{0} 1 n \u2192\n    Not\n      (CategoryTheory.Projective.{u, u + 1}\n        (ModuleCat.of.{u, u} (decl-016774.{u} k n)\n          (Subtype.{u + 1} fun x =>\n            Membership.mem.{u, u}\n              (LinearMap.range.{u, u, u, u}\n                (LinearMap.mulLeft.{u, u} (decl-016774.{u} k n) (decl-016791.{u} k n)))\n              x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016774",
+        "decl-016791"
+      ],
+      "structural_type_hash": "338670253",
+      "temporary_id": "decl-016783"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (n : Nat),\n  LT.lt.{0} 1 n \u2192\n    Not\n      (CategoryTheory.Projective.{u, u + 1}\n        (ModuleCat.of.{u, u} (decl-016774.{u} k n)\n          (Subtype.{u + 1} fun x =>\n            Membership.mem.{u, u}\n              (LinearMap.range.{u, u, u, u}\n                (LinearMap.mulLeft.{u, u} (decl-016774.{u} k n)\n                  (HPow.hPow.{u, 0, u} (decl-016791.{u} k n) (HSub.hSub.{0, 0, 0} n 1))))\n              x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016774",
+        "decl-016791"
+      ],
+      "structural_type_hash": "4213697751",
+      "temporary_id": "decl-016787"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192 [inst : Field.{u} k] \u2192 (n : Nat) \u2192 decl-016774.{u} k n",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016774"
+      ],
+      "structural_type_hash": "1700790935",
+      "temporary_id": "decl-016791"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (n : Nat), Eq.{u + 1} (HPow.hPow.{u, 0, u} (decl-016791.{u} k n) n) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016774",
+        "decl-016791"
+      ],
+      "structural_type_hash": "2343365424",
+      "temporary_id": "decl-016794"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (n : Nat),\n  LT.lt.{0} 1 n \u2192\n    Eq.{u + 1}\n      (HMul.hMul.{u, u, u} (HPow.hPow.{u, 0, u} (decl-016791.{u} k n) (HSub.hSub.{0, 0, 0} n 1))\n        (HPow.hPow.{u, 0, u} (decl-016791.{u} k n) (HSub.hSub.{0, 0, 0} n 1)))\n      0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016774",
+        "decl-016791"
+      ],
+      "structural_type_hash": "3119236389",
+      "temporary_id": "decl-016795"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (n : Nat),\n  LT.lt.{0} 0 n \u2192 Ne.{u + 1} (HPow.hPow.{u, 0, u} (decl-016791.{u} k n) (HSub.hSub.{0, 0, 0} n 1)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016774",
+        "decl-016791"
+      ],
+      "structural_type_hash": "3709995049",
+      "temporary_id": "decl-016797"
+    }
+  ],
+  "module_temporary_id": "module-0766",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

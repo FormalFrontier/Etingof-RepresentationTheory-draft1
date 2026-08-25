@@ -1,0 +1,25 @@
+{
+  "associations": [
+    {
+      "association_id": "association:1aefe2c006034c0c6418",
+      "rationale": "The type only presents Tor as an AddCommGrp-valued construction and does not state its projective-resolution homology characterization.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2b4e3e8806aa2ccb8e74",
+      "rationale": "The type gives a functorial Tor construction but does not identify its values with homology of a tensored resolution.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d357212a0d5611640d9d",
+      "rationale": "This is the tensor functor used in the construction, a prerequisite rather than the Tor-homology statement itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2899340bf972fe4bed84",
+      "rationale": "The type directly gives an isomorphism from Tor to the homology of a projective resolution after applying the tensor-right functor.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0976"
+}

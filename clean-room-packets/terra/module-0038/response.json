@@ -1,0 +1,14 @@
+{
+  "module_name": "LinearAlgebra.TensorProductAuxiliary",
+  "declarations": [
+    {"temporary_id": "decl-014750", "new_name": "AuxiliaryType", "docstring": "An auxiliary type."},
+    {"temporary_id": "decl-014751", "new_name": "tensorLinearMapAux", "docstring": "An auxiliary family of linear maps from the tensor square of the auxiliary type to the rationals."},
+    {"temporary_id": "decl-014757", "new_name": "tensorLinearMapAux_apply_tensorAux", "docstring": "Evaluating the auxiliary linear map family on the auxiliary tensor gives one for equal indices and zero otherwise."},
+    {"temporary_id": "decl-014758", "new_name": "tensorLinearMapAux_tmul", "docstring": "Evaluating the auxiliary linear map family on a pure tensor is the product of the selected values."},
+    {"temporary_id": "decl-014759", "new_name": "auxiliaryFamily", "docstring": "An auxiliary family indexed by two elements."},
+    {"temporary_id": "decl-014761", "new_name": "tensorAux", "docstring": "An auxiliary tensor in the tensor square of the auxiliary type."},
+    {"temporary_id": "decl-014764", "new_name": "tensorAux_ne_tmul", "docstring": "The auxiliary tensor is unequal to every pure tensor."},
+    {"temporary_id": "decl-016482", "new_name": "moduleAuxiliaryType", "docstring": "An auxiliary type depending on a module and two natural-number parameters."},
+    {"temporary_id": "decl-016484", "new_name": "moduleAuxiliaryType_basis", "docstring": "Constructs a basis indexed by pairs of finite functions from a basis of the underlying module."}
+  ]
+}

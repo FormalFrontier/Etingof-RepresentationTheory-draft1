@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0112",
+  "associations": [
+    {
+      "association_id": "association:d16482c2eb397ee1e21e",
+      "role": "primary",
+      "rationale": "This directly asserts corepresentability of the module forgetful functor by the regular module."
+    },
+    {
+      "association_id": "association:b872120fb0fecddbb391",
+      "role": "primary",
+      "rationale": "This natural isomorphism explicitly identifies the regular-module coyoneda functor with the forgetful functor."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:244a13acdc3c252b3ce2",
+      "declaration": "Etingof.pigeonhole_rowCol_dichotomy",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/315/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition} (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Not\n      (Membership.mem.{0, 0}\n        (HMul.hMul.{0, 0, 0} (SetLike.coe.{0, 0} (Etingof.RowSubgroup n la))\n          (SetLike.coe.{0, 0} (Etingof.ColumnSubgroup n la)))\n        \u03c3) \u2192\n    Exists.{1} fun t =>\n      And (Equiv.Perm.IsSwap.{0} t)\n        (And (Membership.mem.{0, 0} (Etingof.RowSubgroup n la) t)\n          (Membership.mem.{0, 0} (Etingof.ColumnSubgroup n la)\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} \u03c3) t) \u03c3)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_end_of_Lemma5.13.1_proof",
+  "packet_id": "align-0922",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0922"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a74e029a8bdc5240756d",
+  "source_text": "If no row/column collision exists, successive row matching constructs the P_lambda Q_lambda factorization."
+}

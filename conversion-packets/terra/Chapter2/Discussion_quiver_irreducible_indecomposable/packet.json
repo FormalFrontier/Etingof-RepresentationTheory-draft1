@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_quiver_irreducible_indecomposable",
+    "kind": "discussion",
+    "title": "Irreducible and indecomposable quiver representations",
+    "node_id": "chapter-02/section-2-8",
+    "order": 74,
+    "slug": "discussion-quiver-irreducible-indecomposable",
+    "span": {
+      "start": {
+        "page": "21",
+        "line": 13
+      },
+      "end": {
+        "page": "21",
+        "line": 14
+      }
+    },
+    "source_sha256": "eb35c26a03a489ffb12e4a8b61067f485500745d4a43364dfa0333b774c5c190",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionQuiverIrreducibleIndecomposable",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:37582ae4839cb923b0a1",
+      "declaration": "Etingof.Remark4_6_4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/214/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And (Infinite.{1} (Multiplicative.{0} Int))\n  (Exists.{1} fun \u03c1 =>\n    And (Etingof.Remark4_6_4.IsIndecomposable.{0, 0, 0} \u03c1) (Not (Representation.IsIrreducible.{0, 0, 0} \u03c1)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Remark4_6_4"
+    },
+    {
+      "association_id": "association:c69cb0b2a200bcb464e4",
+      "declaration": "Etingof.Remark4_6_4.repZ",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/214/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Representation.{0, 0, 0} Complex (Multiplicative.{0} Int) (Fin 2 \u2192 Complex)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Remark4_6_4"
+    },
+    {
+      "association_id": "association:843ff591e30b288ba8d2",
+      "declaration": "Etingof.Remark4_6_4.repZ_indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/214/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Etingof.Remark4_6_4.IsIndecomposable.{0, 0, 0} Etingof.Remark4_6_4.repZ",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Remark4_6_4"
+    },
+    {
+      "association_id": "association:a37f8327f91d91e3b466",
+      "declaration": "Etingof.Remark4_6_4.repZ_not_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/214/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Not (Representation.IsIrreducible.{0, 0, 0} Etingof.Remark4_6_4.repZ)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Remark4_6_4"
+    }
+  ],
+  "canonical_reference": "Chapter4/Remark4.6.4",
+  "packet_id": "align-0160",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0160"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:31f14efe41ec13781912",
+  "source_text": "An infinite group can have a finite-dimensional representation that is indecomposable but not irreducible and hence cannot be unitary."
+}

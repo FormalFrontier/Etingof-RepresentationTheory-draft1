@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Introduction",
+    "kind": "introduction",
+    "title": "Chapter 7: Introduction to categories",
+    "node_id": "chapter-07",
+    "order": 464,
+    "slug": "introduction",
+    "span": {
+      "start": {
+        "page": "181",
+        "line": 1
+      },
+      "end": {
+        "page": "181",
+        "line": 4
+      }
+    },
+    "source_sha256": "99252c9055c7d1cf89b575fbcfbb8667c404de324d3db03769dbee95982e1b2a",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

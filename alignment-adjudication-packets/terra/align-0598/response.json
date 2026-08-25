@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:acfbd59b7542538c53b3",
+      "rationale": "The displayed equality directly says that evaluating the dual of a • f at b gives the value of f at b * a.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0598"
+}

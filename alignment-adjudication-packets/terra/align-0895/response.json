@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:ef10281c22bd814fe6c2",
+      "rationale": "This only supplies aff as a Lie subalgebra; it does not identify that subalgebra with matrices having bottom row zero.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:cec75fdc114793a239e6",
+      "rationale": "The declaration directly proves g = rowZero, but the source claim concerns aff(1), and the packet supplies no equality or definitional link between aff and g.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0895"
+}

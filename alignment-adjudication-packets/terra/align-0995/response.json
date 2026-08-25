@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0995",
+  "associations": [
+    {
+      "association_id": "association:5f89878355d9cbead8da",
+      "role": "supporting",
+      "rationale": "The formal equality gives the three conjugacy classes of S3, but it does not state the irreducible dimensions or their sum-of-squares assertion."
+    },
+    {
+      "association_id": "association:4b6ea4af993486e9750f",
+      "role": "supporting",
+      "rationale": "It verifies 1^2 + 1^2 + 2^2 equals the order of S3, supporting the stated numerical conclusion without declaring the irreducible representations and dimensions themselves."
+    }
+  ]
+}

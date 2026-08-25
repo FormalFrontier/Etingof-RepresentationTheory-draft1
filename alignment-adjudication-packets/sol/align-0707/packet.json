@@ -1,0 +1,189 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d5b71b4c4b43d6736ed3",
+      "declaration": "Etingof.Problem4_12_1.Vrep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(N : Nat) \u2192 [NeZero.{0} N] \u2192 ZMod N \u2192 Representation.{0, 0, 0} Complex (DihedralGroup N) (Fin 2 \u2192 Complex)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    },
+    {
+      "association_id": "association:e3880c0ea107af3959d8",
+      "declaration": "Etingof.Problem4_12_1.Vrep_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} [inst : NeZero.{0} N] (j : ZMod N),\n  Ne.{1} (HMul.hMul.{0, 0, 0} 2 j) 0 \u2192\n    IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Complex (DihedralGroup N))\n      (Representation.asModule.{0, 0, 0} (Etingof.Problem4_12_1.Vrep N j))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    },
+    {
+      "association_id": "association:637e0ac705e0fd7a6fd1",
+      "declaration": "Etingof.Problem4_12_1.Vrep_not_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} [inst : NeZero.{0} N] {j j' : ZMod N},\n  Ne.{1} (HAdd.hAdd.{0, 0, 0} (Etingof.Problem4_12_1.eigen N j 1) (Inv.inv.{0} (Etingof.Problem4_12_1.eigen N j 1)))\n      (HAdd.hAdd.{0, 0, 0} (Etingof.Problem4_12_1.eigen N j' 1) (Inv.inv.{0} (Etingof.Problem4_12_1.eigen N j' 1))) \u2192\n    Not\n      (Exists.{1} fun T =>\n        \u2200 (g : DihedralGroup N),\n          Eq.{1}\n            (LinearMap.comp.{0, 0, 0, 0, 0, 0} (LinearEquiv.toLinearMap.{0, 0, 0, 0} T)\n              (DFunLike.coe.{1, 1, 1} (Etingof.Problem4_12_1.Vrep N j) g))\n            (LinearMap.comp.{0, 0, 0, 0, 0, 0} (DFunLike.coe.{1, 1, 1} (Etingof.Problem4_12_1.Vrep N j') g)\n              (LinearEquiv.toLinearMap.{0, 0, 0, 0} T)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    },
+    {
+      "association_id": "association:a067ba35d822d7cdfbd6",
+      "declaration": "Etingof.Problem4_12_1.charEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(N : Nat) \u2192\n  [NeZero.{0} N] \u2192\n    Equiv.{1, 1} (MonoidHom.{0, 0} (DihedralGroup N) (Units.{0} Complex))\n      (Subtype.{1} fun p =>\n        And\n          (And (Eq.{1} (HPow.hPow.{0, 0, 0} (Prod.fst.{0, 0} p) N) 1)\n            (Eq.{1} (HPow.hPow.{0, 0, 0} (Prod.fst.{0, 0} p) 2) 1))\n          (Eq.{1} (HPow.hPow.{0, 0, 0} (Prod.snd.{0, 0} p) 2) 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    },
+    {
+      "association_id": "association:9247848859337bf23c9b",
+      "declaration": "Etingof.Problem4_12_1.irreducible_dim",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} [NeZero.{0} N] {W : Type u_1} [inst : AddCommGroup.{u_1} W] [inst_1 : Module.{0, u_1} Complex W]\n  [FiniteDimensional.{0, u_1} Complex W] (\u03c1 : Representation.{0, 0, u_1} Complex (DihedralGroup N) W),\n  IsSimpleModule.{0, u_1} (MonoidAlgebra.{0, 0} Complex (DihedralGroup N)) (Representation.asModule.{0, 0, u_1} \u03c1) \u2192\n    Or (Eq.{1} (Module.finrank.{0, u_1} Complex W) 1) (Eq.{1} (Module.finrank.{0, u_1} Complex W) 2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    },
+    {
+      "association_id": "association:2f32a01eb7fa525302df",
+      "declaration": "Etingof.Problem4_12_1.irreps_sum_sq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} [inst : NeZero.{0} N],\n  Eq.{1}\n    (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Nat.card.{0} (MonoidHom.{0, 0} (DihedralGroup N) (Units.{0} Complex))) 1)\n      (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (Etingof.Problem4_12_1.TwoDimIdx N)) 4))\n    (HMul.hMul.{0, 0, 0} 2 N)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    },
+    {
+      "association_id": "association:4ae9493edc43e1f16ed3",
+      "declaration": "Etingof.Problem4_12_1.one_dim_reps_card_even",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} [NeZero.{0} N],\n  Even.{0} N \u2192 Eq.{1} (Nat.card.{0} (MonoidHom.{0, 0} (DihedralGroup N) (Units.{0} Complex))) 4",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    },
+    {
+      "association_id": "association:7f062a6a941b3cffedc7",
+      "declaration": "Etingof.Problem4_12_1.one_dim_reps_card_odd",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} [NeZero.{0} N], Odd.{0} N \u2192 Eq.{1} (Nat.card.{0} (MonoidHom.{0, 0} (DihedralGroup N) (Units.{0} Complex))) 2",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    },
+    {
+      "association_id": "association:922280afcefbc05d1a9f",
+      "declaration": "Etingof.Problem4_12_1.simple_iso_char_or_Vrep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} [inst : NeZero.{0} N] (U : FDRep.{0, 0} Complex (DihedralGroup N))\n  [hUsimple : CategoryTheory.Simple.{0, 1} U],\n  Or\n    (Exists.{1} fun \u03c7 =>\n      Nonempty.{1} (CategoryTheory.Iso.{0, 1} U (FDRep.of.{0, 0} (Etingof.Example4_3_S3.charRep.{0} \u03c7))))\n    (Exists.{1} fun j =>\n      And (Ne.{1} (HMul.hMul.{0, 0, 0} 2 j) 0)\n        (Nonempty.{1} (CategoryTheory.Iso.{0, 1} U (FDRep.of.{0, 0} (Etingof.Problem4_12_1.Vrep N j)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    },
+    {
+      "association_id": "association:59de08bca43565515106",
+      "declaration": "Etingof.Problem4_12_1.total_irreps_card_even",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} [inst : NeZero.{0} N],\n  Even.{0} N \u2192\n    Eq.{1}\n      (HAdd.hAdd.{0, 0, 0} (Nat.card.{0} (MonoidHom.{0, 0} (DihedralGroup N) (Units.{0} Complex)))\n        (Fintype.card.{0} (Etingof.Problem4_12_1.TwoDimIdx N)))\n      (HAdd.hAdd.{0, 0, 0} 4 (HDiv.hDiv.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 2) 2))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    },
+    {
+      "association_id": "association:674bef9c399b873cdf92",
+      "declaration": "Etingof.Problem4_12_1.total_irreps_card_odd",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} [inst : NeZero.{0} N],\n  Odd.{0} N \u2192\n    Eq.{1}\n      (HAdd.hAdd.{0, 0, 0} (Nat.card.{0} (MonoidHom.{0, 0} (DihedralGroup N) (Units.{0} Complex)))\n        (Fintype.card.{0} (Etingof.Problem4_12_1.TwoDimIdx N)))\n      (HAdd.hAdd.{0, 0, 0} 2 (HDiv.hDiv.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) 2))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    },
+    {
+      "association_id": "association:0830193b8a819ebd6d45",
+      "declaration": "Etingof.Problem4_12_1.two_dim_simples_card_even",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} [inst : NeZero.{0} N],\n  Even.{0} N \u2192\n    Eq.{1} (Fintype.card.{0} (Etingof.Problem4_12_1.TwoDimIdx N)) (HDiv.hDiv.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 2) 2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    },
+    {
+      "association_id": "association:3319daac00f9804f03a2",
+      "declaration": "Etingof.Problem4_12_1.two_dim_simples_card_odd",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/230/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {N : Nat} [inst : NeZero.{0} N],\n  Odd.{0} N \u2192\n    Eq.{1} (Fintype.card.{0} (Etingof.Problem4_12_1.TwoDimIdx N)) (HDiv.hDiv.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) 2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_1"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.1",
+  "packet_id": "align-0707",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0707"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.1:part_a",
+  "source_text": "Part (a): classify all irreducible complex representations of the odd and even dihedral groups."
+}

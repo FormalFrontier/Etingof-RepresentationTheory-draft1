@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b5615f5ec26ce577b16b",
+      "declaration": "Etingof.Discussion_1dim_reps.card_oneDimRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/584/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    LT.lt.{0} 2 (Nat.card.{0} (GaloisField p n)) \u2192\n      Eq.{1} (Nat.card.{0} (MonoidHom.{0, 0} (Etingof.Discussion_1dim_reps.G p n) (Units.{0} Complex)))\n        (HSub.hSub.{0, 0, 0} (Nat.card.{0} (GaloisField p n)) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_1dim_reps"
+    },
+    {
+      "association_id": "association:cf476a9787af80807c63",
+      "declaration": "Etingof.Discussion_1dim_reps.characterCompDetEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/584/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(p : Nat) \u2192\n  [inst : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      LT.lt.{0} 0 n \u2192\n        LT.lt.{0} 2 (Nat.card.{0} (GaloisField p n)) \u2192\n          Equiv.{1, 1} (MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex))\n            (MonoidHom.{0, 0} (Etingof.Discussion_1dim_reps.G p n) (Units.{0} Complex))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_1dim_reps"
+    },
+    {
+      "association_id": "association:8fa1d9cdf180ace51127",
+      "declaration": "Etingof.Discussion_1dim_reps.characterCompDetEquiv_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/584/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) (hn : LT.lt.{0} 0 n)\n  (hq : LT.lt.{0} 2 (Nat.card.{0} (GaloisField p n)))\n  (\u03be : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (Etingof.Discussion_1dim_reps.characterCompDetEquiv p n hn hq) \u03be)\n    (MonoidHom.comp.{0, 0, 0} \u03be (Etingof.Discussion_1dim_reps.detHom p n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_1dim_reps"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_1dim_reps/Derived01",
+  "packet_id": "align-1220",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1220"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "derived:ccc96a93d23e1cd8c151",
+  "source_text": "Every 1-dimensional representation of GL\u2082(\ud835\udd3d_q) is of the form g \u21a6 \u03be(det g) for a unique character \u03be : \ud835\udd3d_q\u00d7 \u2192 \u2102\u00d7; there are exactly q\u22121 such representations."
+}

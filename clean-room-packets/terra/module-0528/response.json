@@ -1,0 +1,40 @@
+{
+  "module_name": "IntegerMatrices",
+  "declarations": [
+    {
+      "temporary_id": "decl-001908",
+      "new_name": "integerMatrixA",
+      "docstring": "A four-by-four matrix with integer entries."
+    },
+    {
+      "temporary_id": "decl-001909",
+      "new_name": "integerMatrixB",
+      "docstring": "A four-by-four matrix with integer entries."
+    },
+    {
+      "temporary_id": "decl-001910",
+      "new_name": "Auxiliary.statement001910",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
+    },
+    {
+      "temporary_id": "decl-001911",
+      "new_name": "integerVector",
+      "docstring": "A vector indexed by four positions with integer components."
+    },
+    {
+      "temporary_id": "decl-003540",
+      "new_name": "tuple2111_mem",
+      "docstring": "Shows that the displayed tuple `(2, 1, 1, 1)` satisfies the given membership predicate."
+    },
+    {
+      "temporary_id": "decl-003541",
+      "new_name": "integerMatrixB_operationAtZeroOneTwo_eq_ones",
+      "docstring": "Evaluates the displayed operation on the matrix and vector to four entries equal to one."
+    },
+    {
+      "temporary_id": "decl-003542",
+      "new_name": "integerMatrixB_operationAtThreeZeroOneTwo_eq_oneOneOneTwo",
+      "docstring": "Evaluates the displayed operation on the matrix and vector to the entries one, one, one, and two."
+    }
+  ]
+}

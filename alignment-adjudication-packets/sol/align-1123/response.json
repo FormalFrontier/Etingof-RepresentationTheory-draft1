@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-1123",
+  "associations": [
+    {
+      "association_id": "association:5cbea02fd943b6b293ae",
+      "role": "supporting",
+      "rationale": "It establishes the characteristic-polynomial component, but not the root-to-eigenvalue component of the combined claim."
+    },
+    {
+      "association_id": "association:bf45d0b43c0f05907cfd",
+      "role": "supporting",
+      "rationale": "It establishes the root-to-characteristic-root component, but not the characteristic-polynomial identity in the combined claim."
+    },
+    {
+      "association_id": "association:33ad38f39345f51ce0d5",
+      "role": "supporting",
+      "rationale": "The type only constructs a square matrix indexed by natDegree p; it does not display its entries or either claimed property."
+    },
+    {
+      "association_id": "association:72b076370c40fa2b8363",
+      "role": "supporting",
+      "rationale": "This specializes the root-to-characteristic-root result to monic rational polynomials evaluated in Complex, so it is a consequence of the general companion claim."
+    },
+    {
+      "association_id": "association:2eca9583e1d82283e5a8",
+      "role": "supporting",
+      "rationale": "This specializes the root-to-characteristic-root result to monic integer polynomials evaluated in Complex, so it is a consequence of the general companion claim."
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "module_name": "LinearAlgebra.Module.Projective",
+  "declarations": [
+    {
+      "temporary_id": "decl-013909",
+      "new_name": "Auxiliary.statement013909",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-013910",
+      "new_name": "Auxiliary.statement013910",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-013911",
+      "new_name": "existsRightInverse_of_mulVec_eq_single",
+      "docstring": "Constructs a right inverse for a square integer matrix from solutions on every standard basis vector."
+    },
+    {
+      "temporary_id": "decl-013912",
+      "new_name": "linearMapFinranks",
+      "docstring": "Records the integer-valued ranks of linear maps from the members of a module family."
+    },
+    {
+      "temporary_id": "decl-013915",
+      "new_name": "linearMapFinranks_quotient",
+      "docstring": "Splits the rank vector across a submodule and its quotient under the given finiteness hypotheses."
+    },
+    {
+      "temporary_id": "decl-013916",
+      "new_name": "linearMapFinranks_linearEquiv",
+      "docstring": "Shows that the rank vector is unchanged by a linear equivalence of target modules."
+    },
+    {
+      "temporary_id": "decl-013917",
+      "new_name": "linearMapFinranks_directSum",
+      "docstring": "Computes the rank vector of a finite direct sum as the sum of the individual vectors."
+    },
+    {
+      "temporary_id": "decl-013918",
+      "new_name": "Auxiliary.statement013918",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-013919",
+      "new_name": "Auxiliary.statement013919",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-013920",
+      "new_name": "linearMapFinranks_pi",
+      "docstring": "Computes the rank vector of a finite dependent product as the sum of its component vectors."
+    },
+    {
+      "temporary_id": "decl-013921",
+      "new_name": "linearMapFinranks_apply_family",
+      "docstring": "Identifies a rank-vector coordinate on a family member with the corresponding matrix entry."
+    },
+    {
+      "temporary_id": "decl-013922",
+      "new_name": "exists_linearMapFinranks_eq_matrix_mulVec",
+      "docstring": "Expresses a rank vector as a matrix-vector product under the stated projectivity and simplicity assumptions."
+    },
+    {
+      "temporary_id": "decl-013923",
+      "new_name": "linearMapFinranks_eq_single_of_finrank_eq_ite",
+      "docstring": "Computes the rank vector on a reference family from a Kronecker-delta rank condition."
+    },
+    {
+      "temporary_id": "decl-013925",
+      "new_name": "quotientPolynomialXPower_value_eq_top",
+      "docstring": "Shows that the displayed value on a polynomial quotient is top when the exponent is greater than one."
+    },
+    {
+      "temporary_id": "decl-013926",
+      "new_name": "designatedRing_value_eq_top",
+      "docstring": "Establishes the top value of the displayed construction on the designated ring."
+    },
+    {
+      "temporary_id": "decl-013928",
+      "new_name": "exists_linearEquiv_of_moduleProperty",
+      "docstring": "Classifies modules with the displayed property up to linear equivalence with a member of the given family."
+    },
+    {
+      "temporary_id": "decl-020184",
+      "new_name": "value_eq_top_of_forall_not_indexedProperty",
+      "docstring": "Identifies the displayed value with top when every indexed condition fails."
+    }
+  ]
+}

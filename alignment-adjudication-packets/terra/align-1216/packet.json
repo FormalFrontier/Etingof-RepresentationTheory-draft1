@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e678090ca43ee82ee233",
+      "declaration": "Etingof.Problem5_2_7.beta_lt_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/592/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  [CategoryTheory.Simple.{0, 1} V],\n  LT.lt.{0} 1 (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))) \u2192\n    (\u2200 (g : G), Ne.{1} (FDRep.character.{0, 0} V g) 0) \u2192\n      And\n        (LT.lt.{0} 0\n          (Finset.prod.{0, 0} (Finset.filter.{0} (fun x => Ne.{1} x 1) Finset.univ.{0}) fun g =>\n            DFunLike.coe.{1, 1, 1} Complex.normSq (FDRep.character.{0, 0} V g)))\n        (LT.lt.{0}\n          (Finset.prod.{0, 0} (Finset.filter.{0} (fun x => Ne.{1} x 1) Finset.univ.{0}) fun g =>\n            DFunLike.coe.{1, 1, 1} Complex.normSq (FDRep.character.{0, 0} V g))\n          1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_2_7"
+    },
+    {
+      "association_id": "association:c2cd06b959975f4b9e8c",
+      "declaration": "Etingof.Problem5_2_7.exists_character_eq_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/592/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] [DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  [CategoryTheory.Simple.{0, 1} V],\n  LT.lt.{0} 1 (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))) \u2192\n    Exists.{1} fun g => Eq.{1} (FDRep.character.{0, 0} V g) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_2_7"
+    }
+  ],
+  "canonical_reference": "Chapter5/Problem5.2.7/Derived01",
+  "packet_id": "align-1216",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1216"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "derived:66ac4da7663a9a86912d",
+  "source_text": "For an irreducible complex representation V of a finite group G with dim V > 1, there exists g with \u03c7_V(g) = 0 (Problem 5.2.7 part (b))."
+}

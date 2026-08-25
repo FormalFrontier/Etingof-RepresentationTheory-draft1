@@ -1,0 +1,285 @@
+{
+  "module_name": "Quiver.TwoDimensionalRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-009945",
+      "new_name": "auxiliaryDefinition1",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009948",
+      "new_name": "auxiliaryDefinition1_apply",
+      "docstring": "The first auxiliary definition is evaluated by applying the target equivalence to the displayed arrow map at the inverse image of one under the source equivalence."
+    },
+    {
+      "temporary_id": "decl-009949",
+      "new_name": "auxiliaryFact1",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009950",
+      "new_name": "auxiliaryFact2",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009951",
+      "new_name": "auxiliaryFact3",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009962",
+      "new_name": "finOneLinearEquiv",
+      "docstring": "The linear equivalence from functions on a one-element finite type to the base field."
+    },
+    {
+      "temporary_id": "decl-009971",
+      "new_name": "finOneLinearEquiv_symm_apply",
+      "docstring": "The inverse one-coordinate equivalence sends a scalar to the constant function with that value."
+    },
+    {
+      "temporary_id": "decl-009972",
+      "new_name": "finOneLinearEquiv_auxiliaryFinFunctionLinearMap",
+      "docstring": "The auxiliary linear map between one-coordinate function spaces preserves the scalar selected by their canonical equivalences."
+    },
+    {
+      "temporary_id": "decl-009973",
+      "new_name": "finFunction_subsingleton_of_eq_zero",
+      "docstring": "The function space on a finite type of cardinal parameter zero is a subsingleton."
+    },
+    {
+      "temporary_id": "decl-009975",
+      "new_name": "auxiliaryFact4",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009976",
+      "new_name": "auxiliaryFact5",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009977",
+      "new_name": "auxiliaryDefinition2",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009979",
+      "new_name": "auxiliaryFact6",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009980",
+      "new_name": "auxiliaryDefinition3",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009981",
+      "new_name": "auxiliaryFact7",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009983",
+      "new_name": "auxiliaryProperty_of_equiv",
+      "docstring": "The displayed predicate on quiver representations is preserved by the displayed representation equivalence."
+    },
+    {
+      "temporary_id": "decl-009984",
+      "new_name": "nonempty_equiv_of_arrowMap_eq_zero_of_dimension_eq",
+      "docstring": "Two finite free quiver representations with zero arrow maps and equal vertex dimensions admit the displayed representation equivalence."
+    },
+    {
+      "temporary_id": "decl-009985",
+      "new_name": "nonempty_equiv_auxiliaryDefinition5_of_support",
+      "docstring": "Under the displayed two-vertex support and zero-map hypotheses, the representation admits the displayed equivalence to the fifth auxiliary definition."
+    },
+    {
+      "temporary_id": "decl-009986",
+      "new_name": "nonempty_linearEquiv_finrank_one",
+      "docstring": "A finite free vertex space of dimension one is nonempty linearly equivalent to the base field."
+    },
+    {
+      "temporary_id": "decl-009987",
+      "new_name": "auxiliaryDefinition4",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009992",
+      "new_name": "auxiliaryFact8",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009993",
+      "new_name": "auxiliaryFact9",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-009994",
+      "new_name": "prodEquivRightOfSubsingleton",
+      "docstring": "The product of a subsingleton module with another module is linearly equivalent to the second module."
+    },
+    {
+      "temporary_id": "decl-009999",
+      "new_name": "prodEquivRightOfSubsingleton_symm_apply",
+      "docstring": "The inverse product equivalence inserts zero in the subsingleton first factor."
+    },
+    {
+      "temporary_id": "decl-010000",
+      "new_name": "prodEquivLeftOfSubsingleton",
+      "docstring": "The product of a module with a subsingleton module is linearly equivalent to the first module."
+    },
+    {
+      "temporary_id": "decl-010005",
+      "new_name": "prodEquivLeftOfSubsingleton_symm_apply",
+      "docstring": "The inverse product equivalence inserts zero in the subsingleton second factor."
+    },
+    {
+      "temporary_id": "decl-010008",
+      "new_name": "linearEquivOfSubsingleton",
+      "docstring": "Any two subsingleton modules over a field are linearly equivalent."
+    },
+    {
+      "temporary_id": "decl-010013",
+      "new_name": "vertexSpace_subsingleton_of_dimension_eq_zero",
+      "docstring": "A finite free vertex space whose displayed dimension is zero is a subsingleton."
+    },
+    {
+      "temporary_id": "decl-010015",
+      "new_name": "auxiliaryFact10",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010017",
+      "new_name": "support_of_sum_eq_two",
+      "docstring": "A natural-number-valued function on a finite type with sum two is supported either at one point with value two or at two distinct points with value one."
+    },
+    {
+      "temporary_id": "decl-010021",
+      "new_name": "linearEquivOfVertexEq",
+      "docstring": "Transports a linear equivalence between two representation spaces along an equality of vertices."
+    },
+    {
+      "temporary_id": "decl-010022",
+      "new_name": "auxiliaryFact22",
+      "docstring": "An auxiliary proposition whose formal type is partially elided."
+    },
+    {
+      "temporary_id": "decl-010023",
+      "new_name": "auxiliaryFinFunctionLinearMap",
+      "docstring": "An auxiliary linear map between field-valued function spaces on finite types."
+    },
+    {
+      "temporary_id": "decl-010026",
+      "new_name": "auxiliaryFact11",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010027",
+      "new_name": "auxiliaryFinFunctionLinearMap_eq_zero_of_source_eq_zero",
+      "docstring": "The auxiliary map is zero when its source cardinal parameter is zero."
+    },
+    {
+      "temporary_id": "decl-010029",
+      "new_name": "auxiliaryFinFunctionLinearMap_eq_zero_of_target_eq_zero",
+      "docstring": "The auxiliary map is zero when its target cardinal parameter is zero."
+    },
+    {
+      "temporary_id": "decl-010030",
+      "new_name": "auxiliaryDefinition5",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010033",
+      "new_name": "auxiliaryDefinition6",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010035",
+      "new_name": "zeroAuxiliaryEquivalenceData",
+      "docstring": "Displayed equivalence data between the fifth auxiliary definition at zero and the displayed construction on its two vertices."
+    },
+    {
+      "temporary_id": "decl-010037",
+      "new_name": "auxiliaryDefinition7",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010038",
+      "new_name": "auxiliaryFact12",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010040",
+      "new_name": "auxiliaryFact13",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010042",
+      "new_name": "auxiliaryFact14",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010043",
+      "new_name": "auxiliaryFact15",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010044",
+      "new_name": "auxiliaryFact16",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010045",
+      "new_name": "auxiliaryFact17",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010046",
+      "new_name": "auxiliaryFact18",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010047",
+      "new_name": "auxiliaryFact19",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010048",
+      "new_name": "auxiliaryFact20",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-010049",
+      "new_name": "auxiliaryDefinition5_zero_map",
+      "docstring": "Every displayed arrow-indexed map of the fifth auxiliary definition at zero is zero."
+    },
+    {
+      "temporary_id": "decl-010050",
+      "new_name": "not_auxiliaryProperty_auxiliaryDefinition5_zero",
+      "docstring": "The fifth auxiliary definition at zero does not satisfy the displayed predicate."
+    },
+    {
+      "temporary_id": "decl-010055",
+      "new_name": "not_auxiliaryProperty_or_exists_bijectiveArrow_of_totalDimension_eq_two",
+      "docstring": "Under the displayed quiver hypothesis, a representation of total dimension two either fails the displayed predicate or has a bijective arrow map between distinct vertices."
+    },
+    {
+      "temporary_id": "decl-010056",
+      "new_name": "exists_equiv_auxiliaryDefinition5_of_totalDimension_eq_two",
+      "docstring": "Under the displayed quiver hypothesis, a representation of total dimension two admits the displayed equivalence to the fifth auxiliary definition, either at zero or at data nonzero on a displayed arrow."
+    },
+    {
+      "temporary_id": "decl-010057",
+      "new_name": "auxiliaryFact21",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-015032",
+      "new_name": "dimension_eq",
+      "docstring": "Equivalent quiver representations have equal displayed dimensions at every vertex."
+    },
+    {
+      "temporary_id": "decl-015044",
+      "new_name": "refl",
+      "docstring": "The reflexive displayed equivalence of a quiver representation with itself."
+    }
+  ]
+}

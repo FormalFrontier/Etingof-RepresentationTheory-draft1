@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:b188f82192e3b7fcaa31",
+      "rationale": "The displayed type only presents Coregular as an opaque type-valued construction and does not identify its underlying vector space with A*.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0597"
+}

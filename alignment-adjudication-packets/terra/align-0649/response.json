@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0649",
+  "associations": [
+    {
+      "association_id": "association:20f2acfdbbf13c2560b4",
+      "rationale": "The displayed formal type only identifies antiperiodicSubmod as a submodule over periodicSubalg and does not expose the condition f(x+1) = -f(x), so it supports but does not directly state the definition of M.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:60f277354470411e1d85",
+      "rationale": "The displayed formal type only identifies periodicSubalg as a real subalgebra of continuous maps Real → Real and does not expose the period-one condition, so it supports but does not directly state the definition of A.",
+      "role": "supporting"
+    }
+  ]
+}

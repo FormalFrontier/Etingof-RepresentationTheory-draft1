@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_hook_length_derivation",
+    "kind": "discussion",
+    "title": "Derivation of dimension formula for V_lambda and definition of hook",
+    "node_id": "chapter-05/section-5-17",
+    "order": 344,
+    "slug": "discussion-hook-length-derivation",
+    "span": {
+      "start": {
+        "page": "121",
+        "line": 11
+      },
+      "end": {
+        "page": "122",
+        "line": 2
+      }
+    },
+    "source_sha256": "30a5b6bacce7bb43477eae079306ea1a2baac4dd35b67a7c15b64cd92a2622b0",
+    "features": {
+      "line_count": 25,
+      "crosses_page": true,
+      "display_math_delimiters": 8,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionHookLengthDerivation",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,23 @@
+name = "IntroductionToRepresentationTheoryVerso"
+version = "0.1.0-private"
+defaultTargets = ["IntroductionToRepresentationTheoryVerso", "book", "alignmentExport"]
+enableArtifactCache = true
+
+[[require]]
+name = "verso"
+path = "../../toolchain-spike/.lake/packages/verso"
+
+[[require]]
+name = "RepresentationTheoryFormalization"
+path = "../../clean-code/release"
+
+[[lean_lib]]
+name = "IntroductionToRepresentationTheoryVerso"
+
+[[lean_exe]]
+name = "book"
+root = "Main"
+
+[[lean_exe]]
+name = "alignmentExport"
+root = "AlignmentExport"

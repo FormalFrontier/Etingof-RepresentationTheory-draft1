@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0537",
+  "associations": [
+    {
+      "association_id": "association:b2625e7aa4d1cc62abe0",
+      "rationale": "For a nilpotent A, the type directly asserts existence of an sl(2) Lie homomorphism sending the raising element to A and equivalence of any two resulting representations.",
+      "role": "primary"
+    }
+  ]
+}

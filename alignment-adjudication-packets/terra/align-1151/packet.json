@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f5b1c3bafb7e065d5c56",
+      "declaration": "Etingof.finrank_spechtModule_eq_frobeniusDetForm",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/343/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : Etingof.BoundedPartition N n),\n  Eq.{1}\n    (Nat.cast.{0}\n      (Module.finrank.{0, 0} Complex\n        (Subtype.{1} fun x =>\n          Membership.mem.{0, 0} (Etingof.SpechtModule n (Eq.rec.{1, 1} (Etingof.weightToPartition N lam.parts) \u22ef)) x)))\n    (HDiv.hDiv.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0} (Nat.cast.{0} n.factorial)\n        (Nat.cast.{0}\n          (Finset.prod.{0, 0} Finset.univ.{0} fun i =>\n            Finset.prod.{0, 0} (Finset.Ioi.{0} i) fun j =>\n              HSub.hSub.{0, 0, 0} (Etingof.shiftedExps N lam.parts i) (Etingof.shiftedExps N lam.parts j))))\n      (Nat.cast.{0} (Finset.prod.{0, 0} Finset.univ.{0} fun j => (Etingof.shiftedExps N lam.parts j).factorial)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.CharValueHookFormula"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_hook_length_derivation",
+  "packet_id": "align-1151",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1151"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ecea763f4d56f516f33d",
+  "source_text": "The Vandermonde determinant gives dim V_lambda as n! times the product of l_i-l_j for i<j divided by the beta-number factorial product."
+}

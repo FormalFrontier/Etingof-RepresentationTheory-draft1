@@ -1,0 +1,48 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-024561 n la) (decl-024561 n la))\n    (HSMul.hSMul.{0, 0, 0}\n      (HDiv.hDiv.{0, 0, 0} (Nat.cast.{0} n.factorial)\n        (HMul.hMul.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0}\n            (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-015532 n la) x)))\n            (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-001310 n la) x))))\n          (Nat.cast.{0}\n            (Module.finrank.{0, 0} Complex\n              (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n la) x)))))\n      (decl-024561 n la))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001310",
+        "decl-015532",
+        "decl-016116",
+        "decl-016224",
+        "decl-024561"
+      ],
+      "structural_type_hash": "3035417043",
+      "temporary_id": "decl-005452"
+    },
+    {
+      "formal_type": "{R : Type u_1} \u2192\n  {M : Type u_2} \u2192\n    [inst : Semiring.{u_1} R] \u2192\n      CoeFun.{max (u_2 + 1) (u_1 + 1), max (u_1 + 1) (u_2 + 1)} (MonoidAlgebra.{u_1, u_2} R M) fun x => M \u2192 R",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "959306518",
+      "temporary_id": "decl-021458"
+    }
+  ],
+  "module_temporary_id": "module-0350",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

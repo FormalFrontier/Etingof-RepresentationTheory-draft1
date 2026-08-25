@@ -1,0 +1,55 @@
+{
+  "module_name": "PartitionMonoidAlgebra",
+  "declarations": [
+    {
+      "temporary_id": "decl-001306",
+      "new_name": "partitionIndexedElement",
+      "docstring": "An element of the displayed monoid algebra depending on a natural number and one of its partitions."
+    },
+    {
+      "temporary_id": "decl-005448",
+      "new_name": "left_mul_mul_right_eq_zero_of_not_dominates",
+      "docstring": "If one partition does not dominate the other, multiplying the displayed left factor, any monoid-algebra element, and the displayed right factor gives zero."
+    },
+    {
+      "temporary_id": "decl-015541",
+      "new_name": "partitionIndexedElement'",
+      "docstring": "An element of the displayed monoid algebra depending on a natural number and one of its partitions."
+    },
+    {
+      "temporary_id": "decl-015543",
+      "new_name": "mul_monoidAlgebra_of_eq_self_of_mem",
+      "docstring": "Multiplying the displayed element on the right by the monoid-algebra embedding of a member of the displayed set leaves it unchanged."
+    },
+    {
+      "temporary_id": "decl-016525",
+      "new_name": "isEmpty_linearEquiv_between_subtypes_of_ne",
+      "docstring": "Distinct partitions give subtypes for which the displayed linear equivalence type is empty."
+    },
+    {
+      "temporary_id": "decl-017335",
+      "new_name": "left_mul_monoidAlgebra_of_perm_mul_right_eq_zero_of_not_dominates",
+      "docstring": "If one partition does not dominate the other, the product of the displayed left factor, the monoid-algebra embedding of a permutation, and the displayed right factor is zero."
+    },
+    {
+      "temporary_id": "decl-021803",
+      "new_name": "monoidAlgebra_of_mul_eq_sign_smul_of_mem",
+      "docstring": "For a member of the displayed set, left multiplication by its monoid-algebra embedding equals scalar multiplication by its permutation sign."
+    },
+    {
+      "temporary_id": "decl-024689",
+      "new_name": "left_mul_subtype_val_eq_zero_of_not_dominates",
+      "docstring": "If one partition does not dominate the other, the displayed left factor annihilates every value from the displayed subtype."
+    },
+    {
+      "temporary_id": "decl-024690",
+      "new_name": "partitionIndexedElement_eq_mul",
+      "docstring": "The displayed element indexed by a partition equals the product of the two displayed factors."
+    },
+    {
+      "temporary_id": "decl-024691",
+      "new_name": "partitionIndexedElement_mul_self_ne_zero",
+      "docstring": "The square of the displayed element indexed by a partition is nonzero over a characteristic-zero field."
+    }
+  ]
+}

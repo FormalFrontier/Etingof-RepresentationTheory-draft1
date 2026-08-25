@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1154",
+  "associations": [
+    {
+      "association_id": "association:5c891dfb8554feb2bd6a",
+      "role": "supporting",
+      "rationale": "The type is a roots-of-unity lemma, but it does not state its use as an input to Theorem 5.4.4."
+    },
+    {
+      "association_id": "association:70c5ac72b9c9be6de855",
+      "role": "supporting",
+      "rationale": "This formal type states the theorem's character-or-scalar conclusion, not the source's proof-strategy relation that the lemma supplies its input."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1c0ad6522cdd1cf8dda3",
+      "declaration": "Etingof.Lemma_6_4_6",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/429/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Etingof.IsDynkinDiagram n adj \u2192\n    \u2200 (x : Fin n \u2192 Int),\n      Etingof.IsRoot n adj x \u2192 Or (\u2200 (i : Fin n), LE.le.{0} 0 (x i)) (\u2200 (i : Fin n), LE.le.{0} (x i) 0)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Lemma6_4_6"
+    }
+  ],
+  "canonical_reference": "Chapter6/Remark6.4.8",
+  "packet_id": "align-0939",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0939"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ab532a36f51fe10d4935",
+  "source_text": "Every root is positive or negative."
+}

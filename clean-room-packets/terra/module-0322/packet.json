@@ -1,0 +1,119 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} Complex V] [Module.Finite.{0, 0} Complex V] (\u03c1 : Representation.{0, u_1, 0} Complex G V),\n  IsSimpleModule.{u_1, 0} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, 0} \u03c1) \u2192\n    (Exists.{u_1 + 1} fun g => Ne.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c1 g) 1) \u2192\n      Eq.{1} (Representation.invariants.{0, u_1, 0} \u03c1) Bot.bot.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "434511745",
+      "temporary_id": "decl-020754"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} Complex V] [inst_4 : Module.Finite.{0, 0} Complex V],\n  Odd.{0} (Fintype.card.{u_1} G) \u2192\n    \u2200 (\u03c1 : Representation.{0, u_1, 0} Complex G V),\n      IsSimpleModule.{u_1, 0} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, 0} \u03c1) \u2192\n        (Exists.{u_1 + 1} fun g => Ne.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c1 g) 1) \u2192 decl-005130.{u_1, 0} \u03c1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005130"
+      ],
+      "structural_type_hash": "164764219",
+      "temporary_id": "decl-020819"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} Complex V] [inst_4 : Module.Finite.{0, 0} Complex V]\n  (\u03c1 : Representation.{0, u_1, 0} Complex G V),\n  IsSimpleModule.{u_1, 0} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, 0} \u03c1) \u2192\n    (Exists.{1} fun e =>\n        \u2200 (g : G) (v : V),\n          Eq.{1} (DFunLike.coe.{1, 1, 1} e (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c1 g) v))\n            (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Representation.dual.{0, u_1, 0} \u03c1) g)\n              (DFunLike.coe.{1, 1, 1} e v))) \u2192\n      Or (decl-005278.{u_1, 0} \u03c1) (decl-005277.{u_1, 0} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005277",
+        "decl-005278"
+      ],
+      "structural_type_hash": "48465313",
+      "temporary_id": "decl-020883"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} Complex V] [inst_4 : Module.Finite.{0, 0} Complex V],\n  Odd.{0} (Fintype.card.{u_1} G) \u2192\n    \u2200 (\u03c1 : Representation.{0, u_1, 0} Complex G V),\n      IsSimpleModule.{u_1, 0} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, 0} \u03c1) \u2192\n        Not (decl-005277.{u_1, 0} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005277"
+      ],
+      "structural_type_hash": "2373918392",
+      "temporary_id": "decl-021777"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} Complex V] [inst_4 : Module.Finite.{0, 0} Complex V],\n  Odd.{0} (Fintype.card.{u_1} G) \u2192\n    \u2200 (\u03c1 : Representation.{0, u_1, 0} Complex G V),\n      IsSimpleModule.{u_1, 0} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, 0} \u03c1) \u2192\n        (Exists.{u_1 + 1} fun g => Ne.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c1 g) 1) \u2192\n          Not (decl-005278.{u_1, 0} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "3324016369",
+      "temporary_id": "decl-021781"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [Group.{u_1} G] \u2192 [inst : Fintype.{u_1} G] \u2192 Odd.{0} (Fintype.card.{u_1} G) \u2192 Equiv.{u_1 + 1, u_1 + 1} G G",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "839206367",
+      "temporary_id": "decl-023385"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (hodd : Odd.{0} (Fintype.card.{u_1} G)) (g : G),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-023385.{u_1} hodd) g)\n    (HPow.hPow.{u_1, 0, u_1} g 2)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023385"
+      ],
+      "structural_type_hash": "1773363788",
+      "temporary_id": "decl-023388"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} Complex V] [inst_4 : Module.Finite.{0, 0} Complex V]\n  (\u03c1 : Representation.{0, u_1, 0} Complex G V),\n  IsSimpleModule.{u_1, 0} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, 0} \u03c1) \u2192\n    decl-005278.{u_1, 0} \u03c1 \u2192\n      Eq.{1}\n        (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun g =>\n          Representation.character.{u_1, 0, 0} \u03c1 (HPow.hPow.{u_1, 0, u_1} g 2))\n        (Nat.cast.{0} (Fintype.card.{u_1} G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "2632041761",
+      "temporary_id": "decl-023533"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} Complex V] [Module.Finite.{0, 0} Complex V],\n  Odd.{0} (Fintype.card.{u_1} G) \u2192\n    \u2200 (\u03c1 : Representation.{0, u_1, 0} Complex G V),\n      Eq.{1}\n        (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun g =>\n          Representation.character.{u_1, 0, 0} \u03c1 (HPow.hPow.{u_1, 0, u_1} g 2))\n        (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun g => Representation.character.{u_1, 0, 0} \u03c1 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4093636141",
+      "temporary_id": "decl-023534"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} Complex V] [Module.Finite.{0, 0} Complex V],\n  Odd.{0} (Fintype.card.{u_1} G) \u2192\n    \u2200 (\u03c1 : Representation.{0, u_1, 0} Complex G V),\n      IsSimpleModule.{u_1, 0} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, 0} \u03c1) \u2192\n        (Exists.{u_1 + 1} fun g => Ne.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c1 g) 1) \u2192\n          Eq.{1}\n            (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun g =>\n              Representation.character.{u_1, 0, 0} \u03c1 (HPow.hPow.{u_1, 0, u_1} g 2))\n            0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2468621871",
+      "temporary_id": "decl-023535"
+    }
+  ],
+  "module_temporary_id": "module-0322",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,20 @@
+{
+  "associations": [
+    {
+      "association_id": "association:491abb58bb4584d2a64e",
+      "rationale": "The type gives only the balancing-morphism component; it does not itself state the genuine balanced tensor/cokernel functor required by the complete source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:953d2e29f4445a15f2a5",
+      "rationale": "This gives an object assignment on finite B-modules, but its displayed type is opaque about being the claimed balanced tensor or cokernel.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:59ebe716b074484d8fb1",
+      "rationale": "This gives a functor with the required source and target, but its displayed type does not identify it as the claimed balanced tensor/cokernel construction.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0878"
+}

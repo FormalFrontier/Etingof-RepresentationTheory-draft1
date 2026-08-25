@@ -1,0 +1,225 @@
+{
+  "module_name": "SymmetricGroup.PartitionCharacterPolynomial",
+  "declarations": [
+    {
+      "temporary_id": "decl-016528",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliarySignSmul_eq_coefficient",
+      "docstring": "Relates a signed scalar multiple of an auxiliary value to a coefficient of a polynomial product."
+    },
+    {
+      "temporary_id": "decl-017213",
+      "new_name": "Auxiliary.statement017213",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-018025",
+      "new_name": "SymmetricGroup.PartitionCharacter.coeff_add_monomial_mul",
+      "docstring": "The coefficient at `α + e` of a monomial at `e` times `P` is the monomial scalar times the coefficient of `P` at `α`."
+    },
+    {
+      "temporary_id": "decl-018030",
+      "new_name": "SymmetricGroup.PartitionCharacter.IsSymmetric.coeff_eq_auxiliary",
+      "docstring": "A symmetric polynomial has equal coefficients at the displayed exponent vector and at an auxiliary exponent vector."
+    },
+    {
+      "temporary_id": "decl-018034",
+      "new_name": "Auxiliary.statement018034",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-018275",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPolynomial_isSymmetric",
+      "docstring": "The permutation-indexed auxiliary multivariable polynomial is symmetric."
+    },
+    {
+      "temporary_id": "decl-019478",
+      "new_name": "SymmetricGroup.PartitionCharacter.partitionOfFinsuppSum",
+      "docstring": "Forms a partition of `n` from a natural-valued finitely supported vector whose entries sum to `n`."
+    },
+    {
+      "temporary_id": "decl-020979",
+      "new_name": "SymmetricGroup.PartitionCharacter.nonempty_linearEquiv_auxiliary",
+      "docstring": "There is a complex-linear equivalence between the displayed auxiliary subtypes."
+    },
+    {
+      "temporary_id": "decl-020980",
+      "new_name": "SymmetricGroup.PartitionCharacter.nonempty_linearEquiv_isotypicComponent_pi",
+      "docstring": "An isotypic component is linearly equivalent over the auxiliary scalar ring to an indexed family of copies of a partition subspace."
+    },
+    {
+      "temporary_id": "decl-021966",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPermutationFinsupp",
+      "docstring": "An auxiliary natural-valued finitely supported function associated with a permutation of `Fin n`."
+    },
+    {
+      "temporary_id": "decl-021971",
+      "new_name": "SymmetricGroup.PartitionCharacter.natCast_auxiliary_eq_coeff",
+      "docstring": "The natural cast of an auxiliary natural value equals the displayed polynomial coefficient."
+    },
+    {
+      "temporary_id": "decl-021972",
+      "new_name": "SymmetricGroup.PartitionCharacter.natCast_auxiliary_eq_trace",
+      "docstring": "The natural cast of an auxiliary natural value equals the trace of the displayed endomorphism."
+    },
+    {
+      "temporary_id": "decl-021974",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPermutationEndomorphism",
+      "docstring": "An auxiliary complex-linear endomorphism indexed by a partition and a permutation of `Fin n`."
+    },
+    {
+      "temporary_id": "decl-021977",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPermutationEndomorphism_mapsTo_auxiliary",
+      "docstring": "The displayed auxiliary endomorphism maps the displayed auxiliary set into itself."
+    },
+    {
+      "temporary_id": "decl-021978",
+      "new_name": "SymmetricGroup.PartitionCharacter.partitionComponent",
+      "docstring": "A complex submodule of a partition-indexed space, indexed by a second partition."
+    },
+    {
+      "temporary_id": "decl-021980",
+      "new_name": "SymmetricGroup.PartitionCharacter.partitionComponent_module_finite",
+      "docstring": "Each partition component is finite as a complex module."
+    },
+    {
+      "temporary_id": "decl-021981",
+      "new_name": "SymmetricGroup.PartitionCharacter.partitionComponent_module_free",
+      "docstring": "Each partition component is free as a complex module."
+    },
+    {
+      "temporary_id": "decl-021982",
+      "new_name": "SymmetricGroup.PartitionCharacter.isScalarTower_partitionSpace",
+      "docstring": "The complex scalars, auxiliary scalar ring, and partition-indexed space form a scalar tower."
+    },
+    {
+      "temporary_id": "decl-021983",
+      "new_name": "SymmetricGroup.PartitionCharacter.partitionComponent_isInternal",
+      "docstring": "The family of partition components gives an internal direct sum."
+    },
+    {
+      "temporary_id": "decl-021985",
+      "new_name": "SymmetricGroup.PartitionCharacter.isotypicComponent_isInternal",
+      "docstring": "The partition-indexed family of isotypic components gives an internal direct sum."
+    },
+    {
+      "temporary_id": "decl-022780",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryFinsupp",
+      "docstring": "An auxiliary natural-valued finitely supported function on `Fin n`."
+    },
+    {
+      "temporary_id": "decl-023280",
+      "new_name": "Auxiliary.statement023280",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-023290",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliarySubtypePermutationEndomorphism",
+      "docstring": "An auxiliary complex-linear endomorphism of the displayed subtype, indexed by a permutation of `Fin n`."
+    },
+    {
+      "temporary_id": "decl-023310",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPartitionPermutationValue",
+      "docstring": "An auxiliary complex value indexed by a partition and a permutation of `Fin n`."
+    },
+    {
+      "temporary_id": "decl-023320",
+      "new_name": "SymmetricGroup.PartitionCharacter.eq_of_auxiliaryPartitionPermutationValue_eq",
+      "docstring": "Two partitions are equal when their displayed auxiliary values agree for every permutation."
+    },
+    {
+      "temporary_id": "decl-023323",
+      "new_name": "SymmetricGroup.PartitionCharacter.partitionFDRep",
+      "docstring": "The finite-dimensional complex representation of permutations of `Fin n` associated with a partition of `n`."
+    },
+    {
+      "temporary_id": "decl-023325",
+      "new_name": "SymmetricGroup.PartitionCharacter.partitionFDRep_character_eq_auxiliary",
+      "docstring": "The character of the displayed finite-dimensional representation equals an auxiliary value."
+    },
+    {
+      "temporary_id": "decl-023326",
+      "new_name": "SymmetricGroup.PartitionCharacter.partitionFDRep_iso_iff",
+      "docstring": "Two partition-indexed finite-dimensional representations are isomorphic exactly when their partitions are equal."
+    },
+    {
+      "temporary_id": "decl-023327",
+      "new_name": "SymmetricGroup.PartitionCharacter.partitionFDRep_simple",
+      "docstring": "The finite-dimensional representation associated with a partition is simple."
+    },
+    {
+      "temporary_id": "decl-023330",
+      "new_name": "SymmetricGroup.PartitionCharacter.partitionSubspaceRepresentation",
+      "docstring": "The complex representation of permutations of `Fin n` on the subspace associated with a partition."
+    },
+    {
+      "temporary_id": "decl-023344",
+      "new_name": "SymmetricGroup.PartitionCharacter.isEmpty_linearEquiv_of_ne",
+      "docstring": "Distinct partitions have no linear equivalence between their associated subspaces over the auxiliary scalar ring."
+    },
+    {
+      "temporary_id": "decl-023346",
+      "new_name": "SymmetricGroup.PartitionCharacter.exists_partition_linearEquiv_of_isSimpleModule",
+      "docstring": "Every simple submodule of a partition-indexed space is linearly equivalent to a subspace associated with some partition."
+    },
+    {
+      "temporary_id": "decl-023347",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPartitionNat",
+      "docstring": "An auxiliary natural number indexed by two partitions of `n`."
+    },
+    {
+      "temporary_id": "decl-023350",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPartitionNat_self",
+      "docstring": "The auxiliary natural number at two equal partition arguments is one."
+    },
+    {
+      "temporary_id": "decl-023351",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPartitionNat_eq_zero_of_auxiliaryRelation",
+      "docstring": "The auxiliary natural number is zero when the displayed auxiliary relation holds."
+    },
+    {
+      "temporary_id": "decl-023352",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPartitionNat_eq_zero_of_not_auxiliaryRelation",
+      "docstring": "The auxiliary natural number is zero when the displayed auxiliary relation fails in the specified direction."
+    },
+    {
+      "temporary_id": "decl-023363",
+      "new_name": "SymmetricGroup.PartitionCharacter.sum_auxiliaryPartitionPermutationValue_mul_inv",
+      "docstring": "The displayed sum of paired auxiliary values at a permutation and its inverse is `n!` for equal partitions and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-023566",
+      "new_name": "SymmetricGroup.PartitionCharacter.sum_add_sub_auxiliaryPermutationFinsupp",
+      "docstring": "Under the stated pointwise bound, the entries of the difference between the combined exponent and the permutation exponent sum to `n`."
+    },
+    {
+      "temporary_id": "decl-023735",
+      "new_name": "SymmetricGroup.PartitionCharacter.IsSymmetric.coeff_mapDomain_perm",
+      "docstring": "A symmetric multivariable polynomial has the same coefficient after permuting the domain of an exponent vector."
+    },
+    {
+      "temporary_id": "decl-024295",
+      "new_name": "Auxiliary.statement024295",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024296",
+      "new_name": "Auxiliary.statement024296",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024473",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPolynomial",
+      "docstring": "An auxiliary multivariable polynomial indexed by `n`."
+    },
+    {
+      "temporary_id": "decl-024475",
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPolynomial_eq_sum",
+      "docstring": "The auxiliary polynomial equals the displayed sum of sign-weighted monomials."
+    },
+    {
+      "temporary_id": "decl-024708",
+      "new_name": "SymmetricGroup.PartitionCharacter.natCast_auxiliary_eq_sum_auxiliary_mul_auxiliary",
+      "docstring": "The natural cast of an auxiliary natural value equals the displayed sum of products of auxiliary values."
+    }
+  ]
+}

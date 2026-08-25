@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8925f7af7a4d6b79cd2f",
+      "declaration": "Etingof.Theorem5_10_1_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/300/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k G : Type} [inst : Field.{0} k] [inst_1 : Group.{0} G] {H : Subgroup.{0} G} (V : Rep.{w, 0, 0} k G)\n  (W : Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x))\n  (\u03b1 :\n    Quiver.Hom.{w, w + 1} V (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1} (Etingof.indSubgroupFunctor.{w} k G H) W))\n  (v : Rep.V.{w, 0, 0} V),\n  Eq.{w + 1}\n    (DFunLike.coe.{w + 1, w + 1, w + 1}\n      (Rep.Hom.hom.{w, 0, 0} (DFunLike.coe.{w + 1, w + 1, w + 1} (Etingof.Theorem5_10_1_homEquiv.{w} V W) \u03b1)) v)\n    (Subtype.val.{w + 1} (DFunLike.coe.{w + 1, w + 1, w + 1} (Rep.Hom.hom.{w, 0, 0} \u03b1) v) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_10_1"
+    },
+    {
+      "association_id": "association:c48237d1f4577c118726",
+      "declaration": "Etingof.Theorem5_10_1_hom_app_app_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/300/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k G : Type) [inst : Field.{0} k] [inst_1 : Group.{0} G] (H : Subgroup.{0} G) (V : Rep.{w, 0, 0} k G)\n  (W : Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x))\n  (\u03b1 :\n    Quiver.Hom.{w, w + 1} V (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1} (Etingof.indSubgroupFunctor.{w} k G H) W)),\n  Eq.{w + 1}\n    (DFunLike.coe.{w + 1, w + 1, w + 1}\n      (ModuleCat.Hom.hom.{w, 0}\n        (CategoryTheory.NatTrans.app.{w, w, w + 1, w + 1}\n          (CategoryTheory.NatTrans.app.{w, w + 1, w + 1, w + 1}\n            (CategoryTheory.Iso.hom.{w + 1, w + 1} (Etingof.Theorem5_10_1.{w} k G H)) (Opposite.op.{w + 2} V))\n          W))\n      \u03b1)\n    (DFunLike.coe.{w + 1, w + 1, w + 1}\n      (LinearEquiv.symm.{0, 0, w, w} (Rep.resCoindHomEquiv.{w, 0, 0, 0} (Subgroup.subtype.{0} H) V W)) \u03b1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_10_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.10.1",
+  "packet_id": "align-0010",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0010"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:015b38b86445ad3f19d5",
+  "source_text": "The forward map is evaluation at the identity, F(alpha)(v)=(alpha v)(e), and its inverse has the book's formula."
+}

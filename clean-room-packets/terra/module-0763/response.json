@@ -1,0 +1,30 @@
+{
+  "module_name": "Algebra.Category.ModuleCat.Projective",
+  "declarations": [
+    {
+      "temporary_id": "decl-025155",
+      "new_name": "ModuleCat.subsingleton_ext_restrictScalars_of_subsingleton_ext_extendScalars",
+      "docstring": "A subsingleton Ext type from an extended module yields the corresponding subsingleton Ext type into a restricted module."
+    },
+    {
+      "temporary_id": "decl-025158",
+      "new_name": "ModuleCat.extendScalars_preservesProjectiveObjects",
+      "docstring": "Extension of scalars preserves projective module objects."
+    },
+    {
+      "temporary_id": "decl-025159",
+      "new_name": "ModuleCat.hasProjectiveDimensionLT_of_retract_restrictScalars_extendScalars",
+      "docstring": "A retract of the restriction of its scalar extension inherits any strict projective-dimension bound held by that extension."
+    },
+    {
+      "temporary_id": "decl-025161",
+      "new_name": "ModuleCat.restrictScalars_preservesEpimorphisms",
+      "docstring": "Restriction of scalars preserves epimorphisms of module objects."
+    },
+    {
+      "temporary_id": "decl-025162",
+      "new_name": "ModuleCat.hasProjectiveDimensionLT_restrictScalars",
+      "docstring": "Restriction of scalars preserves a strict projective-dimension bound."
+    }
+  ]
+}

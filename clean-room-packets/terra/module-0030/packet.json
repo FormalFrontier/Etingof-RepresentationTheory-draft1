@@ -1,0 +1,74 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)], CharP.{0} (AlgebraicClosure.{0} (ZMod p)) p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3905982949",
+      "temporary_id": "decl-017198"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)], IsAlgClosed.{0} (AlgebraicClosure.{0} (ZMod p))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2872420028",
+      "temporary_id": "decl-017199"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)], Eq.{1} (Fintype.card.{0} (ZMod p)) p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "750553431",
+      "temporary_id": "decl-017747"
+    },
+    {
+      "formal_type": "IsAlgClosed.{0} Complex",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2399187341",
+      "temporary_id": "decl-018142"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k],\n  Iff (IsAlgClosed.{u_1} k)\n    (\u2200 (p : Polynomial.{u_1} k),\n      Ne.{1} (Polynomial.degree.{u_1} p) 0 \u2192 Exists.{u_1 + 1} fun x => Polynomial.IsRoot.{u_1} p x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2135779276",
+      "temporary_id": "decl-020772"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192 [Fact (Nat.Prime p)] \u2192 Field.{0} (ZMod p)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2455108551",
+      "temporary_id": "decl-024713"
+    }
+  ],
+  "module_temporary_id": "module-0030",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

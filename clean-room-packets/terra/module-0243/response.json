@@ -1,0 +1,40 @@
+{
+  "module_name": "MvPolynomial.GroupIndexedFactorization",
+  "declarations": [
+    {
+      "temporary_id": "decl-016488",
+      "new_name": "exists_irreducible_factorization_of_auxiliaryGroupPolynomial",
+      "docstring": "The auxiliary group-indexed polynomial factors into powers of pairwise nonassociated irreducible polynomials, with the number of factors equal to the number of conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-025034",
+      "new_name": "auxiliaryPolynomial",
+      "docstring": "Associates a group-indexed multivariate polynomial to an auxiliary datum and a finite index."
+    },
+    {
+      "temporary_id": "decl-025035",
+      "new_name": "auxiliaryPolynomial_irreducible",
+      "docstring": "Each auxiliary polynomial in the finite indexed family is irreducible."
+    },
+    {
+      "temporary_id": "decl-025047",
+      "new_name": "auxiliaryPolynomial_not_associated",
+      "docstring": "Auxiliary polynomials at distinct indices are not associated."
+    },
+    {
+      "temporary_id": "decl-025049",
+      "new_name": "totalDegree_auxiliaryPolynomial",
+      "docstring": "The total degree of an auxiliary polynomial equals the corresponding auxiliary natural number."
+    },
+    {
+      "temporary_id": "decl-025100",
+      "new_name": "auxiliaryGroupPolynomial_eq_sign_smul_prod_auxiliaryPolynomial_pow",
+      "docstring": "The auxiliary group-indexed polynomial equals the product of the indexed auxiliary polynomials to their prescribed powers, scaled by the sign of inversion."
+    },
+    {
+      "temporary_id": "decl-032886",
+      "new_name": "instCoeFunMonoidAlgebraToCoeffFunction",
+      "docstring": "Supplies evaluation of a monoid-algebra element as its coefficient function on the group."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_proof_of_Frobenius_character_formula",
+    "kind": "discussion",
+    "title": "Continuation of proof of the Frobenius character formula (from missing page)",
+    "node_id": "chapter-05/section-5-15",
+    "order": 333,
+    "slug": "discussion-proof-of-frobenius-character-formula",
+    "span": {
+      "start": {
+        "page": "119",
+        "line": 1
+      },
+      "end": {
+        "page": "119",
+        "line": 21
+      }
+    },
+    "source_sha256": "22db14aead16fc4d2f2284652a8365e9909c508454d8d4dd68ee11ffeef79993",
+    "features": {
+      "line_count": 21,
+      "crosses_page": false,
+      "display_math_delimiters": 12,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfFrobeniusCharacterFormula",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

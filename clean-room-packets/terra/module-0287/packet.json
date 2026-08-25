@@ -1,0 +1,42 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (z : Complex),\n  Iff (IsIntegral.{0, 0} Int z)\n    (Exists.{1} fun p => And (Polynomial.Monic.{0} p) (Eq.{1} (DFunLike.coe.{1, 1, 1} (Polynomial.aeval.{0, 0} z) p) 0))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3481523811",
+      "temporary_id": "decl-001493"
+    },
+    {
+      "formal_type": "\u2200 (z : Complex),\n  Iff (IsAlgebraic.{0, 0} Rat z)\n    (Exists.{1} fun p => And (Ne.{1} p 0) (Eq.{1} (DFunLike.coe.{1, 1, 1} (Polynomial.aeval.{0, 0} z) p) 0))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1420300431",
+      "temporary_id": "decl-001494"
+    }
+  ],
+  "module_temporary_id": "module-0287",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

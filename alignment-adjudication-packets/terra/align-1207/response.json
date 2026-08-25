@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1207",
+  "associations": [
+    {
+      "association_id": "association:c581431f46620abc116e",
+      "rationale": "The displayed type exposes ProjectiveObject only as an opaque predicate, so it does not itself state the Hom-functor exactness characterization.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6499ca90e53ec02138a1",
+      "rationale": "In an abelian category, the type directly characterizes ProjectiveObject P by preservation of finite limits and finite colimits by the covariant preadditive Hom(P, -) functor, which states its exactness.",
+      "role": "primary"
+    }
+  ]
+}

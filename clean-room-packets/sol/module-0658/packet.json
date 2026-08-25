@@ -1,0 +1,126 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [inst_2 : CategoryTheory.EnoughProjectives.{v, u} C] {D : Type u'} [inst_3 : CategoryTheory.Category.{v', u'} D]\n  [inst_4 : CategoryTheory.Abelian.{v', u'} D] (F : CategoryTheory.Functor.{v, v', u, u'} C D)\n  [inst_5 : CategoryTheory.Functor.Additive.{v, u, v', u'} F] {S : CategoryTheory.ShortComplex.{v, u} C},\n  CategoryTheory.ShortComplex.ShortExact.{v, u} S \u2192\n    \u2200 (n\u2080 n\u2081 : Nat),\n      Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081 \u2192\n        Exists.{v' + 1} fun \u03b4 =>\n          CategoryTheory.ComposableArrows.Exact.{v', u'}\n            (CategoryTheory.ComposableArrows.mk\u2085.{v', u'}\n              (CategoryTheory.Functor.map.{v, v', u, u'} (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F n\u2081)\n                (CategoryTheory.ShortComplex.f.{v, u} S))\n              (CategoryTheory.Functor.map.{v, v', u, u'} (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F n\u2081)\n                (CategoryTheory.ShortComplex.g.{v, u} S))\n              \u03b4\n              (CategoryTheory.Functor.map.{v, v', u, u'} (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F n\u2080)\n                (CategoryTheory.ShortComplex.f.{v, u} S))\n              (CategoryTheory.Functor.map.{v, v', u, u'} (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F n\u2080)\n                (CategoryTheory.ShortComplex.g.{v, u} S)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-004341",
+      "project_type_dependencies": [],
+      "structural_type_hash": "4105882886",
+      "temporary_id": "decl-004342"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      [inst_2 : CategoryTheory.EnoughProjectives.{v, u} C] \u2192\n        {D : Type u'} \u2192\n          [inst_3 : CategoryTheory.Category.{v', u'} D] \u2192\n            [inst_4 : CategoryTheory.Abelian.{v', u'} D] \u2192\n              (F : CategoryTheory.Functor.{v, v', u, u'} C D) \u2192\n                [inst_5 : CategoryTheory.Functor.Additive.{v, u, v', u'} F] \u2192\n                  {S : CategoryTheory.ShortComplex.{v, u} C} \u2192\n                    CategoryTheory.ShortComplex.ShortExact.{v, u} S \u2192\n                      (n\u2080 n\u2081 : Nat) \u2192\n                        Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081 \u2192\n                          Quiver.Hom.{v', u'}\n                            (CategoryTheory.Functor.obj.{v, v', u, u'}\n                              (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F n\u2081)\n                              (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n                            (CategoryTheory.Functor.obj.{v, v', u, u'}\n                              (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F n\u2080)\n                              (CategoryTheory.ShortComplex.X\u2081.{v, u} S))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004341",
+      "project_type_dependencies": [],
+      "structural_type_hash": "417444412",
+      "temporary_id": "decl-004343"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [inst_2 : CategoryTheory.EnoughProjectives.{v, u} C] {D : Type u'} [inst_3 : CategoryTheory.Category.{v', u'} D]\n  [inst_4 : CategoryTheory.Abelian.{v', u'} D] {F G : CategoryTheory.Functor.{v, v', u, u'} C D}\n  [inst_5 : CategoryTheory.Functor.Additive.{v, u, v', u'} F]\n  [inst_6 : CategoryTheory.Functor.Additive.{v, u, v', u'} G] (\u03b7 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F G)\n  {S : CategoryTheory.ShortComplex.{v, u} C} (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S) (n\u2080 n\u2081 : Nat)\n  (h : Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081),\n  Eq.{v' + 1}\n    (CategoryTheory.CategoryStruct.comp.{v', u'}\n      (CategoryTheory.NatTrans.app.{v, v', u, u'} (CategoryTheory.NatTrans.leftDerived.{v, u, v', u'} \u03b7 n\u2081)\n        (CategoryTheory.ShortComplex.X\u2083.{v, u} S))\n      (decl-004343.{v, u, v', u'} G hS n\u2080 n\u2081 h))\n    (CategoryTheory.CategoryStruct.comp.{v', u'} (decl-004343.{v, u, v', u'} F hS n\u2080 n\u2081 h)\n      (CategoryTheory.NatTrans.app.{v, v', u, u'} (CategoryTheory.NatTrans.leftDerived.{v, u, v', u'} \u03b7 n\u2080)\n        (CategoryTheory.ShortComplex.X\u2081.{v, u} S)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-004341",
+      "project_type_dependencies": [
+        "decl-004343"
+      ],
+      "structural_type_hash": "221501412",
+      "temporary_id": "decl-004356"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [inst_2 : CategoryTheory.EnoughProjectives.{v, u} C] {D : Type u'} [inst_3 : CategoryTheory.Category.{v', u'} D]\n  [inst_4 : CategoryTheory.Abelian.{v', u'} D] (F : CategoryTheory.Functor.{v, v', u, u'} C D)\n  [inst_5 : CategoryTheory.Functor.Additive.{v, u, v', u'} F] {S T : CategoryTheory.ShortComplex.{v, u} C}\n  (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S) (hT : CategoryTheory.ShortComplex.ShortExact.{v, u} T)\n  (\u03c6 : Quiver.Hom.{v, max u v} S T) (n\u2080 n\u2081 : Nat) (h : Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081),\n  Eq.{v' + 1}\n    (CategoryTheory.CategoryStruct.comp.{v', u'}\n      (CategoryTheory.Functor.map.{v, v', u, u'} (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F n\u2081)\n        (CategoryTheory.ShortComplex.Hom.\u03c4\u2083.{v, u} \u03c6))\n      (decl-004343.{v, u, v', u'} F hT n\u2080 n\u2081 h))\n    (CategoryTheory.CategoryStruct.comp.{v', u'} (decl-004343.{v, u, v', u'} F hS n\u2080 n\u2081 h)\n      (CategoryTheory.Functor.map.{v, v', u, u'} (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F n\u2080)\n        (CategoryTheory.ShortComplex.Hom.\u03c4\u2081.{v, u} \u03c6)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-004341",
+      "project_type_dependencies": [
+        "decl-004343"
+      ],
+      "structural_type_hash": "2169041355",
+      "temporary_id": "decl-004357"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [inst_2 : CategoryTheory.EnoughProjectives.{v, u} C] {D : Type u'} [inst_3 : CategoryTheory.Category.{v', u'} D]\n  [inst_4 : CategoryTheory.Abelian.{v', u'} D] (F : CategoryTheory.Functor.{v, v', u, u'} C D)\n  [inst_5 : CategoryTheory.Functor.Additive.{v, u, v', u'} F] {S : CategoryTheory.ShortComplex.{v, u} C}\n  (hS : CategoryTheory.ShortComplex.ShortExact.{v, u} S) (n\u2080 n\u2081 : Nat) (h : Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081),\n  CategoryTheory.ComposableArrows.Exact.{v', u'}\n    (CategoryTheory.ComposableArrows.mk\u2085.{v', u'}\n      (CategoryTheory.Functor.map.{v, v', u, u'} (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F n\u2081)\n        (CategoryTheory.ShortComplex.f.{v, u} S))\n      (CategoryTheory.Functor.map.{v, v', u, u'} (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F n\u2081)\n        (CategoryTheory.ShortComplex.g.{v, u} S))\n      (decl-004343.{v, u, v', u'} F hS n\u2080 n\u2081 h)\n      (CategoryTheory.Functor.map.{v, v', u, u'} (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F n\u2080)\n        (CategoryTheory.ShortComplex.f.{v, u} S))\n      (CategoryTheory.Functor.map.{v, v', u, u'} (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F n\u2080)\n        (CategoryTheory.ShortComplex.g.{v, u} S)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-004341",
+      "project_type_dependencies": [
+        "decl-004343"
+      ],
+      "structural_type_hash": "3369654698",
+      "temporary_id": "decl-004358"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [inst_2 : CategoryTheory.EnoughProjectives.{v, u} C] {D : Type u'} [inst_3 : CategoryTheory.Category.{v', u'} D]\n  [inst_4 : CategoryTheory.Abelian.{v', u'} D] {F\u2081 F\u2082 F\u2083 : CategoryTheory.Functor.{v, v', u, u'} C D}\n  [inst_5 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2081]\n  [inst_6 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2082]\n  [inst_7 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2083]\n  (\u03c4\u2081 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2081 F\u2082)\n  (\u03c4\u2082 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2082 F\u2083)\n  (w : Eq.{max (u + 1) (v' + 1)} (CategoryTheory.CategoryStruct.comp.{max u v', max (max (max u u') v) v'} \u03c4\u2081 \u03c4\u2082) 0),\n  (\u2200 (Y : C) [CategoryTheory.Projective.{v, u} Y],\n      CategoryTheory.ShortComplex.ShortExact.{v', u'}\n        (CategoryTheory.ShortComplex.mk.{v', u'} (CategoryTheory.NatTrans.app.{v, v', u, u'} \u03c4\u2081 Y)\n          (CategoryTheory.NatTrans.app.{v, v', u, u'} \u03c4\u2082 Y) \u22ef)) \u2192\n    \u2200 (X : C) (n\u2080 n\u2081 : Nat),\n      Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081 \u2192\n        Exists.{v' + 1} fun \u03b4 =>\n          CategoryTheory.ComposableArrows.Exact.{v', u'}\n            (CategoryTheory.ComposableArrows.mk\u2085.{v', u'}\n              (CategoryTheory.NatTrans.app.{v, v', u, u'} (CategoryTheory.NatTrans.leftDerived.{v, u, v', u'} \u03c4\u2081 n\u2081) X)\n              (CategoryTheory.NatTrans.app.{v, v', u, u'} (CategoryTheory.NatTrans.leftDerived.{v, u, v', u'} \u03c4\u2082 n\u2081) X)\n              \u03b4\n              (CategoryTheory.NatTrans.app.{v, v', u, u'} (CategoryTheory.NatTrans.leftDerived.{v, u, v', u'} \u03c4\u2081 n\u2080) X)\n              (CategoryTheory.NatTrans.app.{v, v', u, u'} (CategoryTheory.NatTrans.leftDerived.{v, u, v', u'} \u03c4\u2082 n\u2080) X))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005713",
+      "project_type_dependencies": [],
+      "structural_type_hash": "3362171464",
+      "temporary_id": "decl-005714"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      [inst_2 : CategoryTheory.EnoughProjectives.{v, u} C] \u2192\n        {D : Type u'} \u2192\n          [inst_3 : CategoryTheory.Category.{v', u'} D] \u2192\n            [inst_4 : CategoryTheory.Abelian.{v', u'} D] \u2192\n              {F\u2081 F\u2082 F\u2083 : CategoryTheory.Functor.{v, v', u, u'} C D} \u2192\n                [inst_5 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2081] \u2192\n                  [CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2082] \u2192\n                    [inst_7 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2083] \u2192\n                      (\u03c4\u2081 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2081 F\u2082) \u2192\n                        (\u03c4\u2082 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2082 F\u2083) \u2192\n                          (w :\n                              Eq.{max (u + 1) (v' + 1)}\n                                (CategoryTheory.CategoryStruct.comp.{max u v', max (max (max u u') v) v'} \u03c4\u2081 \u03c4\u2082) 0) \u2192\n                            (\u2200 (Y : C) [CategoryTheory.Projective.{v, u} Y],\n                                CategoryTheory.ShortComplex.ShortExact.{v', u'}\n                                  (CategoryTheory.ShortComplex.mk.{v', u'}\n                                    (CategoryTheory.NatTrans.app.{v, v', u, u'} \u03c4\u2081 Y)\n                                    (CategoryTheory.NatTrans.app.{v, v', u, u'} \u03c4\u2082 Y) \u22ef)) \u2192\n                              (X : C) \u2192\n                                (n\u2080 n\u2081 : Nat) \u2192\n                                  Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081 \u2192\n                                    Quiver.Hom.{v', u'}\n                                      (CategoryTheory.Functor.obj.{v, v', u, u'}\n                                        (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F\u2083 n\u2081) X)\n                                      (CategoryTheory.Functor.obj.{v, v', u, u'}\n                                        (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F\u2081 n\u2080) X)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005713",
+      "project_type_dependencies": [],
+      "structural_type_hash": "1259554486",
+      "temporary_id": "decl-005715"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [inst_2 : CategoryTheory.EnoughProjectives.{v, u} C] {D : Type u'} [inst_3 : CategoryTheory.Category.{v', u'} D]\n  [inst_4 : CategoryTheory.Abelian.{v', u'} D] {F\u2081 F\u2082 F\u2083 : CategoryTheory.Functor.{v, v', u, u'} C D}\n  [inst_5 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2081]\n  [inst_6 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2082]\n  [inst_7 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2083]\n  (\u03c4\u2081 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2081 F\u2082)\n  (\u03c4\u2082 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2082 F\u2083)\n  (w : Eq.{max (u + 1) (v' + 1)} (CategoryTheory.CategoryStruct.comp.{max u v', max (max (max u u') v) v'} \u03c4\u2081 \u03c4\u2082) 0)\n  (hSE :\n    \u2200 (Z : C) [CategoryTheory.Projective.{v, u} Z],\n      CategoryTheory.ShortComplex.ShortExact.{v', u'}\n        (CategoryTheory.ShortComplex.mk.{v', u'} (CategoryTheory.NatTrans.app.{v, v', u, u'} \u03c4\u2081 Z)\n          (CategoryTheory.NatTrans.app.{v, v', u, u'} \u03c4\u2082 Z) \u22ef))\n  {X Y : C} (f : Quiver.Hom.{v, u} X Y) (n\u2080 n\u2081 : Nat) (h : Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081),\n  Eq.{v' + 1}\n    (CategoryTheory.CategoryStruct.comp.{v', u'} (decl-005715.{v, u, v', u'} \u03c4\u2081 \u03c4\u2082 w hSE X n\u2080 n\u2081 h)\n      (CategoryTheory.Functor.map.{v, v', u, u'} (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F\u2081 n\u2080) f))\n    (CategoryTheory.CategoryStruct.comp.{v', u'}\n      (CategoryTheory.Functor.map.{v, v', u, u'} (CategoryTheory.Functor.leftDerived.{v, u, v', u'} F\u2083 n\u2081) f)\n      (decl-005715.{v, u, v', u'} \u03c4\u2081 \u03c4\u2082 w hSE Y n\u2080 n\u2081 h))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005713",
+      "project_type_dependencies": [
+        "decl-005715"
+      ],
+      "structural_type_hash": "2674320715",
+      "temporary_id": "decl-005722"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [inst_2 : CategoryTheory.EnoughProjectives.{v, u} C] {D : Type u'} [inst_3 : CategoryTheory.Category.{v', u'} D]\n  [inst_4 : CategoryTheory.Abelian.{v', u'} D] {F\u2081 F\u2082 F\u2083 G\u2081 G\u2082 G\u2083 : CategoryTheory.Functor.{v, v', u, u'} C D}\n  [inst_5 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2081]\n  [inst_6 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2082]\n  [inst_7 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2083]\n  [inst_8 : CategoryTheory.Functor.Additive.{v, u, v', u'} G\u2081]\n  [inst_9 : CategoryTheory.Functor.Additive.{v, u, v', u'} G\u2082]\n  [inst_10 : CategoryTheory.Functor.Additive.{v, u, v', u'} G\u2083]\n  (\u03c4\u2081 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2081 F\u2082)\n  (\u03c4\u2082 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2082 F\u2083)\n  (wF : Eq.{max (u + 1) (v' + 1)} (CategoryTheory.CategoryStruct.comp.{max u v', max (max (max u u') v) v'} \u03c4\u2081 \u03c4\u2082) 0)\n  (hF :\n    \u2200 (Z : C) [CategoryTheory.Projective.{v, u} Z],\n      CategoryTheory.ShortComplex.ShortExact.{v', u'}\n        (CategoryTheory.ShortComplex.mk.{v', u'} (CategoryTheory.NatTrans.app.{v, v', u, u'} \u03c4\u2081 Z)\n          (CategoryTheory.NatTrans.app.{v, v', u, u'} \u03c4\u2082 Z) \u22ef))\n  (\u03c3\u2081 : Quiver.Hom.{max u v', max (max (max u u') v) v'} G\u2081 G\u2082)\n  (\u03c3\u2082 : Quiver.Hom.{max u v', max (max (max u u') v) v'} G\u2082 G\u2083)\n  (wG : Eq.{max (u + 1) (v' + 1)} (CategoryTheory.CategoryStruct.comp.{max u v', max (max (max u u') v) v'} \u03c3\u2081 \u03c3\u2082) 0)\n  (hG :\n    \u2200 (Z : C) [CategoryTheory.Projective.{v, u} Z],\n      CategoryTheory.ShortComplex.ShortExact.{v', u'}\n        (CategoryTheory.ShortComplex.mk.{v', u'} (CategoryTheory.NatTrans.app.{v, v', u, u'} \u03c3\u2081 Z)\n          (CategoryTheory.NatTrans.app.{v, v', u, u'} \u03c3\u2082 Z) \u22ef))\n  (\u03b7\u2081 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2081 G\u2081)\n  (\u03b7\u2082 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2082 G\u2082)\n  (\u03b7\u2083 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2083 G\u2083),\n  Eq.{max (u + 1) (v' + 1)} (CategoryTheory.CategoryStruct.comp.{max u v', max (max (max u u') v) v'} \u03b7\u2081 \u03c3\u2081)\n      (CategoryTheory.CategoryStruct.comp.{max u v', max (max (max u u') v) v'} \u03c4\u2081 \u03b7\u2082) \u2192\n    Eq.{max (u + 1) (v' + 1)} (CategoryTheory.CategoryStruct.comp.{max u v', max (max (max u u') v) v'} \u03b7\u2082 \u03c3\u2082)\n        (CategoryTheory.CategoryStruct.comp.{max u v', max (max (max u u') v) v'} \u03c4\u2082 \u03b7\u2083) \u2192\n      \u2200 (X : C) (n\u2080 n\u2081 : Nat) (h : Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081),\n        Eq.{v' + 1}\n          (CategoryTheory.CategoryStruct.comp.{v', u'}\n            (CategoryTheory.NatTrans.app.{v, v', u, u'} (CategoryTheory.NatTrans.leftDerived.{v, u, v', u'} \u03b7\u2083 n\u2081) X)\n            (decl-005715.{v, u, v', u'} \u03c3\u2081 \u03c3\u2082 wG hG X n\u2080 n\u2081 h))\n          (CategoryTheory.CategoryStruct.comp.{v', u'}\n            (decl-005715.{v, u, v', u'} \u03c4\u2081 \u03c4\u2082 wF hF X n\u2080 n\u2081 h)\n            (CategoryTheory.NatTrans.app.{v, v', u, u'} (CategoryTheory.NatTrans.leftDerived.{v, u, v', u'} \u03b7\u2081 n\u2080) X))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005713",
+      "project_type_dependencies": [
+        "decl-005715"
+      ],
+      "structural_type_hash": "188543990",
+      "temporary_id": "decl-005723"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [inst_2 : CategoryTheory.EnoughProjectives.{v, u} C] {D : Type u'} [inst_3 : CategoryTheory.Category.{v', u'} D]\n  [inst_4 : CategoryTheory.Abelian.{v', u'} D] {F\u2081 F\u2082 F\u2083 : CategoryTheory.Functor.{v, v', u, u'} C D}\n  [inst_5 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2081]\n  [inst_6 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2082]\n  [inst_7 : CategoryTheory.Functor.Additive.{v, u, v', u'} F\u2083]\n  (\u03c4\u2081 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2081 F\u2082)\n  (\u03c4\u2082 : Quiver.Hom.{max u v', max (max (max u u') v) v'} F\u2082 F\u2083)\n  (w : Eq.{max (u + 1) (v' + 1)} (CategoryTheory.CategoryStruct.comp.{max u v', max (max (max u u') v) v'} \u03c4\u2081 \u03c4\u2082) 0)\n  (hSE :\n    \u2200 (Y : C) [CategoryTheory.Projective.{v, u} Y],\n      CategoryTheory.ShortComplex.ShortExact.{v', u'}\n        (CategoryTheory.ShortComplex.mk.{v', u'} (CategoryTheory.NatTrans.app.{v, v', u, u'} \u03c4\u2081 Y)\n          (CategoryTheory.NatTrans.app.{v, v', u, u'} \u03c4\u2082 Y) \u22ef))\n  (X : C) (n\u2080 n\u2081 : Nat) (h : Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081),\n  CategoryTheory.ComposableArrows.Exact.{v', u'}\n    (CategoryTheory.ComposableArrows.mk\u2085.{v', u'}\n      (CategoryTheory.NatTrans.app.{v, v', u, u'} (CategoryTheory.NatTrans.leftDerived.{v, u, v', u'} \u03c4\u2081 n\u2081) X)\n      (CategoryTheory.NatTrans.app.{v, v', u, u'} (CategoryTheory.NatTrans.leftDerived.{v, u, v', u'} \u03c4\u2082 n\u2081) X)\n      (decl-005715.{v, u, v', u'} \u03c4\u2081 \u03c4\u2082 w hSE X n\u2080 n\u2081 h)\n      (CategoryTheory.NatTrans.app.{v, v', u, u'} (CategoryTheory.NatTrans.leftDerived.{v, u, v', u'} \u03c4\u2081 n\u2080) X)\n      (CategoryTheory.NatTrans.app.{v, v', u, u'} (CategoryTheory.NatTrans.leftDerived.{v, u, v', u'} \u03c4\u2082 n\u2080) X))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005713",
+      "project_type_dependencies": [
+        "decl-005715"
+      ],
+      "structural_type_hash": "3805021233",
+      "temporary_id": "decl-005724"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C] {D : Type u'}\n  [inst_2 : CategoryTheory.Category.{v', u'} D] [inst_3 : CategoryTheory.Abelian.{v', u'} D]\n  (F : CategoryTheory.Functor.{v, v', u, u'} C D) [inst_4 : CategoryTheory.Functor.Additive.{v, u, v', u'} F]\n  {\u03b9 : Type u_1} {c : ComplexShape.{u_1} \u03b9}\n  {SC : CategoryTheory.ShortComplex.{max u_1 v, max (max u_1 u) v} (HomologicalComplex.{v, u, u_1} C c)},\n  CategoryTheory.ShortComplex.ShortExact.{max u_1 v, max (max u u_1) v} SC \u2192\n    (\u2200 (i : \u03b9),\n        CategoryTheory.Projective.{v, u}\n          (HomologicalComplex.X.{v, u, u_1} (CategoryTheory.ShortComplex.X\u2083.{max u_1 v, max (max u u_1) v} SC) i)) \u2192\n      CategoryTheory.ShortComplex.ShortExact.{max u_1 v', max (max u' u_1) v'}\n        (CategoryTheory.ShortComplex.map.{max u_1 v, max (max u u_1) v, max u_1 v', max (max u' u_1) v'} SC\n          (CategoryTheory.Functor.mapHomologicalComplex.{u_1, v, u, v', u'} F c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3734774720",
+      "temporary_id": "decl-023127"
+    }
+  ],
+  "module_temporary_id": "module-0658",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

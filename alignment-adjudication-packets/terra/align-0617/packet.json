@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c3fe6ca58bfe6ae1f316",
+      "declaration": "Etingof.Problem2_8_11.finrank_exteriorPower",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (m n : Nat),\n  Eq.{1}\n    (Module.finrank.{u_1, u_1} k\n      (Subtype.{u_1 + 1} fun x =>\n        Membership.mem.{u_1, u_1} (ExteriorAlgebra.exteriorPower.{u_1, u_1} k n (Fin m \u2192 k)) x))\n    (m.choose n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    },
+    {
+      "association_id": "association:1ececb19f8d6214e266e",
+      "declaration": "Etingof.Problem2_8_11.hilbertSeries_exteriorAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (m : Nat),\n  Eq.{u_1 + 1} (PowerSeries.mk.{u_1} fun n => Nat.cast.{u_1} (m.choose n))\n    (HPow.hPow.{u_1, 0, u_1} (HAdd.hAdd.{u_1, u_1, u_1} 1 PowerSeries.X.{u_1}) m)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.8.11",
+  "packet_id": "align-0617",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0617"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.8.11:claim-04",
+  "source_text": "For the exterior algebra on m generators, dim A[n]=C(m,n) and h_A(t)=(1+t)^m."
+}

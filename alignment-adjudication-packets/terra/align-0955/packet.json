@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b3de5b683ce8491a58ce",
+      "declaration": "Etingof.frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/248/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.FrobeniusSchurTraceIdentity"
+    },
+    {
+      "association_id": "association:72f38f239566311deeac",
+      "declaration": "Etingof.frobeniusSchurIndicator_eq_zero_of_not_self_dual_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/248/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [inst_2 : DecidableEq.{u_1 + 1} G] {V : Type u_2}\n  [inst_3 : AddCommGroup.{u_2} V] [inst_4 : Module.{0, u_2} Complex V] [inst_5 : Module.Finite.{0, u_2} Complex V]\n  [NeZero.{0} (Nat.cast.{0} (Nat.card.{u_1} G))] [Invertible.{0} (Nat.cast.{0} (Fintype.card.{u_1} G))]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    Not\n        (\u2200 (g : G),\n          Eq.{1} (Representation.character.{u_1, 0, u_2} \u03c1 (Inv.inv.{u_1} g))\n            (Representation.character.{u_1, 0, u_2} \u03c1 g)) \u2192\n      Eq.{1} (Etingof.frobeniusSchurIndicator.{u_1, u_2} \u03c1) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.FrobeniusSchurTraceIdentity"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.1.5",
+  "packet_id": "align-0955",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0955"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b0d9e1eac3a51476e4d4",
+  "source_text": "The tensor-swap trace computation gives the \u00b11/0 indicator alternatives used in the source proof."
+}

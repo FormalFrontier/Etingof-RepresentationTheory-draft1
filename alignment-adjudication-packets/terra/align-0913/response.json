@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0913",
+  "associations": [
+    {
+      "association_id": "association:a55ca52e7cc1536b7e8a",
+      "role": "primary",
+      "rationale": "The formal statement constructs the partition-indexed data and explicitly asserts intertwining for the symmetric-group action and the diagonal-action image."
+    }
+  ]
+}

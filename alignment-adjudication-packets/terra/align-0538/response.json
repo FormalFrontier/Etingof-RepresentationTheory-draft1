@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0538",
+  "associations": [
+    {
+      "association_id": "association:8cfd56b0ef6534338101",
+      "rationale": "This is a polynomial character identity for the Clebsch-Gordan expansion, not a direct statement that analytic trace characters are additive on direct sums and multiplicative on tensor products.",
+      "role": "supporting"
+    }
+  ]
+}

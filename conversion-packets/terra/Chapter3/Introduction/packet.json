@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Introduction",
+    "kind": "introduction",
+    "title": "Introduction to subrepresentations in semisimple representations",
+    "node_id": "chapter-03/section-3-1",
+    "order": 125,
+    "slug": "introduction",
+    "span": {
+      "start": {
+        "page": "43",
+        "line": 1
+      },
+      "end": {
+        "page": "43",
+        "line": 8
+      }
+    },
+    "source_sha256": "e815461bca23bc6e9a2e3d8b6d14228a6969ec06b49b122730e76d2607a8e207",
+    "features": {
+      "line_count": 8,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Introduction",
+    "verso_declaration": "content",
+    "verso_projection": {
+      "body_region": "after_section_heading",
+      "structure_only": false,
+      "structural_headings": [
+        {
+          "node_id": "chapter-03",
+          "source": "Chapter 3"
+        },
+        {
+          "node_id": "chapter-03",
+          "source": "General results of representation theory"
+        },
+        {
+          "node_id": "chapter-03/section-3-1",
+          "source": "3.1. Subrepresentations in semisimple representations"
+        }
+      ]
+    }
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

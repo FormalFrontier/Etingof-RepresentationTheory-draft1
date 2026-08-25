@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1048",
+  "associations": [
+    {
+      "association_id": "association:d4d7e27721bd0c6ea81f",
+      "role": "primary",
+      "rationale": "For every positive n, the declaration directly states irreducibility of the determinant of the generic n-by-n matrix."
+    }
+  ]
+}

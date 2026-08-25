@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2418729a0b517c77b0b3",
+      "declaration": "Etingof.Problem2_8_6.Book.defining_relations_universal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/68/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (Q : Type u_2) [inst : Field.{u_1} k] [inst_1 : Quiver.{u_4, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  [inst_3 : Fintype.{u_2} Q] (B : Type u_3) [inst_4 : Ring.{u_3} B] [inst_5 : Algebra.{u_1, u_3} k B] (P : Q \u2192 B)\n  (A : (i j : Q) \u2192 Quiver.Hom.{u_4, u_2} i j \u2192 B),\n  Eq.{u_3 + 1} (Finset.sum.{u_2, u_3} Finset.univ.{u_2} fun i => P i) 1 \u2192\n    (\u2200 (i : Q), Eq.{u_3 + 1} (HMul.hMul.{u_3, u_3, u_3} (P i) (P i)) (P i)) \u2192\n      (\u2200 (i j : Q), Ne.{u_2 + 1} i j \u2192 Eq.{u_3 + 1} (HMul.hMul.{u_3, u_3, u_3} (P i) (P j)) 0) \u2192\n        (\u2200 (i j : Q) (e : Quiver.Hom.{u_4, u_2} i j),\n            Eq.{u_3 + 1} (HMul.hMul.{u_3, u_3, u_3} (A i j e) (P i)) (A i j e)) \u2192\n          (\u2200 (l i j : Q) (e : Quiver.Hom.{u_4, u_2} i j),\n              Ne.{u_2 + 1} l i \u2192 Eq.{u_3 + 1} (HMul.hMul.{u_3, u_3, u_3} (A i j e) (P l)) 0) \u2192\n            (\u2200 (i j : Q) (e : Quiver.Hom.{u_4, u_2} i j),\n                Eq.{u_3 + 1} (HMul.hMul.{u_3, u_3, u_3} (P j) (A i j e)) (A i j e)) \u2192\n              (\u2200 (l i j : Q) (e : Quiver.Hom.{u_4, u_2} i j),\n                  Ne.{u_2 + 1} l j \u2192 Eq.{u_3 + 1} (HMul.hMul.{u_3, u_3, u_3} (P l) (A i j e)) 0) \u2192\n                ExistsUnique.{max (max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1)) (u_4 + 1)} fun \u03c6 =>\n                  And\n                    (\u2200 (i : Q),\n                      Eq.{u_3 + 1}\n                        (DFunLike.coe.{max (max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1)) (u_4 + 1),\n                            max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), u_3 + 1}\n                          \u03c6 (Etingof.Problem2_8_6.Book.vertexIdem.{u_1, u_2, u_4} k Q i))\n                        (P i))\n                    (\u2200 (i j : Q) (e : Quiver.Hom.{u_4, u_2} i j),\n                      Eq.{u_3 + 1}\n                        (DFunLike.coe.{max (max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1)) (u_4 + 1),\n                            max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), u_3 + 1}\n                          \u03c6 (Etingof.Problem2_8_6.Book.arrowGen.{u_1, u_2, u_4} k Q e))\n                        (A i j e))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.8.6",
+  "packet_id": "align-0623",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0623"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.8.6:claim-05",
+  "source_text": "These relations are defining: any target elements satisfying them induce a unique algebra homomorphism from P_Q."
+}

@@ -1,0 +1,40 @@
+{
+  "module_name": "RingTheory.ElementProperties",
+  "declarations": [
+    {
+      "temporary_id": "decl-005192",
+      "new_name": "ringElementCondition",
+      "docstring": "A condition on an element of a ring."
+    },
+    {
+      "temporary_id": "decl-018759",
+      "new_name": "exists_nested_witnesses_with_three_conditions",
+      "docstring": "Under the displayed finite algebra hypotheses, produces an auxiliary object and nested witnesses satisfying three stated conditions."
+    },
+    {
+      "temporary_id": "decl-018760",
+      "new_name": "exists_nested_witnesses_with_two_conditions",
+      "docstring": "Under the displayed finite algebra hypotheses, produces an auxiliary object and nested witnesses satisfying two stated conditions."
+    },
+    {
+      "temporary_id": "decl-018844",
+      "new_name": "exists_element_with_membership_subtype_conditions",
+      "docstring": "Constructs an element whose associated membership subtype meets the two displayed conditions."
+    },
+    {
+      "temporary_id": "decl-021024",
+      "new_name": "membershipSubtype_has_indexed_condition_of_ringElementCondition",
+      "docstring": "Shows that the membership subtype associated with an element satisfying the condition has the displayed indexed property."
+    },
+    {
+      "temporary_id": "decl-021587",
+      "new_name": "mem_jacobson_of_all_left_multiples_isNilpotent",
+      "docstring": "Places an element in the Jacobson radical when every left multiple of it is nilpotent."
+    },
+    {
+      "temporary_id": "decl-021676",
+      "new_name": "membershipSubtype_has_condition_of_ringElementCondition",
+      "docstring": "Shows that the membership subtype associated with an element satisfying the condition has the displayed property."
+    }
+  ]
+}

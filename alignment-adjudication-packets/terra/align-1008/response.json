@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1008",
+  "associations": [
+    {
+      "association_id": "association:e9cd426f0e9a6832f274",
+      "rationale": "It gives the concrete vanishing witness, one branch of the combined claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8d549910f90740314681",
+      "rationale": "It gives the concrete nonvanishing witness, one branch of the combined claim.",
+      "role": "supporting"
+    }
+  ]
+}

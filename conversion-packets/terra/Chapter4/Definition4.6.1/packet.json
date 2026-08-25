@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Definition4.6.1",
+    "kind": "definition",
+    "title": "Unitary representation",
+    "node_id": "chapter-04/section-4-6",
+    "order": 210,
+    "slug": "definition4-6-1",
+    "span": {
+      "start": {
+        "page": "71",
+        "line": 3
+      },
+      "end": {
+        "page": "71",
+        "line": 4
+      }
+    },
+    "source_sha256": "aa242f35ea451af7bf8ef37e37ba9424c995c9c4457c1c4754305e146ebb6281",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Definition461",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

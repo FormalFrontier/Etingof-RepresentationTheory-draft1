@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6fc2258b1a788c7f8619",
+      "declaration": "Etingof.UnitaryRepresentation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/209/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(G : Type u_1) \u2192\n  [Group.{u_1} G] \u2192\n    (V : Type u_2) \u2192\n      [inst : NormedAddCommGroup.{u_2} V] \u2192\n        [inst_1 : InnerProductSpace.{0, u_2} Complex V] \u2192 [FiniteDimensional.{0, u_2} Complex V] \u2192 Type (max u_1 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Definition4_6_1"
+    }
+  ],
+  "canonical_reference": "Chapter4/Definition4.6.1",
+  "packet_id": "align-0969",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0969"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b547b7637e15377ded55",
+  "source_text": "A unitary representation is a finite-dimensional complex representation equipped with a positive-definite Hermitian form preserved by the group action."
+}

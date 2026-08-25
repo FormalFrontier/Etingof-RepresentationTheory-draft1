@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_5.20",
+    "kind": "discussion",
+    "title": "Hermann Weyl at the intersection of limitation and freedom",
+    "node_id": "chapter-05/section-5-20",
+    "order": 359,
+    "slug": "discussion-5-20",
+    "span": {
+      "start": {
+        "page": "125",
+        "line": 7
+      },
+      "end": {
+        "page": "130",
+        "line": 5
+      }
+    },
+    "source_sha256": "2f03c08909f9839f8e6dd458675c07c7a24126970e2af02ec600f610941b1cc2",
+    "features": {
+      "line_count": 30,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Discussion520",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

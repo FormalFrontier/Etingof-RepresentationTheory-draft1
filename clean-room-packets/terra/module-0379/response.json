@@ -1,0 +1,30 @@
+{
+  "module_name": "MvPowerSeries.AuxiliaryExponentCoefficients",
+  "declarations": [
+    {
+      "temporary_id": "decl-017774",
+      "new_name": "coeff_prod_invOfUnit_one_sub_X_mul_X_eq_ite",
+      "docstring": "Computes the coefficient of the displayed product by testing agreement of the permutation-paired exponent entries."
+    },
+    {
+      "temporary_id": "decl-017778",
+      "new_name": "auxiliarySeries_coeff_auxiliaryExponentIndex_eq_one_of_injective",
+      "docstring": "If a natural-valued indexing function is injective, the coefficient of the auxiliary power series at its associated auxiliary exponent index is one."
+    },
+    {
+      "temporary_id": "decl-018350",
+      "new_name": "auxiliaryExponentIndex",
+      "docstring": "Associates an auxiliary finitely supported exponent index to a natural-valued function on finite indices."
+    },
+    {
+      "temporary_id": "decl-018354",
+      "new_name": "auxiliaryExponentIndex_apply_inl",
+      "docstring": "The auxiliary exponent index has value `α i` at `Sum.inl i`."
+    },
+    {
+      "temporary_id": "decl-018355",
+      "new_name": "auxiliaryExponentIndex_apply_inr",
+      "docstring": "The auxiliary exponent index has value `α j` at `Sum.inr j`."
+    }
+  ]
+}

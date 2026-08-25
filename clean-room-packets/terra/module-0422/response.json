@@ -1,0 +1,25 @@
+{
+  "declarations": [
+    {
+      "docstring": "The finite type of row-column coordinates lying inside a partition's sorted parts.",
+      "new_name": "cellsFintype",
+      "temporary_id": "decl-017781"
+    },
+    {
+      "docstring": "The sorted parts of a partition sum to its size.",
+      "new_name": "sum_sortedParts",
+      "temporary_id": "decl-023260"
+    },
+    {
+      "docstring": "An auxiliary partition-indexed type is finite.",
+      "new_name": "auxiliary_finite",
+      "temporary_id": "decl-023416"
+    },
+    {
+      "docstring": "A finite-type structure on an auxiliary partition-indexed type.",
+      "new_name": "auxiliaryFintype",
+      "temporary_id": "decl-023736"
+    }
+  ],
+  "module_name": "Partition.YoungDiagram"
+}

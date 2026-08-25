@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1e1e855cc7e068836215",
+      "declaration": "Etingof.Exercise2_9_5.hatEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/84/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "LieEquiv.{0, 0, 0} Real (Fin 3 \u2192 Real)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} (LieAlgebra.Orthogonal.so.{0, 0} (Fin 3) Real) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_9_5"
+    },
+    {
+      "association_id": "association:d1e6006d6237fb71cc72",
+      "declaration": "Etingof.Exercise2_9_5.so3_lieEquiv_cross",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/84/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (LieEquiv.{0, 0, 0} Real (Subtype.{1} fun x => Membership.mem.{0, 0} (LieAlgebra.Orthogonal.so.{0, 0} (Fin 3) Real) x)\n    (Fin 3 \u2192 Real))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_9_5"
+    }
+  ],
+  "canonical_reference": "Chapter2/Exercise2.9.5",
+  "packet_id": "align-0502",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0502"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Exercise2.9.5:claim-01",
+  "source_text": "The cross-product Lie algebra R^3 is Lie-isomorphic to so(3)."
+}

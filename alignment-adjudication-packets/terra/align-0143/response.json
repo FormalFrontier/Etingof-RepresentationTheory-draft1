@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0143",
+  "associations": [
+    {
+      "association_id": "association:8c5b4d4791486e692de0",
+      "role": "primary",
+      "rationale": "This implication states that irreducible modules are indecomposable."
+    },
+    {
+      "association_id": "association:55177566d7309d733056",
+      "role": "supporting",
+      "rationale": "The type proves the converse only from an IsSemisimpleModule assumption; it does not state that complex finite-group representations satisfy that assumption."
+    }
+  ]
+}

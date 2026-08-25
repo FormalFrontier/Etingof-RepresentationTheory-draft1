@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8a81a25363facf638794",
+      "declaration": "Etingof.YoungTableau",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/307/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 Type",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+    },
+    {
+      "association_id": "association:c89a9063f641cadf4bb8",
+      "declaration": "Etingof.canonicalStandardYoungTableau",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/307/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 (la : n.Partition) \u2192 Etingof.StandardYoungTableau n la",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+    },
+    {
+      "association_id": "association:d78a759d97c24d5ca59a",
+      "declaration": "Etingof.canonicalYoungTableau",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/307/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 (la : n.Partition) \u2192 Etingof.YoungTableau n la",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+    },
+    {
+      "association_id": "association:69e4dc8d5b19cccb886e",
+      "declaration": "Nat.Partition",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/307/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Combinatorics.Enumerative.Partition.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter5/Definition5.12.1",
+  "packet_id": "align-1177",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1177"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f5100a6708aca0c753fe",
+  "source_text": "Partitions of n and their Young diagrams/tableaux are represented, including the canonical increasing tableau."
+}

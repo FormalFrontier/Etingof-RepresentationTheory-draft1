@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1026",
+  "associations": [
+    {
+      "association_id": "association:b64259808062e11faf93",
+      "role": "supporting",
+      "rationale": "The displayed formal type is null, so it does not directly state the coordinate-expansion claim."
+    },
+    {
+      "association_id": "association:66efee3aa1865f20f1d8",
+      "role": "supporting",
+      "rationale": "The displayed formal type is null, so it does not directly state the coordinate-expansion claim."
+    }
+  ]
+}

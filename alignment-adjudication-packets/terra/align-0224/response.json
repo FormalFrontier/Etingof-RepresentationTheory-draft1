@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0224",
+  "associations": [
+    {
+      "association_id": "association:6219e4cd65269e8f482a",
+      "role": "supporting",
+      "rationale": "The type states the resulting linear independence of the characters, but it does not display the component-trace variation or the coefficient-vanishing argument described by the source claim."
+    }
+  ]
+}

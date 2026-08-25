@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0952",
+  "associations": [
+    {
+      "association_id": "association:817353af068a32537752",
+      "role": "supporting",
+      "rationale": "Its formal type is unavailable, so the displayed evidence cannot directly verify the trace-zero characterization."
+    },
+    {
+      "association_id": "association:abfff579bb90b1f8e2c5",
+      "role": "supporting",
+      "rationale": "`sl_bracket` gives bracket behavior for `sl`, not its trace-zero-matrix definition."
+    }
+  ]
+}

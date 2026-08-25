@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:83c041ec1d4c752ceaed",
+      "declaration": "FreeAlgebra.basisFreeMonoid",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/19/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.LinearAlgebra.FreeAlgebra"
+    },
+    {
+      "association_id": "association:00c4f61da1ca40075e7d",
+      "declaration": "FreeAlgebra.instAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/19/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.FreeAlgebra"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.2.4",
+  "packet_id": "align-1085",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1085"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d712f73c882b18e3fe32",
+  "source_text": "The free algebra k<x_1, ..., x_n> is a k-algebra with a basis indexed by words."
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e83f54774c55288462ea",
+      "declaration": "Etingof.Problem3_9_2.split_iso_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (b a b' a' : Fin n \u2192 Complex),\n  Iff\n    (Nonempty.{1}\n      (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.polyAlg n))\n        (Prod.{0, 0} (Etingof.Problem3_9_2.Vrep b) (Etingof.Problem3_9_2.Vrep a))\n        (Prod.{0, 0} (Etingof.Problem3_9_2.Vrep b') (Etingof.Problem3_9_2.Vrep a'))))\n    (Or (And (Eq.{1} b b') (Eq.{1} a a')) (And (Eq.{1} b a') (Eq.{1} a b')))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2_Classification"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.2",
+  "packet_id": "align-0671",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0671"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.2:claim-06",
+  "source_text": "Split sums V_b\u2295V\u2090 are isomorphic exactly when their two weights agree as an unordered pair."
+}

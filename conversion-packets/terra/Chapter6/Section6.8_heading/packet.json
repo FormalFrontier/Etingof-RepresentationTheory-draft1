@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Section6.8_heading",
+    "kind": "discussion",
+    "title": "Section 6.8 heading and setup for proof of Gabriel's theorem",
+    "node_id": "chapter-06/section-6-8",
+    "order": 452,
+    "slug": "section6-8-heading",
+    "span": {
+      "start": {
+        "page": "174",
+        "line": 27
+      },
+      "end": {
+        "page": "174",
+        "line": 43
+      }
+    },
+    "source_sha256": "c52f0eb705505cdd7ff9c0e66177121c9d65df74e54e2e1bf3fcb46b4f596998",
+    "features": {
+      "line_count": 17,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section68Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

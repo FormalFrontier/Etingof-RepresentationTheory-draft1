@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3cf9ed80b11df779d04b",
+      "declaration": "Etingof.character_mul_comm",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/156/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : Module.Free.{u_1, u_3} k V]\n  [inst_8 : Module.Finite.{u_1, u_3} k V] (x y : A),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} (Etingof.character.{u_1, u_2, u_3} k A V)\n      (HMul.hMul.{u_2, u_2, u_2} x y))\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} (Etingof.character.{u_1, u_2, u_3} k A V)\n      (HMul.hMul.{u_2, u_2, u_2} y x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Introduction3_6"
+    },
+    {
+      "association_id": "association:5f8287a4c05cb93f3d5b",
+      "declaration": "Etingof.commutatorSubmodule_le_ker_character",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/156/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : Module.Free.{u_1, u_3} k V]\n  [inst_8 : Module.Finite.{u_1, u_3} k V],\n  LE.le.{u_2} (Etingof.commutatorSubmodule.{u_1, u_2} k A)\n    (LinearMap.ker.{u_1, u_1, u_2, u_1} (Etingof.character.{u_1, u_2, u_3} k A V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Introduction3_6"
+    }
+  ],
+  "canonical_reference": "Chapter3/Introduction_to_3.6",
+  "packet_id": "align-0942",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0942"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ac237cb4fb100f9349d2",
+  "source_text": "Every character vanishes on [A,A], so [A,A] is contained in its kernel."
+}

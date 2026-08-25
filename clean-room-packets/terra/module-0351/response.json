@@ -1,0 +1,10 @@
+{
+  "module_name": "ModuleTheory.Idempotent",
+  "declarations": [
+    {
+      "temporary_id": "decl-005460",
+      "new_name": "linearMapSpanSingletonEquivFixedByIdempotent",
+      "docstring": "The linear maps from the span of an idempotent element are equivalent to module elements fixed by that idempotent."
+    }
+  ]
+}

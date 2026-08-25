@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0532",
+  "associations": [
+    {
+      "association_id": "association:e8ea0afe8fcdfb5132d1",
+      "rationale": "The theorem states that the named Casimir commutes with every sl2 action, but it does not itself display its scalar action on V_lambda, so it states only the centrality component of the combined claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b90602ebee72ef692df1",
+      "rationale": "The displayed equality expands EF + FE + H^2/2 on V_lambda and identifies its scalar action, but it does not itself state centrality, so it states only the scalar-action component of the combined claim.",
+      "role": "supporting"
+    }
+  ]
+}

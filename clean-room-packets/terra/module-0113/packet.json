@@ -1,0 +1,39 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type v) \u2192\n      [inst_1 : LieRing.{v} L] \u2192\n        [inst_2 : LieAlgebra.{u, v} k L] \u2192\n          {\u03b9 : Type w} \u2192\n            (b : Module.Basis.{w, u, v} \u03b9 k L) \u2192\n              AlgEquiv.{u, max w u, max v u} k (decl-016799.{u, v, w} k L b)\n                (decl-016818.{u, v} k L)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016799",
+        "decl-016818",
+        "decl-022160",
+        "decl-024375"
+      ],
+      "structural_type_hash": "2453788857",
+      "temporary_id": "decl-015221"
+    }
+  ],
+  "module_temporary_id": "module-0113",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

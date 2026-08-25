@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0474",
+  "associations": [
+    {
+      "association_id": "association:63df971144edbffa3c67",
+      "role": "supporting",
+      "rationale": "The declaration concludes that the k-linear endomorphism module is semisimple as an A-module when V is finite-dimensional and simple, but its displayed type does not expose that the A-action is the claimed left-multiplication action."
+    }
+  ]
+}

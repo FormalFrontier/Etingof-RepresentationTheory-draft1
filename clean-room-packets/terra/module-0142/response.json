@@ -1,0 +1,35 @@
+{
+  "module_name": "Algebra.Module.ComplementConstructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-018427",
+      "new_name": "disjoint_sup_of_disjoint",
+      "docstring": "A criterion for disjointness of a supremum of two submodules with a third submodule."
+    },
+    {
+      "temporary_id": "decl-018937",
+      "new_name": "exists_bijective_restriction_of_surjective",
+      "docstring": "A surjective linear map has a bijective restriction to a submodule built from a family of simple submodules."
+    },
+    {
+      "temporary_id": "decl-018938",
+      "new_name": "exists_isCompl_iSup_ker",
+      "docstring": "A family of simple submodules spanning the source yields a complement to the kernel of a linear map."
+    },
+    {
+      "temporary_id": "decl-018943",
+      "new_name": "exists_map_agreeing_on_iSup",
+      "docstring": "A surjective linear map agrees on a submodule built from simple submodules with a suitable map from that submodule."
+    },
+    {
+      "temporary_id": "decl-018944",
+      "new_name": "exists_map_agreeing_on_iSup_of_internal",
+      "docstring": "For an internal family of simple submodules, a surjective linear map agrees on the associated submodule with a suitable map."
+    },
+    {
+      "temporary_id": "decl-023603",
+      "new_name": "exists_isCompl_ker_of_surjective",
+      "docstring": "A surjective linear map from a semisimple module has a submodule complementary to its kernel."
+    }
+  ]
+}

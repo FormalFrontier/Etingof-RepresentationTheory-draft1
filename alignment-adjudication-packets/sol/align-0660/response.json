@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0660",
+  "associations": [
+    {
+      "association_id": "association:71b5766a0f7dd99c4a87",
+      "rationale": "The formal type identifies coboundaries with the range of coboundaryLinear, a supporting characterization rather than the claimed subspace inclusion and canonical quotient isomorphism.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:24a1b21623ed7762a792",
+      "rationale": "The displayed type constructs the linear coboundary map from Hom_k(W,V) to the cochain space, serving as the map whose range and kernel support the quotient argument.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7fa92795aeaaea8aac90",
+      "rationale": "The formal type characterizes the zero coboundaries by the equivariance relation X(a • w) = a • X(w), supplying the kernel description needed for the quotient claim but not stating the quotient isomorphism.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8816c12581df6a546b4c",
+      "rationale": "No formal type is displayed, so this quotient-kernel-to-range equivalence can only be treated as supporting evidence for the claimed canonical isomorphism.",
+      "role": "supporting"
+    }
+  ]
+}

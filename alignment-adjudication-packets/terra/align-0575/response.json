@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0575",
+  "associations": [
+    {
+      "association_id": "association:c88852d00aca0ee69c15",
+      "rationale": "The type directly supplies a simple subrepresentation on which each central element acts by chi_V(z), but the displayed existential type of chi_V is elided and therefore does not directly expose that chi_V is a homomorphism.",
+      "role": "supporting"
+    }
+  ]
+}

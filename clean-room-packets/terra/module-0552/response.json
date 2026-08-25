@@ -1,0 +1,30 @@
+{
+  "module_name": "GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion",
+  "declarations": [
+    {
+      "temporary_id": "decl-016733",
+      "new_name": "Auxiliary.statement016733",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-021720",
+      "new_name": "Auxiliary.statement021720",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-021721",
+      "new_name": "Auxiliary.statement021721",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024130",
+      "new_name": "Auxiliary.statement024130",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024139",
+      "new_name": "Auxiliary.statement024139",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    }
+  ]
+}

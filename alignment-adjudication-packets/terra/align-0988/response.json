@@ -1,0 +1,1 @@
+{"packet_id":"align-0988","associations":[{"association_id":"association:0fe492d736d9598f6c2f","role":"supporting","rationale":"The type states only surjectivity of toDualHom; it does not display the scalar-coefficient embedding argument asserted by the source."}]}

@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0794",
+  "associations": [
+    {
+      "association_id": "association:2eb3fd90f0627ff6a94d",
+      "rationale": "The formal type proves general connectivity of the McKay graph, but it does not state the two-vertex double-edge affine A1 case.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:afdeffaef2974c6a7954",
+      "rationale": "The formal type gives a Cartan null-vector equation for representation dimensions, which may support the case analysis but does not handle the two-vertex double edge itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:aaf4bf23a2cb489daabe",
+      "rationale": "The formal type concludes that a McKay adjacency is an affine Dynkin diagram only under 3 <= m, so it does not state the source's two-vertex case.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7c7cb50e2a94ad91b343",
+      "rationale": "The formal type proves symmetry of McKay multiplicities, a useful graph property, but does not state the two-vertex double-edge conclusion.",
+      "role": "supporting"
+    }
+  ]
+}

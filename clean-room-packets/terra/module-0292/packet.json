@@ -1,0 +1,107 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    (H : Subgroup.{u_1} G) \u2192\n      [Subgroup.FiniteIndex.{u_1} H] \u2192\n        {V : Type u_2} \u2192\n          [inst_2 : AddCommGroup.{u_2} V] \u2192\n            [inst_3 : Module.{0, u_2} Complex V] \u2192\n              (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) \u2192\n                Representation.{0, u_1, max u_2 u_1} Complex G\n                  (Representation.IndV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1408502950",
+      "temporary_id": "decl-001497"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    (H : Subgroup.{u_1} G) \u2192\n      {V : Type u_2} \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{0, u_2} Complex V] \u2192\n            (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) \u2192\n              Representation.{0, u_1, max u_1 u_2} Complex G\n                (Subtype.{(max u_1 u_2) + 1} fun x =>\n                  Membership.mem.{max u_1 u_2, max u_1 u_2}\n                    (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2395169374",
+      "temporary_id": "decl-001499"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) (g : G)\n  (f :\n    Subtype.{(max u_1 u_2) + 1} fun x =>\n      Membership.mem.{max u_1 u_2, max u_1 u_2} (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n        x)\n  (x : G),\n  Eq.{u_2 + 1}\n    (Subtype.val.{max (u_1 + 1) (u_2 + 1)}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n          (decl-001499.{u_1, u_2} H \u03c1) g)\n        f)\n      x)\n    (Subtype.val.{max (u_1 + 1) (u_2 + 1)} f (HMul.hMul.{u_1, u_1, u_1} x g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001499"
+      ],
+      "structural_type_hash": "3885447360",
+      "temporary_id": "decl-001500"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V)\n  (f :\n    Subtype.{(max u_1 u_2) + 1} fun x =>\n      Membership.mem.{max u_1 u_2, max u_1 u_2} (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n        x)\n  (h : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) (x : G),\n  Eq.{u_2 + 1} (Subtype.val.{max (u_1 + 1) (u_2 + 1)} f (HMul.hMul.{u_1, u_1, u_1} (Subtype.val.{u_1 + 1} h) x))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 h)\n      (Subtype.val.{max (u_1 + 1) (u_2 + 1)} f x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "102911142",
+      "temporary_id": "decl-001501"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) (g g' : G)\n  (f :\n    Subtype.{(max u_1 u_2) + 1} fun x =>\n      Membership.mem.{max u_1 u_2, max u_1 u_2} (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n        x),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n        (decl-001499.{u_1, u_2} H \u03c1) (HMul.hMul.{u_1, u_1, u_1} g g'))\n      f)\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n        (decl-001499.{u_1, u_2} H \u03c1) g)\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n          (decl-001499.{u_1, u_2} H \u03c1) g')\n        f))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001499"
+      ],
+      "structural_type_hash": "177700704",
+      "temporary_id": "decl-001502"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V)\n  (f :\n    Subtype.{(max u_1 u_2) + 1} fun x =>\n      Membership.mem.{max u_1 u_2, max u_1 u_2} (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n        x),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n        (decl-001499.{u_1, u_2} H \u03c1) 1)\n      f)\n    f",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001499"
+      ],
+      "structural_type_hash": "1840030420",
+      "temporary_id": "decl-001503"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    (H : Subgroup.{u_1} G) \u2192\n      [DecidableRel.{u_1 + 1, u_1 + 1} Setoid.r.{u_1 + 1}] \u2192\n        [inst_2 : Subgroup.FiniteIndex.{u_1} H] \u2192\n          {V : Type u_2} \u2192\n            [inst_3 : AddCommGroup.{u_2} V] \u2192\n              [inst_4 : Module.{0, u_2} Complex V] \u2192\n                (\u03c1 :\n                    Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) \u2192\n                  CategoryTheory.Iso.{max u_1 u_2, max u_1 ((max u_1 u_2) + 1)}\n                    (Rep.of.{max u_1 u_2, 0, u_1} (decl-001497.{u_1, u_2} H \u03c1))\n                    (Rep.of.{max u_1 u_2, 0, u_1} (decl-001499.{u_1, u_2} H \u03c1))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001497",
+        "decl-001499"
+      ],
+      "structural_type_hash": "4090499385",
+      "temporary_id": "decl-001504"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    (H : Subgroup.{u_1} G) \u2192\n      {V : Type u_2} \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{0, u_2} Complex V] \u2192\n            (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) \u2192\n              Representation.{0, u_1, max u_2 u_1} Complex G\n                (Representation.IndV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2357450028",
+      "temporary_id": "decl-020560"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) (f : G \u2192 V),\n  Iff\n    (Membership.mem.{max u_1 u_2, max u_1 u_2} (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n      f)\n    (\u2200 (h : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) (x : G),\n      Eq.{u_2 + 1} (f (HMul.hMul.{u_1, u_1, u_1} (Subtype.val.{u_1 + 1} h) x))\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 h) (f x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3386934026",
+      "temporary_id": "decl-021573"
+    }
+  ],
+  "module_temporary_id": "module-0292",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

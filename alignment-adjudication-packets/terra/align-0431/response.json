@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0431",
+  "associations": [
+    {
+      "association_id": "association:dc1fa7681613ba0439a2",
+      "role": "supporting",
+      "rationale": "The theorem states that the character of the dual representation at g equals the original character at g inverse, but it does not itself state the source claim's formula for the dual action."
+    },
+    {
+      "association_id": "association:74f41eb7041d10067e4c",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the displayed evidence does not establish the asserted formula for the dual action itself."
+    }
+  ]
+}

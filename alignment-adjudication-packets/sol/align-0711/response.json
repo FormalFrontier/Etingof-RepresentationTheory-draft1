@@ -1,0 +1,40 @@
+{
+  "packet_id": "align-0711",
+  "associations": [
+    {
+      "association_id": "association:7a7749f78aa1679afd77",
+      "rationale": "The theorem directly gives the multiplicity-free decomposition component of R1, but it does not itself state the accompanying classification of all one-dimensional representations required by the complete source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e2806d43c41490ab4bbc",
+      "rationale": "This defines the abelianization map used to construct the one-dimensional representations, rather than classifying or decomposing them itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:5adabbb40225f18e49cb",
+      "rationale": "The kernel containment is a helper showing that a one-dimensional character factors through the abelian quotient.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:dbbca9878c72dfbe3e26",
+      "rationale": "Surjectivity of the abelianization map is a prerequisite for the classification equivalence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:5e8ac9421216819d55d5",
+      "rationale": "The equivalence gives the one-dimensional-representation classification component, but it does not itself state the required multiplicity-free decomposition of R1.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b15af7468f81cff4ccdd",
+      "rationale": "This application formula explains the construction underlying the classification equivalence but is not itself the classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7f740658b6632d421bf9",
+      "rationale": "The cardinality p^2 is a consequence of the one-dimensional classification, not the classification or R1 decomposition itself.",
+      "role": "supporting"
+    }
+  ]
+}

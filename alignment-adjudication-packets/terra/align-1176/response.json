@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1176",
+  "associations": [
+    {
+      "association_id": "association:d244715d202718eae0da",
+      "rationale": "The displayed type only presents IsAlgebraicCoefficientFamily as an opaque Prop-valued predicate and does not state its distinction from representation laws.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:dfcbbe32bb30e348ae1f",
+      "rationale": "The displayed existential combines the opaque IsAlgebraicCoefficientFamily predicate with rho(1) not equal to the identity, but it displays neither the predicate's regularity content nor a representation predicate or its laws, so the full contrast is contextual.",
+      "role": "supporting"
+    }
+  ]
+}

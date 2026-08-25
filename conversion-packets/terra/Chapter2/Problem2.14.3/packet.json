@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.14.3",
+    "kind": "exercise",
+    "title": "Hom-tensor adjunction for Lie algebra representations",
+    "node_id": "chapter-02/section-2-14",
+    "order": 116,
+    "slug": "problem2-14-3",
+    "span": {
+      "start": {
+        "page": "37",
+        "line": 18
+      },
+      "end": {
+        "page": "37",
+        "line": 20
+      }
+    },
+    "source_sha256": "028d2c522ab80f3554bf79279cad2b4be443087281a2f0d8578ca2c1af508e35",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2143",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

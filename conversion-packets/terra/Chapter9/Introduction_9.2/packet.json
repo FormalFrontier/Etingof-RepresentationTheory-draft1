@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Introduction_9.2",
+    "kind": "introduction",
+    "title": "Section 9.2: Projective covers",
+    "node_id": "chapter-09/section-9-2",
+    "order": 552,
+    "slug": "introduction-9-2",
+    "span": {
+      "start": {
+        "page": "214",
+        "line": 11
+      },
+      "end": {
+        "page": "214",
+        "line": 16
+      }
+    },
+    "source_sha256": "1e6f3db83dcee7e282fb0b9574e89abd6016e0ffe93dad9449be10ae4315af55",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Introduction92",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

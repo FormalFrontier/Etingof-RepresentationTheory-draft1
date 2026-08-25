@@ -1,0 +1,35 @@
+{
+  "module_name": "SymmetricGroup.PartitionScalarAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-023055",
+      "new_name": "monoidAlgebraCoeFun",
+      "docstring": "The coercion that evaluates an element of a monoid algebra at an index."
+    },
+    {
+      "temporary_id": "decl-023269",
+      "new_name": "permutationSubtypeEndomorphism",
+      "docstring": "The linear endomorphism of the displayed subtype associated with a permutation."
+    },
+    {
+      "temporary_id": "decl-023276",
+      "new_name": "partitionPermutationScalar",
+      "docstring": "The scalar associated with a partition and a permutation."
+    },
+    {
+      "temporary_id": "decl-024682",
+      "new_name": "Auxiliary.statement024682",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024684",
+      "new_name": "Auxiliary.statement024684",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-024688",
+      "new_name": "weighted_partitionScalar_sum_eq_ite",
+      "docstring": "Under the displayed product relation, the weighted sum is the scalar when the partitions agree and zero otherwise."
+    }
+  ]
+}

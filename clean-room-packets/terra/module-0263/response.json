@@ -1,0 +1,85 @@
+{
+  "module_name": "FiniteGroups.CharacterRigidity",
+  "declarations": [
+    {
+      "temporary_id": "decl-017865",
+      "new_name": "nonempty_iso_of_character_eq",
+      "docstring": "Finite-group representations over the complex numbers with equal characters are isomorphic."
+    },
+    {
+      "temporary_id": "decl-019412",
+      "new_name": "finrank_biprod",
+      "docstring": "The dimension of a binary biproduct representation is the sum of the dimensions of its two summands."
+    },
+    {
+      "temporary_id": "decl-019446",
+      "new_name": "finrank_hom_biprod",
+      "docstring": "The dimension of morphisms into a binary biproduct is the sum of the two component morphism-space dimensions."
+    },
+    {
+      "temporary_id": "decl-019447",
+      "new_name": "finrank_hom_eq_of_iso",
+      "docstring": "Isomorphic target representations have morphism spaces of equal dimension from any fixed source."
+    },
+    {
+      "temporary_id": "decl-019448",
+      "new_name": "finrank_hom_eq_of_character_eq",
+      "docstring": "Equal characters of finite-group representations imply equality of their morphism-space dimensions from any fixed source."
+    },
+    {
+      "temporary_id": "decl-019451",
+      "new_name": "finrank_hom_eq_zero_of_isZero",
+      "docstring": "The morphism space into a zero representation has dimension zero."
+    },
+    {
+      "temporary_id": "decl-019453",
+      "new_name": "finrank_pos_of_not_isZero",
+      "docstring": "A nonzero finite-dimensional complex representation has positive dimension."
+    },
+    {
+      "temporary_id": "decl-019493",
+      "new_name": "auxiliaryModuleFunctor",
+      "docstring": "An auxiliary functor from finite-dimensional complex representations to complex modules."
+    },
+    {
+      "temporary_id": "decl-019965",
+      "new_name": "homBiprodLinearEquiv",
+      "docstring": "Morphisms from a fixed representation into a biproduct are linearly equivalent to pairs of morphisms into its summands."
+    },
+    {
+      "temporary_id": "decl-019987",
+      "new_name": "homLinearEquivOfIso",
+      "docstring": "An isomorphism of target representations induces a linear equivalence between the corresponding morphism spaces."
+    },
+    {
+      "temporary_id": "decl-020177",
+      "new_name": "ne_zero_of_mono_of_simple",
+      "docstring": "A monomorphism with simple source cannot be the zero morphism."
+    },
+    {
+      "temporary_id": "decl-020570",
+      "new_name": "injective_auxiliaryModuleFunctor_map_of_mono",
+      "docstring": "The linear map underlying the image of a monomorphism under the auxiliary module functor is injective."
+    },
+    {
+      "temporary_id": "decl-020618",
+      "new_name": "isArtinianObject",
+      "docstring": "Every finite-dimensional complex representation is an Artinian object."
+    },
+    {
+      "temporary_id": "decl-020939",
+      "new_name": "isZero_of_finrank_eq_zero",
+      "docstring": "A finite-dimensional complex representation of dimension zero is a zero object."
+    },
+    {
+      "temporary_id": "decl-020958",
+      "new_name": "nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq",
+      "docstring": "A finite-group representation of the specified dimension is isomorphic to a representation whose morphism-space dimensions agree for every simple source."
+    },
+    {
+      "temporary_id": "decl-023370",
+      "new_name": "auxiliaryDefinition",
+      "docstring": "An auxiliary definition whose displayed type is unavailable."
+    }
+  ]
+}

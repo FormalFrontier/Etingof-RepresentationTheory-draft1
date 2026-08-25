@@ -1,0 +1,45 @@
+{
+  "packet_id": "align-0708",
+  "associations": [
+    {
+      "association_id": "association:7c70243290b93636b390",
+      "rationale": "The type merely defines an opaque character-valued function chiRot2 and does not state the tensor-square isomorphism.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3125a6012695f878b37c",
+      "rationale": "This identifies chiRot2 with the character of Vrep N 2, a supporting identification of one intended summand.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e95a127e058bdd691fac",
+      "rationale": "The type merely defines an opaque sign-character function and does not state a representation decomposition.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b9d2d3541af710f97145",
+      "rationale": "The type merely defines an opaque standard-character function and does not state a representation decomposition.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:86a9485be8cba43246bd",
+      "rationale": "This identifies chiStd with the character of the standard Vrep, providing character-level context rather than the requested actual isomorphism.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:20623a5c87343080a5b3",
+      "rationale": "This constructs the representation used on the right-hand side, but its bare type does not assert that it is isomorphic to the tensor square.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2cc8ad8b7e90b391a9ab",
+      "rationale": "The theorem gives only equality of characters, which supports but is weaker than the requested actual representation isomorphism.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9b50e0a2db0adf0f2744",
+      "rationale": "The type asserts an actual isomorphism, but its target is the opaque helper rhsRep, so the displayed formal type does not expose the claimed tensor-square decomposition.",
+      "role": "supporting"
+    }
+  ]
+}

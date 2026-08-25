@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:45d9614a5f35e4be917d",
+      "declaration": "Etingof.Problem3_9_3.exists_smul_of_equiv_twoRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    },
+    {
+      "association_id": "association:e44fdafb33c89a70be2a",
+      "declaration": "Etingof.Problem3_9_3.twoRepEquivSmul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.3",
+  "packet_id": "align-0680",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0680"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.3:claim-06",
+  "source_text": "Rescaling all coefficients by a nonzero scalar preserves the normal form's isomorphism class, and an isomorphism of fixed-support normal forms forces such a scalar relation."
+}

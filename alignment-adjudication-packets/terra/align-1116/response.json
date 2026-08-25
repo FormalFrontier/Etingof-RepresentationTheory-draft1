@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1116",
+  "associations": [
+    {
+      "association_id": "association:1e57d5168e01acdc8f05",
+      "role": "supporting",
+      "rationale": "The displayed type is only an opaque Prop on a quiver representation and does not state the equivalence with nonzero and zero-or-full subrepresentations."
+    },
+    {
+      "association_id": "association:ff0e9e0d22f04ae37e40",
+      "role": "supporting",
+      "rationale": "The displayed type is only an opaque Prop-valued signature and does not display the claimed irreducibility characterization."
+    },
+    {
+      "association_id": "association:2f9d4b88efbb51c8581f",
+      "role": "supporting",
+      "rationale": "The displayed type is only an opaque Prop-valued signature and does not display the claimed irreducibility characterization."
+    }
+  ]
+}

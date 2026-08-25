@@ -1,0 +1,115 @@
+{
+  "module_name": "FDRep.SubgroupCharacterFunctions",
+  "declarations": [
+    {
+      "temporary_id": "decl-004835",
+      "new_name": "Auxiliary.statement004835",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-004836",
+      "new_name": "subgroupCharacterOfNormalizer",
+      "docstring": "A subgroup character obtained from a character and an element of the subgroup normalizer."
+    },
+    {
+      "temporary_id": "decl-004849",
+      "new_name": "subgroupCharacterFunctionLinearEquivOfNormalizer",
+      "docstring": "A linear equivalence between the function submodules associated with a subgroup character and its normalizer transform."
+    },
+    {
+      "temporary_id": "decl-004860",
+      "new_name": "subgroupCharacterFunctionLinearEquivOfNormalizer_apply",
+      "docstring": "The normalizer linear equivalence sends a function to evaluation after left multiplication by the normalizing element."
+    },
+    {
+      "temporary_id": "decl-004861",
+      "new_name": "finrank_representationFromSubgroupCharacter",
+      "docstring": "The dimension of the representation associated with subgroup character data is the group cardinality divided by the subgroup cardinality."
+    },
+    {
+      "temporary_id": "decl-004869",
+      "new_name": "representationFromSubgroupCharacter",
+      "docstring": "A finite-dimensional complex representation associated with a subgroup and a character into the complex units."
+    },
+    {
+      "temporary_id": "decl-004871",
+      "new_name": "representationIsoOfNormalizer",
+      "docstring": "A representation isomorphism associated with transforming a subgroup character by a normalizing element."
+    },
+    {
+      "temporary_id": "decl-004874",
+      "new_name": "mem_subgroupCharacterFunctionSubmodule_iff",
+      "docstring": "A function belongs to the subgroup-character submodule exactly when left multiplication by a subgroup element scales it by the character value."
+    },
+    {
+      "temporary_id": "decl-004875",
+      "new_name": "subgroupCharacterAveraging",
+      "docstring": "A complex-linear endomorphism of complex-valued functions on the group associated with finite subgroup character data."
+    },
+    {
+      "temporary_id": "decl-004878",
+      "new_name": "toSubgroupCharacterFunctionSubmoduleAt",
+      "docstring": "A family of linear maps from all complex-valued functions on the group into the subgroup-character function submodule."
+    },
+    {
+      "temporary_id": "decl-004881",
+      "new_name": "toSubgroupCharacterFunctionSubmoduleAt_comp_subtype",
+      "docstring": "Restricting the map into the subgroup-character function submodule agrees with the associated representation action."
+    },
+    {
+      "temporary_id": "decl-004882",
+      "new_name": "subgroupCharacterAveraging_apply",
+      "docstring": "At each group element, the averaging map is the normalized subgroup sum weighted by inverse character values."
+    },
+    {
+      "temporary_id": "decl-004883",
+      "new_name": "subgroupCharacterAveraging_eq_self",
+      "docstring": "The subgroup-character averaging map fixes every function in the associated submodule."
+    },
+    {
+      "temporary_id": "decl-004884",
+      "new_name": "subgroupCharacterAveraging_mem",
+      "docstring": "The subgroup-character average of any function belongs to the associated function submodule."
+    },
+    {
+      "temporary_id": "decl-004885",
+      "new_name": "subgroupCharacterFunctionRepresentation",
+      "docstring": "A complex representation of the group on the subgroup-character function submodule."
+    },
+    {
+      "temporary_id": "decl-004903",
+      "new_name": "subgroupCharacterFunctionRepresentation_apply",
+      "docstring": "The representation action evaluates a function after right multiplication of its argument."
+    },
+    {
+      "temporary_id": "decl-004904",
+      "new_name": "rightTranslationLinearMap",
+      "docstring": "Right translation by a group element as a complex-linear map on functions on the group."
+    },
+    {
+      "temporary_id": "decl-004907",
+      "new_name": "rightTranslationLinearMap_apply",
+      "docstring": "Right translation sends a function to its evaluation after right multiplication by the translating element."
+    },
+    {
+      "temporary_id": "decl-004908",
+      "new_name": "rightTranslationLinearMap_mem",
+      "docstring": "The subgroup-character function submodule is stable under every right translation."
+    },
+    {
+      "temporary_id": "decl-004909",
+      "new_name": "subgroupCharacterFunctionSubmodule",
+      "docstring": "A complex submodule of functions on a group associated with a subgroup character."
+    },
+    {
+      "temporary_id": "decl-004913",
+      "new_name": "subtype_comp_toSubgroupCharacterFunctionSubmoduleAt",
+      "docstring": "Including the submodule-valued map into all functions equals subgroup-character averaging after right translation."
+    },
+    {
+      "temporary_id": "decl-004914",
+      "new_name": "trace_subgroupCharacterFunctionRepresentation_eq",
+      "docstring": "The trace of the subgroup-character function representation equals the trace of averaging composed with right translation on the full function space."
+    }
+  ]
+}

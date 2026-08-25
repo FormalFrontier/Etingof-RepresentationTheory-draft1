@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0316",
+  "associations": [
+    {
+      "association_id": "association:626c07517fd04196cc88",
+      "role": "primary",
+      "rationale": "The theorem directly states that a permutation belonging to both the row subgroup and the column subgroup is the identity."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:160f13df20cfa59d01af",
+      "declaration": "Etingof.Theorem5_1_5",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/248/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G] [inst_3 : DecidableEq.{u + 1} G]\n  [inst_4 : IsAlgClosed.{u} k] [inst_5 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))]\n  [inst_6 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (D : IrrepDecomp.{u, u} k G)\n  (V : Fin (IrrepDecomp.n.{u, u} D) \u2192 FDRep.{u, u} k G),\n  (\u2200 (i : Fin (IrrepDecomp.n.{u, u} D)), CategoryTheory.Simple.{u, u + 1} (V i)) \u2192\n    (\u2200 (i j : Fin (IrrepDecomp.n.{u, u} D)),\n        Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      Eq.{u + 1}\n        (Nat.cast.{u}\n          (Finset.card.{u} (Finset.filter.{u} (fun g => Eq.{u + 1} (HMul.hMul.{u, u, u} g g) 1) Finset.univ.{u})))\n        (Finset.sum.{0, u} Finset.univ.{0} fun i =>\n          HMul.hMul.{u, u, u}\n            (Nat.cast.{u} (Module.finrank.{u, u} k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))))\n            (FDRep.frobeniusSchurIndicator.{u} (V i)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_1_5"
+    },
+    {
+      "association_id": "association:319579a58c1bf9fc3df9",
+      "declaration": "Etingof.frobeniusSchur_involution_count",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/248/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G]\n  [inst_3 : NeZero.{0} (Nat.cast.{0} (Nat.card.{0} G))] [Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} G))]\n  (D : IrrepDecomp.{0, 0} Complex G) (V : Fin (IrrepDecomp.n.{0, 0} D) \u2192 FDRep.{0, 0} Complex G),\n  (\u2200 (i : Fin (IrrepDecomp.n.{0, 0} D)), CategoryTheory.Simple.{0, 1} (V i)) \u2192\n    (\u2200 (i j : Fin (IrrepDecomp.n.{0, 0} D)), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      Eq.{1}\n        (Nat.cast.{0}\n          (Finset.card.{0} (Finset.filter.{0} (fun g => Eq.{1} (HMul.hMul.{0, 0, 0} g g) 1) Finset.univ.{0})))\n        (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n          HMul.hMul.{0, 0, 0} (Etingof.frobeniusSchurIndicator.{0, 0} (FDRep.\u03c1.{0, 0} (V i)))\n            (Nat.cast.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (V i))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_1_5"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.1.5",
+  "packet_id": "align-0966",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0966"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b45e8fde20f3010b2389",
+  "source_text": "The number of elements g with g\u00b2=1 equals the sum over irreducibles of dim(V)FS(V)."
+}

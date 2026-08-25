@@ -1,0 +1,62 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{C : Type u_1} \u2192 [CategoryTheory.Category.{u_2, u_1} C] \u2192 C \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "374770126",
+      "temporary_id": "decl-004916"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192 [CategoryTheory.Category.{u_2, u_1} C] \u2192 C \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "374770126",
+      "temporary_id": "decl-014584"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C] (I : C),\n  Iff (decl-004916.{u_1, u_2} I)\n    (And\n      (CategoryTheory.Limits.PreservesFiniteLimits.{u_2, u_2, u_1, u_2 + 1}\n        (CategoryTheory.preadditiveYonedaObj.{u_2, u_1} I))\n      (CategoryTheory.Limits.PreservesFiniteColimits.{u_2, u_2, u_1, u_2 + 1}\n        (CategoryTheory.preadditiveYonedaObj.{u_2, u_1} I)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004916"
+      ],
+      "structural_type_hash": "2336890603",
+      "temporary_id": "decl-020565"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C] (P : C),\n  Iff (decl-014584.{u_1, u_2} P)\n    (And\n      (CategoryTheory.Limits.PreservesFiniteLimits.{u_2, u_2, u_1, u_2 + 1}\n        (CategoryTheory.preadditiveCoyonedaObj.{u_2, u_1} P))\n      (CategoryTheory.Limits.PreservesFiniteColimits.{u_2, u_2, u_1, u_2 + 1}\n        (CategoryTheory.preadditiveCoyonedaObj.{u_2, u_1} P)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014584"
+      ],
+      "structural_type_hash": "1032744844",
+      "temporary_id": "decl-022189"
+    }
+  ],
+  "module_temporary_id": "module-0620",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,6 @@
+{
+  "module_name": "LinearAlgebra.ModuleConditions",
+  "declarations": [
+    {"temporary_id": "decl-005066", "new_name": "AuxiliaryModuleCondition", "docstring": "An auxiliary predicate on a module over a ring."}
+  ]
+}

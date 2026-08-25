@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0555",
+  "associations": [
+    {
+      "association_id": "association:4719edd0e690b4b78080",
+      "rationale": "The type directly states that g_4 is not a finite module over the field, which is the asserted infinite-dimensionality.",
+      "role": "primary"
+    }
+  ]
+}

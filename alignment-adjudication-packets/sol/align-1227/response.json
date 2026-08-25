@@ -1,0 +1,40 @@
+{
+  "packet_id": "align-1227",
+  "associations": [
+    {
+      "association_id": "association:02246bf92fedf30efd94",
+      "rationale": "The type only introduces an opaque parameter family indexed by the characteristic and does not display the classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c04c2edad8f8da6c61bb",
+      "rationale": "The type gives an equivalence between quotients built from opaque parameter and irreducible setoids, without displaying what the classifying parameters are.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:436591b81ed9b9761e38",
+      "rationale": "The type supplies only the existence half: every finite irreducible module is equivalent to some parameterized carrier.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:cb74c73afe42ac820dd5",
+      "rationale": "The type proves that each parameterized carrier is irreducible, a soundness component of a classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:216644b96e83784e7304",
+      "rationale": "The type relates isomorphism of two family members to an opaque same-invariant condition, providing only a uniqueness component.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a8050fb641eeeaa637ca",
+      "rationale": "The type negates the claim that every finite irreducible module has dimension below p, a dimensional obstruction rather than a classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8323c5c83ba57935d87f",
+      "rationale": "The type bounds the dimension of every finite irreducible module by p, a structural constraint rather than the requested classification.",
+      "role": "supporting"
+    }
+  ]
+}

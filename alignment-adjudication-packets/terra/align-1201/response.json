@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1201",
+  "associations": [
+    {
+      "association_id": "association:ea1534a2972fb3fad624",
+      "rationale": "The displayed type shows an existentially elided object together with preservation of a displayed inner product, but does not directly expose positive-definite Hermitian structure or state an averaging construction.",
+      "role": "supporting"
+    }
+  ]
+}

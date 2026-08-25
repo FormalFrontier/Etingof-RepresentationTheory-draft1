@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.Lie.BasisAlgEquivAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-015221",
+      "new_name": "auxiliaryBasisAlgEquiv",
+      "docstring": "An auxiliary algebra equivalence between the two displayed algebras associated with a chosen basis."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1162",
+  "associations": [
+    {
+      "association_id": "association:35bae3bcbf6faf585351",
+      "role": "primary",
+      "rationale": "The proposition directly states that an IsDynkinDiagram has a finite set of roots."
+    }
+  ]
+}

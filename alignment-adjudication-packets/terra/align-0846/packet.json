@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:57392793c16dab98b4ee",
+      "declaration": "Etingof.Problem_8_2_6_iii_ext",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/540/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (M : ModuleCat.{u, u} A)\n  {S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} A)}\n  (hS : CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S) (n\u2080 n\u2081 : Nat) (h : Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081),\n  CategoryTheory.ComposableArrows.Exact.{u, u + 1}\n    (CategoryTheory.Abelian.Ext.covariantSequence.{u, u, u + 1} M hS n\u2080 n\u2081 h)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_6"
+    },
+    {
+      "association_id": "association:9621651294309e9cd36f",
+      "declaration": "Etingof.Problem_8_2_6_iii_tor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/540/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (M : ModuleCat.{u, u} (MulOpposite.{u} A))\n  {S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} A)},\n  CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S \u2192\n    \u2200 (n\u2080 n\u2081 : Nat),\n      Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081 \u2192\n        Exists.{u + 1} fun \u03b4 =>\n          CategoryTheory.ComposableArrows.Exact.{u, u + 1}\n            (CategoryTheory.ComposableArrows.mk\u2085.{u, u + 1}\n              (Etingof.torSndMap.{u} A (ModuleCat.Hom.hom.{u, u} (CategoryTheory.ShortComplex.f.{u, u + 1} S)) n\u2081 M)\n              (Etingof.torSndMap.{u} A (ModuleCat.Hom.hom.{u, u} (CategoryTheory.ShortComplex.g.{u, u + 1} S)) n\u2081 M) \u03b4\n              (Etingof.torSndMap.{u} A (ModuleCat.Hom.hom.{u, u} (CategoryTheory.ShortComplex.f.{u, u + 1} S)) n\u2080 M)\n              (Etingof.torSndMap.{u} A (ModuleCat.Hom.hom.{u, u} (CategoryTheory.ShortComplex.g.{u, u + 1} S)) n\u2080 M))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_6"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.6",
+  "packet_id": "align-0846",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0846"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.6:part_iii",
+  "source_text": "Part (iii): construct the Ext and Tor long exact sequences in the second argument."
+}

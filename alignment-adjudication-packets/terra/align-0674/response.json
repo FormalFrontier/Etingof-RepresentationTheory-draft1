@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0674",
+  "associations": [
+    {
+      "association_id": "association:a54ef103f1b6b4ac79ca",
+      "rationale": "For 1 < n, the formal type supplies existentially typed witnesses M, x, and x_1 and states indecomposability and pairwise inequivalence properties, but the family and its representation structures are elided rather than directly displayed.",
+      "role": "supporting"
+    }
+  ]
+}

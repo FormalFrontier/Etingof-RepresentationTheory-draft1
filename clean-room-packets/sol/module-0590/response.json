@@ -1,0 +1,160 @@
+{
+  "module_name": "Module.FunctorEndomorphisms",
+  "declarations": [
+    {
+      "temporary_id": "decl-018208",
+      "new_name": "finitelyGeneratedModuleDualFunctor",
+      "docstring": "The dualization endofunctor on the core of finitely generated modules."
+    },
+    {
+      "temporary_id": "decl-018432",
+      "new_name": "finitelyGeneratedModuleDoubleDualFunctor",
+      "docstring": "The double-dualization endofunctor on finitely generated modules."
+    },
+    {
+      "temporary_id": "decl-018438",
+      "new_name": "finitelyGeneratedModuleDoubleDualIso",
+      "docstring": "An isomorphism from the identity functor to double dualization on finitely generated modules."
+    },
+    {
+      "temporary_id": "decl-018447",
+      "new_name": "moduleDoubleDualLinearEquiv",
+      "docstring": "A linear equivalence between a finite free module and its double dual."
+    },
+    {
+      "temporary_id": "decl-018449",
+      "new_name": "dualMap_dualMap_comp_eval",
+      "docstring": "Applying the dual-map construction twice and then evaluating agrees with evaluating after the original linear map."
+    },
+    {
+      "temporary_id": "decl-018462",
+      "new_name": "transvection",
+      "docstring": "The linear automorphism obtained by adding a multiple of a chosen vector using a functional that vanishes on it."
+    },
+    {
+      "temporary_id": "decl-018470",
+      "new_name": "transvection_apply",
+      "docstring": "A transvection sends a vector to itself plus its functional value times the chosen vector."
+    },
+    {
+      "temporary_id": "decl-018474",
+      "new_name": "invariantLinearMapToDual_eq_zero_of_exists_square_ne_one",
+      "docstring": "An automorphism-invariant linear map into the dual vanishes when the field contains a nonzero element whose square is not one."
+    },
+    {
+      "temporary_id": "decl-018475",
+      "new_name": "invariantLinearMapToDual_eq_zero_of_finrank_ge_three",
+      "docstring": "An automorphism-invariant linear map into the dual vanishes in finite dimension at least three."
+    },
+    {
+      "temporary_id": "decl-018825",
+      "new_name": "exists_nonzero_dual_vanishing_at_pair",
+      "docstring": "In finite dimension at least three, any two vectors have a common nonzero annihilating functional."
+    },
+    {
+      "temporary_id": "decl-019494",
+      "new_name": "restrictionEndToAlgebra",
+      "docstring": "Extracts the algebra element determined by a natural endomorphism of the scalar-restriction functor."
+    },
+    {
+      "temporary_id": "decl-019495",
+      "new_name": "restrictionEndToAlgebra_algebraToRestrictionEnd",
+      "docstring": "Extracting the algebra element from the scalar-restriction endomorphism induced by an element returns that element."
+    },
+    {
+      "temporary_id": "decl-019496",
+      "new_name": "restrictionEndRingEquivAlgebra",
+      "docstring": "The ring equivalence between natural endomorphisms of scalar restriction and the acting algebra."
+    },
+    {
+      "temporary_id": "decl-019500",
+      "new_name": "restrictionFunctor",
+      "docstring": "The functor that restricts modules along the given algebra structure."
+    },
+    {
+      "temporary_id": "decl-019501",
+      "new_name": "algebraToRestrictionEnd",
+      "docstring": "Turns an algebra element into the natural endomorphism of scalar restriction given by its action."
+    },
+    {
+      "temporary_id": "decl-019505",
+      "new_name": "restrictionEnd_app_eq_smul",
+      "docstring": "Each component of a scalar-restriction endomorphism acts by the extracted algebra element."
+    },
+    {
+      "temporary_id": "decl-019506",
+      "new_name": "naturalRestrictionEnd_eq_smul",
+      "docstring": "A natural family of scalar-restricted endomorphisms acts by its value on one in the regular module."
+    },
+    {
+      "temporary_id": "decl-019509",
+      "new_name": "smul_smul",
+      "docstring": "Successive actions by two algebra elements equal the action by their product."
+    },
+    {
+      "temporary_id": "decl-020478",
+      "new_name": "moduleIdentityEndToRing",
+      "docstring": "Extracts the ring element determined by a natural endomorphism of the identity functor on modules."
+    },
+    {
+      "temporary_id": "decl-020479",
+      "new_name": "moduleIdentityEndToRing_centerToModuleIdentityEnd",
+      "docstring": "Extracting the ring element from the identity-functor endomorphism induced by a central element returns that element."
+    },
+    {
+      "temporary_id": "decl-020480",
+      "new_name": "moduleIdentityEndToRing_mem_center",
+      "docstring": "The ring element extracted from a natural endomorphism of the module identity functor is central."
+    },
+    {
+      "temporary_id": "decl-020481",
+      "new_name": "moduleIdentityEndRingEquivCenter",
+      "docstring": "The ring equivalence between natural endomorphisms of the module identity functor and the ring center."
+    },
+    {
+      "temporary_id": "decl-020489",
+      "new_name": "moduleIdentityEnd_app_eq_smul",
+      "docstring": "Each component of a module identity-functor endomorphism acts by the extracted ring element."
+    },
+    {
+      "temporary_id": "decl-020490",
+      "new_name": "naturalModuleIdentityEnd_one_mem_center",
+      "docstring": "The value at one of a natural family of module endomorphisms commutes with every ring element."
+    },
+    {
+      "temporary_id": "decl-020491",
+      "new_name": "naturalModuleIdentityEnd_eq_smul",
+      "docstring": "A natural family of module endomorphisms acts by its value at one in the regular module."
+    },
+    {
+      "temporary_id": "decl-020492",
+      "new_name": "centerToModuleIdentityEnd",
+      "docstring": "Turns a central ring element into a natural endomorphism of the identity functor on modules."
+    },
+    {
+      "temporary_id": "decl-021502",
+      "new_name": "nonempty_doubleDualLinearEquiv_iff_finiteDimensional",
+      "docstring": "A vector space is finite-dimensional exactly when it is linearly equivalent to its double dual."
+    },
+    {
+      "temporary_id": "decl-021504",
+      "new_name": "nonempty_dualLinearEquiv_iff_finiteDimensional",
+      "docstring": "A vector space is finite-dimensional exactly when it is linearly equivalent to its dual."
+    },
+    {
+      "temporary_id": "decl-021762",
+      "new_name": "invariantLinearMapToDual_not_bijective_of_exists_square_ne_one",
+      "docstring": "An automorphism-invariant linear map into the dual is not bijective when the field contains a nonzero element whose square is not one."
+    },
+    {
+      "temporary_id": "decl-021763",
+      "new_name": "invariantLinearMapToDual_not_bijective_of_finrank_ge_three",
+      "docstring": "An automorphism-invariant linear map into the dual is not bijective in finite dimension at least three."
+    },
+    {
+      "temporary_id": "decl-021786",
+      "new_name": "isEmpty_iso_id_finitelyGeneratedModuleDualFunctor",
+      "docstring": "No natural isomorphism exists from the identity functor to dualization on the core of finitely generated modules."
+    }
+  ]
+}

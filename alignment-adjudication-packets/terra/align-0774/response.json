@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0774",
+  "associations": [
+    {
+      "association_id": "association:795adefef4dfc55e020a",
+      "role": "primary",
+      "rationale": "It directly states that an injective map from the n-variable polynomial algebra to the m-variable rational-function field forces n ≤ m."
+    }
+  ]
+}

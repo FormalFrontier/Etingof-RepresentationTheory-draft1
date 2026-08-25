@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c9951fda897cacc48acf",
+      "declaration": "Etingof.Example_6_4_9_Dn",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/430/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (hn : LE.le.{0} 4 n),\n  And (Set.Finite.{0} (Etingof.positiveRoots n (Etingof.DynkinType.D n hn).adj))\n    (Eq.{1} (Set.ncard.{0} (Etingof.positiveRoots n (Etingof.DynkinType.D n hn).adj))\n      (HMul.hMul.{0, 0, 0} n (HSub.hSub.{0, 0, 0} n 1)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_4_9_Dn"
+    },
+    {
+      "association_id": "association:55232950d2094885bc79",
+      "declaration": "Etingof.Example_6_4_9_E6",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/430/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And (Set.Finite.{0} (Etingof.positiveRoots 6 Etingof.DynkinType.E6.adj))\n  (Eq.{1} (Set.ncard.{0} (Etingof.positiveRoots 6 Etingof.DynkinType.E6.adj)) 36)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_4_9_EType"
+    },
+    {
+      "association_id": "association:8128c0cd311a5347eedb",
+      "declaration": "Etingof.Example_6_4_9_E7",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/430/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And (Set.Finite.{0} (Etingof.positiveRoots 7 Etingof.DynkinType.E7.adj))\n  (Eq.{1} (Set.ncard.{0} (Etingof.positiveRoots 7 Etingof.DynkinType.E7.adj)) 63)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_4_9_EType"
+    },
+    {
+      "association_id": "association:7bbcb3436e6810a16b63",
+      "declaration": "Etingof.Example_6_4_9_E8",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/430/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And (Set.Finite.{0} (Etingof.positiveRoots 8 Etingof.DynkinType.E8.adj))\n  (Eq.{1} (Set.ncard.{0} (Etingof.positiveRoots 8 Etingof.DynkinType.E8.adj)) 120)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_4_9_EType"
+    }
+  ],
+  "canonical_reference": "Chapter6/Example6.4.9",
+  "packet_id": "align-0998",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0998"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:beb9518cbadb3d1b6b3b",
+  "source_text": "The D_n, E\u2086, E\u2087, and E\u2088 positive-root counts are the standard ones."
+}

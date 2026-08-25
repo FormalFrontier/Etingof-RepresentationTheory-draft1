@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0297",
+  "associations": [
+    {
+      "association_id": "association:cc2db3c5fb323d218145",
+      "role": "supporting",
+      "rationale": "The two-term character additivity formula for a submodule and quotient is the iterative helper used to obtain the sum over successive filtration quotients."
+    },
+    {
+      "association_id": "association:4c2a02179e4dd17b3100",
+      "role": "supporting",
+      "rationale": "The character formula for a finite product of copies is auxiliary and does not state additivity over successive filtration quotients."
+    }
+  ]
+}

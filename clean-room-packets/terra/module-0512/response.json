@@ -1,0 +1,25 @@
+{
+  "module_name": "FiniteGroupCharacterIntegrality",
+  "declarations": [
+    {
+      "temporary_id": "decl-024820",
+      "new_name": "character_isIntegral",
+      "docstring": "The character value of a finite-dimensional complex representation of a finite group is integral over the integers."
+    },
+    {
+      "temporary_id": "decl-024821",
+      "new_name": "conjugacyClassCard_mul_character_div_finrank_isIntegral",
+      "docstring": "For a simple complex representation of a finite group, the conjugacy-class size times a character value divided by the representation dimension is integral over the integers."
+    },
+    {
+      "temporary_id": "decl-032839",
+      "new_name": "finrank_dvd_card",
+      "docstring": "The dimension of a simple complex representation of a finite group divides the order of the group."
+    },
+    {
+      "temporary_id": "decl-032914",
+      "new_name": "isIntegral_of_pow_eq_one",
+      "docstring": "A complex number whose positive power equals one is integral over the integers."
+    }
+  ]
+}

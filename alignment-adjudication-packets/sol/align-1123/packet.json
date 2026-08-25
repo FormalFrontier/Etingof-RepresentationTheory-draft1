@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5cbea02fd943b6b293ae",
+      "declaration": "Etingof.Proposition5_2_3.charpoly_companionMatrix",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/254/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u_1} [inst : CommRing.{u_1} R] [Nontrivial.{u_1} R] (p : Polynomial.{u_1} R),\n  Polynomial.Monic.{u_1} p \u2192\n    Eq.{u_1 + 1} (Matrix.charpoly.{u_1, 0} (Etingof.Proposition5_2_3.companionMatrix.{u_1} p)) p",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_3"
+    },
+    {
+      "association_id": "association:bf45d0b43c0f05907cfd",
+      "declaration": "Etingof.Proposition5_2_3.charpoly_map_companionMatrix_isRoot",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/254/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u_1} [inst : CommRing.{u_1} R] [Nontrivial.{u_1} R] {S : Type u_2} [inst_2 : CommRing.{u_2} S]\n  (\u03c6 : RingHom.{u_1, u_2} R S) (p : Polynomial.{u_1} R),\n  Polynomial.Monic.{u_1} p \u2192\n    \u2200 (z : S),\n      Eq.{u_2 + 1} (Polynomial.eval\u2082.{u_1, u_2} \u03c6 z p) 0 \u2192\n        Polynomial.IsRoot.{u_2}\n          (Matrix.charpoly.{u_2, 0}\n            (Matrix.map.{u_1, u_2, 0, 0} (Etingof.Proposition5_2_3.companionMatrix.{u_1} p)\n              (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c6)))\n          z",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_3"
+    },
+    {
+      "association_id": "association:33ad38f39345f51ce0d5",
+      "declaration": "Etingof.Proposition5_2_3.companionMatrix",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/254/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{R : Type u_1} \u2192\n  [inst : CommRing.{u_1} R] \u2192\n    (p : Polynomial.{u_1} R) \u2192\n      Matrix.{0, 0, u_1} (Fin (Polynomial.natDegree.{u_1} p)) (Fin (Polynomial.natDegree.{u_1} p)) R",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_3"
+    },
+    {
+      "association_id": "association:72b076370c40fa2b8363",
+      "declaration": "Etingof.Proposition5_2_3_companion_algebraic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/254/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (z : Complex) (p : Polynomial.{0} Rat),\n  Polynomial.Monic.{0} p \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} (Polynomial.aeval.{0, 0} z) p) 0 \u2192\n      Polynomial.IsRoot.{0}\n        (Matrix.charpoly.{0, 0}\n          (Matrix.map.{0, 0, 0, 0} (Etingof.Proposition5_2_3.companionMatrix.{0} p)\n            (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Rat Complex))))\n        z",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_3"
+    },
+    {
+      "association_id": "association:2eca9583e1d82283e5a8",
+      "declaration": "Etingof.Proposition5_2_3_companion_integer",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/254/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (z : Complex) (p : Polynomial.{0} Int),\n  Polynomial.Monic.{0} p \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} (Polynomial.aeval.{0, 0} z) p) 0 \u2192\n      Polynomial.IsRoot.{0}\n        (Matrix.charpoly.{0, 0}\n          (Matrix.map.{0, 0, 0, 0} (Etingof.Proposition5_2_3.companionMatrix.{0} p)\n            (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Int Complex))))\n        z",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Proposition5.2.3",
+  "packet_id": "align-1123",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1123"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e2468e80b900693534ca",
+  "source_text": "The displayed companion construction has characteristic polynomial p and turns each root of p into an eigenvalue."
+}

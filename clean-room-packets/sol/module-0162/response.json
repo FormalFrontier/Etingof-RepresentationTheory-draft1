@@ -1,0 +1,285 @@
+{
+  "module_name": "Algebra.CliffordAlgebra.ComplexClassification",
+  "declarations": [
+    {
+      "temporary_id": "decl-010192",
+      "new_name": "BilinearCliffordAlgebra",
+      "docstring": "The complex Clifford algebra associated with the quadratic form obtained from a bilinear form."
+    },
+    {
+      "temporary_id": "decl-010199",
+      "new_name": "center_le_bot_of_even",
+      "docstring": "For a nondegenerate bilinear form with an even orthogonal basis, the center of the associated Clifford algebra is contained in the scalar subalgebra."
+    },
+    {
+      "temporary_id": "decl-010201",
+      "new_name": "center_le_span_one_volume",
+      "docstring": "The center of the Clifford algebra lies in the span of the empty and full orthogonal-basis monomials."
+    },
+    {
+      "temporary_id": "decl-010203",
+      "new_name": "commute_all_of_commute_basisGenerator",
+      "docstring": "An element commuting with every generator from a basis commutes with every element of the Clifford algebra."
+    },
+    {
+      "temporary_id": "decl-010204",
+      "new_name": "finsetMonomialBasis",
+      "docstring": "The complex basis of a Clifford algebra indexed by finite subsets of an orthogonal basis."
+    },
+    {
+      "temporary_id": "decl-010209",
+      "new_name": "finsetMonomialBasis_apply",
+      "docstring": "The finite-subset basis evaluates to the corresponding ordered Clifford monomial."
+    },
+    {
+      "temporary_id": "decl-010210",
+      "new_name": "nonempty_algEquiv_exterior_of_zero",
+      "docstring": "The Clifford algebra of the zero quadratic form is nonempty algebra-equivalent to the exterior algebra."
+    },
+    {
+      "temporary_id": "decl-010222",
+      "new_name": "bilin_self_ne_zero_of_orthogonal_nondegenerate",
+      "docstring": "Every vector in an orthogonal basis has nonzero self-pairing for a nondegenerate bilinear form."
+    },
+    {
+      "temporary_id": "decl-010223",
+      "new_name": "basisMonomial",
+      "docstring": "The ordered product in the Clifford algebra associated with a finite subset of basis indices."
+    },
+    {
+      "temporary_id": "decl-010228",
+      "new_name": "basisMonomial_univ_mem_center_of_odd",
+      "docstring": "For an odd-dimensional nondegenerate orthogonal basis, the full basis monomial belongs to the center."
+    },
+    {
+      "temporary_id": "decl-010230",
+      "new_name": "basisMonomial_empty",
+      "docstring": "The monomial associated with the empty subset is one."
+    },
+    {
+      "temporary_id": "decl-010231",
+      "new_name": "basisMonomial_insert_of_lt",
+      "docstring": "Inserting an index smaller than every existing index multiplies the corresponding generator on the left of the monomial."
+    },
+    {
+      "temporary_id": "decl-010232",
+      "new_name": "basisMonomial_eq_min_mul_erase",
+      "docstring": "A nonempty basis monomial is its least-index generator multiplied by the monomial with that index erased."
+    },
+    {
+      "temporary_id": "decl-010233",
+      "new_name": "basisMonomial_mul_mem_span_symmDiff",
+      "docstring": "The product of two orthogonal-basis monomials lies in the span of the monomial indexed by their symmetric difference."
+    },
+    {
+      "temporary_id": "decl-010237",
+      "new_name": "basisMonomial_singleton",
+      "docstring": "The monomial of a singleton is the corresponding Clifford generator."
+    },
+    {
+      "temporary_id": "decl-010313",
+      "new_name": "exists_algEquiv_end_of_finrank_even",
+      "docstring": "For a symmetric nondegenerate form of dimension twice a natural number, the Clifford algebra is algebra-equivalent to the endomorphism algebra of a space of dimension the corresponding power of two."
+    },
+    {
+      "temporary_id": "decl-010315",
+      "new_name": "exists_basisMonomial_univ_sq_eq_smul_one",
+      "docstring": "The square of the full monomial of a nondegenerate orthogonal basis is a nonzero scalar multiple of one."
+    },
+    {
+      "temporary_id": "decl-010316",
+      "new_name": "center_finrank_eq_two_of_odd",
+      "docstring": "For an odd-dimensional nondegenerate orthogonal basis, the center of the Clifford algebra has complex dimension two."
+    },
+    {
+      "temporary_id": "decl-010321",
+      "new_name": "finrank_eq_two_pow",
+      "docstring": "The Clifford algebra on a space with a finite basis of size N has complex dimension two to the power N."
+    },
+    {
+      "temporary_id": "decl-010323",
+      "new_name": "basisGenerator",
+      "docstring": "The Clifford-algebra generator corresponding to a vector of a chosen basis."
+    },
+    {
+      "temporary_id": "decl-010325",
+      "new_name": "basisGenerator_mul_eq_neg_mul",
+      "docstring": "Distinct generators from an orthogonal basis anticommute."
+    },
+    {
+      "temporary_id": "decl-010326",
+      "new_name": "auxiliary_fact1",
+      "docstring": "An auxiliary multiplication statement involving an orthogonal-basis generator and a basis monomial."
+    },
+    {
+      "temporary_id": "decl-010327",
+      "new_name": "auxiliary_fact2",
+      "docstring": "A second auxiliary multiplication statement involving an orthogonal-basis generator and a basis monomial."
+    },
+    {
+      "temporary_id": "decl-010331",
+      "new_name": "basisGenerator_mul_mem_span_symmDiff",
+      "docstring": "The product of a basis generator with a basis monomial lies in the span of the monomial indexed by the corresponding symmetric difference."
+    },
+    {
+      "temporary_id": "decl-010336",
+      "new_name": "basisGenerator_sq",
+      "docstring": "The square of a basis generator is the scalar given by the self-pairing of the corresponding basis vector."
+    },
+    {
+      "temporary_id": "decl-010355",
+      "new_name": "moduleFinite",
+      "docstring": "The Clifford algebra of a finite-dimensional complex vector space is finite as a complex module."
+    },
+    {
+      "temporary_id": "decl-010356",
+      "new_name": "auxiliary_fact3",
+      "docstring": "An auxiliary statement about an orthogonal-basis monomial in a Clifford algebra."
+    },
+    {
+      "temporary_id": "decl-010357",
+      "new_name": "isSemisimpleRing_iff_nondegenerate",
+      "docstring": "For a symmetric bilinear form on a finite-dimensional complex space, its Clifford algebra is semisimple exactly when the form is nondegenerate."
+    },
+    {
+      "temporary_id": "decl-010358",
+      "new_name": "isSemisimpleRing_of_nondegenerate",
+      "docstring": "The Clifford algebra of a symmetric nondegenerate bilinear form on a finite-dimensional complex space is semisimple."
+    },
+    {
+      "temporary_id": "decl-010359",
+      "new_name": "isSemisimpleRing_of_trace_mulLeft_nondegenerate",
+      "docstring": "A finite complex algebra is semisimple when the trace pairing defined by left multiplication is nondegenerate."
+    },
+    {
+      "temporary_id": "decl-010360",
+      "new_name": "isUnit_basisMonomial",
+      "docstring": "Every monomial of a nondegenerate orthogonal basis is a unit in the Clifford algebra."
+    },
+    {
+      "temporary_id": "decl-010361",
+      "new_name": "isUnit_basisGenerator",
+      "docstring": "Every generator from a nondegenerate orthogonal basis is a unit in the Clifford algebra."
+    },
+    {
+      "temporary_id": "decl-010362",
+      "new_name": "ker_map_quotient_eq_radicalIdeal",
+      "docstring": "For a symmetric form, the kernel of the Clifford-algebra map induced by quotienting by the form radical equals the associated radical ideal."
+    },
+    {
+      "temporary_id": "decl-010363",
+      "new_name": "mem_radical_iff",
+      "docstring": "A vector belongs to the radical submodule of a bilinear form exactly when its associated linear functional is zero."
+    },
+    {
+      "temporary_id": "decl-010364",
+      "new_name": "mulLeft_smul",
+      "docstring": "Left multiplication by a scalar multiple is the corresponding scalar multiple of left multiplication."
+    },
+    {
+      "temporary_id": "decl-010365",
+      "new_name": "not_isSemisimpleRing_of_degenerate",
+      "docstring": "The Clifford algebra of a symmetric degenerate bilinear form is not semisimple."
+    },
+    {
+      "temporary_id": "decl-010434",
+      "new_name": "exists_algEquiv_pi_matrix_of_finrank_odd",
+      "docstring": "For a symmetric nondegenerate form of odd dimension, the Clifford algebra is algebra-equivalent to a product of two nonzero square matrix algebras."
+    },
+    {
+      "temporary_id": "decl-010435",
+      "new_name": "exists_algEquiv_prod_end_of_finrank_odd",
+      "docstring": "For a symmetric nondegenerate form of dimension twice a natural number plus one, the Clifford algebra is algebra-equivalent to a product of two endomorphism algebras on a space of dimension the corresponding power of two."
+    },
+    {
+      "temporary_id": "decl-010446",
+      "new_name": "quadraticForm",
+      "docstring": "The quadratic form obtained by evaluating a complex bilinear form on the same vector twice."
+    },
+    {
+      "temporary_id": "decl-010447",
+      "new_name": "radicalIdeal",
+      "docstring": "The ideal of the Clifford algebra associated with the radical submodule of the bilinear form."
+    },
+    {
+      "temporary_id": "decl-010449",
+      "new_name": "radicalIdeal_eq_jacobson",
+      "docstring": "For a symmetric form on a finite-dimensional complex space, the associated radical ideal equals the Jacobson radical of the Clifford algebra."
+    },
+    {
+      "temporary_id": "decl-010450",
+      "new_name": "radicalIdeal_isTwoSided",
+      "docstring": "For a symmetric bilinear form, the associated radical ideal is two-sided."
+    },
+    {
+      "temporary_id": "decl-010451",
+      "new_name": "quotientBilinForm",
+      "docstring": "The bilinear form induced on the quotient by the radical of a symmetric bilinear form."
+    },
+    {
+      "temporary_id": "decl-010456",
+      "new_name": "quotientBilinForm_symmetric",
+      "docstring": "The bilinear form induced on the quotient by the radical is symmetric."
+    },
+    {
+      "temporary_id": "decl-010457",
+      "new_name": "quotientBilinForm_mkQ",
+      "docstring": "The induced quotient form evaluated on quotient classes agrees with the original bilinear form."
+    },
+    {
+      "temporary_id": "decl-010458",
+      "new_name": "quotientBilinForm_nondegenerate",
+      "docstring": "The bilinear form induced on the quotient by the radical is nondegenerate."
+    },
+    {
+      "temporary_id": "decl-010459",
+      "new_name": "quotientQuadraticFormIsometry",
+      "docstring": "The quotient map by the radical is an isometry from the original quadratic form to the quadratic form induced by the quotient bilinear form."
+    },
+    {
+      "temporary_id": "decl-010461",
+      "new_name": "radical",
+      "docstring": "The radical submodule of a complex bilinear form."
+    },
+    {
+      "temporary_id": "decl-010463",
+      "new_name": "exists_surjective_algHom_nondegenerate_quotient_of_degenerate",
+      "docstring": "For a symmetric degenerate form on a finite-dimensional space, there is a surjective algebra homomorphism to the Clifford algebra of a symmetric nondegenerate form whose kernel is the Jacobson radical."
+    },
+    {
+      "temporary_id": "decl-010464",
+      "new_name": "span_range_basisMonomial_eq_top",
+      "docstring": "The orthogonal-basis monomials span the entire Clifford algebra."
+    },
+    {
+      "temporary_id": "decl-010528",
+      "new_name": "trace_mulLeft_basisMonomial",
+      "docstring": "The trace of left multiplication by a basis monomial is two to the basis size for the empty monomial and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-010529",
+      "new_name": "trace_mulLeft_basisMonomial_mul_eq_zero_of_ne",
+      "docstring": "The trace of left multiplication by the product of two distinct orthogonal-basis monomials is zero."
+    },
+    {
+      "temporary_id": "decl-010530",
+      "new_name": "trace_mulLeft_basisMonomial_sq_ne_zero",
+      "docstring": "For a nondegenerate orthogonal basis, the trace of left multiplication by the square of any basis monomial is nonzero."
+    },
+    {
+      "temporary_id": "decl-010531",
+      "new_name": "generator_mem_jacobson_of_mem_radical",
+      "docstring": "The Clifford generator of a vector in the bilinear-form radical belongs to the Jacobson radical."
+    },
+    {
+      "temporary_id": "decl-010534",
+      "new_name": "generator_mem_radicalIdeal_of_mem_radical",
+      "docstring": "The Clifford generator of a vector in the bilinear-form radical belongs to the associated radical ideal."
+    },
+    {
+      "temporary_id": "decl-010535",
+      "new_name": "generator_mul_eq_involute_mul_of_mem_radical",
+      "docstring": "A generator from the bilinear-form radical commutes past any Clifford element after applying the canonical involution to that element."
+    }
+  ]
+}

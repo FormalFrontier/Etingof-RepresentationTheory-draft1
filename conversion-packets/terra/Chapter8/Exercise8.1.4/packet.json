@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Exercise8.1.4",
+    "kind": "exercise",
+    "title": "Lifting homomorphisms through extensions",
+    "node_id": "chapter-08/section-8-1",
+    "order": 528,
+    "slug": "exercise8-1-4",
+    "span": {
+      "start": {
+        "page": "206",
+        "line": 17
+      },
+      "end": {
+        "page": "206",
+        "line": 18
+      }
+    },
+    "source_sha256": "634fbdd1c3e75c0909141a22976e434b673f996db5309f479e98203dc80d31cd",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Exercise814",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

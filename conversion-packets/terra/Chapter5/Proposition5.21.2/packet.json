@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Proposition5.21.2",
+    "kind": "proposition",
+    "title": "Special values of Schur polynomials at geometric progressions",
+    "node_id": "chapter-05/section-5-21",
+    "order": 364,
+    "slug": "proposition5-21-2",
+    "span": {
+      "start": {
+        "page": "132",
+        "line": 1
+      },
+      "end": {
+        "page": "132",
+        "line": 14
+      }
+    },
+    "source_sha256": "69d80b4b01d477c552b7eb1f97a74b5b4b89fbab6eaec1ca35c5b2d69eeb7a70",
+    "features": {
+      "line_count": 14,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition5212",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

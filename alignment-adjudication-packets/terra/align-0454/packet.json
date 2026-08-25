@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0a4eab0c7305f7954238",
+      "declaration": "Etingof.BimoduleDecompositionEquiv.ofEvaluation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/346/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (E : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} E] \u2192\n        [inst_2 : Module.{u, v} k E] \u2192\n          {\u03b9 : Type u_1} \u2192\n            [Fintype.{u_1} \u03b9] \u2192\n              [inst_4 : DecidableEq.{u_1 + 1} \u03b9] \u2192\n                {A : Subalgebra.{u, v} k (Module.End.{u, v} k E)} \u2192\n                  (V : \u03b9 \u2192 Submodule.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E) \u2192\n                    (e :\n                        LinearEquiv.{u, u, v, max v u_1} (RingHom.id.{u} k) E\n                          (DirectSum.{u_1, v} \u03b9 fun i =>\n                            TensorProduct.{u, v, v} k (Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x)\n                              (LinearMap.{v, v, v, v}\n                                (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n                                (Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x) E))) \u2192\n                      (\u2200 (i : \u03b9) (v : Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x)\n                          (l :\n                            LinearMap.{v, v, v, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n                              (Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x) E),\n                          Eq.{v + 1}\n                            (DFunLike.coe.{max (u_1 + 1) (v + 1), max (u_1 + 1) (v + 1), v + 1}\n                              (LinearEquiv.symm.{u, u, v, max u_1 v} e)\n                              (DFunLike.coe.{max (u_1 + 1) (v + 1), v + 1, max (u_1 + 1) (v + 1)}\n                                (DirectSum.of.{u_1, v}\n                                  (fun i =>\n                                    TensorProduct.{u, v, v} k (Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x)\n                                      (LinearMap.{v, v, v, v}\n                                        (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n                                        (Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x) E))\n                                  i)\n                                (TensorProduct.tmul.{u, v, v} k v l)))\n                            (DFunLike.coe.{v + 1, v + 1, v + 1} l v)) \u2192\n                        Etingof.BimoduleDecompositionEquiv.{u, v, u_1} k E V",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_1"
+    },
+    {
+      "association_id": "association:92ce929c2fe231f5105d",
+      "declaration": "Etingof.Theorem5_18_1_bimodule_decomposition_equivariant",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/346/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (E : Type v) [inst_1 : AddCommGroup.{v} E] [inst_2 : Module.{u, v} k E]\n  [Module.Finite.{u, v} k E] [IsAlgClosed.{u} k] (A : Subalgebra.{u, v} k (Module.End.{u, v} k E))\n  [IsSemisimpleRing.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)]\n  [FaithfulSMul.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E],\n  Exists.{2} fun \u03b9 =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{v + 1} fun V =>\n          Exists.{0} fun x_1 =>\n            Exists.{0} fun x_2 =>\n              Exists.{0} fun x_3 =>\n                Exists.{0} fun x_4 =>\n                  Exists.{v + 1} fun e =>\n                    \u2200 (i : \u03b9) (v : Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x)\n                      (l :\n                        LinearMap.{v, v, v, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n                          (Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x) E),\n                      Eq.{v + 1}\n                        (DFunLike.coe.{v + 1, v + 1, v + 1}\n                          (LinearEquiv.symm.{u, u, v, v} (Etingof.BimoduleDecompositionEquiv.toLinearEquiv.{u, v, 0} e))\n                          (DFunLike.coe.{v + 1, v + 1, v + 1}\n                            (DirectSum.of.{0, v}\n                              (fun i =>\n                                TensorProduct.{u, v, v} k (Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x)\n                                  (LinearMap.{v, v, v, v}\n                                    (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n                                    (Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x) E))\n                              i)\n                            (TensorProduct.tmul.{u, v, v} k v l)))\n                        (DFunLike.coe.{v + 1, v + 1, v + 1} l v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_1"
+    },
+    {
+      "association_id": "association:6260a733b853ebb3dedd",
+      "declaration": "Etingof.Theorem5_18_1_bimodule_decomposition_explicit",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/346/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (E : Type v) [inst_1 : AddCommGroup.{v} E] [inst_2 : Module.{u, v} k E]\n  [Module.Finite.{u, v} k E] [IsAlgClosed.{u} k] (A : Subalgebra.{u, v} k (Module.End.{u, v} k E))\n  [IsSemisimpleRing.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)]\n  [FaithfulSMul.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E],\n  Exists.{2} fun \u03b9 =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{v + 1} fun V =>\n          Exists.{0} fun x_1 =>\n            Exists.{0} fun x_2 =>\n              Exists.{0} fun x_3 =>\n                Exists.{0} fun x_4 =>\n                  Exists.{v + 1} fun e =>\n                    \u2200 (i : \u03b9) (v : Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x)\n                      (l :\n                        LinearMap.{v, v, v, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n                          (Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x) E),\n                      Eq.{v + 1}\n                        (DFunLike.coe.{v + 1, v + 1, v + 1} (LinearEquiv.symm.{u, u, v, v} e)\n                          (DFunLike.coe.{v + 1, v + 1, v + 1}\n                            (DirectSum.of.{0, v}\n                              (fun i =>\n                                TensorProduct.{u, v, v} k (Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x)\n                                  (LinearMap.{v, v, v, v}\n                                    (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n                                    (Subtype.{v + 1} fun x => Membership.mem.{v, v} (V i) x) E))\n                              i)\n                            (TensorProduct.tmul.{u, v, v} k v l)))\n                        (DFunLike.coe.{v + 1, v + 1, v + 1} l v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.18.1",
+  "packet_id": "align-0454",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0454"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:91f2aa92ada24616a79d",
+  "source_text": "E decomposes as the direct sum of V_i tensor Hom_A(V_i,E), equivariantly for both A and its centralizer."
+}

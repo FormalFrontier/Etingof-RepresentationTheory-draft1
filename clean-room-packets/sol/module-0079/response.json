@@ -1,0 +1,290 @@
+{
+  "module_name": "LieAlgebra.FreeBigrading",
+  "declarations": [
+    {
+      "temporary_id": "decl-007332",
+      "new_name": "FreeLieIsBihomogeneous",
+      "docstring": "An inductively generated predicate asserting that a free Lie algebra element has a specified bidegree."
+    },
+    {
+      "temporary_id": "decl-007467",
+      "new_name": "auxiliaryElement_mem_targetBidegree",
+      "docstring": "The displayed indexed element belongs to the target bidegree `(1, i)`."
+    },
+    {
+      "temporary_id": "decl-007518",
+      "new_name": "bidegreeCoefficient",
+      "docstring": "The linear functional extracting the coefficient at a specified bidegree from the displayed auxiliary algebra."
+    },
+    {
+      "temporary_id": "decl-007522",
+      "new_name": "bidegreeCoefficient_monomial",
+      "docstring": "The bidegree coefficient of a displayed monomial is one at the same bidegree and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-007564",
+      "new_name": "BidegreeAlgebra",
+      "docstring": "An auxiliary commutative-ring construction carrying monomials indexed by pairs of natural numbers."
+    },
+    {
+      "temporary_id": "decl-007565",
+      "new_name": "bidegreeMonomial",
+      "docstring": "The displayed element of the auxiliary algebra associated with a pair of natural numbers."
+    },
+    {
+      "temporary_id": "decl-007567",
+      "new_name": "bidegreeMonomial_mul",
+      "docstring": "Multiplying two displayed bidegree monomials gives the monomial indexed by the sum of their bidegrees."
+    },
+    {
+      "temporary_id": "decl-007617",
+      "new_name": "exists_finite_bidegree_decomposition",
+      "docstring": "Every free Lie algebra element is a finite sum of its displayed bidegree projections, and all projections outside the chosen finite set vanish."
+    },
+    {
+      "temporary_id": "decl-007625",
+      "new_name": "freeLieBidegree",
+      "docstring": "The submodule of the free Lie algebra associated with a pair of natural-number degrees."
+    },
+    {
+      "temporary_id": "decl-007626",
+      "new_name": "freeLieBidegreeDecomposition",
+      "docstring": "The direct-sum decomposition of the free Lie algebra by the displayed bidegree submodules."
+    },
+    {
+      "temporary_id": "decl-007629",
+      "new_name": "targetBidegree",
+      "docstring": "The bidegree submodule of the displayed target Lie algebra at a pair of natural-number degrees."
+    },
+    {
+      "temporary_id": "decl-007631",
+      "new_name": "targetBidegreeDecomposition",
+      "docstring": "The direct-sum decomposition of the displayed target Lie algebra by its bidegree submodules."
+    },
+    {
+      "temporary_id": "decl-007634",
+      "new_name": "targetBidegree_eq_span_image_of_span_eq_top",
+      "docstring": "If a set spans the target, then each target bidegree is spanned by the image of that set under the corresponding bidegree projection."
+    },
+    {
+      "temporary_id": "decl-007655",
+      "new_name": "targetBidegreeProjection",
+      "docstring": "The linear projection of the displayed target Lie algebra onto a specified bidegree."
+    },
+    {
+      "temporary_id": "decl-007658",
+      "new_name": "targetBidegreeProjection_eq_zero_of_mem",
+      "docstring": "The projection to bidegree `q` vanishes on an element of bidegree `p` when `p` and `q` are distinct."
+    },
+    {
+      "temporary_id": "decl-007659",
+      "new_name": "targetBidegreeProjection_eq_zero_of_mem_iSup",
+      "docstring": "The target bidegree projection vanishes on every element of the displayed supremum of bidegree submodules."
+    },
+    {
+      "temporary_id": "decl-007660",
+      "new_name": "targetBidegreeProjection_mem",
+      "docstring": "The value of a target bidegree projection belongs to the corresponding bidegree submodule."
+    },
+    {
+      "temporary_id": "decl-007661",
+      "new_name": "targetBidegreeProjection_apply_of_mem",
+      "docstring": "On an element of bidegree `p`, projection to bidegree `q` is the element itself when `p = q` and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-007662",
+      "new_name": "targetBidegreeProjection_map",
+      "docstring": "Projecting the image of a free Lie algebra element to a target bidegree equals the image of its free-Lie bidegree projection."
+    },
+    {
+      "temporary_id": "decl-007663",
+      "new_name": "targetBidegreeProjection_apply_eq_self",
+      "docstring": "Projection to a bidegree fixes every element of the corresponding target bidegree submodule."
+    },
+    {
+      "temporary_id": "decl-007709",
+      "new_name": "generatorBidegree",
+      "docstring": "The bidegree assigned to each of the two free generators."
+    },
+    {
+      "temporary_id": "decl-007710",
+      "new_name": "generatorBidegree_one",
+      "docstring": "The generator indexed by one has bidegree `(0, 1)`."
+    },
+    {
+      "temporary_id": "decl-007711",
+      "new_name": "generatorBidegree_zero",
+      "docstring": "The generator indexed by zero has bidegree `(1, 0)`."
+    },
+    {
+      "temporary_id": "decl-007720",
+      "new_name": "freeLieBidegreeProjection",
+      "docstring": "The linear projection of the free Lie algebra onto a specified bidegree."
+    },
+    {
+      "temporary_id": "decl-007721",
+      "new_name": "freeLieBidegreeProjection_apply",
+      "docstring": "The free-Lie bidegree projection is obtained by applying the displayed tensor projection after the displayed Lie homomorphism."
+    },
+    {
+      "temporary_id": "decl-007722",
+      "new_name": "freeLieBidegreeProjection_eq_zero_of_mem",
+      "docstring": "The projection to bidegree `q` vanishes on a free Lie algebra element of bidegree `p` when `p` and `q` are distinct."
+    },
+    {
+      "temporary_id": "decl-007723",
+      "new_name": "freeLieBidegreeProjection_eq_zero_of_mem_iSup",
+      "docstring": "The free-Lie bidegree projection vanishes on every element of the displayed supremum of bidegree submodules."
+    },
+    {
+      "temporary_id": "decl-007724",
+      "new_name": "freeLieBidegreeProjection_mem",
+      "docstring": "The value of a free-Lie bidegree projection belongs to the corresponding bidegree submodule."
+    },
+    {
+      "temporary_id": "decl-007725",
+      "new_name": "freeLieBidegreeProjection_mem_auxiliarySubmodule",
+      "docstring": "Every bidegree projection preserves membership in the displayed auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-007726",
+      "new_name": "freeLieBidegreeProjection_apply_of_mem",
+      "docstring": "On a free Lie algebra element of bidegree `p`, projection to bidegree `q` is the element itself when `p = q` and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-007727",
+      "new_name": "freeLieBidegreeProjection_apply_eq_self",
+      "docstring": "Projection to a bidegree fixes every free Lie algebra element in the corresponding bidegree submodule."
+    },
+    {
+      "temporary_id": "decl-007728",
+      "new_name": "iSupIndep_freeLieBidegree",
+      "docstring": "The family of free-Lie bidegree submodules is independent under indexed suprema."
+    },
+    {
+      "temporary_id": "decl-007729",
+      "new_name": "iSupIndep_targetBidegree",
+      "docstring": "The family of target bidegree submodules is independent under indexed suprema."
+    },
+    {
+      "temporary_id": "decl-007730",
+      "new_name": "iSup_freeLieBidegree_eq_top",
+      "docstring": "The supremum of all free-Lie bidegree submodules is the top submodule."
+    },
+    {
+      "temporary_id": "decl-007731",
+      "new_name": "iSup_targetBidegree_eq_top",
+      "docstring": "The supremum of all target bidegree submodules is the top submodule."
+    },
+    {
+      "temporary_id": "decl-007845",
+      "new_name": "freeLieBidegree_isInternal",
+      "docstring": "The free-Lie bidegree submodules form an internal direct sum."
+    },
+    {
+      "temporary_id": "decl-007846",
+      "new_name": "targetBidegree_isInternal",
+      "docstring": "The target bidegree submodules form an internal direct sum."
+    },
+    {
+      "temporary_id": "decl-007943",
+      "new_name": "bracket_mem_freeLieBidegree_add",
+      "docstring": "The bracket of free Lie algebra elements of bidegrees `p` and `q` has bidegree `p + q`."
+    },
+    {
+      "temporary_id": "decl-007944",
+      "new_name": "bracket_mem_targetBidegree_add",
+      "docstring": "The bracket of target elements of bidegrees `p` and `q` has bidegree `p + q`."
+    },
+    {
+      "temporary_id": "decl-008089",
+      "new_name": "mem_targetBidegree_iff_exists_freeLieBidegree_preimage",
+      "docstring": "A target element has bidegree `p` exactly when it is the image of a free Lie algebra element of bidegree `p`."
+    },
+    {
+      "temporary_id": "decl-008118",
+      "new_name": "of_mem_freeLieBidegree",
+      "docstring": "Each canonical free generator belongs to the free-Lie submodule at its assigned bidegree."
+    },
+    {
+      "temporary_id": "decl-008129",
+      "new_name": "map_mem_targetBidegree",
+      "docstring": "The displayed map sends a free Lie algebra element of bidegree `p` to a target element of the same bidegree."
+    },
+    {
+      "temporary_id": "decl-008131",
+      "new_name": "range_targetBidegreeProjection",
+      "docstring": "The range of the target projection at bidegree `p` is exactly the target bidegree submodule at `p`."
+    },
+    {
+      "temporary_id": "decl-008139",
+      "new_name": "auxiliaryLieIdeal",
+      "docstring": "A natural-number-indexed auxiliary Lie ideal of the free Lie algebra on two generators."
+    },
+    {
+      "temporary_id": "decl-008160",
+      "new_name": "iteratedBracket_mem_bidegree_two_one",
+      "docstring": "The bracket of the degree-`(1, 0)` element with its bracket with the degree-`(0, 1)` element has bidegree `(2, 1)`."
+    },
+    {
+      "temporary_id": "decl-008161",
+      "new_name": "iterate_bracket_mem_bidegree_one_succ",
+      "docstring": "Applying bracket with the degree-`(0, 1)` element `n + 1` times to the degree-`(1, 0)` element produces an element of bidegree `(1, n + 1)`."
+    },
+    {
+      "temporary_id": "decl-008163",
+      "new_name": "bidegreeCoaction",
+      "docstring": "A Lie homomorphism from the free Lie algebra to its tensor product with the auxiliary bidegree algebra."
+    },
+    {
+      "temporary_id": "decl-008165",
+      "new_name": "bidegreeCoaction_of",
+      "docstring": "The bidegree coaction sends a canonical free generator to the tensor of its assigned bidegree monomial with that generator."
+    },
+    {
+      "temporary_id": "decl-008166",
+      "new_name": "bidegreeCoaction_eq_tmul_of_freeLieIsBihomogeneous",
+      "docstring": "An element satisfying the displayed bihomogeneity predicate is sent to the tensor of its bidegree monomial with itself."
+    },
+    {
+      "temporary_id": "decl-008167",
+      "new_name": "bidegreeCoaction_eq_tmul_of_mem",
+      "docstring": "A free Lie algebra element in bidegree `p` is sent to the tensor of the monomial at `p` with that element."
+    },
+    {
+      "temporary_id": "decl-008215",
+      "new_name": "mem_freeLieBidegree_of_freeLieIsBihomogeneous",
+      "docstring": "Every element satisfying the displayed bihomogeneity predicate belongs to the corresponding free-Lie bidegree submodule."
+    },
+    {
+      "temporary_id": "decl-008216",
+      "new_name": "bidegreeTensorProjection",
+      "docstring": "The linear map from the bidegree-algebra tensor product to the free Lie algebra determined by a specified bidegree coefficient."
+    },
+    {
+      "temporary_id": "decl-008217",
+      "new_name": "bidegreeTensorProjection_tmul",
+      "docstring": "On a pure tensor, the bidegree tensor projection scales the free Lie algebra factor by the selected coefficient of the auxiliary-algebra factor."
+    },
+    {
+      "temporary_id": "decl-008287",
+      "new_name": "degree10Element_mem_freeLieBidegree",
+      "docstring": "The displayed element belongs to free-Lie bidegree `(1, 0)`."
+    },
+    {
+      "temporary_id": "decl-008290",
+      "new_name": "degree10TargetElement_mem_targetBidegree",
+      "docstring": "The displayed indexed target element belongs to target bidegree `(1, 0)`."
+    },
+    {
+      "temporary_id": "decl-008293",
+      "new_name": "degree01Element_mem_freeLieBidegree",
+      "docstring": "The displayed element belongs to free-Lie bidegree `(0, 1)`."
+    },
+    {
+      "temporary_id": "decl-008296",
+      "new_name": "degree01TargetElement_mem_targetBidegree",
+      "docstring": "The displayed indexed target element belongs to target bidegree `(0, 1)`."
+    }
+  ]
+}

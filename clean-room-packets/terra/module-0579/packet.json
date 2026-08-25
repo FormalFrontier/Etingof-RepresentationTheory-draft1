@@ -1,0 +1,105 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(C : Type u_1) \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192 C \u2192 C \u2192 Type (max u_1 u_2)",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3191242192",
+      "temporary_id": "decl-004114"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192\n      {Z X : C} \u2192\n        (self : decl-004114.{u_1, u_2} C Z X) \u2192\n          CategoryTheory.Iso.{u_2, u_1}\n            (CategoryTheory.ShortComplex.X\u2081.{u_2, u_1}\n              (Subtype.val.{max (u_1 + 1) (u_2 + 1)} (decl-004131.{u_1, u_2} self)))\n            X",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004114",
+      "project_type_dependencies": [
+        "decl-004114",
+        "decl-004131"
+      ],
+      "structural_type_hash": "1105250888",
+      "temporary_id": "decl-004119"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192\n      {Z X : C} \u2192\n        (self : decl-004114.{u_1, u_2} C Z X) \u2192\n          CategoryTheory.Iso.{u_2, u_1}\n            (CategoryTheory.ShortComplex.X\u2083.{u_2, u_1}\n              (Subtype.val.{max (u_1 + 1) (u_2 + 1)} (decl-004131.{u_1, u_2} self)))\n            Z",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004114",
+      "project_type_dependencies": [
+        "decl-004114",
+        "decl-004131"
+      ],
+      "structural_type_hash": "202609232",
+      "temporary_id": "decl-004130"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192\n      {Z X : C} \u2192 decl-004114.{u_1, u_2} C Z X \u2192 decl-015608.{u_1, u_2} C",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004114",
+      "project_type_dependencies": [
+        "decl-004114",
+        "decl-015608"
+      ],
+      "structural_type_hash": "2054966162",
+      "temporary_id": "decl-004131"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192\n      {Z X : C} \u2192 decl-004114.{u_1, u_2} C Z X \u2192 decl-015608.{u_1, u_2} C",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004114",
+      "project_type_dependencies": [
+        "decl-004114",
+        "decl-015608"
+      ],
+      "structural_type_hash": "2054966162",
+      "temporary_id": "decl-004132"
+    },
+    {
+      "formal_type": "(C : Type u_1) \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192 Type (max 0 u_1 u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2736966435",
+      "temporary_id": "decl-015608"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192\n      (S : decl-015608.{u_1, u_2} C) \u2192\n        decl-004114.{u_1, u_2} C\n          (CategoryTheory.ShortComplex.X\u2083.{u_2, u_1} (Subtype.val.{max (u_1 + 1) (u_2 + 1)} S))\n          (CategoryTheory.ShortComplex.X\u2081.{u_2, u_1} (Subtype.val.{max (u_1 + 1) (u_2 + 1)} S))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015608",
+      "project_type_dependencies": [
+        "decl-004114",
+        "decl-015608"
+      ],
+      "structural_type_hash": "2393198266",
+      "temporary_id": "decl-015609"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C]\n  (S : CategoryTheory.ShortComplex.{u_2, u_1} C),\n  Iff (CategoryTheory.ShortComplex.ShortExact.{u_2, u_1} S)\n    (And (CategoryTheory.Mono.{u_2, u_1} (CategoryTheory.ShortComplex.f.{u_2, u_1} S))\n      (And (CategoryTheory.Epi.{u_2, u_1} (CategoryTheory.ShortComplex.g.{u_2, u_1} S))\n        (CategoryTheory.IsIso.{u_2, u_1}\n          (CategoryTheory.Limits.cokernel.desc.{u_2, u_1} (CategoryTheory.ShortComplex.f.{u_2, u_1} S)\n            (CategoryTheory.ShortComplex.g.{u_2, u_1} S) \u22ef))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2046656216",
+      "temporary_id": "decl-023126"
+    }
+  ],
+  "module_temporary_id": "module-0579",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0802",
+  "associations": [
+    {
+      "association_id": "association:cd8ebfdf7dd11ac297a6",
+      "rationale": "The displayed conjunction shows that lattice elements are integer combinations of the alpha vectors and conversely, but it does not display independence or uniqueness of coefficients required for the stated Z-basis claim.",
+      "role": "supporting"
+    }
+  ]
+}

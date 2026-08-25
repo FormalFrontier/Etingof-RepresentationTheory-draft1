@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.9.1",
+    "kind": "theorem",
+    "title": "Frobenius formula for the character of an induced representation",
+    "node_id": "chapter-05/section-5-9",
+    "order": 297,
+    "slug": "theorem5-9-1",
+    "span": {
+      "start": {
+        "page": "109",
+        "line": 5
+      },
+      "end": {
+        "page": "109",
+        "line": 10
+      }
+    },
+    "source_sha256": "7f3d483a58b0a51ba42c46741c51cdf5061890b781aa7f97dba169625555abf5",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem591",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

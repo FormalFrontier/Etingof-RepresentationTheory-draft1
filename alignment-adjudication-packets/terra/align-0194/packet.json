@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:dfd4cca505a833127592",
+      "declaration": "Etingof.LieAlgebraDef",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/77/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 (L : Type u_2) \u2192 [CommRing.{u_1} k] \u2192 [LieRing.{u_2} L] \u2192 Type (max u_1 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_9_1"
+    },
+    {
+      "association_id": "association:a8adbfbf796d35e2abf7",
+      "declaration": "Etingof.jacobi_identity",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/77/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {L : Type u_2} [inst : LieRing.{u_2} L] (a b c : L),\n  Eq.{u_2 + 1}\n    (HAdd.hAdd.{u_2, u_2, u_2}\n      (HAdd.hAdd.{u_2, u_2, u_2} (Bracket.bracket.{u_2, u_2} (Bracket.bracket.{u_2, u_2} a b) c)\n        (Bracket.bracket.{u_2, u_2} (Bracket.bracket.{u_2, u_2} b c) a))\n      (Bracket.bracket.{u_2, u_2} (Bracket.bracket.{u_2, u_2} c a) b))\n    0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_9_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.9.1",
+  "packet_id": "align-0194",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0194"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3ad4d060cab4217009f6",
+  "source_text": "A Lie algebra is a bilinear alternating bracket satisfying the cyclic Jacobi identity (2.9.1)."
+}

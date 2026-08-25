@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:35a51e4f9e3552b45b82",
+      "rationale": "For q not of finite order, the formal type identifies the center subalgebra with bottom, but it does not itself state the absence of nontrivial two-sided ideals, so it covers only the center component.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b7824d5d99bdf54cdd93",
+      "rationale": "For q not of finite order, the formal type asserts IsSimpleRing for the q-Weyl algebra, but it does not itself identify the center as scalar, so it covers only the ideal-simplicity component.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0607"
+}

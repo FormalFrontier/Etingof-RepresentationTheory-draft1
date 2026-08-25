@@ -1,0 +1,59 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {X : C}\n  (f : CategoryTheory.End.{v, u} X),\n  Exists.{u + 1} fun K =>\n    Exists.{u + 1} fun I =>\n      Exists.{v + 1} fun e =>\n        Exists.{v + 1} fun fK =>\n          Exists.{v + 1} fun fI =>\n            And (IsNilpotent.{v} fK)\n              (And (CategoryTheory.IsIso.{v, u} fI)\n                (Eq.{v + 1} f\n                  (CategoryTheory.CategoryStruct.comp.{v, u} (CategoryTheory.Iso.hom.{v, u} e)\n                    (CategoryTheory.CategoryStruct.comp.{v, u} (CategoryTheory.Limits.biprod.map.{v, u} fK fI)\n                      (CategoryTheory.Iso.inv.{v, u} e)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "2276730854",
+      "temporary_id": "decl-019487"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {X : C},\n  CategoryTheory.Indecomposable.{v, u} X \u2192 IsLocalRing.{v} (CategoryTheory.End.{v, u} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "834379026",
+      "temporary_id": "decl-020853"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C] {X : C},\n  CategoryTheory.Indecomposable.{v, u} X \u2192\n    \u2200 (f : CategoryTheory.End.{v, u} X), Or (IsNilpotent.{v} f) (CategoryTheory.IsIso.{v, u} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164"
+      ],
+      "structural_type_hash": "1376273536",
+      "temporary_id": "decl-020858"
+    }
+  ],
+  "module_temporary_id": "module-0728",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

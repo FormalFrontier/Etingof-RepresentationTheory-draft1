@@ -1,0 +1,105 @@
+{
+  "module_name": "Quiver.EdgeModule",
+  "declarations": [
+    {
+      "temporary_id": "decl-005821",
+      "new_name": "Edge",
+      "docstring": "The type of directed edges of a quiver."
+    },
+    {
+      "temporary_id": "decl-005822",
+      "new_name": "source",
+      "docstring": "Returns the source vertex of an edge."
+    },
+    {
+      "temporary_id": "decl-005824",
+      "new_name": "source_mk",
+      "docstring": "The source of a constructed edge is its first vertex."
+    },
+    {
+      "temporary_id": "decl-005825",
+      "new_name": "target",
+      "docstring": "Returns the target vertex of an edge."
+    },
+    {
+      "temporary_id": "decl-005827",
+      "new_name": "target_mk",
+      "docstring": "The target of a constructed edge is its second vertex."
+    },
+    {
+      "temporary_id": "decl-005828",
+      "new_name": "toPath",
+      "docstring": "Converts an edge to the corresponding path datum."
+    },
+    {
+      "temporary_id": "decl-005865",
+      "new_name": "ofEdge",
+      "docstring": "Maps an edge into the ambient algebra."
+    },
+    {
+      "temporary_id": "decl-005867",
+      "new_name": "mul_vertexFunction",
+      "docstring": "Right multiplication by a vertex function scales an edge by its target value."
+    },
+    {
+      "temporary_id": "decl-005868",
+      "new_name": "mul_targetIdempotent",
+      "docstring": "Right multiplication by a vertex idempotent selects edges with that target."
+    },
+    {
+      "temporary_id": "decl-005869",
+      "new_name": "edgeLinearMap",
+      "docstring": "The linear map induced by sending each edge to its algebra element."
+    },
+    {
+      "temporary_id": "decl-005871",
+      "new_name": "edgeLinearMap_single",
+      "docstring": "The edge linear map sends a singleton to the corresponding scalar multiple."
+    },
+    {
+      "temporary_id": "decl-005876",
+      "new_name": "edgeFinsuppModule",
+      "docstring": "The module structure on finitely supported edge functions."
+    },
+    {
+      "temporary_id": "decl-005877",
+      "new_name": "edgeFinsuppModule'",
+      "docstring": "An alternative module structure on finitely supported edge functions."
+    },
+    {
+      "temporary_id": "decl-006293",
+      "new_name": "pathElement_mul_pathElement",
+      "docstring": "Multiplication of two path elements agrees with their prescribed product."
+    },
+    {
+      "temporary_id": "decl-006536",
+      "new_name": "vertexFunction_mul",
+      "docstring": "Left multiplication by a vertex function scales an edge by its source value."
+    },
+    {
+      "temporary_id": "decl-006537",
+      "new_name": "sourceIdempotent_mul",
+      "docstring": "Left multiplication by a vertex idempotent selects edges with that source."
+    },
+    {
+      "temporary_id": "decl-006553",
+      "new_name": "weightedEdgeModule",
+      "docstring": "The module structure on edge functions induced by a vertex-valued weight."
+    },
+    {
+      "temporary_id": "decl-006560",
+      "new_name": "weightedScale",
+      "docstring": "Scales each edge coefficient by a function evaluated at its weight."
+    },
+    {
+      "temporary_id": "decl-006568",
+      "new_name": "weightedScale_apply",
+      "docstring": "Weighted scaling acts on each coefficient by the corresponding scalar."
+    },
+    {
+      "temporary_id": "decl-006569",
+      "new_name": "source_target_scale_commute",
+      "docstring": "Scaling by source and target vertex functions commutes."
+    }
+  ]
+}

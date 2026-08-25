@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9750685c0fabc4d41c07",
+      "declaration": "Etingof.Problem932.nonempty_linearEquiv_splus_or_sminus",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/557/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (S : Type u) [inst : AddCommGroup.{u} S] [inst_1 : Module.{0, u} Complex S]\n  [inst_2 : Module.{0, u} Etingof.Problem932.A S] [IsScalarTower.{0, 0, u} Complex Etingof.Problem932.A S]\n  [IsSimpleModule.{0, u} Etingof.Problem932.A S],\n  Or\n    (Nonempty.{max 1 (u + 1)}\n      (LinearEquiv.{0, 0, u, 0} (RingHom.id.{0} Etingof.Problem932.A) S Etingof.Problem932.Splus))\n    (Nonempty.{max 1 (u + 1)}\n      (LinearEquiv.{0, 0, u, 0} (RingHom.id.{0} Etingof.Problem932.A) S Etingof.Problem932.Sminus))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_3_2"
+    },
+    {
+      "association_id": "association:8836a802ba1dae2cb014",
+      "declaration": "Etingof.Problem932.not_linearEquiv_splus_and_sminus",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/557/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (S : Type u) [inst : AddCommGroup.{u} S] [inst_1 : Module.{0, u} Etingof.Problem932.A S],\n  Not\n    (And\n      (Nonempty.{max 1 (u + 1)}\n        (LinearEquiv.{0, 0, u, 0} (RingHom.id.{0} Etingof.Problem932.A) S Etingof.Problem932.Splus))\n      (Nonempty.{max 1 (u + 1)}\n        (LinearEquiv.{0, 0, u, 0} (RingHom.id.{0} Etingof.Problem932.A) S Etingof.Problem932.Sminus)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_3_2"
+    },
+    {
+      "association_id": "association:ce1c992e2bbd43091645",
+      "declaration": "Etingof.Problem932.simple_module_classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/557/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (S : Type u) [inst : AddCommGroup.{u} S] [inst_1 : Module.{0, u} Complex S]\n  [inst_2 : Module.{0, u} Etingof.Problem932.A S] [IsScalarTower.{0, 0, u} Complex Etingof.Problem932.A S]\n  [IsSimpleModule.{0, u} Etingof.Problem932.A S],\n  Xor\n    (Nonempty.{max 1 (u + 1)}\n      (LinearEquiv.{0, 0, u, 0} (RingHom.id.{0} Etingof.Problem932.A) S Etingof.Problem932.Splus))\n    (Nonempty.{max 1 (u + 1)}\n      (LinearEquiv.{0, 0, u, 0} (RingHom.id.{0} Etingof.Problem932.A) S Etingof.Problem932.Sminus))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_3_2"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.3.2",
+  "packet_id": "align-0861",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0861"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.3.2:simples",
+  "source_text": "Classify the simple modules exhaustively and irredundantly."
+}

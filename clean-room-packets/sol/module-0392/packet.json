@@ -1,0 +1,350 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Nat \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3972626760",
+      "temporary_id": "decl-001059"
+    },
+    {
+      "formal_type": "(k n : Nat) \u2192 (Fin n \u2192 Fin k) \u2192 Finset.{0} (Equiv.Perm.{1} (Fin n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2163927107",
+      "temporary_id": "decl-017491"
+    },
+    {
+      "formal_type": "\u2200 (k n : Nat) (slot : Fin n \u2192 Fin k), Ne.{1} (Finset.card.{0} (decl-017491 k n slot)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017491"
+      ],
+      "structural_type_hash": "3192530800",
+      "temporary_id": "decl-017493"
+    },
+    {
+      "formal_type": "\u2200 (k N : Nat) (g : Units.{0} (Matrix.{0, 0, 0} (Fin N) (Fin N) Complex)) (i : Fin k) (r c : Fin N),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-018148 k N g) (MvPolynomial.X.{0, 0} (Prod.mk.{0, 0} i (Prod.mk.{0, 0} r c))))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun s =>\n      Finset.sum.{0, 0} Finset.univ.{0} fun t =>\n        HMul.hMul.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0}\n            (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Complex (decl-005658 k N))\n              (Units.val.{0} g r s))\n            (MvPolynomial.X.{0, 0} (Prod.mk.{0, 0} i (Prod.mk.{0, 0} s t))))\n          (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Complex (decl-005658 k N))\n            (Units.val.{0} (Inv.inv.{0} g) t c)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658",
+        "decl-018148"
+      ],
+      "structural_type_hash": "2499840475",
+      "temporary_id": "decl-018151"
+    },
+    {
+      "formal_type": "\u2200 (k N : Nat) (g : Units.{0} (Matrix.{0, 0, 0} (Fin N) (Fin N) Complex)) (d : Finsupp.{0, 0} (Fin k) Nat)\n  {p : decl-005658 k N},\n  MvPolynomial.IsWeightedHomogeneous.{0, 0, 0} (decl-021565 k N) p d \u2192\n    MvPolynomial.IsWeightedHomogeneous.{0, 0, 0} (decl-021565 k N)\n      (DFunLike.coe.{1, 1, 1} (decl-018148 k N g) p) d",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658",
+        "decl-018148",
+        "decl-021565"
+      ],
+      "structural_type_hash": "124779224",
+      "temporary_id": "decl-018152"
+    },
+    {
+      "formal_type": "(k N n : Nat) \u2192\n  (Fin n \u2192 Fin k) \u2192\n    LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n      (Module.End.{0, 0} Complex (decl-016473.{0, 0} Complex (decl-001059 N) n))\n      (decl-005658 k N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473"
+      ],
+      "structural_type_hash": "2511779245",
+      "temporary_id": "decl-018588"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (slot : Fin n \u2192 Fin k)\n  (M : Module.End.{0, 0} Complex (decl-016473.{0, 0} Complex (decl-001059 N) n)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot) M)\n    (Finset.sum.{0, 0} Finset.univ.{0} fun f =>\n      Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n        HMul.hMul.{0, 0, 0}\n          (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Complex (decl-005658 k N))\n            (DFunLike.coe.{1, 1, 1}\n              (LinearMap.toMatrix.{0, 0, 0, 0, 0} (decl-023853 N n) (decl-023853 N n)) M f g))\n          (decl-019800 k N n slot g f))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473",
+        "decl-018588",
+        "decl-019800",
+        "decl-023853"
+      ],
+      "structural_type_hash": "1961129876",
+      "temporary_id": "decl-018595"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (slot : Fin n \u2192 Fin k) (g : Units.{0} (Matrix.{0, 0, 0} (Fin N) (Fin N) Complex))\n  (M : Module.End.{0, 0} Complex (decl-016473.{0, 0} Complex (decl-001059 N) n)),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot)\n      (HMul.hMul.{0, 0, 0}\n        (HMul.hMul.{0, 0, 0}\n          (PiTensorProduct.map.{0, 0, 0, 0} fun x => Matrix.mulVecLin.{0, 0, 0} (Units.val.{0} (Inv.inv.{0} g))) M)\n        (PiTensorProduct.map.{0, 0, 0, 0} fun x => Matrix.mulVecLin.{0, 0, 0} (Units.val.{0} g))))\n    (DFunLike.coe.{1, 1, 1} (decl-018148 k N g) (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot) M))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473",
+        "decl-018148",
+        "decl-018588"
+      ],
+      "structural_type_hash": "978046981",
+      "temporary_id": "decl-018596"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (slot : Fin n \u2192 Fin k)\n  (M : Module.End.{0, 0} Complex (decl-016473.{0, 0} Complex (decl-001059 N) n)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot) M)\n    (DFunLike.coe.{1, 1, 1} (decl-018708 k N n slot)\n      (DFunLike.coe.{1, 1, 1} (LinearMap.toMatrix.{0, 0, 0, 0, 0} (decl-023853 N n) (decl-023853 N n))\n        M))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473",
+        "decl-018588",
+        "decl-018708",
+        "decl-023853"
+      ],
+      "structural_type_hash": "380979996",
+      "temporary_id": "decl-018597"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (slot : Fin n \u2192 Fin k)\n  (M : Module.End.{0, 0} Complex (decl-016473.{0, 0} Complex (decl-001059 N) n)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot) (decl-022768 k N n slot M))\n    (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot) M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473",
+        "decl-018588",
+        "decl-022768"
+      ],
+      "structural_type_hash": "4114513298",
+      "temporary_id": "decl-018598"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (slot : Fin n \u2192 Fin k) {\u03c4 : Equiv.Perm.{1} (Fin n)},\n  Membership.mem.{0, 0} (decl-017491 k n slot) \u03c4 \u2192\n    \u2200 (M : Module.End.{0, 0} Complex (decl-016473.{0, 0} Complex (decl-001059 N) n)),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot)\n          (HMul.hMul.{0, 0, 0}\n            (HMul.hMul.{0, 0, 0}\n              (LinearEquiv.toLinearMap.{0, 0, 0, 0} (decl-023613.{0, 0} Complex (decl-001059 N) n \u03c4)) M)\n            (LinearEquiv.toLinearMap.{0, 0, 0, 0}\n              (decl-023613.{0, 0} Complex (decl-001059 N) n (Inv.inv.{0} \u03c4)))))\n        (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot) M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473",
+        "decl-017491",
+        "decl-018588",
+        "decl-023613"
+      ],
+      "structural_type_hash": "3576502725",
+      "temporary_id": "decl-018600"
+    },
+    {
+      "formal_type": "(k N n : Nat) \u2192\n  (Fin n \u2192 Fin k) \u2192\n    LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex) (Matrix.{0, 0, 0} (Fin n \u2192 Fin N) (Fin n \u2192 Fin N) Complex)\n      (decl-005658 k N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658"
+      ],
+      "structural_type_hash": "2198675797",
+      "temporary_id": "decl-018708"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (slot : Fin n \u2192 Fin k) (A : Matrix.{0, 0, 0} (Fin n \u2192 Fin N) (Fin n \u2192 Fin N) Complex),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-018708 k N n slot) A)\n    (Matrix.trace.{0, 0}\n      (HMul.hMul.{0, 0, 0}\n        (Matrix.map.{0, 0, 0, 0} A\n          (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Complex (decl-005658 k N))))\n        (decl-019800 k N n slot)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658",
+        "decl-018708",
+        "decl-019800"
+      ],
+      "structural_type_hash": "1110729737",
+      "temporary_id": "decl-018711"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (d : Finsupp.{0, 0} (Fin k) Nat) (slot : Fin n \u2192 Fin k),\n  (\u2200 (i : Fin k),\n      Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun j => Eq.{1} (slot j) i) Finset.univ.{0}))\n        (DFunLike.coe.{1, 1, 1} d i)) \u2192\n    Exists.{1} fun \u03c3 =>\n      And\n        (\u2200 (p : decl-005658 k N),\n          MvPolynomial.IsWeightedHomogeneous.{0, 0, 0} (decl-021565 k N) p d \u2192\n            Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot) (\u03c3 p)) p)\n        (\u2200 (g : Units.{0} (Matrix.{0, 0, 0} (Fin N) (Fin N) Complex)) (p : decl-005658 k N),\n          MvPolynomial.IsWeightedHomogeneous.{0, 0, 0} (decl-021565 k N) p d \u2192\n            Eq.{1} (\u03c3 (DFunLike.coe.{1, 1, 1} (decl-018148 k N g) p))\n              (HMul.hMul.{0, 0, 0}\n                (HMul.hMul.{0, 0, 0}\n                  (PiTensorProduct.map.{0, 0, 0, 0} fun x => Matrix.mulVecLin.{0, 0, 0} (Units.val.{0} (Inv.inv.{0} g)))\n                  (\u03c3 p))\n                (PiTensorProduct.map.{0, 0, 0, 0} fun x => Matrix.mulVecLin.{0, 0, 0} (Units.val.{0} g))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473",
+        "decl-018148",
+        "decl-018588",
+        "decl-021565"
+      ],
+      "structural_type_hash": "4224646628",
+      "temporary_id": "decl-018827"
+    },
+    {
+      "formal_type": "(k N n : Nat) \u2192 (Fin n \u2192 Fin k) \u2192 Matrix.{0, 0, 0} (Fin n \u2192 Fin N) (Fin n \u2192 Fin N) (decl-005658 k N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005658"
+      ],
+      "structural_type_hash": "1161016047",
+      "temporary_id": "decl-019800"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (slot : Fin n \u2192 Fin k) (g : Units.{0} (Matrix.{0, 0, 0} (Fin N) (Fin N) Complex)),\n  Eq.{1}\n    (Matrix.map.{0, 0, 0, 0} (decl-019800 k N n slot)\n      (DFunLike.coe.{1, 1, 1} (decl-018148 k N g)))\n    (HMul.hMul.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0}\n        (Matrix.map.{0, 0, 0, 0}\n          (DFunLike.coe.{1, 1, 1}\n            (LinearMap.toMatrix.{0, 0, 0, 0, 0} (decl-023853 N n) (decl-023853 N n))\n            (PiTensorProduct.map.{0, 0, 0, 0} fun x => Matrix.mulVecLin.{0, 0, 0} (Units.val.{0} g)))\n          (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Complex (decl-005658 k N))))\n        (decl-019800 k N n slot))\n      (Matrix.map.{0, 0, 0, 0}\n        (DFunLike.coe.{1, 1, 1} (LinearMap.toMatrix.{0, 0, 0, 0, 0} (decl-023853 N n) (decl-023853 N n))\n          (PiTensorProduct.map.{0, 0, 0, 0} fun x => Matrix.mulVecLin.{0, 0, 0} (Units.val.{0} (Inv.inv.{0} g))))\n        (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Complex (decl-005658 k N)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473",
+        "decl-018148",
+        "decl-019800",
+        "decl-023853"
+      ],
+      "structural_type_hash": "843985981",
+      "temporary_id": "decl-019802"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (slot : Fin n \u2192 Fin k) {\u03c4 : Equiv.Perm.{1} (Fin n)},\n  Eq.{1} (Function.comp.{1, 1, 1} slot (DFunLike.coe.{1, 1, 1} \u03c4)) slot \u2192\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0}\n        (HMul.hMul.{0, 0, 0}\n          (Matrix.map.{0, 0, 0, 0}\n            (DFunLike.coe.{1, 1, 1}\n              (LinearMap.toMatrix.{0, 0, 0, 0, 0} (decl-023853 N n) (decl-023853 N n))\n              (LinearEquiv.toLinearMap.{0, 0, 0, 0}\n                (decl-023613.{0, 0} Complex (decl-001059 N) n (Inv.inv.{0} \u03c4))))\n            (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Complex (decl-005658 k N))))\n          (decl-019800 k N n slot))\n        (Matrix.map.{0, 0, 0, 0}\n          (DFunLike.coe.{1, 1, 1}\n            (LinearMap.toMatrix.{0, 0, 0, 0, 0} (decl-023853 N n) (decl-023853 N n))\n            (LinearEquiv.toLinearMap.{0, 0, 0, 0} (decl-023613.{0, 0} Complex (decl-001059 N) n \u03c4)))\n          (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Complex (decl-005658 k N)))))\n      (decl-019800 k N n slot)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473",
+        "decl-019800",
+        "decl-023613",
+        "decl-023853"
+      ],
+      "structural_type_hash": "2271806331",
+      "temporary_id": "decl-019803"
+    },
+    {
+      "formal_type": "\u2200 (k n : Nat) (slot : Fin n \u2192 Fin k), Membership.mem.{0, 0} (decl-017491 k n slot) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017491"
+      ],
+      "structural_type_hash": "3108915284",
+      "temporary_id": "decl-021815"
+    },
+    {
+      "formal_type": "(k N n : Nat) \u2192\n  (Fin n \u2192 Fin k) \u2192\n    Module.End.{0, 0} Complex (decl-016473.{0, 0} Complex (decl-001059 N) n) \u2192\n      Module.End.{0, 0} Complex (decl-016473.{0, 0} Complex (decl-001059 N) n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-016473"
+      ],
+      "structural_type_hash": "2461429241",
+      "temporary_id": "decl-022768"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (slot : Fin n \u2192 Fin k) (g : Units.{0} (Matrix.{0, 0, 0} (Fin N) (Fin N) Complex))\n  (M : Module.End.{0, 0} Complex (decl-016473.{0, 0} Complex (decl-001059 N) n)),\n  Eq.{1}\n    (decl-022768 k N n slot\n      (HMul.hMul.{0, 0, 0}\n        (HMul.hMul.{0, 0, 0}\n          (PiTensorProduct.map.{0, 0, 0, 0} fun x => Matrix.mulVecLin.{0, 0, 0} (Units.val.{0} (Inv.inv.{0} g))) M)\n        (PiTensorProduct.map.{0, 0, 0, 0} fun x => Matrix.mulVecLin.{0, 0, 0} (Units.val.{0} g))))\n    (HMul.hMul.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0}\n        (PiTensorProduct.map.{0, 0, 0, 0} fun x => Matrix.mulVecLin.{0, 0, 0} (Units.val.{0} (Inv.inv.{0} g)))\n        (decl-022768 k N n slot M))\n      (PiTensorProduct.map.{0, 0, 0, 0} fun x => Matrix.mulVecLin.{0, 0, 0} (Units.val.{0} g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-016473",
+        "decl-022768"
+      ],
+      "structural_type_hash": "874617489",
+      "temporary_id": "decl-022772"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (slot : Fin n \u2192 Fin k)\n  (M M' : Module.End.{0, 0} Complex (decl-016473.{0, 0} Complex (decl-001059 N) n)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot) (decl-022768 k N n slot M))\n      (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot) (decl-022768 k N n slot M')) \u2192\n    Eq.{1} (decl-022768 k N n slot M) (decl-022768 k N n slot M')",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473",
+        "decl-018588",
+        "decl-022768"
+      ],
+      "structural_type_hash": "1332276116",
+      "temporary_id": "decl-022773"
+    },
+    {
+      "formal_type": "(N n : Nat) \u2192 Module.Basis.{0, 0, 0} (Fin n \u2192 Fin N) Complex (decl-016473.{0, 0} Complex (decl-001059 N) n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-016473"
+      ],
+      "structural_type_hash": "3463635656",
+      "temporary_id": "decl-023853"
+    },
+    {
+      "formal_type": "\u2200 (N n : Nat) (h : Matrix.{0, 0, 0} (Fin N) (Fin N) Complex) (p q : Fin n \u2192 Fin N),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (LinearMap.toMatrix.{0, 0, 0, 0, 0} (decl-023853 N n) (decl-023853 N n))\n      (PiTensorProduct.map.{0, 0, 0, 0} fun x => Matrix.mulVecLin.{0, 0, 0} h) p q)\n    (Finset.prod.{0, 0} Finset.univ.{0} fun j => h (p j) (q j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-016473",
+        "decl-023853"
+      ],
+      "structural_type_hash": "1266468404",
+      "temporary_id": "decl-024146"
+    },
+    {
+      "formal_type": "\u2200 (N n : Nat) (\u03c3 : Equiv.Perm.{1} (Fin n)) (p q : Fin n \u2192 Fin N),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (LinearMap.toMatrix.{0, 0, 0, 0, 0} (decl-023853 N n) (decl-023853 N n))\n      (LinearEquiv.toLinearMap.{0, 0, 0, 0} (decl-023613.{0, 0} Complex (decl-001059 N) n \u03c3)) p q)\n    (ite.{1} (Eq.{1} p (Function.comp.{1, 1, 1} q (DFunLike.coe.{1, 1, 1} (Inv.inv.{0} \u03c3)))) 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-016473",
+        "decl-023613",
+        "decl-023853"
+      ],
+      "structural_type_hash": "1290117675",
+      "temporary_id": "decl-024147"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (d : Finsupp.{0, 0} (Fin k) Nat) (slot : Fin n \u2192 Fin k),\n  (\u2200 (i : Fin k),\n      Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun j => Eq.{1} (slot j) i) Finset.univ.{0}))\n        (DFunLike.coe.{1, 1, 1} d i)) \u2192\n    \u2200 {p : decl-005658 k N},\n      MvPolynomial.IsWeightedHomogeneous.{0, 0, 0} (decl-021565 k N) p d \u2192\n        Membership.mem.{0, 0} (decl-020749 k N) p \u2192\n          Exists.{1} fun M =>\n            And (Membership.mem.{0, 0} (decl-023627.{0, 0} Complex (decl-001059 N) n) M)\n              (Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-018588 k N n slot) M) p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473",
+        "decl-018588",
+        "decl-020749",
+        "decl-021565",
+        "decl-023627"
+      ],
+      "structural_type_hash": "20039823",
+      "temporary_id": "decl-024513"
+    },
+    {
+      "formal_type": "\u2200 (k N n : Nat) (d : Finsupp.{0, 0} (Fin k) Nat) (slot : Fin n \u2192 Fin k),\n  (\u2200 (i : Fin k),\n      Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun j => Eq.{1} (slot j) i) Finset.univ.{0}))\n        (DFunLike.coe.{1, 1, 1} d i)) \u2192\n    \u2200 {p : decl-005658 k N},\n      MvPolynomial.IsWeightedHomogeneous.{0, 0, 0} (decl-021565 k N) p d \u2192\n        Membership.mem.{0, 0} (LinearMap.range.{0, 0, 0, 0} (decl-018588 k N n slot)) p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001059",
+        "decl-005658",
+        "decl-016473",
+        "decl-018588",
+        "decl-021565"
+      ],
+      "structural_type_hash": "2947593320",
+      "temporary_id": "decl-024514"
+    }
+  ],
+  "module_temporary_id": "module-0392",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

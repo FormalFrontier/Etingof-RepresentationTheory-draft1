@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0472",
+  "associations": [
+    {
+      "association_id": "association:f4d0696e1f2c13602271",
+      "role": "primary",
+      "rationale": "For unequal partitions, the IsEmpty conclusion directly rules out a module-linear equivalence between the corresponding Specht modules."
+    }
+  ]
+}

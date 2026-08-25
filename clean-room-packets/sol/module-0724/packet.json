@@ -1,0 +1,319 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Preadditive.{v, u} C] \u2192\n      {X Y : C} \u2192\n        CategoryTheory.Iso.{v, u} X Y \u2192 RingEquiv.{v, v} (CategoryTheory.End.{v, u} X) (CategoryTheory.End.{v, u} Y)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "543665728",
+      "temporary_id": "decl-000304"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Preadditive.{v, u} C] {X Y : C}\n  (e : CategoryTheory.Iso.{v, u} X Y) (f : CategoryTheory.End.{v, u} X),\n  Eq.{v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} (decl-000304.{u, v} e) f)\n    (CategoryTheory.CategoryStruct.comp.{v, u} (CategoryTheory.Iso.inv.{v, u} e)\n      (CategoryTheory.CategoryStruct.comp.{v, u} f (CategoryTheory.Iso.hom.{v, u} e)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000304"
+      ],
+      "structural_type_hash": "3152133961",
+      "temporary_id": "decl-000307"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{v, u} C] \u2192\n      [CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C] \u2192\n        {\u03b9 : Type v} \u2192 [Fintype.{v} \u03b9] \u2192 (\u03b9 \u2192 C) \u2192 (\u03b9 \u2192 Nat) \u2192 Type v",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3000525308",
+      "temporary_id": "decl-000899"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Preadditive.{v, u} C]\n  [CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C] {D : Type u'} [inst_3 : CategoryTheory.Category.{v, u'} D]\n  [inst_4 : CategoryTheory.Preadditive.{v, u'} D] [CategoryTheory.Limits.HasFiniteBiproducts.{v, u'} D]\n  (E : CategoryTheory.Equivalence.{v, v, u, u'} C D) (P : C),\n  decl-005213.{u, v} P \u2192\n    decl-005213.{u', v}\n      (CategoryTheory.Functor.obj.{v, v, u, u'} (CategoryTheory.Equivalence.functor.{v, v, u, u'} E) P)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005213"
+      ],
+      "structural_type_hash": "2636073606",
+      "temporary_id": "decl-005259"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {A B : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{w, u} k A]\n  [inst_3 : Ring.{u} B] [inst_4 : Algebra.{w, u} k B],\n  decl-005311.{u, w} k A B \u2192\n    Exists.{u + 2} fun P =>\n      And (decl-005213.{u + 1, u} P)\n        (Nonempty.{u + 1} (AlgEquiv.{w, u, u} k A (MulOpposite.{u} (CategoryTheory.End.{u, u + 1} P))))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005311",
+      "project_type_dependencies": [
+        "decl-005213",
+        "decl-005311"
+      ],
+      "structural_type_hash": "1842084162",
+      "temporary_id": "decl-005312"
+    },
+    {
+      "formal_type": "\u2200 {k A B : Type u} [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] [inst_3 : Ring.{u} B]\n  [inst_4 : Algebra.{u, u} k B] [Module.Finite.{u, u} k A] [Module.Finite.{u, u} k B],\n  decl-005311.{u, u} k A B \u2192 decl-005305.{u, u} k A B",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005311",
+      "project_type_dependencies": [
+        "decl-005305",
+        "decl-005311"
+      ],
+      "structural_type_hash": "2058978131",
+      "temporary_id": "decl-005314"
+    },
+    {
+      "formal_type": "\u2200 {A B : Type u} [inst : Ring.{u} A] [inst_1 : Ring.{u} B],\n  decl-005672.{u} A B \u2192\n    Exists.{u + 2} fun P =>\n      And (decl-005213.{u + 1, u} P)\n        (Nonempty.{u + 1} (RingEquiv.{u, u} A (MulOpposite.{u} (CategoryTheory.End.{u, u + 1} P))))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005672",
+      "project_type_dependencies": [
+        "decl-005213",
+        "decl-005672"
+      ],
+      "structural_type_hash": "2298801581",
+      "temporary_id": "decl-005676"
+    },
+    {
+      "formal_type": "\u2200 {k A B : Type u} [inst : Field.{u} k] [inst_1 : Ring.{u} A] [Algebra.{u, u} k A] [inst_3 : Ring.{u} B]\n  [Algebra.{u, u} k B], decl-005672.{u} A B \u2192 decl-005663.{u, u} A B",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005672",
+      "project_type_dependencies": [
+        "decl-005663",
+        "decl-005672"
+      ],
+      "structural_type_hash": "701275240",
+      "temporary_id": "decl-005679"
+    },
+    {
+      "formal_type": "\u2200 {A B : Type u} [inst : Ring.{u} A] [inst_1 : Ring.{u} B],\n  decl-005672.{u} A B \u2192\n    (\u2200 (P : FGModuleCat.{u, u} B),\n        decl-005213.{u + 1, u} P \u2192\n          Nonempty.{u + 2}\n            (CategoryTheory.Equivalence.{u, u, u + 1, u + 1} (ModuleCat.{u, u} B)\n              (ModuleCat.{u, u} (MulOpposite.{u} (CategoryTheory.End.{u, u + 1} P))))) \u2192\n      decl-005663.{u, u} A B",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005672",
+      "project_type_dependencies": [
+        "decl-005213",
+        "decl-005663",
+        "decl-005672"
+      ],
+      "structural_type_hash": "3361372095",
+      "temporary_id": "decl-005680"
+    },
+    {
+      "formal_type": "(k : Type w) \u2192\n  (A : Type u) \u2192\n    [inst : Field.{w} k] \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{w, u} k A] \u2192\n          AlgEquiv.{w, u, u} k A (MulOpposite.{u} (CategoryTheory.End.{u, u + 1} (decl-019354.{u} A)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019354"
+      ],
+      "structural_type_hash": "807557109",
+      "temporary_id": "decl-017154"
+    },
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : CategoryTheory.Preadditive.{v, u} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C] \u2192\n              {D : Type u'} \u2192\n                [inst_5 : CategoryTheory.Category.{v, u'} D] \u2192\n                  [inst_6 : CategoryTheory.Preadditive.{v, u'} D] \u2192\n                    [inst_7 : CategoryTheory.Linear.{w, v, u'} k D] \u2192\n                      [CategoryTheory.Limits.HasFiniteBiproducts.{v, u'} D] \u2192\n                        (E : CategoryTheory.Equivalence.{v, v, u, u'} C D) \u2192\n                          [CategoryTheory.Functor.Linear.{w, v, u, v, u'} k\n                                (CategoryTheory.Equivalence.functor.{v, v, u, u'} E)] \u2192\n                            (X : C) \u2192\n                              AlgEquiv.{w, v, v} k (CategoryTheory.End.{v, u} X)\n                                (CategoryTheory.End.{v, u'}\n                                  (CategoryTheory.Functor.obj.{v, v, u, u'}\n                                    (CategoryTheory.Equivalence.functor.{v, v, u, u'} E) X))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2406865039",
+      "temporary_id": "decl-018622"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Preadditive.{v, u} C] \u2192\n      [CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C] \u2192\n        {D : Type u'} \u2192\n          [inst_3 : CategoryTheory.Category.{v, u'} D] \u2192\n            [inst_4 : CategoryTheory.Preadditive.{v, u'} D] \u2192\n              [CategoryTheory.Limits.HasFiniteBiproducts.{v, u'} D] \u2192\n                (E : CategoryTheory.Equivalence.{v, v, u, u'} C D) \u2192\n                  (X : C) \u2192\n                    RingEquiv.{v, v} (CategoryTheory.End.{v, u} X)\n                      (CategoryTheory.End.{v, u'}\n                        (CategoryTheory.Functor.obj.{v, v, u, u'} (CategoryTheory.Equivalence.functor.{v, v, u, u'} E)\n                          X))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2584724578",
+      "temporary_id": "decl-018626"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192 [inst : Ring.{u} A] \u2192 FGModuleCat.{u, u} A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2921021716",
+      "temporary_id": "decl-019354"
+    },
+    {
+      "formal_type": "(k : Type w) \u2192\n  (A : Type u) \u2192\n    [inst : Field.{w} k] \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{w, u} k A] \u2192\n          AlgEquiv.{w, u, u} k (CategoryTheory.End.{u, u + 1} (decl-019354.{u} A))\n            (Module.End.{u, u} A A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019354"
+      ],
+      "structural_type_hash": "4073230592",
+      "temporary_id": "decl-019356"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    RingEquiv.{u, u} (CategoryTheory.End.{u, u + 1} (decl-019354.{u} A)) (Module.End.{u, u} A A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019354"
+      ],
+      "structural_type_hash": "3957910965",
+      "temporary_id": "decl-019360"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A], decl-005213.{u + 1, u} (decl-019354.{u} A)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005213",
+        "decl-019354"
+      ],
+      "structural_type_hash": "3542181344",
+      "temporary_id": "decl-019366"
+    },
+    {
+      "formal_type": "\u2200 {A B : Type u} [inst : Ring.{u} A] [inst_1 : Ring.{u} B]\n  (E : CategoryTheory.Equivalence.{u, u, u + 1, u + 1} (FGModuleCat.{u, u} A) (FGModuleCat.{u, u} B)),\n  Exists.{u + 2} fun P =>\n    And (decl-005213.{u + 1, u} P)\n      (Nonempty.{u + 1} (RingEquiv.{u, u} A (MulOpposite.{u} (CategoryTheory.End.{u, u + 1} P))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005213"
+      ],
+      "structural_type_hash": "3422973969",
+      "temporary_id": "decl-019489"
+    },
+    {
+      "formal_type": "\u2200 {A B : Type u} [inst : Ring.{u} A] [IsNoetherianRing.{u} A] [inst_2 : Ring.{u} B]\n  (E : CategoryTheory.Equivalence.{u, u, u + 1, u + 1} (FGModuleCat.{u, u} A) (FGModuleCat.{u, u} B)),\n  have P :=\n    CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (CategoryTheory.Equivalence.functor.{u, u, u + 1, u + 1} E)\n      (FGModuleCat.of.{u, u} A A);\n  And (decl-005184.{u} P)\n    (And (decl-005213.{u + 1, u} P)\n      (Nonempty.{u + 1} (RingEquiv.{u, u} A (MulOpposite.{u} (CategoryTheory.End.{u, u + 1} P)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005184",
+        "decl-005213"
+      ],
+      "structural_type_hash": "3186424394",
+      "temporary_id": "decl-019491"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {A B : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{w, u} k A]\n  [inst_3 : Ring.{u} B] [inst_4 : Algebra.{w, u} k B]\n  (E : CategoryTheory.Equivalence.{u, u, u + 1, u + 1} (FGModuleCat.{u, u} A) (FGModuleCat.{u, u} B))\n  [CategoryTheory.Functor.Linear.{w, u, u + 1, u, u + 1} k (CategoryTheory.Equivalence.functor.{u, u, u + 1, u + 1} E)],\n  Exists.{u + 2} fun P =>\n    And (decl-005213.{u + 1, u} P)\n      (Nonempty.{u + 1} (AlgEquiv.{w, u, u} k A (MulOpposite.{u} (CategoryTheory.End.{u, u + 1} P))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005213"
+      ],
+      "structural_type_hash": "2398546290",
+      "temporary_id": "decl-019492"
+    },
+    {
+      "formal_type": "\u2200 {k A B : Type u} [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] [inst_3 : Ring.{u} B]\n  [inst_4 : Algebra.{u, u} k B] [Module.Finite.{u, u} k A] [Module.Finite.{u, u} k B],\n  Iff (decl-005305.{u, u} k A B) (decl-005311.{u, u} k A B)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005305",
+        "decl-005311"
+      ],
+      "structural_type_hash": "3158139853",
+      "temporary_id": "decl-021016"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C]\n  [inst_2 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C] {\u03b9 : Type v} [inst_3 : Fintype.{v} \u03b9] (P : \u03b9 \u2192 C)\n  {k : Type w} [inst_4 : Field.{w} k] [inst_5 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C],\n  (\u2200 (i : \u03b9), CategoryTheory.Projective.{v, u} (P i)) \u2192\n    (\u2200 (i : \u03b9), CategoryTheory.Indecomposable.{v, u} (P i)) \u2192\n      (\u2200 (i j : \u03b9), Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} (P i) (P j)) \u2192 Eq.{v + 1} i j) \u2192\n        (\u2200 (R : C),\n            CategoryTheory.Projective.{v, u} R \u2192\n              CategoryTheory.Indecomposable.{v, u} R \u2192\n                Exists.{v + 1} fun i => Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} R (P i))) \u2192\n          \u2200 [decl-005213.{u, v} (CategoryTheory.Limits.biproduct.{v, v, u} P)] (A : Type v)\n            [inst_8 : Ring.{v} A] (n\u2080 : \u03b9 \u2192 Nat),\n            (\u2200 (i : \u03b9), LE.le.{0} 1 (n\u2080 i)) \u2192\n              Iff (decl-005672.{v} A (decl-000899.{u, v} P n\u2080))\n                (Exists.{v + 1} fun n =>\n                  And (\u2200 (i : \u03b9), LE.le.{0} 1 (n i)) (Nonempty.{v + 1} (RingEquiv.{v, v} A (decl-000899.{u, v} P n))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000899",
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005672",
+        "decl-021689"
+      ],
+      "structural_type_hash": "2537570861",
+      "temporary_id": "decl-021674"
+    },
+    {
+      "formal_type": "\u2200 {k A B : Type u} [inst : Field.{u} k] [inst_1 : Ring.{u} A] [Algebra.{u, u} k A] [inst_3 : Ring.{u} B]\n  [Algebra.{u, u} k B], Iff (decl-005663.{u, u} A B) (decl-005672.{u} A B)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005663",
+        "decl-005672"
+      ],
+      "structural_type_hash": "3772712746",
+      "temporary_id": "decl-021675"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C]\n  [inst_2 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C] {\u03b9 : Type v} [inst_3 : Fintype.{v} \u03b9] (P : \u03b9 \u2192 C),\n  (\u2200 (i : \u03b9), CategoryTheory.Projective.{v, u} (P i)) \u2192\n    \u2200 [decl-005213.{u, v} (CategoryTheory.Limits.biproduct.{v, v, u} P)] (n : \u03b9 \u2192 Nat),\n      (\u2200 (i : \u03b9), LE.le.{0} 1 (n i)) \u2192\n        \u2200 [IsNoetherianRing.{v} (decl-000899.{u, v} P n)],\n          Nonempty.{max (max (v + 2) (u + 1)) (v + 1)}\n            (CategoryTheory.Equivalence.{v, v, u, v + 1} C (FGModuleCat.{v, v} (decl-000899.{u, v} P n)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000899",
+        "decl-005147",
+        "decl-005164",
+        "decl-005213",
+        "decl-021689"
+      ],
+      "structural_type_hash": "1342261600",
+      "temporary_id": "decl-021725"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C]\n  [inst_2 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C] {\u03b9 : Type v} [inst_3 : Fintype.{v} \u03b9] (P : \u03b9 \u2192 C)\n  {k : Type w} [inst_4 : Field.{w} k] [inst_5 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C],\n  (\u2200 (i : \u03b9), CategoryTheory.Projective.{v, u} (P i)) \u2192\n    (\u2200 (i : \u03b9), CategoryTheory.Indecomposable.{v, u} (P i)) \u2192\n      (\u2200 (i j : \u03b9), Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} (P i) (P j)) \u2192 Eq.{v + 1} i j) \u2192\n        (\u2200 (R : C),\n            CategoryTheory.Projective.{v, u} R \u2192\n              CategoryTheory.Indecomposable.{v, u} R \u2192\n                Exists.{v + 1} fun i => Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} R (P i))) \u2192\n          \u2200 [decl-005213.{u, v} (CategoryTheory.Limits.biproduct.{v, v, u} P)] (A : Type v)\n            [inst_8 : Ring.{v} A],\n            Iff\n              (Nonempty.{max (max (u + 1) (v + 2)) (v + 1)}\n                (CategoryTheory.Equivalence.{v, v, v + 1, u} (FGModuleCat.{v, v} A) C))\n              (Exists.{v + 1} fun n =>\n                And (\u2200 (i : \u03b9), LE.le.{0} 1 (n i)) (Nonempty.{v + 1} (RingEquiv.{v, v} A (decl-000899.{u, v} P n))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000899",
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-021689"
+      ],
+      "structural_type_hash": "1162212397",
+      "temporary_id": "decl-021727"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C]\n  [inst_2 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C] {\u03b9 : Type v} [inst_3 : Fintype.{v} \u03b9] (P : \u03b9 \u2192 C),\n  (\u2200 (i : \u03b9), CategoryTheory.Projective.{v, u} (P i)) \u2192\n    \u2200 [decl-005213.{u, v} (CategoryTheory.Limits.biproduct.{v, v, u} P)] (n n' : \u03b9 \u2192 Nat),\n      (\u2200 (i : \u03b9), LE.le.{0} 1 (n i)) \u2192\n        (\u2200 (i : \u03b9), LE.le.{0} 1 (n' i)) \u2192\n          \u2200 [IsNoetherianRing.{v} (decl-000899.{u, v} P n)] [IsNoetherianRing.{v} (decl-000899.{u, v} P n')],\n            Nonempty.{v + 2}\n              (CategoryTheory.Equivalence.{v, v, v + 1, v + 1} (FGModuleCat.{v, v} (decl-000899.{u, v} P n))\n                (FGModuleCat.{v, v} (decl-000899.{u, v} P n')))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000899",
+        "decl-005147",
+        "decl-005164",
+        "decl-005213",
+        "decl-021689"
+      ],
+      "structural_type_hash": "2167858756",
+      "temporary_id": "decl-021728"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : decl-005147.{u, v} C]\n  [inst_2 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C] {\u03b9 : Type v} [inst_3 : Fintype.{v} \u03b9] (P : \u03b9 \u2192 C),\n  (\u2200 (i : \u03b9), CategoryTheory.Projective.{v, u} (P i)) \u2192\n    (\u2200 (i : \u03b9), CategoryTheory.Indecomposable.{v, u} (P i)) \u2192\n      (\u2200 (i j : \u03b9), Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} (P i) (P j)) \u2192 Eq.{v + 1} i j) \u2192\n        (\u2200 (R : C),\n            CategoryTheory.Projective.{v, u} R \u2192\n              CategoryTheory.Indecomposable.{v, u} R \u2192\n                Exists.{v + 1} fun i => Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} R (P i))) \u2192\n          \u2200 [decl-005213.{u, v} (CategoryTheory.Limits.biproduct.{v, v, u} P)] (A : Type v)\n            [inst_5 : Ring.{v} A],\n            Iff\n              (Exists.{u + 1} fun Q =>\n                And (decl-005213.{u, v} Q)\n                  (Nonempty.{v + 1} (RingEquiv.{v, v} A (MulOpposite.{v} (CategoryTheory.End.{v, u} Q)))))\n              (Exists.{v + 1} fun n =>\n                And (\u2200 (i : \u03b9), LE.le.{0} 1 (n i)) (Nonempty.{v + 1} (RingEquiv.{v, v} A (decl-000899.{u, v} P n))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000899",
+        "decl-005147",
+        "decl-005164",
+        "decl-005213",
+        "decl-021689"
+      ],
+      "structural_type_hash": "2546917273",
+      "temporary_id": "decl-022843"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    RingEquiv.{u, u} A (MulOpposite.{u} (CategoryTheory.End.{u, u + 1} (decl-019354.{u} A)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019354"
+      ],
+      "structural_type_hash": "1572870162",
+      "temporary_id": "decl-022844"
+    }
+  ],
+  "module_temporary_id": "module-0724",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

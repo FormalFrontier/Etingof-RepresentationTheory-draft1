@@ -1,0 +1,10 @@
+{
+  "module_name": "ParameterizedAlgebra.SimpleModuleClassification",
+  "declarations": [
+    { "temporary_id": "decl-009058", "new_name": "exists_model_equiv_finFunctions", "docstring": "A finite simple module is equivalent to a function-space model for suitable parameters." },
+    { "temporary_id": "decl-009059", "new_name": "exists_model_equiv", "docstring": "A finite simple module is equivalent to one of the displayed parameterized model modules." },
+    { "temporary_id": "decl-009074", "new_name": "exists_model_parameters_unique", "docstring": "There are model parameters for the module, uniquely determined up to the stated power relation." },
+    { "temporary_id": "decl-009103", "new_name": "finiteSimpleModule_finrank_eq_orderOf", "docstring": "The dimension of a finite simple module is the order of the parameter." },
+    { "temporary_id": "decl-009145", "new_name": "linearEquiv_of_commutes_with_generators", "docstring": "A complex linear equivalence commuting with both displayed generators is an equivalence of modules." }
+  ]
+}

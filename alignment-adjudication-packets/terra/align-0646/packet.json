@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:460179cd733a63fcfb41",
+      "declaration": "Etingof.Problem3_8_4.baseChange_alinEquiv_pow",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/167/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {K : Type u_1} {A : Type u_2} {V : Type u_3} {L : Type u_4} [inst : Field.{u_1} K] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} K A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} K V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} K A V] [inst_7 : Field.{u_4} L]\n  [inst_8 : Algebra.{u_1, u_4} K L] [FiniteDimensional.{u_1, u_4} K L],\n  Nonempty.{max (u_3 + 1) ((max u_3 u_4) + 1)}\n    (LinearEquiv.{u_2, u_2, max u_3 u_4, u_3} (RingHom.id.{u_2} A) (TensorProduct.{u_1, u_4, u_3} K L V)\n      (Fin (Module.finrank.{u_1, u_4} K L) \u2192 V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Power"
+    },
+    {
+      "association_id": "association:bffbc27571dc03bff82f",
+      "declaration": "Etingof.Problem3_8_4.iso_of_baseChange_iso_finite",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/167/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {K : Type u_1} {A : Type u_2} {V : Type u_3} {W : Type u_4} {L : Type u_5} [inst : Field.{u_1} K]\n  [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} K A] [inst_3 : AddCommGroup.{u_3} V]\n  [inst_4 : Module.{u_1, u_3} K V] [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} K A V]\n  [inst_7 : AddCommGroup.{u_4} W] [inst_8 : Module.{u_1, u_4} K W] [inst_9 : Module.{u_2, u_4} A W]\n  [inst_10 : IsScalarTower.{u_1, u_2, u_4} K A W] [inst_11 : Field.{u_5} L] [inst_12 : Algebra.{u_1, u_5} K L]\n  [FiniteDimensional.{u_1, u_3} K V] [FiniteDimensional.{u_1, u_4} K W] [FiniteDimensional.{u_1, u_5} K L],\n  Nonempty.{max ((max u_4 u_5) + 1) ((max u_3 u_5) + 1)}\n      (LinearEquiv.{max u_2 u_5, max u_2 u_5, max u_3 u_5, max u_4 u_5}\n        (RingHom.id.{max u_2 u_5} (TensorProduct.{u_1, u_5, u_2} K L A)) (TensorProduct.{u_1, u_5, u_3} K L V)\n        (TensorProduct.{u_1, u_5, u_4} K L W)) \u2192\n    Nonempty.{max (u_4 + 1) (u_3 + 1)} (LinearEquiv.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} A) V W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Finite"
+    },
+    {
+      "association_id": "association:f8c13afaaa9da925c6e4",
+      "declaration": "Etingof.Problem3_8_4.iso_pow_cancel",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/167/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) (W : Type u_4) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : AddCommGroup.{u_4} W]\n  [inst_8 : Module.{u_1, u_4} k W] [inst_9 : Module.{u_2, u_4} A W] [IsScalarTower.{u_1, u_2, u_4} k A W]\n  [FiniteDimensional.{u_1, u_3} k V] [FiniteDimensional.{u_1, u_4} k W] {n : Nat},\n  LT.lt.{0} 0 n \u2192\n    Nonempty.{max (u_4 + 1) (u_3 + 1)} (LinearEquiv.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} A) (Fin n \u2192 V) (Fin n \u2192 W)) \u2192\n      Nonempty.{max (u_4 + 1) (u_3 + 1)} (LinearEquiv.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} A) V W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Cancellation"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.8.4",
+  "packet_id": "align-0646",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0646"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.8.4:claim-04",
+  "source_text": "For a finite extension of degree n, restriction of scalars identifies the base changes with n-fold powers and Krull-Schmidt cancellation yields V isomorphic to W."
+}

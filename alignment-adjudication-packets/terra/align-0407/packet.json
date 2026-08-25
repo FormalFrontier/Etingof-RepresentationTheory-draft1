@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:eb1f48d27a863e54f9f9",
+      "declaration": "Etingof.Remark_5_9_2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/297/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_9_2"
+    },
+    {
+      "association_id": "association:3f6ccd74d58ed562e28c",
+      "declaration": "Etingof.Theorem5_9_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/297/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_9_1"
+    },
+    {
+      "association_id": "association:cd72eea5fc7b361bf52d",
+      "declaration": "Etingof.frobenius_coset_bridge",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/297/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (H : Subgroup.{u_1} G)\n  [inst_2 : DecidablePred.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x]\n  [inst_3 : Fintype.{u_1} (Quotient.{u_1 + 1} (QuotientGroup.rightRel.{u_1} H))] (F : G \u2192 Complex),\n  (\u2200 (h\u2080 : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) (x : G),\n      Eq.{1} (F (HMul.hMul.{u_1, u_1, u_1} (Subtype.val.{u_1 + 1} h\u2080) x)) (F x)) \u2192\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0}\n        (Inv.inv.{0} (Nat.cast.{0} (Fintype.card.{u_1} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x))))\n        (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun x => F x))\n      (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun q => F (Quotient.out.{u_1 + 1} q))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_9_1_Coset"
+    }
+  ],
+  "canonical_reference": "Chapter5/Remark5.9.2",
+  "packet_id": "align-0407",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0407"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:828a95fa306f6aa7bab2",
+  "source_text": "When |H| is invertible, the coset formula equals the averaged sum over all x\u2208G divided by |H|."
+}

@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.Module.Projective.Lifting",
+  "declarations": [
+    {
+      "temporary_id": "decl-004100",
+      "new_name": "LinearMap.exists_coprod_map_of_exact",
+      "docstring": "For an exact pair of linear maps and projective source modules, constructs a linear map from their direct sum with a prescribed restriction on the left summand and prescribed composite on the right summand."
+    }
+  ]
+}

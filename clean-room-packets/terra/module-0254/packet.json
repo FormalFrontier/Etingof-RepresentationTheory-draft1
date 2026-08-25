@@ -1,0 +1,166 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(n : Nat) \u2192\n  decl-001833 n \u2192\n    (k : Type u_2) \u2192\n      [inst : Field.{u_2} k] \u2192 [IsAlgClosed.{u_2} k] \u2192 FDRep.{u_2, u_2} k (Matrix.GeneralLinearGroup.{0, u_2} (Fin n) k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001833"
+      ],
+      "structural_type_hash": "1683290167",
+      "temporary_id": "decl-000525"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  decl-001833 n \u2192\n    (k : Type u_2) \u2192\n      [inst : Field.{u_2} k] \u2192 [IsAlgClosed.{u_2} k] \u2192 FDRep.{u_2, u_2} k (Matrix.GeneralLinearGroup.{0, u_2} (Fin n) k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001833"
+      ],
+      "structural_type_hash": "1683290167",
+      "temporary_id": "decl-000528"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (lam : decl-001833 n), Antitone.{0, 0} lam.toNatWeight",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-001833",
+      "project_type_dependencies": [
+        "decl-001833",
+        "decl-001851"
+      ],
+      "structural_type_hash": "2398519094",
+      "temporary_id": "decl-001853"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  [inst_2 : AddCommGroup.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] (\u03c1 : Representation.{u_1, u_2, u_3} k G V)\n  (P : Submodule.{u_1, u_3} k (Representation.asModule.{u_1, u_2, u_3} \u03c1))\n  (hP :\n    \u2200 (g : G) (x : Representation.asModule.{u_1, u_2, u_3} \u03c1),\n      Membership.mem.{u_3, u_3} P x \u2192\n        Membership.mem.{u_3, u_3} P\n          (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g)\n            (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (Representation.asModuleEquiv.{u_1, u_2, u_3} \u03c1) x)))\n  (x : Representation.asModule.{u_1, u_2, u_3} \u03c1),\n  Iff (Membership.mem.{u_3, u_3} (decl-015458.{u_1, u_2, u_3} \u03c1 P hP) x)\n    (Membership.mem.{u_3, u_3} P x)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [
+        "decl-015458"
+      ],
+      "structural_type_hash": "2034219638",
+      "temporary_id": "decl-015442"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Monoid.{u_2} G] \u2192\n          [inst_2 : AddCommGroup.{u_3} V] \u2192\n            [inst_3 : Module.{u_1, u_3} k V] \u2192\n              (\u03c1 : Representation.{u_1, u_2, u_3} k G V) \u2192\n                (P : Submodule.{u_1, u_3} k (Representation.asModule.{u_1, u_2, u_3} \u03c1)) \u2192\n                  (\u2200 (g : G) (x : Representation.asModule.{u_1, u_2, u_3} \u03c1),\n                      Membership.mem.{u_3, u_3} P x \u2192\n                        Membership.mem.{u_3, u_3} P\n                          (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n                            (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g)\n                            (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (Representation.asModuleEquiv.{u_1, u_2, u_3} \u03c1)\n                              x))) \u2192\n                    Submodule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G)\n                      (Representation.asModule.{u_1, u_2, u_3} \u03c1)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [],
+      "structural_type_hash": "1973384916",
+      "temporary_id": "decl-015458"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (lam : decl-001833 n) \u2192\n    (k : Type u_2) \u2192\n      [inst : Field.{u_2} k] \u2192\n        [inst_1 : IsAlgClosed.{u_2} k] \u2192\n          Representation.{u_2, u_2, u_2} k (Matrix.GeneralLinearGroup.{0, u_2} (Fin n) k)\n            (decl-000521.{u_2} n lam k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000521",
+        "decl-000522",
+        "decl-000524",
+        "decl-001833"
+      ],
+      "structural_type_hash": "4044419165",
+      "temporary_id": "decl-017169"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (lam : decl-001833 n),\n  LE.le.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam.toNatWeight i) n \u2192\n    IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin n) Complex))\n      (Representation.asModule.{0, 0, 0} (FDRep.\u03c1.{0, 0} (decl-000525.{0} n lam Complex)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000525",
+        "decl-001833",
+        "decl-001851"
+      ],
+      "structural_type_hash": "1363820240",
+      "temporary_id": "decl-017170"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] (n : Nat) (lam : decl-001833 n),\n  Eq.{u_1 + 1} (FDRep.\u03c1.{u_1, u_1} (decl-000525.{u_1} n lam k))\n    (decl-005327.{u_1, u_1, u_1}\n      (HPow.hPow.{u_1, 0, u_1} (decl-005333.{u_1} k n) (Neg.neg.{0} (Nat.cast.{0} lam.shift)))\n      (decl-022967.{u_1} k n lam.toNatWeight))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000525",
+        "decl-001833",
+        "decl-001842",
+        "decl-001851",
+        "decl-005327",
+        "decl-005333",
+        "decl-015576",
+        "decl-016473",
+        "decl-022967"
+      ],
+      "structural_type_hash": "994763828",
+      "temporary_id": "decl-017171"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (lam : decl-001833 n) \u2192\n    (k : Type u_2) \u2192\n      [inst : Field.{u_2} k] \u2192\n        [inst_1 : IsAlgClosed.{u_2} k] \u2192\n          Representation.{u_2, u_2, u_2} k (Matrix.GeneralLinearGroup.{0, u_2} (Fin n) k)\n            (decl-000516.{u_2} n lam k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-001833"
+      ],
+      "structural_type_hash": "2926968027",
+      "temporary_id": "decl-017172"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (n : Nat)\n  (lam : decl-001833 n),\n  Eq.{1} lam.shift 0 \u2192\n    Eq.{1} (decl-019511.{u_1} k n (decl-000525.{u_1} n lam k))\n      (decl-023030 n lam.toNatWeight)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000525",
+        "decl-001833",
+        "decl-001842",
+        "decl-001851",
+        "decl-019511",
+        "decl-023030"
+      ],
+      "structural_type_hash": "804790222",
+      "temporary_id": "decl-019516"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  [inst_2 : AddCommGroup.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] (c : MonoidHom.{u_2, u_1} G (Units.{u_1} k))\n  (\u03c1 : Representation.{u_1, u_2, u_3} k G V)\n  [hss :\n    IsSemisimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_3} \u03c1)],\n  IsSemisimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G)\n    (Representation.asModule.{u_1, u_2, u_3} (decl-005327.{u_1, u_2, u_3} c \u03c1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005327"
+      ],
+      "structural_type_hash": "3452284037",
+      "temporary_id": "decl-020891"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  [inst_2 : AddCommGroup.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] (c : MonoidHom.{u_2, u_1} G (Units.{u_1} k))\n  (\u03c1 : Representation.{u_1, u_2, u_3} k G V)\n  [hsimp :\n    IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_3} \u03c1)],\n  IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G)\n    (Representation.asModule.{u_1, u_2, u_3} (decl-005327.{u_1, u_2, u_3} c \u03c1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005327"
+      ],
+      "structural_type_hash": "3493761419",
+      "temporary_id": "decl-020905"
+    }
+  ],
+  "module_temporary_id": "module-0254",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

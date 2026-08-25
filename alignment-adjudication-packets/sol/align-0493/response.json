@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0493",
+  "associations": [
+    {
+      "association_id": "association:092b2a7e4849e356791e",
+      "rationale": "The displayed formal type only introduces the auxiliary type carrying the zero-bracket construction.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c29e1fad082de0f3b8dc",
+      "rationale": "The formal type asserts that the opaque Abelian wrapper is Lie-abelian, but it does not display the wrapper's zero bracket, so it does not itself state the full source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ef54f4da160babf76cd6",
+      "rationale": "The formal type supplies the Lie-algebra structure needed by the construction but does not itself assert that its bracket is zero or that it is abelian.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d3c113b89ab25ed57c2b",
+      "rationale": "The formal type supplies the underlying Lie-ring structure but does not itself assert that its bracket is zero or that it is abelian.",
+      "role": "supporting"
+    }
+  ]
+}

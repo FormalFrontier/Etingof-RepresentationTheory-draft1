@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1ec2ca4f91f295c114ef",
+      "declaration": "Etingof.Proposition5_14_1_diagonal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/323/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1}\n    (Module.finrank.{0, 0} Complex\n      (LinearMap.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.SymGroupAlgebra n)) (Etingof.PermutationModule n la)\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n la) x)))\n    1",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_14_1"
+    },
+    {
+      "association_id": "association:c2c75a86490842dcfb47",
+      "declaration": "Etingof.Proposition5_14_1_vanishing_general",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/323/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la mu : n.Partition),\n  Not (Etingof.Nat.Partition.Dominates mu la) \u2192\n    \u2200\n      (f :\n        LinearMap.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.SymGroupAlgebra n)) (Etingof.PermutationModule n la)\n          (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n mu) x)),\n      Eq.{1} f 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_14_1"
+    },
+    {
+      "association_id": "association:9b65fd9ea25b56f005bc",
+      "declaration": "Etingof.Proposition5_14_1_vanishing_lex",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/323/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la mu : n.Partition),\n  mu.LexLt la \u2192\n    \u2200\n      (f :\n        LinearMap.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.SymGroupAlgebra n)) (Etingof.PermutationModule n la)\n          (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n mu) x)),\n      Eq.{1} f 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_14_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Proposition5.14.1",
+  "packet_id": "align-0377",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0377"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:763dfab0c01f9eebcbd3",
+  "source_text": "Hom(U_lambda,V_mu)=0 when mu is lexicographically below lambda, while dim Hom(U_lambda,V_lambda)=1."
+}

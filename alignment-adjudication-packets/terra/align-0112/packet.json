@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d16482c2eb397ee1e21e",
+      "declaration": "Etingof.Example753.forgetCorepresentableBy",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/486/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    CategoryTheory.Functor.CorepresentableBy.{u, u, u + 1} (CategoryTheory.forget.{u, u, u + 1, u} (ModuleCat.{u, u} R))\n      (ModuleCat.of.{u, u} R R)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_5_3"
+    },
+    {
+      "association_id": "association:b872120fb0fecddbb391",
+      "declaration": "Etingof.Example753.forgetNatIso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/486/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    CategoryTheory.Iso.{u + 1, u + 1}\n      (CategoryTheory.Functor.obj.{u, u + 1, u + 1, u + 1} CategoryTheory.coyoneda.{u, u + 1}\n        (Opposite.op.{u + 2} (ModuleCat.of.{u, u} R R)))\n      (CategoryTheory.forget.{u, u, u + 1, u} (ModuleCat.{u, u} R))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_5_3"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.5.3",
+  "packet_id": "align-0112",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0112"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:22a79fa8111ac4103fff",
+  "source_text": "The forgetful functor on all modules is represented by the regular module."
+}

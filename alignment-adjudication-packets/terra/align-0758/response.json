@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0758",
+  "associations": [
+    {
+      "association_id": "association:7ae80cabd820de6524fc",
+      "role": "supporting",
+      "rationale": "This gives only the nontrivial-character case of induction from the order-four subgroup; it does not itself state the complete set of decompositions requested for all such induced representations."
+    },
+    {
+      "association_id": "association:de98d7ea629f94f3dd78",
+      "role": "supporting",
+      "rationale": "This gives only the trivial-character case of induction from the order-four subgroup; it does not itself state the complete set of decompositions requested for all such induced representations."
+    }
+  ]
+}

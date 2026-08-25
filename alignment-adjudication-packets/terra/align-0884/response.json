@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:4f4759d272bc40cbfefb",
+      "rationale": "The formal type is unavailable; the declaration name concerns complements from projections, a helper for the complement construction.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e6f7c4ce0567ddfb5db6",
+      "rationale": "The formal type is unavailable; the declaration name gives existence of a complement, not the stated averaged-kernel construction.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0884"
+}

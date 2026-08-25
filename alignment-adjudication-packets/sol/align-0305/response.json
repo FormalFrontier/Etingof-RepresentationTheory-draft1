@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0305",
+  "associations": [
+    {
+      "association_id": "association:263e64738020bcc0be3d",
+      "role": "supporting",
+      "rationale": "This construction realizes a two-sided ideal only as a left ideal, so it supplies one partial component rather than itself stating the simultaneous left-and-right assertion."
+    },
+    {
+      "association_id": "association:7d54bd6eefa4427bc2bd",
+      "role": "supporting",
+      "rationale": "This construction realizes a two-sided ideal only as a right ideal, so it supplies one partial component rather than itself stating the simultaneous left-and-right assertion."
+    },
+    {
+      "association_id": "association:069437cad2b134aa871a",
+      "role": "supporting",
+      "rationale": "This lemma characterizes membership after viewing a two-sided ideal as a left ideal; it supports the construction rather than defining the left-ideal structure itself."
+    },
+    {
+      "association_id": "association:6bf36cbc73ab40091e32",
+      "role": "supporting",
+      "rationale": "This lemma characterizes membership after viewing a two-sided ideal as a right ideal; it supports the construction rather than defining the right-ideal structure itself."
+    }
+  ]
+}

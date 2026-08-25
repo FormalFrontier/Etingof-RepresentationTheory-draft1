@@ -1,0 +1,10 @@
+{
+  "module_name": "CauchyDeterminant",
+  "declarations": [
+    {
+      "temporary_id": "decl-005475",
+      "new_name": "cauchy_det",
+      "docstring": "Evaluates the determinant of the matrix of pairwise reciprocal differences."
+    }
+  ]
+}

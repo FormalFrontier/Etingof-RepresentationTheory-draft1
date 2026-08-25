@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:8b9d7fb72d43410bf8ad",
+      "rationale": "For every pair of the five indexed irreducibles, the formal type directly asserts an isomorphism from their tensor product to the multiplicity sum determined by the S4 table data.",
+      "role": "primary"
+    },
+      {
+        "association_id": "association:7e2f51637a3cefcb5013",
+        "rationale": "The type visibly gives a biproduct decomposition for every indexed pair, but the biproduct's indexing and multiplicities are elided, so it does not itself identify that decomposition with the displayed S4 table.",
+        "role": "supporting"
+      }
+  ],
+  "packet_id": "align-0412"
+}

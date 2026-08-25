@@ -1,0 +1,35 @@
+{
+  "packet_id": "align-0398",
+  "associations": [
+    {
+      "association_id": "association:f724b639013f761625e7",
+      "role": "supporting",
+      "rationale": "The formal type asserts additivity of the representation Hom functor, but it does not state its k-linearity or either property for induction and restriction, so it covers only one clause."
+    },
+    {
+      "association_id": "association:c0ce4d6d8d0dac4b24af",
+      "role": "supporting",
+      "rationale": "The formal type asserts k-linearity of the representation Hom functor, but it does not state its additivity or either property for induction and restriction, so it covers only one clause."
+    },
+    {
+      "association_id": "association:565190bbadab63109b3c",
+      "role": "supporting",
+      "rationale": "The formal type asserts additivity of induction, but it does not state induction's k-linearity or either property for restriction and the Hom functor, so it covers only one clause."
+    },
+    {
+      "association_id": "association:ab4515f01672a5a194dd",
+      "role": "supporting",
+      "rationale": "The formal type asserts k-linearity of induction, but it does not state induction's additivity or either property for restriction and the Hom functor, so it covers only one clause."
+    },
+    {
+      "association_id": "association:7e2a0fd684335ee88b9d",
+      "role": "supporting",
+      "rationale": "The formal type asserts additivity of restriction, but it does not state restriction's k-linearity or either property for induction and the Hom functor, so it covers only one clause."
+    },
+    {
+      "association_id": "association:7dad74ec0c85c1b0efef",
+      "role": "supporting",
+      "rationale": "The formal type asserts k-linearity of restriction, but it does not state restriction's additivity or either property for induction and the Hom functor, so it covers only one clause."
+    }
+  ]
+}

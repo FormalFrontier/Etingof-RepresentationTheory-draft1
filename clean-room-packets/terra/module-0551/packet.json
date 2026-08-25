@@ -1,0 +1,85 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {n : Nat} [Q : Quiver.{0, 0} (Fin n)] [inst : (i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)]\n  [\u2200 (i j : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} i j)] (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n      decl-005208.{0} Q adj \u2192\n        \u2200 (i j : Fin n),\n          Eq.{1} (HAdd.hAdd.{0, 0, 0} (Nat.cast.{0} (decl-017227 i j)) (Nat.cast.{0} (decl-017227 j i)))\n            (adj i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005208",
+        "decl-017227"
+      ],
+      "structural_type_hash": "1732390253",
+      "temporary_id": "decl-017229"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} [Q : Quiver.{0, 0} (Fin n)] [inst : (i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)]\n  [\u2200 (i j : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} i j)] (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n      decl-005208.{0} Q adj \u2192\n        (\u2200 (m : Fin n \u2192 Nat),\n            Ne.{1} m 0 \u2192\n              LT.lt.{0}\n                (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n                  Finset.sum.{0, 0} Finset.univ.{0} fun j =>\n                    HMul.hMul.{0, 0, 0} (decl-017227 i j) (HMul.hMul.{0, 0, 0} (m i) (m j)))\n                (Finset.sum.{0, 0} Finset.univ.{0} fun i => HPow.hPow.{0, 0, 0} (m i) 2)) \u2192\n          \u2200 (x : Fin n \u2192 Int),\n            (\u2200 (i : Fin n), LE.le.{0} 0 (x i)) \u2192\n              Ne.{1} x 0 \u2192\n                LT.lt.{0} 0\n                  (dotProduct.{0, 0} x\n                    (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005208",
+        "decl-017227"
+      ],
+      "structural_type_hash": "940015854",
+      "temporary_id": "decl-019924"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} [Q : Quiver.{0, 0} (Fin n)] [inst : (i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)]\n  [\u2200 (i j : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} i j)] (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i : Fin n), Eq.{1} (adj i i) 0) \u2192\n      (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n        (\u2200 (i j : Fin n),\n            Exists.{1} fun path =>\n              And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n                (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n                  (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n                    Eq.{1} (adj (List.get.{0} path \u27e8k, \u22ef\u27e9) (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) 1))) \u2192\n          decl-005208.{0} Q adj \u2192\n            (\u2200 (m : Fin n \u2192 Nat),\n                Ne.{1} m 0 \u2192\n                  LT.lt.{0}\n                    (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n                      Finset.sum.{0, 0} Finset.univ.{0} fun j =>\n                        HMul.hMul.{0, 0, 0} (decl-017227 i j) (HMul.hMul.{0, 0, 0} (m i) (m j)))\n                    (Finset.sum.{0, 0} Finset.univ.{0} fun i => HPow.hPow.{0, 0, 0} (m i) 2)) \u2192\n              decl-005140 n adj",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-005208",
+        "decl-017227",
+        "decl-020830"
+      ],
+      "structural_type_hash": "3277422607",
+      "temporary_id": "decl-020829"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} [Q : Quiver.{0, 0} (Fin n)] [(i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)]\n  [\u2200 (i j : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} i j)] (k : Type) [inst : Field.{0} k]\n  (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i : Fin n), Eq.{1} (adj i i) 0) \u2192\n      (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n        (\u2200 (i j : Fin n),\n            Exists.{1} fun path =>\n              And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n                (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n                  (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n                    Eq.{1} (adj (List.get.{0} path \u27e8k, \u22ef\u27e9) (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) 1))) \u2192\n          decl-005208.{0} Q adj \u2192\n            (\u2200 (m : Fin n \u2192 Nat),\n                Ne.{1} m 0 \u2192\n                  LT.lt.{0} (Module.finrank.{0, 0} k (decl-022624.{0} m))\n                    (Module.finrank.{0, 0} k ((i : Fin n) \u2192 Matrix.{0, 0, 0} (Fin (m i)) (Fin (m i)) k))) \u2192\n              decl-005140 n adj",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-005208",
+        "decl-020830",
+        "decl-022624"
+      ],
+      "structural_type_hash": "3346929264",
+      "temporary_id": "decl-020831"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} [Q : Quiver.{0, 0} (Fin n)] [inst : (i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)]\n  [\u2200 (i j : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} i j)] (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n      decl-005208.{0} Q adj \u2192\n        \u2200 (m : Fin n \u2192 Nat),\n          Eq.{1}\n            (dotProduct.{0, 0} (fun i => Nat.cast.{0} (m i))\n              (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj) fun i =>\n                Nat.cast.{0} (m i)))\n            (HMul.hMul.{0, 0, 0} 2\n              (HSub.hSub.{0, 0, 0}\n                (Finset.sum.{0, 0} Finset.univ.{0} fun i => HPow.hPow.{0, 0, 0} (Nat.cast.{0} (m i)) 2)\n                (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n                  Finset.sum.{0, 0} Finset.univ.{0} fun j =>\n                    HMul.hMul.{0, 0, 0} (Nat.cast.{0} (decl-017227 i j))\n                      (HMul.hMul.{0, 0, 0} (Nat.cast.{0} (m i)) (Nat.cast.{0} (m j))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005208",
+        "decl-017227"
+      ],
+      "structural_type_hash": "695143828",
+      "temporary_id": "decl-024128"
+    }
+  ],
+  "module_temporary_id": "module-0551",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

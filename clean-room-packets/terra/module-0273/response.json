@@ -1,0 +1,15 @@
+{
+  "module_name": "SimpleDirectSumAndWeightDegree",
+  "declarations": [
+    {
+      "temporary_id": "decl-001368",
+      "new_name": "SimpleModule.exists_linearEquiv_summand_of_injective_to_directSum",
+      "docstring": "A simple module admitting an injective linear map into a finite direct sum of simple modules is linearly equivalent to one of the summands."
+    },
+    {
+      "temporary_id": "decl-023209",
+      "new_name": "GeneralLinearRepresentation.exists_positive_polynomial_term_of_simple_subrepresentation_of_weightSum",
+      "docstring": "For a representation whose nonzero weights have a fixed coordinate sum, an injectively embedded simple representation has invariant equal to a positively occurring term in any specified finite polynomial expansion."
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {M U : ModuleCat.{v, u} R},\n  decl-005131.{v, u} R M U \u2192 Nontrivial.{v} (ModuleCat.carrier.{v, u} M)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005131",
+      "project_type_dependencies": [
+        "decl-005131"
+      ],
+      "structural_type_hash": "1934790238",
+      "temporary_id": "decl-005133"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {M M' : Type v} [inst_1 : AddCommGroup.{v} M] [inst_2 : Module.{u, v} R M]\n  [inst_3 : AddCommGroup.{v} M'] [inst_4 : Module.{u, v} R M'] {U : ModuleCat.{v, u} R}\n  (e : LinearEquiv.{u, u, v, v} (RingHom.id.{u} R) M M'),\n  decl-005131.{v, u} R (ModuleCat.of.{v, u} R M') U \u2192\n    decl-005131.{v, u} R (ModuleCat.of.{v, u} R M) U",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005131",
+      "project_type_dependencies": [
+        "decl-005131"
+      ],
+      "structural_type_hash": "4081646730",
+      "temporary_id": "decl-005134"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {M U : ModuleCat.{v, u} R},\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} M) \u2192\n    decl-005131.{v, u} R M U \u2192\n      Nonempty.{v + 1}\n        (LinearEquiv.{u, u, v, v} (RingHom.id.{u} R) (ModuleCat.carrier.{v, u} U) (ModuleCat.carrier.{v, u} M))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005131",
+      "project_type_dependencies": [
+        "decl-005131"
+      ],
+      "structural_type_hash": "3855772280",
+      "temporary_id": "decl-005135"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {M S : ModuleCat.{v, u} R} (P : Submodule.{u, v} R (ModuleCat.carrier.{v, u} M)),\n  decl-005131.{v, u} R (ModuleCat.of.{v, u} R (Subtype.{v + 1} fun x => Membership.mem.{v, v} P x)) S \u2192\n    decl-005131.{v, u} R M S",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005131",
+      "project_type_dependencies": [
+        "decl-005131"
+      ],
+      "structural_type_hash": "1427731997",
+      "temporary_id": "decl-005136"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {Y : Type v} [inst_1 : AddCommGroup.{v} Y] [inst_2 : Module.{u, v} R Y]\n  (K : Submodule.{u, v} R Y) {U : ModuleCat.{v, u} R},\n  decl-005131.{v, u} R (ModuleCat.of.{v, u} R Y) U \u2192\n    Or\n      (decl-005131.{v, u} R (ModuleCat.of.{v, u} R (Subtype.{v + 1} fun x => Membership.mem.{v, v} K x))\n        U)\n      (decl-005131.{v, u} R (ModuleCat.of.{v, u} R (HasQuotient.Quotient.{v, v} Y K)) U)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005131",
+      "project_type_dependencies": [
+        "decl-005131"
+      ],
+      "structural_type_hash": "1856365109",
+      "temporary_id": "decl-005137"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {M : ModuleCat.{v, u} R} {B : Type v} [inst_1 : AddCommGroup.{v} B]\n  [inst_2 : Module.{u, v} R B] {S : ModuleCat.{v, u} R}\n  (q : LinearMap.{u, u, v, v} (RingHom.id.{u} R) (ModuleCat.carrier.{v, u} M) B),\n  Function.Surjective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} q) \u2192\n    decl-005131.{v, u} R (ModuleCat.of.{v, u} R B) S \u2192 decl-005131.{v, u} R M S",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005131",
+      "project_type_dependencies": [
+        "decl-005131"
+      ],
+      "structural_type_hash": "1074923837",
+      "temporary_id": "decl-005139"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {M : ModuleCat.{v, u} R} [Small.{v, u} R]\n  [Nontrivial.{v} (ModuleCat.carrier.{v, u} M)],\n  Exists.{max (u + 1) (v + 2)} fun S => decl-005131.{v, u} R M S",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005131"
+      ],
+      "structural_type_hash": "388854438",
+      "temporary_id": "decl-018878"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {M S : ModuleCat.{v, u} R},\n  Iff (decl-005131.{v, u} R M S)\n    (And (IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S))\n      (Exists.{v + 1} fun P =>\n        Exists.{v + 1} fun g => Function.Surjective.{v + 1, v + 1} (DFunLike.coe.{v + 1, v + 1, v + 1} g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005131"
+      ],
+      "structural_type_hash": "2949498582",
+      "temporary_id": "decl-020821"
+    }
+  ],
+  "module_temporary_id": "module-0751",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

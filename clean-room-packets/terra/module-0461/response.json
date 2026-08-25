@@ -1,0 +1,50 @@
+{
+  "module_name": "IsotypicCentralizer",
+  "declarations": [
+    {
+      "temporary_id": "decl-017830",
+      "new_name": "centralizerModuleLinearMap",
+      "docstring": "The centralizer action on linear maps from an invariant submodule."
+    },
+    {
+      "temporary_id": "decl-018926",
+      "new_name": "existsIsSimpleModuleSubmoduleLinearMapEquiv",
+      "docstring": "Every simple centralizer module is linearly equivalent to maps from a simple submodule."
+    },
+    {
+      "temporary_id": "decl-019955",
+      "new_name": "linearEquivLinearMapPrecomp",
+      "docstring": "An equivariant equivalence induces a centralizer-linear equivalence between the corresponding linear-map spaces."
+    },
+    {
+      "temporary_id": "decl-019964",
+      "new_name": "linearEquivOfCentralizerLinearEquivLinearMap",
+      "docstring": "Simple modules are equivalent when their associated centralizer-linear map spaces are equivalent."
+    },
+    {
+      "temporary_id": "decl-020130",
+      "new_name": "centralizerIsotypicComponent",
+      "docstring": "Maps an isotypic component for a subalgebra to one for its centralizer."
+    },
+    {
+      "temporary_id": "decl-020133",
+      "new_name": "isotypicComponentsEquivCentralizer",
+      "docstring": "Equivalence between the isotypic components of a subalgebra and of its centralizer."
+    },
+    {
+      "temporary_id": "decl-020134",
+      "new_name": "centralizerIsotypicComponent_bijective",
+      "docstring": "The map from isotypic components to centralizer isotypic components is bijective."
+    },
+    {
+      "temporary_id": "decl-020135",
+      "new_name": "centralizerIsotypicComponent_injective",
+      "docstring": "The map from isotypic components to centralizer isotypic components is injective."
+    },
+    {
+      "temporary_id": "decl-020907",
+      "new_name": "isSimpleModuleLinearMap",
+      "docstring": "Linear maps from a simple module form a simple module for the centralizer."
+    }
+  ]
+}

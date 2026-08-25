@@ -1,0 +1,68 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u} A]\n  [inst_3 : Algebra.{u_1, u} k A] [FiniteDimensional.{u_1, u} k A],\n  Exists.{u + 1} fun s =>\n    And (\u2200 (M : Submodule.{u, u} A A), Membership.mem.{u, u} s M \u2192 IsCoatom.{u} M)\n      (And (LE.le.{0} (Finset.card.{u} s) (Module.finrank.{u_1, u} k A))\n        (And\n          (\u2200 (M : Submodule.{u, u} A A),\n            Membership.mem.{u, u} s M \u2192\n              \u2200 (N : Submodule.{u, u} A A),\n                Membership.mem.{u, u} s N \u2192\n                  Ne.{u + 1} M N \u2192\n                    IsEmpty.{u + 1}\n                      (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) (HasQuotient.Quotient.{u, u} A M)\n                        (HasQuotient.Quotient.{u, u} A N)))\n          (\u2200 (V : Type v) [inst : AddCommGroup.{v} V] [inst_5 : Module.{u, v} A V] [IsSimpleModule.{u, v} A V],\n            Exists.{u + 1} fun M =>\n              And (Membership.mem.{u, u} s M)\n                (Nonempty.{max (u + 1) (v + 1)}\n                  (LinearEquiv.{u, u, v, u} (RingHom.id.{u} A) V (HasQuotient.Quotient.{u, u} A M))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2405483468",
+      "temporary_id": "decl-018782"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u} A]\n  [inst_3 : Algebra.{u_1, u} k A] [FiniteDimensional.{u_1, u} k A],\n  Exists.{u + 1} fun s =>\n    And (\u2200 (M : Submodule.{u, u} A A), Membership.mem.{u, u} s M \u2192 IsCoatom.{u} M)\n      (And (LE.le.{0} (Finset.card.{u} s) (Module.finrank.{u_1, u} k A))\n        (And\n          (\u2200 (M : Submodule.{u, u} A A),\n            Membership.mem.{u, u} s M \u2192\n              \u2200 (N : Submodule.{u, u} A A),\n                Membership.mem.{u, u} s N \u2192\n                  Ne.{u + 1} M N \u2192\n                    IsEmpty.{u + 1}\n                      (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) (HasQuotient.Quotient.{u, u} A M)\n                        (HasQuotient.Quotient.{u, u} A N)))\n          (\u2200 (N : Submodule.{u, u} A A),\n            IsCoatom.{u} N \u2192\n              Exists.{u + 1} fun M =>\n                And (Membership.mem.{u, u} s M)\n                  (Nonempty.{u + 1}\n                    (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) (HasQuotient.Quotient.{u, u} A N)\n                      (HasQuotient.Quotient.{u, u} A M))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3177584114",
+      "temporary_id": "decl-018839"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) (V : Type v) [inst : Ring.{u} A] [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} A V]\n  [IsSimpleModule.{u, v} A V],\n  Exists.{u + 1} fun M =>\n    And (IsCoatom.{u} M)\n      (Nonempty.{max (u + 1) (v + 1)} (LinearEquiv.{u, u, v, u} (RingHom.id.{u} A) V (HasQuotient.Quotient.{u, u} A M)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3385661540",
+      "temporary_id": "decl-018874"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u} A]\n  [inst_3 : Algebra.{u_1, u} k A] [FiniteDimensional.{u_1, u} k A],\n  Exists.{u + 1} fun s =>\n    And (\u2200 (M : Submodule.{u, u} A A), Membership.mem.{u, u} s M \u2192 IsCoatom.{u} M)\n      (And (LE.le.{0} (Finset.card.{u} s) (Module.finrank.{u_1, u} k A))\n        (And\n          (\u2200 (M : Submodule.{u, u} A A),\n            Membership.mem.{u, u} s M \u2192\n              \u2200 (N : Submodule.{u, u} A A),\n                Membership.mem.{u, u} s N \u2192\n                  Ne.{u + 1} M N \u2192\n                    IsEmpty.{u + 1}\n                      (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) (HasQuotient.Quotient.{u, u} A M)\n                        (HasQuotient.Quotient.{u, u} A N)))\n          (And\n            (\u2200 (W : Type u) [inst : AddCommGroup.{u} W] [inst_5 : Module.{u, u} A W] [IsSimpleModule.{u, u} A W],\n              Exists.{u + 1} fun M =>\n                And (Membership.mem.{u, u} s M)\n                  (Nonempty.{u + 1} (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) W (HasQuotient.Quotient.{u, u} A M))))\n            (Nonempty.{u + 1}\n              (AlgEquiv.{u_1, u, u} k (HasQuotient.Quotient.{u, u} A (decl-015214.{u} A))\n                ((M : Subtype.{u + 1} fun x => Membership.mem.{u, u} s x) \u2192\n                  Module.End.{u_1, u} k (HasQuotient.Quotient.{u, u} A (Subtype.val.{u + 1} M))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015214"
+      ],
+      "structural_type_hash": "78247020",
+      "temporary_id": "decl-018936"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u) [inst : Field.{u_1} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u_1, u} k A]\n  [FiniteDimensional.{u_1, u} k A] (M : Submodule.{u, u} A A),\n  FiniteDimensional.{u_1, u} k (HasQuotient.Quotient.{u, u} A M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3388163576",
+      "temporary_id": "decl-019400"
+    }
+  ],
+  "module_temporary_id": "module-0180",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

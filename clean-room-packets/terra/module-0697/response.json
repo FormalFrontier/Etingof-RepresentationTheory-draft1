@@ -1,0 +1,60 @@
+{
+  "declarations": [
+    {
+      "docstring": "Produces a finite algebraic candidate satisfying the displayed conditions, with a rank bound and uniqueness up to algebra equivalence among the specified candidates.",
+      "new_name": "Auxiliary.exists_type_with_three_conditions_finrank_le_and_unique",
+      "temporary_id": "decl-001471"
+    },
+    {
+      "docstring": "Guarantees a finite algebraic candidate meeting the two displayed conditions.",
+      "new_name": "Auxiliary.exists_type_with_two_conditions",
+      "temporary_id": "decl-001472"
+    },
+    {
+      "docstring": "Guarantees a finite algebraic candidate meeting the three displayed conditions.",
+      "new_name": "Auxiliary.exists_type_with_three_conditions",
+      "temporary_id": "decl-001480"
+    },
+    {
+      "docstring": "Shows that two candidates satisfying the stated pair of shared conditions are algebra equivalent.",
+      "new_name": "Auxiliary.algEquiv_of_two_shared_conditions",
+      "temporary_id": "decl-001481"
+    },
+    {
+      "docstring": "Shows that two candidates satisfying the other stated pair of shared conditions are algebra equivalent.",
+      "new_name": "Auxiliary.algEquiv_of_two_shared_conditions'",
+      "temporary_id": "decl-001482"
+    },
+    {
+      "docstring": "Bounds the rank of a candidate by that of the ambient algebra under the stated conditions.",
+      "new_name": "Auxiliary.finrank_le_of_two_conditions",
+      "temporary_id": "decl-001483"
+    },
+    {
+      "docstring": "Bounds the rank of a candidate by that of the ambient algebra under the other stated conditions.",
+      "new_name": "Auxiliary.finrank_le_of_two_conditions'",
+      "temporary_id": "decl-001484"
+    },
+    {
+      "docstring": "The relation holds when both arguments are the same ring.",
+      "new_name": "refl",
+      "temporary_id": "decl-005666"
+    },
+    {
+      "docstring": "Reverses an instance of the relation between two rings.",
+      "new_name": "symm",
+      "temporary_id": "decl-005667"
+    },
+    {
+      "docstring": "Composes two compatible instances of the relation between rings.",
+      "new_name": "trans",
+      "temporary_id": "decl-005670"
+    },
+    {
+      "docstring": "The displayed relation holds for a field paired with itself.",
+      "new_name": "Auxiliary.relation_self",
+      "temporary_id": "decl-020778"
+    }
+  ],
+  "module_name": "Auxiliary.FiniteAlgebraCandidates"
+}

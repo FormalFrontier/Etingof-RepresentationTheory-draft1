@@ -1,0 +1,25 @@
+{
+  "module_name": "Auxiliary.GeneralLinearGroupRepresentationDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-006687",
+      "new_name": "Auxiliary.GeneralLinearGroupRepresentationDecomposition.auxiliaryFieldNatType",
+      "docstring": "An auxiliary type family indexed by a field and a natural number."
+    },
+    {
+      "temporary_id": "decl-006688",
+      "new_name": "Auxiliary.GeneralLinearGroupRepresentationDecomposition.existsLinearEquivFiniteDirectSum",
+      "docstring": "Under the displayed hypotheses on a finite-dimensional representation, asserts the existence of auxiliary data including a nonempty linear equivalence from its underlying module to a finite direct sum of underlying modules of an existentially supplied family of representations."
+    },
+    {
+      "temporary_id": "decl-006689",
+      "new_name": "Auxiliary.GeneralLinearGroupRepresentationDecomposition.existsActionIntertwiningData",
+      "docstring": "For an algebraically closed field of characteristic zero, asserts the existence of displayed data including a map that intertwines a general linear group action with a direct sum of tensor products involving trivial representations."
+    },
+    {
+      "temporary_id": "decl-006690",
+      "new_name": "auxiliaryElidedStatement006690",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    }
+  ]
+}

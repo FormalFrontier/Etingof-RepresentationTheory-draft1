@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0645",
+  "associations": [
+    {
+      "association_id": "association:e3669ad4cafed7f056f9",
+      "rationale": "The formal type concludes an A-linear equivalence from an equivalence after arbitrary scalar extension, but it does not state specialization at a maximal ideal or finiteness obtained from Zariski's lemma.",
+      "role": "supporting"
+    }
+  ]
+}

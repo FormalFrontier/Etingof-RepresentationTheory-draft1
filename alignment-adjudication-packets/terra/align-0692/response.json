@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0692",
+  "associations": [
+    {
+      "association_id": "association:6ec2734da5d1956a56bd",
+      "rationale": "The type directly gives the two-block algebra equivalence and dim S = 2^n, but it does not state the claim's exactly-two-irreducible-representations conclusion; that conclusion is a consequence of the displayed equivalence.",
+      "role": "supporting"
+    }
+  ]
+}

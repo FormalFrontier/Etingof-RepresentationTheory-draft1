@@ -1,0 +1,161 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (d : Fin n \u2192 Int),\n      (\u2200 (i : Fin n), LE.le.{0} 0 (d i)) \u2192\n        Ne.{1} d 0 \u2192\n          Eq.{1} (dotProduct.{0, 0} d (Matrix.mulVec.{0, 0, 0} (decl-017751 n adj) d)) 2 \u2192\n            Exists.{1} fun vertices =>\n              Exists.{1} fun p =>\n                Eq.{1} (decl-021002 n (decl-017751 n adj) vertices d)\n                  (decl-023199 n p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-017751",
+        "decl-021002",
+        "decl-023199"
+      ],
+      "structural_type_hash": "1239948102",
+      "temporary_id": "decl-016656"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Matrix.IsSymm.{0, 0} adj \u2192 Matrix.IsSymm.{0, 0} (decl-017751 n adj)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017751"
+      ],
+      "structural_type_hash": "779285930",
+      "temporary_id": "decl-017753"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (d : Fin n \u2192 Int),\n      (\u2200 (i : Fin n), LE.le.{0} 0 (d i)) \u2192\n        Ne.{1} d 0 \u2192\n          Eq.{1} (dotProduct.{0, 0} d (Matrix.mulVec.{0, 0, 0} (decl-017751 n adj) d)) 2 \u2192\n            LE.le.{0} 2 (Finset.sum.{0, 0} Finset.univ.{0} fun i => d i) \u2192\n              Exists.{1} fun k =>\n                And (LT.lt.{0} 0 (Matrix.mulVec.{0, 0, 0} (decl-017751 n adj) d k))\n                  (LE.le.{0} (Matrix.mulVec.{0, 0, 0} (decl-017751 n adj) d k) (d k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-017751"
+      ],
+      "structural_type_hash": "1804794037",
+      "temporary_id": "decl-018852"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 List.{0} (Fin n) \u2192 (Fin n \u2192 Int) \u2192 Fin n \u2192 Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "90784745",
+      "temporary_id": "decl-021002"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (A : Matrix.{0, 0, 0} (Fin n) (Fin n) Int) (k : Fin n) (vertices : List.{0} (Fin n)) (v : Fin n \u2192 Int),\n  Eq.{1} (decl-021002 n A (List.cons.{0} k vertices) v)\n    (decl-021002 n A vertices (decl-023169 n A k v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021002",
+        "decl-023169"
+      ],
+      "structural_type_hash": "2853651883",
+      "temporary_id": "decl-021005"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {A : Matrix.{0, 0, 0} (Fin n) (Fin n) Int} (v : Fin n \u2192 Int) (i j : Fin n),\n  Ne.{1} j i \u2192 Eq.{1} (decl-023169 n A i v j) (v j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023169"
+      ],
+      "structural_type_hash": "3553451156",
+      "temporary_id": "decl-023183"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {A : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Matrix.IsSymm.{0, 0} A \u2192\n    \u2200 (v : Fin n \u2192 Int) (i : Fin n),\n      Eq.{1} (decl-023169 n A i v i) (HSub.hSub.{0, 0, 0} (v i) (Matrix.mulVec.{0, 0, 0} A v i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023169"
+      ],
+      "structural_type_hash": "1285561709",
+      "temporary_id": "decl-023184"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {A : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Matrix.IsSymm.{0, 0} A \u2192\n    \u2200 (d : Fin n \u2192 Int) (k : Fin n),\n      (\u2200 (i : Fin n), LE.le.{0} 0 (d i)) \u2192\n        LE.le.{0} (Matrix.mulVec.{0, 0, 0} A d k) (d k) \u2192\n          \u2200 (i : Fin n), LE.le.{0} 0 (decl-023169 n A k d i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023169"
+      ],
+      "structural_type_hash": "2300977730",
+      "temporary_id": "decl-023187"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (v : Fin n \u2192 Int) (k : Fin n),\n      Eq.{1} (dotProduct.{0, 0} v (Matrix.mulVec.{0, 0, 0} (decl-017751 n adj) v)) 2 \u2192\n        Ne.{1} (decl-023169 n (decl-017751 n adj) k v) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-017751",
+        "decl-023169"
+      ],
+      "structural_type_hash": "3441046055",
+      "temporary_id": "decl-023188"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (v : Fin n \u2192 Int) (i : Fin n),\n      Eq.{1}\n        (dotProduct.{0, 0} (decl-023169 n (decl-017751 n adj) i v)\n          (Matrix.mulVec.{0, 0, 0} (decl-017751 n adj)\n            (decl-023169 n (decl-017751 n adj) i v)))\n        (dotProduct.{0, 0} v (Matrix.mulVec.{0, 0, 0} (decl-017751 n adj) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-017751",
+        "decl-023169"
+      ],
+      "structural_type_hash": "3655769521",
+      "temporary_id": "decl-023189"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {A : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Matrix.IsSymm.{0, 0} A \u2192\n    \u2200 (v : Fin n \u2192 Int) (i : Fin n),\n      Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun j => decl-023169 n A i v j)\n        (HSub.hSub.{0, 0, 0} (Finset.sum.{0, 0} Finset.univ.{0} fun j => v j) (Matrix.mulVec.{0, 0, 0} A v i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023169"
+      ],
+      "structural_type_hash": "1813125263",
+      "temporary_id": "decl-023192"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (d : Fin n \u2192 Int),\n  (\u2200 (i : Fin n), LE.le.{0} 0 (d i)) \u2192\n    Ne.{1} d 0 \u2192\n      Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun i => d i) 1 \u2192 Exists.{1} fun p => Eq.{1} d (decl-023199 n p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023199"
+      ],
+      "structural_type_hash": "2029882206",
+      "temporary_id": "decl-023550"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (d : Fin n \u2192 Int),\n  (\u2200 (i : Fin n), LE.le.{0} 0 (d i)) \u2192 Ne.{1} d 0 \u2192 LE.le.{0} 1 (Finset.sum.{0, 0} Finset.univ.{0} fun i => d i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1358227440",
+      "temporary_id": "decl-023555"
+    }
+  ],
+  "module_temporary_id": "module-0569",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

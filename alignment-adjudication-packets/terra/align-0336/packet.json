@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cdef84cee6ceb86ca939",
+      "declaration": "Etingof.even_finrank_of_isQuaternionicType",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/244/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V] [inst_3 : Fintype.{u_1} G] [DecidableEq.{u_1 + 1} G]\n  [inst_5 : Module.Finite.{0, u_2} Complex V] (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  Etingof.IsQuaternionicType.{u_1, u_2} \u03c1 \u2192 Even.{0} (Module.finrank.{0, u_2} Complex V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.FrobeniusSchurRealType"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_after_Definition5.1.1",
+  "packet_id": "align-0336",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0336"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6865dd301f5f3b4837ae",
+  "source_text": "Every quaternionic representation has even complex dimension."
+}

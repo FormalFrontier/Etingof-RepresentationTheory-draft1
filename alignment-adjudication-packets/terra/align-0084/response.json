@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0084",
+  "associations": [
+    {
+      "association_id": "association:886b4bea437920c8e3ec",
+      "role": "supporting",
+      "rationale": "This injectivity criterion reduces the block-map conclusion to the stated row-independence condition."
+    },
+    {
+      "association_id": "association:0e5238eabb2aad90c2c5",
+      "role": "supporting",
+      "rationale": "This equivalence supplies the matrix-row linear-independence criterion used by the block construction."
+    },
+    {
+      "association_id": "association:f187bbc0165412c36222",
+      "role": "primary",
+      "rationale": "Its conclusion constructs the block maps with injective components and linearly independent rows described in the claim."
+    }
+  ]
+}

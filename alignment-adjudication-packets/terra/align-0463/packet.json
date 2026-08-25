@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ab9abfcd2702dcfb0af6",
+      "declaration": "matrixTransposeSelfDuality",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192\n    (D : Nat) \u2192\n      AlgEquiv.{u_2, u_2, u_2} k (Matrix.{0, 0, u_2} (Fin D) (Fin D) k)\n        (MulOpposite.{u_2} (Matrix.{0, 0, u_2} (Fin D) (Fin D) k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.3.1",
+  "packet_id": "align-0463",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0463"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:94440cdcf5d1b4f2471b",
+  "source_text": "Matrix transpose identifies Mat_d(k) with its opposite algebra because (BC)^T = C^T B^T."
+}

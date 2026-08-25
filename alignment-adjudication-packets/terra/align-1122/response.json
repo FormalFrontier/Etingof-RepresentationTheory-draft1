@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1122",
+  "associations": [
+    {
+      "association_id": "association:e67c8e9fac20ef322ddf",
+      "role": "supporting",
+      "rationale": "The formal type supplies a Real → AlgEquiv Real A A family under a derivation hypothesis, but it does not display NormedSpace.exp or identify the returned automorphisms with exp(tD)."
+    },
+    {
+      "association_id": "association:55d83fe9be1bfdc7fb5c",
+      "role": "supporting",
+      "rationale": "It establishes the one-parameter composition law, but does not show that the exponential maps are algebra automorphisms."
+    },
+    {
+      "association_id": "association:20e8df699a9c53858c09",
+      "role": "supporting",
+      "rationale": "The formal type states exp(0D) = 1, supplying the identity special case that supports the one-parameter-group claim."
+    }
+  ]
+}

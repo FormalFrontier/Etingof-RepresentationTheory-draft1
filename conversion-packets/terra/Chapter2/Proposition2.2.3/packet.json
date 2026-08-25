@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Proposition2.2.3",
+    "kind": "proposition",
+    "title": "Uniqueness of unit",
+    "node_id": "chapter-02/section-2-2",
+    "order": 18,
+    "slug": "proposition2-2-3",
+    "span": {
+      "start": {
+        "page": "9",
+        "line": 5
+      },
+      "end": {
+        "page": "9",
+        "line": 8
+      }
+    },
+    "source_sha256": "ec3fd13a8f11337d3df6cd60854c7e869fb6e5db54f99b63e35611acf3934efb",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Proposition223",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

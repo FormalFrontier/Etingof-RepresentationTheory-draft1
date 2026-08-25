@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:98e35b60d8cc26fd5fc8",
+      "declaration": "Etingof.Problem953.exists_block_of_indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/568/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {M : ModuleCat.{v, u} R},\n  CategoryTheory.Indecomposable.{v, max u (v + 1)} M \u2192\n    IsFiniteLength.{u, v} R (ModuleCat.carrier.{v, u} M) \u2192\n      Exists.{max (u + 1) (v + 2)} fun S =>\n        And (IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S)) (Etingof.InBlock.{v, u} R S M)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.5.3",
+  "packet_id": "align-0876",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0876"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.5.3:part_ii_objects",
+  "source_text": "Part (ii): every indecomposable object lies in a unique block and the category is their direct sum."
+}

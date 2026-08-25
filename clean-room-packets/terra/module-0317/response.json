@@ -1,0 +1,105 @@
+{
+  "module_name": "FieldCharacterAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-003840",
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary type attached to a field."
+    },
+    {
+      "temporary_id": "decl-003843",
+      "new_name": "unitCharacterTransform",
+      "docstring": "Transforms a complex-valued multiplicative character using a field unit."
+    },
+    {
+      "temporary_id": "decl-003845",
+      "new_name": "unitCharacterTransform_apply",
+      "docstring": "Evaluates the unit-induced character transform at a multiplicative field element."
+    },
+    {
+      "temporary_id": "decl-003846",
+      "new_name": "unitCharacterTransform_eq_mulShift",
+      "docstring": "Expresses the unit-induced character transform as an additive-character shift."
+    },
+    {
+      "temporary_id": "decl-003847",
+      "new_name": "unitCharacterTransform_eq_self_iff",
+      "docstring": "For a nontrivial character, character invariance under the transform is equivalent to a trivial unit."
+    },
+    {
+      "temporary_id": "decl-003848",
+      "new_name": "exists_unitCharacterTransform_eq",
+      "docstring": "Any two nontrivial characters over a finite field are related by a unit-induced transform."
+    },
+    {
+      "temporary_id": "decl-003849",
+      "new_name": "unitCharacterTransform_one",
+      "docstring": "The unit-induced transform preserves the trivial character."
+    },
+    {
+      "temporary_id": "decl-003850",
+      "new_name": "auxiliaryMulEquiv",
+      "docstring": "Constructs a multiplicative equivalence to an auxiliary field-dependent type."
+    },
+    {
+      "temporary_id": "decl-003854",
+      "new_name": "auxiliaryMulEquiv_apply",
+      "docstring": "Describes the value of the auxiliary multiplicative equivalence."
+    },
+    {
+      "temporary_id": "decl-003855",
+      "new_name": "exists_simpleRepresentatives_of_two_lt_card",
+      "docstring": "For a finite field with more than two elements, supplies pairwise nonisomorphic simple representatives with the displayed dimension counts."
+    },
+    {
+      "temporary_id": "decl-003856",
+      "new_name": "exists_auxiliarySimpleRepresentatives_of_two_lt_card",
+      "docstring": "For a finite field with more than two elements, provides simple representation representatives and the displayed dimension counts for an auxiliary group."
+    },
+    {
+      "temporary_id": "decl-003863",
+      "new_name": "exists_classifiedAuxiliarySimpleRepresentatives_of_two_lt_card",
+      "docstring": "For a finite field with more than two elements, provides simple representatives with the displayed character and dimension classification."
+    },
+    {
+      "temporary_id": "decl-003864",
+      "new_name": "exists_simpleRepresentatives_of_card_eq_two",
+      "docstring": "Provides two one-dimensional simple representatives when the field has cardinality two."
+    },
+    {
+      "temporary_id": "decl-003865",
+      "new_name": "exists_auxiliarySimpleRepresentatives_of_card_eq_two",
+      "docstring": "Provides two one-dimensional simple representatives for an auxiliary group when the field has cardinality two."
+    },
+    {
+      "temporary_id": "decl-003869",
+      "new_name": "unitAction",
+      "docstring": "Defines the action of field units by multiplicative automorphisms."
+    },
+    {
+      "temporary_id": "decl-003870",
+      "new_name": "unitAction_apply",
+      "docstring": "Evaluates the unit action after converting a field element to multiplicative form."
+    },
+    {
+      "temporary_id": "decl-003871",
+      "new_name": "unitAction_apply_multiplicative",
+      "docstring": "Describes the unit action on a multiplicative field element."
+    },
+    {
+      "temporary_id": "decl-003890",
+      "new_name": "auxiliaryRepresentation_finrank",
+      "docstring": "Computes the complex dimension of an auxiliary representation."
+    },
+    {
+      "temporary_id": "decl-003956",
+      "new_name": "auxiliaryRepresentation",
+      "docstring": "Defines an auxiliary finite-dimensional complex representation for a finite field."
+    },
+    {
+      "temporary_id": "decl-003958",
+      "new_name": "auxiliaryRepresentation_simple",
+      "docstring": "The auxiliary finite-dimensional representation is simple."
+    }
+  ]
+}

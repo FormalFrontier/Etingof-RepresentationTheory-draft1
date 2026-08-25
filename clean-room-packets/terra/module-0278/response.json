@@ -1,0 +1,10 @@
+{
+  "module_name": "AuxiliaryElidedStatement",
+  "declarations": [
+    {
+      "temporary_id": "decl-001452",
+      "new_name": "auxiliaryElidedStatement001452",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    }
+  ]
+}

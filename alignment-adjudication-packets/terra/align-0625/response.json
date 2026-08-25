@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0625",
+  "associations": [
+    {
+      "association_id": "association:6a2e7b270d0fdd6e6f1a",
+      "rationale": "For a finite-dimensional module and an A-submodule W, the formal equality identifies the character of V with the sum of the characters of W and V/W, directly stating the source formula.",
+      "role": "primary"
+    }
+  ]
+}

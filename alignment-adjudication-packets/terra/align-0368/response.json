@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0368",
+  "associations": [
+    {
+      "association_id": "association:9f5f0005c848765ac920",
+      "role": "supporting",
+      "rationale": "The formal type proves the inequality for any finite pairwise-nonisomorphic family of simple modules, but it does not itself state that the family is complete; the displayed source claim follows only by specializing this stronger result."
+    }
+  ]
+}

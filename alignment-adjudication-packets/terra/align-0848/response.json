@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0848",
+  "associations": [
+    {
+      "association_id": "association:79e9b4ce56229307bea2",
+      "role": "supporting",
+      "rationale": "The type returns a projective resolution of the middle object, but it does not display the direct-sum terms required by the complete horseshoe-resolution claim."
+    },
+    {
+      "association_id": "association:954bca591593809c30ea",
+      "role": "supporting",
+      "rationale": "horseshoeShortComplex_shortExact proves short exactness of an auxiliary horseshoe complex; it supports the construction but does not itself return the requested projective resolution."
+    }
+  ]
+}

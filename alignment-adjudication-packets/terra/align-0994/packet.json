@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a1240809ea2a102c3ff4",
+      "declaration": "Etingof.Theorem4_2_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/189/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (f : G \u2192 k),\n  (\u2200 (g h : G), Eq.{u + 1} (f (HMul.hMul.{u, u, u} (HMul.hMul.{u, u, u} h g) (Inv.inv.{u} h))) (f g)) \u2192\n    Membership.mem.{u, u}\n      (Submodule.span.{u, u} k\n        (Set.image.{u + 1, u} FDRep.character.{u, u} (setOf.{u + 1} fun V => CategoryTheory.Simple.{u, u + 1} V)))\n      f",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Theorem4_2_1"
+    },
+    {
+      "association_id": "association:eca3462481c2e374e33f",
+      "declaration": "Etingof.Theorem4_2_1_linearIndependent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/189/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))], LinearIndependent.{u, u, u} k Subtype.val.{u + 1}",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Theorem4_2_1"
+    },
+    {
+      "association_id": "association:0bd6702741030526f080",
+      "declaration": "Etingof.Theorem4_2_1_span_eq_classFunctionSubmodule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/189/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))],\n  Eq.{u + 1}\n    (Submodule.span.{u, u} k\n      (Set.image.{u + 1, u} FDRep.character.{u, u} (setOf.{u + 1} fun V => CategoryTheory.Simple.{u, u + 1} V)))\n    (Etingof.classFunctionSubmodule.{u, u} k G)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Theorem4_2_1"
+    }
+  ],
+  "canonical_reference": "Chapter4/Theorem4.2.1",
+  "packet_id": "align-0994",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0994"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:be5eec9c99e5658b9cdc",
+  "source_text": "In nonmodular characteristic, the irreducible characters form a basis of F_c(G,k)."
+}

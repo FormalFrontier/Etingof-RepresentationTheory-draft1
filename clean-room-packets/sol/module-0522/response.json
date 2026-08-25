@@ -1,0 +1,205 @@
+{
+  "module_name": "FiniteDimensionalFourVertexStarRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-000330",
+      "new_name": "FourVertexStarRepresentation",
+      "docstring": "A finite-dimensional representation with one center vector space, three leaf vector spaces, and a linear map from each leaf to the center."
+    },
+    {
+      "temporary_id": "decl-000331",
+      "new_name": "leafOneToCenter",
+      "docstring": "The structure map from the first leaf space to the center space."
+    },
+    {
+      "temporary_id": "decl-000332",
+      "new_name": "leafTwoToCenter",
+      "docstring": "The structure map from the second leaf space to the center space."
+    },
+    {
+      "temporary_id": "decl-000333",
+      "new_name": "leafThreeToCenter",
+      "docstring": "The structure map from the third leaf space to the center space."
+    },
+    {
+      "temporary_id": "decl-000357",
+      "new_name": "IsIndecomposable",
+      "docstring": "The predicate that a four-vertex star representation is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000382",
+      "new_name": "center",
+      "docstring": "The center vector space of a four-vertex star representation."
+    },
+    {
+      "temporary_id": "decl-000383",
+      "new_name": "leafOne",
+      "docstring": "The first leaf vector space of a four-vertex star representation."
+    },
+    {
+      "temporary_id": "decl-000384",
+      "new_name": "leafTwo",
+      "docstring": "The second leaf vector space of a four-vertex star representation."
+    },
+    {
+      "temporary_id": "decl-000385",
+      "new_name": "leafThree",
+      "docstring": "The third leaf vector space of a four-vertex star representation."
+    },
+    {
+      "temporary_id": "decl-000388",
+      "new_name": "centerAddCommGroup",
+      "docstring": "The additive commutative group structure on the center space."
+    },
+    {
+      "temporary_id": "decl-000389",
+      "new_name": "leafOneAddCommGroup",
+      "docstring": "The additive commutative group structure on the first leaf space."
+    },
+    {
+      "temporary_id": "decl-000390",
+      "new_name": "leafTwoAddCommGroup",
+      "docstring": "The additive commutative group structure on the second leaf space."
+    },
+    {
+      "temporary_id": "decl-000391",
+      "new_name": "leafThreeAddCommGroup",
+      "docstring": "The additive commutative group structure on the third leaf space."
+    },
+    {
+      "temporary_id": "decl-000407",
+      "new_name": "dimension",
+      "docstring": "The nested four-tuple of center and leaf dimensions of a star representation."
+    },
+    {
+      "temporary_id": "decl-000411",
+      "new_name": "finiteDimensional_center",
+      "docstring": "The center space of a star representation is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-000412",
+      "new_name": "finiteDimensional_leafOne",
+      "docstring": "The first leaf space of a star representation is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-000413",
+      "new_name": "finiteDimensional_leafTwo",
+      "docstring": "The second leaf space of a star representation is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-000414",
+      "new_name": "finiteDimensional_leafThree",
+      "docstring": "The third leaf space of a star representation is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-000428",
+      "new_name": "centerModule",
+      "docstring": "The scalar module structure on the center space."
+    },
+    {
+      "temporary_id": "decl-000429",
+      "new_name": "leafOneModule",
+      "docstring": "The scalar module structure on the first leaf space."
+    },
+    {
+      "temporary_id": "decl-000430",
+      "new_name": "leafTwoModule",
+      "docstring": "The scalar module structure on the second leaf space."
+    },
+    {
+      "temporary_id": "decl-000431",
+      "new_name": "leafThreeModule",
+      "docstring": "The scalar module structure on the third leaf space."
+    },
+    {
+      "temporary_id": "decl-000466",
+      "new_name": "fourVertexDimensionTuples",
+      "docstring": "A finite collection of nested four-tuples of natural numbers associated with the four-vertex setting."
+    },
+    {
+      "temporary_id": "decl-032679",
+      "new_name": "isCompl_comap_of_range_decomposition",
+      "docstring": "Complementary submodules pull back along an injective linear map when every vector in its range decomposes into range elements lying in the two submodules."
+    },
+    {
+      "temporary_id": "decl-032694",
+      "new_name": "exists_isCompl_mappedInto_of_range_comparable",
+      "docstring": "For an injective linear map and complementary submodules comparable with its range, there are complementary source submodules whose images lie in the given pair."
+    },
+    {
+      "temporary_id": "decl-032723",
+      "new_name": "isCompl_comap_of_le_range",
+      "docstring": "Complementary submodules pull back to complementary submodules along an injective map when the first is contained in the range."
+    },
+    {
+      "temporary_id": "decl-032728",
+      "new_name": "isCompl_comap_of_range_eq_top",
+      "docstring": "Complementary submodules pull back to complementary submodules along an injective linear map with full range."
+    },
+    {
+      "temporary_id": "decl-032782",
+      "new_name": "eq_bot_or_eq_bot_of_range_side_or_bijective",
+      "docstring": "For an indecomposable star representation, complementary center submodules have a zero member when each leaf map either has its range on one side or is injective with full range."
+    },
+    {
+      "temporary_id": "decl-032783",
+      "new_name": "eq_bot_or_eq_bot_of_ranges_le",
+      "docstring": "For an indecomposable star representation, if every leaf-map range lies in one of two complementary center submodules, then one of those submodules is zero."
+    },
+    {
+      "temporary_id": "decl-032788",
+      "new_name": "center_finrank_eq_one_of_leaf_finrank_eq_zero",
+      "docstring": "An indecomposable star representation whose three leaf spaces have dimension zero has a one-dimensional center."
+    },
+    {
+      "temporary_id": "decl-032792",
+      "new_name": "leafOne_finrank_eq_one_of_other_finrank_eq_zero",
+      "docstring": "An indecomposable star representation with zero-dimensional center, second leaf, and third leaf has a one-dimensional first leaf."
+    },
+    {
+      "temporary_id": "decl-032796",
+      "new_name": "leafTwo_finrank_eq_one_of_other_finrank_eq_zero",
+      "docstring": "An indecomposable star representation with zero-dimensional center, first leaf, and third leaf has a one-dimensional second leaf."
+    },
+    {
+      "temporary_id": "decl-032800",
+      "new_name": "leafThree_finrank_eq_one_of_other_finrank_eq_zero",
+      "docstring": "An indecomposable star representation with zero-dimensional center, first leaf, and second leaf has a one-dimensional third leaf."
+    },
+    {
+      "temporary_id": "decl-032831",
+      "new_name": "exists_isCompl_of_disjoint",
+      "docstring": "A submodule disjoint from a given submodule is contained in some complementary submodule of the latter."
+    },
+    {
+      "temporary_id": "decl-032848",
+      "new_name": "finrank_eq_zero_of_injective_of_codomain_finrank_eq_zero",
+      "docstring": "The domain of an injective linear map into a zero-dimensional finite-dimensional space also has dimension zero."
+    },
+    {
+      "temporary_id": "decl-032908",
+      "new_name": "isCompl_of_finrank_eq_one_of_ne",
+      "docstring": "Distinct one-dimensional submodules of a two-dimensional vector space are complementary."
+    },
+    {
+      "temporary_id": "decl-032920",
+      "new_name": "leafOne_ker_eq_bot_or_other_finrank_eq_zero",
+      "docstring": "For an indecomposable star representation, the first leaf map is injective unless the center and the other two leaf spaces have dimension zero."
+    },
+    {
+      "temporary_id": "decl-032921",
+      "new_name": "leafTwo_ker_eq_bot_or_other_finrank_eq_zero",
+      "docstring": "For an indecomposable star representation, the second leaf map is injective unless the center and the other two leaf spaces have dimension zero."
+    },
+    {
+      "temporary_id": "decl-032922",
+      "new_name": "leafThree_ker_eq_bot_or_other_finrank_eq_zero",
+      "docstring": "For an indecomposable star representation, the third leaf map is injective unless the center and the other two leaf spaces have dimension zero."
+    },
+    {
+      "temporary_id": "decl-032971",
+      "new_name": "sup_ranges_eq_top_or_leaf_finrank_eq_zero",
+      "docstring": "If all three leaf maps of an indecomposable star representation are injective, then their ranges span the center or all leaf spaces have dimension zero."
+    }
+  ]
+}

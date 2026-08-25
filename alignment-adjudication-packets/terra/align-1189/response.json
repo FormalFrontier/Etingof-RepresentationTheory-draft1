@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1189",
+  "associations": [
+    {
+      "association_id": "association:33102d884e8d26a5fc40",
+      "rationale": "The displayed type proves [X,Y] = Y for the unexpanded terms X and Y, but it does not display that those terms form the aff(1) basis named by the source claim.",
+      "role": "supporting"
+    }
+  ]
+}

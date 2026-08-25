@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6da11b877bb66b7f7952",
+      "declaration": "Nat.Partition.Dominates.lexLe",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/316/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {la mu : n.Partition}, la.Dominates mu \u2192 mu.LexLe la",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    },
+    {
+      "association_id": "association:f3bf1e52b7563044b418",
+      "declaration": "Nat.Partition.LexLe",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/316/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 n.Partition \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    },
+    {
+      "association_id": "association:ac8b79caaaf56f1ae15a",
+      "declaration": "Nat.Partition.LexLt",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/316/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 n.Partition \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    },
+    {
+      "association_id": "association:474cce3c4471e81b42af",
+      "declaration": "Nat.Partition.LexLt.not_dominates",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/316/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {la mu : n.Partition}, mu.LexLt la \u2192 Not (mu.Dominates la)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    },
+    {
+      "association_id": "association:44739a8bfc9eb9d9579c",
+      "declaration": "Nat.Partition.exists_lexLt",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/316/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "Exists.{1} fun la => Exists.{1} fun mu => mu.LexLt la",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_lexicographic_ordering",
+  "packet_id": "align-1247",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1247"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Discussion_lexicographic_ordering",
+  "source_text": "Let us introduce the **lexicographic ordering** on partitions: $\\lambda > \\mu$ if the first nonvanishing $\\lambda_i - \\mu_i$ is positive.\n\n"
+}

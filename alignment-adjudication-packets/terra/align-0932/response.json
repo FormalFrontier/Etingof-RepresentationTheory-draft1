@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0932",
+  "associations": [
+    {
+      "association_id": "association:14e3f7649fa9479516ba",
+      "role": "supporting",
+      "rationale": "The displayed formal type failed to pretty print, so it cannot directly verify all three stated relations."
+    }
+  ]
+}

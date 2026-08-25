@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0730",
+  "associations": [
+    {
+      "association_id": "association:d6cd5e4d284134b13ebe",
+      "role": "supporting",
+      "rationale": "The type gives a trace formula only for representations satisfying the opaque IsRz predicate with a nontrivial p-th-root parameter; it does not visibly cover all Heisenberg irreducibles required by the source claim."
+    }
+  ]
+}

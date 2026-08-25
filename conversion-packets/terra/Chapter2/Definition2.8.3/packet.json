@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.8.3",
+    "kind": "definition",
+    "title": "Representation of a quiver",
+    "node_id": "chapter-02/section-2-8",
+    "order": 65,
+    "slug": "definition2-8-3",
+    "span": {
+      "start": {
+        "page": "19",
+        "line": 35
+      },
+      "end": {
+        "page": "19",
+        "line": 35
+      }
+    },
+    "source_sha256": "cdbe696c80459de8c1820d1a276fd53fcf64e28f9a32053c31b8f738c38ce6d2",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition283",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,124 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : CommRing.{u_1} R] [Nontrivial.{u_1} R] (p : Polynomial.{u_1} R),\n  Polynomial.Monic.{u_1} p \u2192\n    Eq.{u_1 + 1} (Matrix.charpoly.{u_1, 0} (decl-014679.{u_1} p)) p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014679"
+      ],
+      "structural_type_hash": "3644450181",
+      "temporary_id": "decl-014677"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : CommRing.{u_1} R] [Nontrivial.{u_1} R] {S : Type u_2} [inst_2 : CommRing.{u_2} S]\n  (\u03c6 : RingHom.{u_1, u_2} R S) (p : Polynomial.{u_1} R),\n  Polynomial.Monic.{u_1} p \u2192\n    \u2200 (z : S),\n      Eq.{u_2 + 1} (Polynomial.eval\u2082.{u_1, u_2} \u03c6 z p) 0 \u2192\n        Polynomial.IsRoot.{u_2}\n          (Matrix.charpoly.{u_2, 0}\n            (Matrix.map.{u_1, u_2, 0, 0} (decl-014679.{u_1} p)\n              (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c6)))\n          z",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014679"
+      ],
+      "structural_type_hash": "3054181082",
+      "temporary_id": "decl-014678"
+    },
+    {
+      "formal_type": "{R : Type u_1} \u2192\n  [inst : CommRing.{u_1} R] \u2192\n    (p : Polynomial.{u_1} R) \u2192\n      Matrix.{0, 0, u_1} (Fin (Polynomial.natDegree.{u_1} p)) (Fin (Polynomial.natDegree.{u_1} p)) R",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2223661867",
+      "temporary_id": "decl-014679"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : CommRing.{u_1} R] (p : Polynomial.{u_1} R) (hp : Polynomial.Monic.{u_1} p),\n  Eq.{u_1 + 1} (decl-014679.{u_1} p)\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n      (Algebra.leftMulMatrix.{u_1, u_1, 0} (PowerBasis.basis.{u_1, u_1} (AdjoinRoot.powerBasis'.{u_1} hp)))\n      (PowerBasis.gen.{u_1, u_1} (AdjoinRoot.powerBasis'.{u_1} hp)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014679"
+      ],
+      "structural_type_hash": "3484044696",
+      "temporary_id": "decl-014681"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : CommRing.{u_1} R] [Nontrivial.{u_1} R] (p : Polynomial.{u_1} R),\n  Polynomial.Monic.{u_1} p \u2192 Eq.{u_1 + 1} (minpoly.{u_1, u_1} R (AdjoinRoot.root.{u_1} p)) p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2606111815",
+      "temporary_id": "decl-014686"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : CommRing.{u_1} R] (p : Polynomial.{u_1} R) (hp : Polynomial.Monic.{u_1} p) {m : Nat},\n  LT.lt.{0} m (Polynomial.natDegree.{u_1} p) \u2192\n    \u2200 (i : Fin (Polynomial.natDegree.{u_1} p)),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, 1, u_1 + 1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n            (Module.Basis.repr.{0, u_1, u_1} (PowerBasis.basis.{u_1, u_1} (AdjoinRoot.powerBasis'.{u_1} hp)))\n            (HPow.hPow.{u_1, 0, u_1} (AdjoinRoot.root.{u_1} p) m))\n          i)\n        (ite.{u_1 + 1} (Eq.{1} m i.val) 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "482376032",
+      "temporary_id": "decl-014688"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : CommRing.{u_1} R] (p : Polynomial.{u_1} R),\n  Polynomial.Monic.{u_1} p \u2192\n    Eq.{u_1 + 1} (HPow.hPow.{u_1, 0, u_1} (AdjoinRoot.root.{u_1} p) (Polynomial.natDegree.{u_1} p))\n      (Finset.sum.{0, u_1} Finset.univ.{0} fun k =>\n        HSMul.hSMul.{u_1, u_1, u_1} (Neg.neg.{u_1} (Polynomial.coeff.{u_1} p k.val))\n          (HPow.hPow.{u_1, 0, u_1} (AdjoinRoot.root.{u_1} p) k.val))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2890137529",
+      "temporary_id": "decl-014690"
+    },
+    {
+      "formal_type": "\u2200 (z : Complex),\n  Iff (Exists.{1} fun p => And (Ne.{1} p 0) (Eq.{1} (DFunLike.coe.{1, 1, 1} (Polynomial.aeval.{0, 0} z) p) 0))\n    (Exists.{1} fun n =>\n      Exists.{1} fun M =>\n        Polynomial.IsRoot.{0}\n          (Matrix.charpoly.{0, 0}\n            (Matrix.map.{0, 0, 0, 0} M (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Rat Complex))))\n          z)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1289758581",
+      "temporary_id": "decl-014691"
+    },
+    {
+      "formal_type": "\u2200 (z : Complex) (p : Polynomial.{0} Rat),\n  Polynomial.Monic.{0} p \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} (Polynomial.aeval.{0, 0} z) p) 0 \u2192\n      Polynomial.IsRoot.{0}\n        (Matrix.charpoly.{0, 0}\n          (Matrix.map.{0, 0, 0, 0} (decl-014679.{0} p)\n            (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Rat Complex))))\n        z",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014679"
+      ],
+      "structural_type_hash": "124177774",
+      "temporary_id": "decl-014693"
+    },
+    {
+      "formal_type": "\u2200 (z : Complex) (p : Polynomial.{0} Int),\n  Polynomial.Monic.{0} p \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} (Polynomial.aeval.{0, 0} z) p) 0 \u2192\n      Polynomial.IsRoot.{0}\n        (Matrix.charpoly.{0, 0}\n          (Matrix.map.{0, 0, 0, 0} (decl-014679.{0} p)\n            (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Int Complex))))\n        z",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014679"
+      ],
+      "structural_type_hash": "2856373865",
+      "temporary_id": "decl-014694"
+    },
+    {
+      "formal_type": "\u2200 (z : Complex),\n  Iff\n    (Exists.{1} fun p => And (Polynomial.Monic.{0} p) (Eq.{1} (DFunLike.coe.{1, 1, 1} (Polynomial.aeval.{0, 0} z) p) 0))\n    (Exists.{1} fun n =>\n      Exists.{1} fun M =>\n        Polynomial.IsRoot.{0}\n          (Matrix.charpoly.{0, 0}\n            (Matrix.map.{0, 0, 0, 0} M (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Int Complex))))\n          z)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2513188079",
+      "temporary_id": "decl-014695"
+    }
+  ],
+  "module_temporary_id": "module-0403",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:daae507409c252d626f5",
+      "declaration": "Etingof.Problem6_1_2.exists_injective_glOrbitComorphism",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/402/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [Infinite.{1} k] {V : Type u_1} [inst_2 : AddCommGroup.{u_1} V]\n  [inst_3 : Module.{0, u_1} k V] [inst_4 : Module.Finite.{0, u_1} k V] {n : Nat}\n  (\u03c1 : Representation.{0, 0, u_1} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) V),\n  Etingof.IsAlgebraicRepresentation.{0, u_1} n \u03c1 \u2192\n    \u2200 [inst_5 : MulAction.{0, u_1} (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) V],\n      (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) (v : V),\n          Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} g v)\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g) v)) \u2192\n        \u2200 [Finite.{u_1 + 1} (MulAction.orbitRel.Quotient.{0, u_1} (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) V)],\n          Exists.{1} fun d =>\n            Exists.{u_1 + 1} fun b =>\n              Exists.{1} fun P =>\n                Exists.{u_1 + 1} fun v\u2080 =>\n                  And (Eq.{1} d (Module.finrank.{0, u_1} k V))\n                    (Function.Injective.{1, 1}\n                      (DFunLike.coe.{1, 1, 1} (Etingof.Problem6_1_2.glOrbitComorphism.{u_1} b P v\u2080)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_2"
+    },
+    {
+      "association_id": "association:3b8d88efecdac3542f7b",
+      "declaration": "Etingof.Problem6_1_2.finrank_le_sq_of_finite_orbits",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/402/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [Infinite.{1} k] {V : Type u_1} [inst_2 : AddCommGroup.{u_1} V]\n  [inst_3 : Module.{0, u_1} k V] [inst_4 : Module.Finite.{0, u_1} k V] {n : Nat}\n  (\u03c1 : Representation.{0, 0, u_1} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) V),\n  Etingof.IsAlgebraicRepresentation.{0, u_1} n \u03c1 \u2192\n    \u2200 [Finite.{u_1 + 1} (Etingof.Problem6_1_2.RepresentationOrbitQuotient.{0, u_1} \u03c1)],\n      LE.le.{0} (Module.finrank.{0, u_1} k V) (HPow.hPow.{0, 0, 0} n 2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_2"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.2",
+  "packet_id": "align-0776",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0776"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.1.2:part_b",
+  "source_text": "Part (b): construct the rational-function field embedding and prove dim V \u2264 m\u00b2."
+}

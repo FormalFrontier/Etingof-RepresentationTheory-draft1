@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1252",
+  "associations": [
+    {
+      "association_id": "association:eeb3d85ccded56c32773",
+      "rationale": "The formal type directly says every nontrivial simple representation of an odd-order group is of complex type, exactly the strengthened assertion in the exercise.",
+      "role": "primary"
+    }
+  ]
+}

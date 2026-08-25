@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5f9aa3c43f9b8fa07723",
+      "declaration": "Etingof.Lemma5_13_4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/320/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{A : Type u_1} \u2192\n  [inst : Ring.{u_1} A] \u2192\n    (e : A) \u2192\n      IsIdempotentElem.{u_1} e \u2192\n        (M : Type u_2) \u2192\n          [inst_1 : AddCommGroup.{u_2} M] \u2192\n            [inst_2 : Module.{u_1, u_2} A M] \u2192\n              Equiv.{max (u_2 + 1) (u_1 + 1), max 1 (u_2 + 1)}\n                (LinearMap.{u_1, u_1, u_1, u_2} (RingHom.id.{u_1} A)\n                  (Subtype.{u_1 + 1} fun x =>\n                    Membership.mem.{u_1, u_1} (Submodule.span.{u_1, u_1} A (Singleton.singleton.{u_1, u_1} e)) x)\n                  M)\n                (Subtype.{u_2 + 1} fun m => Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} e m) m)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_4"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_proof_of_Lemma5.13.4",
+  "packet_id": "align-0354",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0354"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6d5906527760a61c2d5e",
+  "source_text": "The idempotent splitting identifies the Hom summand with the e-fixed part of M."
+}

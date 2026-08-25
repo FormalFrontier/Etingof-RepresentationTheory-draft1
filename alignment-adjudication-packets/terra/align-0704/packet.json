@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e70ae61e4f6fa201f3ff",
+      "declaration": "Etingof.Problem4_12_11.skewSub_irreducible_complexified",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/240/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (U : Submodule.{0, 0} Complex Etingof.Problem4_12_11.EndVc),\n  LE.le.{0} U Etingof.Problem4_12_11.skewSubc \u2192\n    (\u2200 (A : Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem4_12_11.SO3 x) (M : Etingof.Problem4_12_11.EndVc),\n        Membership.mem.{0, 0} U M \u2192\n          Membership.mem.{0, 0} U\n            (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Problem4_12_11.conjRepc A) M)) \u2192\n      Or (Eq.{1} U Bot.bot.{0}) (Eq.{1} U Etingof.Problem4_12_11.skewSubc)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_11"
+    },
+    {
+      "association_id": "association:11a1ca8c811f2d9d8e90",
+      "declaration": "Etingof.Problem4_12_11.tracelessSymSub_irreducible_complexified",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/240/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (U : Submodule.{0, 0} Complex Etingof.Problem4_12_11.EndVc),\n  LE.le.{0} U Etingof.Problem4_12_11.tracelessSymSubc \u2192\n    (\u2200 (A : Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem4_12_11.SO3 x) (M : Etingof.Problem4_12_11.EndVc),\n        Membership.mem.{0, 0} U M \u2192\n          Membership.mem.{0, 0} U\n            (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Problem4_12_11.conjRepc A) M)) \u2192\n      Or (Eq.{1} U Bot.bot.{0}) (Eq.{1} U Etingof.Problem4_12_11.tracelessSymSubc)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_11"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.11",
+  "packet_id": "align-0704",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0704"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.11:part_b_complex",
+  "source_text": "Part (b): prove both summands remain irreducible after complexification."
+}

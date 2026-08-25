@@ -1,0 +1,555 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "ComplexShape.Embedding.{0, 0} (ComplexShape.down.{0} Nat) (ComplexShape.up.{0} Int)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1823506978",
+      "temporary_id": "decl-016273"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat), Eq.{1} (ComplexShape.Embedding.f.{0, 0} decl-016273 n) (Neg.neg.{0} (Nat.cast.{0} n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273"
+      ],
+      "structural_type_hash": "3840930135",
+      "temporary_id": "decl-016274"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    CategoryTheory.Functor.{u, u, u + 1, u + 1} (ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat)\n      (CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3638777429",
+      "temporary_id": "decl-016275"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (n : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.inv.{u, u + 1}\n        (HomologicalComplex.extendXIso.{0, 0, u, u + 1} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D)\n          decl-016273 \u22ef))\n      (CategoryTheory.Iso.inv.{u, u + 1}\n        (decl-016341.{u} C D (Neg.neg.{0} (Nat.cast.{0} n)))))\n    (decl-016299.{u} C D n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016274",
+        "decl-016299",
+        "decl-016341"
+      ],
+      "structural_type_hash": "3859247852",
+      "temporary_id": "decl-016276"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) \u2192\n      (n : Nat) \u2192\n        Quiver.Hom.{u, u + 1}\n          (HomologicalComplex.X.{u, u + 1, 0}\n            (HomologicalComplex.tensorObj.{u, u + 1, 0}\n              (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273)\n              (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273))\n            (Neg.neg.{0} (Nat.cast.{0} n)))\n          (HomologicalComplex.X.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D) n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273"
+      ],
+      "structural_type_hash": "4275512388",
+      "temporary_id": "decl-016277"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (n : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1} (decl-016277.{u} C D (HAdd.hAdd.{0, 0, 0} n 1))\n      (HomologicalComplex.d.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D) (HAdd.hAdd.{0, 0, 0} n 1) n))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (HomologicalComplex.d.{u, u + 1, 0}\n        (HomologicalComplex.tensorObj.{u, u + 1, 0}\n          (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273)\n          (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273))\n        (Neg.neg.{0} (Nat.cast.{0} (HAdd.hAdd.{0, 0, 0} n 1))) (Neg.neg.{0} (Nat.cast.{0} n)))\n      (decl-016277.{u} C D n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016277"
+      ],
+      "structural_type_hash": "4063331098",
+      "temporary_id": "decl-016279"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (n : Nat)\n  {Z : ModuleCat.{u, u} k}\n  (h : Quiver.Hom.{u, u + 1} (HomologicalComplex.X.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D) n) Z),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1} (decl-016277.{u} C D (HAdd.hAdd.{0, 0, 0} n 1))\n      (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n        (HomologicalComplex.d.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D) (HAdd.hAdd.{0, 0, 0} n 1)\n          n)\n        h))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (HomologicalComplex.d.{u, u + 1, 0}\n        (HomologicalComplex.tensorObj.{u, u + 1, 0}\n          (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273)\n          (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273))\n        (Neg.neg.{0} (Nat.cast.{0} (HAdd.hAdd.{0, 0, 0} n 1))) (Neg.neg.{0} (Nat.cast.{0} n)))\n      (CategoryTheory.CategoryStruct.comp.{u, u + 1} (decl-016277.{u} C D n) h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016277"
+      ],
+      "structural_type_hash": "3528735261",
+      "temporary_id": "decl-016294"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {C\u2081 C\u2082 D\u2081 D\u2082 : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat}\n  (f : Quiver.Hom.{u, u + 1} C\u2081 C\u2082) (g : Quiver.Hom.{u, u + 1} D\u2081 D\u2082) (n : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (HomologicalComplex.Hom.f.{u, u + 1, 0}\n        (HomologicalComplex.tensorHom.{u, u + 1, 0}\n          (HomologicalComplex.extendMap.{0, 0, u, u + 1} f decl-016273)\n          (HomologicalComplex.extendMap.{0, 0, u, u + 1} g decl-016273))\n        (Neg.neg.{0} (Nat.cast.{0} n)))\n      (decl-016277.{u} C\u2082 D\u2082 n))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1} (decl-016277.{u} C\u2081 D\u2081 n)\n      (HomologicalComplex.Hom.f.{u, u + 1, 0} (HomologicalComplex.tensorHom.{u, u + 1, 0} f g) n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016277"
+      ],
+      "structural_type_hash": "88276673",
+      "temporary_id": "decl-016295"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) \u2192\n      (n : Nat) \u2192\n        Quiver.Hom.{u, u + 1} (HomologicalComplex.X.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D) n)\n          (HomologicalComplex.X.{u, u + 1, 0}\n            (HomologicalComplex.tensorObj.{u, u + 1, 0}\n              (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273)\n              (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273))\n            (Neg.neg.{0} (Nat.cast.{0} n)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273"
+      ],
+      "structural_type_hash": "769636759",
+      "temporary_id": "decl-016299"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (j' : Int),\n  LT.lt.{0} 0 j' \u2192\n    CategoryTheory.Limits.IsZero.{u, u + 1}\n      (HomologicalComplex.X.{u, u + 1, 0}\n        (HomologicalComplex.tensorObj.{u, u + 1, 0}\n          (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273)\n          (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273))\n        j')",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273"
+      ],
+      "structural_type_hash": "144938605",
+      "temporary_id": "decl-016301"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.MonoidalCategory.{u_2, u_1} C]\n  [inst_2 : CategoryTheory.Preadditive.{u_2, u_1} C] [CategoryTheory.MonoidalPreadditive.{u_2, u_1} C] {X Y : C},\n  CategoryTheory.Limits.IsZero.{u_2, u_1} X \u2192\n    CategoryTheory.Limits.IsZero.{u_2, u_1} (CategoryTheory.MonoidalCategoryStruct.tensorObj.{u_2, u_1} X Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1385497897",
+      "temporary_id": "decl-016305"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.MonoidalCategory.{u_2, u_1} C]\n  [inst_2 : CategoryTheory.Preadditive.{u_2, u_1} C] [CategoryTheory.MonoidalPreadditive.{u_2, u_1} C] {X Y : C},\n  CategoryTheory.Limits.IsZero.{u_2, u_1} Y \u2192\n    CategoryTheory.Limits.IsZero.{u_2, u_1} (CategoryTheory.MonoidalCategoryStruct.tensorObj.{u_2, u_1} X Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "277345729",
+      "temporary_id": "decl-016306"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) \u2192\n      (n : Nat) \u2192\n        CategoryTheory.Iso.{u, u + 1}\n          (HomologicalComplex.X.{u, u + 1, 0}\n            (HomologicalComplex.tensorObj.{u, u + 1, 0}\n              (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273)\n              (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273))\n            (Neg.neg.{0} (Nat.cast.{0} n)))\n          (HomologicalComplex.X.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D) n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273"
+      ],
+      "structural_type_hash": "3916619118",
+      "temporary_id": "decl-016307"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) \u2192\n      (n : Nat) \u2192\n        CategoryTheory.Iso.{u, u + 1}\n          (HomologicalComplex.X.{u, u + 1, 0}\n            (HomologicalComplex.tensorObj.{u, u + 1, 0}\n              (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273)\n              (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273))\n            (Neg.neg.{0} (Nat.cast.{0} n)))\n          (HomologicalComplex.X.{u, u + 1, 0}\n            (HomologicalComplex.extend.{0, 0, u, u + 1} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D)\n              decl-016273)\n            (Neg.neg.{0} (Nat.cast.{0} n)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273"
+      ],
+      "structural_type_hash": "1184803030",
+      "temporary_id": "decl-016311"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1447906795",
+      "temporary_id": "decl-016313"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) \u2192\n      (n : Nat) \u2192\n        (a b : Int) \u2192\n          Eq.{1} (HAdd.hAdd.{0, 0, 0} a b) (Neg.neg.{0} (Nat.cast.{0} n)) \u2192\n            Quiver.Hom.{u, u + 1}\n              (CategoryTheory.MonoidalCategoryStruct.tensorObj.{u, u + 1}\n                (HomologicalComplex.X.{u, u + 1, 0}\n                  (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273) a)\n                (HomologicalComplex.X.{u, u + 1, 0}\n                  (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273) b))\n              (HomologicalComplex.X.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D) n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273"
+      ],
+      "structural_type_hash": "1486207894",
+      "temporary_id": "decl-016314"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (n : Nat) (a b : Int)\n  (h : Eq.{1} (HAdd.hAdd.{0, 0, 0} a b) (Neg.neg.{0} (Nat.cast.{0} n))) {p q : Nat},\n  Eq.{1} (ComplexShape.Embedding.r.{0, 0} decl-016273 a) (Option.some.{0} p) \u2192\n    Eq.{1} (ComplexShape.Embedding.r.{0, 0} decl-016273 b) (Option.some.{0} q) \u2192\n      Eq.{1}\n          (ComplexShape.\u03c0.{0, 0, 0} (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat)\n            (Prod.mk.{0, 0} p q))\n          n \u2192\n        Eq.{u + 1}\n          (CategoryTheory.CategoryStruct.comp.{u, u + 1} (decl-016314.{u} C D n a b h)\n            (decl-016299.{u} C D n))\n          (decl-016372.{u} C D a b (Neg.neg.{0} (Nat.cast.{0} n)) h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016299",
+        "decl-016314",
+        "decl-016372"
+      ],
+      "structural_type_hash": "2884874068",
+      "temporary_id": "decl-016325"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (n : Nat) {a b : Int}\n  (h : Eq.{1} (HAdd.hAdd.{0, 0, 0} a b) (Neg.neg.{0} (Nat.cast.{0} n))) {p q : Nat}\n  (ha : Eq.{1} (ComplexShape.Embedding.r.{0, 0} decl-016273 a) (Option.some.{0} p))\n  (hb : Eq.{1} (ComplexShape.Embedding.r.{0, 0} decl-016273 b) (Option.some.{0} q))\n  (hpq :\n    Eq.{1}\n      (ComplexShape.\u03c0.{0, 0, 0} (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat)\n        (Prod.mk.{0, 0} p q))\n      n),\n  Eq.{u + 1} (decl-016314.{u} C D n a b h)\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.MonoidalCategoryStruct.tensorHom.{u, u + 1}\n        (CategoryTheory.Iso.hom.{u, u + 1} (HomologicalComplex.extendXIso.{0, 0, u, u + 1} C decl-016273 \u22ef))\n        (CategoryTheory.Iso.hom.{u, u + 1} (HomologicalComplex.extendXIso.{0, 0, u, u + 1} D decl-016273 \u22ef)))\n      (decl-016365.{u} C D p q n hpq))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016314",
+        "decl-016365"
+      ],
+      "structural_type_hash": "2784611616",
+      "temporary_id": "decl-016326"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) \u2192\n      (n p q : Nat) \u2192\n        Eq.{1}\n            (ComplexShape.\u03c0.{0, 0, 0} (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat)\n              (ComplexShape.down.{0} Nat) (Prod.mk.{0, 0} p q))\n            n \u2192\n          Quiver.Hom.{u, u + 1}\n            (CategoryTheory.MonoidalCategoryStruct.tensorObj.{u, u + 1} (HomologicalComplex.X.{u, u + 1, 0} C p)\n              (HomologicalComplex.X.{u, u + 1, 0} D q))\n            (HomologicalComplex.X.{u, u + 1, 0}\n              (HomologicalComplex.tensorObj.{u, u + 1, 0}\n                (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273)\n                (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273))\n              (Neg.neg.{0} (Nat.cast.{0} n)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273"
+      ],
+      "structural_type_hash": "3940251457",
+      "temporary_id": "decl-016327"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (n p q : Nat)\n  (h :\n    Eq.{1}\n      (ComplexShape.\u03c0.{0, 0, 0} (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat)\n        (Prod.mk.{0, 0} p q))\n      n),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1} (decl-016327.{u} C D n p q h)\n      (decl-016277.{u} C D n))\n    (decl-016365.{u} C D p q n h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016277",
+        "decl-016327",
+        "decl-016365"
+      ],
+      "structural_type_hash": "512845646",
+      "temporary_id": "decl-016333"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat),\n  Eq.{1} (ComplexShape.Embedding.r.{0, 0} decl-016273 (Neg.neg.{0} (Nat.cast.{0} p))) (Option.some.{0} p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273"
+      ],
+      "structural_type_hash": "1226104283",
+      "temporary_id": "decl-016334"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    CategoryTheory.Functor.{u, u + 1, u + 1, u + 1} (ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat)\n      (CategoryTheory.Functor.{u, u, u + 1, u + 1} (ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat)\n        (ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4207616279",
+      "temporary_id": "decl-016335"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    CategoryTheory.Functor.{u, u + 1, u + 1, u + 1} (CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int)\n      (CategoryTheory.Functor.{u, u, u + 1, u + 1} (CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int)\n        (CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3057164546",
+      "temporary_id": "decl-016337"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    CategoryTheory.Functor.{u, u + 1, u + 1, u + 1} (ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat)\n      (CategoryTheory.Functor.{u, u, u + 1, u + 1} (ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat)\n        (CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "943959672",
+      "temporary_id": "decl-016339"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    CategoryTheory.Functor.{u, u + 1, u + 1, u + 1} (ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat)\n      (CategoryTheory.Functor.{u, u, u + 1, u + 1} (ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat)\n        (CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "943959672",
+      "temporary_id": "decl-016340"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) \u2192\n      (j' : Int) \u2192\n        CategoryTheory.Iso.{u, u + 1}\n          (HomologicalComplex.X.{u, u + 1, 0}\n            (HomologicalComplex.tensorObj.{u, u + 1, 0}\n              (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273)\n              (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273))\n            j')\n          (HomologicalComplex.X.{u, u + 1, 0}\n            (HomologicalComplex.extend.{0, 0, u, u + 1} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D)\n              decl-016273)\n            j')",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273"
+      ],
+      "structural_type_hash": "3259824626",
+      "temporary_id": "decl-016341"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (n : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-016341.{u} C D (Neg.neg.{0} (Nat.cast.{0} n))))\n      (CategoryTheory.Iso.hom.{u, u + 1}\n        (HomologicalComplex.extendXIso.{0, 0, u, u + 1} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D)\n          decl-016273 \u22ef)))\n    (decl-016277.{u} C D n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016274",
+        "decl-016277",
+        "decl-016341"
+      ],
+      "structural_type_hash": "4234519430",
+      "temporary_id": "decl-016350"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (n : Nat)\n  {Z : ModuleCat.{u, u} k}\n  (h : Quiver.Hom.{u, u + 1} (HomologicalComplex.X.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D) n) Z),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-016341.{u} C D (Neg.neg.{0} (Nat.cast.{0} n))))\n      (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n        (CategoryTheory.Iso.hom.{u, u + 1}\n          (HomologicalComplex.extendXIso.{0, 0, u, u + 1} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D)\n            decl-016273 \u22ef))\n        h))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1} (decl-016277.{u} C D n) h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016274",
+        "decl-016277",
+        "decl-016341"
+      ],
+      "structural_type_hash": "4024902242",
+      "temporary_id": "decl-016351"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (n : Nat),\n  Eq.{u + 1} (decl-016341.{u} C D (Neg.neg.{0} (Nat.cast.{0} n)))\n    (decl-016311.{u} C D n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016311",
+        "decl-016341"
+      ],
+      "structural_type_hash": "1917768728",
+      "temporary_id": "decl-016352"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) \u2192\n      CategoryTheory.Iso.{u, u + 1}\n        (HomologicalComplex.tensorObj.{u, u + 1, 0}\n          (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273)\n          (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273))\n        (HomologicalComplex.extend.{0, 0, u, u + 1} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D)\n          decl-016273)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273"
+      ],
+      "structural_type_hash": "1849235251",
+      "temporary_id": "decl-016353"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {C\u2081 C\u2082 D\u2081 D\u2082 : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat}\n  (f : Quiver.Hom.{u, u + 1} C\u2081 C\u2082) (g : Quiver.Hom.{u, u + 1} D\u2081 D\u2082),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (HomologicalComplex.tensorHom.{u, u + 1, 0}\n        (HomologicalComplex.extendMap.{0, 0, u, u + 1} f decl-016273)\n        (HomologicalComplex.extendMap.{0, 0, u, u + 1} g decl-016273))\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-016353.{u} C\u2082 D\u2082)))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-016353.{u} C\u2081 D\u2081))\n      (HomologicalComplex.extendMap.{0, 0, u, u + 1} (HomologicalComplex.tensorHom.{u, u + 1, 0} f g)\n        decl-016273))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016353"
+      ],
+      "structural_type_hash": "2498951592",
+      "temporary_id": "decl-016358"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {C\u2081 C\u2082 : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat}\n  (f : Quiver.Hom.{u, u + 1} C\u2081 C\u2082) (D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (HomologicalComplex.tensorHom.{u, u + 1, 0}\n        (HomologicalComplex.extendMap.{0, 0, u, u + 1} f decl-016273)\n        (CategoryTheory.CategoryStruct.id.{u, u + 1}\n          (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273)))\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-016353.{u} C\u2082 D)))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-016353.{u} C\u2081 D))\n      (HomologicalComplex.extendMap.{0, 0, u, u + 1}\n        (HomologicalComplex.tensorHom.{u, u + 1, 0} f (CategoryTheory.CategoryStruct.id.{u, u + 1} D))\n        decl-016273))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016353"
+      ],
+      "structural_type_hash": "3600739222",
+      "temporary_id": "decl-016359"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {D\u2081 D\u2082 : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat}\n  (C : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (g : Quiver.Hom.{u, u + 1} D\u2081 D\u2082),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (HomologicalComplex.tensorHom.{u, u + 1, 0}\n        (CategoryTheory.CategoryStruct.id.{u, u + 1}\n          (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273))\n        (HomologicalComplex.extendMap.{0, 0, u, u + 1} g decl-016273))\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-016353.{u} C D\u2082)))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-016353.{u} C D\u2081))\n      (HomologicalComplex.extendMap.{0, 0, u, u + 1}\n        (HomologicalComplex.tensorHom.{u, u + 1, 0} (CategoryTheory.CategoryStruct.id.{u, u + 1} C) g)\n        decl-016273))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016353"
+      ],
+      "structural_type_hash": "538016942",
+      "temporary_id": "decl-016360"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    CategoryTheory.Iso.{u + 1, u + 1} decl-016339.{u} decl-016340.{u}",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016339",
+        "decl-016340"
+      ],
+      "structural_type_hash": "3184647193",
+      "temporary_id": "decl-016361"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat),\n  Eq.{u + 1}\n    (CategoryTheory.Iso.app.{u, u, u + 1, u + 1}\n      (CategoryTheory.Iso.app.{u, u + 1, u + 1, u + 1} decl-016361.{u} C) D)\n    (decl-016353.{u} C D)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016339",
+        "decl-016340",
+        "decl-016353",
+        "decl-016361"
+      ],
+      "structural_type_hash": "2178850724",
+      "temporary_id": "decl-016364"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) \u2192\n      (p q n : Nat) \u2192\n        Eq.{1}\n            (ComplexShape.\u03c0.{0, 0, 0} (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat)\n              (ComplexShape.down.{0} Nat) (Prod.mk.{0, 0} p q))\n            n \u2192\n          Quiver.Hom.{u, u + 1}\n            (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n              (CategoryTheory.Functor.obj.{u, u + 1, u + 1, u + 1}\n                (CategoryTheory.MonoidalCategory.curriedTensor.{u, u + 1} (ModuleCat.{u, u} k))\n                (HomologicalComplex.X.{u, u + 1, 0} C p))\n              (HomologicalComplex.X.{u, u + 1, 0} D q))\n            (HomologicalComplex.X.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D) n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2759528589",
+      "temporary_id": "decl-016365"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (n p q : Nat)\n  (h :\n    Eq.{1}\n      (ComplexShape.\u03c0.{0, 0, 0} (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat)\n        (Prod.mk.{0, 0} p q))\n      n),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1} (decl-016365.{u} C D p q n h)\n      (decl-016299.{u} C D n))\n    (decl-016327.{u} C D n p q h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016299",
+        "decl-016327",
+        "decl-016365"
+      ],
+      "structural_type_hash": "1585233444",
+      "temporary_id": "decl-016371"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) \u2192\n      (a b j : Int) \u2192\n        Eq.{1}\n            (ComplexShape.\u03c0.{0, 0, 0} (ComplexShape.up.{0} Int) (ComplexShape.up.{0} Int) (ComplexShape.up.{0} Int)\n              (Prod.mk.{0, 0} a b))\n            j \u2192\n          Quiver.Hom.{u, u + 1}\n            (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n              (CategoryTheory.Functor.obj.{u, u + 1, u + 1, u + 1}\n                (CategoryTheory.MonoidalCategory.curriedTensor.{u, u + 1} (ModuleCat.{u, u} k))\n                (HomologicalComplex.X.{u, u + 1, 0}\n                  (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273) a))\n              (HomologicalComplex.X.{u, u + 1, 0} (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273)\n                b))\n            (HomologicalComplex.X.{u, u + 1, 0}\n              (HomologicalComplex.tensorObj.{u, u + 1, 0}\n                (HomologicalComplex.extend.{0, 0, u, u + 1} C decl-016273)\n                (HomologicalComplex.extend.{0, 0, u, u + 1} D decl-016273))\n              j)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273"
+      ],
+      "structural_type_hash": "3927494104",
+      "temporary_id": "decl-016372"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (n : Nat) (a b : Int)\n  (h :\n    Eq.{1}\n      (ComplexShape.\u03c0.{0, 0, 0} (ComplexShape.up.{0} Int) (ComplexShape.up.{0} Int) (ComplexShape.up.{0} Int)\n        (Prod.mk.{0, 0} a b))\n      (Neg.neg.{0} (Nat.cast.{0} n))),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (decl-016372.{u} C D a b (Neg.neg.{0} (Nat.cast.{0} n)) h) (decl-016277.{u} C D n))\n    (decl-016314.{u} C D n a b h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016273",
+        "decl-016277",
+        "decl-016314",
+        "decl-016372"
+      ],
+      "structural_type_hash": "3917446500",
+      "temporary_id": "decl-016376"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (j' : Int),\n  LT.lt.{0} 0 j' \u2192\n    CategoryTheory.Limits.IsZero.{u, u + 1}\n      (HomologicalComplex.homology.{u, u + 1, 0}\n        (HomologicalComplex.extend.{0, 0, u, u + 1} C ComplexShape.embeddingDownNat) j')",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3109623046",
+      "temporary_id": "decl-020259"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (C : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) \u2192\n      (n : Nat) \u2192\n        CategoryTheory.Iso.{u, u + 1}\n          (HomologicalComplex.homology.{u, u + 1, 0}\n            (HomologicalComplex.extend.{0, 0, u, u + 1} C ComplexShape.embeddingDownNat) (Neg.neg.{0} (Nat.cast.{0} n)))\n          (HomologicalComplex.homology.{u, u + 1, 0} C n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2556213262",
+      "temporary_id": "decl-020263"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat}\n  (\u03c6 : Quiver.Hom.{u, u + 1} C D) (n : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (HomologicalComplex.homologyMap.{u, u + 1, 0}\n        (HomologicalComplex.extendMap.{0, 0, u, u + 1} \u03c6 ComplexShape.embeddingDownNat) (Neg.neg.{0} (Nat.cast.{0} n)))\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-020263.{u} D n)))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-020263.{u} C n))\n      (HomologicalComplex.homologyMap.{u, u + 1, 0} \u03c6 n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020263"
+      ],
+      "structural_type_hash": "2912504763",
+      "temporary_id": "decl-020270"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat}\n  (\u03c6 : Quiver.Hom.{u, u + 1} C D) (n : Nat) {Z : ModuleCat.{u, u} k}\n  (h : Quiver.Hom.{u, u + 1} (HomologicalComplex.homology.{u, u + 1, 0} D n) Z),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (HomologicalComplex.homologyMap.{u, u + 1, 0}\n        (HomologicalComplex.extendMap.{0, 0, u, u + 1} \u03c6 ComplexShape.embeddingDownNat) (Neg.neg.{0} (Nat.cast.{0} n)))\n      (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n        (CategoryTheory.Iso.hom.{u, u + 1} (decl-020263.{u} D n)) h))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-020263.{u} C n))\n      (CategoryTheory.CategoryStruct.comp.{u, u + 1} (HomologicalComplex.homologyMap.{u, u + 1, 0} \u03c6 n) h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020263"
+      ],
+      "structural_type_hash": "2890280243",
+      "temporary_id": "decl-020271"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (i : Nat),\n  Nonempty.{u + 1}\n    (CategoryTheory.Iso.{u, u + 1}\n      (HomologicalComplex.homology.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D) i)\n      (CategoryTheory.Limits.sigmaObj.{0, u, u + 1} fun p =>\n        CategoryTheory.MonoidalCategoryStruct.tensorObj.{u, u + 1}\n          (HomologicalComplex.homology.{u, u + 1, 0} C (Prod.fst.{0, 0} (Subtype.val.{1} p)))\n          (HomologicalComplex.homology.{u, u + 1, 0} D (Prod.snd.{0, 0} (Subtype.val.{1} p)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2305320956",
+      "temporary_id": "decl-021306"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) \u2192\n      (i : Nat) \u2192\n        CategoryTheory.Iso.{u, u + 1}\n          (HomologicalComplex.homology.{u, u + 1, 0} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D) i)\n          (CategoryTheory.Limits.sigmaObj.{0, u, u + 1} fun p =>\n            CategoryTheory.MonoidalCategoryStruct.tensorObj.{u, u + 1}\n              (HomologicalComplex.homology.{u, u + 1, 0} C (Prod.fst.{0, 0} (Subtype.val.{1} p)))\n              (HomologicalComplex.homology.{u, u + 1, 0} D (Prod.snd.{0, 0} (Subtype.val.{1} p))))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3070990284",
+      "temporary_id": "decl-021307"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat),\n  Nonempty.{u + 1}\n    (CategoryTheory.Iso.{u, u + 1}\n      (HomologicalComplex.tensorObj.{u, u + 1, 0}\n        (HomologicalComplex.extend.{0, 0, u, u + 1} C ComplexShape.embeddingDownNat)\n        (HomologicalComplex.extend.{0, 0, u, u + 1} D ComplexShape.embeddingDownNat))\n      (HomologicalComplex.extend.{0, 0, u, u + 1} (HomologicalComplex.tensorObj.{u, u + 1, 0} C D)\n        ComplexShape.embeddingDownNat))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2573077103",
+      "temporary_id": "decl-021735"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_4, u_1} C] \u2192\n    [CategoryTheory.Limits.HasZeroMorphisms.{u_4, u_1} C] \u2192\n      {J : Type u_2} \u2192\n        {I : Type u_3} \u2192\n          {F : J \u2192 C} \u2192\n            {G : I \u2192 C} \u2192\n              [inst_2 : CategoryTheory.Limits.HasCoproduct.{u_2, u_4, u_1} F] \u2192\n                [inst_3 : CategoryTheory.Limits.HasCoproduct.{u_3, u_4, u_1} G] \u2192\n                  (\u03b9 : I \u2192 J) \u2192\n                    Function.Injective.{u_3 + 1, u_2 + 1} \u03b9 \u2192\n                      ((a : I) \u2192 CategoryTheory.Iso.{u_4, u_1} (F (\u03b9 a)) (G a)) \u2192\n                        (\u2200 (j : J), (\u2200 (a : I), Ne.{u_2 + 1} (\u03b9 a) j) \u2192 CategoryTheory.Limits.IsZero.{u_4, u_1} (F j)) \u2192\n                          CategoryTheory.Iso.{u_4, u_1} (CategoryTheory.Limits.sigmaObj.{u_2, u_4, u_1} F)\n                            (CategoryTheory.Limits.sigmaObj.{u_3, u_4, u_1} G)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3632934779",
+      "temporary_id": "decl-023130"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_4, u_1} C] \u2192\n    [CategoryTheory.Limits.HasZeroMorphisms.{u_4, u_1} C] \u2192\n      {J : Type u_2} \u2192\n        {I : Type u_3} \u2192\n          {F : J \u2192 C} \u2192\n            {G : I \u2192 C} \u2192\n              [inst_2 : CategoryTheory.Limits.HasCoproduct.{u_2, u_4, u_1} F] \u2192\n                [inst_3 : CategoryTheory.Limits.HasCoproduct.{u_3, u_4, u_1} G] \u2192\n                  (\u03b9 : I \u2192 J) \u2192\n                    ((a : I) \u2192 CategoryTheory.Iso.{u_4, u_1} (F (\u03b9 a)) (G a)) \u2192\n                      Quiver.Hom.{u_4, u_1} (CategoryTheory.Limits.sigmaObj.{u_2, u_4, u_1} F)\n                        (CategoryTheory.Limits.sigmaObj.{u_3, u_4, u_1} G)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2810826868",
+      "temporary_id": "decl-023134"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_4, u_1} C] \u2192\n    {J : Type u_2} \u2192\n      {I : Type u_3} \u2192\n        {F : J \u2192 C} \u2192\n          {G : I \u2192 C} \u2192\n            [inst_1 : CategoryTheory.Limits.HasCoproduct.{u_2, u_4, u_1} F] \u2192\n              [inst_2 : CategoryTheory.Limits.HasCoproduct.{u_3, u_4, u_1} G] \u2192\n                (\u03b9 : I \u2192 J) \u2192\n                  ((a : I) \u2192 CategoryTheory.Iso.{u_4, u_1} (F (\u03b9 a)) (G a)) \u2192\n                    Quiver.Hom.{u_4, u_1} (CategoryTheory.Limits.sigmaObj.{u_3, u_4, u_1} G)\n                      (CategoryTheory.Limits.sigmaObj.{u_2, u_4, u_1} F)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "292318949",
+      "temporary_id": "decl-023137"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_4, u_1} C]\n  [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_4, u_1} C] {J : Type u_2} {I : Type u_3} {F : J \u2192 C} {G : I \u2192 C}\n  [inst_2 : CategoryTheory.Limits.HasCoproduct.{u_2, u_4, u_1} F]\n  [inst_3 : CategoryTheory.Limits.HasCoproduct.{u_3, u_4, u_1} G] (\u03b9 : I \u2192 J),\n  Function.Injective.{u_3 + 1, u_2 + 1} \u03b9 \u2192\n    \u2200 (iso : (a : I) \u2192 CategoryTheory.Iso.{u_4, u_1} (F (\u03b9 a)) (G a)) (a : I),\n      Eq.{u_4 + 1}\n        (CategoryTheory.CategoryStruct.comp.{u_4, u_1} (CategoryTheory.Limits.Sigma.\u03b9.{u_2, u_4, u_1} F (\u03b9 a))\n          (decl-023134.{u_1, u_2, u_3, u_4} \u03b9 iso))\n        (CategoryTheory.CategoryStruct.comp.{u_4, u_1} (CategoryTheory.Iso.hom.{u_4, u_1} (iso a))\n          (CategoryTheory.Limits.Sigma.\u03b9.{u_3, u_4, u_1} G a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023134"
+      ],
+      "structural_type_hash": "4139143312",
+      "temporary_id": "decl-024746"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_4, u_1} C]\n  [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_4, u_1} C] {J : Type u_2} {I : Type u_3} {F : J \u2192 C} {G : I \u2192 C}\n  [inst_2 : CategoryTheory.Limits.HasCoproduct.{u_2, u_4, u_1} F]\n  [inst_3 : CategoryTheory.Limits.HasCoproduct.{u_3, u_4, u_1} G] (\u03b9 : I \u2192 J),\n  Function.Injective.{u_3 + 1, u_2 + 1} \u03b9 \u2192\n    \u2200 (iso : (a : I) \u2192 CategoryTheory.Iso.{u_4, u_1} (F (\u03b9 a)) (G a)) (a : I) {Z : C}\n      (h : Quiver.Hom.{u_4, u_1} (CategoryTheory.Limits.sigmaObj.{u_3, u_4, u_1} G) Z),\n      Eq.{u_4 + 1}\n        (CategoryTheory.CategoryStruct.comp.{u_4, u_1} (CategoryTheory.Limits.Sigma.\u03b9.{u_2, u_4, u_1} F (\u03b9 a))\n          (CategoryTheory.CategoryStruct.comp.{u_4, u_1} (decl-023134.{u_1, u_2, u_3, u_4} \u03b9 iso) h))\n        (CategoryTheory.CategoryStruct.comp.{u_4, u_1} (CategoryTheory.Iso.hom.{u_4, u_1} (iso a))\n          (CategoryTheory.CategoryStruct.comp.{u_4, u_1} (CategoryTheory.Limits.Sigma.\u03b9.{u_3, u_4, u_1} G a) h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023134"
+      ],
+      "structural_type_hash": "4008043194",
+      "temporary_id": "decl-024747"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_4, u_1} C] {J : Type u_2} {I : Type u_3} {F : J \u2192 C} {G : I \u2192 C}\n  [inst_1 : CategoryTheory.Limits.HasCoproduct.{u_2, u_4, u_1} F]\n  [inst_2 : CategoryTheory.Limits.HasCoproduct.{u_3, u_4, u_1} G] (\u03b9 : I \u2192 J)\n  (iso : (a : I) \u2192 CategoryTheory.Iso.{u_4, u_1} (F (\u03b9 a)) (G a)) (a : I),\n  Eq.{u_4 + 1}\n    (CategoryTheory.CategoryStruct.comp.{u_4, u_1} (CategoryTheory.Limits.Sigma.\u03b9.{u_3, u_4, u_1} G a)\n      (decl-023137.{u_1, u_2, u_3, u_4} \u03b9 iso))\n    (CategoryTheory.CategoryStruct.comp.{u_4, u_1} (CategoryTheory.Iso.inv.{u_4, u_1} (iso a))\n      (CategoryTheory.Limits.Sigma.\u03b9.{u_2, u_4, u_1} F (\u03b9 a)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023137"
+      ],
+      "structural_type_hash": "4002535213",
+      "temporary_id": "decl-024748"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_4, u_1} C] {J : Type u_2} {I : Type u_3} {F : J \u2192 C} {G : I \u2192 C}\n  [inst_1 : CategoryTheory.Limits.HasCoproduct.{u_2, u_4, u_1} F]\n  [inst_2 : CategoryTheory.Limits.HasCoproduct.{u_3, u_4, u_1} G] (\u03b9 : I \u2192 J)\n  (iso : (a : I) \u2192 CategoryTheory.Iso.{u_4, u_1} (F (\u03b9 a)) (G a)) (a : I) {Z : C}\n  (h : Quiver.Hom.{u_4, u_1} (CategoryTheory.Limits.sigmaObj.{u_2, u_4, u_1} F) Z),\n  Eq.{u_4 + 1}\n    (CategoryTheory.CategoryStruct.comp.{u_4, u_1} (CategoryTheory.Limits.Sigma.\u03b9.{u_3, u_4, u_1} G a)\n      (CategoryTheory.CategoryStruct.comp.{u_4, u_1} (decl-023137.{u_1, u_2, u_3, u_4} \u03b9 iso) h))\n    (CategoryTheory.CategoryStruct.comp.{u_4, u_1} (CategoryTheory.Iso.inv.{u_4, u_1} (iso a))\n      (CategoryTheory.CategoryStruct.comp.{u_4, u_1} (CategoryTheory.Limits.Sigma.\u03b9.{u_2, u_4, u_1} F (\u03b9 a)) h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023137"
+      ],
+      "structural_type_hash": "1934717467",
+      "temporary_id": "decl-024749"
+    }
+  ],
+  "module_temporary_id": "module-0603",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

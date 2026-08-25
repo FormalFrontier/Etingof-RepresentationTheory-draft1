@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3db81d427551fd7f58d0",
+      "declaration": "Etingof.cat\u2081EquivCat\u2082",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/482/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "CategoryTheory.Equivalence.{u_1, u_2, 0, 0} Etingof.Cat\u2081 Etingof.Cat\u2082",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Discussion_after_Definition7_4_1"
+    }
+  ],
+  "canonical_reference": "Chapter7/Discussion_after_Definition7.4.1",
+  "packet_id": "align-0328",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0328"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6609a3d1d4238c04d0a7",
+  "source_text": "C\u2081 and C\u2082 are equivalent categories."
+}

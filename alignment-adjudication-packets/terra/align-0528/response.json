@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0528",
+  "associations": [
+    {
+      "association_id": "association:d06af803fd773adade54",
+      "rationale": "The theorem directly states that every vector in the selected generalized H-eigenspace is annihilated by F^N for some positive N.",
+      "role": "primary"
+    }
+  ]
+}

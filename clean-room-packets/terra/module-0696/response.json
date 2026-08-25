@@ -1,0 +1,10 @@
+{
+  "declarations": [
+    {
+      "docstring": "A complete orthogonal family of idempotents in the quotient by a nilpotent two-sided ideal lifts to a complete orthogonal family in the ring.",
+      "new_name": "exists_completeOrthogonalIdempotents_lift_of_isNilpotent",
+      "temporary_id": "decl-021493"
+    }
+  ],
+  "module_name": "RingTheory.Ideal.IdempotentLifting"
+}

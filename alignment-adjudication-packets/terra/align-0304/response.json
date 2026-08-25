@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0304",
+  "associations": [
+    {
+      "association_id": "association:32eb5cdb49ffc144ccfd",
+      "role": "supporting",
+      "rationale": "The theorem states semisimplicity of the tensor product of arbitrary finite-dimensional semisimple algebras, but the displayed type does not mention or identify the two radical quotients; applying it to those quotients is specialization-level support."
+    }
+  ]
+}

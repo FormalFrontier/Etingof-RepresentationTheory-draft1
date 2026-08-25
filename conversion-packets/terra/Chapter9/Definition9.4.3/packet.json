@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Definition9.4.3",
+    "kind": "definition",
+    "title": "Homological dimension of a ring",
+    "node_id": "chapter-09/section-9-4",
+    "order": 562,
+    "slug": "definition9-4-3",
+    "span": {
+      "start": {
+        "page": "217",
+        "line": 3
+      },
+      "end": {
+        "page": "217",
+        "line": 4
+      }
+    },
+    "source_sha256": "2e69bfa14d1d8bb801d9cffc15a4a90db616cee1c29ded84221cde58c472d9d9",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Definition943",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

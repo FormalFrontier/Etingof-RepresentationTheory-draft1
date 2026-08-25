@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Lemma5.2.6",
+    "kind": "lemma",
+    "title": "Algebraic conjugates of sums are sums of algebraic conjugates",
+    "node_id": "chapter-05/section-5-2",
+    "order": 260,
+    "slug": "lemma5-2-6",
+    "span": {
+      "start": {
+        "page": "97",
+        "line": 29
+      },
+      "end": {
+        "page": "98",
+        "line": 2
+      }
+    },
+    "source_sha256": "4a6a46307d6e3671ee84397b72398a7ff85a4c85e061f7bd846112c5c0e2d26b",
+    "features": {
+      "line_count": 3,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma526",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

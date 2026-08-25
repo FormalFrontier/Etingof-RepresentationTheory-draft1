@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1193",
+  "associations": [
+    {
+      "association_id": "association:c1c709db64198ee4d7ba",
+      "rationale": "The displayed type only constructs a type named ShortExactSequence and does not expose the four-term description or the stated characterization.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d4734c5e9131fe259b58",
+      "rationale": "It gives the mono-epi-cokernel characterization, but does not display the source's four-term sequence with the two zero maps."
+      ,"role": "supporting"
+    }
+  ]
+}

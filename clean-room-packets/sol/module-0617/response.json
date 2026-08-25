@@ -1,0 +1,425 @@
+{
+  "module_name": "Algebra.Homology.TensorBarResolution",
+  "declarations": [
+    {
+      "temporary_id": "decl-000649",
+      "new_name": "tensorAction",
+      "docstring": "The linear map from `A tensor[k] W` to `W` induced by the action of `A` on `W`."
+    },
+    {
+      "temporary_id": "decl-000656",
+      "new_name": "tensorAction_tmul",
+      "docstring": "The tensor action map sends a pure tensor to scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-000657",
+      "new_name": "tensorTail",
+      "docstring": "The degree-indexed type used for tensor tails over `k` with coefficients in `W`."
+    },
+    {
+      "temporary_id": "decl-000658",
+      "new_name": "splitHead",
+      "docstring": "The linear map that separates the head factor of a tensor tail of successor degree."
+    },
+    {
+      "temporary_id": "decl-000662",
+      "new_name": "Auxiliary.statement000662",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
+    },
+    {
+      "temporary_id": "decl-000664",
+      "new_name": "Auxiliary.statement000664",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
+    },
+    {
+      "temporary_id": "decl-000665",
+      "new_name": "tensorTailZeroEquiv",
+      "docstring": "The linear equivalence between the degree-zero tensor tail and its coefficient module."
+    },
+    {
+      "temporary_id": "decl-000669",
+      "new_name": "tensorTailZeroEquiv_symm_apply",
+      "docstring": "The inverse degree-zero equivalence represents a coefficient as the unique empty tensor paired with it."
+    },
+    {
+      "temporary_id": "decl-000670",
+      "new_name": "tensorTailZeroEquiv_apply_tmul",
+      "docstring": "The degree-zero equivalence evaluates an empty pure tensor paired with a coefficient to that coefficient."
+    },
+    {
+      "temporary_id": "decl-000671",
+      "new_name": "tensorBarComplex",
+      "docstring": "The chain complex of `A`-modules associated with the tensor bar construction for `W`."
+    },
+    {
+      "temporary_id": "decl-000673",
+      "new_name": "tensorBarComplex_exact_succ",
+      "docstring": "The tensor bar complex is exact at every positive degree."
+    },
+    {
+      "temporary_id": "decl-000674",
+      "new_name": "tensorPowerCons",
+      "docstring": "The linear map that prepends one factor to a tensor power."
+    },
+    {
+      "temporary_id": "decl-000677",
+      "new_name": "tensorPowerCons_tmul",
+      "docstring": "Prepending a factor to a pure tensor gives the pure tensor indexed by `Fin.cons`."
+    },
+    {
+      "temporary_id": "decl-000678",
+      "new_name": "tensorPowerUncons",
+      "docstring": "The linear map that splits a nonempty tensor power into its head and tail."
+    },
+    {
+      "temporary_id": "decl-000686",
+      "new_name": "tensorPowerUncons_tprod",
+      "docstring": "Splitting a pure tensor yields its first entry tensored with the tensor of its tail."
+    },
+    {
+      "temporary_id": "decl-000687",
+      "new_name": "extraDegeneracy",
+      "docstring": "The linear map from one bar degree to the next obtained by inserting a leading unit."
+    },
+    {
+      "temporary_id": "decl-000689",
+      "new_name": "degreeZeroUnitMap",
+      "docstring": "The linear map from `W` into the degree-zero bar term obtained by inserting the unit of `A`."
+    },
+    {
+      "temporary_id": "decl-000691",
+      "new_name": "degreeZeroUnitMap_apply",
+      "docstring": "The degree-zero unit map sends a coefficient to the unit tensored with its degree-zero tensor representative."
+    },
+    {
+      "temporary_id": "decl-000692",
+      "new_name": "extraDegeneracy_tmul",
+      "docstring": "On a pure tensor, the extra degeneracy inserts a leading unit and moves the previous head into the tensor tail."
+    },
+    {
+      "temporary_id": "decl-000693",
+      "new_name": "barBoundary",
+      "docstring": "The `A`-linear boundary map between consecutive tensor bar terms."
+    },
+    {
+      "temporary_id": "decl-000698",
+      "new_name": "barBoundary_extraDegeneracy_tmul_add",
+      "docstring": "On pure tensors, the boundary and extra degeneracy satisfy the contracting-homotopy sum identity."
+    },
+    {
+      "temporary_id": "decl-000702",
+      "new_name": "barBoundary_comp_barBoundary",
+      "docstring": "Two consecutive bar boundary maps compose to zero."
+    },
+    {
+      "temporary_id": "decl-000711",
+      "new_name": "barBoundary_extraDegeneracy_add",
+      "docstring": "The two composites of the boundary and extra degeneracy add to the identity."
+    },
+    {
+      "temporary_id": "decl-000712",
+      "new_name": "barBoundary_eq_linearize_splitHead",
+      "docstring": "The bar boundary is the `A`-linear extension of the head-splitting map."
+    },
+    {
+      "temporary_id": "decl-000713",
+      "new_name": "Auxiliary.statement000713",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
+    },
+    {
+      "temporary_id": "decl-000714",
+      "new_name": "barBoundary_tmul_splitHead",
+      "docstring": "Applying the bar boundary to a head tensor equals scalar multiplication by the head after splitting."
+    },
+    {
+      "temporary_id": "decl-000715",
+      "new_name": "Auxiliary.statement000715",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
+    },
+    {
+      "temporary_id": "decl-000716",
+      "new_name": "degreeZero_contraction",
+      "docstring": "At degree zero, the boundary-unit-map composite and the unit-map-augmentation composite sum to the identity."
+    },
+    {
+      "temporary_id": "decl-000717",
+      "new_name": "barFace",
+      "docstring": "The indexed `A`-linear face map between consecutive tensor bar terms."
+    },
+    {
+      "temporary_id": "decl-000720",
+      "new_name": "barFace_castSucc_tmul",
+      "docstring": "A nonterminal bar face multiplies the selected adjacent entries of a pure tensor."
+    },
+    {
+      "temporary_id": "decl-000721",
+      "new_name": "barFace_comp_barFace",
+      "docstring": "Ordered bar face maps satisfy the standard interchange identity for two contractions."
+    },
+    {
+      "temporary_id": "decl-000726",
+      "new_name": "barFace_succ_tmul",
+      "docstring": "An interior successor face preserves the leading factor and contracts the corresponding adjacent tail entries."
+    },
+    {
+      "temporary_id": "decl-000727",
+      "new_name": "barFace_last_tmul",
+      "docstring": "The last face of a pure tensor lets the final algebra entry act on the coefficient."
+    },
+    {
+      "temporary_id": "decl-000728",
+      "new_name": "barFace_zero_tmul",
+      "docstring": "The zeroth face of a pure tensor multiplies its leading two algebra entries."
+    },
+    {
+      "temporary_id": "decl-000729",
+      "new_name": "tensorPowerMul",
+      "docstring": "The linear map that multiplies a selected adjacent pair in a nonempty tensor power."
+    },
+    {
+      "temporary_id": "decl-000733",
+      "new_name": "tensorPowerMul_tprod",
+      "docstring": "Adjacent-factor multiplication on a pure tensor is given by `Fin.contractNth`."
+    },
+    {
+      "temporary_id": "decl-000734",
+      "new_name": "tensorBarTerm",
+      "docstring": "The degree-indexed type of terms in the tensor bar construction."
+    },
+    {
+      "temporary_id": "decl-000735",
+      "new_name": "tensorBarTerm_ext",
+      "docstring": "Two `A`-linear maps from a successor bar term are equal if they agree on all displayed pure tensors."
+    },
+    {
+      "temporary_id": "decl-000737",
+      "new_name": "tensorBarTerm_linearMap_ext",
+      "docstring": "Two `k`-linear maps from a bar term are equal if they agree on all displayed pure tensors."
+    },
+    {
+      "temporary_id": "decl-000739",
+      "new_name": "tensorBarTermModule",
+      "docstring": "A tensor bar term regarded as an object of the category of `A`-modules."
+    },
+    {
+      "temporary_id": "decl-000741",
+      "new_name": "tensorTailLastAction",
+      "docstring": "The linear map that removes the final tensor factor by letting it act on the coefficient."
+    },
+    {
+      "temporary_id": "decl-000744",
+      "new_name": "tensorTailLastAction_tmul",
+      "docstring": "On a pure tensor, the final-factor action keeps the initial entries and applies the last entry to the coefficient."
+    },
+    {
+      "temporary_id": "decl-000745",
+      "new_name": "tensorPowerUnsnoc",
+      "docstring": "The linear map that separates the last factor of a nonempty tensor power."
+    },
+    {
+      "temporary_id": "decl-000750",
+      "new_name": "tensorPowerUnsnoc_tprod",
+      "docstring": "Separating the last factor of a pure tensor yields the tensor of its initial entries paired with its last entry."
+    },
+    {
+      "temporary_id": "decl-000751",
+      "new_name": "tensorBarAugmentation",
+      "docstring": "The augmentation morphism from the degree-zero bar module to the coefficient module."
+    },
+    {
+      "temporary_id": "decl-000754",
+      "new_name": "tensorBarAugmentationHom",
+      "docstring": "The chain map from the tensor bar complex to the complex concentrated in degree zero at `W`."
+    },
+    {
+      "temporary_id": "decl-000758",
+      "new_name": "tensorBarAugmentationHom_f_zero",
+      "docstring": "The degree-zero component of the augmentation chain map is the bar augmentation."
+    },
+    {
+      "temporary_id": "decl-000759",
+      "new_name": "tensorBarAugmentationHom_quasiIso",
+      "docstring": "The augmentation chain map from the tensor bar complex is a quasi-isomorphism."
+    },
+    {
+      "temporary_id": "decl-000760",
+      "new_name": "tensorBarAugmentation_surjective",
+      "docstring": "The underlying function of the degree-zero bar augmentation is surjective."
+    },
+    {
+      "temporary_id": "decl-000761",
+      "new_name": "tensorTailFace",
+      "docstring": "The indexed `k`-linear face map from a successor tensor tail to a bar term."
+    },
+    {
+      "temporary_id": "decl-000766",
+      "new_name": "tensorTailInnerFace",
+      "docstring": "The interior tensor-tail face indexed by an adjacent pair among the tail factors."
+    },
+    {
+      "temporary_id": "decl-000768",
+      "new_name": "tensorTailLastFace",
+      "docstring": "The terminal tensor-tail face from successor degree to the corresponding bar term."
+    },
+    {
+      "temporary_id": "decl-000771",
+      "new_name": "tensorTailFirstFace",
+      "docstring": "The initial tensor-tail face from successor degree to the corresponding bar term."
+    },
+    {
+      "temporary_id": "decl-000773",
+      "new_name": "tensorTailFace_succ_castSucc",
+      "docstring": "A successor-indexed tensor-tail face agrees with the corresponding interior face."
+    },
+    {
+      "temporary_id": "decl-000775",
+      "new_name": "tensorTailFace_last",
+      "docstring": "The last indexed tensor-tail face is the terminal face map."
+    },
+    {
+      "temporary_id": "decl-000776",
+      "new_name": "tensorTailFace_zero",
+      "docstring": "The zeroth indexed tensor-tail face is the initial face map."
+    },
+    {
+      "temporary_id": "decl-000777",
+      "new_name": "contractNth_castSucc_castSucc",
+      "docstring": "Contracting before the final entry commutes with taking the initial entries, with the last entry appended afterward."
+    },
+    {
+      "temporary_id": "decl-000779",
+      "new_name": "contractNth_contractNth_assoc",
+      "docstring": "For an associative operation, two ordered adjacent contractions satisfy the corresponding index-shift identity."
+    },
+    {
+      "temporary_id": "decl-000812",
+      "new_name": "contractNth_last_castSucc",
+      "docstring": "Contracting the final adjacent pair produces the initial entries followed by the product of the last two entries."
+    },
+    {
+      "temporary_id": "decl-000814",
+      "new_name": "contractNth_succ_cons",
+      "docstring": "Contracting at a successor index after `Fin.cons` preserves the head and contracts the tail."
+    },
+    {
+      "temporary_id": "decl-000819",
+      "new_name": "contractNth_update_left",
+      "docstring": "Updating the left member of the contracted pair updates the contracted value by multiplying the replacement on the left."
+    },
+    {
+      "temporary_id": "decl-000825",
+      "new_name": "contractNth_update_of_ne",
+      "docstring": "Updating outside the contracted pair commutes with contraction after transporting the index by `predAbove`."
+    },
+    {
+      "temporary_id": "decl-000827",
+      "new_name": "contractNth_update_right",
+      "docstring": "Updating the right member of the contracted pair updates the contracted value by multiplying the replacement on the right."
+    },
+    {
+      "temporary_id": "decl-000834",
+      "new_name": "contractNth_zero_cons",
+      "docstring": "Contracting at zero after `Fin.cons` multiplies the new head with the old head and retains the remaining tail."
+    },
+    {
+      "temporary_id": "decl-000835",
+      "new_name": "tensorTail_module_finite",
+      "docstring": "Each tensor-tail degree is finite as a `k`-module when `A` and `W` are finite-dimensional over `k`."
+    },
+    {
+      "temporary_id": "decl-000837",
+      "new_name": "tensorBarTerm_module_finite",
+      "docstring": "Each tensor bar term is finite as an `A`-module under the stated finite-dimensional hypotheses."
+    },
+    {
+      "temporary_id": "decl-000839",
+      "new_name": "tensorBarTermModule_finite",
+      "docstring": "The carrier of each categorical tensor bar term is a finite `A`-module under the stated hypotheses."
+    },
+    {
+      "temporary_id": "decl-000841",
+      "new_name": "tensorBarResolution_complex_finite",
+      "docstring": "Every term in the complex of the tensor bar resolution has finite carrier as an `A`-module."
+    },
+    {
+      "temporary_id": "decl-000843",
+      "new_name": "tensorBarTerm_free",
+      "docstring": "Every tensor bar term is a free `A`-module."
+    },
+    {
+      "temporary_id": "decl-000845",
+      "new_name": "tensorBarTerm_projective",
+      "docstring": "Every tensor bar term is a projective `A`-module."
+    },
+    {
+      "temporary_id": "decl-000846",
+      "new_name": "tensorBarTermModule_projective",
+      "docstring": "Every categorical tensor bar term is a projective object in `ModuleCat A`."
+    },
+    {
+      "temporary_id": "decl-000848",
+      "new_name": "linearizeBarMap",
+      "docstring": "Extends a `k`-linear map on successor tensor tails to an `A`-linear map between bar terms."
+    },
+    {
+      "temporary_id": "decl-000850",
+      "new_name": "linearizeBarMap_add",
+      "docstring": "Linear extension to bar terms preserves addition of maps."
+    },
+    {
+      "temporary_id": "decl-000851",
+      "new_name": "linearizeBarMap_smul",
+      "docstring": "Linear extension to bar terms preserves scalar multiplication by elements of `k`."
+    },
+    {
+      "temporary_id": "decl-000852",
+      "new_name": "linearizeBarMap_sum",
+      "docstring": "Linear extension to bar terms commutes with finite sums of maps."
+    },
+    {
+      "temporary_id": "decl-000853",
+      "new_name": "linearizeBarMap_tmul",
+      "docstring": "The linearized map sends a head tensor to the head acting on the value of the original map."
+    },
+    {
+      "temporary_id": "decl-000854",
+      "new_name": "unitToBarTerm",
+      "docstring": "The linear map from a tensor tail to the corresponding bar term obtained by adjoining the unit of `A`."
+    },
+    {
+      "temporary_id": "decl-000856",
+      "new_name": "unitToBarTerm_apply",
+      "docstring": "The unit-adjoining map sends a tensor tail to the pure tensor with leading factor one."
+    },
+    {
+      "temporary_id": "decl-000857",
+      "new_name": "degreeZeroAugmentation",
+      "docstring": "The `A`-linear augmentation from the degree-zero tensor bar term to `W`."
+    },
+    {
+      "temporary_id": "decl-000862",
+      "new_name": "degreeZeroAugmentation_comp_degreeZeroUnitMap",
+      "docstring": "After restricting scalars, the degree-zero augmentation composed with the unit map is the identity."
+    },
+    {
+      "temporary_id": "decl-000863",
+      "new_name": "degreeZeroAugmentation_comp_barBoundary",
+      "docstring": "The degree-zero augmentation annihilates the first bar boundary."
+    },
+    {
+      "temporary_id": "decl-000864",
+      "new_name": "degreeZeroAugmentation_surjective",
+      "docstring": "The degree-zero augmentation is surjective."
+    },
+    {
+      "temporary_id": "decl-000865",
+      "new_name": "degreeZeroAugmentation_tmul",
+      "docstring": "On a pure degree-zero tensor, the augmentation is the leading algebra element acting on the represented coefficient."
+    },
+    {
+      "temporary_id": "decl-017309",
+      "new_name": "tensorBarResolution",
+      "docstring": "The projective resolution of `W` in `ModuleCat A` supplied by the tensor bar construction."
+    }
+  ]
+}

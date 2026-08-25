@@ -1,0 +1,6 @@
+{
+  "module_name": "Foundations.TypeFamilies",
+  "declarations": [
+    {"temporary_id": "decl-014879", "new_name": "AuxiliaryTypeFamily", "docstring": "An auxiliary universe-polymorphic family of types indexed by a type."}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "module_name": "Determinants.FiniteNatFamilyTransforms",
+  "declarations": [
+    {
+      "temporary_id": "decl-023046",
+      "new_name": "det_eq_reversePermSign_mul",
+      "docstring": "For a finite natural-number family bounded by the parameter, relates a determinant of an associated subtraction matrix to the reversal sign, a factor derived from the transformed family, and another determinant."
+    },
+    {
+      "temporary_id": "decl-024483",
+      "new_name": "finiteNatFamilyTransform",
+      "docstring": "Transforms a natural-number-valued family indexed by Fin N using a natural-number parameter."
+    },
+    {
+      "temporary_id": "decl-024485",
+      "new_name": "finiteNatFamilyTransform_antitone",
+      "docstring": "Shows that applying the finite-family transformation at any parameter preserves antitonicity."
+    }
+  ]
+}

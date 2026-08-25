@@ -1,0 +1,25 @@
+{
+  "module_name": "CharacterTwistIntertwiners",
+  "declarations": [
+    {
+      "temporary_id": "decl-017168",
+      "new_name": "exists_intertwiner_to_dual_representation",
+      "docstring": "There exists a map intertwining the displayed general linear group representation with the displayed dual representation."
+    },
+    {
+      "temporary_id": "decl-018778",
+      "new_name": "exists_twists_intertwining_common_representation",
+      "docstring": "There are a twist parameter and an index such that the displayed representation and the displayed dual representation, after twisting, admit intertwiners with the same indexed representation."
+    },
+    {
+      "temporary_id": "decl-018811",
+      "new_name": "exists_twist_intertwiner_to_dual_representation",
+      "docstring": "There is a common character twist for which the displayed representation admits an intertwiner with the correspondingly twisted dual representation."
+    },
+    {
+      "temporary_id": "decl-020838",
+      "new_name": "intertwines_of_twisted_intertwines",
+      "docstring": "A linear equivalence that intertwines two representations after twisting both by the same character also intertwines the original representations."
+    }
+  ]
+}

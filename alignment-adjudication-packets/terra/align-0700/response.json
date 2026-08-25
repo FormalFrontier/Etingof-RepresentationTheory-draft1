@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0700",
+  "associations": [
+    {
+      "association_id": "association:fc7299b2581b590ba53b",
+      "rationale": "The type produces a nonzero equivariant map from a simple σ to Sym^n(ρ), but it does not display that this map is an embedding or directly state occurrence as a constituent; occurrence requires a further consequence.",
+      "role": "supporting"
+    }
+  ]
+}

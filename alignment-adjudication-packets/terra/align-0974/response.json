@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0974",
+  "associations": [
+    {
+      "association_id": "association:e050a54441f81f452a60",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so equivariance of the averaged projection is not directly displayed."
+    }
+  ]
+}

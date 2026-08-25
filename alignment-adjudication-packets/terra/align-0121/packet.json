@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9ee6dd9e03a219e6b333",
+      "declaration": "Etingof.reflectionFunctorMinusFunctor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/443/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_k) \u2192\n  [inst : CommRing.{u_k} k] \u2192\n    (Q : Type u_V) \u2192\n      [inst_1 : DecidableEq.{u_V + 1} Q] \u2192\n        [inst_2 : Quiver.{u_hom, u_V} Q] \u2192\n          (i : Q) \u2192\n            Etingof.IsSource.{u_V, u_hom} Q i \u2192\n              [Fintype.{max u_hom u_V} (Etingof.ArrowsOutOf.{u_V, u_hom} Q i)] \u2192\n                CategoryTheory.Functor.{max (max u_V u_hom) u_obj, max (max u_V u_hom) u_obj,\n                    max (max (max (u_V + 1) (u_hom + 1)) u_k) (u_obj + 1),\n                    max (max (max (u_V + 1) (u_hom + 1)) u_k) (u_obj + 1)}\n                  (Etingof.QuiverRepresentation.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q)\n                  (Etingof.QuiverRepresentation.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Definition6_6_4_Functor"
+    }
+  ],
+  "canonical_reference": "Chapter6/Definition6.6.4",
+  "packet_id": "align-0121",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0121"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2591e571940dc5294ffd",
+  "source_text": "The source reflection construction is an actual functor, with the reflected vertex given by the outgoing-map cokernel."
+}

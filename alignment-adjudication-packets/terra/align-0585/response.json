@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0585",
+  "associations": [
+    {
+      "association_id": "association:18e8e5d5da671b6636f1",
+      "rationale": "The displayed existential elides the type of I and states only the opaque predicate IsCoatom, so it does not directly expose that I is a maximal left ideal.",
+      "role": "supporting"
+    }
+  ]
+}

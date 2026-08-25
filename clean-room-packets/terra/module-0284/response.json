@@ -1,0 +1,40 @@
+{
+  "module_name": "FiniteGroupRepresentations.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-005130",
+      "new_name": "auxiliaryRepresentationProperty",
+      "docstring": "An auxiliary predicate on finite-dimensional complex representations of finite groups."
+    },
+    {
+      "temporary_id": "decl-005277",
+      "new_name": "auxiliaryRepresentationConditionOne",
+      "docstring": "A first auxiliary condition on finite-dimensional complex representations of finite groups."
+    },
+    {
+      "temporary_id": "decl-005278",
+      "new_name": "auxiliaryRepresentationConditionTwo",
+      "docstring": "A second auxiliary condition on finite-dimensional complex representations of finite groups."
+    },
+    {
+      "temporary_id": "decl-015471",
+      "new_name": "AuxiliaryType015471",
+      "docstring": "An auxiliary type whose internal description is not exposed by the displayed formal type."
+    },
+    {
+      "temporary_id": "decl-018829",
+      "new_name": "exists_intertwiner_to_dual_of_nondegenerate_invariant_form",
+      "docstring": "A nondegenerate invariant complex bilinear form yields a map intertwining a representation with its dual."
+    },
+    {
+      "temporary_id": "decl-021775",
+      "new_name": "not_auxiliaryRepresentationProperty_of_conditionOne",
+      "docstring": "The first auxiliary representation condition excludes the auxiliary representation property."
+    },
+    {
+      "temporary_id": "decl-021776",
+      "new_name": "not_auxiliaryRepresentationProperty_of_conditionTwo",
+      "docstring": "The second auxiliary representation condition excludes the auxiliary representation property."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0590",
+  "associations": [
+    {
+      "association_id": "association:2593f79b493cf52a5973",
+      "rationale": "The displayed type only gives the opaque predicate signature IsCyclicVector : V → Prop and does not expose the defining equivalence with Av = V.",
+      "role": "supporting"
+    }
+  ]
+}

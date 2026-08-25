@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0449",
+  "associations": [
+    {
+      "association_id": "association:d59a2e9c7495776828ff",
+      "role": "supporting",
+      "rationale": "The equivalence characterizes algebraic complex numbers as roots of nonzero rational polynomials, but the displayed type does not state the source claim's monic condition; obtaining it requires normalization."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "module_name": "TensorPowerRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-010669",
+      "new_name": "exists_nonzero_intertwiner_to_tensorPower_of_injective",
+      "docstring": "Every simple complex representation of a finite group admits a nonzero intertwining map into some tensor power of an injective representation."
+    },
+    {
+      "temporary_id": "decl-032713",
+      "new_name": "character_tensorPowerRepresentation",
+      "docstring": "The character of the nth tensor-power representation at an element is the nth power of the original character value."
+    },
+    {
+      "temporary_id": "decl-032784",
+      "new_name": "tensorPowerRepresentation",
+      "docstring": "The representation induced on the nth tensor power of the representation space."
+    },
+    {
+      "temporary_id": "decl-032787",
+      "new_name": "tensorPowerRepresentation_apply",
+      "docstring": "The action of the tensor-power representation is the tensor-product map obtained by applying the original action in every factor."
+    },
+    {
+      "temporary_id": "decl-033023",
+      "new_name": "trace_piTensorProduct_map",
+      "docstring": "The trace of the map induced by an endomorphism on an nth tensor power equals the nth power of the endomorphism's trace."
+    },
+    {
+      "temporary_id": "decl-033051",
+      "new_name": "apply_eq_one_of_character_eq_finrank",
+      "docstring": "If a group element has character value equal to the representation dimension, then its action in a finite-dimensional complex representation is the identity."
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "module_name": "Quiver.Representation.MatrixModel",
+  "declarations": [
+    {
+      "temporary_id": "decl-017227",
+      "new_name": "arrowCount",
+      "docstring": "The number of arrows from one vertex to another in a finite quiver."
+    },
+    {
+      "temporary_id": "decl-019818",
+      "new_name": "generalLinearGroupToLinearEquiv",
+      "docstring": "The linear automorphism of a finite coordinate space induced by an invertible square matrix."
+    },
+    {
+      "temporary_id": "decl-019824",
+      "new_name": "generalLinearGroupToLinearEquiv_toLinearMap",
+      "docstring": "The linear map underlying the coordinate-space equivalence of an invertible matrix is its usual matrix action."
+    },
+    {
+      "temporary_id": "decl-019825",
+      "new_name": "linearEquivToGeneralLinearGroup",
+      "docstring": "The invertible matrix representing a linear equivalence of a finite coordinate space."
+    },
+    {
+      "temporary_id": "decl-019828",
+      "new_name": "linearEquivToGeneralLinearGroup_val",
+      "docstring": "The matrix underlying the general linear group element obtained from a coordinate-space equivalence is the matrix of its linear map."
+    },
+    {
+      "temporary_id": "decl-021832",
+      "new_name": "matrixData_sameOrbit_iff_isomorphicRepresentations",
+      "docstring": "Two collections of arrow matrices differ by vertexwise changes of basis exactly when their associated quiver representations are isomorphic."
+    },
+    {
+      "temporary_id": "decl-022586",
+      "new_name": "BaseChangeGroup",
+      "docstring": "The product of the general linear groups at the vertices for a prescribed dimension vector."
+    },
+    {
+      "temporary_id": "decl-022587",
+      "new_name": "finrank_vertexMatrixFamily",
+      "docstring": "The space of vertex-indexed square matrices has dimension equal to the sum of the squared vertex dimensions."
+    },
+    {
+      "temporary_id": "decl-022608",
+      "new_name": "matrixDataToRepresentation",
+      "docstring": "The quiver representation on coordinate spaces determined by a collection of arrow matrices."
+    },
+    {
+      "temporary_id": "decl-022611",
+      "new_name": "matrixDataToRepresentation_map",
+      "docstring": "In the representation determined by arrow matrices, each arrow acts by the linear map represented by its assigned matrix."
+    },
+    {
+      "temporary_id": "decl-022612",
+      "new_name": "matrixDataToRepresentation_obj",
+      "docstring": "The vector space at a vertex of the representation determined by arrow matrices is the corresponding coordinate space."
+    },
+    {
+      "temporary_id": "decl-022624",
+      "new_name": "MatrixData",
+      "docstring": "Collections of matrices assigned to the arrows of a quiver, with sizes prescribed by a dimension vector."
+    },
+    {
+      "temporary_id": "decl-022625",
+      "new_name": "baseChangeMulAction",
+      "docstring": "Vertexwise invertible matrices act on arrow-matrix data by simultaneous changes of basis."
+    },
+    {
+      "temporary_id": "decl-022628",
+      "new_name": "baseChangeSMul",
+      "docstring": "The scalar action of vertexwise invertible matrices on arrow-matrix data by change of basis."
+    },
+    {
+      "temporary_id": "decl-022629",
+      "new_name": "finrank_matrixData",
+      "docstring": "The dimension of the arrow-matrix data is the sum over ordered vertex pairs of the arrow count times the product of the two vertex dimensions."
+    },
+    {
+      "temporary_id": "decl-022630",
+      "new_name": "baseChange_smul_apply",
+      "docstring": "Changing bases sends an arrow matrix to the target change-of-basis matrix times that matrix times the inverse source change-of-basis matrix."
+    }
+  ]
+}

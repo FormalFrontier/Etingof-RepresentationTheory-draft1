@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1119",
+  "associations": [
+    {
+      "association_id": "association:7680d2708047be20c2f6",
+      "role": "supporting",
+      "rationale": "The type states only [x,c] = 0 and does not itself include the other two Heisenberg relations in the source claim."
+    },
+    {
+      "association_id": "association:7c10c85144a10ec4894b",
+      "role": "supporting",
+      "rationale": "The type states only [y,c] = 0 and does not itself include the other two Heisenberg relations in the source claim."
+    },
+    {
+      "association_id": "association:f44d49aceb6d7b1418c4",
+      "role": "supporting",
+      "rationale": "The type states only [y,x] = c and does not itself include the two vanishing commutator relations in the source claim."
+    }
+  ]
+}

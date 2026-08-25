@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:52892c40a65baa66b362",
+      "declaration": "Etingof.BookPathAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/66/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (Q : Type u_2) \u2192 [Field.{u_1} k] \u2192 [Quiver.{u_3, u_2} Q] \u2192 [DecidableEq.{u_2 + 1} Q] \u2192 Type (max (max u_3 u_2) u_1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_4"
+    },
+    {
+      "association_id": "association:97d262efe59143793f41",
+      "declaration": "Etingof.BookPathAlgebra.ofPath",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/66/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        [inst_2 : DecidableEq.{u_2 + 1} Q] \u2192\n          Etingof.QuiverPathIndex.{u_2, u_3} Q \u2192 Etingof.BookPathAlgebra.{u_1, u_2, u_3} k Q",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_4"
+    },
+    {
+      "association_id": "association:7ffa82f8eadf916affd6",
+      "declaration": "Etingof.BookPathAlgebra.trivialPath",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/66/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        [inst_2 : DecidableEq.{u_2 + 1} Q] \u2192 Q \u2192 Etingof.BookPathAlgebra.{u_1, u_2, u_3} k Q",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.8.4",
+  "packet_id": "align-0006",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0006"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:00e1c7308434af2c5e01",
+  "source_text": "P_Q has the oriented paths as a basis, including one trivial path p_i at every vertex."
+}

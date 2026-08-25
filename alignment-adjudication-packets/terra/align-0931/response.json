@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0931",
+  "associations": [
+    {
+      "association_id": "association:10650e2a22985bbf9898",
+      "role": "primary",
+      "rationale": "mapBiprod directly supplies the canonical isomorphism from F(X biprod Y) to F(X) biprod F(Y) for an additive functor."
+    }
+  ]
+}

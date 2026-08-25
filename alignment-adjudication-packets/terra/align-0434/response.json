@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0434",
+  "associations": [
+    {
+      "association_id": "association:6ede17dbb9479842aa78",
+      "role": "supporting",
+      "rationale": "The displayed type is only a type-valued construction and does not expose objects, morphisms, composition, associativity, or identities."
+    }
+  ]
+}

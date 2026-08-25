@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0633",
+  "associations": [
+    {
+      "association_id": "association:e5a131e864e4b9bd7b59",
+      "rationale": "The formal type directly asserts that the standard module Fin d to k is simple over the d-by-d matrix algebra over k.",
+      "role": "primary"
+    }
+  ]
+}

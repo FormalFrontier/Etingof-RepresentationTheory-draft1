@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1263",
+  "associations": [
+    {
+      "association_id": "association:df6723c2098c9df2de2d",
+      "rationale": "The displayed type only declares IsFiniteTypeQuiver as an opaque matrix predicate; it does not expose the source definition in terms of finitely many indecomposable representations.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:288670c94acfe55f87f4",
+      "rationale": "This states a finite-type-if-and-only-if-Dynkin theorem under graph hypotheses, but the displayed source excerpt stops before giving that theorem's statement and only supplies the finite-type definition.",
+      "role": "supporting"
+    }
+  ]
+}

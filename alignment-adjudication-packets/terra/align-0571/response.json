@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0571",
+  "associations": [
+    {
+      "association_id": "association:4e4dc6c09708bbdfe233",
+      "rationale": "No formal type is displayed, so the named theorem cannot directly state the claimed equality of the center with the whole commutative algebra.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "module_name": "CharacterCoefficientAlgebra",
+  "declarations": [
+    {
+      "temporary_id": "decl-015264",
+      "new_name": "AuxiliaryGroupFunctionType",
+      "docstring": "An auxiliary type attached to a group."
+    },
+    {
+      "temporary_id": "decl-015265",
+      "new_name": "auxiliaryGroupFunctionPredicate",
+      "docstring": "An auxiliary predicate on elements of the group-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-015266",
+      "new_name": "auxiliaryRingElementPredicate",
+      "docstring": "An auxiliary predicate on elements of a ring."
+    },
+    {
+      "temporary_id": "decl-015267",
+      "new_name": "exists_characterCoefficient_scale_of_simple",
+      "docstring": "For a simple finite-dimensional complex representation, there is a scalar whose square and products with the associated coefficients recover the stated cardinality ratio and character values."
+    },
+    {
+      "temporary_id": "decl-015275",
+      "new_name": "character_eq_card_div_finrank_mul_coefficient",
+      "docstring": "Expresses the character of a simple representation as the corresponding coefficient multiplied by the group cardinality divided by the representation rank."
+    },
+    {
+      "temporary_id": "decl-015283",
+      "new_name": "auxiliaryComplexGroupSubalgebra",
+      "docstring": "An auxiliary complex subalgebra of the monoid algebra of a group."
+    },
+    {
+      "temporary_id": "decl-015285",
+      "new_name": "coeff_mul_eq_sum_coeff_mul_coeff_inv_mul",
+      "docstring": "Computes a coefficient of a product as a finite sum of coefficients evaluated at an element and at its inverse translate."
+    },
+    {
+      "temporary_id": "decl-015295",
+      "new_name": "instCoeFunAuxiliaryGroupFunctionType",
+      "docstring": "Supplies evaluation of an auxiliary group-function element as a complex-valued function on the group."
+    },
+    {
+      "temporary_id": "decl-015296",
+      "new_name": "instCommRingAuxiliaryComplexGroupSubalgebra",
+      "docstring": "Endows the auxiliary complex group subalgebra with a commutative ring structure."
+    },
+    {
+      "temporary_id": "decl-015298",
+      "new_name": "auxiliaryRingElementPredicate_iff_exists_simple_representationElement",
+      "docstring": "Characterizes the auxiliary ring-element predicate by equality with the associated element of some simple representation."
+    },
+    {
+      "temporary_id": "decl-015299",
+      "new_name": "mem_auxiliaryComplexGroupSubalgebra_iff",
+      "docstring": "Membership in the auxiliary complex group subalgebra is equivalent to the auxiliary group-function predicate."
+    },
+    {
+      "temporary_id": "decl-015308",
+      "new_name": "one_eq_single_one_one",
+      "docstring": "Identifies the multiplicative unit with the monoid-algebra singleton supported at the identity with value one."
+    },
+    {
+      "temporary_id": "decl-015309",
+      "new_name": "representationSubalgebraElement",
+      "docstring": "Associates to a finite-dimensional complex representation an element of the auxiliary complex group subalgebra."
+    },
+    {
+      "temporary_id": "decl-015310",
+      "new_name": "representationAuxiliaryElement",
+      "docstring": "Associates an auxiliary group-function element to a finite-dimensional complex representation."
+    },
+    {
+      "temporary_id": "decl-015311",
+      "new_name": "coeff_representationAuxiliaryElement",
+      "docstring": "Computes a coefficient of the auxiliary element associated to a representation as the character value at the identity divided by the group cardinality, multiplied by the character value at the given group element."
+    },
+    {
+      "temporary_id": "decl-015312",
+      "new_name": "representationAuxiliaryElement_mem_auxiliarySubalgebra",
+      "docstring": "The auxiliary element associated to a representation belongs to the auxiliary complex group subalgebra."
+    },
+    {
+      "temporary_id": "decl-015313",
+      "new_name": "auxiliaryRingElementPredicate_representationSubalgebraElement_of_simple",
+      "docstring": "The subalgebra element associated to a simple representation satisfies the auxiliary ring-element predicate."
+    },
+    {
+      "temporary_id": "decl-015321",
+      "new_name": "sum_representationSubalgebraElements_eq_one",
+      "docstring": "The finite sum of the subalgebra elements associated to the indexed representations is one."
+    }
+  ]
+}

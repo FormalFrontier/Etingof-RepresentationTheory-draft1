@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0557",
+  "associations": [
+    {
+      "association_id": "association:8b707a9f1cf4f2852b71",
+      "rationale": "The type only computes the finrank of the function space Fin d to k; it does not display the standard-module construction or its irreducibility in characteristic p.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d4b3a4e6a8ef5ea1f48f",
+      "rationale": "The type gives irreducibility of the contextually supplied action on Fin d to k when d is at most p, but does not expose the standard L(d-1) action or state the full dimension-and-irreducibility claim.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1164",
+  "associations": [
+    {
+      "association_id": "association:24485aa8d37ab3a59a0c",
+      "role": "primary",
+      "rationale": "Given right representatives differing by an ideal element, the formal equality states their left products have the same quotient image."
+    }
+  ]
+}

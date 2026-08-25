@@ -1,0 +1,45 @@
+{
+  "module_name": "PartitionLinearMapVanishing",
+  "declarations": [
+    {
+      "temporary_id": "decl-005702",
+      "new_name": "partitionRelation",
+      "docstring": "A binary relation between partitions of the same natural number."
+    },
+    {
+      "temporary_id": "decl-005703",
+      "new_name": "partitionRelation'",
+      "docstring": "An auxiliary binary predicate on pairs of partitions with a common size."
+    },
+    {
+      "temporary_id": "decl-006575",
+      "new_name": "partitionIndexedType",
+      "docstring": "A type assigned to each partition of a natural number."
+    },
+    {
+      "temporary_id": "decl-006576",
+      "new_name": "instModule",
+      "docstring": "The module structure on the type associated with a partition."
+    },
+    {
+      "temporary_id": "decl-014636",
+      "new_name": "finrank_linearMap_to_mem_eq_one",
+      "docstring": "The complex finrank of linear maps from the partition-indexed type to the indicated membership subtype is one."
+    },
+    {
+      "temporary_id": "decl-014637",
+      "new_name": "linearMap_to_mem_eq_zero_of_partitionRelation'",
+      "docstring": "If the auxiliary partition relation holds, every linear map from the first partition-indexed type to the membership subtype for the second partition is zero."
+    },
+    {
+      "temporary_id": "decl-014638",
+      "new_name": "linearMap_to_mem_eq_zero_of_not_partitionRelation",
+      "docstring": "If the partition relation fails in the reverse direction, every linear map into the corresponding membership subtype is zero."
+    },
+    {
+      "temporary_id": "decl-014639",
+      "new_name": "linearMap_to_mem_eq_zero_of_lexLt",
+      "docstring": "When the target partition is lexicographically smaller than the source partition, every linear map into its membership subtype is zero."
+    }
+  ]
+}

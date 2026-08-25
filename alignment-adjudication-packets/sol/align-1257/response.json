@@ -1,0 +1,45 @@
+{
+  "packet_id": "align-1257",
+  "associations": [
+    {
+      "association_id": "association:9c2fe87dc8ab74f8f2b5",
+      "rationale": "The equivalence states only the vanishing clause; it does not itself include the character and Weyl-dimension formulas also asserted by the theorem.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9a90d8c388bf4aeaf837",
+      "rationale": "This is the complementary nonvanishing reformulation of the vanishing criterion; it is useful context but is a consequence rather than the displayed zero-if-and-only-if claim itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f25249493b49ccb0aaa6",
+      "rationale": "The type states only the Schur-character clause and does not itself include the vanishing criterion or dimension formula.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2be7b51aba0252f3cf58",
+      "rationale": "The type states only the Weyl-dimension clause and does not itself include the vanishing criterion or Schur-character formula.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bf59f9d1968df9db6615",
+      "rationale": "This conjunction directly packages all three source assertions for a partition: the vanishing criterion and, when the number of parts is at most N, the Schur character and Weyl dimension formulas.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:d65b5bebaeaa2238e322",
+      "rationale": "The type gives the dimension formula on the nonvanishing branch only, not the theorem's vanishing and character clauses.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2281b9d5608e8fda2659",
+      "rationale": "This characterizes when the numerical finrank is zero; it follows from the module-vanishing statement in the finite-dimensional setting but does not itself state that the representation is zero.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bbd28a30a70be7aa1a4b",
+      "rationale": "The type gives the character formula on the nonvanishing branch only, not the theorem's vanishing and dimension clauses.",
+      "role": "supporting"
+    }
+  ]
+}

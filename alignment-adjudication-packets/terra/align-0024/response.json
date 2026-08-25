@@ -1,0 +1,7 @@
+{
+  "packet_id": "align-0024",
+  "associations": [
+    {"association_id": "association:0788c3302e32adf14099", "role": "supporting", "rationale": "Ext supplies the Ext object used in the statement, but its type alone does not state the projective-resolution cohomology identification."},
+    {"association_id": "association:deae7d7f6eec82bcef35", "role": "primary", "rationale": "This isomorphism directly identifies Ext with the homology of Hom from a projective resolution."}
+  ]
+}

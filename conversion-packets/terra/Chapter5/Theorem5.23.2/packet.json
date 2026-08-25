@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.23.2",
+    "kind": "theorem",
+    "title": "Complete reducibility and Peter-Weyl theorem for GL(V) (continues to missing page)",
+    "node_id": "chapter-05/section-5-23",
+    "order": 373,
+    "slug": "theorem5-23-2",
+    "span": {
+      "start": {
+        "page": "133",
+        "line": 13
+      },
+      "end": {
+        "page": "133",
+        "line": 21
+      }
+    },
+    "source_sha256": "5ae5cec71aad49511b6e41f6edc0630661b94acceae1f2d72803d10cbc0192f5",
+    "features": {
+      "line_count": 9,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5232",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

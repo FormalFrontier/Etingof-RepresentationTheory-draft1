@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0476",
+  "associations": [
+    {
+      "association_id": "association:32e67cfe6849144853b5",
+      "role": "supporting",
+      "rationale": "The iff equates annihilation by a nonzero polynomial with occurrence as a root of the characteristic polynomial of a rational matrix, but the displayed type does not state the source's monic-polynomial condition."
+    }
+  ]
+}

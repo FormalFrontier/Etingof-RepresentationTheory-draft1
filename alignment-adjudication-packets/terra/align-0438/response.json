@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0438",
+  "associations": [
+    {
+      "association_id": "association:0dfbd81b88067bb73bfc",
+      "role": "supporting",
+      "rationale": "The theorem concludes equality of the numbers of indecomposable summands and supplies a permutation pairing isomorphic summands, but it does not itself state the claimed induction-on-the-remainder proof step."
+    }
+  ]
+}

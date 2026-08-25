@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0919",
+  "associations": [
+    {
+      "association_id": "association:5930767687cfb400d48c",
+      "role": "primary",
+      "rationale": "Filtration.chain returns a relation series whose relation is strict inclusion between adjacent terms, directly expressing V_i strictly included in V_(i+1)."
+    }
+  ]
+}

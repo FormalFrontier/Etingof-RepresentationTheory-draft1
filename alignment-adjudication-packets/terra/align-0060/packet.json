@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:51548966c7156afe1301",
+      "declaration": "Etingof.admissibleOrdering_exists",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/451/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Etingof.IsDynkinDiagram n adj \u2192\n    \u2200 {Q : Quiver.{u_1, 0} (Fin n)},\n      Etingof.IsOrientationOf.{u_1} Q adj \u2192 Exists.{1} fun ordering => Etingof.IsAdmissibleOrdering.{u_1} Q ordering",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.CoxeterInfrastructure"
+    },
+    {
+      "association_id": "association:bd4547177122243bc385",
+      "declaration": "Etingof.admissible_sinks_replicated",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/451/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (Q : Quiver.{u_1, 0} (Fin n)) (\u03c3 : List.{0} (Fin n)),\n  Etingof.IsAdmissibleOrdering.{u_1} Q \u03c3 \u2192\n    \u2200 (M j : Nat),\n      LE.le.{0} j (List.length.{0} \u03c3) \u2192\n        \u2200 (m : Nat)\n          (hm :\n            LT.lt.{0} m\n              (List.length.{0}\n                (HAppend.hAppend.{0, 0, 0} (List.flatten.{0} (List.replicate.{0} M \u03c3)) (List.take.{0} j \u03c3)))),\n          Etingof.IsSink.{0, u_1} (Fin n)\n            (List.get.{0} (HAppend.hAppend.{0, 0, 0} (List.flatten.{0} (List.replicate.{0} M \u03c3)) (List.take.{0} j \u03c3))\n              \u27e8m, hm\u27e9)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.CoxeterInfrastructure"
+    }
+  ],
+  "canonical_reference": "Chapter6/Section6.8_heading",
+  "packet_id": "align-0060",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0060"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:11a77cca72bfaf6c94c2",
+  "source_text": "Every Dynkin orientation admits the repeated admissible sink ordering used in the reflection-functor proof."
+}

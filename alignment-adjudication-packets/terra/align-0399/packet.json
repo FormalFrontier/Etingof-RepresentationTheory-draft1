@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8fbc8d5c4e662d6334cd",
+      "declaration": "Etingof.algIrrepGL_slEquiv_constShift",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/374/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] {n : Nat}\n  (lam : Etingof.DominantWeight n) (c : Int),\n  Nonempty.{1}\n    (Representation.Equiv.{0, 0, 0, 0} (Etingof.slRestrict.{0, 0} (Etingof.algIrrepGLRep\u03c1.{0} n (lam.constShift c) k))\n      (Etingof.slRestrict.{0, 0} (Etingof.algIrrepGLRep\u03c1.{0} n lam k)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_23_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Remark5.23.3",
+  "packet_id": "align-0399",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0399"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:7ff19214621306e12a99",
+  "source_text": "Restricting from GL_N to SL_N identifies determinant-shifted highest weights."
+}

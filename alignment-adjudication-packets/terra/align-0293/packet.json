@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a16a478d98cde09e6339",
+      "declaration": "HomologicalComplex",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/502/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Homology.HomologicalComplex"
+    },
+    {
+      "association_id": "association:9b81372777206ddafffe",
+      "declaration": "HomologicalComplex.Hom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/502/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Homology.HomologicalComplex"
+    },
+    {
+      "association_id": "association:0a267c2ae31b15b90424",
+      "declaration": "HomologicalComplex.homology",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/502/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Homology.ShortComplex.HomologicalComplex"
+    }
+  ],
+  "canonical_reference": "Chapter7/Discussion_after_Definition7.8.1",
+  "packet_id": "align-0293",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0293"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:58210b671dccf8267169",
+  "source_text": "Complex morphisms commute with differentials and compose; cycles, boundaries, cohomology classes, acyclicity, and bounded complexes have the stated meanings."
+}

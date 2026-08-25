@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0176",
+  "associations": [
+    {"association_id": "association:a2de55b5c30e14278496", "role": "supporting", "rationale": "This states a Young-projector lemma but does not state that the section's lemmas are used to prove Theorem 5.12.2."},
+    {"association_id": "association:a27ec981b323756bf5d7", "role": "supporting", "rationale": "This row-symmetrizer/column-antisymmetrizer vanishing lemma is proof support; its displayed type does not state the source's meta claim about use in Theorem 5.12.2."},
+    {"association_id": "association:98cb60433cc479aad993", "role": "supporting", "rationale": "This Young-projector square formula is a supporting lemma and does not display its asserted use in the proof of Theorem 5.12.2."},
+    {"association_id": "association:b121c2215dc7e3bbbc5f", "role": "supporting", "rationale": "This generic idempotent-module equivalence is a proof helper; its displayed type mentions neither Young symmetrizers nor Theorem 5.12.2."}
+  ]
+}

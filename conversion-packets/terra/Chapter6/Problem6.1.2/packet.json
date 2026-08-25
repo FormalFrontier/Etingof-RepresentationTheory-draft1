@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Problem6.1.2",
+    "kind": "exercise",
+    "title": "Problem 6.1.2: Some algebraic geometry",
+    "node_id": "chapter-06/section-6-1",
+    "order": 403,
+    "slug": "problem6-1-2",
+    "span": {
+      "start": {
+        "page": "149",
+        "line": 7
+      },
+      "end": {
+        "page": "149",
+        "line": 13
+      }
+    },
+    "source_sha256": "2873329a50c8c40b77e92d3b2a9f306105036dc2b40be499c14534c0c101b9fa",
+    "features": {
+      "line_count": 7,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem612",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

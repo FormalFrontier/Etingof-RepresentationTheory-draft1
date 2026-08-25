@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8ca88d53a1583833919e",
+      "declaration": "Etingof.Example5_12_3.Example5_12_3_specht_211_iso_rotRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/310/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (CategoryTheory.Iso.{0, 1} (Etingof.spechtModuleFDRep 4 Etingof.Example5_12_3.p_211) Etingof.Example4_3_S4.rotRep)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_12_3"
+    },
+    {
+      "association_id": "association:0c5b7cf270bf01d87a03",
+      "declaration": "Etingof.Example5_12_3.Example5_12_3_specht_31_iso_stdRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/310/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (CategoryTheory.Iso.{0, 1} (Etingof.spechtModuleFDRep 4 Etingof.Example5_12_3.p_31) Etingof.Example4_3_S4.stdRep)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_12_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Example5.12.3",
+  "packet_id": "align-1158",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1158"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:efeb7ba1fb2d294e2d57",
+  "source_text": "For n=4, V_(3,1)=C^3_- and V_(2,1,1)=C^3_+ in the book's named orientation."
+}

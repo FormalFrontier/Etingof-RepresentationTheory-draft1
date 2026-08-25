@@ -1,0 +1,45 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V],\n  Exists.{u_3 + 1} fun s =>\n    And (Eq.{u_3 + 1} (RelSeries.head.{u_3} s) Bot.bot.{u_3}) (Eq.{u_3 + 1} (RelSeries.last.{u_3} s) Top.top.{u_3})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1755197200",
+      "temporary_id": "decl-018809"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V],\n  Exists.{u_3 + 1} fun F =>\n    \u2200 (i : Fin (RelSeries.length.{u_3} (decl-004252.{u_2, u_3} F))),\n      IsSimpleModule.{u_2, u_3} A\n        (HasQuotient.Quotient.{u_3, u_3}\n          (Subtype.{u_3 + 1} fun x =>\n            Membership.mem.{u_3, u_3} (RelSeries.toFun.{u_3} (decl-004252.{u_2, u_3} F) i.succ) x)\n          (Submodule.comap.{u_2, u_2, u_3, u_3}\n            (Submodule.subtype.{u_2, u_3} (RelSeries.toFun.{u_3} (decl-004252.{u_2, u_3} F) i.succ))\n            (RelSeries.toFun.{u_3} (decl-004252.{u_2, u_3} F) i.castSucc)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004248",
+        "decl-004252"
+      ],
+      "structural_type_hash": "2231421718",
+      "temporary_id": "decl-018838"
+    }
+  ],
+  "module_temporary_id": "module-0143",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

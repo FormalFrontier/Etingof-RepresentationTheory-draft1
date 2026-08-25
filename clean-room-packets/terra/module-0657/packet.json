@@ -1,0 +1,211 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [LinearOrder.{w} \u03ba] [inst_4 : Fintype.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V),\n  CategoryTheory.ShortComplex.Exact.{max u v, max (u + 1) (v + 1)}\n    (CategoryTheory.ShortComplex.moduleCatMk.{max u v, max u v} (decl-021150.{u, v, w} b 0)\n      (decl-021036.{u, v} k V) \u22ef)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021036",
+        "decl-021055",
+        "decl-021150",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "1326421481",
+      "temporary_id": "decl-021058"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [LinearOrder.{w} \u03ba] [inst_4 : Fintype.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V) (i : Nat),\n  HomologicalComplex.ExactAt.{max u v, max (u + 1) (v + 1), 0} (decl-021141.{u, v, w} b)\n    (HAdd.hAdd.{0, 0, 0} i 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021141"
+      ],
+      "structural_type_hash": "3386088215",
+      "temporary_id": "decl-021147"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [LinearOrder.{w} \u03ba] [inst_4 : Fintype.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V) (i : Nat),\n  CategoryTheory.Projective.{max u v, max (u + 1) (v + 1)}\n    (HomologicalComplex.X.{max u v, max (u + 1) (v + 1), 0} (decl-021141.{u, v, w} b) i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021141"
+      ],
+      "structural_type_hash": "1657788261",
+      "temporary_id": "decl-021148"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [LinearOrder.{w} \u03ba] [inst_4 : Fintype.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V) (i : Nat),\n  Eq.{max (u + 1) (v + 1)}\n    (LinearMap.range.{max u v, max u v, max u v, max u v} (decl-021150.{u, v, w} b (HAdd.hAdd.{0, 0, 0} i 1)))\n    (LinearMap.ker.{max u v, max u v, max u v, max u v} (decl-021150.{u, v, w} b i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021150",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "363080264",
+      "temporary_id": "decl-021173"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [LinearOrder.{w} \u03ba] [inst_4 : Fintype.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V),\n  Eq.{max (u + 1) (v + 1)} (LinearMap.range.{max u v, max u v, max u v, max u v} (decl-021150.{u, v, w} b 0))\n    (LinearMap.ker.{max u v, max u v, max u v, max u v} (decl-021036.{u, v} k V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021036",
+        "decl-021150",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "1171140175",
+      "temporary_id": "decl-021177"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {V : Type v} \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          {\u03ba : Type w} \u2192\n            [inst_3 : Fintype.{w} \u03ba] \u2192\n              (b : Module.Basis.{w, u, v} \u03ba k V) \u2192\n                Quiver.Hom.{max u v, max (v + 1) (u + 1)} (decl-021141.{u, v, w} b)\n                  (CategoryTheory.Functor.obj.{max u v, max u v, max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                    (ChainComplex.single\u2080.{max u v, max (max (u + 1) (v + 1)) v u}\n                      (ModuleCat.{max u v, max v u} (SymmetricAlgebra.{u, v} k V)))\n                    (ModuleCat.of.{max u v, max u v} (SymmetricAlgebra.{u, v} k V)\n                      (decl-005407.{u, v} k V)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021141"
+      ],
+      "structural_type_hash": "1688083375",
+      "temporary_id": "decl-021236"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [inst_3 : Fintype.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V),\n  Eq.{max (u + 1) (v + 1)} (HomologicalComplex.Hom.f.{max u v, max (u + 1) (v + 1), 0} (decl-021236.{u, v, w} b) 0)\n    (ModuleCat.ofHom.{max u v, max u v} (decl-021036.{u, v} k V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021036",
+        "decl-021141",
+        "decl-021236",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "3636213275",
+      "temporary_id": "decl-021240"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [LinearOrder.{w} \u03ba] [inst_4 : Fintype.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V),\n  QuasiIso.{max u v, max (u + 1) (v + 1), 0} (decl-021236.{u, v, w} b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021141",
+        "decl-021236"
+      ],
+      "structural_type_hash": "2071374081",
+      "temporary_id": "decl-021241"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {V : Type v} \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          {\u03ba : Type w} \u2192\n            [LinearOrder.{w} \u03ba] \u2192\n              [Fintype.{w} \u03ba] \u2192\n                Module.Basis.{w, u, v} \u03ba k V \u2192\n                  CategoryTheory.ProjectiveResolution.{max u v, max (max u v) ((max v u) + 1)}\n                    (ModuleCat.of.{max v u, max v u} (SymmetricAlgebra.{u, v} k V) (decl-005407.{u, v} k V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436"
+      ],
+      "structural_type_hash": "832068909",
+      "temporary_id": "decl-021242"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          [FiniteDimensional.{u, v} k V] \u2192\n            CategoryTheory.ProjectiveResolution.{max u v, max (max u v) ((max v u) + 1)}\n              (ModuleCat.of.{max v u, max v u} (SymmetricAlgebra.{u, v} k V) (decl-005407.{u, v} k V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436"
+      ],
+      "structural_type_hash": "3740114854",
+      "temporary_id": "decl-021244"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [inst_3 : LinearOrder.{w} \u03ba] [inst_4 : Fintype.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V),\n  Eq.{max (u + 2) (v + 2)}\n    (CategoryTheory.ProjectiveResolution.complex.{max u v, max (u + 1) (v + 1)} (decl-021242.{u, v, w} b))\n    (decl-021141.{u, v, w} b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021141",
+        "decl-021242"
+      ],
+      "structural_type_hash": "3465670631",
+      "temporary_id": "decl-021247"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [inst_3 : LinearOrder.{w} \u03ba] [inst_4 : Fintype.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V) (i : Nat),\n  Module.Free.{max v u, max u v} (SymmetricAlgebra.{u, v} k V)\n    (ModuleCat.carrier.{max u v, max u v}\n      (HomologicalComplex.X.{max u v, max (u + 1) (v + 1), 0}\n        (CategoryTheory.ProjectiveResolution.complex.{max u v, max (u + 1) (v + 1)}\n          (decl-021242.{u, v, w} b))\n        i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021242"
+      ],
+      "structural_type_hash": "2115742962",
+      "temporary_id": "decl-021249"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [inst_3 : LinearOrder.{w} \u03ba] [inst_4 : Fintype.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V),\n  Eq.{max (u + 1) (v + 1)}\n    (CategoryTheory.ProjectiveResolution.\u03c0.{max u v, max (u + 1) (v + 1)} (decl-021242.{u, v, w} b))\n    (decl-021236.{u, v, w} b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021236",
+        "decl-021242"
+      ],
+      "structural_type_hash": "4057076448",
+      "temporary_id": "decl-021250"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [LinearOrder.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V) (i : Nat),\n  Module.Free.{max v u, max v u} (SymmetricAlgebra.{u, v} k V) (decl-021285.{u, v} k V i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "818181090",
+      "temporary_id": "decl-021296"
+    }
+  ],
+  "module_temporary_id": "module-0657",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

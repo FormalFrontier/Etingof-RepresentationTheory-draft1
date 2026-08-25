@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0721",
+  "associations": [
+    {
+      "association_id": "association:1850e3e706c28cbfc024",
+      "role": "supporting",
+      "rationale": "The type gives only the tensor-square decomposition of Vsub; it does not state the complete set of tensor-product decompositions required by the source claim."
+    },
+    {
+      "association_id": "association:000bb88933b5a130c63b",
+      "role": "supporting",
+      "rationale": "The type gives only the character-representation tensor Vsub decomposition; it does not state the complete set of tensor-product decompositions required by the source claim."
+    }
+  ]
+}

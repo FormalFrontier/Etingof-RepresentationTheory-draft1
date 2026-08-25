@@ -1,0 +1,115 @@
+{
+  "module_name": "Module.PartitionComponentsAndTraces",
+  "declarations": [
+    {
+      "temporary_id": "decl-017946",
+      "new_name": "auxiliary_trace_eq_sum_partitionCounts_mul_values",
+      "docstring": "The auxiliary permutation trace is a sum over partitions of natural-number counts multiplied by associated complex values."
+    },
+    {
+      "temporary_id": "decl-019322",
+      "new_name": "factorial_mul_auxiliaryPartitionCount_eq_sum_trace_mul_value_inv",
+      "docstring": "A factorial multiple of an auxiliary partition count equals a sum of trace values weighted by the associated value at inverse permutations."
+    },
+    {
+      "temporary_id": "decl-019785",
+      "new_name": "iSupIndep_isotypicComponents",
+      "docstring": "The isotypic components indexed by partitions form an independent indexed supremum."
+    },
+    {
+      "temporary_id": "decl-019786",
+      "new_name": "iSup_isotypicComponents_eq_top",
+      "docstring": "The supremum of the partition-indexed isotypic components is the whole module."
+    },
+    {
+      "temporary_id": "decl-019787",
+      "new_name": "exists_partition_linearEquiv_of_simple_submodule",
+      "docstring": "Every simple submodule is linearly equivalent to the auxiliary subtype associated with some partition."
+    },
+    {
+      "temporary_id": "decl-020974",
+      "new_name": "auxiliaryPartitionSubmodule",
+      "docstring": "An auxiliary complex submodule associated with a partition of `n`."
+    },
+    {
+      "temporary_id": "decl-020976",
+      "new_name": "finrank_auxiliaryPartitionSubmodule",
+      "docstring": "The complex finrank of an auxiliary partition submodule is its auxiliary count times the finrank of the corresponding auxiliary subtype."
+    },
+    {
+      "temporary_id": "decl-020977",
+      "new_name": "auxiliaryPartitionSubmodule_isInternal",
+      "docstring": "The family of auxiliary partition submodules forms an internal direct sum."
+    },
+    {
+      "temporary_id": "decl-020985",
+      "new_name": "auxiliaryPartitionCount",
+      "docstring": "An auxiliary natural-number value attached to a module and a partition of `n`."
+    },
+    {
+      "temporary_id": "decl-020989",
+      "new_name": "auxiliaryPartitionCount_eq_of_trace_eq",
+      "docstring": "Finite modules with equal auxiliary permutation traces have equal auxiliary counts at every partition."
+    },
+    {
+      "temporary_id": "decl-021607",
+      "new_name": "auxiliaryPermutationTrace",
+      "docstring": "An auxiliary complex-valued function of permutations attached to a finite complex module."
+    },
+    {
+      "temporary_id": "decl-021613",
+      "new_name": "auxiliaryPermutationEndomorphism",
+      "docstring": "The complex-linear endomorphism of a module associated with a permutation."
+    },
+    {
+      "temporary_id": "decl-021617",
+      "new_name": "auxiliaryPermutationEndomorphism_apply",
+      "docstring": "The permutation endomorphism acts by scalar multiplication with the corresponding monoid-algebra basis element."
+    },
+    {
+      "temporary_id": "decl-021618",
+      "new_name": "auxiliaryPermutationEndomorphism_asModule",
+      "docstring": "For the module induced by a representation, the auxiliary permutation endomorphism is evaluation of that representation."
+    },
+    {
+      "temporary_id": "decl-021619",
+      "new_name": "auxiliaryPartitionSubmodule_mapsTo",
+      "docstring": "Every auxiliary permutation endomorphism preserves each auxiliary partition submodule."
+    },
+    {
+      "temporary_id": "decl-022573",
+      "new_name": "representation_trace_eq_auxiliaryPermutationTrace",
+      "docstring": "The trace of a finite-dimensional representation at a permutation equals the auxiliary trace of its induced module."
+    },
+    {
+      "temporary_id": "decl-022574",
+      "new_name": "representation_trace_eq_sum_partitionCounts_mul_values",
+      "docstring": "The trace of a finite-dimensional permutation representation is a partition sum of auxiliary counts times associated values."
+    },
+    {
+      "temporary_id": "decl-022589",
+      "new_name": "auxiliaryRepresentationPartitionCount",
+      "docstring": "An auxiliary natural-number value attached to a permutation representation and a partition."
+    },
+    {
+      "temporary_id": "decl-022591",
+      "new_name": "auxiliaryRepresentationPartitionCount_eq_of_trace_eq",
+      "docstring": "Finite-dimensional permutation representations with identical traces have equal auxiliary natural-number values at every partition."
+    },
+    {
+      "temporary_id": "decl-022631",
+      "new_name": "auxiliary_exists_injective_map_of_representationPartitionCount_ne_zero",
+      "docstring": "A nonzero auxiliary representation count supplies an auxiliary map whose underlying function is injective."
+    },
+    {
+      "temporary_id": "decl-023364",
+      "new_name": "auxiliary_exists_injective_map_of_partitionCount_ne_zero",
+      "docstring": "A nonzero auxiliary module count supplies an auxiliary map whose underlying function is injective."
+    },
+    {
+      "temporary_id": "decl-024293",
+      "new_name": "auxiliaryElidedStatement024293",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    }
+  ]
+}

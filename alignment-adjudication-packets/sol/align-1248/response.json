@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1248",
+  "associations": [
+    {
+      "association_id": "association:9dd5e46688baa2f1835f",
+      "rationale": "The formal type failed to pretty print, so the displayed evidence does not reveal any statement that can directly be compared with the source passage.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f2fbbf3957196f12d430",
+      "rationale": "The formal type directly gives an isomorphism after transporting a stabilizer representation between orbit-related characters, matching the source's independence of the chosen basepoint x.",
+      "role": "supporting"
+    }
+  ]
+}

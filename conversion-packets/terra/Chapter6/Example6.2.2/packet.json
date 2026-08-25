@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Example6.2.2",
+    "kind": "example",
+    "title": "Example 6.2.2: Indecomposable representations of A1",
+    "node_id": "chapter-06/section-6-2",
+    "order": 416,
+    "slug": "example6-2-2",
+    "span": {
+      "start": {
+        "page": "154",
+        "line": 13
+      },
+      "end": {
+        "page": "154",
+        "line": 14
+      }
+    },
+    "source_sha256": "447660b0e2334ec466b0eeb370a95fa533c10da3bd3e4fddc49d30b7e2924017",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Example622",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

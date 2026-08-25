@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0182",
+  "associations": [
+    {
+      "association_id": "association:cafa76ddb04e4f0a569b",
+      "role": "primary",
+      "rationale": "The theorem directly identifies the centralizer of the symmetric-group image with the range of the universal-enveloping-algebra map."
+    }
+  ]
+}

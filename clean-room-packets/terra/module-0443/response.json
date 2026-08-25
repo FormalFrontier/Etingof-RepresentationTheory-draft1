@@ -1,0 +1,10 @@
+{
+  "module_name": "Representation.PermutationGroupSpectrum",
+  "declarations": [
+    {
+      "temporary_id": "decl-023526",
+      "new_name": "representationEndomorphism_isSemisimple_and_eigenvalues_eq_intCast",
+      "docstring": "States that the displayed endomorphism for a finite-dimensional complex representation of permutations of `Fin m` is semisimple and that each of its eigenvalues is an integer cast to `Complex`."
+    }
+  ]
+}

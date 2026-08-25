@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0344",
+  "associations": [
+    {
+      "association_id": "association:57f01c0683a1f3cab248",
+      "rationale": "The formal type states the determinant-action clause, but it does not by itself state the complete identification of the top exterior-power representation with the determinant representation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:60029d45df3bff91897e",
+      "rationale": "The formal type gives the equivariant isomorphism clause, but it does not by itself state the source claim's determinant-action formula.",
+      "role": "supporting"
+    }
+  ]
+}

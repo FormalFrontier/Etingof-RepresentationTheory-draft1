@@ -416,7 +416,14 @@ theorem S3_tensor_character (i j : Fin 3) (g : S3) :
     simp only [charVal, nS3, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
       Matrix.cons_val_two, Matrix.tail_cons, Fin.isValue] <;>
     rcases sign_fix_cases g with ⟨hs, hf⟩ | ⟨hs, hf⟩ | ⟨hs, hf⟩ <;>
-    · rw [hsign, hs, hf]; push_cast; ring
+    -- The three well-founded-recursion simprocs are disabled here to work around
+    -- leanprover/lean4#14919: they call the partial accessors `Expr.appArg!` and
+    -- `Expr.appFn!` without checking `isApp`, and panic on the `Fin.mk` literals
+    -- that `fin_cases` emits. The panics are logged at `info` severity, so the
+    -- build still exits 0 while emitting 972 of them. Remove this once fixed.
+    · rw [hsign, hs, hf]
+      push_cast [-Lean.Elab.WF.paramProj, -Lean.Elab.WF.paramMatcher, -Lean.Elab.WF.paramLet]
+      ring
 
 /-- **Tensor-product decomposition for `S₃`** phrased on `FDRep` tensor products:
 `(V_i ⊗ V_j).character g = Σ_k n_{ij}^k · χ_k(g)`, i.e. the character form of

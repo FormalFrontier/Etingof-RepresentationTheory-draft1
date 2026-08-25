@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0981",
+  "associations": [
+    {
+      "association_id": "association:d79ad07afab6271c337c",
+      "role": "supporting",
+      "rationale": "Supplies an abelian-category instance for finitely generated modules, not directly the displayed finite-dimensional module category."
+    },
+    {
+      "association_id": "association:b44afc8f1dde16cab39c",
+      "role": "supporting",
+      "rationale": "Identifies finite modules with finite-dimensional ones; it is a prerequisite for the stated category result."
+    }
+  ]
+}

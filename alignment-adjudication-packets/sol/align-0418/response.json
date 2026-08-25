@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0418",
+  "associations": [
+    {
+      "association_id": "association:728880d33da8856a9c9f",
+      "role": "supporting",
+      "rationale": "Closure under addition, multiplication, and nonzero inversion supplies field operations, but is an ingredient rather than the packaged field and algebraic-closure statement."
+    },
+    {
+      "association_id": "association:31bd2e9a5aec2f7c46bc",
+      "role": "supporting",
+      "rationale": "Algebraic closedness is one component of being an algebraic closure, but does not by itself include algebraicity over the rationals."
+    },
+    {
+      "association_id": "association:3b2a5b51218d4fc64d4d",
+      "role": "primary",
+      "rationale": "The declaration directly states that the intermediate field of algebraic numbers is an algebraic closure of the rationals."
+    },
+    {
+      "association_id": "association:adf70be1887d81dc4815",
+      "role": "supporting",
+      "rationale": "Algebraicity over the rationals is a required component of the algebraic-closure claim, but does not alone state it."
+    },
+    {
+      "association_id": "association:c73f5772a803f678018e",
+      "role": "supporting",
+      "rationale": "The declaration packages the algebraic numbers as an intermediate field between the rationals and complex numbers, but it does not itself state that this field is an algebraic closure of the rationals."
+    }
+  ]
+}

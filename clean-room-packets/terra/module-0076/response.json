@@ -1,0 +1,40 @@
+{
+  "module_name": "LieAlgebra.BracketCoefficients",
+  "declarations": [
+    {
+      "temporary_id": "decl-007353",
+      "new_name": "basisValue_eq_coefficient",
+      "docstring": "Evaluating the bilinear map on the displayed basis elements equals its indexed coefficient."
+    },
+    {
+      "temporary_id": "decl-007354",
+      "new_name": "coefficient_add_left_eq",
+      "docstring": "Relates a coefficient with summed left index to two shifted coefficients."
+    },
+    {
+      "temporary_id": "decl-007359",
+      "new_name": "map_neg_left",
+      "docstring": "A bilinear Lie-compatible map is negated when its left input is negated."
+    },
+    {
+      "temporary_id": "decl-007363",
+      "new_name": "map_swap_eq_neg",
+      "docstring": "A bilinear Lie-compatible map changes sign when its two inputs are swapped."
+    },
+    {
+      "temporary_id": "decl-007599",
+      "new_name": "bracketCoefficient",
+      "docstring": "The scalar coefficient indexed by two natural numbers for the displayed bilinear map."
+    },
+    {
+      "temporary_id": "decl-007732",
+      "new_name": "diagonalCoefficient",
+      "docstring": "The scalar coefficient indexed by one natural number for the displayed bilinear map."
+    },
+    {
+      "temporary_id": "decl-008105",
+      "new_name": "shiftedCoefficient",
+      "docstring": "A second two-index scalar coefficient associated with the displayed bilinear map."
+    }
+  ]
+}

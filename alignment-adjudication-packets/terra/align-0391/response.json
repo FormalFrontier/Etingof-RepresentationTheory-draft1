@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0391",
+  "associations": [
+    {
+      "association_id": "association:e3415276ee5059c8bfde",
+      "role": "supporting",
+      "rationale": "The displayed signature introduces a type associated with two modules, but does not expose that its data are an invertible linear intertwiner."
+    }
+  ]
+}

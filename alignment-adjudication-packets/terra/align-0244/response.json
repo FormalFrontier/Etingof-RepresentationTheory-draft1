@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0244",
+  "associations": [
+    {
+      "association_id": "association:0bdeae74d1989c320d12",
+      "role": "supporting",
+      "rationale": "It proves integrality of the displayed class-size and character-value quotient, but does not define or introduce the class-sum scalar itself."
+    }
+  ]
+}

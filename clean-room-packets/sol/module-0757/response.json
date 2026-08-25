@@ -1,0 +1,465 @@
+{
+  "module_name": "CategoryTheory.Linear.FiniteModulePresentationEquivalence",
+  "declarations": [
+    {
+      "temporary_id": "decl-014200",
+      "new_name": "modulePresentationRelation",
+      "docstring": "The morphism from the finite copower on the scalar tensor product to the finite copower on a module carrier."
+    },
+    {
+      "temporary_id": "decl-014202",
+      "new_name": "modulePresentationRelation_comp_evaluation",
+      "docstring": "The presentation relation followed by evaluation at an object is zero."
+    },
+    {
+      "temporary_id": "decl-014203",
+      "new_name": "modulePresentationRelation_naturality",
+      "docstring": "The presentation relation commutes with the finite-copower maps induced by a module morphism."
+    },
+    {
+      "temporary_id": "decl-014204",
+      "new_name": "modulePresentationRelation_comp_quotient",
+      "docstring": "The presentation relation is annihilated by the morphism to the associated quotient object."
+    },
+    {
+      "temporary_id": "decl-014205",
+      "new_name": "modulePresentationRelation_comp_quotient_assoc",
+      "docstring": "Postcomposing the zero presentation composite with another morphism agrees with postcomposing zero."
+    },
+    {
+      "temporary_id": "decl-014206",
+      "new_name": "modulePresentationObject",
+      "docstring": "Associates an object of the linear category to a finite module over the coefficient type of a chosen object."
+    },
+    {
+      "temporary_id": "decl-014208",
+      "new_name": "modulePresentationFunctor",
+      "docstring": "The functor from finite modules over the coefficient type to the given linear category."
+    },
+    {
+      "temporary_id": "decl-014211",
+      "new_name": "modulePresentationMap",
+      "docstring": "The morphism between presentation objects induced by a morphism of finite modules."
+    },
+    {
+      "temporary_id": "decl-014213",
+      "new_name": "finiteCopowerToPresentation",
+      "docstring": "The canonical morphism from the finite copower on a module carrier to its presentation object."
+    },
+    {
+      "temporary_id": "decl-014214",
+      "new_name": "finiteCopowerToPresentation_epi",
+      "docstring": "The canonical morphism from the finite copower to the presentation object is an epimorphism."
+    },
+    {
+      "temporary_id": "decl-014215",
+      "new_name": "finiteCopowerToPresentation_comp_evaluation",
+      "docstring": "For a module obtained from an object, the presentation quotient followed by evaluation is the finite-copower evaluation."
+    },
+    {
+      "temporary_id": "decl-014216",
+      "new_name": "finiteCopowerToPresentation_comp_evaluation_assoc",
+      "docstring": "The evaluation identity for the presentation quotient remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-014217",
+      "new_name": "finiteCopowerToPresentation_naturality",
+      "docstring": "The canonical maps to presentation objects are natural with respect to finite-module morphisms."
+    },
+    {
+      "temporary_id": "decl-014218",
+      "new_name": "finiteCopowerToPresentation_naturality_assoc",
+      "docstring": "Naturality of the maps to presentation objects is preserved by a further postcomposition."
+    },
+    {
+      "temporary_id": "decl-014219",
+      "new_name": "presentationHomToCarrier",
+      "docstring": "The coefficient-linear map from morphisms out of the chosen object into a finite copower to the underlying module carrier."
+    },
+    {
+      "temporary_id": "decl-014224",
+      "new_name": "presentationHomToCarrier_relationGenerator",
+      "docstring": "A finite-copower generator followed by the presentation relation maps to zero in the module carrier."
+    },
+    {
+      "temporary_id": "decl-014225",
+      "new_name": "presentationHomToCarrier_relation",
+      "docstring": "Every morphism through the presentation relation maps to zero under the coefficient map to the carrier."
+    },
+    {
+      "temporary_id": "decl-014226",
+      "new_name": "presentationHomToCarrier_generator",
+      "docstring": "The coefficient map sends the canonical finite-copower generator of an element back to that element."
+    },
+    {
+      "temporary_id": "decl-014227",
+      "new_name": "moduleFunctor_map_evaluation_isIso",
+      "docstring": "Applying the module-valued functor to the evaluation morphism produces an isomorphism."
+    },
+    {
+      "temporary_id": "decl-014228",
+      "new_name": "finiteDimensional_end",
+      "docstring": "The endomorphism space of an object is finite-dimensional over the ground field."
+    },
+    {
+      "temporary_id": "decl-014229",
+      "new_name": "oppositeEnd",
+      "docstring": "The coefficient type of opposite endomorphisms associated to an object of a category."
+    },
+    {
+      "temporary_id": "decl-014230",
+      "new_name": "oppositeEnd_algebraMap_unop",
+      "docstring": "Unop of a scalar from the algebra map is scalar multiplication of the identity endomorphism."
+    },
+    {
+      "temporary_id": "decl-014231",
+      "new_name": "presentationEvaluation",
+      "docstring": "The evaluation morphism from the presentation of the finite module attached to an object back to that object."
+    },
+    {
+      "temporary_id": "decl-014234",
+      "new_name": "presentationEvaluation_epi",
+      "docstring": "The evaluation morphism from the reconstructed presentation object is an epimorphism."
+    },
+    {
+      "temporary_id": "decl-014235",
+      "new_name": "presentationEvaluation_isIso",
+      "docstring": "The evaluation morphism from the reconstructed presentation object is an isomorphism."
+    },
+    {
+      "temporary_id": "decl-014236",
+      "new_name": "kernel_presentationEvaluation_isZero",
+      "docstring": "The kernel of the evaluation morphism from a presentation object is a zero object."
+    },
+    {
+      "temporary_id": "decl-014237",
+      "new_name": "copowerGenerator_comp_quotient_comp_evaluation",
+      "docstring": "A module element represented by its copower generator evaluates to the same morphism out of the chosen object."
+    },
+    {
+      "temporary_id": "decl-014238",
+      "new_name": "copowerGenerator_comp_quotient_comp_evaluation_assoc",
+      "docstring": "The generator evaluation formula holds after composing with any morphism out of the evaluated object."
+    },
+    {
+      "temporary_id": "decl-014239",
+      "new_name": "presentationEvaluationIso",
+      "docstring": "The isomorphism between the reconstructed presentation of an object and the object itself."
+    },
+    {
+      "temporary_id": "decl-014240",
+      "new_name": "presentationEvaluationIso_hom",
+      "docstring": "The forward morphism of the presentation evaluation isomorphism is the evaluation morphism."
+    },
+    {
+      "temporary_id": "decl-014241",
+      "new_name": "finiteCopowerEvaluation",
+      "docstring": "The morphism evaluating the finite copower on the carrier of the module associated to an object."
+    },
+    {
+      "temporary_id": "decl-014243",
+      "new_name": "finiteCopowerEvaluation_naturality",
+      "docstring": "Finite-copower evaluation is natural with respect to morphisms in the linear category."
+    },
+    {
+      "temporary_id": "decl-014244",
+      "new_name": "exists_relationFactorization",
+      "docstring": "A morphism from the chosen object killed by the presentation quotient factors through the presentation relation."
+    },
+    {
+      "temporary_id": "decl-014245",
+      "new_name": "finiteModuleEquivalence",
+      "docstring": "An equivalence between the linear category and finite modules over the coefficient type of the chosen object."
+    },
+    {
+      "temporary_id": "decl-014246",
+      "new_name": "carrier_smulCommClass",
+      "docstring": "The coefficient and ground-field scalar actions commute on the carrier of a finite module."
+    },
+    {
+      "temporary_id": "decl-014247",
+      "new_name": "carrier_finiteDimensional",
+      "docstring": "The carrier of a finite module over the coefficient type is finite-dimensional over the ground field."
+    },
+    {
+      "temporary_id": "decl-014248",
+      "new_name": "carrierGroundFieldModule",
+      "docstring": "The ground-field module structure on the carrier of a finite module over the coefficient type."
+    },
+    {
+      "temporary_id": "decl-014249",
+      "new_name": "carrier_isScalarTower",
+      "docstring": "Ground-field scalars and coefficient scalars form a scalar tower on the finite-module carrier."
+    },
+    {
+      "temporary_id": "decl-014250",
+      "new_name": "finiteCopower",
+      "docstring": "The object obtained from a chosen object and a finite-dimensional vector space by the available finite additive construction."
+    },
+    {
+      "temporary_id": "decl-014252",
+      "new_name": "finiteCopowerDesc",
+      "docstring": "A linear family of morphisms from the chosen object induces a morphism from the corresponding finite copower."
+    },
+    {
+      "temporary_id": "decl-014254",
+      "new_name": "finiteCopowerHomEquiv",
+      "docstring": "Morphisms from a finite copower are linearly equivalent to linear families of morphisms from its chosen object."
+    },
+    {
+      "temporary_id": "decl-014268",
+      "new_name": "finiteCopowerMap",
+      "docstring": "A linear map between finite-dimensional vector spaces induces a morphism between their finite copowers."
+    },
+    {
+      "temporary_id": "decl-014270",
+      "new_name": "finiteCopowerMap_comp",
+      "docstring": "The finite-copower morphism induced by a composite linear map is the composite of the induced morphisms."
+    },
+    {
+      "temporary_id": "decl-014271",
+      "new_name": "finiteCopowerMap_comp_assoc",
+      "docstring": "Compatibility of finite-copower maps with linear-map composition persists after postcomposition."
+    },
+    {
+      "temporary_id": "decl-014272",
+      "new_name": "finiteCopowerMap_id",
+      "docstring": "The finite-copower morphism induced by the identity linear map is the identity morphism."
+    },
+    {
+      "temporary_id": "decl-014273",
+      "new_name": "finiteCopower_hom_ext",
+      "docstring": "Two morphisms from a finite copower are equal when they agree after every canonical generator."
+    },
+    {
+      "temporary_id": "decl-014274",
+      "new_name": "finiteCopowerGenerator",
+      "docstring": "The linear map sending each vector to its canonical morphism from the chosen object into the finite copower."
+    },
+    {
+      "temporary_id": "decl-014280",
+      "new_name": "modulePresentationRelation_tmul",
+      "docstring": "On a pure tensor, the presentation relation is the difference between endomorphism composition and coefficient action."
+    },
+    {
+      "temporary_id": "decl-014281",
+      "new_name": "modulePresentationRelation_tmul_assoc",
+      "docstring": "The pure-tensor formula for the presentation relation remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-014282",
+      "new_name": "finiteCopowerGenerator_finBasis",
+      "docstring": "The generator associated to a finite-basis vector is the corresponding biproduct inclusion."
+    },
+    {
+      "temporary_id": "decl-014283",
+      "new_name": "finiteCopowerGenerator_comp_projection",
+      "docstring": "A finite-copower generator followed by a basis projection is the corresponding coordinate times the identity."
+    },
+    {
+      "temporary_id": "decl-014284",
+      "new_name": "finiteCopowerGenerator_comp_desc",
+      "docstring": "Composing a canonical generator with the morphism induced by a linear family evaluates that family."
+    },
+    {
+      "temporary_id": "decl-014285",
+      "new_name": "finiteCopowerGenerator_comp_desc_assoc",
+      "docstring": "Evaluation of a descended linear family at a generator is compatible with a further postcomposition."
+    },
+    {
+      "temporary_id": "decl-014286",
+      "new_name": "finiteCopowerGenerator_comp_evaluation",
+      "docstring": "A generator in the finite copower associated to an object evaluates to its represented morphism."
+    },
+    {
+      "temporary_id": "decl-014287",
+      "new_name": "finiteCopowerGenerator_comp_evaluation_assoc",
+      "docstring": "The finite-copower generator evaluation identity is stable under postcomposition."
+    },
+    {
+      "temporary_id": "decl-014288",
+      "new_name": "copowerActionMap_tmul",
+      "docstring": "The action morphism sends the generator of a pure tensor to the generator of the scalar action on the vector."
+    },
+    {
+      "temporary_id": "decl-014289",
+      "new_name": "copowerActionMap_tmul_assoc",
+      "docstring": "The pure-tensor formula for the copower action morphism holds after postcomposition."
+    },
+    {
+      "temporary_id": "decl-014290",
+      "new_name": "finiteCopowerGenerator_naturality",
+      "docstring": "A canonical generator followed by an induced finite-copower map is the generator of the image vector."
+    },
+    {
+      "temporary_id": "decl-014291",
+      "new_name": "finiteCopowerGenerator_naturality_assoc",
+      "docstring": "Naturality of finite-copower generators is preserved by a subsequent morphism."
+    },
+    {
+      "temporary_id": "decl-014292",
+      "new_name": "oppositeEndEvaluation_generator",
+      "docstring": "Evaluating the finite-copower generator of an opposite endomorphism yields its underlying endomorphism."
+    },
+    {
+      "temporary_id": "decl-014293",
+      "new_name": "oppositeEndAction_generator",
+      "docstring": "The pure-tensor generator followed by the endomorphism-action morphism is composition with the underlying endomorphism."
+    },
+    {
+      "temporary_id": "decl-014294",
+      "new_name": "oppositeEndAction_generator_assoc",
+      "docstring": "The generator formula for the endomorphism-action morphism continues to hold after postcomposition."
+    },
+    {
+      "temporary_id": "decl-014295",
+      "new_name": "oppositeEndEvaluation_generator_assoc",
+      "docstring": "Evaluation of an opposite-endomorphism generator is compatible with postcomposition out of the chosen object."
+    },
+    {
+      "temporary_id": "decl-014296",
+      "new_name": "moduleElementToHom",
+      "docstring": "The ground-field linear map from elements of the module attached to an object to morphisms from the chosen object."
+    },
+    {
+      "temporary_id": "decl-014299",
+      "new_name": "copowerActionMap",
+      "docstring": "The morphism from the finite copower on a coefficient tensor product to the finite copower on the module carrier induced by scalar action."
+    },
+    {
+      "temporary_id": "decl-014301",
+      "new_name": "tensorScalarAction",
+      "docstring": "The ground-field linear map from the coefficient tensor product with a module carrier to that carrier."
+    },
+    {
+      "temporary_id": "decl-014305",
+      "new_name": "tensorScalarAction_tmul",
+      "docstring": "The tensor scalar-action map sends a pure tensor to the corresponding coefficient action."
+    },
+    {
+      "temporary_id": "decl-014306",
+      "new_name": "moduleHomLinearMap",
+      "docstring": "The ground-field linear map on carriers underlying a morphism of finite modules."
+    },
+    {
+      "temporary_id": "decl-014310",
+      "new_name": "moduleHomLinearMap_apply",
+      "docstring": "The linear map underlying a finite-module morphism agrees pointwise with its concrete carrier map."
+    },
+    {
+      "temporary_id": "decl-014311",
+      "new_name": "moduleHomLinearMap_comp",
+      "docstring": "The carrier linear map of a composite module morphism is the composite of the carrier linear maps."
+    },
+    {
+      "temporary_id": "decl-014312",
+      "new_name": "moduleHomLinearMap_id",
+      "docstring": "The carrier linear map of an identity module morphism is the identity linear map."
+    },
+    {
+      "temporary_id": "decl-014313",
+      "new_name": "presentationThenModuleIso",
+      "docstring": "The composite of the presentation functor with the module-valued functor is isomorphic to the identity on finite modules."
+    },
+    {
+      "temporary_id": "decl-014315",
+      "new_name": "moduleThenPresentationHom_app_epi",
+      "docstring": "Every component of the natural morphism from the module-presentation composite to the identity is an epimorphism."
+    },
+    {
+      "temporary_id": "decl-014316",
+      "new_name": "moduleThenPresentationHom_isIso",
+      "docstring": "The natural morphism from the module-presentation composite to the identity functor is an isomorphism."
+    },
+    {
+      "temporary_id": "decl-014317",
+      "new_name": "moduleThenPresentationIso",
+      "docstring": "The composite of the module-valued functor with the presentation functor is isomorphic to the identity on the original category."
+    },
+    {
+      "temporary_id": "decl-014318",
+      "new_name": "presentationRelationLift",
+      "docstring": "Lifts a morphism from the chosen object into a finite copower to the finite copower on the coefficient tensor product."
+    },
+    {
+      "temporary_id": "decl-014319",
+      "new_name": "presentationRelationLift_comp_relation",
+      "docstring": "The lifted morphism followed by the presentation relation equals the original morphism minus its reconstructed generator."
+    },
+    {
+      "temporary_id": "decl-014320",
+      "new_name": "oppositeEndEvaluation",
+      "docstring": "The morphism from the finite copower on opposite endomorphisms to the chosen object given by evaluation."
+    },
+    {
+      "temporary_id": "decl-014322",
+      "new_name": "oppositeEndActionMap",
+      "docstring": "The morphism from the copower on opposite endomorphisms tensored with a module to the copower on its carrier induced by composition."
+    },
+    {
+      "temporary_id": "decl-014334",
+      "new_name": "oppositeEndTensorMap",
+      "docstring": "A finite-module morphism induces a ground-field linear map on its tensor product with the opposite endomorphism type."
+    },
+    {
+      "temporary_id": "decl-014336",
+      "new_name": "oppositeEndTensorMap_tmul",
+      "docstring": "The tensor map induced by a module morphism sends a pure tensor by applying the morphism to its module factor."
+    },
+    {
+      "temporary_id": "decl-014337",
+      "new_name": "moduleToPresentationModuleHom",
+      "docstring": "The natural morphism from the identity on finite modules to the presentation functor followed by the module-valued functor."
+    },
+    {
+      "temporary_id": "decl-014339",
+      "new_name": "moduleToPresentationModule",
+      "docstring": "The component mapping a finite module into the module associated to its presentation object."
+    },
+    {
+      "temporary_id": "decl-014340",
+      "new_name": "moduleToPresentationModule_apply",
+      "docstring": "The comparison map sends a module element to its copower generator followed by the presentation quotient."
+    },
+    {
+      "temporary_id": "decl-014341",
+      "new_name": "moduleToPresentationModule_isIso",
+      "docstring": "The comparison morphism from a finite module to the module of its presentation is an isomorphism."
+    },
+    {
+      "temporary_id": "decl-014342",
+      "new_name": "moduleToPresentationModuleIso",
+      "docstring": "The isomorphism from a finite module to the module obtained from its presentation object."
+    },
+    {
+      "temporary_id": "decl-014347",
+      "new_name": "moduleToPresentationModuleIso_hom",
+      "docstring": "The forward map of the module comparison isomorphism is the canonical comparison morphism."
+    },
+    {
+      "temporary_id": "decl-014348",
+      "new_name": "carrierToPresentationHom",
+      "docstring": "The coefficient-linear map from a finite-module carrier to morphisms from the chosen object into its presentation."
+    },
+    {
+      "temporary_id": "decl-014351",
+      "new_name": "carrierToPresentationHom_injective",
+      "docstring": "The linear map from the module carrier to morphisms into its presentation object is injective."
+    },
+    {
+      "temporary_id": "decl-014352",
+      "new_name": "carrierToPresentationHom_surjective",
+      "docstring": "The linear map from the module carrier to morphisms into its presentation object is surjective."
+    },
+    {
+      "temporary_id": "decl-014353",
+      "new_name": "modulePresentation_triangle",
+      "docstring": "The module comparison at an associated module followed by the mapped evaluation morphism is the identity."
+    },
+    {
+      "temporary_id": "decl-014354",
+      "new_name": "moduleThenPresentationHom",
+      "docstring": "The natural morphism from the module-valued functor followed by the presentation functor to the identity functor."
+    }
+  ]
+}

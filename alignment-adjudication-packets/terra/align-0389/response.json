@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0389",
+  "associations": [
+    {
+      "association_id": "association:0d8e17f2adb12d5f02c1",
+      "role": "supporting",
+      "rationale": "The theorem produces a complete pairwise nonisomorphic simple family and an isomorphism from the tensor product to an opaque decomposition target, but the displayed type does not identify that target as the asserted direct sum with multiplicities."
+    },
+    {
+      "association_id": "association:e3ca14f3781fd472bd55",
+      "role": "supporting",
+      "rationale": "Given a complete pairwise nonisomorphic simple family, the theorem gives an isomorphism to an opaque decomposition target, whose displayed type does not expose the asserted direct-sum and multiplicity structure."
+    }
+  ]
+}

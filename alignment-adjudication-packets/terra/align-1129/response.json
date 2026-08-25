@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1129",
+  "associations": [
+    {
+      "association_id": "association:2b6297be308fb93949d3",
+      "role": "supporting",
+      "rationale": "The type constructs an A₂ representation for each index in Fin 3, but it does not display the three dimension vectors or indecomposability."
+    },
+    {
+      "association_id": "association:cf1a0e3e7fda9bc5eeb7",
+      "role": "supporting",
+      "rationale": "The formal type states that each of the three Fin 3-indexed representatives is indecomposable, but it does not identify them with the listed dimension vectors (1,0), (0,1), and (1,1)."
+    }
+  ]
+}

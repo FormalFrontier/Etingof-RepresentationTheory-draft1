@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:6a7b2406f7a718836b15",
+      "rationale": "States only that the class-index type has cardinality twelve, supporting the count but not the listed-vector classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:5719bef3848c46cf3141",
+      "rationale": "States only that an indecomposable has a dimension vector in the listed set; it does not state the exact classification.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0885"
+}

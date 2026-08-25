@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0090",
+  "associations": [
+    {
+      "association_id": "association:9d733f2487f6f6854199",
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so the dual Hom-functor characterization is not directly evidenced."
+    },
+    {
+      "association_id": "association:e65764992175a0ce994e",
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so natural isomorphism to a Hom functor is not directly evidenced."
+    }
+  ]
+}

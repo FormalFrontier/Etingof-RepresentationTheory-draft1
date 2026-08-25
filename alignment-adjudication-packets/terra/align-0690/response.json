@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0690",
+  "associations": [
+    {
+      "association_id": "association:8d78c09a0ad59af07339",
+      "rationale": "The theorem directly states that a symmetric nondegenerate bilinear form B on finite-dimensional V makes CliffAlg B a semisimple ring.",
+      "role": "primary"
+    }
+  ]
+}

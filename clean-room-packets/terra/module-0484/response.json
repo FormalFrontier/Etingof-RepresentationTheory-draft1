@@ -1,0 +1,65 @@
+{
+  "module_name": "AuxiliaryPartitionLinearIndependence",
+  "declarations": [
+    {
+      "temporary_id": "decl-005367",
+      "new_name": "auxiliary_left_perm_eq_one",
+      "docstring": "Under the displayed subgroup conditions, a permutation preserving every auxiliary position value is the identity."
+    },
+    {
+      "temporary_id": "decl-005375",
+      "new_name": "auxiliary_left_perm_eq_one_of_map_eq",
+      "docstring": "Equality of the displayed auxiliary permutation images forces the left permutation to be the identity."
+    },
+    {
+      "temporary_id": "decl-005387",
+      "new_name": "auxiliary_perm_eq_one_of_mem_intersection",
+      "docstring": "A permutation belonging to both displayed auxiliary subgroups is the identity."
+    },
+    {
+      "temporary_id": "decl-005388",
+      "new_name": "auxiliaryPositionEntry",
+      "docstring": "Associates an auxiliary natural-number position value to each finite index."
+    },
+    {
+      "temporary_id": "decl-005390",
+      "new_name": "auxiliaryPositionEntry_standardization",
+      "docstring": "After the displayed standardizing permutation, the auxiliary position value agrees with the corresponding sorted part."
+    },
+    {
+      "temporary_id": "decl-005399",
+      "new_name": "auxiliary_inf_eq_bot",
+      "docstring": "The infimum of the two displayed auxiliary subgroups is trivial."
+    },
+    {
+      "temporary_id": "decl-021506",
+      "new_name": "linearIndependent_of_coord_ne_zero_imp_le",
+      "docstring": "A family is linearly independent when its coordinate evaluations are triangular for a partial order and every diagonal evaluation is nonzero."
+    },
+    {
+      "temporary_id": "decl-024610",
+      "new_name": "auxiliaryCoordinate",
+      "docstring": "An auxiliary complex-linear coordinate functional associated with two partitions and an indexing object."
+    },
+    {
+      "temporary_id": "decl-024613",
+      "new_name": "auxiliaryCoordinate_apply",
+      "docstring": "The auxiliary coordinate functional is evaluated by the displayed pair of auxiliary maps."
+    },
+    {
+      "temporary_id": "decl-024641",
+      "new_name": "auxiliary_eq_of_linearIndependent",
+      "docstring": "Linear independence of the auxiliary family implies equality of the two displayed quantities."
+    },
+    {
+      "temporary_id": "decl-024663",
+      "new_name": "auxiliary_linearIndependent",
+      "docstring": "Triangular auxiliary coordinates with nonzero diagonal values make the displayed family linearly independent."
+    },
+    {
+      "temporary_id": "decl-024665",
+      "new_name": "auxiliaryConstructionOfLinearIndependent",
+      "docstring": "Builds the displayed auxiliary structure from linear independence of the associated family."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1070",
+  "associations": [
+    {
+      "association_id": "association:dd2af1b36ed5984c2d95",
+      "rationale": "The type identifies c with E02, but it does not itself identify x and y with the other two matrix units in the displayed basis.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:aa4ea53ddc7a5033271b",
+      "rationale": "The type identifies x with E12, but it does not itself identify y and c with the other two matrix units in the displayed basis.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8f9e175642d1ee167a2c",
+      "rationale": "The type identifies y with E01, but it does not itself identify x and c with the other two matrix units in the displayed basis.",
+      "role": "supporting"
+    }
+  ]
+}

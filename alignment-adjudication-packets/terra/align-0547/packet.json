@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:20e668f2a96c8b11ce97",
+      "declaration": "Etingof.Problem2_16_2.fam_nonempty_equiv_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/120/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 \u03b3' : Units.{u_2} k) (a a' : k),\n  Iff\n    (Nonempty.{u_2 + 1}\n      (LieModuleEquiv.{u_2, u_2, u_2, u_2} k\n        (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x)\n        (Etingof.Problem2_16_2.Fam.{u_2} k p \u03b3 a) (Etingof.Problem2_16_2.Fam.{u_2} k p \u03b3' a')))\n    (And (Eq.{u_2 + 1} \u03b3 \u03b3')\n      (Exists.{1} fun n =>\n        Eq.{u_2 + 1} a'\n          (HAdd.hAdd.{u_2, u_2, u_2} a (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (Etingof.Problem2_16_2.lam.{u_2} k p) n))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2"
+    },
+    {
+      "association_id": "association:858b2d283d005a19753e",
+      "declaration": "Etingof.Problem2_16_2.oneDim_not_equiv_fam",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/120/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p] (\u03bc : k)\n  (\u03b3 : Units.{u_2} k) (a : k),\n  Not\n    (Nonempty.{u_2 + 1}\n      (LieModuleEquiv.{u_2, u_2, u_2, u_2} k\n        (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x)\n        (Etingof.Problem2_16_2.oneDimModule.{u_2} k \u03bc) (Etingof.Problem2_16_2.Fam.{u_2} k p \u03b3 a)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.2",
+  "packet_id": "align-0547",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0547"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.2:claim-04",
+  "source_text": "V(\u03b3,a) is isomorphic to V(\u03b3',a') exactly when \u03b3 = \u03b3' and a' - a lies in the prime field; this family is disjoint from the one-dimensional family."
+}

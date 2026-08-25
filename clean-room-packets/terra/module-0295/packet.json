@@ -1,0 +1,62 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat},\n  LT.lt.{0} 0 N \u2192 Irreducible.{u_1} (decl-001528.{u_1} k N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "2193951243",
+      "temporary_id": "decl-001530"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat},\n  LT.lt.{0} 0 N \u2192 Prime.{u_1} (decl-001528.{u_1} k N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "2132415041",
+      "temporary_id": "decl-001532"
+    },
+    {
+      "formal_type": "\u2200 {B : Type u_2} [inst : CommRing.{u_2} B] [IsDomain.{u_2} B] {a b : B},\n  Prime.{u_2} a \u2192\n    Not (Dvd.dvd.{u_2} a b) \u2192\n      Irreducible.{u_2}\n        (HAdd.hAdd.{u_2, u_2, u_2}\n          (HMul.hMul.{u_2, u_2, u_2} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} Polynomial.C.{u_2} a) Polynomial.X.{u_2})\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} Polynomial.C.{u_2} b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3802981469",
+      "temporary_id": "decl-001549"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u03c3 : Type u_2} {\u03c4 : Type u_3} {e : \u03c3 \u2192 \u03c4},\n  Function.Injective.{u_2 + 1, u_3 + 1} e \u2192\n    \u2200 {p : MvPolynomial.{u_2, u_1} \u03c3 k},\n      Iff\n        (Prime.{max u_3 u_1}\n          (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_1 + 1), max (u_2 + 1) (u_1 + 1), max (u_3 + 1) (u_1 + 1)}\n            (MvPolynomial.rename.{u_2, u_3, u_1} e) p))\n        (Prime.{max u_1 u_2} p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2630843908",
+      "temporary_id": "decl-001556"
+    }
+  ],
+  "module_temporary_id": "module-0295",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

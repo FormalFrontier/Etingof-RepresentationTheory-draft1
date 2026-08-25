@@ -1,0 +1,150 @@
+{
+  "module_name": "Quiver.PathAlgebra.UniversalProperties",
+  "declarations": [
+    {
+      "temporary_id": "decl-009239",
+      "new_name": "oppositeVertexArrow_adjoin_eq_top",
+      "docstring": "The opposite vertex and arrow elements generate the entire displayed algebra."
+    },
+    {
+      "temporary_id": "decl-009240",
+      "new_name": "oppositeArrow",
+      "docstring": "The element of the opposite path algebra associated with a quiver arrow."
+    },
+    {
+      "temporary_id": "decl-009242",
+      "new_name": "oppositeArrow_mul_sourceVertex",
+      "docstring": "An opposite arrow element multiplied on the right by its source vertex element is unchanged."
+    },
+    {
+      "temporary_id": "decl-009243",
+      "new_name": "oppositeArrow_mul_vertex_of_ne_source",
+      "docstring": "An opposite arrow element multiplied on the right by a different vertex element is zero."
+    },
+    {
+      "temporary_id": "decl-009244",
+      "new_name": "existsUnique_oppositePathAlgebraHom",
+      "docstring": "Compatible orthogonal vertex idempotents and oppositely oriented arrow elements determine a unique algebra homomorphism from the opposite path algebra."
+    },
+    {
+      "temporary_id": "decl-009245",
+      "new_name": "oppositePathElement_cons",
+      "docstring": "The opposite-algebra element of a path extended by an arrow is the arrow element multiplied by the element of the original path."
+    },
+    {
+      "temporary_id": "decl-009246",
+      "new_name": "sum_oppositeVertex_eq_one",
+      "docstring": "For a finite quiver, the sum of all opposite vertex elements is one."
+    },
+    {
+      "temporary_id": "decl-009247",
+      "new_name": "targetVertex_mul_oppositeArrow",
+      "docstring": "The target vertex element multiplied on the left by an opposite arrow element leaves the arrow unchanged."
+    },
+    {
+      "temporary_id": "decl-009248",
+      "new_name": "oppositeVertex",
+      "docstring": "The element of the opposite path algebra associated with a quiver vertex."
+    },
+    {
+      "temporary_id": "decl-009250",
+      "new_name": "vertex_mul_oppositeArrow_of_ne_target",
+      "docstring": "A vertex element different from the target multiplied on the left by an opposite arrow element is zero."
+    },
+    {
+      "temporary_id": "decl-009251",
+      "new_name": "oppositeVertex_mul_oppositeVertex_of_ne",
+      "docstring": "Distinct opposite vertex elements multiply to zero."
+    },
+    {
+      "temporary_id": "decl-009252",
+      "new_name": "oppositeVertex_mul_self",
+      "docstring": "Every opposite vertex element is idempotent."
+    },
+    {
+      "temporary_id": "decl-009253",
+      "new_name": "vertexArrow_adjoin_eq_top",
+      "docstring": "The vertex and arrow elements generate the entire path algebra."
+    },
+    {
+      "temporary_id": "decl-009254",
+      "new_name": "arrow",
+      "docstring": "The element of the path algebra associated with a quiver arrow."
+    },
+    {
+      "temporary_id": "decl-009256",
+      "new_name": "arrow_mul_targetVertex",
+      "docstring": "An arrow element multiplied on the right by its target vertex element is unchanged."
+    },
+    {
+      "temporary_id": "decl-009257",
+      "new_name": "arrow_mul_vertex_of_ne_target",
+      "docstring": "An arrow element multiplied on the right by a different vertex element is zero."
+    },
+    {
+      "temporary_id": "decl-009258",
+      "new_name": "existsUnique_pathAlgebraHom",
+      "docstring": "Compatible orthogonal vertex idempotents and arrow elements determine a unique algebra homomorphism from the path algebra."
+    },
+    {
+      "temporary_id": "decl-009259",
+      "new_name": "pathLinearMap",
+      "docstring": "The base-linear map from the path algebra determined by chosen vertex and arrow values."
+    },
+    {
+      "temporary_id": "decl-009260",
+      "new_name": "pathLinearMap_single",
+      "docstring": "The path-linear map sends a scalar multiple of a single path to that scalar times the chosen evaluation of the path."
+    },
+    {
+      "temporary_id": "decl-009261",
+      "new_name": "pathEvaluation",
+      "docstring": "The value in a ring assigned to a quiver path from chosen vertex and arrow values."
+    },
+    {
+      "temporary_id": "decl-009266",
+      "new_name": "pathEvaluation_cons",
+      "docstring": "The evaluation of a path extended by an arrow is the evaluation of the original path multiplied by the chosen arrow value."
+    },
+    {
+      "temporary_id": "decl-009267",
+      "new_name": "pathEvaluation_nil",
+      "docstring": "The evaluation of the empty path at a vertex is the chosen value of that vertex."
+    },
+    {
+      "temporary_id": "decl-009268",
+      "new_name": "pathElement_cons",
+      "docstring": "The path-algebra element of a path extended by an arrow is the original path element multiplied by the arrow element."
+    },
+    {
+      "temporary_id": "decl-009269",
+      "new_name": "sourceVertex_mul_arrow",
+      "docstring": "The source vertex element multiplied on the left by an arrow element leaves the arrow unchanged."
+    },
+    {
+      "temporary_id": "decl-009270",
+      "new_name": "sum_vertex_eq_one",
+      "docstring": "For a finite quiver, the sum of all vertex elements in the path algebra is one."
+    },
+    {
+      "temporary_id": "decl-009271",
+      "new_name": "vertex",
+      "docstring": "The element of the path algebra associated with a quiver vertex."
+    },
+    {
+      "temporary_id": "decl-009273",
+      "new_name": "vertex_mul_arrow_of_ne_source",
+      "docstring": "A vertex element different from the source multiplied on the left by an arrow element is zero."
+    },
+    {
+      "temporary_id": "decl-009274",
+      "new_name": "vertex_mul_vertex_of_ne",
+      "docstring": "Distinct vertex elements in the path algebra multiply to zero."
+    },
+    {
+      "temporary_id": "decl-009275",
+      "new_name": "vertex_mul_self",
+      "docstring": "Every vertex element in the path algebra is idempotent."
+    }
+  ]
+}

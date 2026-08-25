@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0191",
+  "associations": [
+    {
+      "association_id": "association:43891f75095e838e61b4",
+      "role": "primary",
+      "rationale": "The theorem directly equates the numbers of indecomposable summands and supplies a permutation matching them by module equivalence."
+    }
+  ]
+}

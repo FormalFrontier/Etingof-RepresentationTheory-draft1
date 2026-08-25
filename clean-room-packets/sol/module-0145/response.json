@@ -1,0 +1,185 @@
+{
+  "module_name": "Algebra.Module.Pi.SimpleModules",
+  "declarations": [
+    {
+      "temporary_id": "decl-009276",
+      "new_name": "IndexedAuxiliaryType",
+      "docstring": "An auxiliary type obtained from a family of types, a finite index, and an additional type."
+    },
+    {
+      "temporary_id": "decl-009277",
+      "new_name": "linearEquivOfLinearEquiv",
+      "docstring": "A linear equivalence over one factor induces a product-ring linear equivalence between the corresponding indexed auxiliary types."
+    },
+    {
+      "temporary_id": "decl-009284",
+      "new_name": "eq_index_of_linearEquiv",
+      "docstring": "A product-ring linear equivalence between nontrivial indexed auxiliary types forces their indices to agree."
+    },
+    {
+      "temporary_id": "decl-009285",
+      "new_name": "instAddCommGroup",
+      "docstring": "The additive commutative group structure on an indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-009303",
+      "new_name": "instModuleComponent",
+      "docstring": "The module structure over the selected factor on an indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-009311",
+      "new_name": "nontrivial",
+      "docstring": "An indexed auxiliary type is nontrivial whenever its base type is nontrivial."
+    },
+    {
+      "temporary_id": "decl-009313",
+      "new_name": "instModulePi",
+      "docstring": "The module structure over the product ring on an indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-009314",
+      "new_name": "isSimpleModule_iff",
+      "docstring": "An indexed auxiliary type is simple over the product ring exactly when its base type is simple over the selected factor."
+    },
+    {
+      "temporary_id": "decl-009315",
+      "new_name": "componentLinearEquivOfLinearEquiv",
+      "docstring": "A product-ring linear equivalence between indexed auxiliary types at the same index induces a linear equivalence over the selected factor."
+    },
+    {
+      "temporary_id": "decl-009320",
+      "new_name": "pi_smul_eq_component_smul",
+      "docstring": "The action of a product-ring element on an indexed auxiliary type is the action of its selected component."
+    },
+    {
+      "temporary_id": "decl-009321",
+      "new_name": "single_smul",
+      "docstring": "A product-ring element supported at the selected index acts on an indexed auxiliary type through its value at that index."
+    },
+    {
+      "temporary_id": "decl-009322",
+      "new_name": "toBaseLinearMap",
+      "docstring": "A linear map from an indexed auxiliary type to its base type, with scalars mapped by evaluation at the selected index."
+    },
+    {
+      "temporary_id": "decl-009325",
+      "new_name": "toBaseLinearMap_bijective",
+      "docstring": "The linear map from an indexed auxiliary type to its base type is bijective."
+    },
+    {
+      "temporary_id": "decl-009326",
+      "new_name": "exists_equiv_indexedAuxiliaryType_auxiliaryRange",
+      "docstring": "A simple module over a finite product of rings is linearly equivalent to an indexed auxiliary type formed from a simple range of an indexed auxiliary endomorphism."
+    },
+    {
+      "temporary_id": "decl-009327",
+      "new_name": "exists_equiv_auxiliaryRange",
+      "docstring": "A simple module over a finite product of rings is linearly equivalent over that product to a range of an indexed auxiliary endomorphism that is simple over the corresponding factor."
+    },
+    {
+      "temporary_id": "decl-009328",
+      "new_name": "auxiliaryRangeModule",
+      "docstring": "The module structure over one factor on the range of the corresponding indexed auxiliary endomorphism."
+    },
+    {
+      "temporary_id": "decl-009337",
+      "new_name": "coe_auxiliaryRange_smul",
+      "docstring": "The underlying vector of scalar multiplication in an indexed auxiliary range is obtained by acting with the product-ring element supported at that index."
+    },
+    {
+      "temporary_id": "decl-009338",
+      "new_name": "exists_equiv_pi_standardModule",
+      "docstring": "Every finite-dimensional module over a nonempty full matrix algebra is linearly equivalent to a finite product of copies of its standard module."
+    },
+    {
+      "temporary_id": "decl-009339",
+      "new_name": "indexedAuxiliaryEndomorphism",
+      "docstring": "An auxiliary family of linear endomorphisms of a product-ring module, indexed by the factors."
+    },
+    {
+      "temporary_id": "decl-009342",
+      "new_name": "isSimpleModule_auxiliaryRange_iff",
+      "docstring": "An indexed auxiliary endomorphism range is simple over the product ring exactly when it is simple over the corresponding factor."
+    },
+    {
+      "temporary_id": "decl-009343",
+      "new_name": "mem_indexedAuxiliaryEndomorphism_range_iff",
+      "docstring": "A vector belongs to an indexed auxiliary endomorphism range exactly when the corresponding component idempotent fixes it."
+    },
+    {
+      "temporary_id": "decl-009344",
+      "new_name": "pi_smul_auxiliaryRange_eq_component_smul",
+      "docstring": "On an indexed auxiliary endomorphism range, the action of a product-ring element agrees with the action of its corresponding component."
+    },
+    {
+      "temporary_id": "decl-009345",
+      "new_name": "indexedAuxiliaryEndomorphism_range_eq_bot_iff",
+      "docstring": "An indexed auxiliary endomorphism range is zero exactly when the corresponding component idempotent annihilates every vector."
+    },
+    {
+      "temporary_id": "decl-009346",
+      "new_name": "indexedAuxiliaryEndomorphism_range_eq_top_iff",
+      "docstring": "An indexed auxiliary endomorphism range is the whole module exactly when the corresponding component idempotent fixes every vector."
+    },
+    {
+      "temporary_id": "decl-009347",
+      "new_name": "nonempty_equiv_standardModule_of_isSimpleModule",
+      "docstring": "Every finite-dimensional simple module over a nonempty full matrix algebra is linearly equivalent to the standard column module."
+    },
+    {
+      "temporary_id": "decl-009348",
+      "new_name": "isSimpleModule_pi_iff_exists_auxiliaryRange",
+      "docstring": "A module over a finite product of rings is simple exactly when one indexed auxiliary endomorphism range is simple over the product and every other such range is zero."
+    },
+    {
+      "temporary_id": "decl-009350",
+      "new_name": "isSimpleModule_pi_iff_exists_simple_auxiliaryRange",
+      "docstring": "A module over a finite product of rings is simple exactly when one indexed auxiliary endomorphism range is simple over its factor and every other such range is zero."
+    },
+    {
+      "temporary_id": "decl-009351",
+      "new_name": "single_mul_single",
+      "docstring": "The product of two product-ring elements supported at the same index is supported there with value equal to the product of their values."
+    },
+    {
+      "temporary_id": "decl-009352",
+      "new_name": "single_one_mul_single_one",
+      "docstring": "Component idempotents multiply to the selected idempotent at equal indices and to zero at distinct indices."
+    },
+    {
+      "temporary_id": "decl-009353",
+      "new_name": "single_one_commute",
+      "docstring": "Each component idempotent commutes with every element of the product ring."
+    },
+    {
+      "temporary_id": "decl-009354",
+      "new_name": "single_one_smul_single_one_smul",
+      "docstring": "Successive actions by two component idempotents equal the first action when their indices agree and vanish otherwise."
+    },
+    {
+      "temporary_id": "decl-009355",
+      "new_name": "isSimpleModule_standardMatrixModule",
+      "docstring": "The standard column module over a nonempty full matrix algebra is simple."
+    },
+    {
+      "temporary_id": "decl-009356",
+      "new_name": "sum_single_one",
+      "docstring": "The sum of the component idempotents in a finite product of rings is one."
+    },
+    {
+      "temporary_id": "decl-009357",
+      "new_name": "sum_single_one_smul",
+      "docstring": "Every vector in a product-ring module is the sum of its component-idempotent actions."
+    },
+    {
+      "temporary_id": "decl-009358",
+      "new_name": "auxiliaryRangeLinearEquivIndexedAuxiliaryType",
+      "docstring": "An indexed auxiliary endomorphism range is linearly equivalent over the product ring to the indexed auxiliary type formed from that range."
+    },
+    {
+      "temporary_id": "decl-009363",
+      "new_name": "auxiliaryRangeLinearMap",
+      "docstring": "An auxiliary self-map of an indexed endomorphism range that is linear along evaluation from the product ring to the selected factor."
+    }
+  ]
+}

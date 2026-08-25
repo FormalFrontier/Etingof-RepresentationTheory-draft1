@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Problem9.3.2",
+    "kind": "exercise",
+    "title": "Simple modules, projective modules, and Cartan matrix of a specific algebra",
+    "node_id": "chapter-09/section-9-3",
+    "order": 558,
+    "slug": "problem9-3-2",
+    "span": {
+      "start": {
+        "page": "216",
+        "line": 9
+      },
+      "end": {
+        "page": "216",
+        "line": 10
+      }
+    },
+    "source_sha256": "96ff010542e9c331d477558c04504dc8a403f97133729e5ad9fd9b84ba7845a1",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Problem932",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,6 @@
+{
+  "packet_id": "align-0027",
+  "associations": [
+    {"association_id": "association:bcc268851ada7d2ae93f", "role": "primary", "rationale": "It directly produces a linear equivalence from any finite-dimensional matrix-product module to a direct sum of the standard components."}
+  ]
+}

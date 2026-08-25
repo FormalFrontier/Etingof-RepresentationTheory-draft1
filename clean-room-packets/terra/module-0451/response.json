@@ -1,0 +1,20 @@
+{
+  "module_name": "PartitionLinearEquivBoundsAndMonoidAlgebra",
+  "declarations": [
+    {
+      "temporary_id": "decl-016524",
+      "new_name": "isEmpty_linearEquiv_of_ne_partition",
+      "docstring": "Distinct partitions of `n` determine subtypes whose type of linear equivalences is empty."
+    },
+    {
+      "temporary_id": "decl-020768",
+      "new_name": "value_le_partition_card",
+      "docstring": "For every `D` of the indicated type, its associated value is at most the number of partitions of `n`."
+    },
+    {
+      "temporary_id": "decl-024121",
+      "new_name": "MonoidAlgebra.coeFun",
+      "docstring": "The function coercion from a monoid algebra to functions `G → R`."
+    }
+  ]
+}

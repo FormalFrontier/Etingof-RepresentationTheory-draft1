@@ -1,0 +1,15 @@
+{
+  "module_name": "GeneralLinear.AuxiliaryPolynomialIdentities",
+  "declarations": [
+    {
+      "temporary_id": "decl-001063",
+      "new_name": "sum_evalOne_mul_coeff_eq_prod_choose",
+      "docstring": "For an exponent function of total degree `d`, the sum of the coefficient at that exponent in each auxiliary polynomial, weighted by evaluation at one, equals the displayed product of binomial coefficients."
+    },
+    {
+      "temporary_id": "decl-001066",
+      "new_name": "auxiliaryIndexedGeneralLinearFDRep_auxiliaryPolynomial_eq_weightedSum",
+      "docstring": "The auxiliary polynomial value of the indexed representation equals the sum of the displayed auxiliary polynomials weighted by their evaluations at one."
+    }
+  ]
+}

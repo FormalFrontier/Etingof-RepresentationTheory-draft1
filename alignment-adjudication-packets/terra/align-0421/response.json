@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0421",
+  "associations": [
+    {
+      "association_id": "association:7ca29af3add8e630ed7f",
+      "role": "supporting",
+      "rationale": "The displayed type only produces a type from a module and does not expose the invariant-subspace condition, so it cannot directly state the definition from the available evidence."
+    }
+  ]
+}

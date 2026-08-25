@@ -1,0 +1,306 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192 (G : Type u_2) \u2192 [Field.{u_1} k] \u2192 [Monoid.{u_2} G] \u2192 Type (max (u_1 + 1) u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "950780851",
+      "temporary_id": "decl-005067"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192 [inst : Field.{u_1} k] \u2192 [inst_1 : Monoid.{u_2} G] \u2192 decl-005067.{u_1, u_2} k G \u2192 G \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067"
+      ],
+      "structural_type_hash": "1262371257",
+      "temporary_id": "decl-005068"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G] (V : FDRep.{u_1, u_2} k G)\n  (hV : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V),\n  Eq.{max (u_1 + 1) (u_2 + 1)} (decl-005068.{u_1, u_2} (decl-005085.{u_1, u_2} V hV))\n    (FDRep.character.{u_1, u_2} V)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005068",
+        "decl-005085"
+      ],
+      "structural_type_hash": "997440937",
+      "temporary_id": "decl-005069"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  (c : decl-005067.{u_1, u_2} k G),\n  Eq.{u_1 + 1} (decl-005068.{u_1, u_2} c 1)\n    (Nat.cast.{u_1} (decl-005073.{u_1, u_2} c))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005068",
+        "decl-005073"
+      ],
+      "structural_type_hash": "30411365",
+      "temporary_id": "decl-005070"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  (c : decl-005067.{u_1, u_2} k G),\n  Eq.{max (u_1 + 1) (u_2 + 1)} (FDRep.character.{u_1, u_2} (decl-005096.{u_1, u_2} c))\n    (decl-005068.{u_1, u_2} c)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005068",
+        "decl-005096"
+      ],
+      "structural_type_hash": "1799630522",
+      "temporary_id": "decl-005071"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  (c : decl-005067.{u_1, u_2} k G),\n  Exists.{max (u_1 + 2) (u_2 + 1)} fun V =>\n    Exists.{0} fun hV => Eq.{max (u_1 + 2) (u_2 + 1)} (decl-005085.{u_1, u_2} V hV) c",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005085"
+      ],
+      "structural_type_hash": "1382249882",
+      "temporary_id": "decl-005072"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192 [inst : Field.{u_1} k] \u2192 [inst_1 : Monoid.{u_2} G] \u2192 decl-005067.{u_1, u_2} k G \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067"
+      ],
+      "structural_type_hash": "3107848321",
+      "temporary_id": "decl-005073"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G] (V : FDRep.{u_1, u_2} k G)\n  (hV : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V),\n  Eq.{1} (decl-005073.{u_1, u_2} (decl-005085.{u_1, u_2} V hV))\n    (Module.finrank.{u_1, u_1} k (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_2} V)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005073",
+        "decl-005085"
+      ],
+      "structural_type_hash": "3290267207",
+      "temporary_id": "decl-005075"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  (c : decl-005067.{u_1, u_2} k G),\n  Eq.{1}\n    (Module.finrank.{u_1, u_1} k\n      (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_2} (decl-005096.{u_1, u_2} c))))\n    (decl-005073.{u_1, u_2} c)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005073",
+        "decl-005096"
+      ],
+      "structural_type_hash": "395771687",
+      "temporary_id": "decl-005076"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  {p : decl-005067.{u_1, u_2} k G \u2192 Prop} (c : decl-005067.{u_1, u_2} k G),\n  (\u2200 (V : FDRep.{u_1, u_2} k G) (hV : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V),\n      p (decl-005085.{u_1, u_2} V hV)) \u2192\n    p c",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005085"
+      ],
+      "structural_type_hash": "1463814968",
+      "temporary_id": "decl-005077"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  (c : decl-005067.{u_1, u_2} k G),\n  CategoryTheory.Simple.{u_1, max u_2 (u_1 + 1)} (decl-005096.{u_1, u_2} c)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005096"
+      ],
+      "structural_type_hash": "3788188999",
+      "temporary_id": "decl-005079"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Monoid.{u_2} G] \u2192\n        {P Q : decl-015610.{u_1, u_2} k G} \u2192\n          CategoryTheory.Iso.{u_1, max (u_1 + 1) u_2} P Q \u2192\n            CategoryTheory.Iso.{u_1, max (u_1 + 1) u_2}\n              (CategoryTheory.ObjectProperty.FullSubcategory.obj.{u_1, max (u_1 + 1) u_2} P)\n              (CategoryTheory.ObjectProperty.FullSubcategory.obj.{u_1, max (u_1 + 1) u_2} Q)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-015610"
+      ],
+      "structural_type_hash": "2169686663",
+      "temporary_id": "decl-005080"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Monoid.{u_2} G] \u2192\n        {\u03b1 : Sort u_3} \u2192\n          (f : (V : FDRep.{u_1, u_2} k G) \u2192 CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V \u2192 \u03b1) \u2192\n            (\u2200 (V W : FDRep.{u_1, u_2} k G) (hV : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V)\n                (hW : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} W)\n                (a : CategoryTheory.Iso.{u_1, max (u_1 + 1) u_2} V W), Eq.{u_3} (f V hV) (f W hW)) \u2192\n              decl-005067.{u_1, u_2} k G \u2192 \u03b1",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067"
+      ],
+      "structural_type_hash": "2655286177",
+      "temporary_id": "decl-005081"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G] {\u03b1 : Sort u_3}\n  (f : (V : FDRep.{u_1, u_2} k G) \u2192 CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V \u2192 \u03b1)\n  (hf :\n    \u2200 (V W : FDRep.{u_1, u_2} k G) (hV : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V)\n      (hW : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} W) (a : CategoryTheory.Iso.{u_1, max (u_1 + 1) u_2} V W),\n      Eq.{u_3} (f V hV) (f W hW))\n  (V : FDRep.{u_1, u_2} k G) (hV : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V),\n  Eq.{u_3} (decl-005081.{u_1, u_2, u_3} f hf (decl-005085.{u_1, u_2} V hV)) (f V hV)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005081",
+        "decl-005085"
+      ],
+      "structural_type_hash": "1828760213",
+      "temporary_id": "decl-005084"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Monoid.{u_2} G] \u2192\n        (V : FDRep.{u_1, u_2} k G) \u2192\n          CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V \u2192 decl-005067.{u_1, u_2} k G",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067"
+      ],
+      "structural_type_hash": "646215004",
+      "temporary_id": "decl-005085"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G] {V : FDRep.{u_1, u_2} k G}\n  (hV hV' : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V),\n  Eq.{max (u_1 + 2) (u_2 + 1)} (decl-005085.{u_1, u_2} V hV) (decl-005085.{u_1, u_2} V hV')",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005085"
+      ],
+      "structural_type_hash": "765401778",
+      "temporary_id": "decl-005087"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G] {V W : FDRep.{u_1, u_2} k G}\n  (hV : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V) (hW : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} W),\n  Iff (Eq.{max (u_1 + 2) (u_2 + 1)} (decl-005085.{u_1, u_2} V hV) (decl-005085.{u_1, u_2} W hW))\n    (Nonempty.{u_1 + 1} (CategoryTheory.Iso.{u_1, max (u_1 + 1) u_2} V W))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005085"
+      ],
+      "structural_type_hash": "280690061",
+      "temporary_id": "decl-005088"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G] {V W : FDRep.{u_1, u_2} k G}\n  (hV : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V) (hW : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} W)\n  (e : CategoryTheory.Iso.{u_1, max (u_1 + 1) u_2} V W),\n  Eq.{max (u_1 + 2) (u_2 + 1)} (decl-005085.{u_1, u_2} V hV) (decl-005085.{u_1, u_2} W hW)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005085"
+      ],
+      "structural_type_hash": "22437203",
+      "temporary_id": "decl-005089"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  (c : decl-005067.{u_1, u_2} k G),\n  Eq.{max (u_1 + 2) (u_2 + 1)} (decl-005085.{u_1, u_2} (decl-005096.{u_1, u_2} c) \u22ef) c",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005079",
+        "decl-005085",
+        "decl-005096"
+      ],
+      "structural_type_hash": "1947002130",
+      "temporary_id": "decl-005090"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  (c : decl-005067.{u_1, u_2} k G)\n  (h : CategoryTheory.Simple.{u_1, max u_2 (u_1 + 1)} (decl-005096.{u_1, u_2} c)),\n  Eq.{max (u_1 + 2) (u_2 + 1)} (decl-005085.{u_1, u_2} (decl-005096.{u_1, u_2} c) h) c",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005085",
+        "decl-005096"
+      ],
+      "structural_type_hash": "3032867596",
+      "temporary_id": "decl-005091"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G],\n  Function.Surjective.{max (u_1 + 2) (u_2 + 1), max (u_2 + 1) (u_1 + 2)} fun P =>\n    decl-005085.{u_1, u_2} (CategoryTheory.ObjectProperty.FullSubcategory.obj.{u_1, max (u_1 + 1) u_2} P) \u22ef",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005085",
+        "decl-015610"
+      ],
+      "structural_type_hash": "3522914664",
+      "temporary_id": "decl-005092"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G] {V : FDRep.{u_1, u_2} k G}\n  (hV : CategoryTheory.Simple.{u_1, max (u_1 + 1) u_2} V),\n  Nonempty.{u_1 + 1}\n    (CategoryTheory.Iso.{u_1, max u_2 (u_1 + 1)}\n      (decl-005096.{u_1, u_2} (decl-005085.{u_1, u_2} V hV)) V)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005085",
+        "decl-005096"
+      ],
+      "structural_type_hash": "464381813",
+      "temporary_id": "decl-005093"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Monoid.{u_2} G]\n  (c d : decl-005067.{u_1, u_2} k G),\n  Iff\n    (Nonempty.{u_1 + 1}\n      (CategoryTheory.Iso.{u_1, max u_2 (u_1 + 1)} (decl-005096.{u_1, u_2} c)\n        (decl-005096.{u_1, u_2} d)))\n    (Eq.{max (u_1 + 2) (u_2 + 1)} c d)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005096"
+      ],
+      "structural_type_hash": "3250231744",
+      "temporary_id": "decl-005094"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192 [inst_1 : Monoid.{u_2} G] \u2192 decl-005067.{u_1, u_2} k G \u2192 FDRep.{u_1, u_2} k G",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-005067"
+      ],
+      "structural_type_hash": "3299299570",
+      "temporary_id": "decl-005096"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Monoid.{u_2} G] \u2192\n        {P Q : decl-015610.{u_1, u_2} k G} \u2192\n          CategoryTheory.Iso.{u_1, max (u_1 + 1) u_2}\n              (CategoryTheory.ObjectProperty.FullSubcategory.obj.{u_1, max (u_1 + 1) u_2} P)\n              (CategoryTheory.ObjectProperty.FullSubcategory.obj.{u_1, max (u_1 + 1) u_2} Q) \u2192\n            CategoryTheory.Iso.{u_1, max (u_1 + 1) u_2} P Q",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005067",
+      "project_type_dependencies": [
+        "decl-015610"
+      ],
+      "structural_type_hash": "2080117318",
+      "temporary_id": "decl-005097"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 (G : Type u_2) \u2192 [Field.{u_1} k] \u2192 [Monoid.{u_2} G] \u2192 Type (max (u_1 + 1) u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "950780851",
+      "temporary_id": "decl-015610"
+    }
+  ],
+  "module_temporary_id": "module-0783",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

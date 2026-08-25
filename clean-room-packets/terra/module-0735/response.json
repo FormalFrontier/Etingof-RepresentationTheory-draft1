@@ -1,0 +1,75 @@
+{
+  "declarations": [
+    {
+      "docstring": "The component type attached to a module.",
+      "new_name": "componentType",
+      "temporary_id": "decl-006031"
+    },
+    {
+      "docstring": "Maps an element to finitely supported natural-number component data.",
+      "new_name": "componentData",
+      "temporary_id": "decl-006032"
+    },
+    {
+      "docstring": "The component-data map is injective.",
+      "new_name": "componentData_injective",
+      "temporary_id": "decl-006049"
+    },
+    {
+      "docstring": "The nth component of a pure tensor is the tensor of the nth image of its first factor with its second factor.",
+      "new_name": "componentData_tmul_apply",
+      "temporary_id": "decl-006058"
+    },
+    {
+      "docstring": "Maps an algebra element to finitely supported natural-number degree data.",
+      "new_name": "degreeData",
+      "temporary_id": "decl-006226"
+    },
+    {
+      "docstring": "The degree-data map agrees pointwise with the comparison map.",
+      "new_name": "degreeData_eq_comparisonMap",
+      "temporary_id": "decl-006229"
+    },
+    {
+      "docstring": "The degree-data map turns multiplication by a vertex-indexed scalar function into scalar multiplication.",
+      "new_name": "degreeData_mul_vertexFunction",
+      "temporary_id": "decl-006231"
+    },
+    {
+      "docstring": "Each natural-number component commutes with multiplication by a vertex-indexed scalar function.",
+      "new_name": "degreeComponent_mul_vertexFunction",
+      "temporary_id": "decl-006240"
+    },
+    {
+      "docstring": "Builds an algebra element from finitely supported natural-number degree data.",
+      "new_name": "ofDegreeData",
+      "temporary_id": "decl-006249"
+    },
+    {
+      "docstring": "The reconstruction map agrees pointwise with the comparison map.",
+      "new_name": "ofDegreeData_eq_comparisonMap",
+      "temporary_id": "decl-006252"
+    },
+    {
+      "docstring": "Reconstructing after taking degree data is the identity.",
+      "new_name": "ofDegreeData_comp_degreeData",
+      "temporary_id": "decl-006253"
+    },
+    {
+      "docstring": "Multiplying the element indexed by x by the image of s scales it by s at the displayed vertex of x.",
+      "new_name": "indexedElement_mul_vertexFunction",
+      "temporary_id": "decl-006295"
+    },
+    {
+      "docstring": "Right multiplication by the element indexed by the length-zero path at i returns the indexed element when its displayed vertex is i, and zero otherwise.",
+      "new_name": "indexedElement_mul_nilPath",
+      "temporary_id": "decl-006296"
+    },
+    {
+      "docstring": "Multiplying a singleton-supported element by a vertex scalar function scales its coefficient at the displayed vertex.",
+      "new_name": "single_mul_vertexFunction",
+      "temporary_id": "decl-006372"
+    }
+  ],
+  "module_name": "Grading"
+}

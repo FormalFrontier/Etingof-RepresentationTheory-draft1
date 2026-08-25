@@ -1,0 +1,94 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (\u03b1 : Fin n \u2192 Int),\n      decl-005212 n adj \u03b1 \u2192\n        \u2200 (k : Type u) [inst : Field.{u} k] {Q : Quiver.{0, 0} (Fin n)},\n          decl-005208.{0} Q adj \u2192\n            \u2200 [\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)],\n              Exists.{u + 2} fun \u03c1 =>\n                Exists.{0} fun x =>\n                  Exists.{0} fun x =>\n                    And (decl-014923.{u, 0, 0, u} \u03c1)\n                      (\u2200 (v : Fin n),\n                        Eq.{1} (\u03b1 v)\n                          (Nat.cast.{0} (Module.finrank.{u, u} k (decl-014996.{u, 0, u, 0} \u03c1 v))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-005208",
+        "decl-005212",
+        "decl-014909",
+        "decl-014923",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "3425610471",
+      "temporary_id": "decl-001460"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (p : Fin n) (k : Type u) [inst : Field.{u} k] {Q : Quiver.{u_1, 0} (Fin n)},\n  Exists.{max (u + 2) (u_1 + 1)} fun \u03c1 =>\n    Exists.{0} fun x =>\n      Exists.{0} fun x =>\n        And (decl-014923.{u, 0, u_1, u} \u03c1)\n          (\u2200 (v : Fin n),\n            Eq.{1} (decl-023199 n p v)\n              (Nat.cast.{0} (Module.finrank.{u, u} k (decl-014996.{u, 0, u, u_1} \u03c1 v))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014923",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996",
+        "decl-023199"
+      ],
+      "structural_type_hash": "377515541",
+      "temporary_id": "decl-001468"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommSemiring.{u_1} k] \u2192\n    {n : Nat} \u2192 Fin n \u2192 {Q : Quiver.{u_2, 0} (Fin n)} \u2192 decl-014909.{u_1, 0, u_1, u_2} k (Fin n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909"
+      ],
+      "structural_type_hash": "1326488313",
+      "temporary_id": "decl-023196"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommSemiring.{u_1} k] {n : Nat} (p : Fin n) {Q : Quiver.{u_2, 0} (Fin n)} (v : Fin n),\n  Module.Finite.{u_1, u_1} k\n    (decl-014996.{u_1, 0, u_1, u_2} (decl-023196.{u_1, u_2} k p) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014980",
+        "decl-014985",
+        "decl-014996",
+        "decl-023196"
+      ],
+      "structural_type_hash": "1708756366",
+      "temporary_id": "decl-023197"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommSemiring.{u_1} k] {n : Nat} (p : Fin n) {Q : Quiver.{u_2, 0} (Fin n)} (v : Fin n),\n  Module.Free.{u_1, u_1} k\n    (decl-014996.{u_1, 0, u_1, u_2} (decl-023196.{u_1, u_2} k p) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014980",
+        "decl-014985",
+        "decl-014996",
+        "decl-023196"
+      ],
+      "structural_type_hash": "2932605116",
+      "temporary_id": "decl-023198"
+    }
+  ],
+  "module_temporary_id": "module-0495",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

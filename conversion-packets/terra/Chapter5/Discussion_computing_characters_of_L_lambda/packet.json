@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_computing_characters_of_L_lambda",
+    "kind": "discussion",
+    "title": "Computing characters of L_lambda via Schur-Weyl duality",
+    "node_id": "chapter-05/section-5-22",
+    "order": 366,
+    "slug": "discussion-computing-characters-of-l-lambda",
+    "span": {
+      "start": {
+        "page": "132",
+        "line": 17
+      },
+      "end": {
+        "page": "132",
+        "line": 32
+      }
+    },
+    "source_sha256": "56e09a9600b28093a8c9f3380c8b982a95bd6e2bf150eae666c9cc40bf50c11c",
+    "features": {
+      "line_count": 16,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionComputingCharactersOfLLambda",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

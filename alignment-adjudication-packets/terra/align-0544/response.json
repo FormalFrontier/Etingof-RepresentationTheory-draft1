@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0544",
+  "associations": [
+    {
+      "association_id": "association:630f4df8f495c0e1e552",
+      "rationale": "The type directly states the bracket relation [X,Y] = Y, but not that X,Y form a basis of a two-dimensional algebra or that the algebra is solvable.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6f7a980f95feac0f7581",
+      "rationale": "This only gives the type of the named Lie subalgebra g and does not state its dimension, basis, bracket relation, or solvability.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:51373e0a40ed7fba64ea",
+      "rationale": "The type directly supplies solvability of the named subalgebra, but does not state the source's two-dimensional basis and bracket assertions.",
+      "role": "supporting"
+    }
+  ]
+}

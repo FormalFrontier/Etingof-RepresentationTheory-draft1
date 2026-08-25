@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0333",
+  "associations": [
+    {
+      "association_id": "association:4441950854cb52a9735f",
+      "rationale": "For positive n, the formal type directly states that the displayed character has value p^n - 1 at the identity and that this value is positive.",
+      "role": "primary"
+    }
+  ]
+}

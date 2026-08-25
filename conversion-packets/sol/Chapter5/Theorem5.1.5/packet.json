@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.1.5",
+    "kind": "theorem",
+    "title": "Frobenius-Schur theorem: involutions equal sum of dim(V)*FS(V)",
+    "node_id": "chapter-05/section-5-1",
+    "order": 249,
+    "slug": "theorem5-1-5",
+    "span": {
+      "start": {
+        "page": "94",
+        "line": 9
+      },
+      "end": {
+        "page": "95",
+        "line": 20
+      }
+    },
+    "source_sha256": "761f71ab306098bae6f0e8a64996e7d5e55e8083a7cf62c5267129e38be60e72",
+    "features": {
+      "line_count": 27,
+      "crosses_page": true,
+      "display_math_delimiters": 14,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem515",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

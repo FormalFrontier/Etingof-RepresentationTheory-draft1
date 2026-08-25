@@ -1,0 +1,15 @@
+{
+  "module_name": "AuxiliaryFiniteSetMembership",
+  "declarations": [
+    {
+      "temporary_id": "decl-000468",
+      "new_name": "auxiliary_finset_card_eq_twelve",
+      "docstring": "The auxiliary finite set has cardinality twelve."
+    },
+    {
+      "temporary_id": "decl-003731",
+      "new_name": "auxiliary_value_mem_finset_of_property",
+      "docstring": "The associated value of an object satisfying the auxiliary property belongs to the auxiliary finite set."
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N : Nat) {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{0, u_1} k M] {d : Nat} (b : Module.Basis.{0, 0, u_1} (Fin d) k M)\n  (P : Fin d \u2192 Fin d \u2192 MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k)\n  (T : LinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} k) M M) (s : Prod.{0, 0} (Fin N) (Fin N) \u2192 k),\n  (\u2200 (a c : Fin d),\n      Eq.{1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Module.Basis.coord.{0, 0, u_1} b a)\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} T (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} b c)))\n        (DFunLike.coe.{1, 1, 1} (MvPolynomial.eval.{0, 0} s) (P a c))) \u2192\n    \u2200 (a : Fin d) (x : M),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1} (MvPolynomial.eval.{0, 0} s)\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (decl-006727.{u_1} k N b P a) x))\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Module.Basis.coord.{0, 0, u_1} b a)\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} T x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006727"
+      ],
+      "structural_type_hash": "2455378336",
+      "temporary_id": "decl-006724"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N : Nat) (g h : Matrix.{0, 0, 0} (Fin N) (Fin N) k)\n  (p : MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (MvPolynomial.eval.{0, 0} fun ij => h (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij))\n      (DFunLike.coe.{1, 1, 1} (decl-006769.{0} k N g) p))\n    (DFunLike.coe.{1, 1, 1}\n      (MvPolynomial.eval.{0, 0} fun ij => HMul.hMul.{0, 0, 0} h g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij)) p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006769"
+      ],
+      "structural_type_hash": "2624346433",
+      "temporary_id": "decl-006725"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N : Nat) {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{0, u_1} k M] [Infinite.{1} k] {d : Nat} (b : Module.Basis.{0, 0, u_1} (Fin d) k M)\n  (P : Fin d \u2192 Fin d \u2192 MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k)\n  (\u03c1 :\n    MonoidHom.{0, u_1} (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)\n      (LinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} k) M M)),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c : Fin d),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Module.Basis.repr.{0, 0, u_1} b)\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g)\n              (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} b c)))\n          a)\n        (DFunLike.coe.{1, 1, 1}\n          (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij)) (P a c))) \u2192\n    \u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c' : Fin d),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1} (decl-006769.{0} k N (Units.val.{0} g)) (P a c'))\n        (Finset.sum.{0, 0} Finset.univ.{0} fun c =>\n          HSMul.hSMul.{0, 0, 0}\n            (DFunLike.coe.{1, 1, 1}\n              (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij)) (P c c'))\n            (P a c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006769"
+      ],
+      "structural_type_hash": "1304476763",
+      "temporary_id": "decl-006726"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    (N : Nat) \u2192\n      {M : Type u_1} \u2192\n        [inst_1 : AddCommGroup.{u_1} M] \u2192\n          [inst_2 : Module.{0, u_1} k M] \u2192\n            {d : Nat} \u2192\n              Module.Basis.{0, 0, u_1} (Fin d) k M \u2192\n                (Fin d \u2192 Fin d \u2192 MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k) \u2192\n                  Fin d \u2192\n                    LinearMap.{0, 0, u_1, 0} (RingHom.id.{0} k) M (MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2142762183",
+      "temporary_id": "decl-006727"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N : Nat) {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{0, u_1} k M] {d : Nat} (b : Module.Basis.{0, 0, u_1} (Fin d) k M)\n  (P : Fin d \u2192 Fin d \u2192 MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k) (a : Fin d) (x : M),\n  Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (decl-006727.{u_1} k N b P a) x)\n    (Finset.sum.{0, 0} Finset.univ.{0} fun c =>\n      HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Module.Basis.coord.{0, 0, u_1} b c) x) (P a c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006727"
+      ],
+      "structural_type_hash": "2876067495",
+      "temporary_id": "decl-006729"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N n : Nat) {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{0, u_1} k M] {d : Nat} (b : Module.Basis.{0, 0, u_1} (Fin d) k M)\n  (P : Fin d \u2192 Fin d \u2192 MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k),\n  (\u2200 (a c : Fin d), MvPolynomial.IsHomogeneous.{0, 0} (P a c) n) \u2192\n    \u2200 (a : Fin d) (x : M),\n      Membership.mem.{0, 0} (MvPolynomial.homogeneousSubmodule.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k n)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (decl-006727.{u_1} k N b P a) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006727"
+      ],
+      "structural_type_hash": "1874072913",
+      "temporary_id": "decl-006730"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N : Nat) {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{0, u_1} k M] {d : Nat} (b : Module.Basis.{0, 0, u_1} (Fin d) k M)\n  (P : Fin d \u2192 Fin d \u2192 MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k)\n  (\u03c1 :\n    MonoidHom.{0, u_1} (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)\n      (LinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} k) M M)),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c : Fin d),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Module.Basis.repr.{0, 0, u_1} b)\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g)\n              (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} b c)))\n          a)\n        (DFunLike.coe.{1, 1, 1}\n          (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij)) (P a c))) \u2192\n    (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c' : Fin d),\n        Eq.{1}\n          (DFunLike.coe.{1, 1, 1} (decl-006769.{0} k N (Units.val.{0} g)) (P a c'))\n          (Finset.sum.{0, 0} Finset.univ.{0} fun c =>\n            HSMul.hSMul.{0, 0, 0}\n              (DFunLike.coe.{1, 1, 1}\n                (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij)) (P c c'))\n              (P a c))) \u2192\n      \u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a : Fin d) (x : M),\n        Eq.{1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (decl-006727.{u_1} k N b P a)\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g) x))\n          (DFunLike.coe.{1, 1, 1} (decl-006769.{0} k N (Units.val.{0} g))\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (decl-006727.{u_1} k N b P a) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006727",
+        "decl-006769"
+      ],
+      "structural_type_hash": "2109496654",
+      "temporary_id": "decl-006731"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    (N n : Nat) \u2192\n      {M : Type u_1} \u2192\n        [inst_1 : AddCommGroup.{u_1} M] \u2192\n          [inst_2 : Module.{0, u_1} k M] \u2192\n            {d : Nat} \u2192\n              [CharZero.{0} k] \u2192\n                Module.Basis.{0, 0, u_1} (Fin d) k M \u2192\n                  (P : Fin d \u2192 Fin d \u2192 MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k) \u2192\n                    (\u2200 (a c : Fin d), MvPolynomial.IsHomogeneous.{0, 0} (P a c) n) \u2192\n                      LinearMap.{0, 0, u_1, 0} (RingHom.id.{0} k) M\n                        (Prod.{0, 0} (Fin d) (Fin n \u2192 Fin N) \u2192\n                          decl-016473.{0, 0} k (decl-006759.{0} k N) n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006759",
+        "decl-016473"
+      ],
+      "structural_type_hash": "4171397475",
+      "temporary_id": "decl-006732"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N n : Nat) {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{0, u_1} k M] {d : Nat} [inst_3 : CharZero.{0} k] (b : Module.Basis.{0, 0, u_1} (Fin d) k M)\n  (P : Fin d \u2192 Fin d \u2192 MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k)\n  (hhom : \u2200 (a c : Fin d), MvPolynomial.IsHomogeneous.{0, 0} (P a c) n) (x : M)\n  (p : Prod.{0, 0} (Fin d) (Fin n \u2192 Fin N)),\n  Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (decl-006732.{u_1} k N n b P hhom) x p)\n    (DFunLike.coe.{1, 1, 1} (decl-006748 k N n)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, 1}\n        (decl-006736.{u_1} k N n b P hhom (Prod.fst.{0, 0} p)) x)\n      (Prod.snd.{0, 0} p))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006732",
+        "decl-006736",
+        "decl-006748",
+        "decl-006757",
+        "decl-006758",
+        "decl-006759",
+        "decl-016473"
+      ],
+      "structural_type_hash": "1811739722",
+      "temporary_id": "decl-006734"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N n : Nat) {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{0, u_1} k M] [inst_3 : CharZero.{0} k] {d : Nat} (b : Module.Basis.{0, 0, u_1} (Fin d) k M)\n  (P : Fin d \u2192 Fin d \u2192 MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k)\n  (hhom : \u2200 (a c : Fin d), MvPolynomial.IsHomogeneous.{0, 0} (P a c) n)\n  (\u03c1 :\n    MonoidHom.{0, u_1} (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)\n      (LinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} k) M M)),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c : Fin d),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Module.Basis.repr.{0, 0, u_1} b)\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g)\n              (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} b c)))\n          a)\n        (DFunLike.coe.{1, 1, 1}\n          (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij)) (P a c))) \u2192\n    (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c' : Fin d),\n        Eq.{1}\n          (DFunLike.coe.{1, 1, 1} (decl-006769.{0} k N (Units.val.{0} g)) (P a c'))\n          (Finset.sum.{0, 0} Finset.univ.{0} fun c =>\n            HSMul.hSMul.{0, 0, 0}\n              (DFunLike.coe.{1, 1, 1}\n                (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij)) (P c c'))\n              (P a c))) \u2192\n      \u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (x : M) (p : Prod.{0, 0} (Fin d) (Fin n \u2192 Fin N)),\n        Eq.{1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (decl-006732.{u_1} k N n b P hhom)\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g) x) p)\n          (DFunLike.coe.{1, 1, 1}\n            (PiTensorProduct.map.{0, 0, 0, 0} fun x => DFunLike.coe.{1, 1, 1} Matrix.toLin'.{0, 0, 0} (Units.val.{0} g))\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (decl-006732.{u_1} k N n b P hhom) x\n              p))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006732",
+        "decl-006759",
+        "decl-006769",
+        "decl-016473"
+      ],
+      "structural_type_hash": "1025459395",
+      "temporary_id": "decl-006735"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    (N n : Nat) \u2192\n      {M : Type u_1} \u2192\n        [inst_1 : AddCommGroup.{u_1} M] \u2192\n          [inst_2 : Module.{0, u_1} k M] \u2192\n            {d : Nat} \u2192\n              [CharZero.{0} k] \u2192\n                Module.Basis.{0, 0, u_1} (Fin d) k M \u2192\n                  (P : Fin d \u2192 Fin d \u2192 MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k) \u2192\n                    (\u2200 (a c : Fin d), MvPolynomial.IsHomogeneous.{0, 0} (P a c) n) \u2192\n                      Fin d \u2192\n                        LinearMap.{0, 0, u_1, 0} (RingHom.id.{0} k) M\n                          (decl-006757.{0} k N n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006757",
+        "decl-006758",
+        "decl-006759",
+        "decl-016473"
+      ],
+      "structural_type_hash": "3321795747",
+      "temporary_id": "decl-006736"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N n : Nat) {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{0, u_1} k M] {d : Nat} [inst_3 : CharZero.{0} k] (b : Module.Basis.{0, 0, u_1} (Fin d) k M)\n  (P : Fin d \u2192 Fin d \u2192 MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k)\n  (hhom : \u2200 (a c : Fin d), MvPolynomial.IsHomogeneous.{0, 0} (P a c) n) (a : Fin d) (x : M),\n  Iff\n    (Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (decl-006736.{u_1} k N n b P hhom a) x)\n      0)\n    (Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (decl-006727.{u_1} k N b P a) x) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006727",
+        "decl-006736",
+        "decl-006757",
+        "decl-006758",
+        "decl-006759",
+        "decl-016473"
+      ],
+      "structural_type_hash": "2109084575",
+      "temporary_id": "decl-006738"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N n : Nat) {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{0, u_1} k M] [inst_3 : CharZero.{0} k] {d : Nat} (b : Module.Basis.{0, 0, u_1} (Fin d) k M)\n  (P : Fin d \u2192 Fin d \u2192 MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k)\n  (hhom : \u2200 (a c : Fin d), MvPolynomial.IsHomogeneous.{0, 0} (P a c) n)\n  (\u03c1 :\n    MonoidHom.{0, u_1} (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)\n      (LinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} k) M M)),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c : Fin d),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Module.Basis.repr.{0, 0, u_1} b)\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g)\n              (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} b c)))\n          a)\n        (DFunLike.coe.{1, 1, 1}\n          (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij)) (P a c))) \u2192\n    (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c' : Fin d),\n        Eq.{1}\n          (DFunLike.coe.{1, 1, 1} (decl-006769.{0} k N (Units.val.{0} g)) (P a c'))\n          (Finset.sum.{0, 0} Finset.univ.{0} fun c =>\n            HSMul.hSMul.{0, 0, 0}\n              (DFunLike.coe.{1, 1, 1}\n                (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij)) (P c c'))\n              (P a c))) \u2192\n      \u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a : Fin d) (x : M),\n        Eq.{1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (decl-006736.{u_1} k N n b P hhom a)\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g) x))\n          (DFunLike.coe.{1, 1, 1} (decl-006801.{0} k N n (Units.val.{0} g))\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (decl-006736.{u_1} k N n b P hhom a)\n              x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006736",
+        "decl-006757",
+        "decl-006758",
+        "decl-006759",
+        "decl-006769",
+        "decl-006801",
+        "decl-016473"
+      ],
+      "structural_type_hash": "2666065583",
+      "temporary_id": "decl-006739"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N n : Nat) {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{0, u_1} k M] [CharZero.{0} k] [inst_4 : Module.Finite.{0, u_1} k M]\n  (\u03c1 :\n    MonoidHom.{0, u_1} (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)\n      (LinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} k) M M)),\n  decl-005106.{0, u_1} N (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1) \u2192\n    (Exists.{1} fun d =>\n        Exists.{u_1 + 1} fun b =>\n          Exists.{1} fun P =>\n            And (\u2200 (a c : Fin d), MvPolynomial.IsHomogeneous.{0, 0} (P a c) n)\n              (And\n                (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c : Fin d),\n                  Eq.{1}\n                    (DFunLike.coe.{1, 1, 1}\n                      (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Module.Basis.repr.{0, 0, u_1} b)\n                        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g)\n                          (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} b c)))\n                      a)\n                    (DFunLike.coe.{1, 1, 1}\n                      (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij))\n                      (P a c)))\n                (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c' : Fin d),\n                  Eq.{1}\n                    (DFunLike.coe.{1, 1, 1} (decl-006769.{0} k N (Units.val.{0} g))\n                      (P a c'))\n                    (Finset.sum.{0, 0} Finset.univ.{0} fun c =>\n                      HSMul.hSMul.{0, 0, 0}\n                        (DFunLike.coe.{1, 1, 1}\n                          (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij))\n                          (P c c'))\n                        (P a c))))) \u2192\n      Exists.{1} fun m =>\n        Exists.{u_1 + 1} fun \u03c6 =>\n          And (Function.Injective.{u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c6))\n            (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (x : M) (i : Fin m),\n              Eq.{1}\n                (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c6\n                  (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g) x) i)\n                (DFunLike.coe.{1, 1, 1}\n                  (PiTensorProduct.map.{0, 0, 0, 0} fun x =>\n                    DFunLike.coe.{1, 1, 1} Matrix.toLin'.{0, 0, 0} (Units.val.{0} g))\n                  (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c6 x i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-006759",
+        "decl-006769",
+        "decl-016473"
+      ],
+      "structural_type_hash": "3072714641",
+      "temporary_id": "decl-006740"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N : Nat) {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{0, u_1} k M] (n : Nat) [CharZero.{0} k] [inst_4 : Module.Finite.{0, u_1} k M]\n  (\u03c1 :\n    MonoidHom.{0, u_1} (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)\n      (LinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} k) M M)),\n  decl-005106.{0, u_1} N (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1) \u2192\n    (Exists.{1} fun d =>\n        Exists.{u_1 + 1} fun b =>\n          Exists.{1} fun P =>\n            And (\u2200 (a c : Fin d), MvPolynomial.IsHomogeneous.{0, 0} (P a c) n)\n              (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c : Fin d),\n                Eq.{1}\n                  (DFunLike.coe.{1, 1, 1}\n                    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Module.Basis.repr.{0, 0, u_1} b)\n                      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g)\n                        (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} b c)))\n                    a)\n                  (DFunLike.coe.{1, 1, 1}\n                    (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij))\n                    (P a c)))) \u2192\n      Exists.{1} fun m =>\n        Exists.{u_1 + 1} fun \u03c6 =>\n          And (Function.Injective.{u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c6))\n            (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (x : M) (i : Fin m),\n              Eq.{1}\n                (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c6\n                  (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g) x) i)\n                (DFunLike.coe.{1, 1, 1}\n                  (PiTensorProduct.map.{0, 0, 0, 0} fun x =>\n                    DFunLike.coe.{1, 1, 1} Matrix.toLin'.{0, 0, 0} (Units.val.{0} g))\n                  (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c6 x i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-006759",
+        "decl-016473"
+      ],
+      "structural_type_hash": "3309911191",
+      "temporary_id": "decl-006741"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N n : Nat) {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{0, u_1} k M] [CharZero.{0} k] [inst_4 : Module.Finite.{0, u_1} k M]\n  (\u03c1 :\n    MonoidHom.{0, u_1} (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)\n      (LinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} k) M M)),\n  decl-005106.{0, u_1} N (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1) \u2192\n    (Exists.{1} fun d =>\n        Exists.{u_1 + 1} fun b =>\n          Exists.{1} fun P =>\n            And (\u2200 (a c : Fin d), MvPolynomial.IsHomogeneous.{0, 0} (P a c) n)\n              (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c : Fin d),\n                Eq.{1}\n                  (DFunLike.coe.{1, 1, 1}\n                    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Module.Basis.repr.{0, 0, u_1} b)\n                      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 g)\n                        (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} b c)))\n                    a)\n                  (DFunLike.coe.{1, 1, 1}\n                    (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij))\n                    (P a c)))) \u2192\n      Exists.{1} fun m =>\n        Exists.{u_1 + 1} fun \u03c6 => Function.Injective.{u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-006759",
+        "decl-016473"
+      ],
+      "structural_type_hash": "1121345686",
+      "temporary_id": "decl-006742"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N : Nat) {n : Nat} [CharZero.{0} k] [inst_2 : IsAlgClosed.{0} k]\n  (M : FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)),\n  decl-005106.{0, 0} N (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} M)) \u2192\n    Eq.{1} (iSup.{0, 1} fun \u03bc => decl-019844.{0} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i) Top.top.{0} \u2192\n      (\u2200 (\u03bc : Fin N \u2192 Nat),\n          Ne.{1} (decl-019844.{0} k N M \u03bc) Bot.bot.{0} \u2192\n            Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun i => \u03bc i) n) \u2192\n        Exists.{1} fun d =>\n          Exists.{1} fun b =>\n            Exists.{1} fun P =>\n              And (\u2200 (a c : Fin d), MvPolynomial.IsHomogeneous.{0, 0} (P a c) n)\n                (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (a c : Fin d),\n                  Eq.{1}\n                    (DFunLike.coe.{1, 1, 1}\n                      (DFunLike.coe.{1, 1, 1} (Module.Basis.repr.{0, 0, 0} b)\n                        (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} M) g)\n                          (DFunLike.coe.{1, 1, 1} b c)))\n                      a)\n                    (DFunLike.coe.{1, 1, 1}\n                      (MvPolynomial.eval.{0, 0} fun ij => Units.val.{0} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij))\n                      (P a c)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-019844"
+      ],
+      "structural_type_hash": "2263869649",
+      "temporary_id": "decl-006743"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N : Nat) {n : Nat} [CharZero.{0} k] [inst_2 : IsAlgClosed.{0} k]\n  (M : FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)),\n  decl-005106.{0, 0} N (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} M)) \u2192\n    Eq.{1} (iSup.{0, 1} fun \u03bc => decl-019844.{0} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i) Top.top.{0} \u2192\n      (\u2200 (\u03bc : Fin N \u2192 Nat),\n          Ne.{1} (decl-019844.{0} k N M \u03bc) Bot.bot.{0} \u2192\n            Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun i => \u03bc i) n) \u2192\n        Exists.{1} fun m =>\n          Exists.{1} fun \u03c6 =>\n            And (Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} \u03c6))\n              (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)\n                (x : FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} M)) (i : Fin m),\n                Eq.{1}\n                  (DFunLike.coe.{1, 1, 1} \u03c6 (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} M) g) x) i)\n                  (DFunLike.coe.{1, 1, 1}\n                    (PiTensorProduct.map.{0, 0, 0, 0} fun x =>\n                      DFunLike.coe.{1, 1, 1} Matrix.toLin'.{0, 0, 0} (Units.val.{0} g))\n                    (DFunLike.coe.{1, 1, 1} \u03c6 x i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-006759",
+        "decl-016473",
+        "decl-019844"
+      ],
+      "structural_type_hash": "3287277223",
+      "temporary_id": "decl-006744"
+    },
+    {
+      "formal_type": "(k : Type) \u2192 [inst : Field.{0} k] \u2192 (N : Nat) \u2192 Units.{0} k \u2192 Matrix.GeneralLinearGroup.{0, 0} (Fin N) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2600222165",
+      "temporary_id": "decl-006745"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    (N n : Nat) \u2192\n      LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) (decl-006757.{0} k N n)\n        ((Fin n \u2192 Fin N) \u2192 decl-016473.{0, 0} k (decl-006759.{0} k N) n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006757",
+        "decl-006758",
+        "decl-006759",
+        "decl-016473"
+      ],
+      "structural_type_hash": "254582281",
+      "temporary_id": "decl-006748"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (N n : Nat) (g : Matrix.{0, 0, 0} (Fin N) (Fin N) k)\n  (z : decl-006757.{0} k N n) (j : Fin n \u2192 Fin N),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-006748 k N n)\n      (DFunLike.coe.{1, 1, 1} (decl-006801.{0} k N n g) z) j)\n    (DFunLike.coe.{1, 1, 1} (PiTensorProduct.map.{0, 0, 0, 0} fun x => DFunLike.coe.{1, 1, 1} Matrix.toLin'.{0, 0, 0} g)\n      (DFunLike.coe.{1, 1, 1} (decl-006748 k N n) z j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006748",
+        "decl-006757",
+        "decl-006758",
+        "decl-006759",
+        "decl-006801",
+        "decl-016473"
+      ],
+      "structural_type_hash": "474382364",
+      "temporary_id": "decl-006756"
+    }
+  ],
+  "module_temporary_id": "module-0373",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

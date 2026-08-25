@@ -1,0 +1,105 @@
+{
+  "module_name": "PartitionedDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-000890",
+      "new_name": "toDecompositionData",
+      "docstring": "Constructs decomposition data from an auxiliary input."
+    },
+    {
+      "temporary_id": "decl-005801",
+      "new_name": "DecompositionData",
+      "docstring": "Data indexed by submodules and embedded partitions."
+    },
+    {
+      "temporary_id": "decl-005806",
+      "new_name": "linearEquiv_apply_subalgebra",
+      "docstring": "The decomposition equivalence commutes with the action of an algebra element."
+    },
+    {
+      "temporary_id": "decl-005807",
+      "new_name": "linearEquiv_apply_centralizer",
+      "docstring": "The decomposition equivalence commutes with the action of a centralizer element."
+    },
+    {
+      "temporary_id": "decl-005818",
+      "new_name": "linearEquiv",
+      "docstring": "The linear equivalence from the ambient module to the indexed direct sum."
+    },
+    {
+      "temporary_id": "decl-016580",
+      "new_name": "Auxiliary.statement016580",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-016581",
+      "new_name": "existsTensorProductDecomposition",
+      "docstring": "There is a tensor-product direct-sum decomposition with simple or subsingleton summands."
+    },
+    {
+      "temporary_id": "decl-017732",
+      "new_name": "card_le_card_partitions",
+      "docstring": "A pairwise inequivalent finite family of simple modules has cardinality bounded by the partitions."
+    },
+    {
+      "temporary_id": "decl-018399",
+      "new_name": "DirectSum.linearEquivOfFamily",
+      "docstring": "Builds a linear equivalence of direct sums from fiberwise linear equivalences."
+    },
+    {
+      "temporary_id": "decl-018409",
+      "new_name": "Auxiliary.statement018409",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-018412",
+      "new_name": "DirectSum.tensorProductLinearEquivOfSubsingleton",
+      "docstring": "Identifies the tensor product of two direct sums over a subsingleton index with a direct sum of tensor products."
+    },
+    {
+      "temporary_id": "decl-018419",
+      "new_name": "DirectSum.linearEquivOfUnique",
+      "docstring": "Identifies a direct sum over a unique index type with its distinguished fiber."
+    },
+    {
+      "temporary_id": "decl-020760",
+      "new_name": "invertibleCardPerm",
+      "docstring": "The cardinality of permutations of a finite type is invertible in a characteristic-zero field."
+    },
+    {
+      "temporary_id": "decl-021880",
+      "new_name": "decompositionSubalgebraAction",
+      "docstring": "The linear action on the decomposition induced by an element of the subalgebra."
+    },
+    {
+      "temporary_id": "decl-021882",
+      "new_name": "decompositionCentralizerAction",
+      "docstring": "The linear action on the decomposition induced by an element of the centralizer."
+    },
+    {
+      "temporary_id": "decl-021884",
+      "new_name": "DirectSum.linearEquivReindexByEmbedding",
+      "docstring": "Reindexes an indexed direct sum into partition fibers along an embedding."
+    },
+    {
+      "temporary_id": "decl-023289",
+      "new_name": "existsEquivariantFamily",
+      "docstring": "A pairwise inequivalent family of simple modules admits compatible equivariant maps."
+    },
+    {
+      "temporary_id": "decl-023620",
+      "new_name": "symmetricGroupAlgebraAction",
+      "docstring": "The algebra homomorphism from the permutation monoid algebra into the displayed subalgebra."
+    },
+    {
+      "temporary_id": "decl-023624",
+      "new_name": "symmetricGroupAlgebraAction_surjective",
+      "docstring": "The permutation-algebra action homomorphism is surjective."
+    },
+    {
+      "temporary_id": "decl-023625",
+      "new_name": "symmetricGroupAlgebraAction_coe",
+      "docstring": "Coercing the action homomorphism to the ambient endomorphism algebra gives the displayed map."
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V] (H : Subgroup.{u_1} G) [Subgroup.FiniteIndex.{u_1} H]\n  [FiniteDimensional.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V),\n  Eq.{1}\n    (Module.finrank.{0, max u_1 u_2} Complex\n      (Subtype.{(max u_1 u_2) + 1} fun x =>\n        Membership.mem.{max u_1 u_2, max u_1 u_2}\n          (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1) x))\n    (HMul.hMul.{0, 0, 0} (Module.finrank.{0, u_2} Complex V) (Subgroup.index.{u_1} H))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "57115272",
+      "temporary_id": "decl-015432"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V] (H : Subgroup.{u_1} G) [Subgroup.FiniteIndex.{u_1} H]\n  [FiniteDimensional.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V),\n  Eq.{1} (Module.finrank.{0, max u_2 u_1} Complex (Representation.IndV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1))\n    (HMul.hMul.{0, 0, 0} (Module.finrank.{0, u_2} Complex V) (Subgroup.index.{u_1} H))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3141881531",
+      "temporary_id": "decl-015433"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{0, u_2} Complex V] \u2192\n          (H : Subgroup.{u_1} G) \u2192\n            (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) \u2192\n              LinearEquiv.{0, 0, max u_1 u_2, max u_1 u_2} (RingHom.id.{0} Complex)\n                (Subtype.{(max u_1 u_2) + 1} fun x =>\n                  Membership.mem.{max u_1 u_2, max u_1 u_2}\n                    (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1) x)\n                (Quotient.{u_1 + 1} (QuotientGroup.rightRel.{u_1} H) \u2192 V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2787102260",
+      "temporary_id": "decl-018045"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192 (H : Subgroup.{u_1} G) \u2192 G \u2192 Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "953863943",
+      "temporary_id": "decl-018242"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) (g : G),\n  Eq.{u_1 + 1} (Subtype.val.{u_1 + 1} (decl-018242.{u_1} H g))\n    (HMul.hMul.{u_1, u_1, u_1} g (Inv.inv.{u_1} (Quotient.out.{u_1 + 1} (Quotient.mk''.{u_1 + 1} g))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018242"
+      ],
+      "structural_type_hash": "237228056",
+      "temporary_id": "decl-018244"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{0, u_2} Complex V] \u2192\n          (H : Subgroup.{u_1} G) \u2192\n            [DecidableRel.{u_1 + 1, u_1 + 1} Setoid.r.{u_1 + 1}] \u2192\n              [Subgroup.FiniteIndex.{u_1} H] \u2192\n                (\u03c1 :\n                    Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) \u2192\n                  LinearEquiv.{0, 0, max u_2 u_1, max u_1 u_2} (RingHom.id.{0} Complex)\n                    (Representation.IndV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n                    (Subtype.{(max u_1 u_2) + 1} fun x =>\n                      Membership.mem.{max u_1 u_2, max u_1 u_2}\n                        (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3115885847",
+      "temporary_id": "decl-020519"
+    }
+  ],
+  "module_temporary_id": "module-0416",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

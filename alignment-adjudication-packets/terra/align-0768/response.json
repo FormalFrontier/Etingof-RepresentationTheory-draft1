@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:5d47c8ca69435f7b59a7",
+      "rationale": "This only constructs the row-column left ideal and does not identify it with the Specht module.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:cc7fa84dceb0d212b481",
+      "rationale": "Although the type asserts an equivariant existential map from the row-column ideal, the displayed type omits its codomain and never displays the Specht module, so the requested identification is opaque in the evidence.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0768"
+}

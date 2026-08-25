@@ -1,0 +1,45 @@
+{
+  "module_name": "Algebra.Quiver.LinearRepresentationCategory",
+  "declarations": [
+    {
+      "temporary_id": "decl-014963",
+      "new_name": "comp_component",
+      "docstring": "The vertex component of a composite morphism is the composite of the corresponding linear maps."
+    },
+    {
+      "temporary_id": "decl-014979",
+      "new_name": "id_component",
+      "docstring": "The vertex component of the identity morphism is the identity linear map."
+    },
+    {
+      "temporary_id": "decl-014981",
+      "new_name": "category",
+      "docstring": "The category structure on linear representations of a quiver over a commutative semiring."
+    },
+    {
+      "temporary_id": "decl-015058",
+      "new_name": "comp",
+      "docstring": "Composition of morphisms between linear quiver representations."
+    },
+    {
+      "temporary_id": "decl-015061",
+      "new_name": "comp_apply",
+      "docstring": "The component of a composite representation morphism is the composite of its components."
+    },
+    {
+      "temporary_id": "decl-015063",
+      "new_name": "ext",
+      "docstring": "Two representation morphisms are equal when all of their vertex components are equal."
+    },
+    {
+      "temporary_id": "decl-015065",
+      "new_name": "id",
+      "docstring": "The identity morphism of a linear quiver representation."
+    },
+    {
+      "temporary_id": "decl-015067",
+      "new_name": "id_apply",
+      "docstring": "Each component of the identity representation morphism is the identity linear map."
+    }
+  ]
+}

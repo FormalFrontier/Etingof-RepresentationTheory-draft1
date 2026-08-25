@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Exercise2.11.7",
+    "kind": "exercise",
+    "title": "Tensor product of modules over commutative ring",
+    "node_id": "chapter-02/section-2-11",
+    "order": 108,
+    "slug": "exercise2-11-7",
+    "span": {
+      "start": {
+        "page": "35",
+        "line": 27
+      },
+      "end": {
+        "page": "35",
+        "line": 27
+      }
+    },
+    "source_sha256": "97d5edc2e85bd37c00868e42f75a6c288014cbe26881fbc4dd76948143b82267",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Exercise2117",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1b1af5c5cf805d0ded4a",
+      "declaration": "Etingof.extTprod_isIrreducibleRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/283/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] [IsAlgClosed.{u_2} k] {G : Type u_3} {H : Type u_4} [inst_2 : Group.{u_3} G]\n  [inst_3 : Group.{u_4} H] {V : Type u_5} {W : Type u_6} [inst_4 : AddCommGroup.{u_5} V]\n  [inst_5 : Module.{u_2, u_5} k V] [FiniteDimensional.{u_2, u_5} k V] [inst_7 : AddCommGroup.{u_6} W]\n  [inst_8 : Module.{u_2, u_6} k W] [FiniteDimensional.{u_2, u_6} k W] {\u03c1 : Representation.{u_2, u_3, u_5} k G V}\n  {\u03c3 : Representation.{u_2, u_4, u_6} k H W},\n  Etingof.IsIrreducibleRep.{u_2, u_3, u_5} \u03c1 \u2192\n    Etingof.IsIrreducibleRep.{u_2, u_4, u_6} \u03c3 \u2192\n      Etingof.IsIrreducibleRep.{u_2, max u_3 u_4, max u_5 u_6} (Etingof.extTprod.{u_2, u_3, u_4, u_5, u_6} \u03c1 \u03c3)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_6_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.6.1",
+  "packet_id": "align-0104",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0104"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:212154557b1f327805ca",
+  "source_text": "The external tensor product of irreducible representations of G and H is irreducible over an algebraically closed field of arbitrary characteristic."
+}

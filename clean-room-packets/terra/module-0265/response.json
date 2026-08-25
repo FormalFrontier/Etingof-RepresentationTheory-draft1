@@ -1,0 +1,65 @@
+{
+  "module_name": "Module.IndexedCoordinateProjections",
+  "declarations": [
+    {
+      "temporary_id": "decl-001173",
+      "new_name": "AuxiliaryIndexedFamily",
+      "docstring": "An auxiliary type associated with a type family indexed by `ι`."
+    },
+    {
+      "temporary_id": "decl-001174",
+      "new_name": "exists_smul_eq_ite",
+      "docstring": "For a finite pairwise non-equivalent family of simple modules, an algebra element acts as the identity on one selected member and as zero on every other member."
+    },
+    {
+      "temporary_id": "decl-001175",
+      "new_name": "linearMap_single_apply_eq_zero",
+      "docstring": "An endomorphism of a pairwise non-equivalent family of simple modules sends a vector supported at one index to zero at every distinct index."
+    },
+    {
+      "temporary_id": "decl-001176",
+      "new_name": "coordinateProjection",
+      "docstring": "The linear endomorphism selecting one coordinate of an indexed module family."
+    },
+    {
+      "temporary_id": "decl-001179",
+      "new_name": "coordinateProjection_apply",
+      "docstring": "Selecting coordinate `j` retains only the `j`-th value of the indexed element."
+    },
+    {
+      "temporary_id": "decl-001180",
+      "new_name": "coordinateProjection_commutes",
+      "docstring": "Coordinate selection commutes pointwise with any linear endomorphism of a finite pairwise non-equivalent family of simple modules."
+    },
+    {
+      "temporary_id": "decl-001181",
+      "new_name": "sum_single_apply_eq",
+      "docstring": "A finitely indexed element is the sum of the single-coordinate elements formed from all of its values."
+    },
+    {
+      "temporary_id": "decl-022582",
+      "new_name": "scalarActionAlgHom",
+      "docstring": "The algebra homomorphism sending an algebra element to its scalar action on one member of an indexed module family."
+    },
+    {
+      "temporary_id": "decl-022585",
+      "new_name": "scalarActionAlgHom_apply",
+      "docstring": "Evaluating the scalar-action algebra homomorphism on an element and a vector agrees with scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-024270",
+      "new_name": "moduleTraceLinearMap",
+      "docstring": "The linear functional on the algebra obtained from one member of an indexed module family."
+    },
+    {
+      "temporary_id": "decl-024275",
+      "new_name": "moduleTraceLinearMap_apply",
+      "docstring": "The module trace functional evaluates an algebra element as the trace of its scalar-action endomorphism."
+    },
+    {
+      "temporary_id": "decl-024276",
+      "new_name": "linearIndependent_moduleTraceLinearMap",
+      "docstring": "The trace functionals of a finite pairwise non-equivalent family of finite-dimensional simple modules are linearly independent in characteristic zero."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "module_name": "ConjugationInvariantCharacters",
+  "declarations": [
+    {
+      "temporary_id": "decl-004192",
+      "new_name": "character_eq_auxiliaryMap_apply",
+      "docstring": "A finite-dimensional representation character equals the referenced auxiliary map evaluated on the monoid-algebra image of a group element."
+    },
+    {
+      "temporary_id": "decl-004193",
+      "new_name": "character_mem_conjugationInvariantSubmodule",
+      "docstring": "The character of a finite-dimensional group representation belongs to the conjugation-invariant submodule."
+    },
+    {
+      "temporary_id": "decl-004340",
+      "new_name": "AuxiliaryFunctionSpace",
+      "docstring": "An auxiliary type depending on two input types."
+    },
+    {
+      "temporary_id": "decl-017961",
+      "new_name": "conjugationInvariantSubmodule",
+      "docstring": "A scalar submodule of the auxiliary function space associated with a group."
+    },
+    {
+      "temporary_id": "decl-021579",
+      "new_name": "mem_conjugationInvariantSubmodule_iff",
+      "docstring": "An auxiliary function belongs to the displayed submodule exactly when it is invariant under conjugation."
+    }
+  ]
+}

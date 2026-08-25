@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Problem8.2.8",
+    "kind": "exercise",
+    "title": "Tor and Ext for tensor products of algebras",
+    "node_id": "chapter-08/section-8-2",
+    "order": 543,
+    "slug": "problem8-2-8",
+    "span": {
+      "start": {
+        "page": "210",
+        "line": 27
+      },
+      "end": {
+        "page": "210",
+        "line": 40
+      }
+    },
+    "source_sha256": "c378755fc42adbbe5fcd75352faacf503fdadac0002876f9b876ec2c6ac6b7c7",
+    "features": {
+      "line_count": 14,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Problem828",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

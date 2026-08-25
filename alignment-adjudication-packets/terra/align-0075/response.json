@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0075",
+  "associations": [
+    {
+      "association_id": "association:a0f3865d931d60e930cb",
+      "role": "supporting",
+      "rationale": "The type only gives a basis-indexed FreeAlgebra-valued function and does not display the claimed commutator-minus-structure-constants formula."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0325",
+  "associations": [
+    {
+      "association_id": "association:0919af36fa3e3791622a",
+      "role": "supporting",
+      "rationale": "The formal type exposes only a proposition on modules; its body does not display the equivalent projectivity conditions stated by the source."
+    }
+  ]
+}

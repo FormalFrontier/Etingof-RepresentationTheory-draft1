@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0826",
+  "associations": [
+    {
+      "association_id": "association:3a22423e6f596b254f8a",
+      "role": "primary",
+      "rationale": "It directly states that a finite abelian group satisfying the projective lifting condition is subsingleton, i.e. no nonzero such projective object exists."
+    }
+  ]
+}

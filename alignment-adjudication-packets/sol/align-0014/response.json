@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0014",
+  "associations": [
+    {"association_id": "association:4793027e8b4c154cd127", "role": "supporting", "rationale": "Its type states only left additivity, one component of the bilinearity claim rather than bilinearity over the field itself."},
+    {"association_id": "association:646806f0840c925b3cf0", "role": "supporting", "rationale": "Its type states only right additivity, one component of the bilinearity claim rather than bilinearity over the field itself."},
+    {"association_id": "association:2be8e4c749f37e94f355", "role": "supporting", "rationale": "Its type states only left scalar-linearity, one component of the bilinearity claim rather than bilinearity over the field itself."},
+    {"association_id": "association:b0222ab4638151d32fef", "role": "supporting", "rationale": "Its type states only right scalar-linearity, one component of the bilinearity claim rather than bilinearity over the field itself."}
+  ]
+}

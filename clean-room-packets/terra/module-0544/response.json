@@ -1,0 +1,30 @@
+{
+  "module_name": "Algebra.MvPolynomial.VariableCount",
+  "declarations": [
+    {
+      "temporary_id": "decl-012829",
+      "new_name": "MvPolynomial.variable_count_le_of_injective_algHom_of_fractionRing_equiv",
+      "docstring": "Let `B` be a domain over a field `k` whose fraction field is equivalent over `k` to the fraction field of a polynomial ring in `M` variables. If the polynomial ring over `k` in `N` variables admits an injective `k`-algebra homomorphism into `B`, then `N ≤ M`."
+    },
+    {
+      "temporary_id": "decl-012830",
+      "new_name": "MvPolynomial.variable_count_le_of_injective_algHom_of_isLocalization",
+      "docstring": "If a domain is a localization of the polynomial ring over a field in `M` variables, then any injective algebra homomorphism from the polynomial ring in `N` variables into that domain forces `N ≤ M`."
+    },
+    {
+      "temporary_id": "decl-012846",
+      "new_name": "MvPolynomial.exists_fin_embedding_of_injective_algHom_of_fractionRing_equiv",
+      "docstring": "Suppose the fraction field of a domain over `k` is equivalent over `k` to the fraction field of the polynomial ring indexed by `Fin M`. An injective `k`-algebra homomorphism from the polynomial ring indexed by `Fin N` into the domain yields an embedding of `Fin N` into `Fin M` with injective underlying function."
+    },
+    {
+      "temporary_id": "decl-012847",
+      "new_name": "MvPolynomial.exists_fin_embedding_of_injective_algHom_of_isLocalization",
+      "docstring": "For a domain obtained by localizing the polynomial ring over `k` indexed by `Fin M`, an injective `k`-algebra homomorphism from the polynomial ring indexed by `Fin N` produces an embedding of `Fin N` into `Fin M` whose underlying function is injective."
+    },
+    {
+      "temporary_id": "decl-012848",
+      "new_name": "MvPolynomial.exists_fin_embedding_of_injective_algHom",
+      "docstring": "An injective `k`-algebra homomorphism from the polynomial ring indexed by `Fin N` to the polynomial ring indexed by `Fin M` gives an embedding of `Fin N` into `Fin M` with injective underlying function."
+    }
+  ]
+}

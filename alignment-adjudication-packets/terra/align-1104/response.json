@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1104",
+  "associations": [
+    {
+      "association_id": "association:4547c1d731a346c56c53",
+      "role": "supporting",
+      "rationale": "The displayed signature only maps two oppositely directed functors to a Type; it does not expose the claimed Hom equivalences or their naturality in either variable."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.9",
+    "kind": "introduction",
+    "title": "Section 5.9: The Frobenius formula for the character of an induced representation",
+    "node_id": "chapter-05/section-5-9",
+    "order": 296,
+    "slug": "introduction-5-9",
+    "span": {
+      "start": {
+        "page": "109",
+        "line": 1
+      },
+      "end": {
+        "page": "109",
+        "line": 4
+      }
+    },
+    "source_sha256": "f3e06a19560e9c02aa1ce0c1eb483414058c3ea044bf370c8febb685415af032",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction59",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

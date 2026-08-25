@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ef1373b5dbedb6d317fa",
+      "declaration": "Etingof.Example_2_3_14.exists_indecomposable_not_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/41/claim_coverage/claims/8/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k],\n  And (Etingof.IsIndecomposable.{u_1, u_1} (Polynomial.{u_1} k) (Etingof.Example_2_3_14.jordanRep.{u_1} 0 2))\n    (Not (IsSimpleModule.{u_1, u_1} (Polynomial.{u_1} k) (Etingof.Example_2_3_14.jordanRep.{u_1} 0 2)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.3.14",
+  "packet_id": "align-1186",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1186"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f7be3f1f32aeb570abc5",
+  "source_text": "An indecomposable representation need not be irreducible."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Corollary5.15.4",
+    "kind": "corollary",
+    "title": "Cauchy identity: R(x,y) as determinant and coefficient of x^{lambda+rho} y^{lambda+rho} is 1",
+    "node_id": "chapter-05/section-5-15",
+    "order": 337,
+    "slug": "corollary5-15-4",
+    "span": {
+      "start": {
+        "page": "120",
+        "line": 5
+      },
+      "end": {
+        "page": "120",
+        "line": 10
+      }
+    },
+    "source_sha256": "b06b788f5dd196bd88d2801de995fdcfb2e6a6cd551eb4972cb56a44f70ac795",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Corollary5154",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

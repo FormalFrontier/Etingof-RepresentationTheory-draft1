@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1053",
+  "associations": [
+    {
+      "association_id": "association:9391915f3a56e90fc8e0",
+      "rationale": "The type IsAlgClosed Complex directly states that the complex numbers are algebraically closed.",
+      "role": "primary"
+    }
+  ]
+}

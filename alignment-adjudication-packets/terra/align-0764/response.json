@@ -1,0 +1,20 @@
+{
+  "associations": [
+    {
+      "association_id": "association:f40297d5ae88339b8921",
+      "rationale": "This is a combinatorial characterization via constant contents of removable-square partitions, not the scalar-action statement itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9585173859363ddf04ce",
+      "rationale": "This relates scalar action of the stabilizer transposition sum to constant removable-square content, serving as an intermediate equivalence rather than the stated rectangular criterion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:15f73f23c6084e075d19",
+      "rationale": "The formal type directly states that sumTranspositionsWith1 acts by a scalar on the Specht module if and only if the partition is rectangular.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0764"
+}

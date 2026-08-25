@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0231",
+  "associations": [
+    {
+      "association_id": "association:c6f6547435b650ce3df9",
+      "role": "primary",
+      "rationale": "It directly gives the induced sign representation as the biproduct of the standard and sign representations."
+    },
+    {
+      "association_id": "association:4877d46a70c882d8de82",
+      "role": "primary",
+      "rationale": "It directly gives the induced trivial representation as the biproduct of the standard and trivial representations."
+    }
+  ]
+}

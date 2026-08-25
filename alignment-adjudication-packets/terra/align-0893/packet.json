@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e570e642dd9d7b0e740d",
+      "declaration": "Etingof.Example4_3_FiniteAbelianGroups",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/194/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] {G : Type u_2} [inst_2 : CommGroup.{u_2} G]\n  [Finite.{u_2 + 1} G] {V : Type u_3} [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V]\n  [Module.Finite.{u_1, u_3} k V] (\u03c1 : Representation.{u_1, u_2, u_3} k G V)\n  [hirr : IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_3} \u03c1)],\n  Eq.{1} (Module.finrank.{u_1, u_3} k V) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_FiniteAbelianGroups"
+    }
+  ],
+  "canonical_reference": "Chapter4/Example4.3_FiniteAbelianGroups",
+  "packet_id": "align-0893",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0893"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a27997da8b156d22c6f9",
+  "source_text": "Irreducible representations of finite abelian groups over an algebraically closed field are one-dimensional."
+}

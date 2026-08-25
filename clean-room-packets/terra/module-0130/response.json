@@ -1,0 +1,25 @@
+{
+  "module_name": "Module.DualOppositeAction",
+  "declarations": [
+    {
+      "temporary_id": "decl-001860",
+      "new_name": "AuxiliaryModuleType",
+      "docstring": "An auxiliary type-valued construction depending on a commutative ring, another type, and a module over the ring."
+    },
+    {
+      "temporary_id": "decl-018457",
+      "new_name": "dualMulOpposite_smul_apply",
+      "docstring": "The action of an element of the opposite ring on a linear dual evaluates by applying the functional after the corresponding action on the vector."
+    },
+    {
+      "temporary_id": "decl-020635",
+      "new_name": "dualMulOppositeModule",
+      "docstring": "The module structure of the linear dual over the opposite ring induced by a compatible action on the original module."
+    },
+    {
+      "temporary_id": "decl-020663",
+      "new_name": "dualMulOppositeSMul",
+      "docstring": "The scalar action of the opposite ring on the linear dual induced by precomposition with the action on the original module."
+    }
+  ]
+}

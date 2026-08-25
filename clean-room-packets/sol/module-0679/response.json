@@ -1,0 +1,230 @@
+{
+  "module_name": "Auxiliary.TensorProductPairingMaps",
+  "declarations": [
+    {
+      "temporary_id": "decl-019759",
+      "new_name": "Auxiliary.combinedToTensorComponents",
+      "docstring": "Builds a linear map from the auxiliary type for the combined tensor data to the tensor product of the two component auxiliary types."
+    },
+    {
+      "temporary_id": "decl-019765",
+      "new_name": "Auxiliary.combinedTensorLiftAux",
+      "docstring": "Defines an additive lift from tensors of the combined module data to the tensor product of the component auxiliary types."
+    },
+    {
+      "temporary_id": "decl-019771",
+      "new_name": "Auxiliary.combinedTensorLiftAux_eq_zero_of_mem",
+      "docstring": "The additive combined-tensor lift vanishes on elements of the displayed relation subset."
+    },
+    {
+      "temporary_id": "decl-019775",
+      "new_name": "Auxiliary.combinedTensorLiftAux_smul",
+      "docstring": "The additive combined-tensor lift commutes with scalar multiplication by the base field."
+    },
+    {
+      "temporary_id": "decl-019776",
+      "new_name": "Auxiliary.combinedTensorLiftAux_tmul",
+      "docstring": "On a pure tensor, the additive combined-tensor lift agrees with the displayed factor-pairing map."
+    },
+    {
+      "temporary_id": "decl-019777",
+      "new_name": "Auxiliary.combinedToTensorComponents_comp_tensorComponentsToCombined",
+      "docstring": "Mapping component tensors to the combined auxiliary type and back is the identity."
+    },
+    {
+      "temporary_id": "decl-019778",
+      "new_name": "Auxiliary.combinedToTensorComponents_apply_componentTmul",
+      "docstring": "The forward map sends the curried component construction to the corresponding pure tensor."
+    },
+    {
+      "temporary_id": "decl-019779",
+      "new_name": "Auxiliary.combinedToTensorComponents_mk",
+      "docstring": "The forward map on an additive quotient representative is computed by the auxiliary combined-tensor lift."
+    },
+    {
+      "temporary_id": "decl-019780",
+      "new_name": "Auxiliary.combinedToTensorComponents_mk_tmul",
+      "docstring": "The forward map sends a representative built from four pure factors to the tensor of the two component representatives."
+    },
+    {
+      "temporary_id": "decl-020700",
+      "new_name": "Auxiliary.tensorComponentsToCombined",
+      "docstring": "Builds a linear map from the tensor product of the component auxiliary types to the combined auxiliary type."
+    },
+    {
+      "temporary_id": "decl-020703",
+      "new_name": "Auxiliary.tensorComponentsToCombinedBilinear",
+      "docstring": "Expresses the component-to-combined construction as a curried pair of linear maps."
+    },
+    {
+      "temporary_id": "decl-020707",
+      "new_name": "Auxiliary.tensorComponentsToCombinedFirstLiftAux",
+      "docstring": "Defines the first additive lift, taking a raw first-component tensor to a linear map out of the second component auxiliary type."
+    },
+    {
+      "temporary_id": "decl-020709",
+      "new_name": "Auxiliary.tensorComponentsToCombinedFirstLiftAux_eq_zero_of_mem",
+      "docstring": "The first additive lift vanishes on members of the first displayed relation subset."
+    },
+    {
+      "temporary_id": "decl-020714",
+      "new_name": "Auxiliary.tensorComponentsToCombinedFirstLiftAux_smul",
+      "docstring": "The first additive lift commutes with multiplication by a base-field scalar."
+    },
+    {
+      "temporary_id": "decl-020715",
+      "new_name": "Auxiliary.tensorComponentsToCombinedFirstLiftAux_tmul",
+      "docstring": "The first additive lift on a pure tensor is the corresponding first-component linear map."
+    },
+    {
+      "temporary_id": "decl-020716",
+      "new_name": "Auxiliary.tensorComponentsToCombinedBilinear_mk_tmul_mk_tmul",
+      "docstring": "The curried component construction on two pure representatives is the representative formed from the paired tensor factors."
+    },
+    {
+      "temporary_id": "decl-020717",
+      "new_name": "Auxiliary.tensorComponentsToCombinedSecondLiftAux",
+      "docstring": "For fixed first-component elements, defines an additive map from raw second-component tensors to the combined auxiliary type."
+    },
+    {
+      "temporary_id": "decl-020722",
+      "new_name": "Auxiliary.tensorComponentsToCombinedSecondLiftAux_add_left",
+      "docstring": "The second additive lift is additive in its fixed first module argument."
+    },
+    {
+      "temporary_id": "decl-020723",
+      "new_name": "Auxiliary.tensorComponentsToCombinedSecondLiftAux_add_right",
+      "docstring": "The second additive lift is additive in its fixed first target argument."
+    },
+    {
+      "temporary_id": "decl-020724",
+      "new_name": "Auxiliary.tensorComponentsToCombinedSecondLiftAux_smul_left",
+      "docstring": "Scaling the first module argument scales the resulting second additive lift."
+    },
+    {
+      "temporary_id": "decl-020725",
+      "new_name": "Auxiliary.tensorComponentsToCombinedSecondLiftAux_eq_zero_of_mem",
+      "docstring": "Under the stated tensor-action rules, the second additive lift vanishes on the second displayed relation subset."
+    },
+    {
+      "temporary_id": "decl-020730",
+      "new_name": "Auxiliary.tensorComponentsToCombinedSecondLiftAux_smul",
+      "docstring": "The second additive lift commutes with scalar multiplication on its raw tensor input."
+    },
+    {
+      "temporary_id": "decl-020731",
+      "new_name": "Auxiliary.tensorComponentsToCombinedSecondLiftAux_tmul",
+      "docstring": "The second additive lift sends a pure tensor to the representative formed from the paired component tensors."
+    },
+    {
+      "temporary_id": "decl-020732",
+      "new_name": "Auxiliary.tensorComponentsToCombinedSecondLiftAux_zsmul_left",
+      "docstring": "Integer scaling in the first module argument passes through the second additive lift."
+    },
+    {
+      "temporary_id": "decl-020733",
+      "new_name": "Auxiliary.tensorComponentsToCombinedSecondLiftAux_zsmul_right",
+      "docstring": "Integer scaling in the first target argument passes through the second additive lift."
+    },
+    {
+      "temporary_id": "decl-020734",
+      "new_name": "Auxiliary.tensorComponentsToCombinedFirstBilinear",
+      "docstring": "Packages the first pair of component arguments into successive integer-linear maps valued in maps from the second auxiliary type."
+    },
+    {
+      "temporary_id": "decl-020739",
+      "new_name": "Auxiliary.tensorComponentsToCombinedFirstLinear",
+      "docstring": "For first-component elements, constructs a base-field linear map from the second component auxiliary type to the combined type."
+    },
+    {
+      "temporary_id": "decl-020742",
+      "new_name": "Auxiliary.tensorComponentsToCombinedFirstLinear_smul_left",
+      "docstring": "Scaling the first module argument scales the associated map from the second component auxiliary type."
+    },
+    {
+      "temporary_id": "decl-020743",
+      "new_name": "Auxiliary.tensorComponentsToCombinedFirstLinear_mk_tmul",
+      "docstring": "The first-component linear map sends a pure second-component representative to the paired combined representative."
+    },
+    {
+      "temporary_id": "decl-020745",
+      "new_name": "Auxiliary.tensorComponentsToCombined_comp_combinedToTensorComponents",
+      "docstring": "Mapping the combined auxiliary type to component tensors and back is the identity."
+    },
+    {
+      "temporary_id": "decl-020746",
+      "new_name": "Auxiliary.tensorComponentsToCombined_tmul_mk_tmul",
+      "docstring": "The reverse map sends a tensor of two pure component representatives to their paired combined representative."
+    },
+    {
+      "temporary_id": "decl-020748",
+      "new_name": "Auxiliary.tensorComponentsToCombined_apply_pairTensorFactors_tmul",
+      "docstring": "Applying the reverse map after pairing the factors of a pure tensor yields its additive quotient representative."
+    },
+    {
+      "temporary_id": "decl-021486",
+      "new_name": "Auxiliary.liftComponentPairing",
+      "docstring": "Lifts an additive map through the component auxiliary type when it respects base-field scalars and vanishes on the displayed relation subset."
+    },
+    {
+      "temporary_id": "decl-021492",
+      "new_name": "Auxiliary.liftComponentPairing_mk",
+      "docstring": "The lifted component map evaluates on an additive quotient representative as the original additive map."
+    },
+    {
+      "temporary_id": "decl-022325",
+      "new_name": "Auxiliary.pairTensorFactors",
+      "docstring": "Constructs the linear map that pairs the first module factor with the first target factor and likewise for the second factors."
+    },
+    {
+      "temporary_id": "decl-022330",
+      "new_name": "Auxiliary.pairTensorFactors_smul_op_tmul_eq_tmul_smul",
+      "docstring": "Under the stated action rules, pairing tensor factors gives the same result whether the combined scalar acts on the module side or the target side."
+    },
+    {
+      "temporary_id": "decl-022331",
+      "new_name": "Auxiliary.pairTensorFactors_tmul_tmul",
+      "docstring": "Pairing four pure factors produces the tensor of the two corresponding additive quotient representatives."
+    },
+    {
+      "temporary_id": "decl-022332",
+      "new_name": "Auxiliary.combinedTensorComponentsEquiv",
+      "docstring": "Constructs a linear equivalence between the combined auxiliary type and the tensor product of the component auxiliary types."
+    },
+    {
+      "temporary_id": "decl-022338",
+      "new_name": "Auxiliary.combinedTensorComponentsEquiv_mk_tmul_tmul",
+      "docstring": "The equivalence sends the representative of four pure factors to the tensor of the two component representatives."
+    },
+    {
+      "temporary_id": "decl-022340",
+      "new_name": "Auxiliary.combinedTensorComponentsEquiv_symm_tmul_mk_tmul",
+      "docstring": "The inverse equivalence sends a tensor of two pure representatives to the combined representative of their four factors."
+    },
+    {
+      "temporary_id": "decl-023969",
+      "new_name": "Auxiliary.componentPairingBilinear",
+      "docstring": "Packages the pairing of a right module element and a left module element as successive base-field linear maps."
+    },
+    {
+      "temporary_id": "decl-024001",
+      "new_name": "Auxiliary.componentPairing",
+      "docstring": "Defines the base-field linear map from the tensor product of a right module and a left module to the auxiliary target."
+    },
+    {
+      "temporary_id": "decl-024003",
+      "new_name": "Auxiliary.componentPairing_tmul",
+      "docstring": "The component pairing sends a pure tensor to its additive quotient representative."
+    },
+    {
+      "temporary_id": "decl-024011",
+      "new_name": "Auxiliary.componentPairing_op_smul_eq_smul",
+      "docstring": "In the auxiliary target, acting on the right-module factor by an opposite-ring element equals acting on the left-module factor."
+    },
+    {
+      "temporary_id": "decl-024012",
+      "new_name": "Auxiliary.componentPairing_smul_right",
+      "docstring": "A base-field scalar acting on the left-module factor can be moved outside its additive quotient representative."
+    }
+  ]
+}

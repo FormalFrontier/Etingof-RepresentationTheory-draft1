@@ -1,0 +1,170 @@
+{
+  "module_name": "LinearAlgebra.MatrixAction",
+  "declarations": [
+    {
+      "temporary_id": "decl-006757",
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary type indexed by a field and two natural numbers."
+    },
+    {
+      "temporary_id": "decl-006759",
+      "new_name": "AuxiliaryFactor",
+      "docstring": "An auxiliary factor type indexed by a field and a natural number."
+    },
+    {
+      "temporary_id": "decl-006760",
+      "new_name": "finsuppToFin",
+      "docstring": "Enumerates a finitely supported family of pairs whose coefficients have prescribed total sum."
+    },
+    {
+      "temporary_id": "decl-006764",
+      "new_name": "homogeneousToAuxiliary",
+      "docstring": "A linear map from homogeneous multivariate polynomials of a fixed degree to an auxiliary type."
+    },
+    {
+      "temporary_id": "decl-006766",
+      "new_name": "auxiliaryElidedStatement006766",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-006767",
+      "new_name": "homogeneousToAuxiliary_injective",
+      "docstring": "The linear map from homogeneous polynomials to the auxiliary type is injective."
+    },
+    {
+      "temporary_id": "decl-006768",
+      "new_name": "finsuppToAuxiliary",
+      "docstring": "Constructs an auxiliary element from a finitely supported natural-valued family of pairs."
+    },
+    {
+      "temporary_id": "decl-006769",
+      "new_name": "secondCoordinateMatrixAlgHom",
+      "docstring": "The multivariate-polynomial algebra homomorphism induced by right multiplication on the second coordinate by a square matrix."
+    },
+    {
+      "temporary_id": "decl-006771",
+      "new_name": "secondCoordinateMatrixAlgHom_X",
+      "docstring": "Computes the image of a polynomial variable under the second-coordinate matrix algebra homomorphism."
+    },
+    {
+      "temporary_id": "decl-006772",
+      "new_name": "secondCoordinateMatrixAlgHom_isHomogeneous",
+      "docstring": "The second-coordinate matrix algebra homomorphism preserves homogeneous degree."
+    },
+    {
+      "temporary_id": "decl-006773",
+      "new_name": "secondCoordinateMatrixAlgHom_prod_X",
+      "docstring": "Expands the image of a finite product of polynomial variables under the second-coordinate matrix algebra homomorphism."
+    },
+    {
+      "temporary_id": "decl-006774",
+      "new_name": "polynomialToAuxiliary",
+      "docstring": "A linear map from multivariate polynomials to an auxiliary type at a fixed degree."
+    },
+    {
+      "temporary_id": "decl-006778",
+      "new_name": "polynomialToAuxiliary_prod_X",
+      "docstring": "Evaluates the polynomial-to-auxiliary map on a finite product of variables."
+    },
+    {
+      "temporary_id": "decl-006779",
+      "new_name": "polynomialToAuxiliary_commutes",
+      "docstring": "The polynomial-to-auxiliary map commutes with the displayed matrix-induced maps on homogeneous inputs."
+    },
+    {
+      "temporary_id": "decl-006780",
+      "new_name": "prod_X_finsuppToFin",
+      "docstring": "Identifies a product of variables indexed by a finite-support enumeration with the corresponding coefficient-one monomial."
+    },
+    {
+      "temporary_id": "decl-006781",
+      "new_name": "ofFinPair",
+      "docstring": "Constructs an auxiliary element from a length-indexed family of pairs."
+    },
+    {
+      "temporary_id": "decl-006783",
+      "new_name": "ofFinPair_eq_basis",
+      "docstring": "Expresses the auxiliary element from a pair family in the module basis indexed by the two coordinate functions in reversed order."
+    },
+    {
+      "temporary_id": "decl-006784",
+      "new_name": "auxiliaryFactorBasis",
+      "docstring": "A module basis for the auxiliary factor type indexed by a finite type."
+    },
+    {
+      "temporary_id": "decl-006787",
+      "new_name": "auxiliaryFactorDualBasis",
+      "docstring": "A module basis for the dual of the auxiliary factor type indexed by a finite type."
+    },
+    {
+      "temporary_id": "decl-006788",
+      "new_name": "symmetricOfFinPair",
+      "docstring": "Constructs an auxiliary element from a length-indexed family of pairs."
+    },
+    {
+      "temporary_id": "decl-006789",
+      "new_name": "symmetricOfFinPair_perm",
+      "docstring": "The pair-family construction is unchanged after precomposition by a permutation of its finite index type."
+    },
+    {
+      "temporary_id": "decl-006790",
+      "new_name": "symmetricOfFinPair_eq_of_multiset_eq",
+      "docstring": "Equal multisets of pair-family values give equal auxiliary elements."
+    },
+    {
+      "temporary_id": "decl-006791",
+      "new_name": "Auxiliary.basis",
+      "docstring": "A module basis for the auxiliary type indexed by pairs of finite-indexed functions."
+    },
+    {
+      "temporary_id": "decl-006794",
+      "new_name": "Auxiliary.basis_apply",
+      "docstring": "Computes an auxiliary basis vector as the tensor product of a Pi tensor product of auxiliary-factor basis vectors and a Pi tensor product of auxiliary-factor dual-basis vectors."
+    },
+    {
+      "temporary_id": "decl-006795",
+      "new_name": "auxiliaryToPolynomial",
+      "docstring": "A linear map from the auxiliary type to multivariate polynomials."
+    },
+    {
+      "temporary_id": "decl-006797",
+      "new_name": "auxiliaryToPolynomial_finsuppToAuxiliary",
+      "docstring": "Computes the polynomial image of an auxiliary element from finite support, with zero outside the specified total degree."
+    },
+    {
+      "temporary_id": "decl-006798",
+      "new_name": "auxiliaryToPolynomial_comp_polynomialToAuxiliary",
+      "docstring": "The composite of the two displayed linear maps is the identity on homogeneous polynomials of the specified degree."
+    },
+    {
+      "temporary_id": "decl-006799",
+      "new_name": "auxiliaryToPolynomial_ofFinPair",
+      "docstring": "Computes the polynomial image of the auxiliary element constructed from a pair family."
+    },
+    {
+      "temporary_id": "decl-006800",
+      "new_name": "auxiliaryToPolynomial_symmetricOfFinPair",
+      "docstring": "Computes the polynomial image of the permutation-invariant pair-family construction."
+    },
+    {
+      "temporary_id": "decl-006801",
+      "new_name": "secondFactorMatrixAction",
+      "docstring": "The linear endomorphism of the auxiliary type induced by the column action of a square matrix on its second factor."
+    },
+    {
+      "temporary_id": "decl-006805",
+      "new_name": "secondFactorMatrixAction_ofFinPair",
+      "docstring": "Expands the second-factor matrix action on an auxiliary element constructed from a pair family."
+    },
+    {
+      "temporary_id": "decl-006806",
+      "new_name": "secondFactorMatrixAction_symmetricOfFinPair",
+      "docstring": "Expands the second-factor matrix action on the permutation-invariant pair-family construction."
+    },
+    {
+      "temporary_id": "decl-006808",
+      "new_name": "Matrix.toLin'_apply_auxiliaryFactorBasis",
+      "docstring": "Computes Matrix.toLin' on an auxiliary-factor basis vector as the sum of basis vectors with coefficients from the corresponding matrix column."
+    }
+  ]
+}

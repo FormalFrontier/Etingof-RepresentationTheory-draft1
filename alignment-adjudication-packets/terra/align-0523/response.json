@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0523",
+  "associations": [
+    {
+      "association_id": "association:1b2fe0e7ff932ca4b885",
+      "rationale": "The displayed LinearEquiv directly identifies Lie-module morphisms from V tensor W to U with those from V to U tensor the dual of W, under the shown finite-dimensionality hypothesis on W.",
+      "role": "primary"
+    }
+  ]
+}

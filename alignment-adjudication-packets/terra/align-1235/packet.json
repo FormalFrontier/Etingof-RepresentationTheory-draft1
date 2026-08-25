@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4614f67e383abb2965f8",
+      "declaration": "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/167/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {K : Type u_1} {A : Type u_2} {V : Type u_3} {W : Type u_4} {L : Type u_5} [inst : Field.{u_1} K]\n  [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} K A] [inst_3 : AddCommGroup.{u_3} V]\n  [inst_4 : Module.{u_1, u_3} K V] [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} K A V]\n  [inst_7 : AddCommGroup.{u_4} W] [inst_8 : Module.{u_1, u_4} K W] [inst_9 : Module.{u_2, u_4} A W]\n  [inst_10 : IsScalarTower.{u_1, u_2, u_4} K A W] [inst_11 : Field.{u_5} L] [inst_12 : Algebra.{u_1, u_5} K L]\n  [FiniteDimensional.{u_1, u_3} K V] [FiniteDimensional.{u_1, u_4} K W],\n  (Exists.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)} fun i =>\n      Exists.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)} fun p =>\n        Eq.{max (u_3 + 1) (u_5 + 1)}\n          (LinearMap.comp.{max u_2 u_5, max u_2 u_5, max u_2 u_5, max u_3 u_5, max u_4 u_5, max u_3 u_5} p i)\n          LinearMap.id.{max u_2 u_5, max u_3 u_5}) \u2192\n    Exists.{max (u_3 + 1) (u_4 + 1)} fun i =>\n      Exists.{max (u_3 + 1) (u_4 + 1)} fun p =>\n        Eq.{u_3 + 1} (LinearMap.comp.{u_2, u_2, u_2, u_3, u_4, u_3} p i) LinearMap.id.{u_2, u_3}",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_General"
+    },
+    {
+      "association_id": "association:622fae19b09938b460e3",
+      "declaration": "Etingof.Problem3_8_4.iso_of_baseChange_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/167/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {K : Type u_1} {A : Type u_2} {V : Type u_3} {W : Type u_4} {L : Type u_5} [inst : Field.{u_1} K]\n  [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} K A] [inst_3 : AddCommGroup.{u_3} V]\n  [inst_4 : Module.{u_1, u_3} K V] [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} K A V]\n  [inst_7 : AddCommGroup.{u_4} W] [inst_8 : Module.{u_1, u_4} K W] [inst_9 : Module.{u_2, u_4} A W]\n  [inst_10 : IsScalarTower.{u_1, u_2, u_4} K A W] [inst_11 : Field.{u_5} L] [inst_12 : Algebra.{u_1, u_5} K L]\n  [FiniteDimensional.{u_1, u_3} K V] [FiniteDimensional.{u_1, u_4} K W],\n  Nonempty.{max ((max u_4 u_5) + 1) ((max u_3 u_5) + 1)}\n      (LinearEquiv.{max u_2 u_5, max u_2 u_5, max u_3 u_5, max u_4 u_5}\n        (RingHom.id.{max u_2 u_5} (TensorProduct.{u_1, u_5, u_2} K L A)) (TensorProduct.{u_1, u_5, u_3} K L V)\n        (TensorProduct.{u_1, u_5, u_4} K L W)) \u2192\n    Nonempty.{max (u_4 + 1) (u_3 + 1)} (LinearEquiv.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} A) V W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Main"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.8.4",
+  "packet_id": "align-1235",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1235"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter3/Problem3.8.4",
+  "source_text": "**Problem 3.8.4.** (i) Let $V, W$ be finite dimensional representations of an algebra $A$ over a (not necessarily algebraically closed) field $K$. Let $L$ be a field extension of $K$. Suppose that $V \\otimes_K L$ is isomorphic to $W \\otimes_K L$ as a module over the $L$-algebra $A \\otimes_K L$. Show that $V$ and $W$ are isomorphic as $A$-modules.\n\nHint: Reduce to the case of finitely generated, then finite extension, of some degree $n$. Then regard $V \\otimes_K L$ and $W \\otimes_K L$ as\n$A$-modules, and show that they are isomorphic to $V^n$ and $W^n$, respectively. Deduce that $V^n$ is isomorphic to $W^n$, and use the Krull-Schmidt theorem (valid over any field by Problem 3.8.3) to deduce that $V$ is isomorphic to $W$.\n\n(ii) (The Noether-Deuring theorem) In the setting of (i), suppose that $V \\otimes_K L$ is a direct summand in $W \\otimes_K L$ (i.e., $W \\otimes_K L \\cong V \\otimes_K L \\oplus Y$, where $Y$ is a module over $A \\otimes_K L$). Show that $V$ is a direct summand in $W$.\n\n"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0095",
+  "associations": [
+    {
+      "association_id": "association:1dbb9f2bfa18bafbb44a",
+      "role": "supporting",
+      "rationale": "The type only places (2,1,1,1) in the opaque set D₄_indecomposable_dimVectors; it states neither maximal-root status nor the three-line geometry."
+    }
+  ]
+}

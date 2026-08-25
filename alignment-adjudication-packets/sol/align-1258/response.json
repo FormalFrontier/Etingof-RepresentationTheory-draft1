@@ -1,0 +1,75 @@
+{
+  "packet_id": "align-1258",
+  "associations": [
+    {
+      "association_id": "association:5683a80671b9baaeb049",
+      "rationale": "This counts an auxiliary index type for the principal family; the source theorem does not state this cardinality, so it is supporting classification infrastructure.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:58398f144632133db340",
+      "rationale": "The character formula for the one-dimensional determinant representation helps identify the summand C_mu but is not one of the theorem's three displayed assertions.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1c11980bdc74c99a7009",
+      "rationale": "The fact that the determinant-character representation has dimension one supports the decomposition in part (2), but the source's asserted q-dimensional object is W_mu.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e5c73f1da555fc81a606",
+      "rationale": "This classifies isomorphisms among the auxiliary determinant characters, whereas part (3) classifies the W_mu and unequal-character principal series.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:56d54b9a83150c82328b",
+      "rationale": "Simplicity of the one-dimensional determinant character is a prerequisite used around the direct-sum decomposition, not the theorem's asserted simplicity of W_mu or of unequal principal series.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:167324181dc82c377377",
+      "rationale": "This existentially packages a simple pairwise-nonisomorphic family and its size; it is a derived aggregate classification statement rather than any displayed part of Theorem 5.25.2.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f444961e878fd6c11cd2",
+      "rationale": "This merely constructs the indexed principal family and makes no theorem-level irreducibility, decomposition, or isomorphism assertion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8b04653b1a8943c4226c",
+      "rationale": "Injectivity of the opaque aggregate family is a packaged consequence of the source's isomorphism classifications, not their direct lambda-parameter statement.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a691e05866f8c1028d44",
+      "rationale": "Simplicity of every member of the aggregate principalFamily combines cases behind an opaque index, so it supports rather than directly states parts (1) and (2).",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:93fb88af4c9174d446f4",
+      "rationale": "The q+1 dimension of a principal-series representation is useful for the decomposition and q-dimensional complement, but it is not itself a displayed assertion of the theorem.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:08c3d6afb1b252220a7d",
+      "rationale": "The type states only part (1), not the decomposition and isomorphism classifications in parts (2) and (3).",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2c2b0574fb0c2eb24454",
+      "rationale": "The type states only part (2), not the irreducibility and isomorphism assertions in parts (1) and (3).",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6ae844f5ba649963440e",
+      "rationale": "The type states only the first isomorphism assertion of part (3), not the other numbered conclusions of the theorem.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0d2b1fbfa40130a4b04a",
+      "rationale": "The type states only the second isomorphism assertion of part (3), not the theorem's irreducibility, decomposition, and first isomorphism conclusions.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0230",
+  "associations": [
+    {
+      "association_id": "association:9301e48792d23ba50c01",
+      "role": "primary",
+      "rationale": "Injectivity of the polynomial representation map directly states faithfulness in characteristic zero."
+    }
+  ]
+}

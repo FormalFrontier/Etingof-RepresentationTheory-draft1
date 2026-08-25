@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0138",
+  "associations": [
+    {
+      "association_id": "association:cdb23e91d44632130fb9",
+      "role": "supporting",
+      "rationale": "The type only gives an opaque Submodule value and does not expose conjugation invariance of its elements."
+    },
+    {
+      "association_id": "association:7e9fce9b0ae5d61f8d6f",
+      "role": "primary",
+      "rationale": "Its iff directly characterizes membership by conjugation invariance."
+    }
+  ]
+}

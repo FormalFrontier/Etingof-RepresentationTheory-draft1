@@ -1,0 +1,111 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:07e0c21d08536abf16e7",
+      "declaration": "Etingof.GL2.card_constructedIndex",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/588/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hn : Ne.{1} n 0),\n  Eq.{1} (Nat.card.{0} (Etingof.GL2.ConstructedIndex p n hn))\n    (HAdd.hAdd.{0, 0, 0}\n      (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n            (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n          2))\n      (HDiv.hDiv.{0, 0, 0}\n        (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n          (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n        2))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:9f880f926b6a603a8f3f",
+      "declaration": "Etingof.GL2.constructedFamily",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/588/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(p : Nat) \u2192\n  [inst : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      [inst_1 : Fintype.{0} (GaloisField p n)] \u2192\n        Ne.{1} p 2 \u2192\n          (hn : Ne.{1} n 0) \u2192\n            Etingof.GL2.ConstructedIndex p n hn \u2192\n              FDRep.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:6e2e2084b673cfdab47c",
+      "declaration": "Etingof.GL2.constructedFamily_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/588/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hp2 : Ne.{1} p 2)\n  (hn : Ne.{1} n 0) (i j : Etingof.GL2.ConstructedIndex p n hn),\n  Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (Etingof.GL2.constructedFamily p n hp2 hn i)\n        (Etingof.GL2.constructedFamily p n hp2 hn j)) \u2192\n    Eq.{1} i j",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:95b948dbc1e71b7afd53",
+      "declaration": "Etingof.GL2.constructedFamily_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/588/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hp2 : Ne.{1} p 2)\n  (hn : Ne.{1} n 0) (i : Etingof.GL2.ConstructedIndex p n hn),\n  CategoryTheory.Simple.{0, 1} (Etingof.GL2.constructedFamily p n hp2 hn i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:042ddd333624457116c3",
+      "declaration": "Etingof.GL2.constructed_irrep_count",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/588/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (q : Nat),\n  LE.le.{0} 1 q \u2192\n    Eq.{1}\n      (HAdd.hAdd.{0, 0, 0}\n        (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} q 1)\n          (HDiv.hDiv.{0, 0, 0} (HMul.hMul.{0, 0, 0} q (HSub.hSub.{0, 0, 0} q 1)) 2))\n        (HDiv.hDiv.{0, 0, 0} (HMul.hMul.{0, 0, 0} q (HSub.hSub.{0, 0, 0} q 1)) 2))\n      (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:9b33fa95a18ef4346b2a",
+      "declaration": "Etingof.GL2.constructed_irreps_complete_final",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/588/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hp2 : Ne.{1} p 2)\n  (hn : Ne.{1} n 0) (U : FDRep.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))),\n  CategoryTheory.Simple.{0, 1} U \u2192\n    ExistsUnique.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} U (Etingof.GL2.constructedFamily p n hp2 hn i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary"
+    },
+    {
+      "association_id": "association:88a4809a32c76bbe9f91",
+      "declaration": "GL2.card_conjClasses_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/588/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} (Nat.card.{0} (ConjClasses.{0} (GL2'\u271d p n)))\n        (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_complementary_series_summary/Derived01",
+  "packet_id": "align-1218",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1218"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "derived:91e72f764c083e40a5e0",
+  "source_text": "The total count (q-1) + q(q-1)/2 + q(q-1)/2 = q\u00b2-1 equals the number of conjugacy classes, so the listed representations are all irreducible representations of GL\u2082(\ud835\udd3d_q)"
+}

@@ -1,0 +1,55 @@
+{
+  "module_name": "Algebra.Homology.ProjectiveResolutionAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-014365",
+      "new_name": "basisProjectiveResolutionAuxiliary",
+      "docstring": "A basis-indexed projective resolution of the displayed module over a symmetric algebra."
+    },
+    {
+      "temporary_id": "decl-014366",
+      "new_name": "basisProjectiveResolutionAuxiliary_complex_eq",
+      "docstring": "The complex underlying the basis-indexed auxiliary projective resolution equals the displayed complex."
+    },
+    {
+      "temporary_id": "decl-014367",
+      "new_name": "basisProjectiveResolutionAuxiliary_free",
+      "docstring": "Every degree of the complex underlying the basis-indexed auxiliary projective resolution is free over the symmetric algebra."
+    },
+    {
+      "temporary_id": "decl-014368",
+      "new_name": "basisProjectiveResolutionAuxiliary_pi_f_zero_eq",
+      "docstring": "The degree-zero component of the augmentation of the basis-indexed auxiliary projective resolution equals the displayed module morphism."
+    },
+    {
+      "temporary_id": "decl-014369",
+      "new_name": "finiteDimensionalProjectiveResolutionAuxiliary",
+      "docstring": "An auxiliary projective resolution of the displayed module associated with a finite-dimensional module and a second module over a field."
+    },
+    {
+      "temporary_id": "decl-014370",
+      "new_name": "finiteDimensionalProjectiveResolutionAuxiliary_free",
+      "docstring": "Every degree of the finite-dimensional auxiliary projective resolution is free over the symmetric algebra on the product module."
+    },
+    {
+      "temporary_id": "decl-014371",
+      "new_name": "finiteDimensionalProjectiveResolutionAuxiliary_pi_quasiIso",
+      "docstring": "The augmentation of the finite-dimensional auxiliary projective resolution is a quasi-isomorphism."
+    },
+    {
+      "temporary_id": "decl-014372",
+      "new_name": "finiteDimensionalProjectiveResolutionAuxiliary_componentIso",
+      "docstring": "Each component of the finite-dimensional auxiliary projective resolution is isomorphic to the displayed module over the symmetric algebra on the product module."
+    },
+    {
+      "temporary_id": "decl-014390",
+      "new_name": "basisIndexedDualExteriorPowerIsoAuxiliary",
+      "docstring": "A basis-indexed isomorphism from the displayed module construction to the dual of an exterior power."
+    },
+    {
+      "temporary_id": "decl-014391",
+      "new_name": "basisIndexedExteriorPowerIsoAuxiliary",
+      "docstring": "A basis-indexed isomorphism from the displayed module construction to an exterior power."
+    }
+  ]
+}

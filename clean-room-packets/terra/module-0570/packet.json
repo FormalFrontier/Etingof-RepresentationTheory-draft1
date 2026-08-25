@@ -1,0 +1,85 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (n : Nat) (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    Iff (decl-005140 n adj)\n      (Exists.{1} fun t =>\n        Exists.{1} fun \u03c3 =>\n          \u2200 (i j : Fin t.rank), Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) (t.adj i j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001861",
+        "decl-001887",
+        "decl-001899",
+        "decl-005140"
+      ],
+      "structural_type_hash": "1297648458",
+      "temporary_id": "decl-016763"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    LE.le.{0} 1 n \u2192\n      (Exists.{1} fun i => Eq.{1} (decl-024478 adj i) 3) \u2192\n        Exists.{1} fun t =>\n          Exists.{1} fun \u03c3 =>\n            \u2200 (i j : Fin t.rank), Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) (t.adj i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001861",
+        "decl-001887",
+        "decl-001899",
+        "decl-005140",
+        "decl-024478"
+      ],
+      "structural_type_hash": "175072591",
+      "temporary_id": "decl-017517"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (v : Fin n),\n      Eq.{1} (decl-024478 adj v) 3 \u2192\n        Exists.{1} fun u => And (Eq.{1} (adj v u) 1) (Eq.{1} (decl-024478 adj u) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-024478"
+      ],
+      "structural_type_hash": "2345129839",
+      "temporary_id": "decl-017667"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (v w : Fin n), Eq.{1} (decl-024478 adj v) 3 \u2192 Eq.{1} (decl-024478 adj w) 3 \u2192 Eq.{1} v w",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-024478"
+      ],
+      "structural_type_hash": "736984839",
+      "temporary_id": "decl-018529"
+    },
+    {
+      "formal_type": "\u2200 {k : Nat} {adj : Matrix.{0, 0, 0} (Fin (HAdd.hAdd.{0, 0, 0} k 1)) (Fin (HAdd.hAdd.{0, 0, 0} k 1)) Int},\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i : Fin (HAdd.hAdd.{0, 0, 0} k 1)), Eq.{1} (adj i i) 0) \u2192\n      (\u2200 (i j : Fin (HAdd.hAdd.{0, 0, 0} k 1)), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n        \u2200 (u : Fin (HAdd.hAdd.{0, 0, 0} k 1)) (v' : Fin k) (adj' : Matrix.{0, 0, 0} (Fin k) (Fin k) Int),\n          (Eq.{1} adj' fun i j => adj (u.succAbove i) (u.succAbove j)) \u2192\n            Eq.{1} (adj u (u.succAbove v')) 1 \u2192\n              (\u2200 (w : Fin (HAdd.hAdd.{0, 0, 0} k 1)), Eq.{1} (adj u w) 1 \u2192 Eq.{1} w (u.succAbove v')) \u2192\n                \u2200 (\u03c3' : Equiv.{1, 1} (Fin k) (Fin k)),\n                  (\u2200 (m : Fin k) (hm : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} m.val 1) k),\n                      Eq.{1}\n                        (adj' (DFunLike.coe.{1, 1, 1} \u03c3' m)\n                          (DFunLike.coe.{1, 1, 1} \u03c3' \u27e8HAdd.hAdd.{0, 0, 0} m.val 1, hm\u27e9))\n                        1) \u2192\n                    (\u2200 (i j : Fin k),\n                        Eq.{1} (adj' (DFunLike.coe.{1, 1, 1} \u03c3' i) (DFunLike.coe.{1, 1, 1} \u03c3' j)) 1 \u2192\n                          Or (Eq.{1} (HAdd.hAdd.{0, 0, 0} i.val 1) j.val)\n                            (Eq.{1} (HAdd.hAdd.{0, 0, 0} j.val 1) i.val)) \u2192\n                      \u2200 (b : Nat) (hb_lt : LT.lt.{0} b k),\n                        Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c3' \u27e8b, hb_lt\u27e9) v' \u2192\n                          \u2200\n                            (t_adj :\n                              Matrix.{0, 0, 0} (Fin (HAdd.hAdd.{0, 0, 0} k 1)) (Fin (HAdd.hAdd.{0, 0, 0} k 1)) Int)\n                            (b_std : Nat),\n                            LT.lt.{0} b_std k \u2192\n                              Or (Eq.{1} b b_std) (Eq.{1} b (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} k 1) b_std)) \u2192\n                                (\u2200 (i j : Fin (HAdd.hAdd.{0, 0, 0} k 1)),\n                                    LT.lt.{0} i.val k \u2192\n                                      LT.lt.{0} j.val k \u2192\n                                        Eq.{1} (t_adj i j)\n                                          (ite.{1}\n                                            (Or (Eq.{1} (HAdd.hAdd.{0, 0, 0} i.val 1) j.val)\n                                              (Eq.{1} (HAdd.hAdd.{0, 0, 0} j.val 1) i.val))\n                                            1 0)) \u2192\n                                  (\u2200 (i : Fin (HAdd.hAdd.{0, 0, 0} k 1)),\n                                      LT.lt.{0} i.val k \u2192 Eq.{1} (t_adj i \u27e8k, \u22ef\u27e9) (ite.{1} (Eq.{1} i.val b_std) 1 0)) \u2192\n                                    (\u2200 (i : Fin (HAdd.hAdd.{0, 0, 0} k 1)),\n                                        LT.lt.{0} i.val k \u2192\n                                          Eq.{1} (t_adj \u27e8k, \u22ef\u27e9 i) (ite.{1} (Eq.{1} i.val b_std) 1 0)) \u2192\n                                      Eq.{1} (t_adj \u27e8k, \u22ef\u27e9 \u27e8k, \u22ef\u27e9) 0 \u2192\n                                        Exists.{1} fun \u03c3 =>\n                                          \u2200 (i j : Fin (HAdd.hAdd.{0, 0, 0} k 1)),\n                                            Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j))\n                                              (t_adj i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024335"
+      ],
+      "structural_type_hash": "1310322126",
+      "temporary_id": "decl-024334"
+    }
+  ],
+  "module_temporary_id": "module-0570",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

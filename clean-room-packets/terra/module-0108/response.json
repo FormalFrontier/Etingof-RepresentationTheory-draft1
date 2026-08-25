@@ -1,0 +1,35 @@
+{
+  "module_name": "Algebra.Module.BalancedTensorProduct",
+  "declarations": [
+    {
+      "temporary_id": "decl-016475",
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary type associated with a right module and a left module over a ring."
+    },
+    {
+      "temporary_id": "decl-016476",
+      "new_name": "add_left",
+      "docstring": "The auxiliary constructor is additive in its left argument."
+    },
+    {
+      "temporary_id": "decl-016478",
+      "new_name": "op_smul_left_eq_smul_right",
+      "docstring": "The auxiliary constructor identifies the opposite-ring action on the left input with the ring action on the right input."
+    },
+    {
+      "temporary_id": "decl-016479",
+      "new_name": "mk",
+      "docstring": "The auxiliary element associated with a pair of module elements."
+    },
+    {
+      "temporary_id": "decl-016480",
+      "new_name": "add_right",
+      "docstring": "The auxiliary constructor is additive in its right argument."
+    },
+    {
+      "temporary_id": "decl-024053",
+      "new_name": "auxiliaryRelations",
+      "docstring": "An auxiliary set in the free abelian group on pairs of module elements."
+    }
+  ]
+}

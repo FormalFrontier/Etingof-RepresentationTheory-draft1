@@ -1,0 +1,145 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (a : Nat),\n  Ne.{1} a 0 \u2192\n    Subsingleton.{1} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int (ZMod a)) (ModuleCat.of.{0, 0} Int Int) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "2508367458",
+      "temporary_id": "decl-014438"
+    },
+    {
+      "formal_type": "\u2200 {M N : Type} [inst : AddCommGroup.{0} M] [inst_1 : AddCommGroup.{0} N] [Module.Finite.{0, 0} Int M]\n  [Module.Finite.{0, 0} Int N],\n  Exists.{2} fun D =>\n    Exists.{2} fun E =>\n      And\n        (Nonempty.{1}\n          (AddEquiv.{0, 0} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int M) (ModuleCat.of.{0, 0} Int N) 0)\n            (Prod.{0, 0} (Fin (decl-005765.{0} D) \u2192 N)\n              ((i : decl-005800.{0} D) \u2192\n                (l : decl-005800.{0} E) \u2192\n                  ZMod\n                    ((decl-005766.{0} D i).natAbs.gcd\n                      (decl-005766.{0} E l).natAbs)))))\n        (And\n          (Nonempty.{1}\n            (AddEquiv.{0, 0} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int M) (ModuleCat.of.{0, 0} Int N) 1)\n              ((i : decl-005800.{0} D) \u2192\n                (l : decl-005770.{0} E) \u2192\n                  ZMod\n                    ((decl-005766.{0} D i).natAbs.gcd\n                      (decl-005767.{0} E l).natAbs))))\n          (\u2200 (n : Nat),\n            Subsingleton.{1}\n              (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int M) (ModuleCat.of.{0, 0} Int N)\n                (HAdd.hAdd.{0, 0, 0} n 2))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111",
+        "decl-005749",
+        "decl-005765",
+        "decl-005766",
+        "decl-005767",
+        "decl-005770",
+        "decl-005800"
+      ],
+      "structural_type_hash": "1017429227",
+      "temporary_id": "decl-014439"
+    },
+    {
+      "formal_type": "\u2200 {M : Type} [inst : AddCommGroup.{0} M] [Module.Finite.{0, 0} Int M] (Z : ModuleCat.{0, 0} Int) (n : Nat),\n  Subsingleton.{1} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int M) Z (HAdd.hAdd.{0, 0, 0} n 2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "392963059",
+      "temporary_id": "decl-014440"
+    },
+    {
+      "formal_type": "\u2200 (Z : ModuleCat.{0, 0} Int),\n  Nonempty.{1} (AddEquiv.{0, 0} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int Int) Z 0) (ModuleCat.carrier.{0, 0} Z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "2698080331",
+      "temporary_id": "decl-014443"
+    },
+    {
+      "formal_type": "\u2200 (a c : Nat),\n  Ne.{1} a 0 \u2192\n    Nonempty.{1}\n      (AddEquiv.{0, 0} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int (ZMod a)) (ModuleCat.of.{0, 0} Int (ZMod c)) 1)\n        (ZMod (a.gcd c)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "30874432",
+      "temporary_id": "decl-014445"
+    },
+    {
+      "formal_type": "\u2200 {M N : Type} [inst : AddCommGroup.{0} M] [inst_1 : AddCommGroup.{0} N] (D : decl-005749.{0} Int M)\n  (E : decl-005749.{0} Int N),\n  (\u2200 (i : decl-005800.{0} D), Ne.{1} (decl-005766.{0} D i) 0) \u2192\n    Nonempty.{1}\n      (AddEquiv.{0, 0} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int M) (ModuleCat.of.{0, 0} Int N) 1)\n        ((i : decl-005800.{0} D) \u2192\n          (l : decl-005770.{0} E) \u2192\n            ZMod ((decl-005766.{0} D i).natAbs.gcd (decl-005767.{0} E l).natAbs)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111",
+        "decl-005749",
+        "decl-005766",
+        "decl-005767",
+        "decl-005770",
+        "decl-005800"
+      ],
+      "structural_type_hash": "2370585642",
+      "temporary_id": "decl-014446"
+    },
+    {
+      "formal_type": "\u2200 {M N : Type} [inst : AddCommGroup.{0} M] [inst_1 : AddCommGroup.{0} N] (D : decl-005749.{0} Int M),\n  (\u2200 (i : decl-005800.{0} D), Ne.{1} (decl-005766.{0} D i) 0) \u2192\n    Nonempty.{1}\n      (AddEquiv.{0, 0} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int M) (ModuleCat.of.{0, 0} Int N) 1)\n        ((i : decl-005800.{0} D) \u2192\n          HasQuotient.Quotient.{0, 0} N\n            (HSMul.hSMul.{0, 0, 0}\n              (Ideal.span.{0} (Singleton.singleton.{0, 0} (Nat.cast.{0} (decl-005766.{0} D i).natAbs)))\n              Top.top.{0})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111",
+        "decl-005749",
+        "decl-005766",
+        "decl-005800"
+      ],
+      "structural_type_hash": "4122726730",
+      "temporary_id": "decl-014447"
+    },
+    {
+      "formal_type": "\u2200 {M N : Type} [inst : AddCommGroup.{0} M] [inst_1 : AddCommGroup.{0} N] (D : decl-005749.{0} Int M)\n  (E : decl-005749.{0} Int N),\n  (\u2200 (i : decl-005800.{0} D), Ne.{1} (decl-005766.{0} D i) 0) \u2192\n    (\u2200 (l : decl-005800.{0} E), Ne.{1} (decl-005766.{0} E l) 0) \u2192\n      Nonempty.{1}\n        (AddEquiv.{0, 0} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int M) (ModuleCat.of.{0, 0} Int N) 0)\n          (Prod.{0, 0} (Fin (decl-005765.{0} D) \u2192 N)\n            ((i : decl-005800.{0} D) \u2192\n              (l : decl-005800.{0} E) \u2192\n                ZMod\n                  ((decl-005766.{0} D i).natAbs.gcd (decl-005766.{0} E l).natAbs))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111",
+        "decl-005749",
+        "decl-005765",
+        "decl-005766",
+        "decl-005800"
+      ],
+      "structural_type_hash": "1140256055",
+      "temporary_id": "decl-014451"
+    },
+    {
+      "formal_type": "(d : Int) \u2192\n  CategoryTheory.Iso.{0, 1}\n    (ModuleCat.of.{0, 0} Int (HasQuotient.Quotient.{0, 0} Int (Ideal.span.{0} (Singleton.singleton.{0, 0} d))))\n    (ModuleCat.of.{0, 0} Int (ZMod d.natAbs))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3018517780",
+      "temporary_id": "decl-020685"
+    },
+    {
+      "formal_type": "{M : Type} \u2192\n  [inst : AddCommGroup.{0} M] \u2192\n    (D : decl-005749.{0} Int M) \u2192\n      (j : decl-005770.{0} D) \u2192\n        CategoryTheory.Iso.{0, 1} (decl-005789.{0} D j)\n          (ModuleCat.of.{0, 0} Int (ZMod (decl-005767.{0} D j).natAbs))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005767",
+        "decl-005770",
+        "decl-005789"
+      ],
+      "structural_type_hash": "3903223231",
+      "temporary_id": "decl-020692"
+    }
+  ],
+  "module_temporary_id": "module-0672",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

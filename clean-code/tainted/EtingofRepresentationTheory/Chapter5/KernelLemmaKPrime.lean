@@ -1,0 +1,302 @@
+import Mathlib
+import EtingofRepresentationTheory.Chapter5.PolynomialGLRightAction
+import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
+
+/-!
+# The kernel lemma (K′): no nonneg-weight submodule of `(A/det) ⊗ χ⁻ʳ`
+
+This file states the representation-theoretic core (K′) of the
+det⁻¹-elimination kernel lemma (K), phrased over the right-translation
+`GL_N`-action `polyRightRep` on `A = k[Xᵢⱼ]` constructed in
+`PolynomialGLRightAction.lean`.
+
+## The objects
+
+* `quotDetRep`: the induced right-`GL_N`-representation on the quotient
+  `A/det = k[Xᵢⱼ]/(det)`. The principal ideal `(det)` is right-`GL_N`-stable
+  (`Etingof.PolynomialGLAction.rTransAlgHom_mem_detIdeal`), so the right
+  translation descends to the quotient. This is the object that (K′) analyses.
+* `charTwistRep c ρ`: the twist of a representation `ρ` by a character
+  `c : G →* kˣ`: `g ↦ c(g) • ρ(g)`.
+* `detChar`: the determinant character `g ↦ det g : GL_N(k) →* kˣ`. Its
+  right-torus weight is `(1,…,1)` (`det (diagUnit i t) = t`), so `χ⁻ʳ = detChar⁻ʳ`
+  shifts every weight by `(−r,…,−r)`.
+* `quotDetTwistRep r := charTwistRep (detChar⁻ʳ) quotDetRep`: the representation
+  `(A/det) ⊗ χ⁻ʳ`.
+* `glWeightSpaceℤ ρ μ`: the (integer) weight space for `μ : Fin N → ℤ`, the
+  ℤ-graded analogue of `Etingof.glWeightSpace` (which is indexed by `ℕ`-weights).
+
+## The statement
+
+`kernelLemmaK'` : for `r ≥ 1`, every right-`GL_N`-subrepresentation `W` of
+`(A/det) ⊗ χ⁻ʳ` all of whose torus weights lie in `ℕ^N` is `⊥`. The consumable
+corollary `kernelLemmaK'_submodule` rephrases this for an explicitly
+`GL_N`-invariant submodule.
+
+This is the form the det-power-filtration argument consumes: that argument
+produces a nonzero nonneg-weight invariant submodule `W̄ ⊆ (A/det) ⊗ χ⁻ʳ`, and
+(K′) contradicts it.
+
+**Statement correction.** An earlier phrasing, "the supremum of
+all nonneg-weight spaces of `(A/det) ⊗ χ⁻ʳ` is `⊥`", is false: a single
+nonneg-weight vector (e.g. the class of `X₁₁X₂₂`, weight `(0,0)` after the `χ⁻¹`
+twist) exists inside an irreducible whose `GL_N`-orbit also realizes negative
+weights. `GL_N`-invariance of `W` is essential and cannot be dropped; see the
+`kernelLemmaK'` docstring.
+
+## The mathematics
+
+The mathematics of `kernelLemmaK'` is the `GL×GL`-equivariant Cauchy
+decomposition `k[Xᵢⱼ] = ⊕_{ν ∈ ℕ^N dom} V_ν^* ⊠ V_ν` together with the
+highest-weight shift `det · A ≅ A ⊗ χ`: `A/det` keeps exactly the constituents
+with last highest-weight coordinate `ν_N = 0`, so after the `χ⁻ʳ` twist every
+weight has last coordinate `ν_N − r = −r < 0`, i.e. no weight is `≥ 0`. This core is
+proved in `KernelLemmaKPrimeAssembly.lean` (as
+`quotDetTwist_nonzero_subrep_has_neg_weight`); the present file fixes the precise
+statement and constructs every object it is phrased over.
+-/
+
+namespace Etingof.KernelLemmaKPrime
+
+open MvPolynomial Etingof.PolynomialGLAction
+
+/-! ### The quotient representation `A/det` -/
+
+variable {k : Type*} [CommRing k] {N : ℕ}
+
+/-- The determinant principal ideal `(det)` viewed as a `k`-submodule of
+`A = k[Xᵢⱼ]`, so the right translation (a `k`-linear map) can be quotiented by it. -/
+noncomputable def detSubmodule (k : Type*) [CommRing k] (N : ℕ) :
+    Submodule k (MvPolynomial (Fin N × Fin N) k) :=
+  (Ideal.span {Matrix.det (Matrix.mvPolynomialX (Fin N) (Fin N) k)}).restrictScalars k
+
+/-- The right translation preserves the determinant submodule (`(det)` is
+right-`GL_N`-stable), so it descends to the quotient `A/det`. -/
+theorem polyRightRep_mem_detSubmodule (g : Matrix.GeneralLinearGroup (Fin N) k)
+    {f : MvPolynomial (Fin N × Fin N) k} (hf : f ∈ detSubmodule k N) :
+    polyRightRep k N g f ∈ detSubmodule k N := by
+  rw [detSubmodule, Submodule.restrictScalars_mem] at hf ⊢
+  exact rTransAlgHom_mem_detIdeal _ hf
+
+/-- The **right-translation representation on the quotient `A/det = k[Xᵢⱼ]/(det)`**.
+Since the ideal `(det)` is right-`GL_N`-stable, the right translation
+`polyRightRep` descends through `Submodule.mapQ` to a representation on
+the quotient. This is the object the kernel lemma (K′) analyses (after twisting
+by `χ⁻ʳ`). -/
+noncomputable def quotDetRep (k : Type*) [CommRing k] (N : ℕ) :
+    Representation k (Matrix.GeneralLinearGroup (Fin N) k)
+      (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) where
+  toFun g := Submodule.mapQ _ _ (polyRightRep k N g)
+    (fun _ hx => polyRightRep_mem_detSubmodule g hx)
+  map_one' := by
+    refine LinearMap.ext fun x => ?_
+    obtain ⟨a, rfl⟩ := Submodule.Quotient.mk_surjective _ x
+    rw [Submodule.mapQ_apply, map_one]
+    rfl
+  map_mul' g₁ g₂ := by
+    refine LinearMap.ext fun x => ?_
+    obtain ⟨a, rfl⟩ := Submodule.Quotient.mk_surjective _ x
+    rw [Submodule.mapQ_apply, map_mul]
+    simp only [Module.End.mul_apply, Submodule.mapQ_apply]
+
+@[simp] theorem quotDetRep_mk (g : Matrix.GeneralLinearGroup (Fin N) k)
+    (f : MvPolynomial (Fin N × Fin N) k) :
+    quotDetRep k N g (Submodule.Quotient.mk f) =
+      Submodule.Quotient.mk (polyRightRep k N g f) :=
+  rfl
+
+/-! ### Character twist of a representation -/
+
+variable {G V : Type*} [Monoid G] [AddCommMonoid V] [Module k V]
+
+/-- The **character twist** of a representation `ρ` by a character `c : G →* kˣ`:
+`g ↦ c(g) • ρ(g)`. This is `ρ ⊗ c` as a representation (the one-dimensional rep
+of a character tensored on). -/
+noncomputable def charTwistRep (c : G →* kˣ) (ρ : Representation k G V) :
+    Representation k G V where
+  toFun g := (c g : k) • ρ g
+  map_one' := by simp
+  map_mul' g₁ g₂ := by
+    simp only [map_mul, Units.val_mul, smul_mul_smul_comm]
+
+@[simp] theorem charTwistRep_apply (c : G →* kˣ) (ρ : Representation k G V)
+    (g : G) (v : V) : charTwistRep c ρ g v = (c g : k) • ρ g v :=
+  rfl
+
+/-- **Composing two character twists.** Twisting a representation by the character
+`c₂` and then by `c₁` is the same as twisting once by the product character
+`c₁ * c₂`: each twist multiplies the action by a scalar, and scalars compose. This
+collapses the stacked `det^s ∘ det^{-(shift:ℤ)}` twists on `algIrrepGLRepDualρ` into
+a single `det`-power twist. -/
+theorem charTwistRep_charTwistRep (c₁ c₂ : G →* kˣ) (ρ : Representation k G V) :
+    charTwistRep c₁ (charTwistRep c₂ ρ) = charTwistRep (c₁ * c₂) ρ := by
+  ext g v
+  simp only [charTwistRep_apply, MonoidHom.mul_apply, Units.val_mul, smul_smul]
+
+/-! ### The determinant character and the twisted quotient `(A/det) ⊗ χ⁻ʳ` -/
+
+/-- The determinant character `χ : GL_N(k) →* kˣ`, `g ↦ det g`. Its right-torus
+weight is `(1,…,1)`: `det (diagUnit i t) = t`. -/
+noncomputable def detChar (k : Type*) [CommRing k] (N : ℕ) :
+    Matrix.GeneralLinearGroup (Fin N) k →* kˣ :=
+  Matrix.GeneralLinearGroup.det
+
+/-- The representation `(A/det) ⊗ χ⁻ʳ`: the quotient `A/det` twisted by the
+`(−r)`-th power of the determinant character. This is the rep the kernel lemma
+(K′) is about. -/
+noncomputable def quotDetTwistRep (k : Type*) [Field k] (N : ℕ) (r : ℕ) :
+    Representation k (Matrix.GeneralLinearGroup (Fin N) k)
+      (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) :=
+  charTwistRep (detChar k N ^ (-(r : ℤ))) (quotDetRep k N)
+
+/-! ### Integer weight spaces -/
+
+/-- The **integer weight space** `M_μ` for a weight `μ : Fin N → ℤ` in a
+`GL_N(k)`-representation `ρ`: the subspace where the diagonal torus element
+`diagUnit i t` acts as the scalar `t ^ μ i`, for every `i` and every `t ∈ kˣ`.
+This is the ℤ-graded analogue of `Etingof.glWeightSpace` (whose weights are `ℕ`),
+needed because the twist by `χ⁻ʳ` produces negative weights. -/
+noncomputable def glWeightSpaceℤ (k : Type*) [Field k] (N : ℕ) {V : Type*}
+    [AddCommGroup V] [Module k V]
+    (ρ : Representation k (Matrix.GeneralLinearGroup (Fin N) k) V)
+    (μ : Fin N → ℤ) : Submodule k V :=
+  ⨅ (i : Fin N) (t : kˣ),
+    LinearMap.ker (ρ (diagUnit k N i t) - (((t ^ μ i : kˣ) : k)) • LinearMap.id)
+
+/-! ### Reduction of (K′) to a lowest-weight existence core
+
+`kernelLemmaK'` combines two independent facts, isolating the
+core from elementary linear algebra:
+
+* `glWeightSpaceℤ_neg_not_mem_nonneg_span` (elementary): a nonzero
+  vector whose torus weight `μ` has a negative coordinate cannot lie in the span
+  of the nonnegative-weight spaces. This is the linear independence of distinct
+  torus weight spaces: the `ℕ^N`-weight span never reaches a strictly-negative
+  weight vector.
+* `quotDetTwist_nonzero_subrep_has_neg_weight` (the core): every
+  nonzero subrepresentation of `(A/det) ⊗ χ⁻ʳ` (`r ≥ 1`) contains a nonzero
+  torus-weight vector whose weight has a negative coordinate. This is the
+  highest/lowest-weight + `GL×GL`-equivariant Cauchy content: by complete
+  reducibility the subrep contains an irreducible `L` with highest weight `ν`,
+  the Cauchy decomposition forces `ν_N = 0` (constituents of `A/det`), and the
+  lowest weight of `L` (twisted) realizes the negative coordinate `−r` after the
+  `χ⁻ʳ` shift. It is proved in `KernelLemmaKPrimeAssembly.lean`; the
+  `det · A ≅ A ⊗ χ` shift half is likewise proved in `DetShiftIso.lean`.
+
+Given both, (K′) is immediate: a nonzero subrep with all weights `≥ 0` would, by
+the core, contain a negative-weight vector, which the elementary lemma forbids. -/
+
+/-- **Elementary independence.** A nonzero vector `v` lying in the integer weight space
+`glWeightSpaceℤ … μ` for a weight `μ` with some negative coordinate cannot lie in
+the supremum of the nonnegative-weight spaces `⨆_{ν ∈ ℕ^N} glWeightSpaceℤ … ν`.
+
+This is the linear independence of distinct torus weight spaces: the diagonal
+torus acts on `glWeightSpaceℤ … μ` by the character `t ↦ t^{μ i}` and on each
+`glWeightSpaceℤ … ν` (`ν ∈ ℕ^N`) by `t ↦ t^{ν i}`; since `μ` has a coordinate
+`< 0` it differs from every `ν ∈ ℕ^N`, so the weight spaces are independent and
+`v ≠ 0` cannot be a finite sum of nonneg-weight vectors. -/
+theorem glWeightSpaceℤ_neg_not_mem_nonneg_span (k : Type*) [Field k] [CharZero k]
+    (N : ℕ) (r : ℕ) (μ : Fin N → ℤ) (hμ : ∃ i, μ i < 0)
+    {v : MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N}
+    (hv0 : v ≠ 0) (hv : v ∈ glWeightSpaceℤ k N (quotDetTwistRep k N r) μ) :
+    v ∉ ⨆ (ν : Fin N → ℕ),
+      glWeightSpaceℤ k N (quotDetTwistRep k N r) (fun i => (ν i : ℤ)) := by
+  obtain ⟨i, hi⟩ := hμ
+  set ρ := quotDetTwistRep k N r with hρ
+  -- The infinite-order torus element `t₀ = 2` (`k` has characteristic zero) and the
+  -- single torus operator `T = ρ(diag i t₀)` whose eigenspaces separate the weights.
+  set t₀ : kˣ := Units.mk0 (2 : k) (by norm_num) with ht₀def
+  have hcoe : ((t₀ : k)) = 2 := by rw [ht₀def]; rfl
+  set T : Module.End k (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) :=
+    ρ (diagUnit k N i t₀) with hT
+  -- The `i`-th torus eigenvalue attached to an integer weight.
+  set e : ℤ → k := fun a => ((t₀ ^ a : kˣ) : k) with he
+  -- Any weight-`η` vector is a `T`-eigenvector with eigenvalue `e (η i)`.
+  have key : ∀ (w : MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) (η : Fin N → ℤ),
+      w ∈ glWeightSpaceℤ k N ρ η → T w = e (η i) • w := by
+    intro w η hw
+    have hw' : w ∈ LinearMap.ker (ρ (diagUnit k N i t₀)
+        - (((t₀ ^ η i : kˣ) : k)) • LinearMap.id) :=
+      (Submodule.mem_iInf _).1 ((Submodule.mem_iInf _).1 hw i) t₀
+    rw [LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply,
+      sub_eq_zero] at hw'
+    exact hw'
+  -- `e` is injective: `n ↦ 2^n` is injective over `ℚ` and `ℚ → k` is injective.
+  have he_inj : Function.Injective e := by
+    have htrans : ∀ n : ℤ, (2 : k) ^ n = algebraMap ℚ k ((2 : ℚ) ^ n) := by
+      intro n; rw [map_zpow₀, map_ofNat]
+    intro a b hab
+    have h2 : (2 : k) ^ a = (2 : k) ^ b := by
+      simpa only [he, Units.val_zpow_eq_zpow_val, hcoe] using hab
+    rw [htrans, htrans] at h2
+    have hQ : (2 : ℚ) ^ a = (2 : ℚ) ^ b := (algebraMap ℚ k).injective h2
+    exact zpow_right_injective₀ (by norm_num) (by norm_num) hQ
+  -- Eigenspace independence: `v` (eigenvalue `e (μ i)`, `μ i < 0`) cannot lie in the span
+  -- of the nonneg-weight spaces (eigenvalues `e m`, `m ∈ ℕ`).
+  intro hv_sup
+  have hμ_eig : v ∈ Module.End.eigenspace T (e (μ i)) :=
+    Module.End.mem_eigenspace_iff.2 (key v μ hv)
+  have hsup_le : (⨆ (ν : Fin N → ℕ), glWeightSpaceℤ k N ρ (fun j => (ν j : ℤ)))
+      ≤ ⨆ c ∈ Set.range (fun m : ℕ => e (m : ℤ)), Module.End.eigenspace T c := by
+    refine iSup_le fun ν w hw => ?_
+    refine Submodule.mem_iSup_of_mem (e ((ν i : ℤ))) ?_
+    exact Submodule.mem_iSup_of_mem ⟨ν i, rfl⟩
+      (Module.End.mem_eigenspace_iff.2 (key w (fun j => (ν j : ℤ)) hw))
+  have hnot : e (μ i) ∉ Set.range (fun m : ℕ => e (m : ℤ)) := by
+    rintro ⟨m, hm⟩
+    have := he_inj hm
+    omega
+  have hdis := (Module.End.eigenspaces_iSupIndep T).disjoint_biSup hnot
+  have hbot := disjoint_iff.1 hdis
+  have : v ∈ (⊥ : Submodule k _) :=
+    hbot ▸ Submodule.mem_inf.2 ⟨hμ_eig, hsup_le hv_sup⟩
+  exact hv0 ((Submodule.mem_bot _).1 this)
+
+/-- **Weight-space shift under the `χ⁻ʳ` twist.** Twisting `A/det` by `detChar⁻ʳ`
+shifts every torus weight down by `(r,…,r)`: a vector is a weight-`μ` vector of the
+twisted rep `(A/det) ⊗ χ⁻ʳ` exactly when it is a weight-`(μ + r)` vector of the
+untwisted quotient `A/det`. Indeed `det (diagUnit i t) = t`, so the twist rescales
+the diagonal action `diagUnit i t` by the scalar `t⁻ʳ` uniformly in `i`, sending a
+`t^{μ i + r}`-eigenvector of `quotDetRep` to a `t^{μ i}`-eigenvector of the twist.
+
+This is the bookkeeping ingredient that the lowest/highest-weight realization core
+(`quotDetTwist_nonzero_subrep_has_neg_weight`) uses to convert a weight-`ν` vector
+of `A/det` (with `ν ∈ ℕ^N`, `ν_N = 0`) into a weight-`(ν − r)` vector of the twist
+whose last coordinate `ν_N − r = −r` is negative. -/
+theorem glWeightSpaceℤ_quotDetTwist (k : Type*) [Field k] (N : ℕ) (r : ℕ)
+    (μ : Fin N → ℤ) :
+    glWeightSpaceℤ k N (quotDetTwistRep k N r) μ =
+      glWeightSpaceℤ k N (quotDetRep k N) (fun i => μ i + r) := by
+  simp only [glWeightSpaceℤ]
+  refine iInf_congr fun i => iInf_congr fun t => ?_
+  set g := diagUnit k N i t with hg
+  -- `det (diagUnit i t) = t`, so the twist evaluates to `t⁻ʳ • quotDetRep g`.
+  have hdet : detChar k N g = t := by
+    ext
+    change Matrix.det g.val = (t : k)
+    simp only [hg, diagUnit, Matrix.det_diagonal,
+      Finset.prod_update_of_mem (Finset.mem_univ i), Pi.one_apply]
+    simp [Finset.prod_eq_one (fun j _ => rfl)]
+  set c : k := ((t ^ (-(r : ℤ)) : kˣ) : k) with hc
+  have hcne : c ≠ 0 := Units.ne_zero _
+  have htwist : quotDetTwistRep k N r g = c • quotDetRep k N g := by
+    change ((detChar k N ^ (-(r : ℤ))) g : k) • quotDetRep k N g = _
+    rw [MonoidHom.zpow_apply, hdet]
+  -- The two diagonal-action eigenscalars are related by `c`: `c · t^{μ i + r} = t^{μ i}`.
+  have hscal : c * ((t ^ (μ i + (r : ℤ)) : kˣ) : k) = ((t ^ μ i : kˣ) : k) := by
+    have hexp : (-(r : ℤ)) + (μ i + (r : ℤ)) = μ i := by ring
+    rw [hc, ← Units.val_mul, ← zpow_add, hexp]
+  -- Factor the twisted operator through `c`, then strip the nonzero scalar off the kernel.
+  have factored : quotDetTwistRep k N r g - ((t ^ μ i : kˣ) : k) • LinearMap.id =
+      c • (quotDetRep k N g - ((t ^ (μ i + (r : ℤ)) : kˣ) : k) • LinearMap.id) := by
+    rw [htwist, smul_sub, smul_smul, hscal]
+  rw [factored, LinearMap.ker_smul _ _ hcne]
+
+/-! ### The kernel lemma (K′)
+
+The core `quotDetTwist_nonzero_subrep_has_neg_weight`, together with the
+consumers `kernelLemmaK'` and `kernelLemmaK'_submodule`, is proved in
+`KernelLemmaKPrimeAssembly.lean`. The elementary lemma
+`glWeightSpaceℤ_neg_not_mem_nonneg_span` above is reused there. -/
+
+end Etingof.KernelLemmaKPrime

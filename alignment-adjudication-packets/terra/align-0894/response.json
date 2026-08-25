@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:b480352286fceb6ccd71",
+      "rationale": "The type's existential witness elements have an elided type, so the displayed evidence does not directly show that they belong to the free algebra asserted by the source claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0894"
+}

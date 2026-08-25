@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0992",
+  "associations": [
+    {
+      "association_id": "association:19764c1e8036ee7a25df",
+      "role": "primary",
+      "rationale": "The formal type states that repE is injective over every nontrivial commutative ring, directly expressing faithfulness of E in every characteristic."
+    },
+    {
+      "association_id": "association:93692e7fe693bb2e56d3",
+      "role": "supporting",
+      "rationale": "It proves repE injective only in the prime-characteristic setting and additionally asserts noninjectivity of polyRep, so it is narrower contextual evidence for the all-characteristic claim."
+    }
+  ]
+}

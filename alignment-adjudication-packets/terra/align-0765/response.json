@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:9c1fa1cae50d8c0656e0",
+      "rationale": "For a rectangular partition with r rows and c columns, the formal type directly computes the scalar action as c minus r.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0765"
+}

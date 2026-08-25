@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0063",
+  "associations": [
+    {
+      "association_id": "association:413ed1c9813aea5e074a",
+      "role": "supporting",
+      "rationale": "The type gives the quotient equivalence for the named ideal radTensorSum, but the isolated source claim does not identify its J with that opaque ideal."
+    }
+  ]
+}

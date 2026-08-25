@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0847",
+  "associations": [
+    {
+      "association_id": "association:4d7fc38d5a5756129753",
+      "role": "supporting",
+      "rationale": "The type identifies Tor with an opaque leftDerived tensor-functor value, but it does not visibly state computation from a projective resolution of the second argument."
+    }
+  ]
+}

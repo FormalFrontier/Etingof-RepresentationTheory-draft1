@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e7f78016906d1187e14b",
+      "declaration": "Rep.res",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/288/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RepresentationTheory.Rep.Res"
+    }
+  ],
+  "canonical_reference": "Chapter5/Introduction_5.8",
+  "packet_id": "align-1127",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1127"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e3d16eaf1cb21ead42a0",
+  "source_text": "Restriction keeps the representation space and restricts the action along H \u21aa G."
+}

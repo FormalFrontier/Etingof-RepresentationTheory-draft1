@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_after_Proposition2.2.3",
+    "kind": "discussion",
+    "title": "Convention: algebra means associative algebra with unit",
+    "node_id": "chapter-02/section-2-2",
+    "order": 19,
+    "slug": "discussion-after-proposition2-2-3",
+    "span": {
+      "start": {
+        "page": "9",
+        "line": 9
+      },
+      "end": {
+        "page": "9",
+        "line": 10
+      }
+    },
+    "source_sha256": "6313026750b1728debda38cff3608c539ed1c1a5c37286641f2cea5a2db936e3",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionAfterProposition223",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0050",
+  "associations": [
+    {
+      "association_id": "association:e1742fcb6b57e438a212",
+      "role": "primary",
+      "rationale": "Its type directly states that the adjoint map preserves the Lie bracket, the substantive condition asserting that the adjoint action is a Lie-algebra homomorphism."
+    },
+    {
+      "association_id": "association:6f2a52e6ed6eec2f5eba",
+      "role": "supporting",
+      "rationale": "This is the generic bracket-preservation law for an already-constructed Lie homomorphism, so it is a reusable helper rather than the specialized adjoint-action assertion."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:76a373b82d4cd69e3124",
+      "declaration": "Etingof.tensorProductRangeModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/181/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {B : Type u_3} \u2192\n      {M : Type u_4} \u2192\n        [inst : CommSemiring.{u_1} k] \u2192\n          [inst_1 : Semiring.{u_2} A] \u2192\n            [inst_2 : Semiring.{u_3} B] \u2192\n              [inst_3 : Algebra.{u_1, u_2} k A] \u2192\n                [inst_4 : Algebra.{u_1, u_3} k B] \u2192\n                  [inst_5 : AddCommMonoid.{u_4} M] \u2192\n                    [inst_6 : Module.{u_1, u_4} k M] \u2192\n                      (rhoA : AlgHom.{u_1, u_2, u_4} k A (Module.End.{u_1, u_4} k M)) \u2192\n                        (rhoB : AlgHom.{u_1, u_3, u_4} k B (Module.End.{u_1, u_4} k M)) \u2192\n                          (\u2200 (a : A) (b : B),\n                              Commute.{u_4} (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} rhoA a)\n                                (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} rhoB b)) \u2192\n                            Module.{u_4, u_4}\n                              (TensorProduct.{u_1, u_4, u_4} k\n                                (Subtype.{u_4 + 1} fun x =>\n                                  Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_2, u_4} rhoA) x)\n                                (Subtype.{u_4 + 1} fun x =>\n                                  Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_3, u_4} rhoB) x))\n                              M",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:9cc26758312f3dbb0431",
+      "declaration": "Etingof.tensorProductRangeRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/181/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {B : Type u_3} \u2192\n      {M : Type u_4} \u2192\n        [inst : CommSemiring.{u_1} k] \u2192\n          [inst_1 : Semiring.{u_2} A] \u2192\n            [inst_2 : Semiring.{u_3} B] \u2192\n              [inst_3 : Algebra.{u_1, u_2} k A] \u2192\n                [inst_4 : Algebra.{u_1, u_3} k B] \u2192\n                  [inst_5 : AddCommMonoid.{u_4} M] \u2192\n                    [inst_6 : Module.{u_1, u_4} k M] \u2192\n                      (rhoA : AlgHom.{u_1, u_2, u_4} k A (Module.End.{u_1, u_4} k M)) \u2192\n                        (rhoB : AlgHom.{u_1, u_3, u_4} k B (Module.End.{u_1, u_4} k M)) \u2192\n                          (\u2200 (a : A) (b : B),\n                              Commute.{u_4} (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} rhoA a)\n                                (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} rhoB b)) \u2192\n                            AlgHom.{u_1, u_4, u_4} k\n                              (TensorProduct.{u_1, u_4, u_4} k\n                                (Subtype.{u_4 + 1} fun x =>\n                                  Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_2, u_4} rhoA) x)\n                                (Subtype.{u_4 + 1} fun x =>\n                                  Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_3, u_4} rhoB) x))\n                              (Module.End.{u_1, u_4} k M)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:2f564526c6e2a446f89d",
+      "declaration": "Etingof.tensorProductRangeRep_tmul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/181/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {B : Type u_3} {M : Type u_4} [inst : CommSemiring.{u_1} k] [inst_1 : Semiring.{u_2} A]\n  [inst_2 : Semiring.{u_3} B] [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : Algebra.{u_1, u_3} k B]\n  [inst_5 : AddCommMonoid.{u_4} M] [inst_6 : Module.{u_1, u_4} k M]\n  (rhoA : AlgHom.{u_1, u_2, u_4} k A (Module.End.{u_1, u_4} k M))\n  (rhoB : AlgHom.{u_1, u_3, u_4} k B (Module.End.{u_1, u_4} k M))\n  (hcomm :\n    \u2200 (a : A) (b : B),\n      Commute.{u_4} (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} rhoA a)\n        (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} rhoB b))\n  (a : A) (b : B),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1} (Etingof.tensorProductRangeRep.{u_1, u_2, u_3, u_4} rhoA rhoB hcomm)\n      (TensorProduct.tmul.{u_1, u_4, u_4} k\n        (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} (AlgHom.rangeRestrict.{u_1, u_2, u_4} rhoA) a)\n        (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} (AlgHom.rangeRestrict.{u_1, u_3, u_4} rhoB) b)))\n    (HMul.hMul.{u_4, u_4, u_4} (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} rhoA a)\n      (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} rhoB b))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.10.2",
+  "packet_id": "align-0166",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0166"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:33865c2f95ccf5ec69a3",
+  "source_text": "M carries the induced A' \u2297 B' action, so replacing A and B by their image algebras loses no information and one may assume without loss of generality that A and B are finite dimensional."
+}

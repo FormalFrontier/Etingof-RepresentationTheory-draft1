@@ -1,0 +1,113 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] {k : Type u} [inst_1 : Field.{u} k] [inst_2 : Algebra.{u, u} k R]\n  [Module.Finite.{u, u} k R] (M : ModuleCat.{u, u} R) [inst_4 : Module.{u, u} k (ModuleCat.carrier.{u, u} M)]\n  [IsScalarTower.{u, u, u} k R (ModuleCat.carrier.{u, u} M)] [Module.Finite.{u, u} k (ModuleCat.carrier.{u, u} M)]\n  (d : Nat),\n  CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} M d \u2192\n    Exists.{u + 2} fun P =>\n      And\n        (\u2200 (n : Nat),\n          Module.Finite.{u, u} k\n            (ModuleCat.carrier.{u, u}\n              (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) n)))\n        (And (CategoryTheory.Projective.{u, u + 1} (decl-014615.{u, u + 1} P d))\n          (And (Module.Finite.{u, u} k (ModuleCat.carrier.{u, u} (decl-014615.{u, u + 1} P d)))\n            (And (Eq.{u + 2} (decl-014615.{u, u + 1} P 0) M)\n              (\u2200 (n : Nat),\n                CategoryTheory.ShortComplex.ShortExact.{u, u + 1}\n                  (decl-014616.{u, u + 1} P n)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014615",
+        "decl-014616"
+      ],
+      "structural_type_hash": "3496206132",
+      "temporary_id": "decl-013889"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] {k : Type u_1} [inst_1 : CommRing.{u_1} k] [inst_2 : Algebra.{u_1, u} k R]\n  [Module.Finite.{u_1, u} k R] (N : Type u_2) [inst_4 : AddCommGroup.{u_2} N] [inst_5 : Module.{u, u_2} R N]\n  [inst_6 : Module.{u_1, u_2} k N] [IsScalarTower.{u_1, u, u_2} k R N] [Module.Finite.{u, u_2} R N],\n  Module.Finite.{u_1, u_2} k N",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1209133549",
+      "temporary_id": "decl-013890"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  (P : CategoryTheory.ProjectiveResolution.{u, u + 1} M),\n  Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M) \u2192\n    (\u2200 (n : Nat),\n        Module.Finite.{u, u} R\n          (ModuleCat.carrier.{u, u}\n            (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) n))) \u2192\n      \u2200 (n : Nat),\n        Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} (decl-014615.{u, u + 1} P n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014615"
+      ],
+      "structural_type_hash": "3597469029",
+      "temporary_id": "decl-013891"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  (P : CategoryTheory.ProjectiveResolution.{u, u + 1} M),\n  Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M) \u2192\n    (\u2200 (n : Nat),\n        Module.Finite.{u, u} R\n          (ModuleCat.carrier.{u, u}\n            (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) n))) \u2192\n      \u2200 (d : Nat),\n        CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} M d \u2192\n          And (CategoryTheory.Projective.{u, u + 1} (decl-014615.{u, u + 1} P d))\n            (And\n              (\u2200 (n : Nat),\n                Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} (decl-014615.{u, u + 1} P n)))\n              (And (Eq.{u + 2} (decl-014615.{u, u + 1} P 0) M)\n                (\u2200 (n : Nat),\n                  CategoryTheory.ShortComplex.ShortExact.{u, u + 1}\n                    (decl-014616.{u, u + 1} P n))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014615",
+        "decl-014616"
+      ],
+      "structural_type_hash": "362081164",
+      "temporary_id": "decl-013892"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (M : ModuleCat.{u, u} R) (d : Nat),\n  Iff (CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} M d)\n    (\u2200 (N : ModuleCat.{u, u} R) (i : Nat),\n      LT.lt.{0} d i \u2192 Subsingleton.{u + 1} (CategoryTheory.Abelian.Ext.{u, u, u + 1} M N i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "806813613",
+      "temporary_id": "decl-013893"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} R)),\n  CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S \u2192\n    CategoryTheory.Projective.{u, u + 1} (CategoryTheory.ShortComplex.X\u2082.{u, u + 1} S) \u2192\n      \u2200 (d : Nat),\n        LT.lt.{0} 0 d \u2192\n          CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} (CategoryTheory.ShortComplex.X\u2083.{u, u + 1} S) d \u2192\n            CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} (CategoryTheory.ShortComplex.X\u2081.{u, u + 1} S)\n              (HSub.hSub.{0, 0, 0} d 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "933096007",
+      "temporary_id": "decl-013896"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} R)),\n  CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S \u2192\n    CategoryTheory.Projective.{u, u + 1} (CategoryTheory.ShortComplex.X\u2082.{u, u + 1} S) \u2192\n      IsEmpty.{u + 1} (CategoryTheory.ShortComplex.Splitting.{u, u + 1} S) \u2192\n        Eq.{1} (decl-022180.{u} R (CategoryTheory.ShortComplex.X\u2083.{u, u + 1} S))\n          (HAdd.hAdd.{0, 0, 0} (decl-022180.{u} R (CategoryTheory.ShortComplex.X\u2081.{u, u + 1} S)) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022180"
+      ],
+      "structural_type_hash": "4261475688",
+      "temporary_id": "decl-013897"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (M : ModuleCat.{u, u} R) (P : CategoryTheory.ProjectiveResolution.{u, u + 1} M)\n  (d : Nat),\n  CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} M d \u2192\n    CategoryTheory.Projective.{u, u + 1} (decl-014615.{u, u + 1} P d)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014615"
+      ],
+      "structural_type_hash": "1718695636",
+      "temporary_id": "decl-013905"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (M : ModuleCat.{u, u} R) (P : CategoryTheory.ProjectiveResolution.{u, u + 1} M)\n  (d : Nat),\n  CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} M d \u2192\n    And (CategoryTheory.Projective.{u, u + 1} (decl-014615.{u, u + 1} P d))\n      (And (Eq.{u + 2} (decl-014615.{u, u + 1} P 0) M)\n        (\u2200 (n : Nat),\n          CategoryTheory.ShortComplex.ShortExact.{u, u + 1} (decl-014616.{u, u + 1} P n)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014615",
+        "decl-014616"
+      ],
+      "structural_type_hash": "1746410684",
+      "temporary_id": "decl-013908"
+    }
+  ],
+  "module_temporary_id": "module-0745",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

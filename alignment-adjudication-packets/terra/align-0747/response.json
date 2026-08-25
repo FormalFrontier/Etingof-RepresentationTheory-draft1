@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0747",
+  "associations": [
+    {
+      "association_id": "association:02850680905cfca72acb",
+      "role": "primary",
+      "rationale": "The type directly concludes complex type from odd group order, irreducibility, and nontriviality, exactly matching the source claim."
+    }
+  ]
+}

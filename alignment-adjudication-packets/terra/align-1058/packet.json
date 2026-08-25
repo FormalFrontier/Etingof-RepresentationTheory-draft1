@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3ecfa87217faa288d743",
+      "declaration": "Etingof.Remark315.end_divisionRing",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/130/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  [IsSimpleModule.{u_1, u_2} A V], Nonempty.{u_2 + 1} (DivisionRing.{u_2} (Module.End.{u_1, u_2} A V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_1_5"
+    },
+    {
+      "association_id": "association:970f65214891ca60a263",
+      "declaration": "Etingof.Remark315.homMatrixEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/130/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{A : Type u_1} \u2192\n  [inst : Ring.{u_1} A] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} A V] \u2192\n          (r n : Nat) \u2192\n            AddEquiv.{u_2, u_2} (LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} A) (Fin r \u2192 V) (Fin n \u2192 V))\n              (Matrix.{0, 0, u_2} (Fin r) (Fin n) (Module.End.{u_1, u_2} A V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_1_5"
+    },
+    {
+      "association_id": "association:dc5bb65a829ba09ae029",
+      "declaration": "Etingof.Remark315.homMatrixEquiv_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/130/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  (r n : Nat) (f : LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} A) (Fin r \u2192 V) (Fin n \u2192 V)) (i : Fin r) (j : Fin n)\n  (x : V),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Etingof.Remark315.homMatrixEquiv.{u_1, u_2} r n) f i j) x)\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} f (Pi.single.{0, u_2} i x) j)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_1_5"
+    }
+  ],
+  "canonical_reference": "Chapter3/Remark3.1.5",
+  "packet_id": "align-1058",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1058"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ce56e22625b33453c397",
+  "source_text": "In this generality the matrix entries lie in D_i = End_A(V_i), and Schur's lemma makes D_i a division ring."
+}

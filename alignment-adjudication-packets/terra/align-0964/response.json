@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0964",
+  "associations": [
+    {
+      "association_id": "association:145a2168d139a17bc894",
+      "role": "primary",
+      "rationale": "Its iff states that a finite-dimensional complex representation is self-dual exactly when every character value is real."
+    }
+  ]
+}

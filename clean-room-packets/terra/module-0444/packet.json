@@ -1,0 +1,91 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {V : Type} [inst_1 : AddCommGroup.{0} V] [inst_2 : Module.{0, 0} k V] [CharZero.{0} k]\n  [Module.Finite.{0, 0} k V] (n : Nat) (W : Submodule.{0, 0} k (SymmetricPower.{0, 0} k (Fin n) V)),\n  (\u2200 (g : LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) V V) (w : SymmetricPower.{0, 0} k (Fin n) V),\n      Membership.mem.{0, 0} W w \u2192\n        Membership.mem.{0, 0} W\n          (DFunLike.coe.{1, 1, 1} (decl-023722 (LinearEquiv.toLinearMap.{0, 0, 0, 0} g)) w)) \u2192\n    Or (Eq.{1} W Bot.bot.{0}) (Eq.{1} W Top.top.{0})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023722"
+      ],
+      "structural_type_hash": "873283888",
+      "temporary_id": "decl-003419"
+    },
+    {
+      "formal_type": "{k : Type} \u2192 [Field.{0} k] \u2192 {n d : Nat} \u2192 (Fin d \u2192 k) \u2192 decl-016226.{0} n (Fin d) \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016226"
+      ],
+      "structural_type_hash": "4129133470",
+      "temporary_id": "decl-021628"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n d : Nat} (t : Fin d \u2192 k) (p : Fin n \u2192 Fin d),\n  Eq.{1} (decl-021628 t (decl-016260.{0} p))\n    (Finset.prod.{0, 0} Finset.univ.{0} fun m => t (p m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016260",
+        "decl-021628"
+      ],
+      "structural_type_hash": "1417721458",
+      "temporary_id": "decl-021630"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {V : Type} [inst_1 : AddCommGroup.{0} V] [inst_2 : Module.{0, 0} k V] {n d : Nat}\n  (bV : Module.Basis.{0, 0, 0} (Fin d) k V) (t : Fin d \u2192 k) (g : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) V V),\n  (\u2200 (l : Fin d),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} g (DFunLike.coe.{1, 1, 1} bV l))\n        (HSMul.hSMul.{0, 0, 0} (t l) (DFunLike.coe.{1, 1, 1} bV l))) \u2192\n    \u2200 (p : Fin n \u2192 Fin d),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1} (decl-023722 g)\n          (DFunLike.coe.{1, 1, 1} (decl-016241.{0} bV)\n            (decl-016260.{0} p)))\n        (HSMul.hSMul.{0, 0, 0} (Finset.prod.{0, 0} Finset.univ.{0} fun m => t (p m))\n          (DFunLike.coe.{1, 1, 1} (decl-016241.{0} bV)\n            (decl-016260.{0} p)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016226",
+        "decl-016241",
+        "decl-016260",
+        "decl-023722"
+      ],
+      "structural_type_hash": "2167878375",
+      "temporary_id": "decl-023729"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {V : Type} [inst_1 : AddCommGroup.{0} V] [inst_2 : Module.{0, 0} k V] [CharZero.{0} k]\n  [Module.Finite.{0, 0} k V] {n : Nat} (W : Submodule.{0, 0} k (SymmetricPower.{0, 0} k (Fin n) V)),\n  (\u2200 (g : LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) V V) (w : SymmetricPower.{0, 0} k (Fin n) V),\n      Membership.mem.{0, 0} W w \u2192\n        Membership.mem.{0, 0} W\n          (DFunLike.coe.{1, 1, 1} (decl-023722 (LinearEquiv.toLinearMap.{0, 0, 0, 0} g)) w)) \u2192\n    Or (Eq.{1} W Bot.bot.{0}) (Eq.{1} W Top.top.{0})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023722"
+      ],
+      "structural_type_hash": "873283888",
+      "temporary_id": "decl-023731"
+    },
+    {
+      "formal_type": "\u2200 {n d : Nat} {p q : Fin n \u2192 Fin d},\n  List.Perm.{0} (List.ofFn.{0} p) (List.ofFn.{0} q) \u2192\n    Eq.{1} (decl-016260.{0} p) (decl-016260.{0} q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016226",
+        "decl-016260"
+      ],
+      "structural_type_hash": "3358599214",
+      "temporary_id": "decl-024148"
+    }
+  ],
+  "module_temporary_id": "module-0444",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

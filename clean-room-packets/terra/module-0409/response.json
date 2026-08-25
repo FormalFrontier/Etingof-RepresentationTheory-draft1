@@ -1,0 +1,30 @@
+{
+  "module_name": "Auxiliary.EquivariantMaps",
+  "declarations": [
+    {
+      "temporary_id": "decl-018341",
+      "new_name": "auxiliary_subrepresentation_has_injective_equivariant_map_of_basis_bound",
+      "docstring": "If the natural-number values associated with a finite basis are bounded, the corresponding indexed representation satisfies the given predicate and admits an injective equivariant map."
+    },
+    {
+      "temporary_id": "decl-018810",
+      "new_name": "auxiliary_simple_subrepresentation_has_equivariant_map_after_negated_nat_power",
+      "docstring": "A simple finite-dimensional subrepresentation admits an equivariant map whose source action is formed using the negation of a natural-number exponent."
+    },
+    {
+      "temporary_id": "decl-018812",
+      "new_name": "auxiliary_subrepresentation_has_equivariant_embedding_with_supremum_eq_top",
+      "docstring": "For a finite-dimensional subrepresentation, some natural power gives the stated predicate, an associated indexed supremum equal to top, and an injective equivariant map."
+    },
+    {
+      "temporary_id": "decl-018913",
+      "new_name": "auxiliary_simple_representation_embeds_in_indexed_representation_of_polynomial_embedding",
+      "docstring": "If a simple finite-dimensional representation maps injectively and equivariantly into a multivariate polynomial ring, then it maps injectively and equivariantly into some member of a natural-number-indexed representation family."
+    },
+    {
+      "temporary_id": "decl-022075",
+      "new_name": "auxiliary_indexed_representation_value_eq_finite_weighted_sum",
+      "docstring": "A value attached to each natural-number-indexed representation can be expressed as a finite sum of family terms with natural-number coefficients."
+    }
+  ]
+}

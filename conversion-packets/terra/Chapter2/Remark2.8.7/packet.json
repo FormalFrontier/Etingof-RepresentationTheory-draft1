@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Remark2.8.7",
+    "kind": "remark",
+    "title": "Quiver representations are easier in practice",
+    "node_id": "chapter-02/section-2-8",
+    "order": 71,
+    "slug": "remark2-8-7",
+    "span": {
+      "start": {
+        "page": "21",
+        "line": 5
+      },
+      "end": {
+        "page": "21",
+        "line": 7
+      }
+    },
+    "source_sha256": "e9edef3ef10915d7e871fa1df035174e864eab2573ff0da4a41b19db977e04d2",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark287",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

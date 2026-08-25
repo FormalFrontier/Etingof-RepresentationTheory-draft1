@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1114",
+  "associations": [
+    {
+      "association_id": "association:695b950408fb878d0a83",
+      "role": "supporting",
+      "rationale": "The displayed type only constructs a quiver representation from two representations; it does not expose the claimed vertex-space or arrow-map formulas."
+    }
+  ]
+}

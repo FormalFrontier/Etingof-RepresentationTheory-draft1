@@ -1,0 +1,30 @@
+/-
+Copyright (c) 2026 American Mathematical Society. All rights reserved.
+-/
+
+import VersoManual
+import RepresentationTheory
+
+open Verso.Genre Manual
+
+namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Exercise814
+
+#doc (Manual) "Lifting homomorphisms through extensions" =>
+
+# Lifting homomorphisms through extensions
+%%%
+tag := "Chapter8/Exercise8.1.4"
+number := false
+%%%
+
+*Exercise 8.1.4.* Let $`A` be a ring, let $`M_1, M_2` be left $`A`-modules, let $`P_1, P_2` be projective left $`A`-modules, and let $`f_i : P_i \to M_i` be homomorphisms. Let $`M` be a left $`A`-module containing $`M_1` such that $`M/M_1 = M_2`. Show that there exists a homomorphism $`f : P_1 \oplus P_2 \to M` such that $`f|_{P_1} = f_1` and the induced homomorphism $`P_2 \to M_2` is $`f_2`.
+
+## Formalization
+%%%
+tag := "Chapter8/Exercise8.1.4/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Projective.Lifting.LinearMap.exists_coprod_map_of_exact}

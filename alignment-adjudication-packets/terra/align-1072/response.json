@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1072",
+  "associations": [
+    {
+      "association_id": "association:bc9906ed9888e548354a",
+      "role": "supporting",
+      "rationale": "The type gives the q²−1 count only under the additional hypothesis p ≠ 2, so it is a characteristic-specific case rather than the full source claim for GL₂(F_q)."
+    }
+  ]
+}

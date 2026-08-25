@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0236",
+  "associations": [
+    {
+      "association_id": "association:2286b6d14f6121e447e7",
+      "role": "primary",
+      "rationale": "It directly gives the order of the two-dimensional general linear group as (q^2 - 1)(q^2 - q)."
+    },
+    {
+      "association_id": "association:54aa63aad0d1684e1fe7",
+      "role": "primary",
+      "rationale": "It directly gives the equivalent factored order q(q + 1)(q - 1)^2."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:f735c5b5d9b1901a4208",
+      "rationale": "This only supplies the upper bound on homological dimension, whereas the source asserts dimension exactly one.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e3955c534aad55144376",
+      "rationale": "Under the displayed existence-of-an-edge hypothesis, this directly states that the path algebra has homological dimension one.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0871"
+}

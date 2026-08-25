@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Discussion_after_Problem8.2.8",
+    "kind": "discussion",
+    "title": "Tor and Ext in abelian categories with enough projectives",
+    "node_id": "chapter-08/section-8-2",
+    "order": 544,
+    "slug": "discussion-after-problem8-2-8",
+    "span": {
+      "start": {
+        "page": "210",
+        "line": 41
+      },
+      "end": {
+        "page": "210",
+        "line": 41
+      }
+    },
+    "source_sha256": "c11c8f2d6cdc8887b2a98b8909293d84671ac371d6e292cb15880dc256864cd7",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.DiscussionAfterProblem828",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

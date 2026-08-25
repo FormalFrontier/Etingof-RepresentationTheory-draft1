@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_after_Theorem2.1.2",
+    "kind": "discussion",
+    "title": "Dynkin diagrams significance; representation theory of finite groups overview",
+    "node_id": "chapter-02/section-2-1",
+    "order": 14,
+    "slug": "discussion-after-theorem2-1-2",
+    "span": {
+      "start": {
+        "page": "8",
+        "line": 8
+      },
+      "end": {
+        "page": "8",
+        "line": 10
+      }
+    },
+    "source_sha256": "75c2547ee629960abad1098d1cac516ec40a025b51561ab538bcf712bb22073e",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionAfterTheorem212",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

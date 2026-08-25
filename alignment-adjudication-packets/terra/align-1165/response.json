@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1165",
+  "associations": [
+    {
+      "association_id": "association:48784d6514b5ef6bc727",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the displayed evidence does not directly state the trace-function characterization."
+    }
+  ]
+}

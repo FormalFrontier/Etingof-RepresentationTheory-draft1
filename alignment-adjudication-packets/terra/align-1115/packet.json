@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d2d91384d730ab14f29e",
+      "declaration": "Etingof.coxeterElement",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/449/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 (Fin n \u2192 Int) \u2192 Fin n \u2192 Int",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Definition6_7_1"
+    }
+  ],
+  "canonical_reference": "Chapter6/Definition6.7.1",
+  "packet_id": "align-1115",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1115"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e0854d00c40cc8b49f7a",
+  "source_text": "The Coxeter element is the ordered product of the simple reflections."
+}

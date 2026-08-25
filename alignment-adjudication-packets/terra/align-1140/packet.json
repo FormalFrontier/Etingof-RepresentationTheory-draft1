@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:aa32a9aab83b633025b3",
+      "declaration": "Etingof.rightModuleOfLeft",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/24/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192\n  (M : Type u_2) \u2192\n    [inst : CommRing.{u_1} A] \u2192\n      [inst_1 : AddCommGroup.{u_2} M] \u2192 [Module.{u_1, u_2} A M] \u2192 Module.{u_1, u_2} (MulOpposite.{u_1} A) M",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_3_2"
+    },
+    {
+      "association_id": "association:79e69151fa03f4623f07",
+      "declaration": "Etingof.rightModuleOfLeft_smul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/24/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) (M : Type u_2) [inst : CommRing.{u_1} A] [inst_1 : AddCommGroup.{u_2} M]\n  [inst_2 : Module.{u_1, u_2} A M] (a : A) (m : M),\n  Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} (MulOpposite.op.{u_1} a) m) (HSMul.hSMul.{u_1, u_2, u_2} a m)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_3_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Remark2.3.2",
+  "packet_id": "align-1140",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1140"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e946f699859926269776",
+  "source_text": "A left module over a commutative ring becomes a right module via ma := am."
+}

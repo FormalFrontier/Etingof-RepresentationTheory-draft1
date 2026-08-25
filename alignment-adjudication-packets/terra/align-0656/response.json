@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0656",
+  "associations": [
+    {
+      "association_id": "association:614cb295cb9ed405e1ac",
+      "rationale": "The formal type states multiplicativity iff the opaque predicate IsCocycle holds, but it does not display the required formula f(ab)=ρ_V(a)f(b)+f(a)ρ_W(b).",
+      "role": "supporting"
+    }
+  ]
+}

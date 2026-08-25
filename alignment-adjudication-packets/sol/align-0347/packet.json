@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:29dd3819a3f58f40baaf",
+      "declaration": "Etingof.Problem3_8_5.antiperiodic_isIndecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/169/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Etingof.IsIndecomposable.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.antiperiodicSubmod x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_5"
+    },
+    {
+      "association_id": "association:587cf1c64f24b53bf285",
+      "declaration": "Etingof.Problem3_8_5.periodic_isIndecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/169/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Etingof.IsIndecomposable.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_5"
+    },
+    {
+      "association_id": "association:8d46d054fefa46baad63",
+      "declaration": "Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/169/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "IsEmpty.{1}\n  (LinearEquiv.{0, 0, 0, 0}\n    (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x))\n    (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x)\n    (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.antiperiodicSubmod x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_5"
+    },
+    {
+      "association_id": "association:35520e68f81034937bb0",
+      "declaration": "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/169/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (LinearEquiv.{0, 0, 0, 0}\n    (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x))\n    (Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.periodicSubalg x))\n    (Prod.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.antiperiodicSubmod x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem3_8_5.antiperiodicSubmod x)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_5"
+    }
+  ],
+  "canonical_reference": "Chapter3/Remark3.8.6",
+  "packet_id": "align-0347",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0347"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6b01c99c69bb63bec2d9",
+  "source_text": "Krull-Schmidt can fail for infinite-dimensional modules."
+}

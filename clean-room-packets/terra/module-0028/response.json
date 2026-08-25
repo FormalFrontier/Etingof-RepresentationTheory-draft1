@@ -1,0 +1,40 @@
+{
+  "module_name": "LinearAlgebra.TensorAlgebra.AuxiliaryTypes",
+  "declarations": [
+    {
+      "temporary_id": "decl-016272",
+      "new_name": "TensorAlgebra.AuxiliaryType",
+      "docstring": "An auxiliary type depending on a vector space over a field."
+    },
+    {
+      "temporary_id": "decl-023842",
+      "new_name": "TensorAlgebra.auxiliaryTypeEquivDirectSum",
+      "docstring": "An algebra equivalence from the auxiliary type to the direct sum of tensor powers."
+    },
+    {
+      "temporary_id": "decl-023843",
+      "new_name": "TensorAlgebra.auxiliaryTypeEquivDirectSum_tprod",
+      "docstring": "The auxiliary-type equivalence sends a pure tensor product to its corresponding direct-sum component."
+    },
+    {
+      "temporary_id": "decl-023844",
+      "new_name": "TensorAlgebra.basisAuxiliaryTypeEquivFreeAlgebra",
+      "docstring": "A chosen basis gives an algebra equivalence from the auxiliary type to a free algebra."
+    },
+    {
+      "temporary_id": "decl-023845",
+      "new_name": "TensorAlgebra.basisAuxiliaryTypeEquivFreeAlgebra_generator",
+      "docstring": "Under the basis-induced equivalence from the auxiliary type, a tensor generator corresponding to a basis element maps to the free generator."
+    },
+    {
+      "temporary_id": "decl-023851",
+      "new_name": "TensorPower.toTensorAlgebra_mul_compatible",
+      "docstring": "Embedding tensor powers into the tensor algebra preserves multiplication of homogeneous elements."
+    },
+    {
+      "temporary_id": "decl-023852",
+      "new_name": "TensorAlgebra.generator_injective",
+      "docstring": "The canonical map from a module into its tensor algebra is injective."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0087",
+  "associations": [
+    {
+      "association_id": "association:076e7f0c1f4f91488403",
+      "role": "supporting",
+      "rationale": "The type installs an Algebra instance on the opaque type QuotientAlgebra A I, but does not display the quotient or establish that its multiplication is well defined."
+    }
+  ]
+}

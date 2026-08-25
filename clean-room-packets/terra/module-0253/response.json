@@ -1,0 +1,20 @@
+{
+  "module_name": "AuxiliaryRepresentationParameters",
+  "declarations": [
+    {
+      "temporary_id": "decl-017175",
+      "new_name": "auxiliaryRepresentation_linearEquiv_iff_parameters_eq",
+      "docstring": "Two displayed auxiliary representation modules are linearly equivalent exactly when their parameters are equal."
+    },
+    {
+      "temporary_id": "decl-017176",
+      "new_name": "auxiliaryRepresentation_not_linearEquiv_of_parameters_ne",
+      "docstring": "Displayed auxiliary representation modules with distinct parameters are not linearly equivalent."
+    },
+    {
+      "temporary_id": "decl-019517",
+      "new_name": "auxiliary_identity_of_antitone",
+      "docstring": "For an antitone natural-valued function, the first displayed auxiliary construction applied to the finite-dimensional representation equals the second displayed auxiliary construction applied after pointwise addition by the given natural number."
+    }
+  ]
+}

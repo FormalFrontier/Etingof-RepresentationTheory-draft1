@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Example7.5.3",
+    "kind": "example",
+    "title": "Forgetful functor as representable functor",
+    "node_id": "chapter-07/section-7-5",
+    "order": 487,
+    "slug": "example7-5-3",
+    "span": {
+      "start": {
+        "page": "188",
+        "line": 7
+      },
+      "end": {
+        "page": "188",
+        "line": 8
+      }
+    },
+    "source_sha256": "21b7069962bf71a51ca190b19f873336bbbb5385b15b80d9fbb6b3c52b8cdbe5",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example753",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

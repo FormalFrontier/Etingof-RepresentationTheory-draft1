@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ce3ddd7b4a5c9033b0bc",
+      "declaration": "Etingof.Theorem_2_1_1_ii_indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/10/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V]\n  [inst_3 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V]\n  [inst_4 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V],\n  Etingof.IsIndecomposableLieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V \u2192\n    LieModule.IsIrreducible.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) V",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Theorem2.1.1",
+  "packet_id": "align-0133",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0133"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:290cbc3c94398cf105f5",
+  "source_text": "Every finite-dimensional indecomposable complex sl(2)-representation is irreducible."
+}

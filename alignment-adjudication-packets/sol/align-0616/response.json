@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0616",
+  "associations": [
+    {
+      "association_id": "association:b2e247ff09468a288c4b",
+      "rationale": "The type states that the degree-n piece has finrank m^n, but it does not itself state the Hilbert-series formula, so it covers only one component of the complete claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2336f5b7e2010001b1ea",
+      "rationale": "The displayed type only constructs a degree piece as a submodule and does not state its dimension or Hilbert series.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b23cda5720376deb4f20",
+      "rationale": "The algebra equivalence with a free-monoid monoid algebra is a construction supporting the calculation, not the dimension or Hilbert-series claim itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:15bc318fc1de34cefef8",
+      "rationale": "The type states the free-algebra Hilbert-series identity, but it does not itself state the degree-piece dimension formula, so it covers only one component of the complete claim.",
+      "role": "supporting"
+    }
+  ]
+}

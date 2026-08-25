@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3fe466bc53d468837c3d",
+      "declaration": "Etingof.Exercise_8_2_9_ii",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/544/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u) [inst : CommRing.{u} A] [Algebra.FiniteType.{0, u} Int A] (M : Type u) [inst_2 : AddCommGroup.{u} M]\n  [inst_3 : Module.{u, u} A M] [Module.Finite.{u, u} A M],\n  Exists.{1} fun n => Exists.{u + 1} fun f => Function.Surjective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} f)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Exercise8_2_9"
+    }
+  ],
+  "canonical_reference": "Chapter8/Exercise8.2.9",
+  "packet_id": "align-0828",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0828"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Exercise8.2.9:part_ii",
+  "source_text": "Part (ii): finitely generated modules over a finitely generated commutative ring have enough projectives."
+}

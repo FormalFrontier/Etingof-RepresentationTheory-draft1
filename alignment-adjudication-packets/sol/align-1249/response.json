@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-1249",
+  "associations": [
+    {
+      "association_id": "association:28cdb8e8f9ea0d1bb57a",
+      "rationale": "The application equality directly states that the action of g sends f to the function x mapped to f(xg), which is the action formula used in both source computations.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e48b3f38a518edcf670b",
+      "rationale": "This restates the covariance condition already required of f; it is the prerequisite used in the first well-definedness calculation rather than the preservation claim itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:d955eaa088c5570ca05d",
+      "rationale": "The formal equality directly asserts that acting by gg' equals successively acting by g' and g, matching the second computation in the source.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bc7e33c57c9d97c3b6b2",
+      "rationale": "The identity-action law is a necessary representation axiom but is not one of the two checks displayed in this source passage.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:98fd564344323edbbb0c",
+      "rationale": "The membership iff characterizes the induced function space by its covariance condition, supplying context for the check rather than asserting that the G-action preserves the space or respects multiplication.",
+      "role": "supporting"
+    }
+  ]
+}

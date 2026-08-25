@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_after_Definition5.1.1",
+    "kind": "discussion",
+    "title": "Quaternionic representations are even-dimensional",
+    "node_id": "chapter-05/section-5-1",
+    "order": 245,
+    "slug": "discussion-after-definition5-1-1",
+    "span": {
+      "start": {
+        "page": "93",
+        "line": 12
+      },
+      "end": {
+        "page": "93",
+        "line": 14
+      }
+    },
+    "source_sha256": "3bdea2080dfa7ed0a97294b0d389a2838774a3960cebf2ebb209632ee8562fbb",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionAfterDefinition511",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

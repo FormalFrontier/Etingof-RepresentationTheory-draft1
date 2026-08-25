@@ -1,0 +1,540 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-024751"
+    },
+    {
+      "formal_type": "And\n  (Eq.{1}\n    (DFunLike.coe.{1, 1, 1}\n      (DFunLike.coe.{1, 1, 1} decl-024757\n        (decl-016935.{0} Complex))\n      1)\n    (DFunLike.coe.{1, 1, 1}\n      (DFunLike.coe.{1, 1, 1} decl-024791\n        (decl-016933.{0} Complex))\n      1))\n  (Eq.{1}\n    (DFunLike.coe.{1, 1, 1}\n      (DFunLike.coe.{1, 1, 1} decl-024791\n        (decl-016935.{0} Complex))\n      1)\n    (DFunLike.coe.{1, 1, 1}\n      (DFunLike.coe.{1, 1, 1} decl-024757\n        (decl-016933.{0} Complex))\n      1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016933",
+        "decl-016935",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024757",
+        "decl-024791"
+      ],
+      "structural_type_hash": "4166871891",
+      "temporary_id": "decl-024752"
+    },
+    {
+      "formal_type": "LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex) (decl-016893.{0} Complex)\n  decl-024751",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751"
+      ],
+      "structural_type_hash": "923626825",
+      "temporary_id": "decl-024753"
+    },
+    {
+      "formal_type": "\u2200 (i j : Nat),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} decl-024753\n      (decl-016902.{0} Complex i j))\n    (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (MvPolynomial.X.{0, 0} 0) i)\n      (HPow.hPow.{0, 0, 0} (MvPolynomial.X.{0, 0} 1) j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016902",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024753"
+      ],
+      "structural_type_hash": "710525451",
+      "temporary_id": "decl-024756"
+    },
+    {
+      "formal_type": "AlgHom.{0, 0, 0} Complex (decl-016893.{0} Complex)\n  (Module.End.{0, 0} Complex decl-024751)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751"
+      ],
+      "structural_type_hash": "3279478550",
+      "temporary_id": "decl-024757"
+    },
+    {
+      "formal_type": "\u2200 (a b : decl-016893.{0} Complex),\n  Commute.{0} (DFunLike.coe.{1, 1, 1} decl-024757 a)\n    (DFunLike.coe.{1, 1, 1} decl-024791 b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024757",
+        "decl-024791"
+      ],
+      "structural_type_hash": "183120060",
+      "temporary_id": "decl-024759"
+    },
+    {
+      "formal_type": "Eq.{1}\n  (DFunLike.coe.{1, 1, 1} decl-024757\n    (decl-016933.{0} Complex))\n  decl-024763",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016933",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024757",
+        "decl-024763"
+      ],
+      "structural_type_hash": "1193198427",
+      "temporary_id": "decl-024760"
+    },
+    {
+      "formal_type": "Eq.{1}\n  (DFunLike.coe.{1, 1, 1} decl-024757\n    (decl-016935.{0} Complex))\n  decl-024768",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016935",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024757",
+        "decl-024768"
+      ],
+      "structural_type_hash": "4291899498",
+      "temporary_id": "decl-024761"
+    },
+    {
+      "formal_type": "Module.{0, 0} (decl-016893.{0} Complex)\n  decl-024751",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751"
+      ],
+      "structural_type_hash": "3051943634",
+      "temporary_id": "decl-024762"
+    },
+    {
+      "formal_type": "Module.End.{0, 0} Complex decl-024751",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024751"
+      ],
+      "structural_type_hash": "2671868177",
+      "temporary_id": "decl-024763"
+    },
+    {
+      "formal_type": "Commute.{0} decl-024763\n  decl-024795",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024751",
+        "decl-024763",
+        "decl-024795"
+      ],
+      "structural_type_hash": "2565414489",
+      "temporary_id": "decl-024766"
+    },
+    {
+      "formal_type": "Commute.{0} decl-024763\n  decl-024797",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024751",
+        "decl-024763",
+        "decl-024797"
+      ],
+      "structural_type_hash": "3503421055",
+      "temporary_id": "decl-024767"
+    },
+    {
+      "formal_type": "Module.End.{0, 0} Complex decl-024751",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024751"
+      ],
+      "structural_type_hash": "2671868177",
+      "temporary_id": "decl-024768"
+    },
+    {
+      "formal_type": "Commute.{0} decl-024768\n  decl-024795",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024751",
+        "decl-024768",
+        "decl-024795"
+      ],
+      "structural_type_hash": "72882703",
+      "temporary_id": "decl-024770"
+    },
+    {
+      "formal_type": "Commute.{0} decl-024768\n  decl-024797",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024751",
+        "decl-024768",
+        "decl-024797"
+      ],
+      "structural_type_hash": "1731923401",
+      "temporary_id": "decl-024771"
+    },
+    {
+      "formal_type": "Eq.{1}\n  (HMul.hMul.{0, 0, 0} decl-024768\n    decl-024763)\n  (HAdd.hAdd.{0, 0, 0}\n    (HMul.hMul.{0, 0, 0} decl-024763\n      decl-024768)\n    1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024751",
+        "decl-024763",
+        "decl-024768"
+      ],
+      "structural_type_hash": "3964069590",
+      "temporary_id": "decl-024772"
+    },
+    {
+      "formal_type": "Module.{0, 0} (decl-016893.{0} Complex)\n  decl-024751",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751"
+      ],
+      "structural_type_hash": "3051943634",
+      "temporary_id": "decl-024774"
+    },
+    {
+      "formal_type": "Fin 2 \u2192 Module.End.{0, 0} Complex decl-024751",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024751"
+      ],
+      "structural_type_hash": "4259014360",
+      "temporary_id": "decl-024775"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u_1) [inst : Ring.{u_1} R] [Nontrivial.{u_1} R] [NoZeroDivisors.{u_1} R] (y : R),\n  Ne.{u_1 + 1} y 0 \u2192\n    (\u2200 (r : R), Ne.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} r y) 1) \u2192\n      \u2200 (I : Submodule.{u_1, u_1} R R),\n        Not (IsSimpleModule.{u_1, u_1} R (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} I x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1258220328",
+      "temporary_id": "decl-024779"
+    },
+    {
+      "formal_type": "Fin 2 \u2192 Module.End.{0, 0} Complex decl-024751",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024751"
+      ],
+      "structural_type_hash": "4259014360",
+      "temporary_id": "decl-024780"
+    },
+    {
+      "formal_type": "Not (IsField.{0} (TensorProduct.{0, 0, 0} Complex (RatFunc.{0} Complex) (RatFunc.{0} Complex)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2263246359",
+      "temporary_id": "decl-024782"
+    },
+    {
+      "formal_type": "LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex) (decl-016893.{0} Complex)\n  decl-024751",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751"
+      ],
+      "structural_type_hash": "129890608",
+      "temporary_id": "decl-024783"
+    },
+    {
+      "formal_type": "Eq.{1} (LinearEquiv.toLinearMap.{0, 0, 0, 0} decl-024783)\n  decl-024753",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024753",
+        "decl-024783"
+      ],
+      "structural_type_hash": "289271590",
+      "temporary_id": "decl-024785"
+    },
+    {
+      "formal_type": "\u2200 (i j : Nat),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} decl-024783\n      (decl-016902.{0} Complex i j))\n    (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (MvPolynomial.X.{0, 0} 0) i)\n      (HPow.hPow.{0, 0, 0} (MvPolynomial.X.{0, 0} 1) j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016902",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024783"
+      ],
+      "structural_type_hash": "2392811562",
+      "temporary_id": "decl-024786"
+    },
+    {
+      "formal_type": "LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (decl-016893.{0} Complex)) (decl-016893.{0} Complex)\n  decl-024751",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024774"
+      ],
+      "structural_type_hash": "3249725328",
+      "temporary_id": "decl-024787"
+    },
+    {
+      "formal_type": "\u2200 (a : decl-016893.{0} Complex),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-024787 a)\n    (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} decl-024757 a) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024757",
+        "decl-024774",
+        "decl-024787"
+      ],
+      "structural_type_hash": "2599497199",
+      "temporary_id": "decl-024789"
+    },
+    {
+      "formal_type": "\u2200 (I : Submodule.{0, 0} (decl-016893.{0} Complex) (decl-016893.{0} Complex)),\n  Not (IsSimpleModule.{0, 0} (decl-016893.{0} Complex) (Subtype.{1} fun x => Membership.mem.{0, 0} I x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "1700099550",
+      "temporary_id": "decl-024790"
+    },
+    {
+      "formal_type": "AlgHom.{0, 0, 0} Complex (decl-016893.{0} Complex)\n  (Module.End.{0, 0} Complex decl-024751)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751"
+      ],
+      "structural_type_hash": "3279478550",
+      "temporary_id": "decl-024791"
+    },
+    {
+      "formal_type": "Eq.{1}\n  (DFunLike.coe.{1, 1, 1} decl-024791\n    (decl-016933.{0} Complex))\n  decl-024795",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016933",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024791",
+        "decl-024795"
+      ],
+      "structural_type_hash": "124051305",
+      "temporary_id": "decl-024793"
+    },
+    {
+      "formal_type": "Eq.{1}\n  (DFunLike.coe.{1, 1, 1} decl-024791\n    (decl-016935.{0} Complex))\n  decl-024797",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016935",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024791",
+        "decl-024797"
+      ],
+      "structural_type_hash": "1436669067",
+      "temporary_id": "decl-024794"
+    },
+    {
+      "formal_type": "Module.End.{0, 0} Complex decl-024751",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024751"
+      ],
+      "structural_type_hash": "2671868177",
+      "temporary_id": "decl-024795"
+    },
+    {
+      "formal_type": "Module.End.{0, 0} Complex decl-024751",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024751"
+      ],
+      "structural_type_hash": "2671868177",
+      "temporary_id": "decl-024797"
+    },
+    {
+      "formal_type": "Eq.{1}\n  (HMul.hMul.{0, 0, 0} decl-024797\n    decl-024795)\n  (HAdd.hAdd.{0, 0, 0}\n    (HMul.hMul.{0, 0, 0} decl-024795\n      decl-024797)\n    1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024751",
+        "decl-024795",
+        "decl-024797"
+      ],
+      "structural_type_hash": "3173291173",
+      "temporary_id": "decl-024799"
+    },
+    {
+      "formal_type": "Module.{0, 0} (TensorProduct.{0, 0, 0} Complex (decl-016893.{0} Complex) (decl-016893.{0} Complex))\n  decl-024751",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751"
+      ],
+      "structural_type_hash": "522555095",
+      "temporary_id": "decl-024801"
+    },
+    {
+      "formal_type": "IsSimpleModule.{0, 0}\n  (TensorProduct.{0, 0, 0} Complex (decl-016893.{0} Complex) (decl-016893.{0} Complex))\n  decl-024751",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024801"
+      ],
+      "structural_type_hash": "2720766984",
+      "temporary_id": "decl-024802"
+    },
+    {
+      "formal_type": "\u2200 (V : Type u_1) (W : Type u_2) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-016893.{0} Complex) V]\n  [inst_3 : IsScalarTower.{0, 0, u_1} Complex (decl-016893.{0} Complex) V] [inst_4 : AddCommGroup.{u_2} W]\n  [inst_5 : Module.{0, u_2} Complex W] [inst_6 : Module.{0, u_2} (decl-016893.{0} Complex) W]\n  [inst_7 : IsScalarTower.{0, 0, u_2} Complex (decl-016893.{0} Complex) W]\n  [IsSimpleModule.{0, u_1} (decl-016893.{0} Complex) V] [Nontrivial.{u_2} W]\n  (e :\n    LinearEquiv.{0, 0, max u_2 u_1, 0} (RingHom.id.{0} Complex) (TensorProduct.{0, u_1, u_2} Complex V W)\n      decl-024751),\n  (\u2200 (a b : decl-016893.{0} Complex) (t : TensorProduct.{0, u_1, u_2} Complex V W),\n      Eq.{1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), 1} e\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n            (TensorProduct.map.{0, 0, u_1, u_2, u_1, u_2}\n              (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (Algebra.lsmul.{0, 0, 0, u_1} Complex Complex V) a)\n              (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (Algebra.lsmul.{0, 0, 0, u_2} Complex Complex W) b))\n            t))\n        (DFunLike.coe.{1, 1, 1}\n          (DFunLike.coe.{1, 1, 1} decl-024804\n            (TensorProduct.tmul.{0, 0, 0} Complex a b))\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), 1} e t))) \u2192\n    False",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024804"
+      ],
+      "structural_type_hash": "2544764654",
+      "temporary_id": "decl-024803"
+    },
+    {
+      "formal_type": "AlgHom.{0, 0, 0} Complex\n  (TensorProduct.{0, 0, 0} Complex (decl-016893.{0} Complex) (decl-016893.{0} Complex))\n  (Module.End.{0, 0} Complex decl-024751)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751"
+      ],
+      "structural_type_hash": "818316838",
+      "temporary_id": "decl-024804"
+    },
+    {
+      "formal_type": "\u2200 (Q : Type u_1) [inst : Ring.{u_1} Q] [inst_1 : Algebra.{0, u_1} Complex Q] [FiniteDimensional.{0, u_1} Complex Q]\n  (q :\n    AlgHom.{0, 0, u_1} Complex\n      (TensorProduct.{0, 0, 0} Complex (decl-016893.{0} Complex) (decl-016893.{0} Complex)) Q)\n  (r :\n    AlgHom.{0, u_1, 0} Complex Q\n      (Module.End.{0, 0} Complex decl-024751)),\n  Ne.{1} decl-024804 (AlgHom.comp.{0, 0, u_1, 0} r q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024804"
+      ],
+      "structural_type_hash": "2771240992",
+      "temporary_id": "decl-024809"
+    },
+    {
+      "formal_type": "\u2200 (a b : decl-016893.{0} Complex),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} decl-024804\n      (TensorProduct.tmul.{0, 0, 0} Complex a b))\n    (HMul.hMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} decl-024757 a)\n      (DFunLike.coe.{1, 1, 1} decl-024791 b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016938",
+        "decl-016940",
+        "decl-024751",
+        "decl-024757",
+        "decl-024791",
+        "decl-024804"
+      ],
+      "structural_type_hash": "16662982",
+      "temporary_id": "decl-024810"
+    },
+    {
+      "formal_type": "\u2200 (r : decl-016893.{0} Complex), Ne.{1} (HMul.hMul.{0, 0, 0} r (decl-016935.{0} Complex)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016893",
+        "decl-016935",
+        "decl-016938",
+        "decl-016940"
+      ],
+      "structural_type_hash": "1825536153",
+      "temporary_id": "decl-024811"
+    }
+  ],
+  "module_temporary_id": "module-0170",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:263e64738020bcc0be3d",
+      "declaration": "Etingof.Discussion2_4.Ideal.toLeft",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/47/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 Etingof.Discussion2_4.Ideal.{u_1} A \u2192 Etingof.Discussion2_4.LeftIdeal.{u_1} A",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading"
+    },
+    {
+      "association_id": "association:7d54bd6eefa4427bc2bd",
+      "declaration": "Etingof.Discussion2_4.Ideal.toRight",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/47/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 Etingof.Discussion2_4.Ideal.{u_1} A \u2192 Etingof.Discussion2_4.RightIdeal.{u_1} A",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading"
+    },
+    {
+      "association_id": "association:069437cad2b134aa871a",
+      "declaration": "Etingof.Discussion2_4.mem_toLeft_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/47/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {I : Etingof.Discussion2_4.Ideal.{u_1} A} {x : A},\n  Iff (Membership.mem.{u_1, u_1} (Etingof.Discussion2_4.Ideal.toLeft.{u_1} A I) x) (Membership.mem.{u_1, u_1} I x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading"
+    },
+    {
+      "association_id": "association:6bf36cbc73ab40091e32",
+      "declaration": "Etingof.Discussion2_4.mem_toRight_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/47/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {I : Etingof.Discussion2_4.Ideal.{u_1} A} {x : MulOpposite.{u_1} A},\n  Iff (Membership.mem.{u_1, u_1} (Etingof.Discussion2_4.Ideal.toRight.{u_1} A I) x)\n    (Membership.mem.{u_1, u_1} I (MulOpposite.unop.{u_1} x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.4_heading",
+  "packet_id": "align-0305",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0305"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:5a6012427c6190277f05",
+  "source_text": "A two-sided ideal is simultaneously a left and a right ideal."
+}

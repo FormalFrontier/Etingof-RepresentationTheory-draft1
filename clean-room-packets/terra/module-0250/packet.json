@@ -1,0 +1,120 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {G : Type} [inst : CommGroup.{0} G] [Finite.{1} G],\n  Eq.{1} (Nat.card.{0} (MonoidHom.{0, 0} G (Units.{0} Complex))) (Nat.card.{0} G)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2692803223",
+      "temporary_id": "decl-000474"
+    },
+    {
+      "formal_type": "{G : Type} \u2192 [inst : CommGroup.{0} G] \u2192 MonoidHom.{0, 0} G (Units.{0} Complex) \u2192 FDRep.{0, 0} Complex G",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2023042747",
+      "temporary_id": "decl-000475"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : CommGroup.{0} G] (\u03be : MonoidHom.{0, 0} G (Units.{0} Complex)) (g : G),\n  Eq.{1} (FDRep.character.{0, 0} (decl-000475 \u03be) g) (Units.val.{0} (DFunLike.coe.{1, 1, 1} \u03be g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000475"
+      ],
+      "structural_type_hash": "1665375018",
+      "temporary_id": "decl-000477"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : CommGroup.{0} G] (\u03be : MonoidHom.{0, 0} G (Units.{0} Complex)),\n  Eq.{1}\n    (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (decl-000475 \u03be))))\n    1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000475"
+      ],
+      "structural_type_hash": "2324244436",
+      "temporary_id": "decl-000478"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : CommGroup.{0} G] {\u03be \u03be' : MonoidHom.{0, 0} G (Units.{0} Complex)},\n  Iff (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (decl-000475 \u03be) (decl-000475 \u03be')))\n    (Eq.{1} \u03be \u03be')",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000475"
+      ],
+      "structural_type_hash": "2983958400",
+      "temporary_id": "decl-000479"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : CommGroup.{0} G] (\u03be : MonoidHom.{0, 0} G (Units.{0} Complex)),\n  CategoryTheory.Simple.{0, 1} (decl-000475 \u03be)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000475"
+      ],
+      "structural_type_hash": "2771637090",
+      "temporary_id": "decl-000480"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : CommGroup.{0} G] \u2192 MonoidHom.{0, 0} G (Units.{0} Complex) \u2192 Representation.{0, 0, 0} Complex G Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "715902946",
+      "temporary_id": "decl-000481"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : CommGroup.{0} G] (\u03be : MonoidHom.{0, 0} G (Units.{0} Complex)) (g : G) (z : Complex),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-000481 \u03be) g) z)\n    (HMul.hMul.{0, 0, 0} (Units.val.{0} (DFunLike.coe.{1, 1, 1} \u03be g)) z)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000481"
+      ],
+      "structural_type_hash": "2428123506",
+      "temporary_id": "decl-000485"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : CommGroup.{0} G] (\u03be : MonoidHom.{0, 0} G (Units.{0} Complex)),\n  IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Complex G)\n    (Representation.asModule.{0, 0, 0} (decl-000481 \u03be))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000481"
+      ],
+      "structural_type_hash": "3842356418",
+      "temporary_id": "decl-000486"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : CommGroup.{0} G] [Finite.{1} G] (S : FDRep.{0, 0} Complex G) [CategoryTheory.Simple.{0, 1} S],\n  Exists.{1} fun \u03be => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (decl-000475 \u03be))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000475"
+      ],
+      "structural_type_hash": "3504127119",
+      "temporary_id": "decl-000487"
+    }
+  ],
+  "module_temporary_id": "module-0250",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

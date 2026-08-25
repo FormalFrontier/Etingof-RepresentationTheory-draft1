@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0147",
+  "associations": [
+    {
+      "association_id": "association:d45ea892555b755c0732",
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so the basis-indexed group-algebra construction is not directly evidenced."
+    },
+    {
+      "association_id": "association:bd7c33785c2f5e3c9b45",
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so the basis multiplication formula is not directly evidenced."
+    }
+  ]
+}

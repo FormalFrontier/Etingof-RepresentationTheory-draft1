@@ -1,0 +1,150 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        decl-014909.{u_1, u_2, u_4, u_3} k Q \u2192\n          decl-014909.{u_1, u_2, u_5, u_3} k Q \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909"
+      ],
+      "structural_type_hash": "1282155191",
+      "temporary_id": "decl-013168"
+    },
+    {
+      "formal_type": "{Q : Type u_2} \u2192 [Quiver.{u_3, u_2} Q] \u2192 Q \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3001875439",
+      "temporary_id": "decl-013170"
+    },
+    {
+      "formal_type": "{Q : Type u_2} \u2192 [Quiver.{u_3, u_2} Q] \u2192 Q \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3001875439",
+      "temporary_id": "decl-013171"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {M : Type u_3} \u2192 [inst_1 : AddCommMonoid.{u_3} M] \u2192 [Module.{u_1, u_3} k M] \u2192 AddCommGroup.{u_3} M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "630037344",
+      "temporary_id": "decl-013172"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192 decl-014909.{u_1, u_2, u_4, u_3} k Q \u2192 Q \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909"
+      ],
+      "structural_type_hash": "2266657214",
+      "temporary_id": "decl-013173"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_4, u_2} Q]\n  {V\u03b1 : decl-014909.{u_1, u_2, u_3, u_4} k Q} {\u03b1 : Q \u2192 Nat}\n  (basis :\n    (v : Q) \u2192 Module.Basis.{0, u_1, u_3} (Fin (\u03b1 v)) k (decl-014996.{u_1, u_2, u_3, u_4} V\u03b1 v))\n  (v : Q), Eq.{1} (decl-013173.{u_1, u_2, u_4, u_3} V\u03b1 v) (\u03b1 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013173",
+        "decl-014909",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "753125728",
+      "temporary_id": "decl-013175"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_4, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  (V\u03b1 : decl-014909.{u_1, u_2, u_3, u_4} k Q) (n : Nat) (order : Equiv.{u_2 + 1, 1} Q (Fin n)),\n  (\u2200 {v w : Q} (a : Quiver.Hom.{u_4, u_2} v w),\n      LT.lt.{0} (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} order w).val (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} order v).val) \u2192\n    \u2200 (\u03b1 : Q \u2192 Nat)\n      (basis :\n        (v : Q) \u2192\n          Module.Basis.{0, u_1, u_3} (Fin (\u03b1 v)) k (decl-014996.{u_1, u_2, u_3, u_4} V\u03b1 v)),\n      Exists.{max (u_2 + 1) (u_3 + 1)} fun s =>\n        And\n          (Eq.{1} (decl-014892.{u_1, u_2, u_4, u_3} s)\n            (Finset.sum.{0, 0} Finset.univ.{0} fun l =>\n              \u03b1 (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (Equiv.symm.{u_2 + 1, 1} order) l)))\n          (\u2200 (i : Q),\n            Eq.{1} (decl-014899.{u_1, u_2, u_4, u_3} s i)\n              (decl-013173.{u_1, u_2, u_4, u_3} V\u03b1 i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013173",
+        "decl-014886",
+        "decl-014892",
+        "decl-014899",
+        "decl-014909",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "3088629434",
+      "temporary_id": "decl-013179"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  (i : Q),\n  decl-013170.{u_2, u_3} i \u2192\n    \u2200 (V : decl-014909.{u_1, u_2, u_4, u_3} k Q),\n      decl-013168.{u_1, u_2, u_3, u_1, u_4} (decl-013187.{u_1, u_2, u_3} i) V",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013168",
+        "decl-013170",
+        "decl-013187",
+        "decl-014909"
+      ],
+      "structural_type_hash": "2618654664",
+      "temporary_id": "decl-013182"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  (i : Q),\n  decl-013171.{u_2, u_3} i \u2192\n    \u2200 (V : decl-014909.{u_1, u_2, u_4, u_3} k Q),\n      decl-013168.{u_1, u_2, u_3, u_4, u_1} V (decl-013187.{u_1, u_2, u_3} i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013168",
+        "decl-013171",
+        "decl-013187",
+        "decl-014909"
+      ],
+      "structural_type_hash": "3452606470",
+      "temporary_id": "decl-013183"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "1536710893",
+      "temporary_id": "decl-013184"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        [DecidableEq.{u_2 + 1} Q] \u2192 Q \u2192 decl-014909.{u_1, u_2, u_1, u_3} k Q",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909"
+      ],
+      "structural_type_hash": "3195986690",
+      "temporary_id": "decl-013187"
+    }
+  ],
+  "module_temporary_id": "module-0558",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3869e1ba907eff224a06",
+      "declaration": "Etingof.groupAlgebraAdjunction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/491/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    CategoryTheory.Adjunction.{u, u, u + 1, u + 1} (Etingof.groupAlgebraFunctor.{u} k) (Etingof.unitsFunctor.{u} k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_6_3"
+    },
+    {
+      "association_id": "association:21629c832b2e3d5cafa3",
+      "declaration": "Etingof.symmetricAlgebraAdjunction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/491/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    CategoryTheory.Adjunction.{u, u, u + 1, u + 1} (Etingof.symmetricAlgebraFunctor.{u} k)\n      (Etingof.commAlgForgetModuleFunctor.{u} k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_6_3"
+    },
+    {
+      "association_id": "association:7b7ed97cf763b1886d31",
+      "declaration": "Etingof.tensorAlgebraAdjunction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/491/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    CategoryTheory.Adjunction.{u, u, u + 1, u + 1} (Etingof.tensorAlgebraFunctor.{u} k)\n      (CategoryTheory.forget\u2082.{u, u, u + 1, u, u, u + 1, u} (AlgCat.{u, u} k) (ModuleCat.{u, u} k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_6_3"
+    },
+    {
+      "association_id": "association:780870ac7c2ccef0c6f8",
+      "declaration": "Etingof.universalEnvelopingAdjunction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/491/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192\n  [inst : CommRing.{u} R] \u2192\n    CategoryTheory.Adjunction.{u, u, u + 1, u + 1} (Etingof.universalEnvelopingFunctor.{u} R)\n      (Etingof.commutatorLieFunctor.{u} R)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_6_3"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.6.3",
+  "packet_id": "align-0169",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0169"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3430bb5479023d89dfad",
+  "source_text": "Universal enveloping, group, tensor, and symmetric algebras give the stated left adjoints."
+}

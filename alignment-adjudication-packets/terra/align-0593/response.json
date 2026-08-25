@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:4cb9085471fe70412779",
+      "rationale": "The displayed type equates cyclicity of nontrivial V with existence of an elided object I and a linear equivalence V ≃ A/I, but it does not expose that I is a left ideal as required by the complete claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0593"
+}

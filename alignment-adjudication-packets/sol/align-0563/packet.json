@@ -1,0 +1,111 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6d5ad4e4b8c4838cc842",
+      "declaration": "Etingof.Problem2_16_5.KL_rel",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex), Eq.{1} (HMul.hMul.{0, 0, 0} (Etingof.Problem2_16_5.K q) (Etingof.Problem2_16_5.L q)) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    },
+    {
+      "association_id": "association:a8e9ed0e212d65afb01e",
+      "declaration": "Etingof.Problem2_16_5.Ke_rel",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Etingof.Problem2_16_5.K q) (Etingof.Problem2_16_5.e q))\n    (HSMul.hSMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2)\n      (HMul.hMul.{0, 0, 0} (Etingof.Problem2_16_5.e q) (Etingof.Problem2_16_5.K q)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    },
+    {
+      "association_id": "association:3eabd1df00c43b00bb4c",
+      "declaration": "Etingof.Problem2_16_5.Kf_rel",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Etingof.Problem2_16_5.K q) (Etingof.Problem2_16_5.f q))\n    (HSMul.hSMul.{0, 0, 0} (Inv.inv.{0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2))\n      (HMul.hMul.{0, 0, 0} (Etingof.Problem2_16_5.f q) (Etingof.Problem2_16_5.K q)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    },
+    {
+      "association_id": "association:2f02266330414fd80c3d",
+      "declaration": "Etingof.Problem2_16_5.LK_rel",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex), Eq.{1} (HMul.hMul.{0, 0, 0} (Etingof.Problem2_16_5.L q) (Etingof.Problem2_16_5.K q)) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    },
+    {
+      "association_id": "association:8827952ac1d74e8ebd33",
+      "declaration": "Etingof.Problem2_16_5.Rel",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Units.{0} Complex \u2192\n  FreeAlgebra.{0, 0} Complex Etingof.Problem2_16_5.Gen \u2192 FreeAlgebra.{0, 0} Complex Etingof.Problem2_16_5.Gen \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    },
+    {
+      "association_id": "association:7908fc1cc1a3c4f3c6ec",
+      "declaration": "Etingof.Problem2_16_5.augmentation_surjective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex), Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} (Etingof.Problem2_16_5.augmentation q))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    },
+    {
+      "association_id": "association:67306baca1c5ed9d9ea8",
+      "declaration": "Etingof.Problem2_16_5.ef_rel",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/123/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1}\n    (HSMul.hSMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q)))\n      (HSub.hSub.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Etingof.Problem2_16_5.e q) (Etingof.Problem2_16_5.f q))\n        (HMul.hMul.{0, 0, 0} (Etingof.Problem2_16_5.f q) (Etingof.Problem2_16_5.e q))))\n    (HSub.hSub.{0, 0, 0} (Etingof.Problem2_16_5.K q) (Etingof.Problem2_16_5.L q))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.5",
+  "packet_id": "align-0563",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0563"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.5:claim-02",
+  "source_text": "U_q(sl2) is generated by e,f,K,K\u207b\u00b9 with the three displayed relations and inverse relations for K; this presentation is nontrivial."
+}

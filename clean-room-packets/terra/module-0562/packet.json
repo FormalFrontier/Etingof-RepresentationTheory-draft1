@@ -1,0 +1,48 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {Q : Type u_2} [inst_dec : DecidableEq.{u_2 + 1} Q]\n  [inst_1 : Quiver.{u_3, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_3} Q i)\n  (\u03c1 : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  [\u2200 (v : Q),\n      Module.Free.{u_1, max (max u_2 u_3) u_4} k\n        (decl-014996.{u_1, u_2, max (max u_2 u_3) u_4, u_3} \u03c1 v)]\n  [\u2200 (v : Q),\n      Module.Finite.{u_1, max (max u_2 u_3) u_4} k\n        (decl-014996.{u_1, u_2, max (max u_2 u_3) u_4, u_3} \u03c1 v)]\n  [inst_4 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)],\n  Function.Injective.{(max (max u_2 u_3) u_4) + 1, max (max (u_2 + 1) (u_3 + 1)) ((max (max u_2 u_3) u_4) + 1)}\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) ((max (max u_2 u_3) u_4) + 1), (max (max u_2 u_3) u_4) + 1,\n          max (max (u_2 + 1) (u_3 + 1)) ((max (max u_2 u_3) u_4) + 1)}\n        (decl-015008.{u_1, u_2, u_3, max (max u_2 u_3) u_4} \u03c1 i)) \u2192\n    Nonempty.{max ((max (max u_2 u_3) u_4) + 1) (u_2 + 1)}\n      (decl-014927.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n        (decl-015018.{u_1, u_2, u_3, max (max u_2 u_3) u_4}\n          (decl-022534.{u_1, u_2, u_3, u_4} Q i \u22ef\n            (decl-022514.{u_1, u_2, u_3, u_4} Q i hi \u03c1)))\n        \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014927",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996",
+        "decl-015008",
+        "decl-015018",
+        "decl-020926",
+        "decl-022514",
+        "decl-022534",
+        "decl-022764"
+      ],
+      "structural_type_hash": "454688361",
+      "temporary_id": "decl-014723"
+    }
+  ],
+  "module_temporary_id": "module-0562",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

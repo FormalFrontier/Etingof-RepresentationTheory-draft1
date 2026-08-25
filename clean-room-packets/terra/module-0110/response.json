@@ -1,0 +1,6 @@
+{
+  "module_name": "Module.FinrankOneSimple",
+  "declarations": [
+    { "temporary_id": "decl-015436", "new_name": "isSimpleModule_of_finrank_eq_one", "docstring": "A module of dimension one over the base field is simple for the given algebra action." }
+  ]
+}

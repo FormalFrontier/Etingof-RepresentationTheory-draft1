@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Discussion_proof_of_Theorem3.8.1",
+    "kind": "discussion",
+    "title": "Completion of proof of the Krull-Schmidt theorem",
+    "node_id": "chapter-03/section-3-8",
+    "order": 166,
+    "slug": "discussion-proof-of-theorem3-8-1",
+    "span": {
+      "start": {
+        "page": "55",
+        "line": 7
+      },
+      "end": {
+        "page": "55",
+        "line": 10
+      }
+    },
+    "source_sha256": "1045295994f270eaed7de756bf7e08cb1e036bb2371b1dccee2ed39fb5cc4892",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.DiscussionProofOfTheorem381",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

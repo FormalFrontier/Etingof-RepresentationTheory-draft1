@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0364",
+  "associations": [
+    {
+      "association_id": "association:ccb935cd6964d5126d6e",
+      "role": "supporting",
+      "rationale": "The formal type states that inverse-Kostka coefficients vanish outside the root-order relation, supporting the restricted expansion but not itself stating the Specht-character expansion."
+    },
+    {
+      "association_id": "association:e7f54fa7d4e558714384",
+      "role": "primary",
+      "rationale": "The equality directly expands the Specht character as an inverse-Kostka-weighted sum filtered to the root-order upper set."
+    }
+  ]
+}

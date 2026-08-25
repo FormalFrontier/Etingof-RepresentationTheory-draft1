@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:92af699dd23d28c515c4",
+      "declaration": "Etingof.Problem2_16_2.Fam",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/120/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_2) \u2192 [inst : Field.{u_2} k] \u2192 Nat \u2192 Units.{u_2} k \u2192 k \u2192 Type u_2",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2"
+    },
+    {
+      "association_id": "association:e2cbf85a1ef62d375cd8",
+      "declaration": "Etingof.Problem2_16_2.fam_finrank",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/120/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [Fact (Nat.Prime p)] (\u03b3 : Units.{u_2} k) (a : k),\n  Eq.{1} (Module.finrank.{u_2, u_2} k (Etingof.Problem2_16_2.Fam.{u_2} k p \u03b3 a)) p",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2"
+    },
+    {
+      "association_id": "association:8d1fd94783922c31ac89",
+      "declaration": "Etingof.Problem2_16_2.fam_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/120/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 : Units.{u_2} k) (a : k),\n  LieModule.IsIrreducible.{u_2, u_2, u_2} k\n    (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Problem2_16_2.g.{u_2} k) x)\n    (Etingof.Problem2_16_2.Fam.{u_2} k p \u03b3 a)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.2",
+  "packet_id": "align-0546",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0546"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.2:claim-03",
+  "source_text": "In characteristic p, the modules V(\u03b3,a) on k^(Z/p), with X diagonal and Y a nonzero cyclic shift, have dimension p and are irreducible."
+}

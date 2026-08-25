@@ -1,0 +1,111 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f8c2149c3b8d794c7558",
+      "declaration": "Etingof.spechtModule_linearEquiv_youngProjectorLeftIdeal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/308/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192\n  (la : n.Partition) \u2192\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.SymGroupAlgebra n))\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n la) x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.youngProjectorLeftIdeal n la) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_SourceIdeal"
+    },
+    {
+      "association_id": "association:143ab419252832096682",
+      "declaration": "Etingof.youngProjector",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/308/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+    },
+    {
+      "association_id": "association:56b210b22eebd35f2531",
+      "declaration": "Etingof.youngProjectorCol",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/308/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+    },
+    {
+      "association_id": "association:e63503a31c8bf04c38f9",
+      "declaration": "Etingof.youngProjectorCol_mul_self",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/308/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Etingof.youngProjectorCol n la) (Etingof.youngProjectorCol n la))\n    (Etingof.youngProjectorCol n la)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_1"
+    },
+    {
+      "association_id": "association:0d2cea82ab644b82df7e",
+      "declaration": "Etingof.youngProjectorRow",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/308/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+    },
+    {
+      "association_id": "association:b19938ebad6d68a29f4e",
+      "declaration": "Etingof.youngProjectorRow_mul_self",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/308/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Etingof.youngProjectorRow n la) (Etingof.youngProjectorRow n la))\n    (Etingof.youngProjectorRow n la)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_1"
+    },
+    {
+      "association_id": "association:f8436010d8c4bf0e3370",
+      "declaration": "Etingof.youngProjector_ne_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/308/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition), Ne.{1} (Etingof.youngProjector n la) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_SourceIdeal"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_Young_projectors",
+  "packet_id": "align-1245",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1245"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Discussion_Young_projectors",
+  "source_text": "\nDefine the **Young projectors**\n\n$$a_\\lambda := \\frac{1}{|P_\\lambda|} \\sum_{g \\in P_\\lambda} g,$$\n\n$$b_\\lambda := \\frac{1}{|Q_\\lambda|} \\sum_{g \\in Q_\\lambda} (-1)^g g,$$\n\nwhere $(-1)^g$ denotes the sign of the permutation $g$. Set $c_\\lambda = a_\\lambda b_\\lambda$. Since $P_\\lambda \\cap Q_\\lambda = \\{1\\}$, this element is nonzero.\n\n"
+}

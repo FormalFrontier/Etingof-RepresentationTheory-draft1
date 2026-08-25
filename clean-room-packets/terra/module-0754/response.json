@@ -1,0 +1,45 @@
+{
+  "module_name": "RingTheory.ElementProperty",
+  "declarations": [
+    {
+      "temporary_id": "decl-013995",
+      "new_name": "ElementProperty",
+      "docstring": "A property of elements of a ring."
+    },
+    {
+      "temporary_id": "decl-013996",
+      "new_name": "map",
+      "docstring": "A ring equivalence sends an element satisfying the property to one satisfying the corresponding property."
+    },
+    {
+      "temporary_id": "decl-014149",
+      "new_name": "exists_orthogonalFamily_elementProperty_of_finiteDimensional",
+      "docstring": "A finite-dimensional algebra has a family summing to one whose distinct entries multiply to zero and whose entries are exactly the elements satisfying the property."
+    },
+    {
+      "temporary_id": "decl-014150",
+      "new_name": "exists_completeOrthogonalIdempotents_elementProperty_of_isArtinianRing",
+      "docstring": "An Artinian commutative ring has a complete orthogonal idempotent family whose entries are exactly the elements satisfying the property."
+    },
+    {
+      "temporary_id": "decl-014152",
+      "new_name": "finite_elementProperty_of_finiteDimensional",
+      "docstring": "The elements satisfying the property in a finite-dimensional algebra form a finite type."
+    },
+    {
+      "temporary_id": "decl-014171",
+      "new_name": "elementProperty_center_iff",
+      "docstring": "An element of the center subalgebra satisfies the property there if and only if its underlying ring element does."
+    },
+    {
+      "temporary_id": "decl-014172",
+      "new_name": "elementProperty_iff",
+      "docstring": "In a commutative ring, the property is equivalent to being a nonzero idempotent such that every idempotent absorbing into it is zero or equal to it."
+    },
+    {
+      "temporary_id": "decl-014173",
+      "new_name": "elementProperty_pi_single",
+      "docstring": "A coordinate unit in a finite dependent product of fields satisfies the property."
+    }
+  ]
+}

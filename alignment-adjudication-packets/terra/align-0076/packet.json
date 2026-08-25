@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:72bb32e7631746744566",
+      "declaration": "Etingof.Exercise2_9_5.bracket_eq_cross",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/82/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (u v : Fin 3 \u2192 Real),\n  Eq.{1} (Bracket.bracket.{0, 0} u v) (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} crossProduct.{0} u) v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_9_5"
+    },
+    {
+      "association_id": "association:568fb35c0a0010ea20af",
+      "declaration": "Etingof.Exercise2_9_5.crossLieAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/82/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "LieAlgebra.{0, 0} Real (Fin 3 \u2192 Real)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_9_5"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_concrete_Lie_examples",
+  "packet_id": "align-0076",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0076"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:196b233617a194acc9f2",
+  "source_text": "R^3 with the cross product is a Lie algebra."
+}

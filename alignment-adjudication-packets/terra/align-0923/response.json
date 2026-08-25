@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0923",
+  "associations": [
+    {
+      "association_id": "association:2515ebcfef42f7d24f59",
+      "role": "primary",
+      "rationale": "ofAlgHom directly turns an algebra homomorphism into the corresponding A-module structure on V."
+    }
+  ]
+}

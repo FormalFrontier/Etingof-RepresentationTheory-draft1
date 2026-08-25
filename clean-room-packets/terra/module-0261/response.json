@@ -1,0 +1,35 @@
+{
+  "module_name": "Combinatorics.AuxiliaryPolynomialSums",
+  "declarations": [
+    {
+      "temporary_id": "decl-001134",
+      "new_name": "sum_auxiliaryPolynomial_coeff_mul_evalOne_eq_prod_choose",
+      "docstring": "For a multi-index of the prescribed total degree, the weighted coefficient sum over the auxiliary polynomials equals a product of binomial coefficients."
+    },
+    {
+      "temporary_id": "decl-001138",
+      "new_name": "auxiliaryPermutationPolynomial_coeff_eq_auxiliarySum",
+      "docstring": "A coefficient of the auxiliary permutation polynomial is a finite sum of products of the displayed auxiliary scalars and auxiliary polynomial coefficients."
+    },
+    {
+      "temporary_id": "decl-001139",
+      "new_name": "auxiliaryPermutationPolynomial_evalOne_eq_antidiag_coeff_sum",
+      "docstring": "Evaluation at one of the auxiliary permutation polynomial is the sum of its coefficients over the finitely supported antidiagonal."
+    },
+    {
+      "temporary_id": "decl-001140",
+      "new_name": "auxiliaryPermutationPolynomial_evalOne_eq_auxiliaryPolynomialSum",
+      "docstring": "Evaluation at one of the auxiliary permutation polynomial is a weighted sum of evaluations at one of the displayed auxiliary polynomials."
+    },
+    {
+      "temporary_id": "decl-001141",
+      "new_name": "factorial_mul_sum_mul_eq_sum_auxiliaryWeightedSums",
+      "docstring": "A factorial times the pointwise product sum equals the sum of products of the two displayed auxiliary weighted sums."
+    },
+    {
+      "temporary_id": "decl-001143",
+      "new_name": "sum_card_auxiliaryType_eq_prod_choose",
+      "docstring": "For a multi-index of fixed total degree, the sum of the displayed auxiliary finite-type cardinalities is a product of binomial coefficients."
+    }
+  ]
+}

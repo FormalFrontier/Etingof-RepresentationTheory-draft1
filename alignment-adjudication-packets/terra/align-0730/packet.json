@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d6cd5e4d284134b13ebe",
+      "declaration": "Etingof.Problem4_12_9.character_Rz",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/238/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (z : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    Ne.{1} z 1 \u2192\n      \u2200 (\u03c1 : Representation.{0, 0, 0} Complex (Etingof.Problem4_12_2.Heisenberg p) (ZMod p \u2192 Complex)),\n        Etingof.Problem4_12_9.IsRz z \u03c1 \u2192\n          \u2200 (a b c : ZMod p),\n            Eq.{1}\n              (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (ZMod p \u2192 Complex))\n                (DFunLike.coe.{1, 1, 1} \u03c1 { a := a, b := b, c := c }))\n              (ite.{1} (And (Eq.{1} a 0) (Eq.{1} b 0))\n                (HMul.hMul.{0, 0, 0} (Nat.cast.{0} p) (HPow.hPow.{0, 0, 0} (Inv.inv.{0} z) c.val)) 0)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_9"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.9",
+  "packet_id": "align-0730",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0730"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.9:characters",
+  "source_text": "Compute the characters of the Heisenberg irreducibles from Problem 4.12.2."
+}

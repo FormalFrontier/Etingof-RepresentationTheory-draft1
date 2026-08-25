@@ -1,0 +1,320 @@
+{
+  "module_name": "Algebra.Module.TwoDimensionalPolynomialModules",
+  "declarations": [
+    {
+      "temporary_id": "decl-009716",
+      "new_name": "DualNumberModule",
+      "docstring": "A two-dimensional complex module parameterized by two tuples, with a distinguished square-zero element."
+    },
+    {
+      "temporary_id": "decl-009717",
+      "new_name": "epsilon",
+      "docstring": "The distinguished square-zero element of a dual-number module."
+    },
+    {
+      "temporary_id": "decl-009718",
+      "new_name": "epsilon_mul",
+      "docstring": "Left multiplication by the distinguished element extracts the scalar part and multiplies the distinguished element by it."
+    },
+    {
+      "temporary_id": "decl-009719",
+      "new_name": "epsilon_sq",
+      "docstring": "The square of the distinguished element is zero."
+    },
+    {
+      "temporary_id": "decl-009720",
+      "new_name": "decompose",
+      "docstring": "Every element decomposes as its scalar part times one plus its nilpotent part times the distinguished element."
+    },
+    {
+      "temporary_id": "decl-009721",
+      "new_name": "ext",
+      "docstring": "Two elements are equal when both their scalar and nilpotent parts agree."
+    },
+    {
+      "temporary_id": "decl-009722",
+      "new_name": "scalarPart",
+      "docstring": "The scalar coefficient of an element in the basis consisting of one and the distinguished element."
+    },
+    {
+      "temporary_id": "decl-009723",
+      "new_name": "scalarPart_add",
+      "docstring": "The scalar part of a sum is the sum of the scalar parts."
+    },
+    {
+      "temporary_id": "decl-009724",
+      "new_name": "scalarPart_epsilon",
+      "docstring": "The scalar part of the distinguished element is zero."
+    },
+    {
+      "temporary_id": "decl-009725",
+      "new_name": "scalarPart_one",
+      "docstring": "The scalar part of one is one."
+    },
+    {
+      "temporary_id": "decl-009726",
+      "new_name": "scalarPart_smul",
+      "docstring": "The scalar part commutes with complex scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-009727",
+      "new_name": "scalarPart_zero",
+      "docstring": "The scalar part of zero is zero."
+    },
+    {
+      "temporary_id": "decl-009728",
+      "new_name": "instAlgebra",
+      "docstring": "The complex algebra structure on a dual-number module."
+    },
+    {
+      "temporary_id": "decl-009733",
+      "new_name": "instCommRing",
+      "docstring": "The commutative ring structure on a dual-number module."
+    },
+    {
+      "temporary_id": "decl-009770",
+      "new_name": "moduleFinite",
+      "docstring": "A dual-number module is finite as a module over the complex numbers."
+    },
+    {
+      "temporary_id": "decl-009772",
+      "new_name": "finiteDimensional",
+      "docstring": "A dual-number module is finite-dimensional over the complex numbers."
+    },
+    {
+      "temporary_id": "decl-009774",
+      "new_name": "instNontrivial",
+      "docstring": "A dual-number module is nontrivial."
+    },
+    {
+      "temporary_id": "decl-009776",
+      "new_name": "nilpotentPart",
+      "docstring": "The coefficient of the distinguished square-zero element in a dual-number module element."
+    },
+    {
+      "temporary_id": "decl-009777",
+      "new_name": "nilpotentPart_add",
+      "docstring": "The nilpotent part of a sum is the sum of the nilpotent parts."
+    },
+    {
+      "temporary_id": "decl-009778",
+      "new_name": "nilpotentPart_epsilon",
+      "docstring": "The nilpotent part of the distinguished element is one."
+    },
+    {
+      "temporary_id": "decl-009779",
+      "new_name": "nilpotentPart_one",
+      "docstring": "The nilpotent part of one is zero."
+    },
+    {
+      "temporary_id": "decl-009780",
+      "new_name": "nilpotentPart_smul",
+      "docstring": "The nilpotent part commutes with complex scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-009781",
+      "new_name": "nilpotentPart_zero",
+      "docstring": "The nilpotent part of zero is zero."
+    },
+    {
+      "temporary_id": "decl-009784",
+      "new_name": "jointEigenvalueSet",
+      "docstring": "The set of complex tuples occurring as simultaneous eigenvalues of the polynomial generators on a module."
+    },
+    {
+      "temporary_id": "decl-009800",
+      "new_name": "generatorAction",
+      "docstring": "The complex-linear endomorphism given by the action of a polynomial generator."
+    },
+    {
+      "temporary_id": "decl-009804",
+      "new_name": "generatorAction_apply",
+      "docstring": "The generator-action endomorphism evaluates as scalar multiplication by the corresponding polynomial variable."
+    },
+    {
+      "temporary_id": "decl-009829",
+      "new_name": "dualNumberModuleIsScalarTower",
+      "docstring": "The complex and polynomial-algebra actions on a dual-number module form a scalar tower."
+    },
+    {
+      "temporary_id": "decl-009841",
+      "new_name": "polynomialActionAlgHom",
+      "docstring": "The complex-algebra homomorphism defining the polynomial action on a dual-number module."
+    },
+    {
+      "temporary_id": "decl-009843",
+      "new_name": "polynomialActionAlgHom_X",
+      "docstring": "A polynomial generator maps to its first parameter as a scalar plus its second parameter times the distinguished element."
+    },
+    {
+      "temporary_id": "decl-009844",
+      "new_name": "dualNumberBasis",
+      "docstring": "The complex basis of a dual-number module indexed by a two-element finite type."
+    },
+    {
+      "temporary_id": "decl-009849",
+      "new_name": "dualNumberBasis_apply",
+      "docstring": "The dual-number basis consists of one followed by the distinguished element."
+    },
+    {
+      "temporary_id": "decl-009850",
+      "new_name": "dualNumberBasis_apply_one",
+      "docstring": "The basis vector at index one is the distinguished element."
+    },
+    {
+      "temporary_id": "decl-009851",
+      "new_name": "dualNumberBasis_apply_zero",
+      "docstring": "The basis vector at index zero is one."
+    },
+    {
+      "temporary_id": "decl-009852",
+      "new_name": "dualNumberModulePolynomialModule",
+      "docstring": "The polynomial-algebra module structure on a dual-number module."
+    },
+    {
+      "temporary_id": "decl-009853",
+      "new_name": "X_smul",
+      "docstring": "A polynomial generator acts by its first parameter plus its second parameter times multiplication by the distinguished element."
+    },
+    {
+      "temporary_id": "decl-009854",
+      "new_name": "X_smul_epsilon",
+      "docstring": "A polynomial generator acts on the distinguished element by its first parameter."
+    },
+    {
+      "temporary_id": "decl-009855",
+      "new_name": "X_smul_one",
+      "docstring": "A polynomial generator sends one to its scalar parameter plus its nilpotent parameter times the distinguished element."
+    },
+    {
+      "temporary_id": "decl-009856",
+      "new_name": "parameter_eq_zero_of_X_smul_eq",
+      "docstring": "If every polynomial generator acts everywhere by its scalar parameter, then the nilpotent parameter tuple is zero."
+    },
+    {
+      "temporary_id": "decl-009859",
+      "new_name": "parameter_eq_zero_of_linearEquiv_zero",
+      "docstring": "A polynomial-linear equivalence to a dual-number module with zero nilpotent parameter forces the source parameter to be zero."
+    },
+    {
+      "temporary_id": "decl-009860",
+      "new_name": "epsilon_ne_zero",
+      "docstring": "The distinguished square-zero element is nonzero."
+    },
+    {
+      "temporary_id": "decl-009861",
+      "new_name": "exists_eq_smul_of_linearEquiv",
+      "docstring": "If the target nilpotent parameter is nonzero and the corresponding modules are equivalent, then it is a nonzero scalar multiple of the source parameter."
+    },
+    {
+      "temporary_id": "decl-009862",
+      "new_name": "finrank_eq_two",
+      "docstring": "A dual-number module has complex dimension two."
+    },
+    {
+      "temporary_id": "decl-009863",
+      "new_name": "nonempty_linearEquiv_iff",
+      "docstring": "Two dual-number polynomial modules are equivalent exactly when their scalar parameters agree and their nilpotent parameters differ by a nonzero scalar."
+    },
+    {
+      "temporary_id": "decl-009864",
+      "new_name": "nonempty_linearEquiv_of_eq_smul",
+      "docstring": "A nonzero scalar relation between nilpotent parameters yields an equivalence of dual-number polynomial modules with the same scalar parameter."
+    },
+    {
+      "temporary_id": "decl-009865",
+      "new_name": "X_sub_parameter_sq_smul",
+      "docstring": "For each generator, applying its action minus the scalar parameter twice gives zero."
+    },
+    {
+      "temporary_id": "decl-009866",
+      "new_name": "smul_eq_polynomialActionAlgHom_mul",
+      "docstring": "Polynomial scalar multiplication agrees with multiplication by the image under the polynomial-action algebra homomorphism."
+    },
+    {
+      "temporary_id": "decl-009867",
+      "new_name": "smul_epsilon_eq_zero_iff",
+      "docstring": "A complex scalar multiple of the distinguished element is zero exactly when the scalar is zero."
+    },
+    {
+      "temporary_id": "decl-009868",
+      "new_name": "X_sub_smul",
+      "docstring": "Subtracting an arbitrary scalar action from a generator action separates into the scalar-parameter difference and the nilpotent contribution."
+    },
+    {
+      "temporary_id": "decl-009869",
+      "new_name": "parameter_eq_of_linearEquiv",
+      "docstring": "A polynomial-linear equivalence of dual-number modules forces their scalar parameter tuples to agree."
+    },
+    {
+      "temporary_id": "decl-009870",
+      "new_name": "linearEquiv_map_smul_complex",
+      "docstring": "A polynomial-linear equivalence commutes with scalar multiplication by complex numbers."
+    },
+    {
+      "temporary_id": "decl-009882",
+      "new_name": "nonempty_polynomialLinearEquiv_of_map_X_smul",
+      "docstring": "A complex-linear equivalence that intertwines every polynomial generator action induces a polynomial-linear equivalence."
+    },
+    {
+      "temporary_id": "decl-009883",
+      "new_name": "nonempty_polynomialLinearEquiv_of_map_X_smul_basis",
+      "docstring": "It suffices for a complex-linear equivalence to intertwine every polynomial generator on a basis in order to induce a polynomial-linear equivalence."
+    },
+    {
+      "temporary_id": "decl-009899",
+      "new_name": "polynomialComplexSmulCommClass",
+      "docstring": "Polynomial-algebra and complex scalar multiplication commute on a compatible module."
+    },
+    {
+      "temporary_id": "decl-009900",
+      "new_name": "complex_smul_mem_polynomialSubmodule",
+      "docstring": "A polynomial submodule is closed under complex scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-009906",
+      "new_name": "nonempty_prod_evaluationModule_linearEquiv_iff",
+      "docstring": "Two products of evaluation modules are polynomial-linearly equivalent exactly when their two evaluation points agree in the same order or in the opposite order."
+    },
+    {
+      "temporary_id": "decl-009907",
+      "new_name": "not_nonempty_prod_linearEquiv_dualNumberModule_of_ne",
+      "docstring": "A product of evaluation modules at distinct points is not polynomial-linearly equivalent to a dual-number module."
+    },
+    {
+      "temporary_id": "decl-009914",
+      "new_name": "finrank_two_linearEquiv_prod_or_dualNumberModule",
+      "docstring": "Every two-dimensional complex polynomial module is equivalent either to a product of evaluation modules at distinct points or to a dual-number module."
+    },
+    {
+      "temporary_id": "decl-009916",
+      "new_name": "spanLinearEquivEvaluationModuleOfEigenvector",
+      "docstring": "The polynomial span of a nonzero simultaneous generator eigenvector is linearly equivalent to the corresponding evaluation module."
+    },
+    {
+      "temporary_id": "decl-009924",
+      "new_name": "restrictScalars_span_eq_span_of_eigenvector",
+      "docstring": "For a simultaneous generator eigenvector, the polynomial span restricted to complex scalars equals its complex span."
+    },
+    {
+      "temporary_id": "decl-009928",
+      "new_name": "jointEigenvalueSet_eq_of_linearEquiv",
+      "docstring": "Polynomial-linearly equivalent modules have equal sets of joint generator eigenvalues."
+    },
+    {
+      "temporary_id": "decl-009929",
+      "new_name": "jointEigenvalueSet_dualNumberModule",
+      "docstring": "The joint eigenvalue set of a dual-number module is the singleton containing its scalar parameter."
+    },
+    {
+      "temporary_id": "decl-009930",
+      "new_name": "jointEigenvalueSet_mono_of_linearEquiv",
+      "docstring": "A polynomial-linear equivalence gives inclusion of the source joint eigenvalue set in the target set."
+    },
+    {
+      "temporary_id": "decl-009931",
+      "new_name": "jointEigenvalueSet_prod_evaluationModule",
+      "docstring": "The joint eigenvalue set of a product of two evaluation modules consists of their two evaluation points."
+    }
+  ]
+}
