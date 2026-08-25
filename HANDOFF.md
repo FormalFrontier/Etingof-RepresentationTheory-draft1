@@ -307,19 +307,27 @@ what must hold.
   from whether the migration carried the corpus across, and the two should not
   be conflated.
 
-### Build clean, with no warnings
+### Build clean, with nothing logged
 
-All three repositories must build warning-free. Every build must succeed under
-`lake build --wfail`, which is `--fail-level=warning`, so that a warning is a
-build failure rather than something to scroll past.
+All three repositories must build cleanly. Every build must succeed under
+`lake build --iofail`, which is `--fail-level=info`, so that anything logged at
+all, including warnings and informational output, is a build failure rather than
+something to scroll past.
 
-This is not cosmetic. Warnings accumulated until the public build was emitting
-roughly twenty-two thousand lines of them, at which point the linter stopped
-being a signal: nobody reads the twenty-two-thousand-and-first, and a genuine
-diagnostic hides in the noise. Any lint that is genuinely not worth fixing
-should be disabled explicitly, with a reason, rather than left firing.
+`--wfail` (`--fail-level=warning`) is not sufficient. The corpus emitted 972
+runtime panics from a simproc calling `Expr.appArg!` on a non-application, and
+Lean logs a panic at `info` severity, so the build exited 0 and CI stayed green.
+They went unnoticed for as long as they did because they were buried in roughly
+twenty-two thousand lines of warnings, which is the same failure in a milder
+form: past a certain volume nobody reads the next line, and a real diagnostic
+hides in the noise.
 
-Wire `--wfail` into CI for all three repositories so this cannot regress.
+Any lint or diagnostic genuinely not worth fixing should be disabled explicitly,
+with a reason recorded, rather than left firing.
+
+Wire `--iofail` into CI for all three repositories so this cannot regress.
+Expect the first pass to surface real work: informational output that has
+accumulated unread.
 
 ### Remove defensive sorry-free and axiom-free commentary
 
