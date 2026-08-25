@@ -299,9 +299,13 @@ what must hold.
   outstanding item: the corpus is the source of the mathematics, and anything it
   proves should appear in the public library under a clean-room name. Audit this
   by comparing the two, not by trusting counts.
-- The corpus itself does not formalize the whole book and contains sorries.
-  That is a separate question from whether the migration is complete, and the
-  two should not be conflated.
+- The corpus does not formalize every item of the book. It is, however,
+  effectively complete on what it does cover: it contains no `sorry`, and
+  records exactly one statement it does not prove, Ado's theorem, using
+  `proof_wanted`, which elaborates the proposition without introducing a proof
+  term or an axiom. How much of the book is formalized is a separate question
+  from whether the migration carried the corpus across, and the two should not
+  be conflated.
 
 ## Requirements the published repositories must satisfy
 
